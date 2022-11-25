@@ -1,0 +1,36 @@
+{
+  "name": "filplus",
+  "version": "1.0.0",
+  "description": "Fil+",
+  "author": {
+    "name": "Agency Undone",
+    "email": "hello@agencyundone.com"
+  },
+  "license": "Apache-2.0",
+  "scripts": {
+    "dev-fe": "npm run dev -w fe",
+    "dev-be": "npm run dev -w be"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:data-preservation-programs/filplus.git"
+  },
+  "engines": {
+    "node": ">=16.18.0"
+  },
+  "keywords": [
+    "filecoin",
+    "filecoin plus",
+    "fil+",
+    "filplus",
+    "fil plus"
+  ],
+  "bugs": {
+    "url": "https://github.com/data-preservation-programs/filplus/issues"
+  },
+  "homepage": "https://github.com/data-preservation-programs/filplus#readme",
+  "workspaces": [
+    "packages/fe",
+    "packages/be"
+  ]
+}

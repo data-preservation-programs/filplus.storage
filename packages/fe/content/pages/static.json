@@ -1,0 +1,12 @@
+{
+  "seo": {
+    "title": "Static — Fil+",
+    "description": "Fil+"
+  },
+  "og": {
+    "site_name": "Static — Fil+",
+    "url": "",
+    "type": "website",
+    "image": "/open-graph-image.jpg"
+  }
+}
