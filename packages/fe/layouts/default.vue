@@ -1,5 +1,5 @@
 <template>
-  <div class="master-container">
+  <div class="main-container">
 
     <Toaster />
 
@@ -80,3 +80,10 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+// ///////////////////////////////////////////////////////////////////// General
+.main-container {
+  padding-top: calc(#{$siteHeaderHeight} + 1rem);
+}
+</style>

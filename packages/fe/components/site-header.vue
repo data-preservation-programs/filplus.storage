@@ -9,19 +9,20 @@
       <div class="col">
         <div class="inner-container">
 
-          <!-- <nuxt-link to="/" class="logo-link">
+          <nuxt-link to="/" class="logo-link">
             <img class="logo" src="~assets/images/logo-horizontal.png" />
-          </nuxt-link> -->
+          </nuxt-link>
 
           <nav id="site-nav">
             <ButtonA
               v-for="(link, index) in links"
               :key="index"
               :to="link.href"
-              :text="link.label"
               :selected="isRouteCurrent(link.href)"
               tag="nuxt-link"
-              class="site-nav-link" />
+              class="site-nav-link">
+              {{ link.label }}
+            </ButtonA>
           </nav>
 
         </div>
