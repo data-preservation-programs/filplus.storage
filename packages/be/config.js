@@ -6,8 +6,8 @@ const env = process.env.SERVER_ENV
 
 const baseUrls = {
   development: 'https://localhost',
-  stable: 'https://stable.slingshot.filecoin.io',
-  production: 'https://slingshot.filecoin.io'
+  stable: '',
+  production: ''
 }
 
 const frontendPort = (function () {
