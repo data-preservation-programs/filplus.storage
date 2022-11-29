@@ -74,14 +74,14 @@ export default {
 .button {
   position: relative;
   padding: 0.25rem 1rem;
-  border: 2px solid darkorange;
-  border-radius: 2rem;
+  border-radius: 0.5rem;
+  background-color: $replace3;
   white-space: nowrap;
   cursor: pointer;
   &:not([disabled]) {
     &:hover,
     &.selected {
-      background-color: darkorange;
+      background-color: $replace3;
     }
     &:focus-visible {
       @include focusBoxShadow;

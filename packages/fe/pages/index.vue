@@ -1,36 +1,42 @@
 <template>
   <div :class="`page page-${tag} container`">
 
-    <ButtonA
-      class="expand-all-button"
-      @clicked="expandAllAccordionSections">
-      {{ accordionToggleButtonText }}
-    </ButtonA>
+    <div class="grid">
+      <div class="col">
 
-    <Accordion
-      ref="accordion"
-      v-slot="{ active }"
-      :multiple="true"
-      @toggleStateChanged="accordionToggleStateChanged">
-      <AccordionSection
-        v-for="(entry, index) in faq"
-        :key="index"
-        :active="active">
+        <ButtonA
+          class="expand-all-button"
+          @clicked="expandAllAccordionSections">
+          {{ accordionToggleButtonText }}
+        </ButtonA>
 
-        <AccordionHeader>
-          <div class="question">
-            {{ entry.question }}
-          </div>
-        </AccordionHeader>
+        <Accordion
+          ref="accordion"
+          v-slot="{ active }"
+          :multiple="true"
+          @toggleStateChanged="accordionToggleStateChanged">
+          <AccordionSection
+            v-for="(entry, index) in faq"
+            :key="index"
+            :active="active">
 
-        <AccordionContent>
-          <div class="anser">
-            {{ entry.answer }}
-          </div>
-        </AccordionContent>
+            <AccordionHeader>
+              <div class="question">
+                {{ entry.question }}
+              </div>
+            </AccordionHeader>
 
-      </AccordionSection>
-    </Accordion>
+            <AccordionContent>
+              <div class="anser">
+                {{ entry.answer }}
+              </div>
+            </AccordionContent>
+
+          </AccordionSection>
+        </Accordion>
+
+      </div>
+    </div>
 
   </div>
 </template>

@@ -1,8 +1,14 @@
 <template>
   <footer id="site-footer">
+    <div class="grid">
+      <div class="col">
+        <div class="inner-content">
 
-    FOOTER
+          FOOTER
 
+        </div>
+      </div>
+    </div>
   </footer>
 </template>
 
@@ -48,7 +54,16 @@ export default {
   position: relative;
   padding: 3.5rem 0;
   margin-top: 5rem;
-  border-top: 0.25rem solid tomato;
+}
+
+.inner-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  border-radius: 1rem;
+  background-color: $replace2;
 }
 
 // ///////////////////////////////////////////////////////////////////////// Nav

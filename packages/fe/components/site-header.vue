@@ -99,6 +99,7 @@ export default {
   left: 0;
   width: 100%;
   height: $siteHeaderHeight;
+  background-color: $replace2;
   z-index: 1000;
   transition: background-color 150ms ease-out, height 150ms ease-out;
   &.mini {

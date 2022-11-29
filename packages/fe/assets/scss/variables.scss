@@ -21,6 +21,11 @@ $gray700: #616161;
 $gray800: #424242;
 $gray900: #212121;
 
+$replace1: #D9D9D9;
+$replace2: #C6C6C6;
+$replace3: #E8E8E8;
+$replace4: #000000;
+
 // ----------------------------------------------------------------- Breakpoints
 $breakpoint_Tiny: 25.9375rem; // 415px
 $breakpoint_Mini: 40rem; // 640px
@@ -104,13 +109,13 @@ $breakpoint_UltraLarge: 140.625rem; // 2250px
 }
 
 @mixin selection-dark {
-  ::-moz-selection { background: teal; color: tomato; }
-  ::selection { background: teal; color: tomato; }
+  ::-moz-selection { background: $replace2; color: $replace4; }
+  ::selection { background: $replace2; color: $replace4; }
 }
 
 @mixin selection-light {
-  ::-moz-selection { background: tomato; color: teal; }
-  ::selection { background: tomato; color: teal; }
+  ::-moz-selection { background: $replace3; color: $replace4; }
+  ::selection { background: $replace3; color: $replace4; }
 }
 
 // --------------------------------------------------------------------- General
