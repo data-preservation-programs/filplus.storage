@@ -36,7 +36,8 @@ export default {
   data () {
     return {
       active: this.multiple ? [] : false,
-      children: []
+      children: [],
+      keydown: false
     }
   },
 
@@ -68,22 +69,16 @@ export default {
         }
       }
     })
-    this.$on('expand-all', () => {
-      if (this.multiple) {
-        const active = this.active
-        const children = this.children
-        if (active.length === children.length) {
-          this.active = []
-        } else {
-          this.children.forEach((id) => {
-            if (!active.includes(id)) {
-              this.active.push(id)
-            }
-          })
-        }
-        this.$emit('toggleStateChanged', this.toggleState)
-      }
-    })
+    this.$on('expand-all', this.expandAll)
+  },
+
+  mounted () {
+    this.keydown = this.handleKeyboardNavigation
+    window.addEventListener('keydown', this.keydown)
+  },
+
+  beforeDestroy () {
+    if (this.keydown) { window.removeEventListener('keydown', this.keydown) }
   },
 
   methods: {
@@ -95,6 +90,30 @@ export default {
         this.active.push(id)
       } else {
         this.active = id
+      }
+    },
+    expandAll (forceOpen) {
+      if (this.multiple) {
+        const active = this.active
+        const children = this.children
+        if (active.length === children.length && !forceOpen) {
+          this.active = []
+        } else {
+          this.children.forEach((id) => {
+            if (!active.includes(id)) {
+              this.active.push(id)
+            }
+          })
+        }
+        this.$emit('toggleStateChanged', this.toggleState)
+      }
+    },
+    handleKeyboardNavigation (e) {
+      if (e.repeat) { return }
+      const meta = e.metaKey || e.ctrlKey
+      const f = e.keyCode === 70 || e.code === 70 || e.key === 'f'
+      if (meta && f) {
+        this.expandAll(true)
       }
     }
   }

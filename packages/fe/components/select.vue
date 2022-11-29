@@ -79,7 +79,6 @@ export default {
     const selectedOption = this.selectedOption
     return {
       keydown: false,
-      keyup: false,
       focused: false,
       dropdownOpen: false,
       currentOptionHighlighted: selectedOption,
@@ -99,7 +98,7 @@ export default {
   },
 
   beforeDestroy () {
-    if (this.keydown) { window.removeEventListener('keyup', this.keydown) }
+    if (this.keydown) { window.removeEventListener('keydown', this.keydown) }
   },
 
   methods: {
@@ -134,6 +133,7 @@ export default {
         const keyCode = e.keyCode
         const code = e.keyCode
         const key = e.key
+        // TODO: key and code shoulw not both be strings, this is a bug!
         const down = keyCode === 40 || key === 'ArrowDown' || code === 'ArrowDown'
         const up = keyCode === 38 || key === 'ArrowUp' || code === 'ArrowUp'
         const submit = keyCode === 32 || key === ' ' || code === 'Space' || keyCode === 13 || key === 'Enter' || code === 'Enter'
