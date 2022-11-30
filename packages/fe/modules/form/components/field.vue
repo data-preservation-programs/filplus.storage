@@ -39,9 +39,7 @@ export default {
   },
 
   data () {
-    const scaffold = this.scaffold
-    const parentModelKey = scaffold.parent_model_key
-    const id = `${this.formId}${this.groupId}${parentModelKey ? `|${parentModelKey}` : ''}|${scaffold.model_key}`
+    const id = this.$uuid.v4()
     return {
       id
     }

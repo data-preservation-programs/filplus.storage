@@ -9,7 +9,10 @@ import GeneralSiteData from '@/content/pages/general.json'
 const state = () => ({
   siteContent: {},
   staticFiles: {},
-  clipboard: false
+  clipboard: false,
+  application: {
+    datacap_size: 0
+  }
 })
 
 // ///////////////////////////////////////////////////////////////////// Getters
@@ -17,7 +20,8 @@ const state = () => ({
 const getters = {
   siteContent: state => state.siteContent,
   staticFiles: state => state.staticFiles,
-  clipboard: state => state.clipboard
+  clipboard: state => state.clipboard,
+  application: state => state.application
 }
 
 // ///////////////////////////////////////////////////////////////////// Actions

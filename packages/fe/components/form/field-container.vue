@@ -130,7 +130,7 @@ export default {
     top: -0.0625rem;
     font-size: 1.25rem;
     line-height: 1;
-    color: $redOrange;
+    color: darkorange;
     transition: 150ms ease-out;
   }
   a {
@@ -146,7 +146,7 @@ export default {
   margin-top: 0.5rem;
   font-size: 0.75rem;
   font-weight: 500;
-  color: $redOrange;
+  color: darkorange;
   sup {
     top: -0.125rem;
     margin-right: 0.0625rem;

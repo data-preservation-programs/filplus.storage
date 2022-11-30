@@ -51,7 +51,7 @@
 
 <script>
 // ===================================================================== Imports
-import Select from '@/components/select'
+import Select from '@/modules/form/components/select'
 
 import IconChevronDown from '@/components/icons/chevron-down'
 
@@ -153,12 +153,12 @@ $height: 2.5rem;
   }
   &.caution {
     ::v-deep .select {
-      border-color: $pizazz;
+      border-color: tomato;
     }
   }
   &.error {
     ::v-deep .select {
-      border-color: $redOrange;
+      border-color: teal;
     }
   }
 }

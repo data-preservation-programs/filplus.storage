@@ -107,9 +107,9 @@ export default {
     '~/plugins/helpers',
     '~/plugins/directives',
     '~/plugins/seo',
-    '~/plugins/scroll-to'
+    '~/plugins/scroll-to',
     // '~/plugins/in-viewport',
-    // '~/plugins/uuid'
+    '~/plugins/uuid'
   ],
   // ///////////////////////////////////////////////////////// [Module] MomentJS
   // ---------------------- Doc: https://github.com/nuxt-community/moment-module
