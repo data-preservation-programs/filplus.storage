@@ -4,11 +4,15 @@
  *
  */
 
+// ///////////////////////////////////////////////////////////////////// Imports
+// -----------------------------------------------------------------------------
+import CloneDeep from 'lodash/cloneDeep'
+
 // /////////////////////////////////////////////////////////////////// Functions
 // -----------------------------------------------------------------------------
 // /////////////////////////////////////////////////////////////// checkRequired
 const checkRequired = (fieldType, value) => {
-  return new Promise((next) => {
+  return new Promise((resolve) => {
     const type = typeof value
     let state = 'valid'
     if (type === 'string' || type === 'boolean') {
@@ -20,23 +24,13 @@ const checkRequired = (fieldType, value) => {
     } else if (type === 'number') {
       if (fieldType === 'select' && value === -1) { state = 'error' }
     }
-    next({ state, validation: 'required' })
-  })
-}
-
-// //////////////////////////////////////////////////////////////// checkPattern
-const checkPattern = (value, pattern) => {
-  return new Promise((next) => {
-    const regex = new RegExp(pattern)
-    let state = 'valid'
-    if (value !== '' && !regex.test(value)) { state = 'error' }
-    next({ state, validation: 'pattern' })
+    resolve({ state, validation: 'required' })
   })
 }
 
 // ////////////////////////////////////////////////////////////////// checkChars
 const checkChars = (fieldType, value, chars) => {
-  return new Promise((next) => {
+  return new Promise((resolve) => {
     const min = chars.min
     const max = chars.max
     const len = fieldType === 'wysiwyg' ? value.replace(/(<([^>]+)>)/gi, '').length : (value || '').length
@@ -44,12 +38,34 @@ const checkChars = (fieldType, value, chars) => {
     if (typeof value === 'string' && value.trim() !== '' && (len < min || len > max)) {
       state = 'error'
     }
-    next({ state, validation: 'chars' })
+    resolve({ state, validation: 'chars' })
   })
 }
 
-// ////////////////////////////////////////////////////////////// validateFields
-const validateFields = async (fields) => {
+// //////////////////////////////////////////////////////////////// checkPattern
+const checkPattern = (value, pattern) => {
+  return new Promise((resolve) => {
+    const regex = new RegExp(pattern)
+    let state = 'valid'
+    if (value !== '' && !regex.test(value)) { state = 'error' }
+    resolve({ state, validation: 'pattern' })
+  })
+}
+
+// ///////////////////////////////////////////////////////////////// checkMinMax
+const checkMinMax = (fieldType, inputType, value, min, max) => {
+  return new Promise((resolve) => {
+    let state = 'valid'
+    if (fieldType !== 'input' && inputType !== 'number') { resolve({ state, validation: 'chars' }) }
+    if (value < min || value > max) {
+      state = 'error'
+    }
+    resolve({ state, validation: 'minmax' })
+  })
+}
+
+// ////////////////////////////////////////////////////////// validateFormFields
+const validateFormFields = async (fields) => {
   try {
     const len = fields.length
     const compiled = []
@@ -58,14 +74,19 @@ const validateFields = async (fields) => {
       const field = fields[i]
       const type = field.type
       const value = field.value
+      const inputType = field.input_type
       const required = field.required
       const pattern = field.pattern
       const chars = field.chars
+      const min = field.min
+      const max = field.max
+      const mirror = field.mirror
       let check = { state: 'valid', validation: false }
       if (type !== 'array') {
         if (required && type !== 'array') { check = await checkRequired(type, value) }
         if (check.state === 'valid' && chars) { check = await checkChars(type, value, chars) }
         if (check.state === 'valid' && pattern) { check = await checkPattern(value, pattern) }
+        if (check.state === 'valid' && (min || max)) { check = await checkMinMax(type, inputType, value, min, max) }
         if (check.state !== 'valid') {
           state = 'error'
           field.state = check.state
@@ -83,7 +104,7 @@ const validateFields = async (fields) => {
 
 // //////////////////////////////////////////////////////////////// compileArray
 const compileArray = (arrayField, fields) => {
-  return new Promise((next) => {
+  return new Promise((resolve) => {
     const template = arrayField.template
     const valueScaffold = arrayField.value
     let match
@@ -102,16 +123,33 @@ const compileArray = (arrayField, fields) => {
         }, {})
       })
     }
-    next(match)
+    resolve(match)
   })
 }
 
-// ////////////////////////////////////////////////////////// writeFieldsToModel
-const writeFieldsToModel = async (model, fields) => {
-  try {
+// //////////////////////////////////////////////////////////// reconcileMirrors
+const reconcileMirrors = (fields) => {
+  return new Promise((resolve) => {
+    const compiled = []
     const len = fields.length
     for (let i = 0; i < len; i++) {
       const field = fields[i]
+      const mirror = field.mirror
+      if (!mirror || mirror.primary) {
+        compiled.push(field)
+      }
+    }
+    resolve(compiled)
+  })
+}
+
+// ////////////////////////////////////////////////////// writeFieldsToFormModel
+const writeFieldsToFormModel = async (model, fields) => {
+  try {
+    const reconciledFields = await reconcileMirrors(fields)
+    const len = reconciledFields.length
+    for (let i = 0; i < len; i++) {
+      const field = reconciledFields[i]
       const modelKey = field.model_key
       field.state = 'valid'
       field.validation = false
@@ -119,6 +157,8 @@ const writeFieldsToModel = async (model, fields) => {
       if (!field.hasOwnProperty('parent_model_key')) {
         if (field.type === 'array') {
           model[modelKey] = await compileArray(field, fields)
+        } else if (field.type === 'select' && field.output === 'option') {
+          model[modelKey] = field.options[field.value].label
         } else {
           model[modelKey] = field.value
         }
@@ -126,14 +166,14 @@ const writeFieldsToModel = async (model, fields) => {
     }
     return model
   } catch (e) {
-    console.log('============================== [Function: writeFieldsToModel]')
+    console.log('========================== [Function: writeFieldsToFormModel]')
     throw e
   }
 }
 
-// ////////////////////////////////////////////////////////////////// stripModel
-const stripModel = (model, fields) => {
-  return new Promise((next) => {
+// ////////////////////////////////////////////////////////////// stripFormModel
+const stripFormModel = (model, fields) => {
+  return new Promise((resolve) => {
     const len = fields.length
     const compiled = {
       ...model._id && { _id: model._id }
@@ -145,14 +185,83 @@ const stripModel = (model, fields) => {
         compiled[modelKey] = model[modelKey]
       }
     }
-    next(compiled)
+    resolve(compiled)
   })
+}
+
+// //////////////////////////////////////////////////////////////// applyMirrors
+const applyMirrors = (app, store, fieldToMirror) => {
+  return new Promise((resolve) => {
+    const compiled = []
+    const fields = store.getters['form/fields']
+    const mirrored = fields.filter((field) => {
+      return field.mirror &&
+             field.formId === fieldToMirror.formId &&
+             field.model_key === fieldToMirror.model_key &&
+             field.mirror.field_key === fieldToMirror.field_key &&
+             field.id !== fieldToMirror.id
+    })
+    const len = mirrored.length
+    if (len > 0) {
+      for (let i = 0; i < len; i++) {
+        const field = CloneDeep(mirrored[i])
+        const transform = field.transform
+        compiled.push(Object.assign(field, {
+          value: app.$applyTransformation(fieldToMirror.value, field.transform),
+          state: fieldToMirror.state,
+          validation: fieldToMirror.validation
+        }))
+      }
+    }
+    resolve(compiled)
+  })
+}
+
+// ////////////////////////////////////////////////////////////// applyReactions
+const applyReactions = (app, store, fieldToReactTo) => {
+  return new Promise((resolve) => {
+    const compiled = []
+    const fields = store.getters['form/fields']
+    const reacted = fields.filter((field) => {
+      return field.react &&
+             field.formId === fieldToReactTo.formId &&
+             field.react.field_key === fieldToReactTo.field_key &&
+             field.id !== fieldToReactTo.id
+    })
+    const len = reacted.length
+    if (len > 0) {
+      for (let i = 0; i < len; i++) {
+        const field = CloneDeep(reacted[i])
+        const react = field.react
+        compiled.push(Object.assign(field, {
+          value: app.$applyReaction(fieldToReactTo.value, field.react),
+          state: fieldToReactTo.state,
+          validation: fieldToReactTo.validation
+        }))
+      }
+    }
+    resolve(compiled)
+  })
+}
+
+// ///////////////////////////////////////////////////////// applyTransformation
+const applyTransformation = (app, value, transform) => {
+  return transform ? app[transform.func](app, value, transform.args) : value
+}
+
+// /////////////////////////////////////////////////////////////// applyReaction
+const applyReaction = (app, value, react) => {
+  return react ? app[react.func](app, value, react.args) : value
 }
 
 // ////////////////////////////////////////////////////////////////////// Export
 // -----------------------------------------------------------------------------
 export default ({ app, store }, inject) => {
-  inject('validateFormFields', fields => validateFields(fields))
-  inject('writeFieldsToFormModel', (model, fields) => writeFieldsToModel(model, fields))
-  inject('stripFormModel', (model, fields) => stripModel(model, fields))
+  inject('validateFormFields', validateFormFields)
+  inject('writeFieldsToFormModel', writeFieldsToFormModel)
+  inject('stripFormModel', stripFormModel)
+  inject('applyMirrors', fieldToMirror => applyMirrors(app, store, fieldToMirror))
+  inject('applyReactions', (transform, value) => applyReactions(app, store, transform, value))
+  inject('applyTransformation', (value, transform) => applyTransformation(app, value, transform))
+  inject('applyReaction', (value, react) => applyTransformation(app, value, react))
 }

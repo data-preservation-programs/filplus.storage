@@ -145,18 +145,6 @@ $breakpoint_UltraLarge: 140.625rem; // 2250px
   @include optional-at-root('::placeholder') { @content; }
 }
 
-@mixin inputRange ($element) {
-  @if ($element == 'thumb') {
-    @include optional-at-root('::-webkit-slider-thumb') { @content; }
-    @include optional-at-root('::-moz-range-thumb') { @content; }
-  	@include optional-at-root('::-ms-thumb') { @content; }
-  } @else if ($element == 'track') {
-    @include optional-at-root('::-webkit-slider-runnable-track') { @content; }
-    @include optional-at-root('::-moz-range-track') { @content; }
-  	@include optional-at-root('::-ms-track') { @content; }
-  }
-}
-
 // --------------------------------------------------------------- Media Queries
 @mixin tiny { @media screen and (max-width: 25.9375rem) { @content; } }
 @mixin mini { @media screen and (max-width: 40rem) { @content; } }

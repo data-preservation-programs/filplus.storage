@@ -18,6 +18,8 @@
         :name="name"
         :placeholder="placeholder"
         :value="value"
+        :min="min"
+        :max="max"
         :autocomplete="autocomplete"
         :class="['input', state]"
         @focus="focusHandler"
@@ -113,6 +115,12 @@ export default {
     },
     originalValue () {
       return this.field.originalValue
+    },
+    min () {
+      return this.field.min
+    },
+    max () {
+      return this.field.max
     },
     empty () {
       const value = this.value

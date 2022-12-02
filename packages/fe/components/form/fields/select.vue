@@ -89,7 +89,13 @@ export default {
       return this.field.options
     },
     value () {
-      return this.field.value
+      const field = this.field
+      let value = this.field.value || this.field.default_value
+      if (typeof field.value === 'string') {
+        const index = this.options.findIndex(option => option.label === field.value)
+        value = index
+      }
+      return value
     },
     required () {
       return this.field.required
@@ -174,7 +180,7 @@ $height: 2.5rem;
       }
     }
     &.custom {
-      background-color: teal;
+      background-color: $replace2;
     }
   }
   .dropdown {

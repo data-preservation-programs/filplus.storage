@@ -17,7 +17,6 @@ const getters = {
 // ///////////////////////////////////////////////////////////////////// Actions
 // -----------------------------------------------------------------------------
 const actions = {
-  // ///////////////////////////////////////////////////////////////// resetForm
   // ///////////////////////////////////////////////////////// registerFormModel
   registerFormModel ({ commit, getters }, model) {
     const index = getters.models.findIndex(obj => obj.formId === model.formId)
@@ -59,7 +58,8 @@ const actions = {
     })
   },
   // ///////////////////////////////////////////////////////// registerFormField
-  registerFormField ({ commit, getters }, field) {
+  async registerFormField ({ commit, getters }, field) {
+    field.value = await this.$applyTransformation(field.value, field.transform)
     const index = getters.fields.findIndex(obj => obj.id === field.id)
     commit('REGISTER_FORM_FIELD', { field, index })
   },
@@ -71,26 +71,11 @@ const actions = {
     }
   },
   // /////////////////////////////////////////////////////////// updateFormField
-  updateFormField ({ commit, getters, dispatch }, incoming) {
-    const mirror = incoming.mirror
-    const fields = [incoming]
-    if (mirror) {
-      const mirrored = getters.fields.filter((obj) => {
-        return obj.formId === incoming.formId &&
-               obj.model_key === incoming.model_key &&
-               obj.mirror === incoming.mirror &&
-               obj.id !== incoming.id
-      })
-      if (mirrored.length > 0) {
-        mirrored.forEach((field) => {
-          fields.push(Object.assign(CloneDeep(field), {
-            value: incoming.value,
-            state: incoming.state,
-            validation: incoming.validation
-          }))
-        })
-      }
-    }
+  async updateFormField ({ commit, getters, dispatch }, incoming) {
+    const fields = [incoming].concat(
+      await this.$applyMirrors(incoming),
+      await this.$applyReactions(incoming)
+    )
     const model = CloneDeep(getters.models.find(obj => obj.formId === incoming.formId))
     model.state = incoming.state
     dispatch('updateFormModel', model)

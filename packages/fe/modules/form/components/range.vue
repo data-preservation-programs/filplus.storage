@@ -11,7 +11,7 @@
     <div
       :style="progressBarWidth"
       class="progress-bar-container">
-      <slot name="progress-bar" />
+      <slot name="progress-bar" :tick="tick" />
     </div>
 
     <input
@@ -19,7 +19,10 @@
       ref="input"
       :name="name"
       :value="value"
-      :style="`--thumb-dimension-x: ${thumbDimensions.w}px; --thumb-dimension-y: ${thumbDimensions.h}px;`"
+      :min="min"
+      :max="max"
+      step="500000000"
+      :style="rangeStyling"
       :class="['range', state]"
       :disabled="disabled"
       type="range"
@@ -31,21 +34,6 @@
 </template>
 
 <script>
-// =================================================================== Functions
-const preValidate = (instance, val, pre) => {
-  if (typeof pre !== 'string') { return }
-  const regex = new RegExp(pre)
-  let value = parseInt(val.replace(regex, ''))
-  if (isNaN(value)) {
-    value = 0
-  } else if (value <= 0) {
-    value = 0
-  } else if (value > 100) {
-    value = 100
-  }
-  instance.$emit('updateValue', value)
-}
-
 // ====================================================================== Export
 export default {
   name: 'FieldRange',
@@ -63,7 +51,8 @@ export default {
       thumbDimensions: {
         x: 0,
         y: 0
-      }
+      },
+      format: false
     }
   },
 
@@ -80,23 +69,32 @@ export default {
     value () {
       return this.field.value
     },
+    min () {
+      return this.field.min
+    },
+    max () {
+      return this.field.max
+    },
     state () {
       return this.field.state
     },
+    tick () {
+      return (this.value / this.max) * 100
+    },
     thumbPosition () {
-      const tick = this.value
-      return `left: calc(${tick}% - ${this.thumbDimensions.w * (tick / 100)}px)`
+      const tick = this.tick
+      const thumbHeight = this.thumbDimensions.h
+      return `left: calc(${tick}% - ${thumbHeight * (tick / 100)}px)`
     },
     progressBarWidth () {
-      const tick = this.value
-      const thumbWidth = this.thumbDimensions.w
-      return `width: calc(${tick}% - ${thumbWidth * (tick / 100) - (thumbWidth / 2)}px)`
-    }
-  },
-
-  watch: {
-    value (value) {
-      preValidate(this, value + '', this.pre)
+      const tick = this.tick
+      const thumbHeight = this.thumbDimensions.h
+      return `width: calc(${tick}% - ${thumbHeight * (tick / 100)}px + ${thumbHeight}px)`
+    },
+    rangeStyling () {
+      const thumbDimensions = this.thumbDimensions
+      const width = this.format === 'line' ? thumbDimensions.h : thumbDimensions.w
+      return `--thumb-dimension-x: ${width}px; --thumb-dimension-y: ${thumbDimensions.h}px;`
     }
   },
 
@@ -107,6 +105,7 @@ export default {
         w: thumb.offsetWidth,
         h: thumb.offsetHeight
       }
+      this.format = this.thumbDimensions.w === this.thumbDimensions.h ? 'square' : 'line'
     })
   }
 }
@@ -117,6 +116,7 @@ export default {
 .range-track {
   position: relative;
   width: 100%;
+  box-sizing: content-box;
 }
 
 .thumb-container {
@@ -136,6 +136,29 @@ export default {
   z-index: 5;
 }
 
+@mixin thumb {
+  appearance: none;
+  position: relative;
+  top: 50%;
+  left: 0;
+  width: var(--thumb-dimension-x);
+  height: var(--thumb-dimension-y);
+  transform: translateY(-50%);
+  cursor: grab;
+  &:active {
+    cursor: grabbing;
+  }
+}
+
+@mixin track {
+  appearance: none;
+  width: 100%;
+  height: 100%;
+  border-color: transparent;
+  color: transparent;
+  cursor: pointer;
+}
+
 .range {
   position: relative;
   display: block;
@@ -147,26 +170,23 @@ export default {
   &:focus {
     outline: none;
   }
-  @include inputRange('thumb') {
-    appearance: none;
-    position: relative;
-    top: 50%;
-    left: 0;
-    width: var(--thumb-dimension-x);
-    height: var(--thumb-dimension-y);
-    transform: translateY(-50%);
-    cursor: grab;
-    &:active {
-      cursor: grabbing;
-    }
+  &::-webkit-slider-thumb {
+    @include thumb;
   }
-  @include inputRange('track') {
-    appearance: none;
-    width: 100%;
-    height: 100%;
-    border-color: transparent;
-    color: transparent;
-    cursor: pointer;
+  &::-moz-range-thumb {
+    @include thumb;
+  }
+  &::-ms-thumb {
+    @include thumb;
+  }
+  &::-webkit-slider-runnable-track {
+    @include track;
+  }
+  &::-moz-range-track {
+    @include track;
+  }
+  &::-ms-track {
+    @include track;
   }
 }
 </style>

@@ -11,7 +11,7 @@ const state = () => ({
   staticFiles: {},
   clipboard: false,
   application: {
-    datacap_size: 0
+    datacap_size: 34359738368
   }
 })
 

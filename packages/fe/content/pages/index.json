@@ -24,31 +24,83 @@
     },
     "apply_form_scaffold": {
       "datacap_size_range": {
+        "field_key": "datacap_size_range",
         "type": "range",
         "model_key": "datacap_size",
         "required": true,
-        "pre": "[^\\u0000-\\u00ff]",
+        "mirror": {
+          "field_key": "datacap_size_input",
+          "primary": true
+        },
+        "transform": {
+          "func": "$formatDatacapSize",
+          "args": {
+            "action": "bytes",
+            "unit_from_field": "datacap_size_unit"
+          }
+        },
+        "react": {
+          "field_key": "datacap_size_unit",
+          "func": "$reactDatasizeRangeToUnit",
+          "args": {
+            "value_from_field": "datacap_size_input"
+          }
+        },
         "autocomplete": "none",
-        "linked_field": "datacap_size_input",
+        "min": 34359738368,
+        "max": 5629499534213120,
         "validation_message": {
           "required": "This field is required"
         }
       },
       "datacap_size_input": {
+        "field_key": "datacap_size_input",
         "type": "input",
         "input_type": "number",
         "model_key": "datacap_size",
+        "mirror": "datacap_size",
+        "min": 0.1,
+        "max": 5242880,
         "required": true,
         "pre": "[^\\u0000-\\u00ff]",
-        "autocomplete": "none",
-        "linked_field": "datacap_size_range",
-        "chars": {
-          "min": 11
+        "mirror": {
+          "field_key": "datacap_size_range",
+          "primary": false
         },
+        "transform": {
+          "func": "$formatDatacapSize",
+          "args": {
+            "action": "human"
+          }
+        },
+        "autocomplete": "none",
         "validation_message": {
           "required": "This field is required",
-          "chars": "Input must be at least 11 characters"
+          "minmax": "Number must be between 0.1 and 5242880"
         }
+      },
+      "datacap_size_unit": {
+        "field_key": "datacap_size_unit",
+        "type": "select",
+        "model_key": "datacap_size_unit",
+        "required": true,
+        "output": "option",
+        "react": {
+          "field_key": "datacap_size_range",
+          "func": "$reactDatasizeUnitToRange",
+          "args": {
+            "value_from_field": "datacap_size_range"
+          }
+        },
+        "validation_message": {
+          "required": "This field is required"
+        },
+        "options": [
+          { "label": "GiB" },
+          { "label": "TiB" },
+          { "label": "PiB" }
+        ],
+        "default_value": 0
       }
     }
   }

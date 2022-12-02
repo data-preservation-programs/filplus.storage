@@ -6,6 +6,8 @@
       <sup v-if="required" class="required">*</sup>
     </label>
 
+    <!-- {{ value }} | {{ $formatBytes(value) }} $replace -->
+
     <Range
       :field="field"
       v-on="$listeners">
@@ -15,7 +17,7 @@
       </template>
 
       <template #progress-bar>
-        <div :class="['progress-bar', `progress-${value}`]" />
+        <div class="progress-bar" />
       </template>
 
     </Range>
@@ -87,53 +89,71 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$thumbWidth: 1.5rem;
+$trackHeight: 1.875rem;
+$thumbWidth: 4px;
 $borderWidth: 2px;
 
+// /////////////////////////////////////////////////////////////////////// Track
 ::v-deep .range-track {
-  height: 0.75rem;
-  border: 2px solid tomato;
-  border-radius: 0.5rem;
+  position: relative;
+  left: calc(#{math.div(-$trackHeight, 2)} + #{math.div($thumbWidth, 2)});
+  height: $trackHeight;
+  width: calc(100% + #{$trackHeight} - #{math.div($thumbWidth, 1)});
+  margin-bottom: $borderWidth;
+  &:before {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: calc(#{math.div($trackHeight, 2)} - #{math.div($thumbWidth, 2)});
+    width: calc(100% - #{$trackHeight} + #{math.div($thumbWidth, 1)});
+    height: $borderWidth;
+    background-color: $replace4;
+  }
   &:hover {
     .thumb {
-      &:before {
-        width: 100%;
-        transform: translateX(0);
+      &:before,
+      &:after {
+        height: $trackHeight * 1.2;
+        transform: translateY(-$trackHeight * 0.2);
       }
     }
   }
 }
 
+// /////////////////////////////////////////////////////////////////////// Thumb
 .thumb {
+  position: relative;
+  left: calc(#{math.div($trackHeight, 2)} - #{math.div($thumbWidth, 2)});
   width: $thumbWidth;
-  height: 1.5rem;
-  border: $borderWidth solid transparent;
-  border-radius: 0.25rem;
-  &:before {
+  height: $trackHeight;
+  background-color: $replace4;
+  &:before,
+  &:after {
     content: '';
     position: absolute;
-    top: -$borderWidth;
-    left: -$borderWidth;
-    width: 0px;
+    top: 0;
     height: 100%;
-    border-width: inherit;
-    border-style: solid;
-    border-color: tomato;
-    border-radius: inherit;
+    width: 50%;
     pointer-events: inherit;
-    background-color: tomato;
-    transform: translateX(calc(#{math.div($thumbWidth, 2)} - #{$borderWidth}));
-    transition: 150ms linear;
+    background-color: inherit;
+    transition: all 150ms linear;
+  }
+  &:before {
+    content: '';
+    right: 50%;
+  }
+  &:after {
+    content: '';
+    left: 50%;
   }
 }
 
-// ///////////////////////////////////////////////////////////////////// General
+// //////////////////////////////////////////////////////////////// Progress Bar
 .progress-bar {
+  position: relative;
+  left: calc(#{math.div($trackHeight, 2)} - #{math.div($thumbWidth, 2)});
+  width: calc(100% - #{$trackHeight} + #{math.div($thumbWidth, 1)});
   height: 100%;
-  border-radius: 0.5rem;
-  background-color: tomato;
-  &.progress-100 {
-    width: 100% !important;
-  }
+  background-color: $replace2;
 }
 </style>

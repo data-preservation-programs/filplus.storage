@@ -397,6 +397,50 @@ const ConnectWebsocket = config => (instance, next) => {
   })
 }
 
+// /////////////////////////////////////////////////////////// FormatDatacapSize
+const FormatDatacapSize = (ctx, size, args) => {
+  const store = ctx.store
+  const action = args.action
+  if (action === 'human') {
+    return FormatBytes(size, 'array').value
+  } else if (action === 'bytes') {
+    const options = store.getters['general/siteContent'].index.page_content.apply_form_scaffold.datacap_size_unit.options
+    const unitField = store.getters['form/fields'].find(obj => obj.field_key === args.unit_from_field)
+    if (!unitField || unitField.value === -1) { return size }
+    const unit = options[unitField.value].label
+    if (unit === 'GiB') {
+      return size * Math.pow(1024, 3)
+    } else if (unit === 'TiB') {
+      return size * Math.pow(1024, 4)
+    } else if (unit === 'PiB') {
+      return size * Math.pow(1024, 5)
+    }
+  }
+}
+
+// //////////////////////////////////////////////////// ReactDatasizeUnitToRange
+const ReactDatasizeUnitToRange = (ctx, size, args) => {
+  const options = ctx.store.getters['general/siteContent'].index.page_content.apply_form_scaffold.datacap_size_unit.options
+  const unit = FormatBytes(size, 'array').unit
+  return options.findIndex(option => option.label === unit)
+}
+
+// //////////////////////////////////////////////////// ReactDatasizeRangeToUnit
+const ReactDatasizeRangeToUnit = (ctx, unitValue, args) => {
+  const store = ctx.store
+  const options = store.getters['general/siteContent'].index.page_content.apply_form_scaffold.datacap_size_unit.options
+  const inputField = store.getters['form/fields'].find(obj => obj.field_key === args.value_from_field)
+  const unit = options[unitValue].label
+  const size = inputField.value
+  if (unit === 'GiB') {
+    return size * Math.pow(1024, 3)
+  } else if (unit === 'TiB') {
+    return size * Math.pow(1024, 4)
+  } else if (unit === 'PiB') {
+    return size * Math.pow(1024, 5)
+  }
+}
+
 // ////////////////////////////////////////////////////////////////////// Export
 // -----------------------------------------------------------------------------
 export default ({ $config, app }, inject) => {
@@ -425,4 +469,7 @@ export default ({ $config, app }, inject) => {
   inject('delay', Delay)
   inject('awaitServerReconnect', AwaitServerReconnect($config, app))
   inject('connectWebsocket', ConnectWebsocket($config))
+  inject('formatDatacapSize', FormatDatacapSize)
+  inject('reactDatasizeUnitToRange', ReactDatasizeUnitToRange)
+  inject('reactDatasizeRangeToUnit', ReactDatasizeRangeToUnit)
 }

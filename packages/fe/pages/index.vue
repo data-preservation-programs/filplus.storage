@@ -14,8 +14,6 @@
     <div class="grid">
       <div class="col">
 
-        <pre><code>{{ formScaffold.datacap_size_range }}</code></pre>
-
         <FieldContainer
           :scaffold="formScaffold.datacap_size_range"
           :value="getValue('datacap_size')"
@@ -26,6 +24,17 @@
           :value="getValue('datacap_size')"
           form-id="datacap_size_selection" />
 
+        <FieldContainer
+          :scaffold="formScaffold.datacap_size_unit"
+          :value="getValue('datacap_size_unit')"
+          form-id="datacap_size_selection" />
+
+        <ButtonA
+          class="submit-button"
+          @clicked="submitForm">
+          Submit
+        </ButtonA>
+
       </div>
     </div>
 
@@ -34,10 +43,11 @@
 
 <script>
 // ===================================================================== Imports
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 import FaqAccordion from '@/components/faq-accordion'
 import FieldContainer from '@/components/form/field-container'
+import ButtonA from '@/components/buttons/button-a'
 
 import IndexPageData from '@/content/pages/index.json'
 import FaqPageData from '@/content/pages/faq.json'
@@ -48,7 +58,8 @@ export default {
 
   components: {
     FaqAccordion,
-    FieldContainer
+    FieldContainer,
+    ButtonA
   },
 
   data () {
@@ -94,11 +105,15 @@ export default {
   },
 
   methods: {
-    submitForm () {
-      this.updateAccount(this.account)
-    },
+    ...mapActions({
+      validateForm: 'form/validateForm'
+    }),
     getValue (modelKey) {
       return this.application[modelKey]
+    },
+    async submitForm () {
+      const incoming = await this.validateForm('datacap_size_selection')
+      console.log(incoming)
     }
   }
 }

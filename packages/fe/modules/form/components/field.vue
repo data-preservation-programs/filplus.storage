@@ -64,6 +64,12 @@ export default {
       }
       return component
     },
+    min () {
+      return this.field.min
+    },
+    max () {
+      return this.field.max
+    },
     description () {
       return this.field.description
     },
@@ -77,7 +83,7 @@ export default {
   mounted () {
     const formId = this.formId
     const scaffold = this.scaffold
-    const value = typeof this.value === 'boolean' && !this.value ? this.getDefaultValue(scaffold) : this.value
+    const value = this.getValue(scaffold)
     this.registerFormField(Object.assign(CloneDeep(scaffold), {
       id: this.id,
       formId,
@@ -100,12 +106,17 @@ export default {
       deregisterFormField: 'form/deregisterFormField',
       updateFormField: 'form/updateFormField'
     }),
-    getDefaultValue (scaffold) {
-      const type = this.scaffold.type
+    getValue (scaffold) {
+      if (scaffold.hasOwnProperty('default_value')) { return scaffold.default_value }
+      return typeof this.value === 'boolean' && !this.value ? this.getBaseValue(scaffold) : this.value
+    },
+    getBaseValue (scaffold) {
+      const type = scaffold.type
       let value = ''
       switch (type) {
         case 'checkbox' : value = false; break
         case 'select' : value = -1; break
+        case 'range' : value = scaffold.min; break
         default : value = ''; break
       }
       return value
@@ -116,6 +127,11 @@ export default {
       let parsed = value
       if ((type === 'input' && inputType === 'number') || type === 'range') {
         parsed = value !== '' ? parseFloat(value) : null
+        // if (this.min && parsed < this.min) {
+        //   parsed = this.min
+        // } else if (this.max && parsed > this.max) {
+        //   parsed = this.max
+        // }
       }
       const field = CloneDeep(this.field)
       field.value = parsed
