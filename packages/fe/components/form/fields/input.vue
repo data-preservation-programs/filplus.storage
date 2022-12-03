@@ -200,7 +200,7 @@ $height: 2.5rem;
   flex-direction: row;
   align-items: center;
   width: 100%;
-  border-bottom: 2px solid tomato;
+  border-bottom: 2px solid $titanWhite;
   appearance: none;
   transition: 150ms ease-in-out;
   @include placeholder {
@@ -211,15 +211,15 @@ $height: 2.5rem;
     margin: 0;
     appearance: none;
   }
-  &.caution {
-    border-color: darkorange;
-  }
-  &.error {
-    border-color: red;
-  }
+  // &.caution {
+  //   border-color: darkorange;
+  // }
+  // &.error {
+  //   border-color: red;
+  // }
   &.disabled {
     cursor: no-drop;
-    border-bottom-color: rgba(227, 211, 192, 0.25);
+    border-bottom-color: rgba(246, 245, 255, 0.25);
   }
 }
 

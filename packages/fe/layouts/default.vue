@@ -83,7 +83,5 @@ export default {
 
 <style lang="scss" scoped>
 // ///////////////////////////////////////////////////////////////////// General
-.main-container {
-  padding-top: calc(#{$siteHeaderHeight} + 1rem);
-}
+.main-container {}
 </style>

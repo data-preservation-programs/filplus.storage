@@ -101,12 +101,12 @@ body {
   padding: 0;
   margin: 0;
   height: auto;
-  color: $replace4;
+  color: $titanWhite;
   font-family: $fontSuisseIntl;
   font-size: 16px;
   line-height: 1.2;
   letter-spacing: 0px;
-  background-color: $replace1;
+  background-color: $aztec;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   scroll-behavior: smooth;
@@ -249,6 +249,19 @@ button, .button {
   }
 }
 
+p,
+div,
+button {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+p,
+div,
+button {
+  line-height: inherit;
+}
+
 small.error,
 span.error {
   background-color: transparent;
@@ -280,79 +293,6 @@ span.error {
 
 ::-webkit-file-upload-button {
   cursor: pointer;
-}
-
-////////////////////////////////////////////////////////////////////////// Fonts
-//------------------------------------------------------------------------------
-// Font Sizing
-// 10px = 0.625rem
-// 12px = 0.75rem
-// 14px = 0.875rem
-// 16px = 1rem (base)
-// 18px = 1.125rem
-// 19px = 1.1875rem
-// 20px = 1.25rem
-// 24px = 1.5rem
-// 30px = 1.875rem
-// 32px = 2rem
-
-h1, .h1,
-h2, .h2,
-h3, .h3,
-h4, .h4,
-h5, .h5,
-h6, .h6,
-p,
-div,
-button {
-  margin-top: 0;
-  margin-bottom: 0;
-}
-
-p,
-div,
-button {
-  line-height: 1.7;
-}
-
-h1, .h1,
-h2, .h2,
-h3, .h3,
-h4, .h4,
-h5, .h5,
-h6, .h6 {
-  display: block;
-  line-height: 1.4;
-  font-weight: 500;
-  letter-spacing: 1px;
-  text-transform: none;
-}
-
-h1, .h1 {
-  font-size: 3rem;
-  @include small {
-    font-size: 2rem;
-  }
-}
-
-h2, .h2 {
-  font-size: 1.8rem;
-}
-
-h3, .h3 {
-  font-size: 1.6rem;
-}
-
-h4, .h4 {
-  font-size: 1rem;
-}
-
-h5, .h5 {
-  font-size: 0.9rem;
-}
-
-h6, .h6 {
-  font-size: 0.8rem;
 }
 
 //////////////////////////////////////////////////////////////////////// General

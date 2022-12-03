@@ -9,20 +9,25 @@
       <div class="col">
         <div class="inner-container">
 
+          <!-- ======================================================== Logo -->
           <nuxt-link to="/" class="logo-link">
-            <img class="logo" src="~assets/images/logo-horizontal.png" />
+            <Logo class="logo" />
           </nuxt-link>
 
           <nav id="site-nav">
-            <ButtonA
-              v-for="(link, index) in links"
-              :key="index"
-              :to="link.href"
-              :selected="isRouteCurrent(link.href)"
-              tag="nuxt-link"
-              class="site-nav-link">
-              {{ link.label }}
-            </ButtonA>
+            <!-- ================================================= Nav links -->
+            <div class="button-list">
+              <ButtonX
+                v-for="(link, index) in links"
+                :key="index"
+                :to="link.href"
+                :selected="isRouteCurrent(link.href)"
+                tag="nuxt-link"
+                class="site-nav-link">
+                {{ link.label }}
+              </ButtonX>
+            </div>
+            <!-- =============================================== Squigglies? -->
           </nav>
 
         </div>
@@ -36,14 +41,16 @@
 // ===================================================================== Imports
 import { mapGetters } from 'vuex'
 
-import ButtonA from '@/components/buttons/button-a'
+import Logo from '@/components/logo'
+import ButtonX from '@/components/buttons/button-x'
 
 // ====================================================================== Export
 export default {
   name: 'SiteHeader',
 
   components: {
-    ButtonA
+    Logo,
+    ButtonX
   },
 
   data () {
@@ -99,7 +106,7 @@ export default {
   left: 0;
   width: 100%;
   height: $siteHeaderHeight;
-  background-color: $replace2;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.6) 28.86%, transparent 100%);
   z-index: 1000;
   transition: background-color 150ms ease-out, height 150ms ease-out;
   &.mini {
@@ -107,12 +114,6 @@ export default {
     height: $siteHeaderHeightMini;
     @include mini {
       height: $siteHeaderHeight;
-    }
-    .logo-link {
-      transform: scale(0.85);
-      @include mini {
-        transform: scale(1);
-      }
     }
   }
 }
@@ -136,32 +137,32 @@ export default {
   }
 }
 
+// ////////////////////////////////////////////////////////////////// Navigation
 #site-nav {
+  position: relative;
+}
+
+.button-list {
   display: flex;
   flex-direction: row;
   align-items: center;
-  @include small {
-    display: none;
-  }
 }
 
-// /////////////////////////////////////////////////////////////////////// Links
 .site-nav-link {
   &:not(:last-child) {
-    margin-right: 3rem;
+    margin-right: 3.125rem;
   }
 }
 
 .logo-link {
   display: block;
+  height: 71.4%;
 }
 
 .logo {
-  height: 2.5rem;
+  display: block;
+  height: 100%;
   transition: 150ms ease-out;
-  @include small {
-    height: 2rem;
-  }
   &:hover {
     transition: 150ms ease-in;
     transform: scale(1.05);
