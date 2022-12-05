@@ -100,7 +100,7 @@ export default {
       application: 'general/application'
     }),
     pageData () {
-      return this.siteContent.index.page_content
+      return this.siteContent.apply.page_content
     },
     heading () {
       return this.pageData.heading
