@@ -1,0 +1,202 @@
+{
+  "seo": {
+    "title": "Apply — Fil+",
+    "description": "Fil+"
+  },
+  "og": {
+    "site_name": "Apply — Fil+",
+    "url": "",
+    "type": "website",
+    "image": "/open-graph-image.jpg"
+  },
+  "page_content": {
+    "hero": {
+      "label": "General Application",
+      "heading": "Fill out an application to send to your selected Notary."
+    },
+    "form": {
+      "heading": "General DataCap Notary Review Request",
+      "scaffold": {
+        "application_name": {
+          "field_key": "application_name",
+          "type": "input",
+          "input_type": "text",
+          "model_key": "application_name",
+          "label": "Unique name for this application",
+          "placeholder": "e.g. Lorem Ipsum",
+          "required": true,
+          "pre": "[^\\u0000-\\u00ff]",
+          "autocomplete": "none",
+          "chars": {
+            "min": 2,
+            "max": 35
+          },
+          "validation_message": {
+            "required": "This field is required",
+            "chars": "Input must be between 2 and 35 characters"
+          }
+        },
+        "organization_name": {
+          "field_key": "organization_name",
+          "type": "input",
+          "input_type": "text",
+          "model_key": "organization_name",
+          "label": "Organization Name",
+          "placeholder": "Lorem Ipsum",
+          "required": true,
+          "pre": "[^\\u0000-\\u00ff]",
+          "autocomplete": "none",
+          "chars": {
+            "min": 2,
+            "max": 35
+          },
+          "validation_message": {
+            "required": "This field is required",
+            "chars": "Input must be between 2 and 35 characters"
+          }
+        },
+        "organization_website": {
+          "field_key": "organization_website",
+          "type": "input",
+          "input_type": "text",
+          "model_key": "organization_website",
+          "label": "Organization Website",
+          "placeholder": "loremipsum.com",
+          "required": true,
+          "pre": "[^\\u0000-\\u00ff]",
+          "autocomplete": "none",
+          "chars": {
+            "min": 2,
+            "max": 35
+          },
+          "validation_message": {
+            "required": "This field is required",
+            "chars": "Input must be between 2 and 35 characters"
+          }
+        },
+        "organization_social_media_handle": {
+          "field_key": "organization_social_media_handle",
+          "type": "input",
+          "input_type": "text",
+          "model_key": "organization_social_media_handle",
+          "label": "Organization Social Media Handle",
+          "placeholder": "LoremIpsum",
+          "required": true,
+          "pre": "[^\\u0000-\\u00ff]",
+          "autocomplete": "none",
+          "chars": {
+            "min": 2,
+            "max": 35
+          },
+          "validation_message": {
+            "required": "This field is required",
+            "chars": "Input must be between 2 and 35 characters"
+          }
+        },
+        "organization_social_media_handle_type": {
+          "field_key": "organization_social_media_handle_type",
+          "type": "select",
+          "model_key": "organization_social_media_handle_type",
+          "label": "Social Media Type",
+          "required": true,
+          "output": "option",
+          "validation_message": {
+            "required": "This field is required"
+          },
+          "options": [
+            { "label": "Twitter" },
+            { "label": "Slack" }
+          ],
+          "default_value": 0
+        },
+        "total_datacap_size": {
+          "field_key": "total_datacap_size",
+          "type": "input",
+          "input_type": "number",
+          "model_key": "total_datacap_size",
+          "label": "Total Datacap being requested",
+          "placeholder": "32",
+          "min": 1,
+          "max": 5242880,
+          "required": true,
+          "pre": "[^\\u0000-\\u00ff]",
+          "autocomplete": "none",
+          "validation_message": {
+            "required": "This field is required",
+            "minmax": "Number must be between 1 and 5242880"
+          }
+        },
+        "total_datacap_size_unit": {
+          "field_key": "total_datacap_size_unit",
+          "type": "select",
+          "model_key": "total_datacap_size_unit",
+          "label": "Unit",
+          "required": true,
+          "output": "option",
+          "validation_message": {
+            "required": "This field is required"
+          },
+          "options": [
+            { "label": "GiB" },
+            { "label": "TiB" },
+            { "label": "PiB" }
+          ],
+          "default_value": 0
+        },
+        "weekly_data_size": {
+          "field_key": "weekly_data_size",
+          "type": "input",
+          "input_type": "number",
+          "model_key": "weekly_data_size",
+          "label": "Weekly allocation of DataCap",
+          "placeholder": "32",
+          "min": 1,
+          "max": 5242880,
+          "required": true,
+          "pre": "[^\\u0000-\\u00ff]",
+          "autocomplete": "none",
+          "validation_message": {
+            "required": "This field is required",
+            "minmax": "Number must be between 1 and 5242880"
+          }
+        },
+        "weekly_data_size_unit": {
+          "field_key": "weekly_data_size_unit",
+          "type": "select",
+          "model_key": "weekly_data_size_unit",
+          "label": "Unit",
+          "required": true,
+          "output": "option",
+          "validation_message": {
+            "required": "This field is required"
+          },
+          "options": [
+            { "label": "GiB" },
+            { "label": "TiB" },
+            { "label": "PiB" }
+          ],
+          "default_value": 0
+        },
+        "filecoin_address": {
+          "field_key": "filecoin_address",
+          "type": "input",
+          "input_type": "text",
+          "model_key": "filecoin_address",
+          "label": "Filecoin Address",
+          "placeholder": "f...",
+          "required": true,
+          "pre": "[^\\u0000-\\u00ff]",
+          "autocomplete": "none",
+          "chars": {
+            "min": 2,
+            "max": 35
+          },
+          "validation_message": {
+            "required": "This field is required",
+            "chars": "Input must be between 2 and 35 characters"
+          }
+        }
+      }
+    }
+  }
+}
