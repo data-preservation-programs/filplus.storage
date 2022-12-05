@@ -1,0 +1,412 @@
+[
+  {
+    "Miner": "rjan90",
+    "Location": "Norway, Oslo",
+    "Miner ID": "f023467",
+    "Contact Information": "Slack: Phi-rjan <br>Website: https://phimining.io/ <br>Email: contact@phimining.io",
+    "Special Offering": "0 FIL for verified data",
+    "Features": "Servers housed in a tier 3 datacenter in Oslo, Norway. Sub millisecond latency to the most densely populated areas of Norway.",
+    "Terms of Service": "[Terms of Service](https://phimining.io/terms-of-service.html)",
+    "Content Policy": "_Link coming_"
+  },
+  {
+    "Miner": "s0nik42",
+    "Location": "France, Europe",
+    "Miner ID": "f010479",
+    "Contact Information": "Slack: @s0nik42 <br>Email : online@noelnoel.org",
+    "Special Offering": "0 FIL for early FIL+ Clients",
+    "Features": "Trustworthy <br>- Active community members (10k+ messages) <br>- Developing in Filecoin Ecosystems <br>- 15 years experience in Datacenters, Telecom & Security <br>- Fast retrieval<br>- 2TiB daily sealing power<br>- 2GB connectivity throughput",
+    "Terms of Service": "[Terms of Service](https://github.com/Murmuration-Labs/filecoin-node-operator-kit/blob/main/sample-terms-of-service-template.md)",
+    "Content Policy": "[Content Policy](https://github.com/Murmuration-Labs/filecoin-node-operator-kit/blob/main/Content-Policy-Guide.md)"
+  },
+  {
+    "Miner": "benjaminh83",
+    "Location": "Denmark, Europe",
+    "Miner ID": "f02576",
+    "Contact Information": "Slack: @benjaminh83",
+    "Special Offering": "0 FIL for verified data",
+    "Features": "- 1 Gbit Fiber, Static IP behind NextGen Firewall, No VPN.<br>- 1.5TiB daily sealing power<br>- Running on 75-95% renewable energy<br>- Used energy is recirculated for heating<br>- Contributor to Calibration/SR1/SR2 and multiple slack community champion",
+    "Terms of Service": "[Terms of Service](https://github.com/Murmuration-Labs/filecoin-node-operator-kit/blob/main/sample-terms-of-service-template.md)",
+    "Content Policy": "[Content Policy](https://github.com/Murmuration-Labs/filecoin-node-operator-kit/blob/main/Content-Policy-Guide.md)"
+  },
+  {
+    "Miner": "mxz9102",
+    "Location": "Southern California, USA",
+    "Miner ID": "f09848",
+    "Contact Information": "Slack: @bigbear",
+    "Special Offering": "0 FIL for verified data",
+    "Features": "- 1 Gbit Fiber, Static IP<br>- 2TiB daily sealing power",
+    "Terms of Service": "[Terms of Service](https://github.com/Murmuration-Labs/filecoin-node-operator-kit/blob/main/sample-terms-of-service-template.md)",
+    "Content Policy": "[Content Policy](https://github.com/Murmuration-Labs/filecoin-node-operator-kit/blob/main/Content-Policy-Guide.md)"
+  },
+  {
+    "Miner": "stuberman",
+    "Location": "Michigan, USA",
+    "Miner ID": "f01278",
+    "Contact Information": "Slack: @stuberman",
+    "Special Offering": "0.000000000001 FIL GiB/epoch",
+    "Features": "- 1 Gbit Fiber<br>- UPS protected system<br>-Min size 2 GiB<br>- Max size 32GiB<br>- 768GiB daily sealing power",
+    "Terms of Service": "_Link coming_",
+    "Content Policy": "_Link coming_"
+  },
+  {
+    "Miner": "Shekelme",
+    "Location": "Novosibirsk, Russia",
+    "Miner ID": "f08240",
+    "Contact Information": "Slack: @rabinovitch<br>Email: aleksei.shcherbina@yandex.ru",
+    "Special Offering": "0.000000004 FIL GiB/epoch, 0 FIL for verified data",
+    "Features": "- 1 Gbit PON (actual bandwidth is about 200-300 Mbit for now)<br>- Fast retrieval <br>- UPS protected operation<br>- Min size 100 MiB<br>- Max size 32 GiB<br>- Raidz2 array to store your data.",
+    "Terms of Service": "[Terms of Service](https://github.com/Murmuration-Labs/filecoin-node-operator-kit/blob/main/sample-terms-of-service-template.md)",
+    "Content Policy": "[Content Policy](https://github.com/Murmuration-Labs/filecoin-node-operator-kit/blob/main/Content-Policy-Guide.md)"
+  },
+  {
+    "Miner": "Shekelme",
+    "Location": "Moscow, Russia",
+    "Miner ID": "f079817",
+    "Contact Information": "Slack: @rabinovitch<br>Email: aleksei.shcherbina@yandex.ru",
+    "Special Offering": "0.000000004 FIL GiB/epoch, 0 FIL for verified data",
+    "Features": "- 100 Mbit PON<br>- Fast retrieval<br>- UPS protected operation<br>- Min size 100 MiB<br>- Max size 32 GiB<br>- Raidz arrays to store your data.",
+    "Terms of Service": "[Terms of Service](https://github.com/Murmuration-Labs/filecoin-node-operator-kit/blob/main/sample-terms-of-service-template.md)",
+    "Content Policy": "[Content Policy](https://github.com/Murmuration-Labs/filecoin-node-operator-kit/blob/main/Content-Policy-Guide.md)"
+  },
+  {
+    "Miner": "Shekelme",
+    "Location": "Moscow, Russia",
+    "Miner ID": "f0187709",
+    "Contact Information": "Slack: @rabinovitch<br>Email: aleksei.shcherbina@yandex.ru",
+    "Special Offering": "0.000000004 FIL GiB/epoch, 0 FIL for verified data",
+    "Features": "- 200 Mbit Internet channel (will be extended to 500 Mbit soon)<br>- Fast retrieval <br>- UPS protected operation<br>- Min size 1 MiB<br>- Max size 32 GiB<br>- Raidz2 arrays to store your data<br> - Top-level equipment to ensure the fastest possible sealing",
+    "Terms of Service": "[Terms of Service](https://github.com/Murmuration-Labs/filecoin-node-operator-kit/blob/main/sample-terms-of-service-template.md)",
+    "Content Policy": "[Content Policy](https://github.com/Murmuration-Labs/filecoin-node-operator-kit/blob/main/Content-Policy-Guide.md)"
+  },
+  {
+    "Miner": "flyworker",
+    "Location": "Montreal, Canada",
+    "Miner ID": "f01276",
+    "Contact Information": "Slack: @Charles Cao - NBFS<br>Website: https://nbfspool.com<br>Email: contact@nbai.io",
+    "Special Offering": "<br>Price per GiB: 0.0000001 FIL<br> Verified Price per GiB: 0 FIL<br>_Floating fees apply to price when basefee above 1 nFIL_",
+    "Features": "- 1 Gbit Fiber<br>- Tier3 Data Center<br>- Directly connect to all major clouds, including AWS, Azure, Google Cloud, Oracle Cloud etc.<br>- Security staff on-site 24x7x365, Concurrently maintainable 10MW N+1 UPS Architecture. Flexible 2N solution available, minimum of 72 hours of on site fuel storage at full load with diverse fueling contractor arrangements<br>- 10TiB Daily sealing power<br>- Contributor to Calibration/SR1/SR2/Slingshot and multiple slack community champion<br>- China node on Demand",
+    "Terms of Service": "[Terms of Service](https://github.com/Murmuration-Labs/filecoin-node-operator-kit/blob/main/sample-terms-of-service-template.md)",
+    "Content Policy": "[Content Policy](https://github.com/Murmuration-Labs/filecoin-node-operator-kit/blob/main/Content-Policy-Guide.md)"
+  },
+  {
+    "Miner": "flyworker",
+    "Location": "Montreal, Canada",
+    "Miner ID": "f02401",
+    "Contact Information": "Slack: @Charles Cao - NBFS<br>Website: https://nbfspool.com<br>Email: contact@nbai.io",
+    "Special Offering": "<br>Price per GiB: 0.0000001 FIL<br> Verified Price per GiB: 0 FIL<br>_Floating fees apply to price when basefee above 1 nFIL_",
+    "Features": "- 1 Gbit Fiber<br>- Tier3 Data Center<br>- Directly connect to all major clouds, including AWS, Azure, Google Cloud, Oracle Cloud etc.<br>- Security staff on-site 24x7x365, Concurrently maintainable 10MW N+1 UPS Architecture. Flexible 2N solution available, minimum of 72 hours of on site fuel storage at full load with diverse fueling contractor arrangements<br>- 10TiB Daily sealing power<br>- Contributor to Calibration/SR1/SR2/Slingshot and multiple slack community champion<br>- China node on Demand",
+    "Terms of Service": "[Terms of Service](https://github.com/Murmuration-Labs/filecoin-node-operator-kit/blob/main/sample-terms-of-service-template.md)",
+    "Content Policy": "[Content Policy](https://github.com/Murmuration-Labs/filecoin-node-operator-kit/blob/main/Content-Policy-Guide.md)"
+  },
+  {
+    "Miner": "flyworker",
+    "Location": "Montreal, Canada",
+    "Miner ID": "f02387",
+    "Contact Information": "Slack: @Charles Cao - NBFS<br>Website: https://nbfspool.com<br>Email: contact@nbai.io",
+    "Special Offering": "<br>Price per GiB: 0.0000001 FIL<br> Verified Price per GiB: 0 FIL<br>_Floating fees apply to price when basefee above 1 nFIL_",
+    "Features": "- 1 Gbit Fiber<br>- Tier3 Data Center<br>- Directly connect to all major clouds, including AWS, Azure, Google Cloud, Oracle Cloud etc.<br>- Security staff on-site 24x7x365, Concurrently maintainable 10MW N+1 UPS Architecture. Flexible 2N solution available, minimum of 72 hours of on site fuel storage at full load with diverse fueling contractor arrangements<br>- 10TiB Daily sealing power<br>- Contributor to Calibration/SR1/SR2/Slingshot and multiple slack community champion<br>- China node on Demand",
+    "Terms of Service": "[Terms of Service](https://github.com/Murmuration-Labs/filecoin-node-operator-kit/blob/main/sample-terms-of-service-template.md)",
+    "Content Policy": "[Content Policy](https://github.com/Murmuration-Labs/filecoin-node-operator-kit/blob/main/Content-Policy-Guide.md)"
+  },
+  {
+    "Miner": "flyworker",
+    "Location": "Montreal, Canada",
+    "Miner ID": "f010194",
+    "Contact Information": "Slack: @Charles Cao - NBFS<br>Website: https://nbfspool.com<br>Email: contact@nbai.io",
+    "Special Offering": "<br>Price per GiB: 0.0000001 FIL<br> Verified Price per GiB: 0 FIL<br>_Floating fees apply to price when basefee above 1 nFIL_",
+    "Features": "- 1 Gbit Fiber<br>- Tier3 Data Center<br>- Directly connect to all major clouds, including AWS, Azure, Google Cloud, Oracle Cloud etc.<br>- Security staff on-site 24x7x365, Concurrently maintainable 10MW N+1 UPS Architecture. Flexible 2N solution available, minimum of 72 hours of on site fuel storage at full load with diverse fueling contractor arrangements<br>- 10TiB Daily sealing power<br>- Contributor to Calibration/SR1/SR2/Slingshot and multiple slack community champion<br>- China node on Demand",
+    "Terms of Service": "[Terms of Service](https://github.com/Murmuration-Labs/filecoin-node-operator-kit/blob/main/sample-terms-of-service-template.md)",
+    "Content Policy": "[Content Policy](https://github.com/Murmuration-Labs/filecoin-node-operator-kit/blob/main/Content-Policy-Guide.md)"
+  },
+  {
+    "Miner": "cwhiggins",
+    "Location": "Long Island, NY, USA",
+    "Miner ID": "f015927",
+    "Contact Information": "Slack: @Chris<br>Email: chris@creativedigitalindustries.com",
+    "Special Offering": "0.000000000001 FIL GiB/epoch",
+    "Features": "-1 Gbit Fiber<br>- UPS protected system<br>- Max size 32Gib<br>- 750 GiB daily sealing power",
+    "Terms of Service": "[Terms of Service](https://github.com/Murmuration-Labs/filecoin-node-operator-kit/blob/main/sample-terms-of-service-template.md)",
+    "Content Policy": "_Link coming_"
+  },
+  {
+    "Miner": "TechHedge",
+    "Location": "Norway, Europe",
+    "Miner ID": "f022352",
+    "Contact Information": "Slack: @reiers <br>Email: techhedge@filecoin.no",
+    "Special Offering": "0 FIL for FIL+ Clients",
+    "Features": "TechHedge Home Mining <br>- Active community member <br>- 24/7 Security <br>- Controlled Temperature <br>- Fast retrieval<br>- 3TiB daily sealing power<br>- 1Gbps/Fiber Redundant",
+    "Terms of Service": "[Terms of Service](https://github.com/Murmuration-Labs/filecoin-node-operator-kit/blob/main/sample-terms-of-service-template.md)",
+    "Content Policy": "[Content Policy](https://github.com/Murmuration-Labs/filecoin-node-operator-kit/blob/main/Content-Policy-Guide.md)"
+  },
+  {
+    "Miner": "DCENT",
+    "Location": "Netherlands, Europe",
+    "Miner ID": "f01240",
+    "Contact Information": "Slack: @hidde <br>Website: https://www.dcent.nl/ <br>Email: hidde@speedium.nl",
+    "Special Offering": "0 FIL for FIL+ Clients (price may change subject to basefee)",
+    "Features": "- GlobalSwitch Amsterdam DC <br>- 24/7 Security <br>- Controlled Temperature <br>-Redundant Power <br>- Fast retrieval<br>- 10TiB daily sealing power<br>- 30Gbps/Fiber Redundant",
+    "Terms of Service": "[Terms of Service](https://github.com/Murmuration-Labs/filecoin-node-operator-kit/blob/main/sample-terms-of-service-template.md)",
+    "Content Policy": "[Content Policy](https://github.com/Murmuration-Labs/filecoin-node-operator-kit/blob/main/Content-Policy-Guide.md)"
+  },
+  {
+    "Miner": "Brian Y",
+    "Location": "Florida, US",
+    "Miner ID": "f023971",
+    "Contact Information": "Slack: @brian y <br>Email: brian@spiorlando.com",
+    "Special Offering": "0 FIL for FIL+ Clients (price may change subject to basefee)",
+    "Features": "- Tier 3 Data Center w/ 24/7/365 on site staff <br>- dual fiber backbone internet connection <br>-  Data-grade HVAC, & parallel redundant UPS with N + 1 modules <br>- Fast retrieval<br>- 4TiB daily sealing power<br>- 700Mbps up / 900Mbps",
+    "Terms of Service": "[Terms of Service](https://github.com/Murmuration-Labs/filecoin-node-operator-kit/blob/main/sample-terms-of-service-template.md)",
+    "Content Policy": "[Content Policy](https://github.com/Murmuration-Labs/filecoin-node-operator-kit/blob/main/Content-Policy-Guide.md)"
+  },
+  {
+    "Miner": "Nelson",
+    "Location": "New York, US",
+    "Miner ID": "f022141",
+    "Contact Information": "Slack: @nelson <br>Email: nswchen@protonmail.com",
+    "Special Offering": "0 FIL for FIL+ Clients (price may change subject to basefee)",
+    "Features": "- Fast retrieval<br>- 2+ TiB daily sealing power<br>- 1 Gbps / 1 Gbps",
+    "Terms of Service": "[Terms of Service](https://github.com/Murmuration-Labs/filecoin-node-operator-kit/blob/main/sample-terms-of-service-template.md)",
+    "Content Policy": "[Content Policy](https://github.com/Murmuration-Labs/filecoin-node-operator-kit/blob/main/Content-Policy-Guide.md)"
+  },
+  {
+    "Miner": "NeonixAF",
+    "Location": "United Kingdom",
+    "Miner ID": "f019551",
+    "Contact Information": "Slack: @NeonixAF f019551 <br>Email: alex.fox@neonix.io",
+    "Special Offering": "0 FIL for FIL+ Clients (price may change subject to basefee)",
+    "Features": "- Fast retrieval<br>- 960GiB daily sealing power<br>- 1 Gb/s <br>- Data stored on CEPH cluster with redundancy <br>- Dell/Supermicro servers <br>-  Enterprise HDDs, with UPS backup power.",
+    "Terms of Service": "[Terms of Service](https://github.com/Murmuration-Labs/filecoin-node-operator-kit/blob/main/sample-terms-of-service-template.md)",
+    "Content Policy": "[Content Policy](https://github.com/Murmuration-Labs/filecoin-node-operator-kit/blob/main/Content-Policy-Guide.md)"
+  },
+  {
+    "Miner": "ChainSafe",
+    "Location": "Canada",
+    "Miner ID": "f01247",
+    "Contact Information": "Slack: @Eric Tu [ChainSafe] <br>Email: eric@chainsafe.io<br>Email: david@chainsafe.io",
+    "Special Offering": "0 FIL for FIL+ Clients (price may change subject to basefee)",
+    "Features": "- Fast retrieval<br>- 300GiB daily sealing power<br>- 50M Down /10M Up",
+    "Terms of Service": "[Terms of Service](https://github.com/Murmuration-Labs/filecoin-node-operator-kit/blob/main/sample-terms-of-service-template.md)",
+    "Content Policy": "[Content Policy](https://github.com/Murmuration-Labs/filecoin-node-operator-kit/blob/main/Content-Policy-Guide.md)"
+  },
+  {
+    "Miner": "shawnp0wers",
+    "Location": "US (East, West)",
+    "Miner ID": "f071624",
+    "Contact Information": "Slack: @shawnp0wers <br>Email: shawn@adept.at",
+    "Special Offering": "0 FIL for FIL+ Clients (price may change subject to basefee)",
+    "Features": "- Fast retrieval<br>- 160-750GiB daily sealing power<br>- 1Gbps, 1Gbps",
+    "Terms of Service": "[Terms of Service](https://github.com/Murmuration-Labs/filecoin-node-operator-kit/blob/main/sample-terms-of-service-template.md)",
+    "Content Policy": "[Content Policy](https://github.com/Murmuration-Labs/filecoin-node-operator-kit/blob/main/Content-Policy-Guide.md)"
+  },
+  {
+    "Miner": "shawnp0wers",
+    "Location": "US (East, West)",
+    "Miner ID": "f0135078",
+    "Contact Information": "Slack: @shawnp0wers <br>Email: shawn@adept.at",
+    "Special Offering": "0 FIL for FIL+ Clients (price may change subject to basefee)",
+    "Features": "- Fast retrieval<br>- 160-750GiB daily sealing power<br>- 1Gbps, 1Gbps",
+    "Terms of Service": "[Terms of Service](https://github.com/Murmuration-Labs/filecoin-node-operator-kit/blob/main/sample-terms-of-service-template.md)",
+    "Content Policy": "[Content Policy](https://github.com/Murmuration-Labs/filecoin-node-operator-kit/blob/main/Content-Policy-Guide.md)"
+  },
+  {
+    "Miner": "FUNK",
+    "Location": "Singapore",
+    "Miner ID": "f014768",
+    "Contact Information": "Slack: @funk <br>Email: afunkhouser@fastmail.fm",
+    "Special Offering": "0 FIL for FIL+ Clients (price may change subject to basefee)",
+    "Features": "- Fast retrieval<br>- 128GiB daily sealing power<br>- 1Gbps",
+    "Terms of Service": "[Terms of Service](https://github.com/Murmuration-Labs/filecoin-node-operator-kit/blob/main/sample-terms-of-service-template.md)",
+    "Content Policy": "[Content Policy](https://github.com/Murmuration-Labs/filecoin-node-operator-kit/blob/main/Content-Policy-Guide.md)"
+  },
+  {
+    "Miner": "Marius",
+    "Location": "Switzerland",
+    "Miner ID": "f022163",
+    "Contact Information": "Slack: @marius <br>Email: filbox@pm.me",
+    "Special Offering": "0 FIL for FIL+ Clients (price may change subject to basefee)",
+    "Features": "- Fast retrieval<br>- 1TiB daily sealing power<br>- 1 Gbps/Redundant<br>- 24/7 Security<br>- Redundant Power<br>- Controlled Temperature<br>- Home Mining",
+    "Terms of Service": "[Terms of Service](https://github.com/Murmuration-Labs/filecoin-node-operator-kit/blob/main/sample-terms-of-service-template.md)",
+    "Content Policy": "[Content Policy](https://github.com/Murmuration-Labs/filecoin-node-operator-kit/blob/main/Content-Policy-Guide.md)"
+  },
+  {
+    "Miner": "Eliovp",
+    "Location": "Belgium",
+    "Miner ID": "f01234",
+    "Contact Information": "Slack: @Eliovp <br>Email: elio@eliovp.be",
+    "Special Offering": "0 FIL for FIL+ Clients (price may change subject to basefee)",
+    "Features": "- Fast retrieval<br>- 10TiB daily sealing power<br>- 10 Gbps/Redundant<br>- 24/7 Security<br>- Redundant Power<br>- Controlled Temperature",
+    "Terms of Service": "[Terms of Service](https://github.com/Murmuration-Labs/filecoin-node-operator-kit/blob/main/sample-terms-of-service-template.md)",
+    "Content Policy": "[Content Policy](https://github.com/Murmuration-Labs/filecoin-node-operator-kit/blob/main/Content-Policy-Guide.md)"
+  },
+  {
+    "Miner": "JoFil",
+    "Location": "Greater China",
+    "Miner ID": "f0167505",
+    "Contact Information": "Slack: @joshua.xia <br>Email: joshua.xia@aliyun.com",
+    "Special Offering": "0 FIL for FIL+ Clients (price may change subject to basefee)",
+    "Features": "- Fast retrieval<br>- 10TiB daily sealing power<br>- 10 Gbps/Redundant<br>- Redundant Power",
+    "Terms of Service": "[Terms of Service](https://github.com/Murmuration-Labs/filecoin-node-operator-kit/blob/main/sample-terms-of-service-template.md)",
+    "Content Policy": "[Content Policy](https://github.com/Murmuration-Labs/filecoin-node-operator-kit/blob/main/Content-Policy-Guide.md)"
+  },
+  {
+    "Miner": "JoFil",
+    "Location": "Greater China",
+    "Miner ID": "f0226324",
+    "Contact Information": "Slack: @joshua.xia <br>Email: joshua.xia@aliyun.com",
+    "Special Offering": "0 FIL for FIL+ Clients (price may change subject to basefee)",
+    "Features": "- Fast retrieval<br>- 10TiB daily sealing power<br>- 10 Gbps/Redundant<br>- Redundant Power",
+    "Terms of Service": "[Terms of Service](https://github.com/Murmuration-Labs/filecoin-node-operator-kit/blob/main/sample-terms-of-service-template.md)",
+    "Content Policy": "[Content Policy](https://github.com/Murmuration-Labs/filecoin-node-operator-kit/blob/main/Content-Policy-Guide.md)"
+  },
+  {
+    "Miner": "JoFil",
+    "Location": "Greater China",
+    "Miner ID": "f0228712",
+    "Contact Information": "Slack: @joshua.xia <br>Email: joshua.xia@aliyun.com",
+    "Special Offering": "0 FIL for FIL+ Clients (price may change subject to basefee)",
+    "Features": "- Fast retrieval<br>- 10TiB daily sealing power<br>- 10 Gbps/Redundant<br>- Redundant Power",
+    "Terms of Service": "[Terms of Service](https://github.com/Murmuration-Labs/filecoin-node-operator-kit/blob/main/sample-terms-of-service-template.md)",
+    "Content Policy": "[Content Policy](https://github.com/Murmuration-Labs/filecoin-node-operator-kit/blob/main/Content-Policy-Guide.md)"
+  },
+  {
+    "Miner": "JoFil",
+    "Location": "Greater China",
+    "Miner ID": "f0364957",
+    "Contact Information": "Slack: @joshua.xia <br>Email: joshua.xia@aliyun.com",
+    "Special Offering": "0 FIL for FIL+ Clients (price may change subject to basefee)",
+    "Features": "- Fast retrieval<br>- 10TiB daily sealing power<br>- 10 Gbps/Redundant<br>- Redundant Power",
+    "Terms of Service": "[Terms of Service](https://github.com/Murmuration-Labs/filecoin-node-operator-kit/blob/main/sample-terms-of-service-template.md)",
+    "Content Policy": "[Content Policy](https://github.com/Murmuration-Labs/filecoin-node-operator-kit/blob/main/Content-Policy-Guide.md)"
+  },
+  {
+    "Miner": "JoFil",
+    "Location": "Greater China",
+    "Miner ID": "f0391143",
+    "Contact Information": "Slack: @joshua.xia <br>Email: joshua.xia@aliyun.com",
+    "Special Offering": "0 FIL for FIL+ Clients (price may change subject to basefee)",
+    "Features": "- Fast retrieval<br>- 10TiB daily sealing power<br>- 10 Gbps/Redundant<br>- Redundant Power",
+    "Terms of Service": "[Terms of Service](https://github.com/Murmuration-Labs/filecoin-node-operator-kit/blob/main/sample-terms-of-service-template.md)",
+    "Content Policy": "[Content Policy](https://github.com/Murmuration-Labs/filecoin-node-operator-kit/blob/main/Content-Policy-Guide.md)"
+  },
+  {
+    "Miner": "Purumine",
+    "Location": "Seattle, US",
+    "Miner ID": "f010088",
+    "Contact Information": "Slack: @cerblue<br>Email: miner@purumine.com",
+    "Special Offering": "0 FIL for FIL+ Clients (price may change subject to base fee)",
+    "Features": "- Fast retrieval<br>- 1Gbps/1Gbps fiber<br>- Redundant power + UPS<br>- RAID-Z2<br>- 1.5TiB/d sealing power",
+    "Terms of Service": "[Terms of Service](https://github.com/cerblue/filecoin-node-operator-kit/blob/main/sample-terms-of-service-template.md)",
+    "Content Policy": "[Content Policy](https://github.com/cerblue/filecoin-node-operator-kit/blob/main/Content-Policy-Guide.md)"
+  },
+  {
+    "Miner": "W3BCloud",
+    "Location": "Monteral, CA",
+    "Miner ID": "ff0145874",
+    "Contact Information": "Slack: Clint Armstrong <br>Email: clint.armstrong@w3bcloud.com",
+    "Special Offering": "0 FIL for FIL+ Clients",
+    "Features": "- Fast retrieval<br>- 2TiB daily sealing power<br>- Tier 3 Datacenter<br>",
+    "Terms of Service": "[Terms of Service](https://github.com/Murmuration-Labs/filecoin-node-operator-kit/blob/main/sample-terms-of-service-template.md)",
+    "Content Policy": "[Content Policy](https://github.com/Murmuration-Labs/filecoin-node-operator-kit/blob/main/Content-Policy-Guide.md)"
+  },
+  {
+    "Miner": "Infinitis",
+    "Location": "Sydney, Australia",
+    "Miner ID": "f0773157",
+    "Contact Information": "Slack: @Stephane <br>Email: sbudo@vigilant.it",
+    "Special Offering": "0 FIL for FIL+ Clients",
+    "Features": "- Datacentre hosting <br>- Fast Internet connection<br>- 2TiB daily sealing power<br> - Frequent backups! <br>",
+    "Terms of Service": "[Terms of Service](https://github.com/Murmuration-Labs/filecoin-node-operator-kit/blob/main/sample-terms-of-service-template.md)",
+    "Content Policy": "[Content Policy](https://github.com/Murmuration-Labs/filecoin-node-operator-kit/blob/main/Content-Policy-Guide.md)"
+  },
+  {
+    "Miner": "MINECODER",
+    "Location": "Busan, Korea",
+    "Miner ID": "f020385",
+    "Contact Information": "Slack: @김임홍 <br>Email: daniel@codberg.com",
+    "Special Offering": "0 FIL for FIL+ Clients",
+    "Features": "- Fast retrieval <br> - 13TiB daily sealing power <br> - 40 Gbps/Redundant <br> - 24/7 Security <br>  - Redundant Power <br> - Controlled Temperature <br>",
+    "Terms of Service": "[Terms of Service](https://github.com/Murmuration-Labs/filecoin-node-operator-kit/blob/main/sample-terms-of-service-template.md)",
+    "Content Policy": "[Content Policy](https://github.com/Murmuration-Labs/filecoin-node-operator-kit/blob/main/Content-Policy-Guide.md)"
+  },
+  {
+    "Miner": "MINECODER",
+    "Location": "Busan, Korea",
+    "Miner ID": "f019399",
+    "Contact Information": "Slack: @김임홍 <br>Email: daniel@codberg.com",
+    "Special Offering": "0 FIL for FIL+ Clients",
+    "Features": "- Fast retrieval <br> - 13TiB daily sealing power <br> - 40 Gbps/Redundant <br> - 24/7 Security <br>  - Redundant Power <br> - Controlled Temperature <br>",
+    "Terms of Service": "[Terms of Service](https://github.com/Murmuration-Labs/filecoin-node-operator-kit/blob/main/sample-terms-of-service-template.md)",
+    "Content Policy": "[Content Policy](https://github.com/Murmuration-Labs/filecoin-node-operator-kit/blob/main/Content-Policy-Guide.md)"
+  },
+  {
+    "Miner": "TippyFlits",
+    "Location": "United Kingdom",
+    "Miner ID": "f08403",
+    "Contact Information": "Slack: @TippyFlits <br>Email: admin@yablu.com",
+    "Special Offering": "0 FIL for FIL+ Clients (price may change subject to basefee)",
+    "Features": "- Fast retrieval<br>- 1TiB daily sealing power<br>- 1 Gbps Fibre<br>- Fully UPS protected",
+    "Terms of Service": "[Terms of Service](https://github.com/Murmuration-Labs/filecoin-node-operator-kit/blob/main/sample-terms-of-service-template.md)",
+    "Content Policy": "[Content Policy](https://github.com/Murmuration-Labs/filecoin-node-operator-kit/blob/main/Content-Policy-Guide.md)"
+  },
+  {
+    "Miner": "MAXIUS",
+    "Location": "Gyeonggi-do, Korea",
+    "Miner ID": "f0984905",
+    "Contact Information": "Slack: @Aidan <br>Email: aidan.kr@gmail.com",
+    "Special Offering": "0 FIL for FIL+ Clients (price may change subject to basefee)",
+    "Features": "- Fast retrieval<br>- 60TiB daily sealing power<br>- 5 Gbps Fibre<br>- 100 Gbps Internal fibre network<br>- Fully UPS protected<br>- Self maintained Datacenter<br>- 24/7 Security<br>- Redundant Power<br>- Controlled Temperature",
+    "Terms of Service": "[Terms of Service](https://github.com/Murmuration-Labs/filecoin-node-operator-kit/blob/main/sample-terms-of-service-template.md)",
+    "Content Policy": "[Content Policy](https://github.com/Murmuration-Labs/filecoin-node-operator-kit/blob/main/Content-Policy-Guide.md)"
+  },
+  {
+    "Miner": "IPFSKDC",
+    "Location": "Gyeonggi-do, Korea",
+    "Miner ID": "f0838467",
+    "Contact Information": "Slack: @YM Kong <br>Email: allen@cobaltray.com",
+    "Special Offering": "0 FIL for FIL+ Clients",
+    "Features": "- Fast retrieval <br> - 12TiB daily sealing power <br> - 40 Gbps/Redundant/UPS/FullRAID <br> - 24/7 Security <br>  - Redundant Power <br> - Controlled Temperature <br>",
+    "Terms of Service": "[Terms of Service](https://github.com/Murmuration-Labs/filecoin-node-operator-kit/blob/main/sample-terms-of-service-template.md)",
+    "Content Policy": "[Content Policy](https://github.com/Murmuration-Labs/filecoin-node-operator-kit/blob/main/Content-Policy-Guide.md)"
+  },
+  {
+    "Miner": "we4u-GENESIS",
+    "Location": "Korea",
+    "Miner ID": "f03488",
+    "Contact Information": "Slack : @Meest Nam <br>Email : weforuplus@gmail.com",
+    "Special Offering": "Price per GiB: 0.0000001 FIL <br>Verified Price per GiB: 0 FIL <br> Floating fees apply to price when basefee above 1nFIL",
+    "Features": "1Gbps Fiber, Static IP, No VPN, 30TiB or more daily sealing power, RAID6, SAS HDD.",
+    "Terms of Service": "[Terms of Service](https://github.com/Murmuration-Labs/filecoin-node-operator-kit/blob/main/sample-terms-of-service-template.md)",
+    "Content Policy": "[Content Policy](https://github.com/Murmuration-Labs/filecoin-node-operator-kit/blob/main/Content-Policy-Guide.md)"
+  },
+  {
+    "Miner": "we4u-YELLOW",
+    "Location": "Korea",
+    "Miner ID": "f033356",
+    "Contact Information": "Slack : @Meest Nam <br>Email : weforuplus@gmail.com",
+    "Special Offering": "Price per GiB: 0.0000001 FIL <br>Verified Price per GiB: 0 FIL <br> Floating fees apply to price when basefee above 1nFIL",
+    "Features": "1Gbps Fiber, Static IP, No VPN, 30TiB or more daily sealing power, RAID6, SAS HDD.",
+    "Terms of Service": "[Terms of Service](https://github.com/Murmuration-Labs/filecoin-node-operator-kit/blob/main/sample-terms-of-service-template.md)",
+    "Content Policy": "[Content Policy](https://github.com/Murmuration-Labs/filecoin-node-operator-kit/blob/main/Content-Policy-Guide.md)"
+  },
+  {
+    "Miner": "we4u-GREEN",
+    "Location": "Korea",
+    "Miner ID": "f0241846",
+    "Contact Information": "Slack : @Meest Nam <br>Email : weforuplus@gmail.com",
+    "Special Offering": "Price per GiB: 0.0000001 FIL <br>Verified Price per GiB: 0 FIL <br> Floating fees apply to price when basefee above 1nFIL",
+    "Features": "1Gbps Fiber, Static IP, No VPN, 30TiB or more daily sealing power, RAID6, SAS HDD.",
+    "Terms of Service": "[Terms of Service](https://github.com/Murmuration-Labs/filecoin-node-operator-kit/blob/main/sample-terms-of-service-template.md)",
+    "Content Policy": "[Content Policy](https://github.com/Murmuration-Labs/filecoin-node-operator-kit/blob/main/Content-Policy-Guide.md)"
+  },
+  {
+    "Miner": "Shekelme",
+    "Location": "Moscow, Russia",
+    "Miner ID": "f01222595",
+    "Contact Information": "Slack: @rabinovitch<br>Email: aleksei.shcherbina@yandex.ru",
+    "Special Offering": "0.000000004 FIL GiB/epoch, 0 FIL for verified data",
+    "Features": "- 200 Mbit Internet channel (will be extended to 500 Mbit soon)<br>- Fast retrieval <br>- UPS protected operation<br>- Min size 1 MiB<br>- Max size 64 GiB<br>- Raidz2 arrays to store your data<br> - Top-level equipment to ensure the fastest possible sealing",
+    "Terms of Service": "[Terms of Service](https://github.com/Murmuration-Labs/filecoin-node-operator-kit/blob/main/sample-terms-of-service-template.md)",
+    "Content Policy": "[Content Policy](https://github.com/Murmuration-Labs/filecoin-node-operator-kit/blob/main/Content-Policy-Guide.md)"
+  }
+]

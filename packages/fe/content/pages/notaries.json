@@ -1,0 +1,24 @@
+{
+  "seo": {
+    "title": "Notaries — Fil+",
+    "description": "Fil+"
+  },
+  "og": {
+    "site_name": "Notaries — Fil+",
+    "url": "",
+    "type": "website",
+    "image": "/open-graph-image.jpg"
+  },
+  "page_content": {
+    "label": "Filecoin Plus - General Application",
+    "heading": "<span class='bubble left'>Choose a notary</span><br />to request a review",
+    "table": {
+      "label": "Choose a Notary",
+      "heading": "You can filter through notaries using different criteria, or choose a notary you’ve worked with before."
+    },
+    "form": {
+      "select_button_text": "Request",
+      "scaffold": {}
+    }
+  }
+}

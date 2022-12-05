@@ -1,16 +1,16 @@
 {
   "seo": {
-    "title": "Fil+",
+    "title": "Apply — Fil+",
     "description": "Fil+"
   },
   "og": {
-    "site_name": "Fil+",
+    "site_name": "Apply — Fil+",
     "url": "",
     "type": "website",
     "image": "/open-graph-image.jpg"
   },
   "page_content": {
-    "heading": "Quickstart your application<br /><span class='bubble'>for DataCap</span>",
+    "heading": "Quickstart your application<br /><span class='bubble right'>for DataCap</span>",
     "learn_more_button": {
       "text": "Learn more",
       "url": "/"
@@ -101,7 +101,7 @@
       }
     },
     "faq": {
-      "heading": "Frequently Asked<br /><span class='bubble'>Questions</span>",
+      "heading": "Frequently Asked<br /><span class='bubble right'>Questions</span>",
       "count": 4,
       "more_button": {
         "type": "nuxt-link",

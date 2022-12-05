@@ -443,7 +443,6 @@ span.error {
   border: 2px solid $titanWhite;
   border-radius: 4rem;
   line-height: 1;
-  margin-top: 0.5rem;
   &:before,
   &:after {
     content: '';
@@ -452,16 +451,30 @@ span.error {
     height: 100%;
   }
   &:before {
-    right: calc(-1.25rem - 2px);
     width: calc(100% + 1.25rem);
     border: inherit;
     border-radius: inherit;
   }
   &:after {
-    right: calc(-2.75rem - 2px);
     width: calc(100% + 2.75rem);
     border: inherit;
     border-radius: inherit;
+  }
+  &.right {
+    &:before {
+      right: calc(-1.25rem - 2px);
+    }
+    &:after {
+      right: calc(-2.75rem - 2px);
+    }
+  }
+  &.left {
+    &:before {
+      left: calc(-1.25rem - 2px);      
+    }
+    &:after {
+      left: calc(-2.75rem - 2px);
+    }
   }
 }
 

@@ -126,13 +126,23 @@ export default {
 
 // ///////////////////////////////////////////////////////////////////// Formats
 .format__mini {
-  font-size: 0.75rem;
-  padding: 0.25rem 0.75rem;
+  // padding: 0.25rem 0.75rem;
 }
 
 // ////////////////////////////////////////////////////////////////////// Themes
 .theme__green {
   color: $toledo;
   background-color: $greenYellow;
+}
+
+.theme__blue {
+  color: $toledo;
+  background-color: $perano;
+  &:not([disabled]) {
+    &:hover {
+      color: $titanWhite;
+      background-color: $dodgerBlue;
+    }
+  }
 }
 </style>
