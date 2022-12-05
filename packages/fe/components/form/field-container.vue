@@ -1,16 +1,20 @@
 <template>
   <div class="field-container">
     <Field v-bind="$props">
-      <div slot-scope="{ updateValue, field, type, validationMessage }">
+      <div slot-scope="{ updateValue, field, type, validationMessage }" :class="['field-wrapper', field.type]">
+
+        <label v-if="field.label" :for="field.name" class="label">
+          {{ field.label }}
+        </label>
+
+        <div v-if="field.description" class="description">
+          {{ field.description }}
+        </div>
 
         <component
           :is="type"
           :field="field"
           @updateValue="updateValue" />
-
-        <div v-if="field.description" class="description">
-          {{ field.description }}
-        </div>
 
         <div v-if="validationMessage" class="validation-message">
           <sup>*</sup>{{ validationMessage }}
@@ -83,23 +87,7 @@ export default {
   font-weight: 500;
   &.focused,
   &:not(.empty) {
-    .label.floating,
-    .required {
-      transition: 150ms ease-in;
-    }
-    .label {
-      &.floating {
-        font-size: 0.75rem;
-        transform: translateY(20%);
-        .text {
-          opacity: 0.5;
-          transition: opacity 150ms ease-in;
-        }
-        .required {
-          font-size: 1rem;
-        }
-      }
-    }
+    // background-color: teal;
   }
 }
 
@@ -110,29 +98,20 @@ export default {
   opacity: 0.5;
 }
 
-// /////////////////////////////////////////////////////////////////////// Label
-::v-deep .label {
-  font-weight: 500;
-  cursor: pointer;
-  &.floating {
-    position: absolute;
-    bottom: 100%;
-    left: 0;
-    pointer-events: none;
-    cursor: text;
-    transform: translateY(120%);
-    transition: 150ms ease-out;
-    .text {
-      transition: opacity 150ms ease-out;
+::v-deep .field-wrapper {
+  &.textarea {
+    .label {
+      margin-bottom: 1.5rem;
     }
   }
-  .required {
-    top: -0.0625rem;
-    font-size: 1.25rem;
-    line-height: 1;
-    color: darkorange;
-    transition: 150ms ease-out;
-  }
+}
+
+// /////////////////////////////////////////////////////////////////////// Label
+.label {
+  display: block;
+  font-size: toRem(20);
+  font-weight: 500;
+  cursor: pointer;
   a {
     color: darkorange;
     &:hover {

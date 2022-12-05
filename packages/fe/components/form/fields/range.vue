@@ -6,9 +6,8 @@
       <sup v-if="required" class="required">*</sup>
     </label>
 
-    <!-- {{ value }} | {{ $formatBytes(value) }} $replace -->
-
     <Range
+      ref="range"
       :field="field"
       v-on="$listeners">
 
@@ -17,7 +16,14 @@
       </template>
 
       <template #progress-bar>
-        <div class="progress-bar" />
+        <div ref="progressBar" class="progress-bar">
+          <div class="tick-list">
+            <div
+              v-for="line in numTicks"
+              :key="line"
+              class="line" />
+          </div>
+        </div>
       </template>
 
     </Range>
@@ -46,7 +52,8 @@ export default {
 
   data () {
     return {
-      focused: false
+      focused: false,
+      numTicks: 0
     }
   },
 
@@ -84,6 +91,12 @@ export default {
     state () {
       return this.field.state
     }
+  },
+
+  mounted () {
+    this.$nextTick(() => {
+      this.numTicks = Math.ceil(this.$refs.range.$el.clientWidth / 3)
+    })
   }
 }
 </script>
@@ -107,14 +120,13 @@ $borderWidth: 2px;
     left: calc(#{math.div($trackHeight, 2)} - #{math.div($thumbWidth, 2)});
     width: calc(100% - #{$trackHeight} + #{math.div($thumbWidth, 1)});
     height: $borderWidth;
-    background-color: $replace4;
+    background-color: $titanWhite;
   }
   &:hover {
     .thumb {
       &:before,
       &:after {
-        height: $trackHeight * 1.2;
-        transform: translateY(-$trackHeight * 0.2);
+        height: 0.75rem;
       }
     }
   }
@@ -124,15 +136,16 @@ $borderWidth: 2px;
 .thumb {
   position: relative;
   left: calc(#{math.div($trackHeight, 2)} - #{math.div($thumbWidth, 2)});
+  top: 0;
   width: $thumbWidth;
   height: $trackHeight;
-  background-color: $replace4;
+  background-color: $titanWhite;
   &:before,
   &:after {
     content: '';
     position: absolute;
-    top: 0;
-    height: 100%;
+    bottom: 100%;
+    height: 0.5rem;
     width: 50%;
     pointer-events: inherit;
     background-color: inherit;
@@ -154,6 +167,24 @@ $borderWidth: 2px;
   left: calc(#{math.div($trackHeight, 2)} - #{math.div($thumbWidth, 2)});
   width: calc(100% - #{$trackHeight} + #{math.div($thumbWidth, 1)});
   height: 100%;
-  background-color: $replace2;
+  overflow: hidden;
+}
+
+.tick-list {
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+}
+
+.line {
+  background-color: $titanWhite;
+  width: 1px;
+  height: 100%;
+  &:not(:last-child) {
+    margin-right: 2px;
+  }
 }
 </style>

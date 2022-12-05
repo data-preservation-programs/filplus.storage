@@ -1,7 +1,7 @@
 <template>
   <Button
     v-bind="$props"
-    :class="['button-a', `format__${format}`]"
+    :class="['button-a', `format__${format}`, `theme__${theme}`]"
     v-on="$listeners">
     <div slot-scope="{ loading }" class="inner-content">
 
@@ -64,6 +64,11 @@ export default {
       type: String,
       required: false,
       default: 'regular'
+    },
+    theme: {
+      type: String,
+      required: false,
+      default: 'green'
     }
   }
 }
@@ -72,17 +77,14 @@ export default {
 <style lang="scss" scoped>
 // ///////////////////////////////////////////////////////////////////// General
 .button {
+  display: inline-block;
   position: relative;
-  padding: 0.25rem 1rem;
-  border-radius: 0.5rem;
-  background-color: $replace3;
+  padding: 1rem 1.5rem;
+  border-radius: 3rem;
+  line-height: 1;
   white-space: nowrap;
   cursor: pointer;
   &:not([disabled]) {
-    &:hover,
-    &.selected {
-      background-color: $replace3;
-    }
     &:focus-visible {
       @include focusBoxShadow;
     }
@@ -116,6 +118,7 @@ export default {
   justify-content: center;
   align-items: center;
   font-weight: 500;
+  line-height: 1;
   &.hide {
     opacity: 0;
   }
@@ -123,7 +126,23 @@ export default {
 
 // ///////////////////////////////////////////////////////////////////// Formats
 .format__mini {
-  font-size: 0.75rem;
-  padding: 0.25rem 0.75rem;
+  // padding: 0.25rem 0.75rem;
+}
+
+// ////////////////////////////////////////////////////////////////////// Themes
+.theme__green {
+  color: $toledo;
+  background-color: $greenYellow;
+}
+
+.theme__blue {
+  color: $toledo;
+  background-color: $perano;
+  &:not([disabled]) {
+    &:hover {
+      color: $titanWhite;
+      background-color: $dodgerBlue;
+    }
+  }
 }
 </style>

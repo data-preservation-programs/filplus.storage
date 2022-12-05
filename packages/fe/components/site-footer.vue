@@ -53,7 +53,7 @@ export default {
 #site-footer {
   position: relative;
   padding: 3.5rem 0;
-  margin-top: 5rem;
+  border-top: 2px solid $nandor;
 }
 
 .inner-content {

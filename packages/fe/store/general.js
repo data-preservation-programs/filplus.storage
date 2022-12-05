@@ -11,8 +11,31 @@ const state = () => ({
   staticFiles: {},
   clipboard: false,
   application: {
-    datacap_size: 34359738368
-  }
+    application_name: '',
+    organization_name: '',
+    organization_website: '',
+    organization_social_media_handle: '',
+    organization_social_media_handle_type: '',
+    total_datacap_size: 34359738368,
+    total_datacap_size_unit: 0,
+    weekly_data_size: 34359738368,
+    weekly_data_size_unit: 0,
+    filecoin_address: '',
+    about: '',
+    funding_sources: '',
+    ecosystem_associates: '',
+    nature_of_data: '',
+    source_of_data: '',
+    data_sample: '',
+    frequency_of_retrieval: '',
+    duration_of_storage: '',
+    geographic_distribution: '',
+    sending_data: '',
+    storage_provider_selection_plan: '',
+    replication_plan: '',
+    immediacy: ''
+  },
+  networkStorageCapacity: false
 })
 
 // ///////////////////////////////////////////////////////////////////// Getters
@@ -21,7 +44,8 @@ const getters = {
   siteContent: state => state.siteContent,
   staticFiles: state => state.staticFiles,
   clipboard: state => state.clipboard,
-  application: state => state.application
+  application: state => state.application,
+  networkStorageCapacity: state => state.networkStorageCapacity
 }
 
 // ///////////////////////////////////////////////////////////////////// Actions
@@ -71,6 +95,25 @@ const actions = {
   setClipboard ({ commit }, text) {
     this.$addTextToClipboard(text)
     commit('SET_CLIPBOARD', text)
+  },
+  // ///////////////////////////////////////////////// getNetworkStorageCapacity
+  async getNetworkStorageCapacity ({ commit }) {
+    try {
+      const token = this.$config.spacescopeToken
+      const date = this.$moment.tz('UTC').subtract(1, 'days').format('YYYY-MM-DD')
+      const response = await this.$axios.get(`https://api.spacescope.io/v2/power/network_storage_capacity?end_date=${date}&start_date=${date}`, {
+        headers: {
+          authorization: `Bearer ${token}`
+        }
+      })
+      if (response.status === 200) {
+        const value = this.$formatBytes(response.data.data[0].total_raw_bytes_power)
+        commit('SET_NETWORK_STORAGE_CAPACITY', value)
+      }
+    } catch (e) {
+      console.log('========= [Store Action: general/getNetworkStorageCapacity]')
+      console.log(e)
+    }
   }
 }
 
@@ -85,6 +128,9 @@ const mutations = {
   },
   SET_CLIPBOARD (state, text) {
     state.clipboard = text
+  },
+  SET_NETWORK_STORAGE_CAPACITY (state, capacity) {
+    state.networkStorageCapacity = capacity
   }
 }
 

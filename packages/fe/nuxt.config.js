@@ -34,7 +34,8 @@ export default {
     },
     socketOptions: {
       withCredentials: true
-    }
+    },
+    spacescopeToken: process.env.SPACESCOPE_TOKEN
   },
   // --------------------------------------------------------- [Runtime] Private
   privateRuntimeConfig: {},

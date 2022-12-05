@@ -1,11 +1,6 @@
 <template>
   <div :class="['field field-select', state, { empty, 'dropdown-open': dropdownOpen }]">
 
-    <span v-if="label" :for="modelKey" class="label floating">
-      <span class="text">{{ label }}</span>
-      <sup v-if="required" class="required">*</sup>
-    </span>
-
     <Select
       :options="options"
       :aria-labelledby="modelKey"
@@ -13,10 +8,6 @@
       handle-state="internally"
       @dropdownToggled="dropdownToggled"
       @optionSelected="optionSelected">
-
-      <template #option-native-default-text>
-        {{ label }}{{ required ? ', this is a required field' : '' }}
-      </template>
 
       <template #option-native-text="{ option }">
         {{ getOptionDescription(option) ? `${option.label}, ${getOptionDescription(option)}` : option.label }}
@@ -129,17 +120,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$height: 2.5rem;
+$height: 4rem;
 
 // ///////////////////////////////////////////////////////////////////// General
 .field-select {
   height: $height;
   &:hover {
     .icon-container {
-      &:before {
-        transition: 150ms ease-in;
-        border-color: tomato;
-      }
+      transition: 150ms ease-in;
+      transform: scale(1.2);
     }
   }
   &.dropdown-open {
@@ -147,40 +136,35 @@ $height: 2.5rem;
       padding-left: 0.75rem;
     }
     .icon-container {
-      &:before {
-        transform: scale(0.8);
-        border-color: rgba(227, 211, 192, 0.25);
-      }
-    }
-    .icon-chevron-down {
       transition: 150ms ease-in;
       transform: rotate(-180deg);
     }
   }
   &.caution {
     ::v-deep .select {
-      border-color: tomato;
+      border-color: $mandysPink;
     }
   }
   &.error {
     ::v-deep .select {
-      border-color: teal;
+      border-color: $flamingo;
     }
   }
 }
 
 ::v-deep .select-container {
+  &:not(.focused) {
+    .select.native {
+      color: transparent;
+    }
+  }
   .select {
-    border-bottom: 0.1875rem solid tomato;
+    border-bottom: 2px solid $titanWhite;
     transition: 150ms ease-out;
     &.native {
-      border-radius: 0.25rem;
       &:focus-visible {
         @include focusBoxShadow;
       }
-    }
-    &.custom {
-      background-color: $replace2;
     }
   }
   .dropdown {
@@ -214,25 +198,11 @@ $height: 2.5rem;
     justify-content: center;
     align-items: center;
     position: relative;
-    width: 1.75rem;
-    height: 1.75rem;
     margin-left: auto;
-    &:before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      border: 0.125rem solid transparent;
-      border-radius: 0.3125rem;
-      box-sizing: border-box;
-      transition: 150ms ease-out;
-    }
+    transition: 150ms ease-out;
   }
   .icon-chevron-down {
-    width: 0.5rem;
-    transition: 150ms ease-out;
+    width: 0.625rem;
   }
 }
 

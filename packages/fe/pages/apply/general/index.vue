@@ -4,7 +4,7 @@ export default {
   name: 'IndexPage',
 
   fetch ({ redirect }) {
-    redirect('/apply')
+    redirect('/apply/general/notaries')
   }
 }
 </script>

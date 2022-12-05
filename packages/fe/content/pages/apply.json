@@ -1,0 +1,112 @@
+{
+  "seo": {
+    "title": "Apply — Fil+",
+    "description": "Fil+"
+  },
+  "og": {
+    "site_name": "Apply — Fil+",
+    "url": "",
+    "type": "website",
+    "image": "/open-graph-image.jpg"
+  },
+  "page_content": {
+    "heading": "Quickstart your application<br /><span class='bubble right'>for DataCap</span>",
+    "learn_more_button": {
+      "text": "Learn more",
+      "url": "/"
+    },
+    "form": {
+      "heading": "How much data are you bringing to the Filecoin network?",
+      "submit_button_text": "Next",
+      "scaffold": {
+        "total_datacap_size_range": {
+          "field_key": "total_datacap_size_range",
+          "type": "range",
+          "model_key": "total_datacap_size",
+          "required": true,
+          "mirror": {
+            "field_key": "datacap_size_input",
+            "primary": true
+          },
+          "transform": {
+            "func": "$formatDatacapSize",
+            "args": {
+              "action": "bytes",
+              "unit_from_field": "datacap_size_unit"
+            }
+          },
+          "react": {
+            "field_key": "datacap_size_unit",
+            "func": "$reactDatasizeRangeToUnit",
+            "args": {
+              "value_from_field": "datacap_size_input"
+            }
+          },
+          "autocomplete": "none",
+          "min": 34359738368,
+          "max": 5629499534213120,
+          "validation_message": {
+            "required": "This field is required"
+          }
+        },
+        "total_datacap_size_input": {
+          "field_key": "total_datacap_size_input",
+          "type": "input",
+          "input_type": "number",
+          "model_key": "total_datacap_size",
+          "min": 0,
+          "max": 5242880,
+          "required": true,
+          "pre": "[^\\u0000-\\u00ff]",
+          "mirror": {
+            "field_key": "datacap_size_range",
+            "primary": false
+          },
+          "transform": {
+            "func": "$formatDatacapSize",
+            "args": {
+              "action": "human"
+            }
+          },
+          "autocomplete": "none",
+          "validation_message": {
+            "required": "This field is required",
+            "minmax": "Number must be between 0.1 and 5242880"
+          }
+        },
+        "total_datacap_size_unit": {
+          "field_key": "total_datacap_size_unit",
+          "type": "select",
+          "model_key": "total_datacap_size_unit",
+          "required": true,
+          "output": "option",
+          "react": {
+            "field_key": "datacap_size_range",
+            "func": "$reactDatasizeUnitToRange",
+            "args": {
+              "value_from_field": "datacap_size_range"
+            }
+          },
+          "validation_message": {
+            "required": "This field is required"
+          },
+          "options": [
+            { "label": "GiB" },
+            { "label": "TiB" },
+            { "label": "PiB" }
+          ],
+          "default_value": 0
+        }
+      }
+    },
+    "faq": {
+      "heading": "Frequently Asked<br /><span class='bubble right'>Questions</span>",
+      "count": 4,
+      "more_button": {
+        "type": "nuxt-link",
+        "href": "/faq",
+        "label": "more FAQs"
+      }
+    }
+  }
+}
