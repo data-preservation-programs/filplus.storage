@@ -2,8 +2,6 @@
   <div class="background-gradients">
 
     <svg
-      width="1007"
-      height="1789"
       viewBox="0 0 1007 1789"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -16,8 +14,6 @@
     <svg
       v-for="i in paths"
       :key="`gradient-path-${i}`"
-      width="1401"
-      height="2171"
       viewBox="0 0 1401 2171"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

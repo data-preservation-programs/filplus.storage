@@ -23,15 +23,15 @@
             <form class="form">
 
               <FieldContainer
-                :scaffold="formScaffold.datacap_size_range"
-                :value="getValue('total_datacap_size_range')"
+                :scaffold="formScaffold.total_datacap_size_range"
+                :value="getValue('total_datacap_size')"
                 form-id="filplus_application"
                 class="range-field" />
 
               <div class="row">
                 <FieldContainer
                   :scaffold="formScaffold.total_datacap_size_input"
-                  :value="getValue('total_datacap_size_input')"
+                  :value="getValue('total_datacap_size')"
                   form-id="filplus_application"
                   class="input-field" />
                 <FieldContainer
@@ -85,6 +85,8 @@
     <!-- ========================================================== Overlays -->
     <Overlay type="noise" />
 
+    <BackgroundGradients />
+
   </div>
 </template>
 
@@ -97,6 +99,7 @@ import FaqAccordion from '@/components/faq-accordion'
 import ButtonA from '@/components/buttons/button-a'
 import FieldContainer from '@/components/form/field-container'
 import Overlay from '@/components/overlay'
+import BackgroundGradients from '@/components/background-gradients'
 
 import ApplyPageData from '@/content/pages/apply.json'
 import FaqPageData from '@/content/pages/faq.json'
@@ -110,7 +113,8 @@ export default {
     FaqAccordion,
     FieldContainer,
     ButtonA,
-    Overlay
+    Overlay,
+    BackgroundGradients
   },
 
   data () {
@@ -148,6 +152,7 @@ export default {
       return this.pageData.form
     },
     formScaffold () {
+      console.log(this.form.scaffold)
       return this.form.scaffold
     },
     formHeading () {
