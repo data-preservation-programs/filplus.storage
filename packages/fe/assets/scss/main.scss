@@ -437,6 +437,38 @@ span.error {
   }
 }
 
+.bubble {
+  position: relative;
+  padding: 1rem 3.125rem;
+  border: 2px solid $titanWhite;
+  border-radius: 4rem;
+  line-height: 1;
+  margin-top: 0.5rem;
+  &:before,
+  &:after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    height: 100%;
+  }
+  &:before {
+    right: calc(-1.25rem - 2px);
+    width: calc(100% + 1.25rem);
+    border: inherit;
+    border-radius: inherit;
+  }
+  &:after {
+    right: calc(-2.75rem - 2px);
+    width: calc(100% + 2.75rem);
+    border: inherit;
+    border-radius: inherit;
+  }
+}
+
+.warp-image-double {
+  margin-top: -3px;
+}
+
 // ///////////////////////////////////////////////// Markdown content formatting
 //------------------------------------------------------------------------------
 @keyframes shrink-bounce {

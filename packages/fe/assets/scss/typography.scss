@@ -37,13 +37,14 @@ h6, .h6 {
 }
 
 h1, .h1 {
-  font-size: 5rem;
-  line-height: leading(80, 50);
+  font-size: toRem(80);
+  line-height: leading(50, 80);
   letter-spacing: 3.3px;
 }
 
 h2, .h2 {
-  font-size: 1.8rem;
+  font-size: toRem(60);
+  line-height: leading(105, 60);
 }
 
 h3, .h3 {
@@ -60,4 +61,12 @@ h5, .h5 {
 
 h6, .h6 {
   font-size: 0.8rem;
+}
+
+p,
+div,
+a,
+button {
+  font-size: toRem(18);
+  line-height: leading(35, 18);
 }

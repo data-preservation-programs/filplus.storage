@@ -144,6 +144,7 @@ $cardRadius: 1.875rem;
   height: calc(61.625rem + #{$siteHeaderHeight});
   margin-top: -$siteHeaderHeight;
   padding-top: calc(#{$siteHeaderHeight * 2} + 4rem);
+  z-index: 25;
 }
 
 [class~=grid], [class*=grid-], [class*=grid_] {
@@ -162,32 +163,8 @@ $cardRadius: 1.875rem;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  span {
-    position: relative;
-    padding: 1rem 3.125rem;
-    border: 2px solid $titanWhite;
-    border-radius: 5rem;
-    line-height: 1;
-    margin-top: 0.5rem;
-    &:before,
-    &:after {
-      content: '';
-      position: absolute;
-      top: -2px;
-      height: 100%;
-    }
-    &:before {
-      right: calc(-1.25rem - 2px);
-      width: calc(100% + 1.25rem);
-      border: inherit;
-      border-radius: inherit;
-    }
-    &:after {
-      right: calc(-2.75rem - 2px);
-      width: calc(100% + 2.75rem);
-      border: inherit;
-      border-radius: inherit;
-    }
+  .bubble {
+    margin-top: 3rem;
   }
 }
 

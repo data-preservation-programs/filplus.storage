@@ -10,7 +10,7 @@
     "image": "/open-graph-image.jpg"
   },
   "page_content": {
-    "heading": "Quickstart your application<br /><span>for DataCap</span>",
+    "heading": "Quickstart your application<br /><span class='bubble'>for DataCap</span>",
     "learn_more_button": {
       "text": "Learn more",
       "url": "/"
@@ -98,6 +98,15 @@
           ],
           "default_value": 0
         }
+      }
+    },
+    "faq": {
+      "heading": "Frequently Asked<br /><span class='bubble'>Questions</span>",
+      "count": 4,
+      "more_button": {
+        "type": "nuxt-link",
+        "href": "/faq",
+        "label": "more FAQs"
       }
     }
   }
