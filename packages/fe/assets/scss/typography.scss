@@ -48,7 +48,7 @@ h2, .h2 {
 }
 
 h3, .h3 {
-  font-size: 1.6rem;
+  font-size: toRem(35);
 }
 
 h4, .h4 {
@@ -69,4 +69,12 @@ a,
 button {
   font-size: toRem(18);
   line-height: leading(35, 18);
+}
+
+// ////////////////////////////////////////////////////////////////////// Mixins
+// =============================================================================
+@mixin headingHighlight {
+  font-size: toRem(35);
+  line-height: leading(50, 35);
+  color: $mandysPink;
 }

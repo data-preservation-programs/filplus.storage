@@ -257,7 +257,7 @@ $cardRadius: 1.875rem;
   position: absolute;
   top: 0;
   left: 0;
-  width: 30.5rem;
+  width: 69rem;
   height: 500rem;
   background-image: url('~assets/images/warp-image-double.png');
   background-position: top left;

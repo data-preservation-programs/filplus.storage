@@ -148,7 +148,7 @@ export default {
   position: absolute;
   top: 0;
   right: 0;
-  width: 30.5rem;
+  width: 69rem;
   height: 500rem;
   background-image: url('~assets/images/warp-image-double.png');
   background-position: top right;
@@ -176,9 +176,7 @@ export default {
 }
 
 .table-heading {
+  @include headingHighlight;
   margin-bottom: 4rem;
-  font-size: toRem(35);
-  line-height: leading(50, 35);
-  color: $mandysPink;
 }
 </style>
