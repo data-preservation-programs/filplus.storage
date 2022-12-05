@@ -55,7 +55,7 @@
           "input_type": "number",
           "model_key": "datacap_size",
           "mirror": "datacap_size",
-          "min": 0.1,
+          "min": 0,
           "max": 5242880,
           "required": true,
           "pre": "[^\\u0000-\\u00ff]",

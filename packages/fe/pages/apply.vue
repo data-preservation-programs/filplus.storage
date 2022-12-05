@@ -2,7 +2,7 @@
   <div :class="`page page-${tag} container`">
 
     <!-- ============================================================== Hero -->
-    <Hero />
+    <HeroA />
 
     <!-- =============================================================== FAQ -->
     <div id="section-faq">
@@ -42,7 +42,7 @@
 // ===================================================================== Imports
 import { mapGetters } from 'vuex'
 
-import Hero from '@/components/hero'
+import HeroA from '@/components/hero-a'
 import FaqAccordion from '@/components/faq-accordion'
 import ButtonA from '@/components/buttons/button-a'
 import Overlay from '@/components/overlay'
@@ -56,7 +56,7 @@ export default {
 
   components: {
     ButtonA,
-    Hero,
+    HeroA,
     FaqAccordion,
     Overlay
   },

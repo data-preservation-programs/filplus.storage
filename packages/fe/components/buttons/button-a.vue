@@ -118,7 +118,7 @@ export default {
   justify-content: center;
   align-items: center;
   font-weight: 500;
-  line-height: inherit;
+  line-height: 1;
   &.hide {
     opacity: 0;
   }

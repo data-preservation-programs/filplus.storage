@@ -52,11 +52,11 @@
                     class="select-field" />
                 </div>
 
-                <!-- <ButtonA
+                <ButtonA
                   class="submit-button"
                   @clicked="submitForm">
                   {{ submitButtonText }}
-                </ButtonA> -->
+                </ButtonA>
 
               </form>
             </div>
@@ -82,16 +82,16 @@ import { mapGetters, mapActions } from 'vuex'
 
 import Overlay from '@/components/overlay'
 import FieldContainer from '@/components/form/field-container'
-// import ButtonA from '@/components/buttons/button-a'
+import ButtonA from '@/components/buttons/button-a'
 
 // ====================================================================== Export
 export default {
-  name: 'Hero',
+  name: 'HeroA',
 
   components: {
     Overlay,
-    FieldContainer
-    // ButtonA
+    FieldContainer,
+    ButtonA
   },
 
   computed: {
@@ -126,7 +126,8 @@ export default {
     getValue (modelKey) {
       return this.application[modelKey]
     },
-    async submitForm () {
+    async submitForm (e) {
+      e.preventDefault()
       const incoming = await this.validateForm('datacap_size_selection')
       console.log(incoming)
     }
@@ -164,7 +165,7 @@ $cardRadius: 1.875rem;
   align-items: center;
   text-align: center;
   .bubble {
-    margin-top: 3rem;
+    margin-top: 2.75rem;
   }
 }
 
