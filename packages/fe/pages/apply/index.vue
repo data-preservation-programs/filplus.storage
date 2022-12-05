@@ -23,7 +23,7 @@
             <form class="form">
 
               <FieldContainer
-                :scaffold="formScaffold.datacap_size_range"
+                :scaffold="formScaffold.total_datacap_size_range"
                 :value="getValue('total_datacap_size_range')"
                 form-id="filplus_application"
                 class="range-field" />

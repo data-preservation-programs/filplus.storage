@@ -25,14 +25,14 @@
           "model_key": "total_datacap_size",
           "required": true,
           "mirror": {
-            "field_key": "datacap_size_input",
+            "field_key": "total_datacap_size_input",
             "primary": true
           },
           "transform": {
             "func": "$formatDatacapSize",
             "args": {
               "action": "bytes",
-              "unit_from_field": "datacap_size_unit"
+              "unit_from_field": "total_datacap_size_unit"
             }
           },
           "react": {
@@ -59,7 +59,7 @@
           "required": true,
           "pre": "[^\\u0000-\\u00ff]",
           "mirror": {
-            "field_key": "datacap_size_range",
+            "field_key": "total_datacap_size_range",
             "primary": false
           },
           "transform": {
@@ -81,10 +81,10 @@
           "required": true,
           "output": "option",
           "react": {
-            "field_key": "datacap_size_range",
+            "field_key": "total_datacap_size_range",
             "func": "$reactDatasizeUnitToRange",
             "args": {
-              "value_from_field": "datacap_size_range"
+              "value_from_field": "total_datacap_size_range"
             }
           },
           "validation_message": {
