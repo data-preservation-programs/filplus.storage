@@ -75,13 +75,21 @@ export default {
   position: relative;
   height: calc(61.625rem + #{$siteHeaderHeight});
   margin-top: -$siteHeaderHeight;
-  padding-top: calc(#{$siteHeaderHeight * 2} + 4rem);
+  padding-top: $siteHeaderHeight * 2;
   z-index: 25;
 }
 
 [class~=grid], [class*=grid-], [class*=grid_] {
   position: relative;
   z-index: 20;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  padding-bottom: $siteHeaderHeight;
 }
 
 .inner-content {

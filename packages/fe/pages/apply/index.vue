@@ -4,7 +4,7 @@
     <!-- ============================================================== Hero -->
     <HeroA
       :heading="heading"
-      heading-cols="col12">
+      heading-cols="col-12">
       <div class="card-container">
         <div class="card">
 
@@ -210,6 +210,9 @@ $cardRadius: 1.875rem;
 
 // //////////////////////////////////////////////////////////////////////// Hero
 ::v-deep #hero {
+  .content {
+    padding-bottom: 0;
+  }
   .bubble {
     margin-top: 2.75rem;
   }

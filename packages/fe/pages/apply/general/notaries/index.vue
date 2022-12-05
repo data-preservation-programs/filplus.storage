@@ -118,16 +118,6 @@ export default {
   overflow: hidden;
 }
 
-::v-deep #hero {
-  padding-bottom: 13rem;
-  .content {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    height: 100%;
-  }
-}
-
 #section-notaries {
   position: relative;
   border-top: 2px solid $nandor;
