@@ -75,7 +75,7 @@ export default {
     const application = store.getters['general/application']
     if (!application) {
       await store.dispatch('form/registerFormModel', Object.assign(application, {
-        formId: 'datacap_size_selection',
+        formId: 'filplus_application',
         state: 'valid'
       }))
     }

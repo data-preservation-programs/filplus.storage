@@ -19,10 +19,10 @@
       "heading": "How much data are you bringing to the Filecoin network?",
       "submit_button_text": "Next",
       "scaffold": {
-        "datacap_size_range": {
-          "field_key": "datacap_size_range",
+        "total_datacap_size_range": {
+          "field_key": "total_datacap_size_range",
           "type": "range",
-          "model_key": "datacap_size",
+          "model_key": "total_datacap_size",
           "required": true,
           "mirror": {
             "field_key": "datacap_size_input",
@@ -49,12 +49,11 @@
             "required": "This field is required"
           }
         },
-        "datacap_size_input": {
-          "field_key": "datacap_size_input",
+        "total_datacap_size_input": {
+          "field_key": "total_datacap_size_input",
           "type": "input",
           "input_type": "number",
-          "model_key": "datacap_size",
-          "mirror": "datacap_size",
+          "model_key": "total_datacap_size",
           "min": 0,
           "max": 5242880,
           "required": true,
@@ -75,10 +74,10 @@
             "minmax": "Number must be between 0.1 and 5242880"
           }
         },
-        "datacap_size_unit": {
-          "field_key": "datacap_size_unit",
+        "total_datacap_size_unit": {
+          "field_key": "total_datacap_size_unit",
           "type": "select",
-          "model_key": "datacap_size_unit",
+          "model_key": "total_datacap_size_unit",
           "required": true,
           "output": "option",
           "react": {

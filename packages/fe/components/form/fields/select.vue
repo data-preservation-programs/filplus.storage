@@ -1,11 +1,6 @@
 <template>
   <div :class="['field field-select', state, { empty, 'dropdown-open': dropdownOpen }]">
 
-    <span v-if="label" :for="modelKey" class="label floating">
-      <span class="text">{{ label }}</span>
-      <sup v-if="required" class="required">*</sup>
-    </span>
-
     <Select
       :options="options"
       :aria-labelledby="modelKey"
@@ -125,7 +120,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$height: 2.5rem;
+$height: 4rem;
 
 // ///////////////////////////////////////////////////////////////////// General
 .field-select {
@@ -145,16 +140,16 @@ $height: 2.5rem;
       transform: rotate(-180deg);
     }
   }
-  // &.caution {
-  //   ::v-deep .select {
-  //     border-color: tomato;
-  //   }
-  // }
-  // &.error {
-  //   ::v-deep .select {
-  //     border-color: teal;
-  //   }
-  // }
+  &.caution {
+    ::v-deep .select {
+      border-color: $mandysPink;
+    }
+  }
+  &.error {
+    ::v-deep .select {
+      border-color: $flamingo;
+    }
+  }
 }
 
 ::v-deep .select-container {

@@ -7,15 +7,183 @@
       :heading="heroHeading"
       :subtext="hero.subtext" />
 
-    <!-- ======================================================= Application -->
-    <div id="application">
-      <div class="grid-center">
-        <div class="col-10">
+    <!-- ============================== [Application] Background Information -->
+    <div id="application-top">
 
-          FORM
+      <div class="grid">
+        <div class="col-6" data-push-left="off-1">
+
+          <div class="form-heading-1">
+            {{ formHeading1 }}
+          </div>
+
+          <FieldContainer
+            :scaffold="formScaffold.application_name"
+            :value="getValue('application_name')"
+            form-id="filplus_application" />
+
+          <FieldContainer
+            :scaffold="formScaffold.organization_name"
+            :value="getValue('organization_name')"
+            form-id="filplus_application" />
+
+          <FieldContainer
+            :scaffold="formScaffold.organization_website"
+            :value="getValue('organization_website')"
+            form-id="filplus_application" />
 
         </div>
       </div>
+
+      <div class="grid">
+        <div class="col-6" data-push-left="off-1">
+          <FieldContainer
+            :scaffold="formScaffold.organization_social_media_handle"
+            :value="getValue('organization_social_media_handle')"
+            form-id="filplus_application" />
+        </div>
+        <div class="col-2" data-push-left="off-1">
+          <FieldContainer
+            :scaffold="formScaffold.organization_social_media_handle_type"
+            :value="getValue('organization_social_media_handle_type')"
+            form-id="filplus_application" />
+        </div>
+      </div>
+
+      <div class="grid">
+        <div class="col-6" data-push-left="off-1">
+          <FieldContainer
+            :scaffold="formScaffold.total_datacap_size"
+            :value="getValue('total_datacap_size')"
+            form-id="filplus_application" />
+        </div>
+        <div class="col-2" data-push-left="off-1">
+          <FieldContainer
+            :scaffold="formScaffold.total_datacap_size_unit"
+            :value="getValue('total_datacap_size_unit')"
+            form-id="filplus_application" />
+        </div>
+      </div>
+
+      <div class="grid">
+        <div class="col-6" data-push-left="off-1">
+          <FieldContainer
+            :scaffold="formScaffold.weekly_data_size"
+            :value="getValue('weekly_data_size')"
+            form-id="filplus_application" />
+        </div>
+        <div class="col-2" data-push-left="off-1">
+          <FieldContainer
+            :scaffold="formScaffold.weekly_data_size_unit"
+            :value="getValue('weekly_data_size_unit')"
+            form-id="filplus_application" />
+        </div>
+      </div>
+
+      <div class="grid">
+        <div class="col-6" data-push-left="off-1">
+
+          <FieldContainer
+            :scaffold="formScaffold.filecoin_address"
+            :value="getValue('filecoin_address')"
+            form-id="filplus_application" />
+
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ================================================ [Application] Full -->
+    <div id="application-bottom">
+
+      <div class="grid">
+        <div class="col-7" data-push-left="off-1">
+
+          <div class="form-heading-2">
+            {{ formHeading2 }}
+          </div>
+
+          <FieldContainer
+            :scaffold="formScaffold.about"
+            :value="getValue('about')"
+            form-id="filplus_application" />
+
+          <FieldContainer
+            :scaffold="formScaffold.funding_sources"
+            :value="getValue('funding_sources')"
+            form-id="filplus_application" />
+
+          <FieldContainer
+            :scaffold="formScaffold.ecosystem_associates"
+            :value="getValue('ecosystem_associates')"
+            form-id="filplus_application" />
+
+          <FieldContainer
+            :scaffold="formScaffold.nature_of_data"
+            :value="getValue('nature_of_data')"
+            form-id="filplus_application" />
+
+          <FieldContainer
+            :scaffold="formScaffold.source_of_data"
+            :value="getValue('source_of_data')"
+            form-id="filplus_application" />
+
+          <FieldContainer
+            :scaffold="formScaffold.data_sample"
+            :value="getValue('data_sample')"
+            form-id="filplus_application" />
+
+        </div>
+      </div>
+
+      <div class="grid">
+        <div class="col-5" data-push-left="off-1">
+          FIELD
+        </div>
+        <div class="col-4" data-push-left="off-1">
+          <FieldContainer
+            :scaffold="formScaffold.frequency_of_retrieval"
+            :value="getValue('frequency_of_retrieval')"
+            form-id="filplus_application" />
+        </div>
+      </div>
+
+      <div class="grid">
+        <div class="col-7" data-push-left="off-1">
+
+          <FieldContainer
+            :scaffold="formScaffold.duration_of_storage"
+            :value="getValue('duration_of_storage')"
+            form-id="filplus_application" />
+
+          <FieldContainer
+            :scaffold="formScaffold.geographic_distribution"
+            :value="getValue('geographic_distribution')"
+            form-id="filplus_application" />
+
+          <FieldContainer
+            :scaffold="formScaffold.sending_data"
+            :value="getValue('sending_data')"
+            form-id="filplus_application" />
+
+          <FieldContainer
+            :scaffold="formScaffold.storage_provider_selection_plan"
+            :value="getValue('storage_provider_selection_plan')"
+            form-id="filplus_application" />
+
+          <FieldContainer
+            :scaffold="formScaffold.replication_plan"
+            :value="getValue('replication_plan')"
+            form-id="filplus_application" />
+
+          <FieldContainer
+            :scaffold="formScaffold.immediacy"
+            :value="getValue('immediacy')"
+            form-id="filplus_application" />
+
+        </div>
+      </div>
+
     </div>
 
     <!-- ========================================================== Overlays -->
@@ -29,6 +197,7 @@
 import { mapGetters } from 'vuex'
 
 import HeroB from '@/components/hero-b'
+import FieldContainer from '@/components/form/field-container'
 import Overlay from '@/components/overlay'
 
 import ApplyLargePageData from '@/content/pages/apply-large.json'
@@ -39,6 +208,7 @@ export default {
 
   components: {
     HeroB,
+    FieldContainer,
     Overlay
   },
 
@@ -54,7 +224,7 @@ export default {
     const application = store.getters['general/application']
     if (!application) {
       await store.dispatch('form/registerFormModel', Object.assign(application, {
-        formId: 'datacap_size_selection',
+        formId: 'filplus_application',
         state: 'valid'
       }))
     }
@@ -78,6 +248,24 @@ export default {
     },
     heroHeading () {
       return this.hero.heading.replace('|data|', this.networkStorageCapacity)
+    },
+    form () {
+      return this.pageData.form
+    },
+    formHeading1 () {
+      return this.form.heading_1
+    },
+    formHeading2 () {
+      return this.form.heading_2
+    },
+    formScaffold () {
+      return this.form.scaffold
+    }
+  },
+
+  methods: {
+    getValue (modelKey) {
+      return this.application[modelKey]
     }
   }
 }
@@ -87,5 +275,27 @@ export default {
 // ///////////////////////////////////////////////////////////////////// General
 .page-large {
   overflow: hidden;
+}
+
+#application-top,
+#application-bottom {
+  position: relative;
+  padding: 8.75rem 0;
+  z-index: 10;
+}
+
+#application-top {
+  padding: 8.75rem 0;
+  border-bottom: 2px solid $nandor;
+}
+
+.form-heading-1,
+.form-heading-2 {
+  @include headingHighlight;
+  margin-bottom: 3rem;
+}
+
+.field-container {
+  margin-bottom: 3.5rem;
 }
 </style>

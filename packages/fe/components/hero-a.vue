@@ -57,8 +57,9 @@ export default {
       default: 'col-8'
     },
     label: {
-      type: String,
-      required: true
+      type: [String, Boolean],
+      required: false,
+      default: false
     },
     heading: {
       type: String,

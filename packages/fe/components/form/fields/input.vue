@@ -1,11 +1,6 @@
 <template>
   <div :class="['field field-input', state, { focused, empty }]">
 
-    <label v-if="label" :for="name" class="label floating">
-      <span class="text">{{ label }}</span>
-      <sup v-if="required" class="required">*</sup>
-    </label>
-
     <div v-if="disabled" :class="['input', { disabled }]">
       {{ value }}
     </div>
@@ -183,7 +178,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$height: 2.5rem;
+$height: 4rem;
 
 // ///////////////////////////////////////////////////////////////////// General
 .field-input {
@@ -204,19 +199,22 @@ $height: 2.5rem;
   appearance: none;
   transition: 150ms ease-in-out;
   @include placeholder {
-    opacity: 0;
+    color: rgba($aquaSqueeze, 0.7);
+    font-size: toRem(18);
+    font-weight: 400;
+    font-style: italic;
   }
   &::-webkit-inner-spin-button,
   &::-webkit-outer-spin-button {
     margin: 0;
     appearance: none;
   }
-  // &.caution {
-  //   border-color: darkorange;
-  // }
-  // &.error {
-  //   border-color: red;
-  // }
+  &.caution {
+    border-color: $mandysPink;
+  }
+  &.error {
+    border-color: $flamingo;
+  }
   &.disabled {
     cursor: no-drop;
     border-bottom-color: rgba(246, 245, 255, 0.25);

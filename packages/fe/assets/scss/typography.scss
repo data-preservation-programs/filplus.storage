@@ -76,5 +76,6 @@ button {
 @mixin headingHighlight {
   font-size: toRem(35);
   line-height: leading(50, 35);
+  font-weight: 500;
   color: $mandysPink;
 }

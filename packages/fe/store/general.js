@@ -11,7 +11,29 @@ const state = () => ({
   staticFiles: {},
   clipboard: false,
   application: {
-    datacap_size: 34359738368
+    application_name: '',
+    organization_name: '',
+    organization_website: '',
+    organization_social_media_handle: '',
+    organization_social_media_handle_type: '',
+    total_datacap_size: 34359738368,
+    total_datacap_size_unit: 0,
+    weekly_data_size: 34359738368,
+    weekly_data_size_unit: 0,
+    filecoin_address: '',
+    about: '',
+    funding_sources: '',
+    ecosystem_associates: '',
+    nature_of_data: '',
+    source_of_data: '',
+    data_sample: '',
+    frequency_of_retrieval: '',
+    duration_of_storage: '',
+    geographic_distribution: '',
+    sending_data: '',
+    storage_provider_selection_plan: '',
+    replication_plan: '',
+    immediacy: ''
   },
   networkStorageCapacity: false
 })

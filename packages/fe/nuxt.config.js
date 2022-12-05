@@ -34,12 +34,11 @@ export default {
     },
     socketOptions: {
       withCredentials: true
-    }
-  },
-  // --------------------------------------------------------- [Runtime] Private
-  privateRuntimeConfig: {
+    },
     spacescopeToken: process.env.SPACESCOPE_TOKEN
   },
+  // --------------------------------------------------------- [Runtime] Private
+  privateRuntimeConfig: {},
   // /////////////////////////////////////////////////////////// Server & Render
   // ---------------------------------------------------------------------------
   server: {
