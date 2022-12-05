@@ -4,7 +4,7 @@
     <!-- ============================================================== Hero -->
     <HeroB
       :label="hero.label"
-      :heading="hero.heading"
+      :heading="heroHeading"
       :subtext="hero.subtext" />
 
     <!-- ======================================================= Application -->
@@ -50,6 +50,7 @@ export default {
 
   async fetch ({ store }) {
     await store.dispatch('general/getBaseData', { key: 'apply-large', data: ApplyLargePageData })
+    await store.dispatch('general/getNetworkStorageCapacity')
     const application = store.getters['general/application']
     if (!application) {
       await store.dispatch('form/registerFormModel', Object.assign(application, {
@@ -66,17 +67,18 @@ export default {
   computed: {
     ...mapGetters({
       siteContent: 'general/siteContent',
-      application: 'general/application'
+      application: 'general/application',
+      networkStorageCapacity: 'general/networkStorageCapacity'
     }),
     pageData () {
       return this.siteContent['apply-large'].page_content
     },
     hero () {
       return this.pageData.hero
+    },
+    heroHeading () {
+      return this.hero.heading.replace('|data|', this.networkStorageCapacity)
     }
-    // label () {
-    //   return this.pageData.label
-    // }
   }
 }
 </script>

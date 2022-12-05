@@ -37,7 +37,9 @@ export default {
     }
   },
   // --------------------------------------------------------- [Runtime] Private
-  privateRuntimeConfig: {},
+  privateRuntimeConfig: {
+    spacescopeToken: process.env.SPACESCOPE_TOKEN
+  },
   // /////////////////////////////////////////////////////////// Server & Render
   // ---------------------------------------------------------------------------
   server: {

@@ -72,6 +72,7 @@ export default {
   margin-top: -$siteHeaderHeight;
   padding-top: $siteHeaderHeight * 2;
   border-bottom: 2px solid $nandor;
+  overflow: hidden;
   z-index: 25;
 }
 
@@ -97,6 +98,9 @@ export default {
 
 ::v-deep .heading {
   margin-bottom: 2rem;
+  .highlight {
+    color: $greenYellow;
+  }
 }
 
 .subtext {
