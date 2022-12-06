@@ -15,6 +15,7 @@
           </nuxt-link>
 
           <div
+            v-if="breakpoint !== 'small'"
             :class="['nav-wrapper', breakpoint]"
             :style="{ width: `${navWidth}px` }">
 
@@ -77,6 +78,8 @@
 
           </div>
 
+          <ModalNav v-else />
+
         </div>
       </div>
     </div>
@@ -91,6 +94,8 @@ import { mapGetters } from 'vuex'
 import Logo from '@/components/logo'
 import ButtonA from '@/components/buttons/button-a'
 import ButtonX from '@/components/buttons/button-x'
+import ModalNav from '@/components/modal-nav'
+
 // =================================================================== Functions
 const resizeHandler = (instance) => {
   if (window.matchMedia('(max-width: 53.125rem)').matches) {
@@ -119,7 +124,8 @@ export default {
   components: {
     Logo,
     ButtonA,
-    ButtonX
+    ButtonX,
+    ModalNav
   },
 
   data () {
