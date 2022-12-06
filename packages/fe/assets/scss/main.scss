@@ -425,8 +425,8 @@ span.error {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border: 2px solid tomato;
-  background-color: teal;
+  border: 2px solid $titanWhite;
+  background-color: $aztec;
   padding: 1rem;
   border-radius: 3rem;
   .icon {
@@ -470,7 +470,7 @@ span.error {
   }
   &.left {
     &:before {
-      left: calc(-1.25rem - 2px);      
+      left: calc(-1.25rem - 2px);
     }
     &:after {
       left: calc(-2.75rem - 2px);
@@ -491,7 +491,6 @@ span.error {
 }
 
 .markdown {
-  color: tomato;
   h1, h2, h3, p, ul, ol, pre {
     + h2, + h3 {
       margin-top: 3.75rem;

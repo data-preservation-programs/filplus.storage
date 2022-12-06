@@ -10,6 +10,7 @@
     "image": "/open-graph-image.jpg"
   },
   "page_content": {
+    "heading": "Frequently Asked<br /><span class='bubble right'>Questions</span>",
     "faq": [
       {
         "question": "What is Filecoin?",

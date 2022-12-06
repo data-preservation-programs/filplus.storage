@@ -5,7 +5,7 @@
     <div class="content">
       <div class="grid-center">
 
-        <div class="col-6" data-push-left="off-1">
+        <div :class="contentCols" data-push-left="off-1">
           <div class="panel-left">
 
             <div v-if="label" class="label" v-html="label" />
@@ -26,40 +26,33 @@
       </div>
     </div>
 
-    <!-- ========================================================== Overlays -->
-    <!-- <Overlay type="noise" />
-
-    <Overlay type="opaque" />
-
-    <div class="background-image" /> -->
-
   </div>
 </template>
 
 <script>
-// ===================================================================== Imports
-// import Overlay from '@/components/overlay'
-
 // ====================================================================== Export
 export default {
-  name: 'HeroA',
-
-  components: {
-    // Overlay
-  },
+  name: 'HeroB',
 
   props: {
-    label: {
+    contentCols: {
       type: String,
-      required: true
+      required: false,
+      default: 'col-6'
+    },
+    label: {
+      type: [String, Boolean],
+      required: false,
+      default: false
     },
     heading: {
       type: String,
       required: true
     },
     subtext: {
-      type: String,
-      required: true
+      type: [String, Boolean],
+      required: false,
+      default: false
     }
   }
 }

@@ -75,7 +75,7 @@ export default {
     const application = store.getters['general/application']
     if (!application) {
       await store.dispatch('form/registerFormModel', Object.assign(application, {
-        formId: 'datacap_size_selection',
+        formId: 'filplus_application',
         state: 'valid'
       }))
     }
@@ -91,7 +91,7 @@ export default {
       application: 'general/application'
     }),
     pageData () {
-      return this.siteContent.notaries.page_content
+      return this.siteContent[this.tag].page_content
     },
     label () {
       return this.pageData.label
@@ -116,16 +116,6 @@ export default {
 // ///////////////////////////////////////////////////////////////////// General
 .page-notaries {
   overflow: hidden;
-}
-
-::v-deep #hero {
-  padding-bottom: 13rem;
-  .content {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    height: 100%;
-  }
 }
 
 #section-notaries {

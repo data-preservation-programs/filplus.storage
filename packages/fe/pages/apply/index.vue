@@ -4,7 +4,7 @@
     <!-- ============================================================== Hero -->
     <HeroA
       :heading="heading"
-      heading-cols="col12">
+      heading-cols="col-12">
       <div class="card-container">
         <Card
           cutout="top-right"
@@ -18,21 +18,21 @@
             <form class="form">
 
               <FieldContainer
-                :scaffold="formScaffold.datacap_size_range"
-                :value="getValue('datacap_size')"
-                form-id="datacap_size_selection"
+                :scaffold="formScaffold.total_datacap_size_range"
+                :value="getValue('total_datacap_size_range')"
+                form-id="filplus_application"
                 class="range-field" />
 
               <div class="row">
                 <FieldContainer
-                  :scaffold="formScaffold.datacap_size_input"
-                  :value="getValue('datacap_size')"
-                  form-id="datacap_size_selection"
+                  :scaffold="formScaffold.total_datacap_size_input"
+                  :value="getValue('total_datacap_size_input')"
+                  form-id="filplus_application"
                   class="input-field" />
                 <FieldContainer
-                  :scaffold="formScaffold.datacap_size_unit"
-                  :value="getValue('datacap_size_unit')"
-                  form-id="datacap_size_selection"
+                  :scaffold="formScaffold.total_datacap_size_unit"
+                  :value="getValue('total_datacap_size_unit')"
+                  form-id="filplus_application"
                   class="select-field" />
               </div>
 
@@ -122,7 +122,7 @@ export default {
     await store.dispatch('general/getBaseData', { key: 'faq', data: FaqPageData })
     const application = store.getters['general/application']
     await store.dispatch('form/registerFormModel', Object.assign(application, {
-      formId: 'datacap_size_selection',
+      formId: 'filplus_application',
       state: 'valid'
     }))
   },
@@ -137,7 +137,7 @@ export default {
       application: 'general/application'
     }),
     pageData () {
-      return this.siteContent.apply.page_content
+      return this.siteContent[this.tag].page_content
     },
     heading () {
       return this.pageData.heading
@@ -212,6 +212,9 @@ $cardRadius: 1.875rem;
 
 // //////////////////////////////////////////////////////////////////////// Hero
 ::v-deep #hero {
+  .content {
+    padding-bottom: 0;
+  }
   .bubble {
     margin-top: 2.75rem;
   }

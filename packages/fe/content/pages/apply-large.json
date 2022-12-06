@@ -14,6 +14,426 @@
       "label": "Large Dataset Application",
       "heading": "With a storage capacity of <span class='highlight'>|data|</span> that’s growing every day, the Filecoin network is uniquely suited for storing large datasets.  ",
       "subtext": "Apply for DataCap below."
+    },
+    "form": {
+      "heading_1": "Background Information",
+      "heading_2": "Application",
+      "scaffold": {
+        "application_name": {
+          "field_key": "application_name",
+          "type": "input",
+          "input_type": "text",
+          "model_key": "application_name",
+          "label": "Unique name for this application",
+          "placeholder": "e.g. Lorem Ipsum",
+          "required": true,
+          "pre": "[^\\u0000-\\u00ff]",
+          "autocomplete": "none",
+          "chars": {
+            "min": 2,
+            "max": 35
+          },
+          "validation_message": {
+            "required": "This field is required",
+            "chars": "Input must be between 2 and 35 characters"
+          }
+        },
+        "organization_name": {
+          "field_key": "organization_name",
+          "type": "input",
+          "input_type": "text",
+          "model_key": "organization_name",
+          "label": "Organization Name",
+          "placeholder": "Lorem Ipsum",
+          "required": true,
+          "pre": "[^\\u0000-\\u00ff]",
+          "autocomplete": "none",
+          "chars": {
+            "min": 2,
+            "max": 35
+          },
+          "validation_message": {
+            "required": "This field is required",
+            "chars": "Input must be between 2 and 35 characters"
+          }
+        },
+        "organization_website": {
+          "field_key": "organization_website",
+          "type": "input",
+          "input_type": "text",
+          "model_key": "organization_website",
+          "label": "Organization Website",
+          "placeholder": "loremipsum.com",
+          "required": true,
+          "pre": "[^\\u0000-\\u00ff]",
+          "autocomplete": "none",
+          "chars": {
+            "min": 2,
+            "max": 35
+          },
+          "validation_message": {
+            "required": "This field is required",
+            "chars": "Input must be between 2 and 35 characters"
+          }
+        },
+        "organization_social_media_handle": {
+          "field_key": "organization_social_media_handle",
+          "type": "input",
+          "input_type": "text",
+          "model_key": "organization_social_media_handle",
+          "label": "Organization Social Media Handle",
+          "placeholder": "LoremIpsum",
+          "required": true,
+          "pre": "[^\\u0000-\\u00ff]",
+          "autocomplete": "none",
+          "chars": {
+            "min": 2,
+            "max": 35
+          },
+          "validation_message": {
+            "required": "This field is required",
+            "chars": "Input must be between 2 and 35 characters"
+          }
+        },
+        "organization_social_media_handle_type": {
+          "field_key": "organization_social_media_handle_type",
+          "type": "select",
+          "model_key": "organization_social_media_handle_type",
+          "label": "Social Media Type",
+          "required": true,
+          "output": "option",
+          "validation_message": {
+            "required": "This field is required"
+          },
+          "options": [
+            { "label": "Twitter" },
+            { "label": "Slack" }
+          ],
+          "default_value": 0
+        },
+        "total_datacap_size": {
+          "field_key": "total_datacap_size",
+          "type": "input",
+          "input_type": "number",
+          "model_key": "total_datacap_size",
+          "label": "Total Datacap being requested",
+          "placeholder": "32",
+          "min": 1,
+          "max": 5242880,
+          "required": true,
+          "pre": "[^\\u0000-\\u00ff]",
+          "autocomplete": "none",
+          "validation_message": {
+            "required": "This field is required",
+            "minmax": "Number must be between 1 and 5242880"
+          }
+        },
+        "total_datacap_size_unit": {
+          "field_key": "total_datacap_size_unit",
+          "type": "select",
+          "model_key": "total_datacap_size_unit",
+          "label": "Unit",
+          "required": true,
+          "output": "option",
+          "validation_message": {
+            "required": "This field is required"
+          },
+          "options": [
+            { "label": "GiB" },
+            { "label": "TiB" },
+            { "label": "PiB" }
+          ],
+          "default_value": 0
+        },
+        "weekly_data_size": {
+          "field_key": "weekly_data_size",
+          "type": "input",
+          "input_type": "number",
+          "model_key": "weekly_data_size",
+          "label": "Weekly allocation of DataCap",
+          "placeholder": "32",
+          "min": 1,
+          "max": 5242880,
+          "required": true,
+          "pre": "[^\\u0000-\\u00ff]",
+          "autocomplete": "none",
+          "validation_message": {
+            "required": "This field is required",
+            "minmax": "Number must be between 1 and 5242880"
+          }
+        },
+        "weekly_data_size_unit": {
+          "field_key": "weekly_data_size_unit",
+          "type": "select",
+          "model_key": "weekly_data_size_unit",
+          "label": "Unit",
+          "required": true,
+          "output": "option",
+          "validation_message": {
+            "required": "This field is required"
+          },
+          "options": [
+            { "label": "GiB" },
+            { "label": "TiB" },
+            { "label": "PiB" }
+          ],
+          "default_value": 0
+        },
+        "filecoin_address": {
+          "field_key": "filecoin_address",
+          "type": "input",
+          "input_type": "text",
+          "model_key": "filecoin_address",
+          "label": "Filecoin Address",
+          "placeholder": "f...",
+          "required": true,
+          "pre": "[^\\u0000-\\u00ff]",
+          "autocomplete": "none",
+          "chars": {
+            "min": 2,
+            "max": 35
+          },
+          "validation_message": {
+            "required": "This field is required",
+            "chars": "Input must be between 2 and 35 characters"
+          }
+        },
+        "about": {
+          "field_key": "about",
+          "type": "textarea",
+          "model_key": "about",
+          "label": "About your project and organization",
+          "placeholder": "Briefly share your project and organization's history",
+          "required": true,
+          "pre": "[^\\u0000-\\u00ff]",
+          "autocomplete": "none",
+          "chars": {
+            "min": 2,
+            "max": 35
+          },
+          "validation_message": {
+            "required": "This field is required",
+            "chars": "Input must be between 2 and 35 characters"
+          }
+        },
+        "funding_sources": {
+          "field_key": "funding_sources",
+          "type": "textarea",
+          "model_key": "funding_sources",
+          "label": "Funding Sources",
+          "placeholder": "What is the primary source of funding for this projet? Are there any other significant funding sources?",
+          "required": true,
+          "pre": "[^\\u0000-\\u00ff]",
+          "autocomplete": "none",
+          "chars": {
+            "min": 2,
+            "max": 35
+          },
+          "validation_message": {
+            "required": "This field is required",
+            "chars": "Input must be between 2 and 35 characters"
+          }
+        },
+        "ecosystem_associates": {
+          "field_key": "ecosystem_associates",
+          "type": "textarea",
+          "model_key": "ecosystem_associates",
+          "label": "Ecosystem associates",
+          "placeholder": "What other projects or ecosystem stakeholders is this project associated with?",
+          "required": true,
+          "pre": "[^\\u0000-\\u00ff]",
+          "autocomplete": "none",
+          "chars": {
+            "min": 2,
+            "max": 35
+          },
+          "validation_message": {
+            "required": "This field is required",
+            "chars": "Input must be between 2 and 35 characters"
+          }
+        },
+        "nature_of_data": {
+          "field_key": "nature_of_data",
+          "type": "textarea",
+          "model_key": "nature_of_data",
+          "label": "Nature of the data",
+          "placeholder": "Describe the data that will be stored on Filecoin",
+          "required": true,
+          "pre": "[^\\u0000-\\u00ff]",
+          "autocomplete": "none",
+          "chars": {
+            "min": 2,
+            "max": 35
+          },
+          "validation_message": {
+            "required": "This field is required",
+            "chars": "Input must be between 2 and 35 characters"
+          }
+        },
+        "source_of_data": {
+          "field_key": "source_of_data",
+          "type": "textarea",
+          "model_key": "source_of_data",
+          "label": "Source of the data",
+          "placeholder": "Where is the data in this dataset sourced from?",
+          "required": true,
+          "pre": "[^\\u0000-\\u00ff]",
+          "autocomplete": "none",
+          "chars": {
+            "min": 2,
+            "max": 35
+          },
+          "validation_message": {
+            "required": "This field is required",
+            "chars": "Input must be between 2 and 35 characters"
+          }
+        },
+        "data_sample": {
+          "field_key": "data_sample",
+          "type": "textarea",
+          "model_key": "data_sample",
+          "label": "Data sample",
+          "placeholder": "Are you able to share a sample of the data? Link to a file, image table, etc.",
+          "required": true,
+          "pre": "[^\\u0000-\\u00ff]",
+          "autocomplete": "none",
+          "chars": {
+            "min": 2,
+            "max": 35
+          },
+          "validation_message": {
+            "required": "This field is required",
+            "chars": "Input must be between 2 and 35 characters"
+          }
+        },
+        "frequency_of_retrieval": {
+          "field_key": "frequency_of_retrieval",
+          "type": "select",
+          "model_key": "frequency_of_retrieval",
+          "label": "Frequency of retrieval",
+          "description": "What is the expected retrieval frequency of this data",
+          "required": true,
+          "output": "option",
+          "validation_message": {
+            "required": "This field is required"
+          },
+          "options": [
+            { "label": "Daily" },
+            { "label": "Weekly" },
+            { "label": "Monthly" },
+            { "label": "Yearly" }
+          ],
+          "default_value": 0
+        },
+        "duration_of_storage": {
+          "field_key": "duration_of_storage",
+          "type": "textarea",
+          "model_key": "duration_of_storage",
+          "label": "Duration of storage",
+          "placeholder": "How long do you intend to keep this data stored on Filecoin?",
+          "required": true,
+          "pre": "[^\\u0000-\\u00ff]",
+          "autocomplete": "none",
+          "chars": {
+            "min": 2,
+            "max": 35
+          },
+          "validation_message": {
+            "required": "This field is required",
+            "chars": "Input must be between 2 and 35 characters"
+          }
+        },
+        "geographic_distribution": {
+          "field_key": "geographic_distribution",
+          "type": "textarea",
+          "model_key": "geographic_distribution",
+          "label": "Geographic Distribution",
+          "placeholder": "Describe which geographical areas (countries, regions) do you plan on making storage deals in.",
+          "required": true,
+          "pre": "[^\\u0000-\\u00ff]",
+          "autocomplete": "none",
+          "chars": {
+            "min": 2,
+            "max": 35
+          },
+          "validation_message": {
+            "required": "This field is required",
+            "chars": "Input must be between 2 and 35 characters"
+          }
+        },
+        "sending_data": {
+          "field_key": "sending_data",
+          "type": "textarea",
+          "model_key": "sending_data",
+          "label": "Sending data",
+          "placeholder": "How will you be distributing your data to storage providers? Is there an offline data transfer process?",
+          "required": true,
+          "pre": "[^\\u0000-\\u00ff]",
+          "autocomplete": "none",
+          "chars": {
+            "min": 2,
+            "max": 35
+          },
+          "validation_message": {
+            "required": "This field is required",
+            "chars": "Input must be between 2 and 35 characters"
+          }
+        },
+        "storage_provider_selection_plan": {
+          "field_key": "storage_provider_selection_plan",
+          "type": "textarea",
+          "model_key": "storage_provider_selection_plan",
+          "label": "Storage provider selection plan",
+          "placeholder": "How do you plan on selecting the storage providers with whom you will be making deals? This should include a plan to ensure the data is retrievable in the future, by you an others",
+          "required": true,
+          "pre": "[^\\u0000-\\u00ff]",
+          "autocomplete": "none",
+          "chars": {
+            "min": 2,
+            "max": 35
+          },
+          "validation_message": {
+            "required": "This field is required",
+            "chars": "Input must be between 2 and 35 characters"
+          }
+        },
+        "replication_plan": {
+          "field_key": "replication_plan",
+          "type": "textarea",
+          "model_key": "replication_plan",
+          "label": "Replication plan",
+          "placeholder": "How will you be distributing deals across different storage providers?",
+          "required": true,
+          "pre": "[^\\u0000-\\u00ff]",
+          "autocomplete": "none",
+          "chars": {
+            "min": 2,
+            "max": 35
+          },
+          "validation_message": {
+            "required": "This field is required",
+            "chars": "Input must be between 2 and 35 characters"
+          }
+        },
+        "immediacy": {
+          "field_key": "immediacy",
+          "type": "textarea",
+          "model_key": "immediacy",
+          "label": "Immediacy",
+          "placeholder": "Do you have the resources and funding to start making deals as soon as you receive DataCap? What support from the community would help you onboard your data onto Filecoin?",
+          "required": true,
+          "pre": "[^\\u0000-\\u00ff]",
+          "autocomplete": "none",
+          "chars": {
+            "min": 2,
+            "max": 35
+          },
+          "validation_message": {
+            "required": "This field is required",
+            "chars": "Input must be between 2 and 35 characters"
+          }
+        }
+      }
     }
   }
 }

@@ -4,17 +4,17 @@
     <!-- ============================================================== Hero -->
     <HeroB
       :label="hero.label"
-      :heading="heroHeading"
-      :subtext="hero.subtext" />
+      :heading="hero.heading"
+      content-cols="col-5" />
 
-    <!-- ============================== [Application] Background Information -->
-    <div id="application-top">
+    <!-- ======================================================= Application -->
+    <div id="application">
 
       <div class="grid">
         <div class="col-6" data-push-left="off-1">
 
-          <div class="form-heading-1">
-            {{ formHeading1 }}
+          <div class="form-heading">
+            {{ formHeading }}
           </div>
 
           <FieldContainer
@@ -93,99 +93,6 @@
 
     </div>
 
-    <!-- ================================================ [Application] Full -->
-    <div id="application-bottom">
-
-      <div class="grid">
-        <div class="col-7" data-push-left="off-1">
-
-          <div class="form-heading-2">
-            {{ formHeading2 }}
-          </div>
-
-          <FieldContainer
-            :scaffold="formScaffold.about"
-            :value="getValue('about')"
-            form-id="filplus_application" />
-
-          <FieldContainer
-            :scaffold="formScaffold.funding_sources"
-            :value="getValue('funding_sources')"
-            form-id="filplus_application" />
-
-          <FieldContainer
-            :scaffold="formScaffold.ecosystem_associates"
-            :value="getValue('ecosystem_associates')"
-            form-id="filplus_application" />
-
-          <FieldContainer
-            :scaffold="formScaffold.nature_of_data"
-            :value="getValue('nature_of_data')"
-            form-id="filplus_application" />
-
-          <FieldContainer
-            :scaffold="formScaffold.source_of_data"
-            :value="getValue('source_of_data')"
-            form-id="filplus_application" />
-
-          <FieldContainer
-            :scaffold="formScaffold.data_sample"
-            :value="getValue('data_sample')"
-            form-id="filplus_application" />
-
-        </div>
-      </div>
-
-      <div class="grid">
-        <div class="col-5" data-push-left="off-1">
-          FIELD
-        </div>
-        <div class="col-4" data-push-left="off-1">
-          <FieldContainer
-            :scaffold="formScaffold.frequency_of_retrieval"
-            :value="getValue('frequency_of_retrieval')"
-            form-id="filplus_application" />
-        </div>
-      </div>
-
-      <div class="grid">
-        <div class="col-7" data-push-left="off-1">
-
-          <FieldContainer
-            :scaffold="formScaffold.duration_of_storage"
-            :value="getValue('duration_of_storage')"
-            form-id="filplus_application" />
-
-          <FieldContainer
-            :scaffold="formScaffold.geographic_distribution"
-            :value="getValue('geographic_distribution')"
-            form-id="filplus_application" />
-
-          <FieldContainer
-            :scaffold="formScaffold.sending_data"
-            :value="getValue('sending_data')"
-            form-id="filplus_application" />
-
-          <FieldContainer
-            :scaffold="formScaffold.storage_provider_selection_plan"
-            :value="getValue('storage_provider_selection_plan')"
-            form-id="filplus_application" />
-
-          <FieldContainer
-            :scaffold="formScaffold.replication_plan"
-            :value="getValue('replication_plan')"
-            form-id="filplus_application" />
-
-          <FieldContainer
-            :scaffold="formScaffold.immediacy"
-            :value="getValue('immediacy')"
-            form-id="filplus_application" />
-
-        </div>
-      </div>
-
-    </div>
-
     <!-- ========================================================== Overlays -->
     <Overlay type="noise" />
 
@@ -200,11 +107,11 @@ import HeroB from '@/components/hero-b'
 import FieldContainer from '@/components/form/field-container'
 import Overlay from '@/components/overlay'
 
-import ApplyLargePageData from '@/content/pages/apply-large.json'
+import ApplyGeneralPageData from '@/content/pages/apply-general.json'
 
 // ====================================================================== Export
 export default {
-  name: 'ApplyLargePage',
+  name: 'ApplyGeneralPage',
 
   components: {
     HeroB,
@@ -214,13 +121,12 @@ export default {
 
   data () {
     return {
-      tag: 'apply-large'
+      tag: 'apply-general'
     }
   },
 
   async fetch ({ store }) {
-    await store.dispatch('general/getBaseData', { key: 'apply-large', data: ApplyLargePageData })
-    await store.dispatch('general/getNetworkStorageCapacity')
+    await store.dispatch('general/getBaseData', { key: 'apply-general', data: ApplyGeneralPageData })
     const application = store.getters['general/application']
     if (!application) {
       await store.dispatch('form/registerFormModel', Object.assign(application, {
@@ -237,8 +143,7 @@ export default {
   computed: {
     ...mapGetters({
       siteContent: 'general/siteContent',
-      application: 'general/application',
-      networkStorageCapacity: 'general/networkStorageCapacity'
+      application: 'general/application'
     }),
     pageData () {
       return this.siteContent[this.tag].page_content
@@ -246,17 +151,11 @@ export default {
     hero () {
       return this.pageData.hero
     },
-    heroHeading () {
-      return this.hero.heading.replace('|data|', this.networkStorageCapacity)
-    },
     form () {
       return this.pageData.form
     },
-    formHeading1 () {
-      return this.form.heading_1
-    },
-    formHeading2 () {
-      return this.form.heading_2
+    formHeading () {
+      return this.form.heading
     },
     formScaffold () {
       return this.form.scaffold
@@ -277,20 +176,14 @@ export default {
   overflow: hidden;
 }
 
-#application-top,
-#application-bottom {
+#application {
   position: relative;
   padding: 8.75rem 0;
+  border-bottom: 2px solid $nandor;
   z-index: 10;
 }
 
-#application-top {
-  padding: 8.75rem 0;
-  border-bottom: 2px solid $nandor;
-}
-
-.form-heading-1,
-.form-heading-2 {
+.form-heading {
   @include headingHighlight;
   margin-bottom: 3rem;
 }
