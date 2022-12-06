@@ -196,6 +196,8 @@ export default {
         this.updateApplication(incoming)
         if (incoming.total_datacap_size <= this.submitThreshold) {
           this.$router.push('/apply/general/notaries')
+        } else {
+          this.$router.push('/apply/large')
         }
       }
     }
