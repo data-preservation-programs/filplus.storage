@@ -130,13 +130,13 @@ const compileArray = (arrayField, fields) => {
 // //////////////////////////////////////////////////////////// reconcileMirrors
 const reconcileMirrors = (fields) => {
   return new Promise((resolve) => {
-    const compiled = []
+    const compiled = {}
     const len = fields.length
     for (let i = 0; i < len; i++) {
       const field = fields[i]
       const mirror = field.mirror
       if (!mirror || mirror.primary) {
-        compiled.push(field)
+        compiled[field.field_key] = field
       }
     }
     resolve(compiled)
@@ -146,15 +146,18 @@ const reconcileMirrors = (fields) => {
 // ////////////////////////////////////////////////////// writeFieldsToFormModel
 const writeFieldsToFormModel = async (model, fields) => {
   try {
-    const reconciledFields = await reconcileMirrors(fields)
-    const len = reconciledFields.length
+    const reconciledMirrorFields = await reconcileMirrors(fields)
+    const len = fields.length
     for (let i = 0; i < len; i++) {
-      const field = reconciledFields[i]
+      let field = fields[i]
+      const fieldKey = field.field_key
+      field = reconciledMirrorFields.hasOwnProperty(fieldKey) ? reconciledMirrorFields[fieldKey] : field
       const modelKey = field.model_key
+      const mirror = field.mirror
       field.state = 'valid'
       field.validation = false
       field.originalValue = field.value
-      if (!field.hasOwnProperty('parent_model_key')) {
+      if (!field.hasOwnProperty('parent_model_key') && (!mirror || mirror.primary)) {
         if (field.type === 'array') {
           model[modelKey] = await compileArray(field, fields)
         } else if (field.type === 'select' && field.output === 'option') {

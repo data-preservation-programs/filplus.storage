@@ -15,9 +15,9 @@
     </div>
 
     <input
-      :id="name"
+      :id="fieldKey"
       ref="input"
-      :name="name"
+      :name="fieldKey"
       :value="value"
       :min="min"
       :max="max"
@@ -57,8 +57,8 @@ export default {
   },
 
   computed: {
-    name () {
-      return this.field.name
+    fieldKey () {
+      return this.field.field_key
     },
     disabled () {
       return this.field.disabled
@@ -82,12 +82,12 @@ export default {
       return (this.value / this.max) * 100
     },
     thumbPosition () {
-      const tick = this.tick
+      const tick = this.tick >= 100 ? 100 : this.tick
       const thumbHeight = this.thumbDimensions.h
       return `left: calc(${tick}% - ${thumbHeight * (tick / 100)}px)`
     },
     progressBarWidth () {
-      const tick = this.tick
+      const tick = this.tick >= 100 ? 100 : this.tick
       const thumbHeight = this.thumbDimensions.h
       return `width: calc(${tick}% - ${thumbHeight * (tick / 100)}px + ${thumbHeight}px)`
     },

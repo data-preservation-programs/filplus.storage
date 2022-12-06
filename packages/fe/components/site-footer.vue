@@ -172,8 +172,13 @@ export default {
   overflow: hidden;
 }
 
-.section-footer {
+.section-footer,
+.section-copyright {
   position: relative;
+  z-index: 10;
+}
+
+.section-footer {
   border-top: 3px solid $nandor;
   border-bottom: 3px solid $nandor;
 }
