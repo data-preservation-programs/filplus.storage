@@ -20,7 +20,10 @@ const actions = {
   // ///////////////////////////////////////////////////////// registerFormModel
   registerFormModel ({ commit, getters }, model) {
     const index = getters.models.findIndex(obj => obj.formId === model.formId)
-    commit('REGISTER_FORM_MODEL', { model, index })
+    commit('REGISTER_FORM_MODEL', {
+      model: Object.assign(model, { state: 'valid' }),
+      index
+    })
   },
   // /////////////////////////////////////////////////////// deregisterFormModel
   deregisterFormModel ({ commit, getters, dispatch }, formId) {
@@ -34,6 +37,10 @@ const actions = {
         })
       }
     }
+  },
+  // ////////////////////////////////////////////////////////////// getFormModel
+  getFormModel ({ commit, getters }, modelId) {
+    return getters.models.find(model => model.formId === modelId)
   },
   // //////////////////////////////////////////////////////////// resetFormModel
   resetFormModel ({ commit, getters, dispatch }, payload) {
@@ -91,6 +98,7 @@ const actions = {
     try {
       let model = getters.models.find(obj => obj.formId === formId)
       let fields = getters.fields.filter(obj => obj.formId === formId)
+      if (!model) { console.log(`Model with ID <${formId}> not found`) }
       if ((!model && fields.length === 0) || !model || fields.length === 0) { return false }
       model = CloneDeep(model)
       fields = CloneDeep(fields)

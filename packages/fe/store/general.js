@@ -33,7 +33,8 @@ const state = () => ({
     sending_data: '',
     storage_provider_selection_plan: '',
     replication_plan: '',
-    immediacy: ''
+    immediacy: '',
+    notary_sp_id: ''
   },
   networkStorageCapacity: false
 })
@@ -114,6 +115,12 @@ const actions = {
       console.log('========= [Store Action: general/getNetworkStorageCapacity]')
       console.log(e)
     }
+  },
+  // ///////////////////////////////////////////////////////// updateApplication
+  updateApplication ({ commit, getters }, incoming) {
+    let application = CloneDeep(getters.application)
+    application = Object.assign(application, incoming)
+    commit('SET_APPLICATION', application)
   }
 }
 
@@ -131,6 +138,9 @@ const mutations = {
   },
   SET_NETWORK_STORAGE_CAPACITY (state, capacity) {
     state.networkStorageCapacity = capacity
+  },
+  SET_APPLICATION (state, application) {
+    state.application = application
   }
 }
 

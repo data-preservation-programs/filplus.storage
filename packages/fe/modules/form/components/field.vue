@@ -127,11 +127,6 @@ export default {
       let parsed = value
       if ((type === 'input' && inputType === 'number') || type === 'range') {
         parsed = value !== '' ? parseFloat(value) : null
-        // if (this.min && parsed < this.min) {
-        //   parsed = this.min
-        // } else if (this.max && parsed > this.max) {
-        //   parsed = this.max
-        // }
       }
       const field = CloneDeep(this.field)
       field.value = parsed
