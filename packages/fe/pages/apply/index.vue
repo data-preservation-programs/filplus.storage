@@ -7,7 +7,7 @@
       heading-cols="col-12">
       <div class="card-container">
         <Card
-          corner-position="top-right"
+          corner-position="bottom-right"
           icon="arrow">
           <template v-if="formScaffold">
 
@@ -36,11 +36,11 @@
                   class="select-field" />
               </div>
 
-              <ButtonA
+              <ButtonX
                 class="submit-button"
                 @clicked="submitForm">
                 {{ submitButtonText }}
-              </ButtonA>
+              </ButtonX>
 
             </form>
 
@@ -91,6 +91,7 @@ import { mapGetters, mapActions } from 'vuex'
 import HeroA from '@/components/hero-a'
 import FaqAccordion from '@/components/faq-accordion'
 import ButtonA from '@/components/buttons/button-a'
+import ButtonX from '@/components/buttons/button-x'
 import Card from '@/components/card'
 import FieldContainer from '@/components/form/field-container'
 import Overlay from '@/components/overlay'
@@ -107,6 +108,7 @@ export default {
     FaqAccordion,
     FieldContainer,
     ButtonA,
+    ButtonX,
     Card,
     Overlay
   },
@@ -224,7 +226,7 @@ $cardRadius: 1.875rem;
 
 // //////////////////////////////////////////////////////////////////////// Hero
 ::v-deep #hero {
-  .content {
+  .hero-content {
     padding-bottom: 0;
   }
   .bubble {
@@ -267,6 +269,14 @@ $cardRadius: 1.875rem;
 // //////////////////////////////////////////////////////////////////////// Card
 .card-container {
   margin-top: 4.8125rem;
+}
+
+.submit-button {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  height: 3.75rem;
+  padding-right: 5.5rem;
 }
 
 // ////////////////////////////////////////////////////////////////// Warp Image

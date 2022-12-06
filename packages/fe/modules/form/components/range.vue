@@ -15,9 +15,9 @@
     </div>
 
     <input
-      :id="name"
+      :id="fieldKey"
       ref="input"
-      :name="name"
+      :name="fieldKey"
       :value="value"
       :min="min"
       :max="max"
@@ -57,8 +57,8 @@ export default {
   },
 
   computed: {
-    name () {
-      return this.field.name
+    fieldKey () {
+      return this.field.field_key
     },
     disabled () {
       return this.field.disabled
