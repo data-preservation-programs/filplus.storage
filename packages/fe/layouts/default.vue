@@ -14,6 +14,8 @@
 
 <script>
 // ===================================================================== Imports
+import { mapGetters } from 'vuex'
+
 import SiteHeader from '@/components/site-header'
 import SiteFooter from '@/components/site-footer'
 import Toaster from '@/modules/toaster/components/toaster'
@@ -32,6 +34,18 @@ export default {
     return {
       socket: false,
       networkErrorToastId: false
+    }
+  },
+
+  computed: {
+    ...mapGetters({
+      fields: 'form/fields'
+    })
+  },
+
+  watch: {
+    fields (fields) {
+      console.log(fields.map(field => ({ value: field.value, originalValue: field.originalValue })))
     }
   },
 

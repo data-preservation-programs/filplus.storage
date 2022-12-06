@@ -130,13 +130,13 @@ const compileArray = (arrayField, fields) => {
 // //////////////////////////////////////////////////////////// reconcileMirrors
 const reconcileMirrors = (fields) => {
   return new Promise((resolve) => {
-    const compiled = []
+    const compiled = {}
     const len = fields.length
     for (let i = 0; i < len; i++) {
       const field = fields[i]
       const mirror = field.mirror
       if (!mirror || mirror.primary) {
-        compiled.push(field)
+        compiled[field.field_key] = field
       }
     }
     resolve(compiled)
@@ -146,10 +146,12 @@ const reconcileMirrors = (fields) => {
 // ////////////////////////////////////////////////////// writeFieldsToFormModel
 const writeFieldsToFormModel = async (model, fields) => {
   try {
-    const reconciledFields = await reconcileMirrors(fields)
-    const len = reconciledFields.length
+    const reconciledMirrorFields = await reconcileMirrors(fields)
+    const len = fields.length
     for (let i = 0; i < len; i++) {
-      const field = reconciledFields[i]
+      let field = fields[i]
+      const fieldKey = field.field_key
+      field = reconciledMirrorFields.hasOwnProperty(fieldKey) ? reconciledMirrorFields[fieldKey] : field
       const modelKey = field.model_key
       field.state = 'valid'
       field.validation = false

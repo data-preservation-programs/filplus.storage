@@ -130,6 +130,20 @@ $borderWidth: 2px;
       }
     }
   }
+  &.caution {
+    &:before {
+      background-color: $mandysPink;
+    }
+  }
+  &.error {
+    &:before {
+      background-color: $flamingo;
+    }
+  }
+  &.disabled {
+    cursor: no-drop;
+    border-bottom-color: rgba(246, 245, 255, 0.25);
+  }
 }
 
 // /////////////////////////////////////////////////////////////////////// Thumb
