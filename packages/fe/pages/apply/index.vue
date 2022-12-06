@@ -139,7 +139,7 @@ export default {
       application: 'general/application'
     }),
     pageData () {
-      return this.siteContent.apply.page_content
+      return this.siteContent[this.tag].page_content
     },
     heading () {
       return this.pageData.heading

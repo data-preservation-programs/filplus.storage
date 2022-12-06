@@ -241,7 +241,7 @@ export default {
       networkStorageCapacity: 'general/networkStorageCapacity'
     }),
     pageData () {
-      return this.siteContent['apply-large'].page_content
+      return this.siteContent[this.tag].page_content
     },
     hero () {
       return this.pageData.hero

@@ -146,7 +146,7 @@ export default {
       application: 'general/application'
     }),
     pageData () {
-      return this.siteContent['apply-general'].page_content
+      return this.siteContent[this.tag].page_content
     },
     hero () {
       return this.pageData.hero

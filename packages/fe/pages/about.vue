@@ -4,16 +4,16 @@
     <!-- ============================================================== Hero -->
     <HeroA
       :heading="heading"
-      heading-cols="col-12" />
+      heading-cols="col-12"
+      content-direction="horizontal"
+      background-image="block-backsplash.jpg" />
 
     <!-- =============================================================== FAQ -->
-    <div id="section-faq">
+    <div id="section-content">
       <div class="grid-spaceBetween">
 
         <div class="col-6" data-push-left="off-1">
-          <FaqAccordion
-            :entries="faqList"
-            :toggle-button-content="accordionToggleButtonText" />
+          <MarkdownParser :markdown="markdown" />
         </div>
 
         <div class="col-4">
@@ -36,29 +36,30 @@
 import { mapGetters } from 'vuex'
 
 import HeroA from '@/components/hero-a'
-import FaqAccordion from '@/components/faq-accordion'
+import MarkdownParser from '@/components/markdown-parser'
 import Overlay from '@/components/overlay'
 
-import FaqPageData from '@/content/pages/faq.json'
+import AboutPageData from '@/content/pages/about.json'
+import AboutContent from '@/content/markdown/about.md'
 
 // ====================================================================== Export
 export default {
-  name: 'FaqPage',
+  name: 'AboutPage',
 
   components: {
     HeroA,
-    FaqAccordion,
+    MarkdownParser,
     Overlay
   },
 
   data () {
     return {
-      tag: 'faq'
+      tag: 'about'
     }
   },
 
   async fetch ({ store }) {
-    await store.dispatch('general/getBaseData', { key: 'faq', data: FaqPageData })
+    await store.dispatch('general/getBaseData', { key: 'about', data: AboutPageData })
   },
 
   head () {
@@ -75,11 +76,8 @@ export default {
     heading () {
       return this.pageData.heading
     },
-    accordionToggleButtonText () {
-      return this.pageData.accordion_button_toggle_text
-    },
-    faqList () {
-      return this.pageData.faq
+    markdown () {
+      return AboutContent
     }
   }
 }
@@ -87,7 +85,7 @@ export default {
 
 <style lang="scss" scoped>
 // ///////////////////////////////////////////////////////////////////// General
-.page-faq {
+.page-about {
   overflow: hidden;
 }
 
@@ -98,45 +96,23 @@ export default {
 // //////////////////////////////////////////////////////////////////////// Hero
 ::v-deep #hero {
   .bubble {
-    margin-top: 2.75rem;
+    margin-left: 1.25rem;
+  }
+  .overlay.type__opaque {
+    background-color: rgba(15, 31, 26, 0.9);
   }
 }
 
 // ///////////////////////////////////////////////////////////////////////// FAQ
-#section-faq {
+#section-content {
   position: relative;
   border-top: 3px solid $nandor;
   z-index: 10;
 }
 
-.faq-accordion {
+.markdown {
   padding: 5rem 0;
 }
-
-// .section-accordion {
-//   position: relative;
-//   left: calc(-#{math.div($containerWidth, 12)} / 2);
-//   width: calc(100% + #{math.div($containerWidth, 12)} / 2);
-//   margin-bottom: 6.5rem;
-// }
-
-// ::v-deep .faq-heading {
-//   display: flex;
-//   flex-direction: column;
-//   align-items: flex-start;
-//   margin-top: 7.625rem;
-//   margin-bottom: 1.875rem;
-//   .bubble {
-//     left: calc((-100vw + #{$containerWidth}) / 2 - #{math.div($containerWidth, 12)} - 0.5rem - 3.125rem - 2px); // 100vw - gutter - 1 col - 1/2 col gutter - 2px border-width
-//     padding-left: calc(3.125rem + (100vw - #{$containerWidth}) / 2 + #{math.div($containerWidth, 12)} + 0.5rem);
-//     border-color: $nandor;
-//     margin-top: 0.5rem;
-//   }
-// }
-//
-// .more-button {
-//   margin-top: 1.875rem;
-// }
 
 // ////////////////////////////////////////////////////////////////// Warp Image
 .panel-right {

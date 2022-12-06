@@ -1,0 +1,15 @@
+{
+  "seo": {
+    "title": "About — Fil+",
+    "description": "Fil+"
+  },
+  "og": {
+    "site_name": "About — Fil+",
+    "url": "",
+    "type": "website",
+    "image": "/open-graph-image.jpg"
+  },
+  "page_content": {
+    "heading": "What is<span class='bubble right'>Filecoin+?</span>"
+  }
+}

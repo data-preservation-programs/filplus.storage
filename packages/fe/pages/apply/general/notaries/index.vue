@@ -91,7 +91,7 @@ export default {
       application: 'general/application'
     }),
     pageData () {
-      return this.siteContent.notaries.page_content
+      return this.siteContent[this.tag].page_content
     },
     label () {
       return this.pageData.label
