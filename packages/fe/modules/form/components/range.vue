@@ -82,12 +82,12 @@ export default {
       return (this.value / this.max) * 100
     },
     thumbPosition () {
-      const tick = this.tick
+      const tick = this.tick >= 100 ? 100 : this.tick
       const thumbHeight = this.thumbDimensions.h
       return `left: calc(${tick}% - ${thumbHeight * (tick / 100)}px)`
     },
     progressBarWidth () {
-      const tick = this.tick
+      const tick = this.tick >= 100 ? 100 : this.tick
       const thumbHeight = this.thumbDimensions.h
       return `width: calc(${tick}% - ${thumbHeight * (tick / 100)}px + ${thumbHeight}px)`
     },
