@@ -16,6 +16,8 @@
           :field="field"
           @updateValue="updateValue" />
 
+        <slot />
+
         <div v-if="validationMessage" class="validation-message">
           <sup>*</sup>{{ validationMessage }}
         </div>

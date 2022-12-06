@@ -16,6 +16,7 @@
     },
     "form": {
       "heading": "General DataCap Notary Review Request",
+      "submit_button_text": "Send Request",
       "scaffold": {
         "application_name": {
           "field_key": "application_name",
@@ -120,6 +121,12 @@
           "max": 5242880,
           "required": true,
           "pre": "[^\\u0000-\\u00ff]",
+          "transform": {
+            "func": "$formatDatacapSize",
+            "args": {
+              "action": "human"
+            }
+          },
           "autocomplete": "none",
           "validation_message": {
             "required": "This field is required",
@@ -154,6 +161,12 @@
           "max": 5242880,
           "required": true,
           "pre": "[^\\u0000-\\u00ff]",
+          "transform": {
+            "func": "$formatDatacapSize",
+            "args": {
+              "action": "human"
+            }
+          },
           "autocomplete": "none",
           "validation_message": {
             "required": "This field is required",

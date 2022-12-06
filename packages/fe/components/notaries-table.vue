@@ -16,54 +16,59 @@
         </tr>
       </thead>
       <!-- ============================================================ Body -->
-      <tbody class="table-body">
-        <tr
-          v-for="notary in filteredNotaries"
-          :key="notary['Miner ID']"
-          class="row row-body">
+      <Field
+        :scaffold="formScaffold.notary_sp_id"
+        :value="application.notary_sp_id"
+        form-id="filplus_application">
+        <tbody slot-scope="{ updateValue }" class="table-body">
+          <tr
+            v-for="notary in filteredNotaries"
+            :key="notary['Miner ID']"
+            class="row row-body">
 
-          <td
-            v-for="cell in columns"
-            :key="cell.slug"
-            :class="['cell cell-body', cell.slug]">
-            <div :class="['cell-inner-wrapper', `cell-${cell.slug}`]">
+            <td
+              v-for="cell in columns"
+              :key="cell.slug"
+              :class="['cell cell-body', cell.slug]">
+              <div :class="['cell-inner-wrapper', `cell-${cell.slug}`]">
 
-              <div
-                v-if="cell.label !== ''"
-                class="column-label"
-                v-html="cell.label" />
+                <div
+                  v-if="cell.label !== ''"
+                  class="column-label"
+                  v-html="cell.label" />
 
-              <template v-if="cell.slug === 'Miner'">
-                <div class="notary">
-                  {{ notary.Miner }}
-                </div>
-              </template>
+                <template v-if="cell.slug === 'Miner'">
+                  <div class="notary">
+                    {{ notary.Miner }}
+                  </div>
+                </template>
 
-              <template v-if="cell.slug === 'Location'">
-                <div class="location">
-                  {{ notary.Location }}
-                </div>
-              </template>
+                <template v-if="cell.slug === 'Location'">
+                  <div class="location">
+                    {{ notary.Location }}
+                  </div>
+                </template>
 
-              <template v-if="cell.slug === 'Contact Information'">
-                <div class="contact-info" v-html="notary['Contact Information']" />
-              </template>
+                <template v-if="cell.slug === 'Contact Information'">
+                  <div class="contact-info" v-html="notary['Contact Information']" />
+                </template>
 
-              <template v-if="cell.slug === 'request_button'">
-                <ButtonA
-                  theme="blue"
-                  format="mini"
-                  class="select-button"
-                  @clicked="selectNotary">
-                  {{ form.select_button_text }}
-                </ButtonA>
-              </template>
+                <template v-if="cell.slug === 'request_button'">
+                  <ButtonA
+                    theme="blue"
+                    format="mini"
+                    class="select-button"
+                    @clicked="selectNotary(notary, updateValue)">
+                    {{ form.select_button_text }}
+                  </ButtonA>
+                </template>
 
-            </div>
-          </td>
+              </div>
+            </td>
 
-        </tr>
-      </tbody>
+          </tr>
+        </tbody>
+      </Field>
     </table>
 
     <div v-if="!filteredNotaries" class="no-results-placeholder">
@@ -77,6 +82,7 @@
 // ===================================================================== Imports
 import { mapGetters } from 'vuex'
 
+import Field from '@/modules/form/components/field'
 import ButtonA from '@/components/buttons/button-a'
 
 // ====================================================================== Export
@@ -84,6 +90,7 @@ export default {
   name: 'NotariesTable',
 
   components: {
+    Field,
     ButtonA
   },
 
@@ -102,7 +109,8 @@ export default {
   computed: {
     ...mapGetters({
       siteContent: 'general/siteContent',
-      staticFiles: 'general/staticFiles'
+      staticFiles: 'general/staticFiles',
+      application: 'general/application'
     }),
     pageData () {
       return this.siteContent.notaries.page_content
@@ -112,6 +120,9 @@ export default {
     },
     form () {
       return this.pageData.form
+    },
+    formScaffold () {
+      return this.form.scaffold
     },
     notaryList () {
       return this.siteContent['notaries-list']
@@ -123,8 +134,10 @@ export default {
   },
 
   methods: {
-    selectNotary (notary) {
-      console.log(notary)
+    selectNotary (notary, updateValue) {
+      const id = notary['Miner ID']
+      updateValue(id)
+      this.$router.push(`/apply/general/notaries/${id}`)
     }
   }
 }

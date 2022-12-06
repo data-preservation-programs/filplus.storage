@@ -19,14 +19,14 @@
 
               <FieldContainer
                 :scaffold="formScaffold.total_datacap_size_range"
-                :value="getValue('total_datacap_size_range')"
+                :value="getValue('total_datacap_size')"
                 form-id="filplus_application"
                 class="range-field" />
 
               <div class="row">
                 <FieldContainer
                   :scaffold="formScaffold.total_datacap_size_input"
-                  :value="getValue('total_datacap_size_input')"
+                  :value="getValue('total_datacap_size')"
                   form-id="filplus_application"
                   class="input-field" />
                 <FieldContainer
@@ -120,11 +120,12 @@ export default {
   async fetch ({ store }) {
     await store.dispatch('general/getBaseData', { key: 'apply', data: ApplyPageData })
     await store.dispatch('general/getBaseData', { key: 'faq', data: FaqPageData })
+    const formId = 'filplus_application'
     const application = store.getters['general/application']
-    await store.dispatch('form/registerFormModel', Object.assign(application, {
-      formId: 'filplus_application',
-      state: 'valid'
-    }))
+    const model = await store.dispatch('form/getFormModel', formId)
+    if (!model) {
+      await store.dispatch('form/registerFormModel', Object.assign(application, { formId }))
+    }
   },
 
   head () {
@@ -154,6 +155,9 @@ export default {
     submitButtonText () {
       return this.form.submit_button_text
     },
+    submitThreshold () {
+      return this.form.submit_threshold
+    },
     faq () {
       return this.pageData.faq
     },
@@ -179,15 +183,21 @@ export default {
 
   methods: {
     ...mapActions({
-      validateForm: 'form/validateForm'
+      validateForm: 'form/validateForm',
+      updateApplication: 'general/updateApplication'
     }),
     getValue (modelKey) {
       return this.application[modelKey]
     },
     async submitForm (e) {
       e.preventDefault()
-      const incoming = await this.validateForm('datacap_size_selection')
-      console.log(incoming)
+      const incoming = await this.validateForm('filplus_application')
+      if (incoming) {
+        this.updateApplication(incoming)
+        if (incoming.total_datacap_size <= this.submitThreshold) {
+          this.$router.push('/apply/general/notaries')
+        }
+      }
     }
   }
 }
