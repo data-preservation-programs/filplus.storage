@@ -7,7 +7,7 @@
       heading-cols="col-12">
       <div class="card-container">
         <Card
-          cutout="top-right"
+          corner-position="top-right"
           icon="arrow">
           <template v-if="formScaffold">
 

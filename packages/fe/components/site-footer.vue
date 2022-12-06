@@ -38,7 +38,7 @@
               <Logo class="site-logo" />
 
               <Card
-                cutout="top-right"
+                corner-position="top-right"
                 :small="true"
                 icon="chevron"
                 class="footer-cta-card">

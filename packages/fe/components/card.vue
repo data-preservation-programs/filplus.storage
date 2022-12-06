@@ -1,5 +1,5 @@
 <template>
-  <div :class="['card', `cutout-${cutout}`]">
+  <div :class="['card', `corner-position__${cornerPosition}`]">
 
     <div :class="['panel', { small }]">
       <svg
@@ -46,7 +46,7 @@ export default {
   },
 
   props: {
-    cutout: {
+    cornerPosition: {
       type: String,
       required: false,
       default: 'top-right',
@@ -196,8 +196,8 @@ $cardRadiusSmall: 1.5625rem;
 }
 
 // ////////////////////////////////////////////////////// Corner Cutout Variants
-// ------------------------------------------------------------------- Top Left
-.card.cutout-top-left {
+// -------------------------------------------------------------------- Top Left
+.card.corner-position__top-left {
   .panel,
   .icon {
     transform: scaleX(-1);
@@ -206,8 +206,9 @@ $cardRadiusSmall: 1.5625rem;
     padding: 3.125rem 3.4375rem 1.875rem 7rem;
   }
 }
+
 // ----------------------------------------------------------------- Bottom Left
-.card.cutout-bottom-left {
+.card.corner-position__bottom-left {
   .panel,
   .icon {
     transform: scale(-1);
@@ -216,8 +217,9 @@ $cardRadiusSmall: 1.5625rem;
     padding: 1.875rem 3.4375rem 3.125rem 7rem;
   }
 }
+
 // ---------------------------------------------------------------- Bottom Right
-.card.cutout-bottom-right {
+.card.corner-position__bottom-right {
   .panel,
   .icon {
     transform: scaleY(-1);
