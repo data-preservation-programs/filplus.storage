@@ -41,6 +41,46 @@
       }
     ]
   },
-  "footer": {},
+  "footer": {
+    "links": [
+      {
+        "type": "nuxt-link",
+        "href": "/",
+        "label": "Read the Docs"
+      },
+      {
+        "type": "nuxt-link",
+        "href": "/",
+        "label": "Client Onboarding Repo"
+      },
+      {
+        "type": "nuxt-link",
+        "href": "/",
+        "label": "Large Dataset Repo"
+      },
+      {
+        "type": "nuxt-link",
+        "href": "/faq",
+        "label": "Frequently Asked Questions"
+      }
+    ],
+    "video_cta": {
+      "image": "/images/fil-plus-system-overview-cta-portrait.png",
+      "text": "Watch the Fil+<br>System Overview"
+    },
+    "copyright": {
+      "links": [
+        {
+          "icon": "github",
+          "url": "https://example.com"
+        },
+        {
+          "icon": "slack",
+          "url": "https://example.com"
+        }
+      ],
+      "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+    }
+  },
   "404_error_message": "404 Not Found"
 }
