@@ -168,6 +168,10 @@ export default {
 
 <style lang="scss" scoped>
 // ///////////////////////////////////////////////////////////////////// General
+#site-footer {
+  overflow: hidden;
+}
+
 .section-footer {
   position: relative;
   border-top: 3px solid $nandor;
@@ -256,7 +260,7 @@ export default {
     background-size: cover;
     background-position: left calc(50% + 2rem) top 50%;
     background-image: url('~/assets/images/abstract-3d-object-with-three-layered-branches-and-rounded-edges.png');
-    @include large {
+    @include containerMaxMQ {
       width: calc(100% + 100vw * 0.041665 + 3px);
     }
   }

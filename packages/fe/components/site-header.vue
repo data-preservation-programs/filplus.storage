@@ -14,13 +14,15 @@
             <Logo class="logo" />
           </nuxt-link>
 
-          <div class="nav-wrapper">
+          <div
+            :class="['nav-wrapper', breakpoint]"
+            :style="{ width: `${navWidth}px` }">
 
             <div class="nav-detail"></div>
             <!-- ================================================ Squigglies -->
             <div class="squiggle-container">
               <div
-                class="svg-wrapper animated"
+                :class="['svg-wrapper', 'animated', breakpoint]"
                 :style="{ transform: `translateX(${squiggleOffsetLeft - squiggleDefaultOffset}px)` }">
                 <svg
                   class="squiggle"
@@ -31,7 +33,9 @@
                   <path :key="pathKey" stroke="white" stroke-width="2" />
                 </svg>
               </div>
-              <div class="svg-wrapper static">
+              <div
+                class="svg-wrapper static"
+                :style="{ '--bottom-squiggle-offset': `${navWidth - 956}px` }">
                 <svg
                   class="squiggle"
                   width="1860"
@@ -87,6 +91,26 @@ import { mapGetters } from 'vuex'
 import Logo from '@/components/logo'
 import ButtonA from '@/components/buttons/button-a'
 import ButtonX from '@/components/buttons/button-x'
+// =================================================================== Functions
+const resizeHandler = (instance) => {
+  if (window.matchMedia('(max-width: 53.125rem)').matches) {
+    if (instance.breakpoint !== 'small') {
+      instance.breakpoint = 'small'
+    }
+  } else if (window.matchMedia('(max-width: 64rem)').matches) {
+    if (instance.breakpoint !== 'medium') {
+      instance.breakpoint = 'medium'
+    }
+  } else if (window.matchMedia('(max-width: 75rem)').matches) {
+    if (instance.breakpoint !== 'large') {
+      instance.breakpoint = 'large'
+    }
+  } else {
+    if (instance.breakpoint !== 'default') {
+      instance.breakpoint = 'default'
+    }
+  }
+}
 
 // ====================================================================== Export
 export default {
@@ -102,11 +126,11 @@ export default {
     return {
       mini: false,
       scroll: false,
+      resize: false,
       squiggleWidth: 80,
-      squiggleDefaultOffset: 308,
       squiggleOffsetLeft: 0,
       pathKey: 0,
-      navWidth: 828
+      breakpoint: 'default'
     }
   },
 
@@ -114,6 +138,16 @@ export default {
     ...mapGetters({
       siteContent: 'general/siteContent'
     }),
+    navWidth () {
+      if (this.breakpoint !== 'default') {
+        return this.breakpoint === 'large' ? 700 : this.breakpoint === 'medium' ? 580 : 600
+      }
+      return 828
+    },
+    squiggleDefaultOffset () {
+      const mediumOnly = this.breakpoint === 'medium' ? -20 : 0
+      return (828 - this.navWidth) + 308 + mediumOnly
+    },
     links () {
       const siteContent = this.siteContent
       return siteContent.general ? siteContent.general.navigation.header : false
@@ -142,6 +176,9 @@ export default {
     }; scrollHandler()
     this.scroll = this.$throttle(scrollHandler, 1)
     window.addEventListener('scroll', this.scroll)
+    resizeHandler(this)
+    this.resize = this.$throttle(() => { resizeHandler(this) }, 1)
+    window.addEventListener('resize', this.resize)
   },
 
   beforeDestroy () {
@@ -211,17 +248,16 @@ export default {
 }
 
 // ////////////////////////////////////////////////////////////////// Navigation
-$navWidth: toRem(828);
 .nav-wrapper {
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
   height: toRem(82);
-  width: $navWidth;
-  @include large {
-    // padding-right: calc(100vw * 0.041665);
-    // transform: translateX(calc(100vw * 0.041665));
+  width: toRem(828);
+  &.large {
+    margin-left: toRem(80);
+    // width: toRem(760);
   }
 }
 
@@ -230,6 +266,9 @@ $navWidth: toRem(828);
   display: flex;
   justify-content: space-between;
   padding-right: toRem(46);
+  @include medium {
+    padding-right: toRem(42);
+  }
 }
 
 .button-list {
@@ -238,12 +277,29 @@ $navWidth: toRem(828);
   flex-direction: row;
   align-items: center;
   padding-left: toRem(80);
+  @include large {
+    padding-left: 2rem;
+  }
+  @include medium {
+    padding-left: 0.25rem;
+  }
 }
 
 .site-nav-link {
   font-size: toRem(18);
   &:not(:last-child) {
     margin-right: 3.125rem;
+  }
+  @include large {
+    &:not(:last-child) {
+      margin-right: 2.75rem;
+    }
+  }
+  @include medium {
+    font-size: 1rem;
+    &:not(:last-child) {
+      margin-right: 2rem;
+    }
   }
 }
 
@@ -259,6 +315,15 @@ $navWidth: toRem(828);
   &:hover {
     transition: 150ms ease-in;
     transform: scale(1.05);
+  }
+}
+
+.site-nav-cta {
+  @include medium {
+    padding: 0.75rem 1.5rem;
+    :deep(.button-content) {
+      font-size: 0.9375rem;
+    }
   }
 }
 // /////////////////////////////////////////////////////////////// Nav Detailing
@@ -293,12 +358,12 @@ $squiggleAnimationDuration: 500ms;
 .squiggle-container {
   position: absolute;
   width: calc(100% + 50vw - #{math.div($containerWidth, 2)});
-  max-width: toRem(940);
+  max-width: toRem(1000);
   height: 100%;
   left: 0;
   top: 0;
   overflow: hidden;
-  @include large {
+  @include containerMaxMQ {
     width: calc(100% + 100vw * 0.041665);
   }
 }
@@ -323,10 +388,11 @@ $squiggleAnimationDuration: 500ms;
     }
   }
   &.static {
+    --bottom-squiggle-offset: -128px;
     position: absolute;
     left: 0;
     bottom: 0;
-    transform: scaleY(-1) translateX(-128px);
+    transform: scaleY(-1) translateX(var(--bottom-squiggle-offset));
   }
 }
 
