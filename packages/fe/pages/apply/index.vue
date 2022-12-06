@@ -6,20 +6,15 @@
       :heading="heading"
       heading-cols="col12">
       <div class="card-container">
-        <div class="card">
+        <Card
+          cutout="top-right"
+          icon="arrow">
+          <template v-if="formScaffold">
 
-          <svg
-            class="corner"
-            viewBox="0 0 92 92"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg">
-            <path d="M -1 94 C 62 94 18 94 91 94 V 94 C 91 78 78 65 62 65 L 59 65 C 42 65 28 51 28 34 L 28 32 L 28 30 C 28 14 15 1 -1 1 Z" fill="black" fill-opacity="0.4" stroke="white" stroke-width="2" />
-          </svg>
-
-          <div class="card-content">
             <div class="form-heading">
               {{ formHeading }}
             </div>
+
             <form class="form">
 
               <FieldContainer
@@ -48,9 +43,10 @@
               </ButtonA>
 
             </form>
-          </div>
 
-        </div>
+          </template>
+        </Card>
+
       </div>
     </HeroA>
 
@@ -95,6 +91,7 @@ import { mapGetters, mapActions } from 'vuex'
 import HeroA from '@/components/hero-a'
 import FaqAccordion from '@/components/faq-accordion'
 import ButtonA from '@/components/buttons/button-a'
+import Card from '@/components/card'
 import FieldContainer from '@/components/form/field-container'
 import Overlay from '@/components/overlay'
 
@@ -110,6 +107,7 @@ export default {
     FaqAccordion,
     FieldContainer,
     ButtonA,
+    Card,
     Overlay
   },
 
@@ -208,6 +206,10 @@ $cardRadius: 1.875rem;
   z-index: 5;
 }
 
+.container {
+  position: relative;
+}
+
 // //////////////////////////////////////////////////////////////////////// Hero
 ::v-deep #hero {
   .bubble {
@@ -247,6 +249,11 @@ $cardRadius: 1.875rem;
   margin-top: 1.875rem;
 }
 
+// //////////////////////////////////////////////////////////////////////// Card
+.card-container {
+  margin-top: 4.8125rem;
+}
+
 // ////////////////////////////////////////////////////////////////// Warp Image
 .panel-right {
   position: relative;
@@ -262,59 +269,6 @@ $cardRadius: 1.875rem;
   background-image: url('~assets/images/warp-image-double.png');
   background-position: top left;
   background-size: 69rem;
-}
-
-// //////////////////////////////////////////////////////////////////////// Card
-.container {
-  position: relative;
-}
-
-.card {
-  position: relative;
-  &:before,
-  &:after {
-    content: '';
-    position: absolute;
-    background-color: rgba(0, 0, 0, 0.4);
-    z-index: 2;
-    box-sizing: border-box;
-  }
-  &:before,
-  &:after {
-    left: 0;
-  }
-  &:before {
-    top: 0;
-    height: $squigglySizing;
-    width: calc(100% - #{$squigglySizing});
-    border-top-left-radius: $cardRadius;
-    border-left: 2px solid $titanWhite;
-    border-top: 2px solid $titanWhite;
-  }
-  &:after {
-    top: $squigglySizing;
-    height: calc(100% - #{$squigglySizing});
-    width: 100%;
-    border-bottom-left-radius: $cardRadius;
-    border-bottom-right-radius: $cardRadius;
-    border: 2px solid white;
-    border-top: none;
-  }
-}
-
-.corner {
-  position: absolute;
-  right: 0;
-  top: 0;
-  width: $squigglySizing;
-  height: $squigglySizing;
-}
-
-.card-content {
-  position: relative;
-  padding: 3.125rem 7rem 1.875rem 3.4375rem;
-  margin-top: 4.8125rem;
-  z-index: 10;
 }
 
 // //////////////////////////////////////////////////////////////////////// Form
