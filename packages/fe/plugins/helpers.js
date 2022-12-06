@@ -405,6 +405,8 @@ const FormatDatacapSize = (ctx, size, args) => {
     return parseFloat(FormatBytes(size, 'array').value)
   } else if (action === 'bytes') {
     const options = store.getters['general/siteContent'].apply.page_content.form.scaffold.total_datacap_size_unit.options
+    const valueField = store.getters['form/fields'].find(obj => obj.field_key === args.value_from_field)
+    if (!valueField || valueField.value !== size) { return size }
     const unitField = store.getters['form/fields'].find(obj => obj.field_key === args.unit_from_field)
     if (!unitField || unitField.value === -1) { return size }
     const unit = options[unitField.value].label

@@ -33,6 +33,7 @@
             "func": "$formatDatacapSize",
             "args": {
               "action": "bytes",
+              "value_from_field": "total_datacap_size_input",
               "unit_from_field": "total_datacap_size_unit"
             }
           },

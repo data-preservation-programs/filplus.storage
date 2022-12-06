@@ -113,6 +113,7 @@ export default {
 // ////////////////////////////////////////////////////////////////// Warp Image
 .panel-right {
   position: relative;
+  top: -2.6875rem;
   height: 100%;
 }
 
