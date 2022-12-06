@@ -30,9 +30,13 @@
       {
         "type": "nuxt-link",
         "href": "/",
-        "label": "Self Qualification Assessment"
+        "label": "Documentation"
       }
     ],
+    "cta": {
+      "href": "/",
+      "label": "Apply Now"
+    },
     "footer": [
       {
         "type": "nuxt-link",
