@@ -199,7 +199,7 @@ export default {
 .cta-spinner {
   position: relative;
   width: 100%;
-  animation: spinning 5s infinite linear;
+  animation: spinning 15s infinite linear reverse;
 }
 
 .cta-arrow {
