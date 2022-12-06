@@ -38,10 +38,10 @@
             }
           },
           "react": {
-            "field_key": "datacap_size_unit",
+            "field_key": "total_datacap_size_unit",
             "func": "$reactDatasizeRangeToUnit",
             "args": {
-              "value_from_field": "datacap_size_input"
+              "value_from_field": "total_datacap_size_input"
             }
           },
           "autocomplete": "none",
