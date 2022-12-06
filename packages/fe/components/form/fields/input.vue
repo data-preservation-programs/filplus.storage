@@ -7,10 +7,10 @@
 
     <div v-else class="input-container">
       <input
-        :id="name"
+        :id="fieldKey"
         v-click-outside="closeDropdown"
         :type="inputType"
-        :name="name"
+        :name="fieldKey"
         :placeholder="placeholder"
         :value="value"
         :min="min"
@@ -78,8 +78,8 @@ export default {
     inputType () {
       return this.field.input_type || 'text'
     },
-    name () {
-      return this.field.name
+    fieldKey () {
+      return this.field.field_key
     },
     label () {
       return this.field.label

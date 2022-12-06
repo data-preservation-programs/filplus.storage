@@ -1,7 +1,7 @@
 <template>
   <div id="hero">
 
-    <div class="content">
+    <div class="hero-content">
       <!-- ========================================================= Heading -->
       <div class="grid-center">
         <div :class="headingCols">
@@ -102,7 +102,7 @@ export default {
   z-index: 20;
 }
 
-.content {
+.hero-content {
   display: flex;
   flex-direction: column;
   justify-content: center;
