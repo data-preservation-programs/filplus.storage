@@ -119,6 +119,14 @@ $breakpoint_UltraLarge: 140.625rem; // 2250px
 }
 
 // --------------------------------------------------------------------- General
+@mixin descendingZindex($n) {
+  @for $i from 1 through $n {
+    &:nth-child(#{$i}) {
+      z-index: #{$n - $i};
+    }
+  }
+}
+
 @mixin transform($transforms) {
 	   -moz-transform: $transforms;
 	     -o-transform: $transforms;

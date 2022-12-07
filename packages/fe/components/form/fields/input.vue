@@ -1,5 +1,5 @@
 <template>
-  <div :class="['field field-input', state, { focused, empty }]">
+  <div :class="['field field-input', state, { focused, empty, predictive }]">
 
     <div v-if="disabled" :class="['input', { disabled }]">
       {{ value }}
@@ -183,6 +183,11 @@ $height: 4rem;
 // ///////////////////////////////////////////////////////////////////// General
 .field-input {
   height: $height;
+  &.focused.predictive {
+    .input {
+      border-bottom-color: transparent;
+    }
+  }
 }
 
 .input-container,
@@ -223,14 +228,14 @@ $height: 4rem;
 
 // ///////////////////////////////////////////////////////// Predictive Dropdown
 .dropdown {
-  @include shadow1;
   position: absolute;
-  top: 100%;
+  top: calc(100% - 2px);
   left: 0;
   width: 100%;
   max-height: $height * 5.5;
-  background-color: teal;
-  border-radius: 0 0 0.5rem 0.5rem;
+  background-color: $aztec;
+  border: 2px solid $titanWhite;
+  border-radius: 0.3125rem;
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
@@ -260,13 +265,12 @@ $height: 4rem;
   height: $height;
   padding: 0 0.875rem;
   color: inherit;
-  &:hover {
-    background-color: teal;
-    color: darkorange;
-  }
+  &:hover,
   &.selected {
-    background-color: teal;
-    color: darkorange;
+    background-color: rgba(white, 0.1);
+  }
+  &:hover {
+    text-decoration: underline;
   }
 }
 

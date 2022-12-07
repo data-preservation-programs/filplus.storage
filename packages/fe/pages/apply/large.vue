@@ -361,6 +361,10 @@ export default {
 #application-top {
   padding: 8.75rem 0;
   border-bottom: 2px solid $nandor;
+  [class~=grid], [class*=grid-], [class*=grid_] {
+    @include descendingZindex(5);
+    position: relative;
+  }
 }
 
 #application-bottom {

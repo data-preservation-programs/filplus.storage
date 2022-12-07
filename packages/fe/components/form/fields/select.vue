@@ -126,9 +126,6 @@ $height: 4rem;
     }
   }
   &.dropdown-open {
-    &.empty > .label {
-      padding-left: 0.75rem;
-    }
     .icon-container {
       transition: 150ms ease-in;
       transform: rotate(-180deg);
@@ -152,6 +149,11 @@ $height: 4rem;
       color: transparent;
     }
   }
+  &.dropdown-open {
+    .select {
+      border-bottom-color: transparent;
+    }
+  }
   .select {
     border-bottom: 2px solid $titanWhite;
     transition: 150ms ease-out;
@@ -163,7 +165,9 @@ $height: 4rem;
   }
   .dropdown {
     max-height: $height * 5.5;
-    background-color: blue;
+    background-color: $aztec;
+    border: 2px solid $titanWhite;
+    border-radius: 0.3125rem;
   }
 }
 
@@ -207,20 +211,13 @@ $height: 4rem;
   cursor: pointer;
   transition: 150ms ease-out;
   &:hover,
-  &.highlighted {
-    transition: 150ms ease-in;
-    background-color: teal;
-  }
+  &.highlighted,
   &.selected {
-    .label {
-      text-decoration: underline;
-    }
+    background-color: rgba(white, 0.1);
   }
-  .description {
-    margin-top: -0.25rem;
-    font-size: 0.875rem;
-    font-weight: 400;
-    opacity: 0.4;
+  &:hover,
+  &.highlighted {
+    text-decoration: underline;
   }
 }
 </style>

@@ -236,6 +236,11 @@ $cardRadius: 1.875rem;
   .bubble {
     margin-top: 2.75rem;
   }
+  .select-container {
+    .dropdown {
+      background-color: rgba(15, 31, 26, 0.85);
+    }
+  }
 }
 
 // ///////////////////////////////////////////////////////////////////////// FAQ
@@ -309,7 +314,7 @@ $cardRadius: 1.875rem;
 }
 
 .field-container {
-  :deep(.label) {
+  :deep(.field-label) {
     display: none;
   }
 }
