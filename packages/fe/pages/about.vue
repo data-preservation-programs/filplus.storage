@@ -12,11 +12,31 @@
     <div id="section-content">
       <div class="grid-spaceBetween">
 
-        <div class="col-6" data-push-left="off-1">
+        <div class="col-7" data-push-left="off-1">
+
           <MarkdownParser :markdown="markdown" />
+
+          <Card
+            icon="arrow"
+            :outline="true"
+            class="apply-cta-card">
+            <template v-if="ctaCard">
+
+              <div class="title">
+                {{ ctaCard.title }}
+              </div>
+
+              <div
+                class="description"
+                v-html="ctaCard.description">
+              </div>
+
+            </template>
+          </Card>
+
         </div>
 
-        <div class="col-4">
+        <div class="col-3">
           <div class="panel-right">
             <div class="warp-image-double" />
           </div>
@@ -38,6 +58,7 @@ import { mapGetters } from 'vuex'
 import HeroA from '@/components/hero-a'
 import MarkdownParser from '@/components/markdown-parser'
 import Overlay from '@/components/overlay'
+import Card from '@/components/card'
 
 import AboutPageData from '@/content/pages/about.json'
 import AboutContent from '@/content/markdown/about.md'
@@ -49,7 +70,8 @@ export default {
   components: {
     HeroA,
     MarkdownParser,
-    Overlay
+    Overlay,
+    Card
   },
 
   data () {
@@ -75,6 +97,9 @@ export default {
     },
     heading () {
       return this.pageData.heading
+    },
+    ctaCard () {
+      return this.pageData.cta_card
     },
     markdown () {
       return AboutContent
@@ -103,15 +128,36 @@ export default {
   }
 }
 
-// ///////////////////////////////////////////////////////////////////////// FAQ
+// //////////////////////////////////////////////////////////////////////// Body
 #section-content {
   position: relative;
+  padding-bottom: 7.3125rem;
   border-top: 3px solid $nandor;
   z-index: 10;
 }
 
 .markdown {
   padding: 5rem 0;
+}
+
+.apply-cta-card {
+  width: 57%;
+  @include medium {
+    width: 100%;
+  }
+  .title {
+    font-size: toRem(30);
+    line-height: leading(40, 30);
+    font-weight: 500;
+    margin-bottom: 1.5rem;
+    margin-right: 5rem;
+  }
+  .description {
+    margin-bottom: toRem(27);
+  }
+  :deep(.content) {
+    padding: toRem(37) 2rem 1.875rem toRem(43);
+  }
 }
 
 // ////////////////////////////////////////////////////////////////// Warp Image

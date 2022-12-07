@@ -1,5 +1,5 @@
 <template>
-  <div :class="['card', `corner-position__${cornerPosition}`]">
+  <div :class="['card', `corner-position__${cornerPosition}`, { outline }]">
 
     <div :class="['panel', { small }]">
       <svg
@@ -66,6 +66,11 @@ export default {
       validator (val) {
         return ['arrow', 'chevron'].includes(val)
       }
+    },
+    outline: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   }
 }
@@ -226,6 +231,21 @@ $cardRadiusSmall: 1.5625rem;
   }
   .content {
     padding: 1.875rem 7rem 3.125rem 3.4375rem;
+  }
+}
+
+// ---------------------------------------------------------------- Outline Only
+.card.outline {
+  .panel {
+    &:before,
+    &:after {
+      background-color: transparent;
+    }
+  }
+  .corner {
+    path {
+      fill: transparent;
+    }
   }
 }
 </style>
