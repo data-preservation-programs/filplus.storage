@@ -32,6 +32,11 @@
             :value="getValue('organization_website')"
             form-id="filplus_application" />
 
+          <FieldContainer
+            :scaffold="formScaffold.region"
+            :value="getValue('region')"
+            form-id="filplus_application" />
+
         </div>
       </div>
 
@@ -53,7 +58,7 @@
       <div class="grid">
         <div class="col-6" data-push-left="off-1">
           <FieldContainer
-            :scaffold="formScaffold.total_datacap_size"
+            :scaffold="formScaffold.total_datacap_size_input"
             :value="getValue('total_datacap_size')"
             form-id="filplus_application" />
         </div>
@@ -61,21 +66,6 @@
           <FieldContainer
             :scaffold="formScaffold.total_datacap_size_unit"
             :value="getValue('total_datacap_size_unit')"
-            form-id="filplus_application" />
-        </div>
-      </div>
-
-      <div class="grid">
-        <div class="col-6" data-push-left="off-1">
-          <FieldContainer
-            :scaffold="formScaffold.weekly_data_size"
-            :value="getValue('weekly_data_size')"
-            form-id="filplus_application" />
-        </div>
-        <div class="col-2" data-push-left="off-1">
-          <FieldContainer
-            :scaffold="formScaffold.weekly_data_size_unit"
-            :value="getValue('weekly_data_size_unit')"
             form-id="filplus_application" />
         </div>
       </div>
@@ -135,10 +125,10 @@ export default {
   },
 
   async fetch ({ store, params, redirect }) {
-    const id = params.id
-    const notary = NotariesListData.find(notary => notary['Miner ID'] === id)
+    const name = params.name
+    const notary = NotariesListData.find(notary => notary.Miner === name)
     if (!notary) { return redirect('/apply/general/notaries') }
-    await store.dispatch('general/updateApplication', { notary_sp_id: id })
+    await store.dispatch('general/updateApplication', { notary: name })
     await store.dispatch('general/getBaseData', { key: 'apply-general', data: ApplyGeneralPageData })
     const formId = 'filplus_application'
     const application = store.getters['general/application']
@@ -179,7 +169,8 @@ export default {
 
   methods: {
     ...mapActions({
-      validateForm: 'form/validateForm'
+      validateForm: 'form/validateForm',
+      submitGeneralApplication: 'general/submitGeneralApplication'
     }),
     getValue (modelKey) {
       return this.application[modelKey]
@@ -187,6 +178,7 @@ export default {
     async submitForm () {
       const incoming = await this.validateForm('filplus_application')
       console.log(incoming)
+      this.submitGeneralApplication(incoming)
     }
   }
 }

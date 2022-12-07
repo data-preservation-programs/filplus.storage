@@ -19,11 +19,11 @@
     "form": {
       "select_button_text": "Request",
       "scaffold": {
-        "notary_sp_id": {
-          "field_key": "notary_sp_id",
+        "notary": {
+          "field_key": "notary",
           "type": "input",
           "input_type": "text",
-          "model_key": "notary_sp_id",
+          "model_key": "notary",
           "pre": "[^\\u0000-\\u00ff]",
           "autocomplete": "none"
         }

@@ -97,7 +97,7 @@ export default {
     '~/modules/toaster',
     // '~/modules/slider',
     // '~/modules/alert',
-    // '~/modules/auth',
+    '~/modules/auth',
     // '~/modules/search',
     '~/modules/form',
     '~/modules/button'
@@ -120,19 +120,19 @@ export default {
   },
   // ///////////////////////////////////////////////////////////// [Module] Auth
   // ---------------------------------------------------------------------------
-  // auth: {
-  //   redirectAfterLogin: {
-  //     unregistered: {
-  //       path: '/account/:key',
-  //       key: 'githubUsername'
-  //     },
-  //     registered: {
-  //       path: '/account/:key/datasets/claimed',
-  //       key: 'githubUsername'
-  //     }
-  //   },
-  //   redirectAfterLogout: '/'
-  // },
+  auth: {
+    redirectAfterLogin: {
+      unregistered: {
+        path: '/account/:key',
+        key: 'githubUsername'
+      },
+      registered: {
+        path: '/account/:key/datasets/claimed',
+        key: 'githubUsername'
+      }
+    },
+    redirectAfterLogout: '/'
+  },
   // ////////////////////////////////////////////////////////// [Module] Account
   // ---------------------------------------------------------------------------
   // account: {

@@ -70,7 +70,7 @@ export default {
       required: true
     },
     selectedOption: {
-      type: Number,
+      type: [Number, String],
       required: false,
       default: -1
     }

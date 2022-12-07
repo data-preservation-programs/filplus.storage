@@ -17,8 +17,8 @@
       </thead>
       <!-- ============================================================ Body -->
       <Field
-        :scaffold="formScaffold.notary_sp_id"
-        :value="application.notary_sp_id"
+        :scaffold="formScaffold.notary"
+        :value="application.notary"
         form-id="filplus_application">
         <tbody slot-scope="{ updateValue }" class="table-body">
           <tr
@@ -135,9 +135,9 @@ export default {
 
   methods: {
     selectNotary (notary, updateValue) {
-      const id = notary['Miner ID']
-      updateValue(id)
-      this.$router.push(`/apply/general/notaries/${id}`)
+      const name = notary.Miner
+      updateValue(name)
+      this.$router.push(`/apply/general/notaries/${name}`)
     }
   }
 }
