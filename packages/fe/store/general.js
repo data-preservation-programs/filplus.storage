@@ -129,7 +129,18 @@ const actions = {
       const response = await this.$axiosAuth.post('/submit-general-application', application)
       console.log(response.data.payload)
     } catch (e) {
-      console.log('===================== [Store Action: general/getStaticFile]')
+      console.log('========== [Store Action: general/submitGeneralApplication]')
+      console.log(e)
+      return false
+    }
+  },
+  // //////////////////////////////////////////////////// submitLargeApplication
+  async submitLargeApplication ({ commit }, application) {
+    try {
+      const response = await this.$axiosAuth.post('/submit-large-application', application)
+      console.log(response.data.payload)
+    } catch (e) {
+      console.log('============ [Store Action: general/submitLargeApplication]')
       console.log(e)
       return false
     }
