@@ -1,6 +1,13 @@
 <template>
   <footer id="site-footer">
 
+    <Squigglie
+      :percent-left="15"
+      orientation="down"
+      color="nandor"
+      :thick="true"
+      class="footer-top-border" />
+
     <Overlay type="noise" />
 
     <section class="section-footer">
@@ -61,6 +68,15 @@
         </div>
 
       </div>
+
+      <Squigglie
+        :percent-left="90"
+        orientation="up"
+        anchor="bottom"
+        color="nandor"
+        :thick="true"
+        class="footer-bottom-border" />
+
     </section>
 
     <section class="section-copyright">
@@ -107,6 +123,7 @@ import ButtonX from '@/components/buttons/button-x'
 import Card from '@/components/card'
 import GithubIcon from '@/components/icons/github'
 import SlackIcon from '@/components/icons/slack'
+import Squigglie from '@/components/squigglie'
 
 // ====================================================================== Export
 export default {
@@ -120,7 +137,8 @@ export default {
     ButtonX,
     Card,
     GithubIcon,
-    SlackIcon
+    SlackIcon,
+    Squigglie
     // ButtonD
   },
 
@@ -169,6 +187,7 @@ export default {
 <style lang="scss" scoped>
 // ///////////////////////////////////////////////////////////////////// General
 #site-footer {
+  position: relative;
   overflow: hidden;
 }
 
@@ -179,8 +198,15 @@ export default {
 }
 
 .section-footer {
-  border-top: 3px solid $nandor;
-  border-bottom: 3px solid $nandor;
+  border-top: 3px solid transparent;
+  border-bottom: 3px solid transparent;
+}
+
+.footer-bottom-border {
+  bottom: 0.5px !important;
+  :deep(path) {
+    fill: $aztec;
+  }
 }
 
 .site-logo {

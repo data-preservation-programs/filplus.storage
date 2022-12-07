@@ -82,9 +82,9 @@
           </div>
 
           <MobileNav
+            v-else
             ref="mobileNav"
-            :links="links"
-            v-else />
+            :links="links" />
 
         </div>
       </div>

@@ -32,22 +32,22 @@
           orientation="up"
           color="nandor" />
 
-          <div class="overflow-container">
-            <nav id="site-nav-mobile">
+        <div class="overflow-container">
+          <nav id="site-nav-mobile">
 
-              <ButtonX
-                v-for="(link, index) in links"
-                :key="`mobile-nav-link-${index}`"
-                tag="nuxt-link"
-                :to="link.href"
-                :selected="isRouteCurrent(link.href)"
-                class="site-mobile-nav-link"
-                @click.native="toggleModal">
-                {{ link.label }}
-              </ButtonX>
+            <ButtonX
+              v-for="(link, index) in links"
+              :key="`mobile-nav-link-${index}`"
+              tag="nuxt-link"
+              :to="link.href"
+              :selected="isRouteCurrent(link.href)"
+              class="site-mobile-nav-link"
+              @click.native="toggleModal">
+              {{ link.label }}
+            </ButtonX>
 
-            </nav>
-          </div>
+          </nav>
+        </div>
 
         <Squigglie
           :percent-left="20"
