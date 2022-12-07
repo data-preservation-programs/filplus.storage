@@ -9,6 +9,14 @@
 
     <!-- ========================================================== Notaries -->
     <div id="section-notaries">
+
+      <Squigglie
+        :percent-left="88"
+        orientation="up"
+        color="nandor"
+        :thick="true"
+        class="notaries-top-border" />
+
       <div class="grid-spaceBetween">
 
         <div class="col-1">
@@ -49,6 +57,7 @@ import { mapGetters } from 'vuex'
 import HeroA from '@/components/hero-a'
 import Overlay from '@/components/overlay'
 import NotariesTable from '@/components/notaries-table'
+import Squigglie from '@/components/squigglie'
 
 import NotariesPageData from '@/content/pages/notaries.json'
 import NotariesListData from '@/content/data/notaries-list.json'
@@ -60,7 +69,8 @@ export default {
   components: {
     HeroA,
     NotariesTable,
-    Overlay
+    Overlay,
+    Squigglie
   },
 
   data () {
@@ -119,8 +129,15 @@ export default {
 
 #section-notaries {
   position: relative;
-  border-top: 2px solid $nandor;
-  z-index: 10;
+  border-top: 2px solid transparent;
+  z-index: 25;
+}
+
+.notaries-top-border {
+  top: -3px;
+  :deep(path) {
+    fill: $aztec;
+  }
 }
 
 .overlay.type__noise {

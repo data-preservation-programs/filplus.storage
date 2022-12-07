@@ -73,7 +73,7 @@ export default {
         `orientation-${this.orientation}`,
         `anchor-${this.anchor}`,
         `color-${this.color}`,
-        { 'border-thick': this.thick}
+        { 'border-thick': this.thick }
       ]
     },
     beforeWidth () {

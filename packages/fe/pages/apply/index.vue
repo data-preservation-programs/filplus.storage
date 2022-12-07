@@ -104,6 +104,7 @@ import Card from '@/components/card'
 import FieldContainer from '@/components/form/field-container'
 import Overlay from '@/components/overlay'
 import Squigglie from '@/components/squigglie'
+
 import ApplyPageData from '@/content/pages/apply.json'
 import FaqPageData from '@/content/pages/faq.json'
 

@@ -10,6 +10,13 @@
     <!-- ======================================================= Application -->
     <div id="application">
 
+      <Squigglie
+        :percent-left="10"
+        orientation="up"
+        color="nandor"
+        :thick="true"
+        class="section-app-top-border" />
+
       <div class="grid">
         <div class="col-6" data-push-left="off-1">
 
@@ -103,6 +110,7 @@ import HeroB from '@/components/hero-b'
 import FieldContainer from '@/components/form/field-container'
 import ButtonA from '@/components/buttons/button-a'
 import Overlay from '@/components/overlay'
+import Squigglie from '@/components/squigglie'
 
 import ApplyGeneralPageData from '@/content/pages/apply-general.json'
 import NotariesListData from '@/content/data/notaries-list.json'
@@ -115,7 +123,8 @@ export default {
     HeroB,
     FieldContainer,
     ButtonA,
-    Overlay
+    Overlay,
+    Squigglie
   },
 
   data () {
@@ -195,6 +204,10 @@ export default {
   padding: 8.75rem 0;
   border-bottom: 2px solid $nandor;
   z-index: 10;
+}
+
+.section-app-top-border {
+  top: -3px;
 }
 
 .form-heading {
