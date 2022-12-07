@@ -1,27 +1,3 @@
-{
-  application_name: 'This is a test application, please ignore',
-  : 'This is a test application, please ignore',
-  : 'This is a test application, please ignore',
-  : 'This is a test application, please ignore',
-  : 'Twitter',
-  : 32,
-  : 'GiB',
-  : 'This is a test application, please ignore',
-  : 'This is a test application, please ignore',
-  funding_sources: 'This is a test application, please ignore',
-  : 'This is a test application, please ignore',
-  : 'This is a test application, please ignore',
-  : 'This is a test application, please ignore',
-  : 'This is a test application, please ignore',
-  : 'Daily',
-  : 'This is a test application, please ignore',
-  : 'This is a test application, please ignore',
-  : 'This is a test application, please ignore',
-  : 'This is a test application, please ignore',
-  : 'This is a test application, please ignore',
-  immediacy: 'This is a test application, please ignore'
-}
-
 ### Organization Name
 organization_name
 

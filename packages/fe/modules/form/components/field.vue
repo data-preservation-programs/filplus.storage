@@ -60,6 +60,7 @@ export default {
         case 'textarea' : component = 'FieldTextarea'; break
         case 'range' : component = 'FieldRange'; break
         case 'checkbox' : component = 'FieldCheckbox'; break
+        case 'radio' : component = 'FieldRadio'; break
         case 'select' : component = 'FieldSelect'; break
       }
       return component
@@ -115,7 +116,7 @@ export default {
     getDefaultValue (scaffold) {
       const type = scaffold.type
       const defaultValue = scaffold.default_value
-      if (type === 'select' && typeof defaultValue === 'string') {
+      if ((type === 'select' || type === 'radio' || type === 'checkbox') && typeof defaultValue === 'string') {
         return scaffold.options.findIndex(option => option.label === defaultValue)
       }
       return scaffold.default_value

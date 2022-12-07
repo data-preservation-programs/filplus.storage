@@ -11,7 +11,6 @@ const state = () => ({
   staticFiles: {},
   clipboard: false,
   application: {
-    application_name: '',
     organization_name: '',
     organization_website: '',
     organization_social_media_handle: '',
@@ -22,7 +21,6 @@ const state = () => ({
     weekly_data_size_unit: '',
     filecoin_address: '',
     about: '',
-    funding_sources: '',
     ecosystem_associates: '',
     nature_of_data: '',
     source_of_data: '',
@@ -33,9 +31,9 @@ const state = () => ({
     sending_data: '',
     storage_provider_selection_plan: '',
     replication_plan: '',
-    immediacy: '',
     notary: '',
-    region: ''
+    region: '',
+    public_availability: ''
   },
   networkStorageCapacity: false
 })

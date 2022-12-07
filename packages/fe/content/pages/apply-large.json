@@ -20,26 +20,6 @@
       "heading_2": "Application",
       "submit_button_text": "Send Request",
       "scaffold": {
-        "application_name": {
-          "field_key": "application_name",
-          "type": "input",
-          "input_type": "text",
-          "model_key": "application_name",
-          "label": "Unique name for this application",
-          "placeholder": "e.g. Lorem Ipsum",
-          "required": true,
-          "pre": "[^\\u0000-\\u00ff]",
-          "autocomplete": "none",
-          "chars": {
-            "min": 2,
-            "max": 1000
-          },
-          "validation_message": {
-            "required": "This field is required",
-            "chars": "Input must be between 2 and 35 characters"
-          },
-          "default_value": "This is a test application, please ignore"
-        },
         "organization_name": {
           "field_key": "organization_name",
           "type": "input",
@@ -237,25 +217,6 @@
           },
           "default_value": "This is a test application, please ignore"
         },
-        "funding_sources": {
-          "field_key": "funding_sources",
-          "type": "textarea",
-          "model_key": "funding_sources",
-          "label": "Funding Sources",
-          "placeholder": "What is the primary source of funding for this projet? Are there any other significant funding sources?",
-          "required": true,
-          "pre": "[^\\u0000-\\u00ff]",
-          "autocomplete": "none",
-          "chars": {
-            "min": 2,
-            "max": 1000
-          },
-          "validation_message": {
-            "required": "This field is required",
-            "chars": "Input must be between 2 and 35 characters"
-          },
-          "default_value": "This is a test application, please ignore"
-        },
         "ecosystem_associates": {
           "field_key": "ecosystem_associates",
           "type": "textarea",
@@ -331,6 +292,23 @@
             "chars": "Input must be between 2 and 35 characters"
           },
           "default_value": "This is a test application, please ignore"
+        },
+        "public_availability": {
+          "field_key": "public_availability",
+          "type": "radio",
+          "model_key": "public_availability",
+          "label": "Public availability",
+          "description": "Is this a public dataset that can be retrieved by anyone on the network?  (i.e., are specific permissions or access rights required to view the data)",
+          "required": true,
+          "output": "option",
+          "validation_message": {
+            "required": "This field is required"
+          },
+          "options": [
+            { "label": "Yes" },
+            { "label": "No" }
+          ],
+          "default_value": "Yes"
         },
         "frequency_of_retrieval": {
           "field_key": "frequency_of_retrieval",
@@ -433,25 +411,6 @@
           "model_key": "replication_plan",
           "label": "Replication plan",
           "placeholder": "How will you be distributing deals across different storage providers?",
-          "required": true,
-          "pre": "[^\\u0000-\\u00ff]",
-          "autocomplete": "none",
-          "chars": {
-            "min": 2,
-            "max": 1000
-          },
-          "validation_message": {
-            "required": "This field is required",
-            "chars": "Input must be between 2 and 35 characters"
-          },
-          "default_value": "This is a test application, please ignore"
-        },
-        "immediacy": {
-          "field_key": "immediacy",
-          "type": "textarea",
-          "model_key": "immediacy",
-          "label": "Immediacy",
-          "placeholder": "Do you have the resources and funding to start making deals as soon as you receive DataCap? What support from the community would help you onboard your data onto Filecoin?",
           "required": true,
           "pre": "[^\\u0000-\\u00ff]",
           "autocomplete": "none",

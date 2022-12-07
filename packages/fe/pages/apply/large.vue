@@ -18,11 +18,6 @@
           </div>
 
           <FieldContainer
-            :scaffold="formScaffold.application_name"
-            :value="getValue('application_name')"
-            form-id="filplus_application" />
-
-          <FieldContainer
             :scaffold="formScaffold.organization_name"
             :value="getValue('organization_name')"
             form-id="filplus_application" />
@@ -109,11 +104,6 @@
             form-id="filplus_application" />
 
           <FieldContainer
-            :scaffold="formScaffold.funding_sources"
-            :value="getValue('funding_sources')"
-            form-id="filplus_application" />
-
-          <FieldContainer
             :scaffold="formScaffold.ecosystem_associates"
             :value="getValue('ecosystem_associates')"
             form-id="filplus_application" />
@@ -138,7 +128,10 @@
 
       <div class="grid">
         <div class="col-5" data-push-left="off-1">
-          FIELD
+          <FieldContainer
+            :scaffold="formScaffold.public_availability"
+            :value="getValue('public_availability')"
+            form-id="filplus_application" />
         </div>
         <div class="col-4" data-push-left="off-1">
           <FieldContainer
@@ -174,11 +167,6 @@
           <FieldContainer
             :scaffold="formScaffold.replication_plan"
             :value="getValue('replication_plan')"
-            form-id="filplus_application" />
-
-          <FieldContainer
-            :scaffold="formScaffold.immediacy"
-            :value="getValue('immediacy')"
             form-id="filplus_application" />
 
           <ButtonA
@@ -306,6 +294,14 @@ export default {
 #application-top {
   padding: 8.75rem 0;
   border-bottom: 2px solid $nandor;
+}
+
+#application-bottom {
+  :deep(.field-wrapper) {
+    .field-label {
+      margin-bottom: 1.5rem;
+    }
+  }
 }
 
 .form-heading-1,

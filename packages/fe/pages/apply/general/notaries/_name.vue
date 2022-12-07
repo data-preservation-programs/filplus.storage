@@ -18,11 +18,6 @@
           </div>
 
           <FieldContainer
-            :scaffold="formScaffold.application_name"
-            :value="getValue('application_name')"
-            form-id="filplus_application" />
-
-          <FieldContainer
             :scaffold="formScaffold.organization_name"
             :value="getValue('organization_name')"
             form-id="filplus_application" />
