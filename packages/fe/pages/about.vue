@@ -10,6 +10,14 @@
 
     <!-- =============================================================== FAQ -->
     <div id="section-content">
+
+      <Squigglie
+        :percent-left="6"
+        orientation="down"
+        color="nandor"
+        :thick="true"
+        class="section-top-border" />
+
       <div class="grid-spaceBetween">
 
         <div class="col-7" data-push-left="off-1">
@@ -58,6 +66,7 @@ import { mapGetters } from 'vuex'
 import HeroA from '@/components/hero-a'
 import MarkdownParser from '@/components/markdown-parser'
 import Overlay from '@/components/overlay'
+import Squigglie from '@/components/squigglie'
 import Card from '@/components/card'
 
 import AboutPageData from '@/content/pages/about.json'
@@ -71,6 +80,7 @@ export default {
     HeroA,
     MarkdownParser,
     Overlay,
+    Squigglie,
     Card
   },
 
@@ -132,8 +142,12 @@ export default {
 #section-content {
   position: relative;
   padding-bottom: 7.3125rem;
-  border-top: 3px solid $nandor;
+  border-top: 3px solid transparent;
   z-index: 10;
+}
+
+.section-top-border {
+  top: -3px;
 }
 
 .markdown {

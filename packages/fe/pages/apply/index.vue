@@ -52,6 +52,14 @@
 
     <!-- =============================================================== FAQ -->
     <div id="section-faq">
+
+      <Squigglie
+        :percent-left="6"
+        orientation="down"
+        color="nandor"
+        :thick="true"
+        class="faq-top-border" />
+
       <div class="grid-spaceBetween">
 
         <div class="col-6" data-push-left="off-1">
@@ -95,6 +103,7 @@ import ButtonX from '@/components/buttons/button-x'
 import Card from '@/components/card'
 import FieldContainer from '@/components/form/field-container'
 import Overlay from '@/components/overlay'
+import Squigglie from '@/components/squigglie'
 
 import ApplyPageData from '@/content/pages/apply.json'
 import FaqPageData from '@/content/pages/faq.json'
@@ -110,7 +119,8 @@ export default {
     ButtonA,
     ButtonX,
     Card,
-    Overlay
+    Overlay,
+    Squigglie
   },
 
   data () {
@@ -241,8 +251,10 @@ $cardRadius: 1.875rem;
 // ///////////////////////////////////////////////////////////////////////// FAQ
 #section-faq {
   position: relative;
-  border-top: 3px solid $nandor;
-  z-index: 10;
+  z-index: 25;
+  .faq-top-border {
+    top: -3px;
+  }
 }
 
 .section-accordion {

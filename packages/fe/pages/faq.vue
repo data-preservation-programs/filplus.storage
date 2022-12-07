@@ -8,6 +8,14 @@
 
     <!-- =============================================================== FAQ -->
     <div id="section-faq">
+
+      <Squigglie
+        :percent-left="6"
+        orientation="down"
+        color="nandor"
+        :thick="true"
+        class="faq-top-border" />
+
       <div class="grid-spaceBetween">
 
         <div class="col-7" data-push-left="off-1">
@@ -56,6 +64,7 @@ import { mapGetters } from 'vuex'
 import HeroA from '@/components/hero-a'
 import FaqAccordion from '@/components/faq-accordion'
 import Overlay from '@/components/overlay'
+import Squigglie from '@/components/squigglie'
 import Card from '@/components/card'
 
 import FaqPageData from '@/content/pages/faq.json'
@@ -68,6 +77,7 @@ export default {
     HeroA,
     FaqAccordion,
     Overlay,
+    Squigglie,
     Card
   },
 
@@ -129,8 +139,12 @@ export default {
 #section-faq {
   position: relative;
   padding-bottom: 4.125rem;
-  border-top: 3px solid $nandor;
-  z-index: 10;
+  border-top: 3px solid transparent;
+  z-index: 25;
+}
+
+.faq-top-border {
+  top: -3px;
 }
 
 .faq-accordion {

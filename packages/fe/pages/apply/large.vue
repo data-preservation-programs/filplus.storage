@@ -10,6 +10,13 @@
     <!-- ============================== [Application] Background Information -->
     <div id="application-top">
 
+      <Squigglie
+        :percent-left="10"
+        orientation="down"
+        color="nandor"
+        :thick="true"
+        class="section-bg-top-border" />
+
       <div class="grid">
         <div class="col-6" data-push-left="off-1">
 
@@ -110,6 +117,13 @@
 
     <!-- ================================================ [Application] Full -->
     <div id="application-bottom">
+
+      <Squigglie
+        :percent-left="90"
+        orientation="up"
+        color="nandor"
+        :thick="true"
+        class="section-app-top-border" />
 
       <div class="grid">
         <div class="col-7" data-push-left="off-1">
@@ -261,6 +275,7 @@ import HeroB from '@/components/hero-b'
 import FieldContainer from '@/components/form/field-container'
 import ButtonA from '@/components/buttons/button-a'
 import Overlay from '@/components/overlay'
+import Squigglie from '@/components/squigglie'
 
 import ApplyLargePageData from '@/content/pages/apply-large.json'
 
@@ -272,7 +287,8 @@ export default {
     HeroB,
     FieldContainer,
     ButtonA,
-    Overlay
+    Overlay,
+    Squigglie
   },
 
   data () {
@@ -359,8 +375,14 @@ export default {
 }
 
 #application-top {
+  position: relative;
   padding: 8.75rem 0;
-  border-bottom: 2px solid $nandor;
+  border-bottom: 2px solid transparent;
+}
+
+.section-bg-top-border,
+.section-app-top-border {
+  top: -3px;
 }
 
 #application-bottom {

@@ -58,6 +58,11 @@ export default {
       validator (val) {
         return ['white', 'nandor', 'pass-through'].includes(val)
       }
+    },
+    thick: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
 
@@ -67,7 +72,8 @@ export default {
         'squigglie-wrapper',
         `orientation-${this.orientation}`,
         `anchor-${this.anchor}`,
-        `color-${this.color}`
+        `color-${this.color}`,
+        { 'border-thick': this.thick }
       ]
     },
     beforeWidth () {
@@ -147,6 +153,27 @@ export default {
     }
     .squigglie {
       opacity: 0.4;
+    }
+  }
+  &.border-thick {
+    .line-before,
+    .line-after {
+      top: 0;
+      height: 3px;
+    }
+    .squigglie {
+      transform: translateY(-0.5px);
+      path {
+        stroke-width: 3;
+      }
+    }
+    &.orientation-up {
+      .squigglie {
+        transform: scaleY(-1) translateY(40.5px);
+        path {
+          stroke-width: 3;
+        }
+      }
     }
   }
 }
