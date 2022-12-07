@@ -48,6 +48,8 @@
     <!-- ========================================================== Overlays -->
     <Overlay type="noise" />
 
+    <BackgroundGradients />
+
   </div>
 </template>
 
@@ -59,6 +61,7 @@ import HeroA from '@/components/hero-a'
 import MarkdownParser from '@/components/markdown-parser'
 import Overlay from '@/components/overlay'
 import Card from '@/components/card'
+import BackgroundGradients from '@/components/background-gradients'
 
 import AboutPageData from '@/content/pages/about.json'
 import AboutContent from '@/content/markdown/about.md'
@@ -71,7 +74,8 @@ export default {
     HeroA,
     MarkdownParser,
     Overlay,
-    Card
+    Card,
+    BackgroundGradients
   },
 
   data () {

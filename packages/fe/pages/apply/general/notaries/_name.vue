@@ -87,6 +87,8 @@
     <!-- ========================================================== Overlays -->
     <Overlay type="noise" />
 
+    <BackgroundGradients />
+
   </div>
 </template>
 
@@ -98,6 +100,7 @@ import HeroB from '@/components/hero-b'
 import FieldContainer from '@/components/form/field-container'
 import ButtonA from '@/components/buttons/button-a'
 import Overlay from '@/components/overlay'
+import BackgroundGradients from '@/components/background-gradients'
 
 import ApplyGeneralPageData from '@/content/pages/apply-general.json'
 import NotariesListData from '@/content/data/notaries-list.json'
@@ -110,7 +113,8 @@ export default {
     HeroB,
     FieldContainer,
     ButtonA,
-    Overlay
+    Overlay,
+    BackgroundGradients
   },
 
   data () {

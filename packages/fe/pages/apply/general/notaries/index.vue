@@ -39,6 +39,8 @@
     <!-- ========================================================== Overlays -->
     <Overlay type="noise" />
 
+    <BackgroundGradients />
+
   </div>
 </template>
 
@@ -49,6 +51,7 @@ import { mapGetters } from 'vuex'
 import HeroA from '@/components/hero-a'
 import Overlay from '@/components/overlay'
 import NotariesTable from '@/components/notaries-table'
+import BackgroundGradients from '@/components/background-gradients'
 
 import NotariesPageData from '@/content/pages/notaries.json'
 import NotariesListData from '@/content/data/notaries-list.json'
@@ -60,7 +63,8 @@ export default {
   components: {
     HeroA,
     NotariesTable,
-    Overlay
+    Overlay,
+    BackgroundGradients
   },
 
   data () {

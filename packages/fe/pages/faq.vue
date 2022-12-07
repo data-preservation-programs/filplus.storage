@@ -46,6 +46,8 @@
     <!-- ========================================================== Overlays -->
     <Overlay type="noise" />
 
+    <BackgroundGradients />
+
   </div>
 </template>
 
@@ -57,6 +59,7 @@ import HeroA from '@/components/hero-a'
 import FaqAccordion from '@/components/faq-accordion'
 import Overlay from '@/components/overlay'
 import Card from '@/components/card'
+import BackgroundGradients from '@/components/background-gradients'
 
 import FaqPageData from '@/content/pages/faq.json'
 
@@ -68,7 +71,8 @@ export default {
     HeroA,
     FaqAccordion,
     Overlay,
-    Card
+    Card,
+    BackgroundGradients
   },
 
   data () {
