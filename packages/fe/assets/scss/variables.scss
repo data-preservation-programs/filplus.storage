@@ -153,8 +153,8 @@ $breakpoint_UltraLarge: 140.625rem; // 2250px
 @mixin xlarge { @media screen and (max-width: 90rem) { @content; } }
 @mixin ultraLarge { @media screen and (max-width: 140.625rem) { @content; } }
 
-@mixin containerMaxMQ { @media screen and (max-width: 75rem) { @content; } }
-@mixin containerMinMQ { @media screen and (max-width: 75.0625rem) { @content; } }
+@mixin containerMaxMQ { @media screen and (max-width: 82rem) { @content; } }
+@mixin containerMinMQ { @media screen and (max-width: 82.0625rem) { @content; } }
 @mixin customMaxMQ($width) { @media screen and (max-width: $width) { @content; } }
 @mixin customMinMQ($width) { @media screen and (min-width: $width) { @content; } }
 
