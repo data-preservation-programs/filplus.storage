@@ -168,6 +168,10 @@ export default {
 
 <style lang="scss" scoped>
 // ///////////////////////////////////////////////////////////////////// General
+#site-footer {
+  position: relative;
+}
+
 .section-footer,
 .section-copyright {
   position: relative;

@@ -72,8 +72,9 @@ export default {
 // ///////////////////////////////////////////////////////////////////// General
 .background-gradients {
   position: absolute;
-  width: toRem(1440);
+  top: 0;
   left: calc(50vw - 720px);
+  width: toRem(1440);
   filter: blur(1.5rem);
   svg {
     filter: blur(1.5rem);
@@ -84,14 +85,16 @@ export default {
 }
 
 .top-path {
-  transform: translateY(-5rem);
+  top: 0;
+  left: 0;
+  width: toRem(1100);
 }
 
 .repeated-path {
   position: absolute;
   top: 0;
   left: 0;
-  transform: rotate(5deg) translateX(3rem);
+  transform: translateX(3rem);
   &.rotate {
     transform: rotate(20deg) translate(10rem, 200px);
   }

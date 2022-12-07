@@ -112,7 +112,7 @@ export default {
     FieldContainer,
     ButtonA,
     Overlay,
-    BackgroundGradients
+    BackgroundGradients,
     ButtonX,
     Card
   },
