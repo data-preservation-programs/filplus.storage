@@ -34,7 +34,7 @@ import IconCheckmark from '@/components/icons/checkmark'
 
 // ====================================================================== Export
 export default {
-  name: 'FieldCheckbox',
+  name: 'FieldRadio',
 
   components: {
     IconCheckmark

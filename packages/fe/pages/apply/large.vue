@@ -23,6 +23,16 @@
             form-id="filplus_application" />
 
           <FieldContainer
+            :scaffold="formScaffold.data_owner_region"
+            :value="getValue('data_owner_region')"
+            form-id="filplus_application" />
+
+          <FieldContainer
+            :scaffold="formScaffold.data_owner_industry"
+            :value="getValue('data_owner_industry')"
+            form-id="filplus_application" />
+
+          <FieldContainer
             :scaffold="formScaffold.organization_website"
             :value="getValue('organization_website')"
             form-id="filplus_application" />
@@ -83,6 +93,16 @@
             :value="getValue('filecoin_address')"
             form-id="filplus_application" />
 
+          <FieldContainer
+            :scaffold="formScaffold.custom_multisig"
+            :value="getValue('custom_multisig')"
+            form-id="filplus_application" />
+
+          <FieldContainer
+            :scaffold="formScaffold.identifier"
+            :value="getValue('identifier')"
+            form-id="filplus_application" />
+
         </div>
       </div>
 
@@ -104,8 +124,13 @@
             form-id="filplus_application" />
 
           <FieldContainer
-            :scaffold="formScaffold.ecosystem_associates"
-            :value="getValue('ecosystem_associates')"
+            :scaffold="formScaffold.ecosystem_associates_radio"
+            :value="getValue('ecosystem_associates_radio')"
+            form-id="filplus_application" />
+
+          <FieldContainer
+            :scaffold="formScaffold.ecosystem_associates_textarea"
+            :value="getValue('ecosystem_associates_textarea')"
             form-id="filplus_application" />
 
           <FieldContainer
@@ -114,8 +139,23 @@
             form-id="filplus_application" />
 
           <FieldContainer
-            :scaffold="formScaffold.source_of_data"
-            :value="getValue('source_of_data')"
+            :scaffold="formScaffold.source_of_data_select"
+            :value="getValue('source_of_data_select')"
+            form-id="filplus_application" />
+
+          <FieldContainer
+            :scaffold="formScaffold.source_of_data_textarea"
+            :value="getValue('source_of_data_textarea')"
+            form-id="filplus_application" />
+
+          <FieldContainer
+            :scaffold="formScaffold.data_preparation_plan_select"
+            :value="getValue('data_preparation_plan_select')"
+            form-id="filplus_application" />
+
+          <FieldContainer
+            :scaffold="formScaffold.data_preparation_plan_textarea"
+            :value="getValue('data_preparation_plan_textarea')"
             form-id="filplus_application" />
 
           <FieldContainer
@@ -123,15 +163,22 @@
             :value="getValue('data_sample')"
             form-id="filplus_application" />
 
+          <FieldContainer
+            :scaffold="formScaffold.public_availability_radio"
+            :value="getValue('public_availability_radio')"
+            form-id="filplus_application" />
+
+          <FieldContainer
+            :scaffold="formScaffold.public_availability_textarea"
+            :value="getValue('public_availability_textarea')"
+            form-id="filplus_application" />
+
         </div>
       </div>
 
       <div class="grid">
         <div class="col-5" data-push-left="off-1">
-          <FieldContainer
-            :scaffold="formScaffold.public_availability"
-            :value="getValue('public_availability')"
-            form-id="filplus_application" />
+          FIELD
         </div>
         <div class="col-4" data-push-left="off-1">
           <FieldContainer
@@ -160,13 +207,33 @@
             form-id="filplus_application" />
 
           <FieldContainer
-            :scaffold="formScaffold.storage_provider_selection_plan"
-            :value="getValue('storage_provider_selection_plan')"
+            :scaffold="formScaffold.storage_provider_selection_plan_select"
+            :value="getValue('storage_provider_selection_plan_select')"
             form-id="filplus_application" />
 
           <FieldContainer
-            :scaffold="formScaffold.replication_plan"
-            :value="getValue('replication_plan')"
+            :scaffold="formScaffold.storage_provider_selection_plan_input"
+            :value="getValue('storage_provider_selection_plan_input')"
+            form-id="filplus_application" />
+
+          <FieldContainer
+            :scaffold="formScaffold.storage_provider_selection_plan_textarea"
+            :value="getValue('storage_provider_selection_plan_textarea')"
+            form-id="filplus_application" />
+
+          <FieldContainer
+            :scaffold="formScaffold.replication_plan_select"
+            :value="getValue('replication_plan_select')"
+            form-id="filplus_application" />
+
+          <FieldContainer
+            :scaffold="formScaffold.replication_plan_textarea"
+            :value="getValue('replication_plan_textarea')"
+            form-id="filplus_application" />
+
+          <FieldContainer
+            :scaffold="formScaffold.confirm_follow_fil_guideline"
+            :value="getValue('confirm_follow_fil_guideline')"
             form-id="filplus_application" />
 
           <ButtonA

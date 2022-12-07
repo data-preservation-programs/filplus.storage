@@ -62,7 +62,7 @@
           "field_key": "region",
           "type": "select",
           "model_key": "region",
-          "label": "Social Media Type",
+          "label": "Region",
           "required": true,
           "output": "option",
           "validation_message": {
