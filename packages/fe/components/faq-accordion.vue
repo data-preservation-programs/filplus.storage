@@ -7,31 +7,48 @@
       {{ toggleButtonText }}
     </ButtonX>
 
-    <Accordion
-      ref="accordion"
-      v-slot="{ active }"
-      :multiple="true"
-      @toggleStateChanged="accordionToggleStateChanged">
-      <AccordionSection
-        v-for="(entry, index) in entries"
-        :key="index"
-        :active="active">
+    <div class="accordion-wrapper">
 
-        <AccordionHeader>
-          <div class="question">
-            <span class="text">{{ entry.question }}</span>
-            <IconChevronDown />
-          </div>
-        </AccordionHeader>
+      <Squigglie
+        :percent-left="16"
+        orientation="up"
+        color="white"
+        class="faq-top-border" />
 
-        <AccordionContent>
-          <div class="answer">
-            {{ entry.answer }}
-          </div>
-        </AccordionContent>
+      <Accordion
+        ref="accordion"
+        v-slot="{ active }"
+        :multiple="true"
+        @toggleStateChanged="accordionToggleStateChanged">
+        <AccordionSection
+          v-for="(entry, index) in entries"
+          :key="index"
+          :active="active">
 
-      </AccordionSection>
-    </Accordion>
+          <AccordionHeader>
+            <div class="question">
+              <span class="text">{{ entry.question }}</span>
+              <IconChevronDown />
+            </div>
+          </AccordionHeader>
+
+          <AccordionContent>
+            <div class="answer">
+              {{ entry.answer }}
+            </div>
+          </AccordionContent>
+
+        </AccordionSection>
+      </Accordion>
+
+      <Squigglie
+        :percent-left="84"
+        orientation="down"
+        anchor="bottom"
+        color="white"
+        class="faq-top-border" />
+
+    </div>
 
   </div>
 </template>
@@ -43,6 +60,7 @@ import Accordion from '@/components/accordion/accordion'
 import AccordionHeader from '@/components/accordion/accordion-header'
 import AccordionContent from '@/components/accordion/accordion-content'
 import AccordionSection from '@/components/accordion/accordion-section'
+import Squigglie from '@/components/squigglie'
 
 import IconChevronDown from '@/components/icons/chevron-down'
 
@@ -56,7 +74,8 @@ export default {
     AccordionHeader,
     AccordionContent,
     AccordionSection,
-    IconChevronDown
+    IconChevronDown,
+    Squigglie
   },
 
   props: {
@@ -123,10 +142,13 @@ $padding: 2.25rem;
   margin-bottom: 1.5rem;
 }
 
+.accordion-wrapper {
+  position: relative;
+}
+
 .accordion-section {
   &:first-child {
     &:before {
-      @include border;
       bottom: auto;
       top: 0;
     }
@@ -135,6 +157,13 @@ $padding: 2.25rem;
     .icon-chevron-down {
       transition: 150ms ease-out;
       transform: rotate(-180deg);
+    }
+  }
+  &:last-child {
+    .accordion-content {
+      &:before {
+        display: none;
+      }
     }
   }
 }
