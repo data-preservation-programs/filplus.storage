@@ -27,31 +27,33 @@
       class="nav-modal">
       <div class="inner-wrapper">
 
-        <nav id="site-nav-mobile">
+        <Squigglie
+          :percent-left="80"
+          orientation="up"
+          color="nandor" />
 
-          <Squigglie
-            :percent-left="80"
-            orientation="up"
-            color="nandor" />
+          <div class="overflow-container">
+            <nav id="site-nav-mobile">
 
-          <Squigglie
-            :percent-left="20"
-            orientation="down"
-            anchor="bottom"
-            color="nandor" />
+              <ButtonX
+                v-for="(link, index) in links"
+                :key="`mobile-nav-link-${index}`"
+                tag="nuxt-link"
+                :to="link.href"
+                :selected="isRouteCurrent(link.href)"
+                class="site-mobile-nav-link"
+                @click.native="toggleModal">
+                {{ link.label }}
+              </ButtonX>
 
-          <ButtonX
-            v-for="(link, index) in links"
-            :key="`mobile-nav-link-${index}`"
-            tag="nuxt-link"
-            :to="link.href"
-            :selected="isRouteCurrent(link.href)"
-            class="site-mobile-nav-link"
-            @click.native="toggleModal">
-            {{ link.label }}
-          </ButtonX>
+            </nav>
+          </div>
 
-        </nav>
+        <Squigglie
+          :percent-left="20"
+          orientation="down"
+          anchor="bottom"
+          color="nandor" />
 
         <div class="cta-wrapper">
           <CircleText class="cta-spinner" />
@@ -229,6 +231,18 @@ export default {
 .nav-modal {
   background-color: $aztec;
   padding-top: 11.125rem;
+  padding-bottom: toRem(228);
+}
+
+.inner-wrapper {
+  position: relative;
+  height: 100%;
+}
+
+.overflow-container {
+  width: 100%;
+  height: 100%;
+  overflow: scroll;
 }
 
 #site-nav-mobile {
@@ -237,7 +251,6 @@ export default {
   flex-direction: column;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 0.75rem;
 }
 
 .site-mobile-nav-link {
@@ -251,10 +264,9 @@ export default {
 }
 
 .cta-wrapper {
-  position: relative;
-  margin-top: toRem(52);
-  margin-left: auto;
-  margin-right: toRem(39);
+  position: absolute;
+  top: calc(100% + 52px);
+  right: toRem(40);
   width: toRem(130);
 }
 
