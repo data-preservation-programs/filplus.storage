@@ -18,13 +18,31 @@
 
       <div class="grid-spaceBetween">
 
-        <div class="col-6" data-push-left="off-1">
+        <div class="col-7" data-push-left="off-1">
           <FaqAccordion
             :entries="faqList"
             :toggle-button-content="accordionToggleButtonText" />
+
+          <Card
+            icon="arrow"
+            :outline="true"
+            class="apply-cta-card">
+            <template v-if="ctaCard">
+
+              <div class="title">
+                {{ ctaCard.title }}
+              </div>
+
+              <div
+                class="description"
+                v-html="ctaCard.description">
+              </div>
+
+            </template>
+          </Card>
         </div>
 
-        <div class="col-4">
+        <div class="col-3">
           <div class="panel-right">
             <div class="warp-image-double" />
           </div>
@@ -47,6 +65,7 @@ import HeroA from '@/components/hero-a'
 import FaqAccordion from '@/components/faq-accordion'
 import Overlay from '@/components/overlay'
 import Squigglie from '@/components/squigglie'
+import Card from '@/components/card'
 
 import FaqPageData from '@/content/pages/faq.json'
 
@@ -58,7 +77,8 @@ export default {
     HeroA,
     FaqAccordion,
     Overlay,
-    Squigglie
+    Squigglie,
+    Card
   },
 
   data () {
@@ -90,6 +110,9 @@ export default {
     },
     faqList () {
       return this.pageData.faq
+    },
+    ctaCard () {
+      return this.pageData.cta_card
     }
   }
 }
@@ -115,6 +138,7 @@ export default {
 // ///////////////////////////////////////////////////////////////////////// FAQ
 #section-faq {
   position: relative;
+  padding-bottom: 4.125rem;
   border-top: 3px solid transparent;
   z-index: 25;
 }
@@ -151,6 +175,26 @@ export default {
 // .more-button {
 //   margin-top: 1.875rem;
 // }
+
+.apply-cta-card {
+  width: 57%;
+  @include medium {
+    width: 100%;
+  }
+  .title {
+    font-size: toRem(30);
+    line-height: leading(40, 30);
+    font-weight: 500;
+    margin-bottom: 1.5rem;
+    margin-right: 5rem;
+  }
+  .description {
+    margin-bottom: toRem(27);
+  }
+  :deep(.content) {
+    padding: toRem(37) 2rem 1.875rem toRem(43);
+  }
+}
 
 // ////////////////////////////////////////////////////////////////// Warp Image
 .panel-right {

@@ -60,7 +60,7 @@
       <div class="grid">
         <div class="col-6" data-push-left="off-1">
           <FieldContainer
-            :scaffold="formScaffold.total_datacap_size"
+            :scaffold="formScaffold.total_datacap_size_input"
             :value="getValue('total_datacap_size')"
             form-id="filplus_application" />
         </div>
