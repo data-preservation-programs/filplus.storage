@@ -1,4 +1,4 @@
-#### What is Filecoin+?
+### What is Filecoin+?
 
 Filecoin provides a robust and decentralized platform that anyone can use to store data. Storage providers on the network receive block rewards based on the reliable storage they provide.
 
