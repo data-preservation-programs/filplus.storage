@@ -154,16 +154,17 @@ const writeFieldsToFormModel = async (model, fields) => {
       field = reconciledMirrorFields.hasOwnProperty(fieldKey) ? reconciledMirrorFields[fieldKey] : field
       const modelKey = field.model_key
       const mirror = field.mirror
+      const value = field.value
       field.state = 'valid'
       field.validation = false
-      field.originalValue = field.value
+      field.originalValue = value
       if (!field.hasOwnProperty('parent_model_key') && (!mirror || mirror.primary)) {
         if (field.type === 'array') {
           model[modelKey] = await compileArray(field, fields)
         } else if (field.type === 'select' && field.output === 'option') {
-          model[modelKey] = field.options[field.value].label
+          model[modelKey] = typeof value === 'string' ? value : field.options[value].label
         } else {
-          model[modelKey] = field.value
+          model[modelKey] = value
         }
       }
     }

@@ -92,7 +92,7 @@ export default {
       this.$emit('dropdownToggled', state)
     }
   },
-
+  
   mounted () {
     this.keydown = this.handleKeyboardNavigation
     window.addEventListener('keydown', this.keydown)
