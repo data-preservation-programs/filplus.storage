@@ -226,6 +226,9 @@ $cardRadius: 1.875rem;
 
 // //////////////////////////////////////////////////////////////////////// Hero
 ::v-deep #hero {
+  @include small {
+    padding-top: 50rem;
+  }
   .hero-content {
     padding-bottom: 0;
   }
