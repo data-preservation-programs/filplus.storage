@@ -497,31 +497,75 @@ span.error {
       margin-top: 3.75rem;
     }
   }
-  h1, h2, h3 {
-    &:not(:last-child) {
-      margin-bottom: 1rem;
-    }
+  h1, h2, h3, h4, h5, h6 {
+    margin-bottom: 2rem;
     + ul, + ol {
       margin-top: 2rem;
     }
   }
+  h1,
+  h2 {
+    font-size: toRem(35);
+    line-height: leading(40, 35);
+  }
+  h3 {
+    font-size: toRem(30);
+    line-height: leading(35, 30);
+  }
+  h4 {
+    font-size: toRem(24);
+    line-height: leading(30, 24);
+  }
+  h5, h6 {
+    font-size: toRem(20);
+    line-height: leading(24, 20);
+  }
   p {
+    font-size: 1.125rem;
+    font-weight: 400;
+    line-height: leading(35, 18);
     &:not(:last-child) {
-      margin-bottom: 1rem;
+      margin-bottom: 2rem;
     }
   }
   a {
-    color: darkorange;
-    font-weight: 600;
+    font-size: 1.125rem;
+    line-height: leading(35, 18);
+    color: $greenYellow;
+    font-weight: 500;
+    border-bottom: 1px solid rgba($greenYellow, 0);
+    transition: 200ms ease;
     &:hover {
-      text-decoration: underline;
+      border-bottom: 1px solid rgba($greenYellow, 1);
+    }
+  }
+  hr {
+    margin-bottom: 2rem;
+  }
+  button {
+    white-space: nowrap;
+    font-size: toRem(20);
+    font-weight: 500;
+    padding: 0.625rem 1.125rem;
+    border-radius: 2.5rem;
+    border: 2px solid white;
+    cursor: pointer;
+    margin-bottom: 2rem;
+    &:not([disabled]) {
+      &:focus-visible {
+        @include focusBoxShadow;
+      }
+    }
+    &[disabled] {
+      box-shadow: none;
+      cursor: no-drop;
     }
   }
   pre,
   code {
     font-family: $fontSuisseIntlMono;
-    background-color: tomato;
-    color: teal;
+    background-color: $aztec;
+    color: white;
     padding: 0.3125rem 0.625rem;
     border-radius: 0.25rem;
     font-size: 0.75rem;
@@ -534,10 +578,11 @@ span.error {
     word-break: break-all;
     white-space: break-spaces;
     border-radius: 0;
-    &::-moz-selection { background: teal; color: tomato; }
-    &::selection { background: teal; color: tomato; }
+    &::-moz-selection { background: $titanWhite; color: $aztec; }
+    &::selection { background: $titanWhite; color: $aztec; }
   }
   ul, ol {
+    margin-bottom: 2rem;
     li {
       margin-bottom: 1rem;
     }
@@ -550,6 +595,9 @@ span.error {
       list-style: none;
       padding-left: 1.75rem;
       margin-bottom: 1rem;
+      font-size: 1.125rem;
+      font-weight: 400;
+      line-height: leading(35, 18);
       &:before {
         content: '';
         display: inline-block;
@@ -559,12 +607,12 @@ span.error {
         height: 7px;
         margin-left: -9px;
         border-radius: 50%;
-        background-color: darkorange;
+        background-color: white;
       }
       li {
         &:before {
           background-color: transparent;
-          border: 1px solid darkorange;
+          border: 1px solid white;
         }
       }
     }

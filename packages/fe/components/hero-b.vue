@@ -64,7 +64,7 @@ export default {
   position: relative;
   margin-top: -$siteHeaderHeight;
   padding-top: $siteHeaderHeight * 2;
-  border-bottom: 2px solid $nandor;
+  // border-bottom: 2px solid $nandor;
   overflow: hidden;
   z-index: 25;
 }
