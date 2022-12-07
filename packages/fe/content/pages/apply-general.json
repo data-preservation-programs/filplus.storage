@@ -138,8 +138,8 @@
           ],
           "default_value": "Twitter"
         },
-        "total_datacap_size": {
-          "field_key": "total_datacap_size",
+        "total_datacap_size_input": {
+          "field_key": "total_datacap_size_input",
           "type": "input",
           "input_type": "number",
           "model_key": "total_datacap_size",

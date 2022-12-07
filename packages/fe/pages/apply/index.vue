@@ -194,6 +194,7 @@ export default {
     async submitForm (e) {
       e.preventDefault()
       const incoming = await this.validateForm('filplus_application')
+      console.log(incoming)
       if (incoming) {
         this.updateApplication(incoming)
         if (incoming.total_datacap_size <= this.submitThreshold) {
