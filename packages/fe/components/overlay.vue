@@ -29,12 +29,12 @@ export default {
 }
 
 .type__opaque {
-  background-color: rgba(15, 31, 26, 0.5); // $aztec
+  background-color: rgba(15, 31, 26, 0.55); // $aztec
   mix-blend-mode: multiply;
 }
 
 .type__noise {
   background-image: url('~assets/images/noise-pattern.png');
-  opacity: 0.5;
+  background-size: 6.25rem;
 }
 </style>

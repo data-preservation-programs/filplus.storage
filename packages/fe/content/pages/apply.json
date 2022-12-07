@@ -56,7 +56,9 @@
           "type": "input",
           "input_type": "number",
           "model_key": "total_datacap_size",
-          "min": 0,
+          "label": "Total Datacap being requested",
+          "placeholder": "32",
+          "min": 1,
           "max": 5242880,
           "required": true,
           "pre": "[^\\u0000-\\u00ff]",
@@ -73,14 +75,15 @@
           "autocomplete": "none",
           "validation_message": {
             "required": "This field is required",
-            "minmax": "Number must be between 0.1 and 5242880"
+            "minmax": "Number must be between 1 and 5242880"
           },
-          "default_value": 32
+          "default_value": 34359738368
         },
         "total_datacap_size_unit": {
           "field_key": "total_datacap_size_unit",
           "type": "select",
           "model_key": "total_datacap_size_unit",
+          "label": "Unit",
           "required": true,
           "output": "option",
           "react": {
@@ -98,7 +101,7 @@
             { "label": "TiB" },
             { "label": "PiB" }
           ],
-          "default_value": 0
+          "default_value": "GiB"
         }
       }
     },

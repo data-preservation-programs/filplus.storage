@@ -308,6 +308,12 @@ $cardRadius: 1.875rem;
   font-weight: 500;
 }
 
+.field-container {
+  :deep(.label) {
+    display: none;
+  }
+}
+
 .range-field {
   margin-bottom: 2.5rem;
 }
