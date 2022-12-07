@@ -3,7 +3,7 @@
     <Field v-bind="$props">
       <div slot-scope="{ updateValue, field, type, validationMessage }" :class="['field-wrapper', field.type]">
 
-        <label v-if="field.label" :for="field.name" class="label">
+        <label v-if="field.label" :for="field.field_key" class="label">
           {{ field.label }}
         </label>
 
@@ -15,6 +15,8 @@
           :is="type"
           :field="field"
           @updateValue="updateValue" />
+
+        <slot />
 
         <div v-if="validationMessage" class="validation-message">
           <sup>*</sup>{{ validationMessage }}

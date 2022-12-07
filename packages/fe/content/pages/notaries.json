@@ -18,7 +18,16 @@
     },
     "form": {
       "select_button_text": "Request",
-      "scaffold": {}
+      "scaffold": {
+        "notary": {
+          "field_key": "notary",
+          "type": "input",
+          "input_type": "text",
+          "model_key": "notary",
+          "pre": "[^\\u0000-\\u00ff]",
+          "autocomplete": "none"
+        }
+      }
     }
   }
 }

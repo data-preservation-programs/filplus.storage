@@ -1,7 +1,7 @@
 <template>
   <div id="hero">
 
-    <div class="content">
+    <div class="hero-content">
       <!-- ========================================================= Heading -->
       <div class="grid-center">
         <div :class="headingCols">
@@ -9,7 +9,7 @@
 
             <div v-if="label" class="label" v-html="label" />
 
-            <h1 class="heading" v-html="heading" />
+            <h1 :class="['heading', `direction__${contentDirection}`]" v-html="heading" />
 
           </div>
         </div>
@@ -28,7 +28,9 @@
 
     <Overlay type="opaque" />
 
-    <div class="background-image" />
+    <div
+      :style="{ backgroundImage: `url(${backgroundImageImport})` }"
+      class="background-image" />
 
   </div>
 </template>
@@ -56,6 +58,11 @@ export default {
       required: false,
       default: 'col-8'
     },
+    contentDirection: {
+      type: String,
+      required: false,
+      default: 'vertical'
+    },
     label: {
       type: [String, Boolean],
       required: false,
@@ -64,6 +71,17 @@ export default {
     heading: {
       type: String,
       required: true
+    },
+    backgroundImage: {
+      type: String,
+      required: false,
+      default: 'lego-backsplash.jpg'
+    }
+  },
+
+  computed: {
+    backgroundImageImport () {
+      return require(`~/assets/images/${this.backgroundImage}`)
     }
   }
 }
@@ -75,13 +93,21 @@ export default {
   position: relative;
   height: calc(61.625rem + #{$siteHeaderHeight});
   margin-top: -$siteHeaderHeight;
-  padding-top: calc(#{$siteHeaderHeight * 2} + 4rem);
+  padding-top: $siteHeaderHeight * 2;
   z-index: 25;
 }
 
 [class~=grid], [class*=grid-], [class*=grid_] {
   position: relative;
   z-index: 20;
+}
+
+.hero-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  padding-bottom: $siteHeaderHeight;
 }
 
 .inner-content {
@@ -99,9 +125,15 @@ export default {
 
 ::v-deep .heading {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  text-align: center;
+  &.direction__vertical {
+    flex-direction: column;
+    text-align: center;
+  }
+  &.direction__horizontal {
+    flex-direction: row;
+    justify-content: center;
+  }
 }
 
 // //////////////////////////////////////////////////////////// Image + Overlays
@@ -119,7 +151,6 @@ export default {
   right: -3px;
   width: calc(100% + 3px);
   height: 94.5%;
-  background-image: url('~assets/images/lego-backsplash.jpg');
   background-repeat: no-repeat;
   background-size: auto 100%;
   background-position: bottom right;

@@ -9,13 +9,14 @@
       @focus="focused = true"
       @blur="focused = false"
       @change="selectOption($event.target.value)">
-      <option disabled="disabled" selected value="-1">
+      <option disabled="disabled" :selected="selectedOption === -1" value="-1">
         <slot name="option-native-default-text" />
       </option>
       <option
         v-for="(option, index) in options"
         :key="`native-${index}`"
-        :value="index">
+        :value="index"
+        :selected="isCurrentlySelected(index)">
         <slot name="option-native-text" :option="option" />
       </option>
     </select>
@@ -91,7 +92,7 @@ export default {
       this.$emit('dropdownToggled', state)
     }
   },
-
+  
   mounted () {
     this.keydown = this.handleKeyboardNavigation
     window.addEventListener('keydown', this.keydown)

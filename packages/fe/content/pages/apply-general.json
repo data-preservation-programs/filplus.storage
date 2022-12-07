@@ -16,6 +16,7 @@
     },
     "form": {
       "heading": "General DataCap Notary Review Request",
+      "submit_button_text": "Send Request",
       "scaffold": {
         "application_name": {
           "field_key": "application_name",
@@ -29,12 +30,13 @@
           "autocomplete": "none",
           "chars": {
             "min": 2,
-            "max": 35
+            "max": 1000
           },
           "validation_message": {
             "required": "This field is required",
             "chars": "Input must be between 2 and 35 characters"
-          }
+          },
+          "default_value": "This is a test application, please ignore"
         },
         "organization_name": {
           "field_key": "organization_name",
@@ -48,12 +50,13 @@
           "autocomplete": "none",
           "chars": {
             "min": 2,
-            "max": 35
+            "max": 1000
           },
           "validation_message": {
             "required": "This field is required",
             "chars": "Input must be between 2 and 35 characters"
-          }
+          },
+          "default_value": "This is a test application, please ignore"
         },
         "organization_website": {
           "field_key": "organization_website",
@@ -67,12 +70,37 @@
           "autocomplete": "none",
           "chars": {
             "min": 2,
-            "max": 35
+            "max": 1000
           },
           "validation_message": {
             "required": "This field is required",
             "chars": "Input must be between 2 and 35 characters"
-          }
+          },
+          "default_value": "This is a test application, please ignore"
+        },
+        "region": {
+          "field_key": "region",
+          "type": "select",
+          "model_key": "region",
+          "label": "Social Media Type",
+          "required": true,
+          "output": "option",
+          "validation_message": {
+            "required": "This field is required"
+          },
+          "options": [
+            { "label": "North America" },
+            { "label": "Africa" },
+            { "label": "Oceania" },
+            { "label": "Europe" },
+            { "label": "Asia excl. GCN" },
+            { "label": "Asia excl. Greater China" },
+            { "label": "Asia excl. Japan" },
+            { "label": "Asia Japan" },
+            { "label": "Greater China" },
+            { "label": "None" }
+          ],
+          "default_value": "North America"
         },
         "organization_social_media_handle": {
           "field_key": "organization_social_media_handle",
@@ -86,12 +114,13 @@
           "autocomplete": "none",
           "chars": {
             "min": 2,
-            "max": 35
+            "max": 1000
           },
           "validation_message": {
             "required": "This field is required",
             "chars": "Input must be between 2 and 35 characters"
-          }
+          },
+          "default_value": "This is a test application, please ignore"
         },
         "organization_social_media_handle_type": {
           "field_key": "organization_social_media_handle_type",
@@ -107,7 +136,7 @@
             { "label": "Twitter" },
             { "label": "Slack" }
           ],
-          "default_value": 0
+          "default_value": "Twitter"
         },
         "total_datacap_size": {
           "field_key": "total_datacap_size",
@@ -120,11 +149,18 @@
           "max": 5242880,
           "required": true,
           "pre": "[^\\u0000-\\u00ff]",
+          "transform": {
+            "func": "$formatDatacapSize",
+            "args": {
+              "action": "human"
+            }
+          },
           "autocomplete": "none",
           "validation_message": {
             "required": "This field is required",
             "minmax": "Number must be between 1 and 5242880"
-          }
+          },
+          "default_value": 34359738368
         },
         "total_datacap_size_unit": {
           "field_key": "total_datacap_size_unit",
@@ -141,41 +177,7 @@
             { "label": "TiB" },
             { "label": "PiB" }
           ],
-          "default_value": 0
-        },
-        "weekly_data_size": {
-          "field_key": "weekly_data_size",
-          "type": "input",
-          "input_type": "number",
-          "model_key": "weekly_data_size",
-          "label": "Weekly allocation of DataCap",
-          "placeholder": "32",
-          "min": 1,
-          "max": 5242880,
-          "required": true,
-          "pre": "[^\\u0000-\\u00ff]",
-          "autocomplete": "none",
-          "validation_message": {
-            "required": "This field is required",
-            "minmax": "Number must be between 1 and 5242880"
-          }
-        },
-        "weekly_data_size_unit": {
-          "field_key": "weekly_data_size_unit",
-          "type": "select",
-          "model_key": "weekly_data_size_unit",
-          "label": "Unit",
-          "required": true,
-          "output": "option",
-          "validation_message": {
-            "required": "This field is required"
-          },
-          "options": [
-            { "label": "GiB" },
-            { "label": "TiB" },
-            { "label": "PiB" }
-          ],
-          "default_value": 0
+          "default_value": "GiB"
         },
         "filecoin_address": {
           "field_key": "filecoin_address",
@@ -189,12 +191,13 @@
           "autocomplete": "none",
           "chars": {
             "min": 2,
-            "max": 35
+            "max": 1000
           },
           "validation_message": {
             "required": "This field is required",
             "chars": "Input must be between 2 and 35 characters"
-          }
+          },
+          "default_value": "This is a test application, please ignore"
         }
       }
     }

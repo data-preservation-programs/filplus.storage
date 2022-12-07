@@ -221,12 +221,11 @@ export default {
   async fetch ({ store }) {
     await store.dispatch('general/getBaseData', { key: 'apply-large', data: ApplyLargePageData })
     await store.dispatch('general/getNetworkStorageCapacity')
+    const formId = 'filplus_application'
     const application = store.getters['general/application']
-    if (!application) {
-      await store.dispatch('form/registerFormModel', Object.assign(application, {
-        formId: 'filplus_application',
-        state: 'valid'
-      }))
+    const model = await store.dispatch('form/getFormModel', formId)
+    if (!model) {
+      await store.dispatch('form/registerFormModel', Object.assign(application, { formId }))
     }
   },
 
@@ -241,7 +240,7 @@ export default {
       networkStorageCapacity: 'general/networkStorageCapacity'
     }),
     pageData () {
-      return this.siteContent['apply-large'].page_content
+      return this.siteContent[this.tag].page_content
     },
     hero () {
       return this.pageData.hero

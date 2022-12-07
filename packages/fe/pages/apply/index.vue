@@ -4,22 +4,17 @@
     <!-- ============================================================== Hero -->
     <HeroA
       :heading="heading"
-      heading-cols="col12">
+      heading-cols="col-12">
       <div class="card-container">
-        <div class="card">
+        <Card
+          corner-position="bottom-right"
+          icon="arrow">
+          <template v-if="formScaffold">
 
-          <svg
-            class="corner"
-            viewBox="0 0 92 92"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg">
-            <path d="M -1 94 C 62 94 18 94 91 94 V 94 C 91 78 78 65 62 65 L 59 65 C 42 65 28 51 28 34 L 28 32 L 28 30 C 28 14 15 1 -1 1 Z" fill="black" fill-opacity="0.4" stroke="white" stroke-width="2" />
-          </svg>
-
-          <div class="card-content">
             <div class="form-heading">
               {{ formHeading }}
             </div>
+
             <form class="form">
 
               <FieldContainer
@@ -41,16 +36,17 @@
                   class="select-field" />
               </div>
 
-              <ButtonA
+              <ButtonX
                 class="submit-button"
                 @clicked="submitForm">
                 {{ submitButtonText }}
-              </ButtonA>
+              </ButtonX>
 
             </form>
-          </div>
 
-        </div>
+          </template>
+        </Card>
+
       </div>
     </HeroA>
 
@@ -97,6 +93,8 @@ import { mapGetters, mapActions } from 'vuex'
 import HeroA from '@/components/hero-a'
 import FaqAccordion from '@/components/faq-accordion'
 import ButtonA from '@/components/buttons/button-a'
+import ButtonX from '@/components/buttons/button-x'
+import Card from '@/components/card'
 import FieldContainer from '@/components/form/field-container'
 import Overlay from '@/components/overlay'
 import BackgroundGradients from '@/components/background-gradients'
@@ -115,6 +113,8 @@ export default {
     ButtonA,
     Overlay,
     BackgroundGradients
+    ButtonX,
+    Card
   },
 
   data () {
@@ -126,11 +126,12 @@ export default {
   async fetch ({ store }) {
     await store.dispatch('general/getBaseData', { key: 'apply', data: ApplyPageData })
     await store.dispatch('general/getBaseData', { key: 'faq', data: FaqPageData })
+    const formId = 'filplus_application'
     const application = store.getters['general/application']
-    await store.dispatch('form/registerFormModel', Object.assign(application, {
-      formId: 'filplus_application',
-      state: 'valid'
-    }))
+    const model = await store.dispatch('form/getFormModel', formId)
+    if (!model) {
+      await store.dispatch('form/registerFormModel', Object.assign(application, { formId }))
+    }
   },
 
   head () {
@@ -143,7 +144,7 @@ export default {
       application: 'general/application'
     }),
     pageData () {
-      return this.siteContent.apply.page_content
+      return this.siteContent[this.tag].page_content
     },
     heading () {
       return this.pageData.heading
@@ -160,6 +161,9 @@ export default {
     },
     submitButtonText () {
       return this.form.submit_button_text
+    },
+    submitThreshold () {
+      return this.form.submit_threshold
     },
     faq () {
       return this.pageData.faq
@@ -186,15 +190,23 @@ export default {
 
   methods: {
     ...mapActions({
-      validateForm: 'form/validateForm'
+      validateForm: 'form/validateForm',
+      updateApplication: 'general/updateApplication'
     }),
     getValue (modelKey) {
       return this.application[modelKey]
     },
     async submitForm (e) {
       e.preventDefault()
-      const incoming = await this.validateForm('datacap_size_selection')
-      console.log(incoming)
+      const incoming = await this.validateForm('filplus_application')
+      if (incoming) {
+        this.updateApplication(incoming)
+        if (incoming.total_datacap_size <= this.submitThreshold) {
+          this.$router.push('/apply/general/notaries')
+        } else {
+          this.$router.push('/apply/large')
+        }
+      }
     }
   }
 }
@@ -213,8 +225,15 @@ $cardRadius: 1.875rem;
   z-index: 5;
 }
 
+.container {
+  position: relative;
+}
+
 // //////////////////////////////////////////////////////////////////////// Hero
 ::v-deep #hero {
+  .hero-content {
+    padding-bottom: 0;
+  }
   .bubble {
     margin-top: 2.75rem;
   }
@@ -252,6 +271,19 @@ $cardRadius: 1.875rem;
   margin-top: 1.875rem;
 }
 
+// //////////////////////////////////////////////////////////////////////// Card
+.card-container {
+  margin-top: 4.8125rem;
+}
+
+.submit-button {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  height: 3.75rem;
+  padding-right: 5.5rem;
+}
+
 // ////////////////////////////////////////////////////////////////// Warp Image
 .panel-right {
   position: relative;
@@ -267,59 +299,6 @@ $cardRadius: 1.875rem;
   background-image: url('~assets/images/warp-image-double.png');
   background-position: top left;
   background-size: 69rem;
-}
-
-// //////////////////////////////////////////////////////////////////////// Card
-.container {
-  position: relative;
-}
-
-.card {
-  position: relative;
-  &:before,
-  &:after {
-    content: '';
-    position: absolute;
-    background-color: rgba(0, 0, 0, 0.4);
-    z-index: 2;
-    box-sizing: border-box;
-  }
-  &:before,
-  &:after {
-    left: 0;
-  }
-  &:before {
-    top: 0;
-    height: $squigglySizing;
-    width: calc(100% - #{$squigglySizing});
-    border-top-left-radius: $cardRadius;
-    border-left: 2px solid $titanWhite;
-    border-top: 2px solid $titanWhite;
-  }
-  &:after {
-    top: $squigglySizing;
-    height: calc(100% - #{$squigglySizing});
-    width: 100%;
-    border-bottom-left-radius: $cardRadius;
-    border-bottom-right-radius: $cardRadius;
-    border: 2px solid white;
-    border-top: none;
-  }
-}
-
-.corner {
-  position: absolute;
-  right: 0;
-  top: 0;
-  width: $squigglySizing;
-  height: $squigglySizing;
-}
-
-.card-content {
-  position: relative;
-  padding: 3.125rem 7rem 1.875rem 3.4375rem;
-  margin-top: 4.8125rem;
-  z-index: 10;
 }
 
 // //////////////////////////////////////////////////////////////////////// Form

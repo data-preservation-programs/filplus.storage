@@ -72,12 +72,11 @@ export default {
   async fetch ({ store }) {
     await store.dispatch('general/getBaseData', { key: 'notaries', data: NotariesPageData })
     await store.dispatch('general/getBaseData', { key: 'notaries-list', data: NotariesListData })
+    const formId = 'filplus_application'
     const application = store.getters['general/application']
-    if (!application) {
-      await store.dispatch('form/registerFormModel', Object.assign(application, {
-        formId: 'filplus_application',
-        state: 'valid'
-      }))
+    const model = await store.dispatch('form/getFormModel', formId)
+    if (!model) {
+      await store.dispatch('form/registerFormModel', Object.assign(application, { formId }))
     }
   },
 
@@ -91,7 +90,7 @@ export default {
       application: 'general/application'
     }),
     pageData () {
-      return this.siteContent.notaries.page_content
+      return this.siteContent[this.tag].page_content
     },
     label () {
       return this.pageData.label
@@ -116,16 +115,6 @@ export default {
 // ///////////////////////////////////////////////////////////////////// General
 .page-notaries {
   overflow: hidden;
-}
-
-::v-deep #hero {
-  padding-bottom: 13rem;
-  .content {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    height: 100%;
-  }
 }
 
 #section-notaries {

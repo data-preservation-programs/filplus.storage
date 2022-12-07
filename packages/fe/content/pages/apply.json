@@ -18,6 +18,7 @@
     "form": {
       "heading": "How much data are you bringing to the Filecoin network?",
       "submit_button_text": "Next",
+      "submit_threshold": 549755813888000,
       "scaffold": {
         "total_datacap_size_range": {
           "field_key": "total_datacap_size_range",
@@ -36,10 +37,10 @@
             }
           },
           "react": {
-            "field_key": "datacap_size_unit",
+            "field_key": "total_datacap_size_unit",
             "func": "$reactDatasizeRangeToUnit",
             "args": {
-              "value_from_field": "datacap_size_input"
+              "value_from_field": "total_datacap_size_input"
             }
           },
           "autocomplete": "none",
@@ -47,7 +48,8 @@
           "max": 5629499534213120,
           "validation_message": {
             "required": "This field is required"
-          }
+          },
+          "default_value": 34359738368
         },
         "total_datacap_size_input": {
           "field_key": "total_datacap_size_input",
@@ -72,7 +74,8 @@
           "validation_message": {
             "required": "This field is required",
             "minmax": "Number must be between 0.1 and 5242880"
-          }
+          },
+          "default_value": 32
         },
         "total_datacap_size_unit": {
           "field_key": "total_datacap_size_unit",

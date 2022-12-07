@@ -39,7 +39,7 @@ export default {
   },
 
   data () {
-    const id = this.$uuid.v4()
+    const id = `${this.scaffold.field_key}|${this.formId}`
     return {
       id
     }
@@ -81,17 +81,19 @@ export default {
   },
 
   mounted () {
-    const formId = this.formId
-    const scaffold = this.scaffold
-    const value = this.getValue(scaffold)
-    this.registerFormField(Object.assign(CloneDeep(scaffold), {
-      id: this.id,
-      formId,
-      value,
-      originalValue: value,
-      state: 'valid',
-      validation: false
-    }))
+    if (!this.field) {
+      const formId = this.formId
+      const scaffold = this.scaffold
+      const value = this.getValue(scaffold)
+      this.registerFormField(Object.assign(CloneDeep(scaffold), {
+        id: this.id,
+        formId,
+        value,
+        originalValue: value,
+        state: 'valid',
+        validation: false
+      }))
+    }
   },
 
   beforeDestroy () {
@@ -127,11 +129,6 @@ export default {
       let parsed = value
       if ((type === 'input' && inputType === 'number') || type === 'range') {
         parsed = value !== '' ? parseFloat(value) : null
-        // if (this.min && parsed < this.min) {
-        //   parsed = this.min
-        // } else if (this.max && parsed > this.max) {
-        //   parsed = this.max
-        // }
       }
       const field = CloneDeep(this.field)
       field.value = parsed

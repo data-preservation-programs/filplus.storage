@@ -16,10 +16,10 @@ const state = () => ({
     organization_website: '',
     organization_social_media_handle: '',
     organization_social_media_handle_type: '',
-    total_datacap_size: 34359738368,
-    total_datacap_size_unit: 0,
-    weekly_data_size: 34359738368,
-    weekly_data_size_unit: 0,
+    total_datacap_size: 0,
+    total_datacap_size_unit: '',
+    weekly_data_size: 0,
+    weekly_data_size_unit: '',
     filecoin_address: '',
     about: '',
     funding_sources: '',
@@ -33,7 +33,9 @@ const state = () => ({
     sending_data: '',
     storage_provider_selection_plan: '',
     replication_plan: '',
-    immediacy: ''
+    immediacy: '',
+    notary: '',
+    region: ''
   },
   networkStorageCapacity: false
 })
@@ -114,6 +116,23 @@ const actions = {
       console.log('========= [Store Action: general/getNetworkStorageCapacity]')
       console.log(e)
     }
+  },
+  // ///////////////////////////////////////////////////////// updateApplication
+  updateApplication ({ commit, getters }, incoming) {
+    let application = CloneDeep(getters.application)
+    application = Object.assign(application, incoming)
+    commit('SET_APPLICATION', application)
+  },
+  // ////////////////////////////////////////////////// submitGeneralApplication
+  async submitGeneralApplication ({ commit }, application) {
+    try {
+      const response = await this.$axiosAuth.post('/submit-general-application', application)
+      console.log(response.data.payload)
+    } catch (e) {
+      console.log('===================== [Store Action: general/getStaticFile]')
+      console.log(e)
+      return false
+    }
   }
 }
 
@@ -131,6 +150,9 @@ const mutations = {
   },
   SET_NETWORK_STORAGE_CAPACITY (state, capacity) {
     state.networkStorageCapacity = capacity
+  },
+  SET_APPLICATION (state, application) {
+    state.application = application
   }
 }
 

@@ -32,6 +32,11 @@
             :value="getValue('organization_website')"
             form-id="filplus_application" />
 
+          <FieldContainer
+            :scaffold="formScaffold.region"
+            :value="getValue('region')"
+            form-id="filplus_application" />
+
         </div>
       </div>
 
@@ -67,26 +72,17 @@
 
       <div class="grid">
         <div class="col-6" data-push-left="off-1">
-          <FieldContainer
-            :scaffold="formScaffold.weekly_data_size"
-            :value="getValue('weekly_data_size')"
-            form-id="filplus_application" />
-        </div>
-        <div class="col-2" data-push-left="off-1">
-          <FieldContainer
-            :scaffold="formScaffold.weekly_data_size_unit"
-            :value="getValue('weekly_data_size_unit')"
-            form-id="filplus_application" />
-        </div>
-      </div>
-
-      <div class="grid">
-        <div class="col-6" data-push-left="off-1">
 
           <FieldContainer
             :scaffold="formScaffold.filecoin_address"
             :value="getValue('filecoin_address')"
             form-id="filplus_application" />
+
+          <ButtonA
+            class="submit-button"
+            @clicked="submitForm">
+            {{ submitButtonText }}
+          </ButtonA>
 
         </div>
       </div>
@@ -101,13 +97,15 @@
 
 <script>
 // ===================================================================== Imports
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 import HeroB from '@/components/hero-b'
 import FieldContainer from '@/components/form/field-container'
+import ButtonA from '@/components/buttons/button-a'
 import Overlay from '@/components/overlay'
 
 import ApplyGeneralPageData from '@/content/pages/apply-general.json'
+import NotariesListData from '@/content/data/notaries-list.json'
 
 // ====================================================================== Export
 export default {
@@ -116,6 +114,7 @@ export default {
   components: {
     HeroB,
     FieldContainer,
+    ButtonA,
     Overlay
   },
 
@@ -125,14 +124,17 @@ export default {
     }
   },
 
-  async fetch ({ store }) {
+  async fetch ({ store, params, redirect }) {
+    const name = params.name
+    const notary = NotariesListData.find(notary => notary.Miner === name)
+    if (!notary) { return redirect('/apply/general/notaries') }
+    await store.dispatch('general/updateApplication', { notary: name })
     await store.dispatch('general/getBaseData', { key: 'apply-general', data: ApplyGeneralPageData })
+    const formId = 'filplus_application'
     const application = store.getters['general/application']
-    if (!application) {
-      await store.dispatch('form/registerFormModel', Object.assign(application, {
-        formId: 'filplus_application',
-        state: 'valid'
-      }))
+    const model = await store.dispatch('form/getFormModel', formId)
+    if (!model) {
+      await store.dispatch('form/registerFormModel', Object.assign(application, { formId }))
     }
   },
 
@@ -146,7 +148,7 @@ export default {
       application: 'general/application'
     }),
     pageData () {
-      return this.siteContent['apply-general'].page_content
+      return this.siteContent[this.tag].page_content
     },
     hero () {
       return this.pageData.hero
@@ -159,12 +161,24 @@ export default {
     },
     formScaffold () {
       return this.form.scaffold
+    },
+    submitButtonText () {
+      return this.form.submit_button_text
     }
   },
 
   methods: {
+    ...mapActions({
+      validateForm: 'form/validateForm',
+      submitGeneralApplication: 'general/submitGeneralApplication'
+    }),
     getValue (modelKey) {
       return this.application[modelKey]
+    },
+    async submitForm () {
+      const incoming = await this.validateForm('filplus_application')
+      console.log(incoming)
+      this.submitGeneralApplication(incoming)
     }
   }
 }
