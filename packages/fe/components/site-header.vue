@@ -10,7 +10,10 @@
         <div class="inner-container">
 
           <!-- ======================================================== Logo -->
-          <nuxt-link to="/" class="logo-link">
+          <nuxt-link
+            to="/"
+            class="logo-link"
+            @click.native="closeNav">
             <Logo class="logo" />
           </nuxt-link>
 
@@ -78,7 +81,10 @@
 
           </div>
 
-          <ModalNav v-else />
+          <MobileNav
+            ref="mobileNav"
+            :links="links"
+            v-else />
 
         </div>
       </div>
@@ -94,7 +100,7 @@ import { mapGetters } from 'vuex'
 import Logo from '@/components/logo'
 import ButtonA from '@/components/buttons/button-a'
 import ButtonX from '@/components/buttons/button-x'
-import ModalNav from '@/components/modal-nav'
+import MobileNav from '@/components/mobile-nav'
 
 // =================================================================== Functions
 const resizeHandler = (instance) => {
@@ -125,7 +131,7 @@ export default {
     Logo,
     ButtonA,
     ButtonX,
-    ModalNav
+    MobileNav
   },
 
   data () {
@@ -209,6 +215,12 @@ export default {
     },
     mouseLeaveNav () {
       this.squiggleOffsetLeft = 0
+    },
+    closeNav () {
+      const mobileNav = this.$refs.mobileNav
+      if (mobileNav && mobileNav.modal) {
+        mobileNav.toggleModal()
+      }
     }
   }
 }
@@ -310,6 +322,8 @@ export default {
 }
 
 .logo-link {
+  position: relative;
+  z-index: 10000;
   display: block;
   height: 71.4%;
 }
