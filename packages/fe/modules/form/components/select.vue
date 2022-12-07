@@ -70,7 +70,7 @@ export default {
       required: true
     },
     selectedOption: {
-      type: Number,
+      type: [Number, String],
       required: false,
       default: -1
     }
@@ -92,7 +92,7 @@ export default {
       this.$emit('dropdownToggled', state)
     }
   },
-  
+
   mounted () {
     this.keydown = this.handleKeyboardNavigation
     window.addEventListener('keydown', this.keydown)
