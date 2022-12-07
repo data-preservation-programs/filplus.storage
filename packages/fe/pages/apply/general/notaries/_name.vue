@@ -18,11 +18,6 @@
           </div>
 
           <FieldContainer
-            :scaffold="formScaffold.application_name"
-            :value="getValue('application_name')"
-            form-id="filplus_application" />
-
-          <FieldContainer
             :scaffold="formScaffold.organization_name"
             :value="getValue('organization_name')"
             form-id="filplus_application" />
@@ -58,7 +53,7 @@
       <div class="grid">
         <div class="col-6" data-push-left="off-1">
           <FieldContainer
-            :scaffold="formScaffold.total_datacap_size"
+            :scaffold="formScaffold.total_datacap_size_input"
             :value="getValue('total_datacap_size')"
             form-id="filplus_application" />
         </div>

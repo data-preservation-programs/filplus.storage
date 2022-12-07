@@ -3,7 +3,7 @@
     <Field v-bind="$props">
       <div slot-scope="{ updateValue, field, type, validationMessage }" :class="['field-wrapper', field.type]">
 
-        <label v-if="field.label" :for="field.field_key" class="label">
+        <label v-if="field.label" :for="field.field_key" class="field-label">
           {{ field.label }}
         </label>
 
@@ -34,6 +34,7 @@ import FieldInput from '@/components/form/fields/input'
 import FieldTextarea from '@/components/form/fields/textarea'
 import FieldRange from '@/components/form/fields/range'
 import FieldCheckbox from '@/components/form/fields/checkbox'
+import FieldRadio from '@/components/form/fields/radio'
 import FieldSelect from '@/components/form/fields/select'
 
 // ====================================================================== Export
@@ -46,6 +47,7 @@ export default {
     FieldTextarea,
     FieldRange,
     FieldCheckbox,
+    FieldRadio,
     FieldSelect
   },
 
@@ -95,21 +97,12 @@ export default {
 
 ::v-deep .description {
   margin-top: 0.5rem;
-  font-size: 0.75rem;
-  font-style: italic;
-  opacity: 0.5;
-}
-
-::v-deep .field-wrapper {
-  &.textarea {
-    .label {
-      margin-bottom: 1.5rem;
-    }
-  }
+  line-height: leading(30, 18);
+  margin-bottom: 2.25rem;
 }
 
 // /////////////////////////////////////////////////////////////////////// Label
-.label {
+.field-label {
   display: block;
   font-size: toRem(20);
   font-weight: 500;

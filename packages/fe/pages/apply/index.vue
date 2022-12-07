@@ -199,6 +199,7 @@ export default {
     async submitForm (e) {
       e.preventDefault()
       const incoming = await this.validateForm('filplus_application')
+      console.log(incoming)
       if (incoming) {
         this.updateApplication(incoming)
         if (incoming.total_datacap_size <= this.submitThreshold) {
@@ -231,6 +232,9 @@ $cardRadius: 1.875rem;
 
 // //////////////////////////////////////////////////////////////////////// Hero
 ::v-deep #hero {
+  @include small {
+    padding-top: 50rem;
+  }
   .hero-content {
     padding-bottom: 0;
   }
@@ -307,6 +311,12 @@ $cardRadius: 1.875rem;
   font-size: toRem(24);
   line-height: leading(35, 24);
   font-weight: 500;
+}
+
+.field-container {
+  :deep(.label) {
+    display: none;
+  }
 }
 
 .range-field {

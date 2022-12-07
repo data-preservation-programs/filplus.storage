@@ -60,6 +60,7 @@ export default {
         case 'textarea' : component = 'FieldTextarea'; break
         case 'range' : component = 'FieldRange'; break
         case 'checkbox' : component = 'FieldCheckbox'; break
+        case 'radio' : component = 'FieldRadio'; break
         case 'select' : component = 'FieldSelect'; break
       }
       return component
@@ -109,8 +110,16 @@ export default {
       updateFormField: 'form/updateFormField'
     }),
     getValue (scaffold) {
-      if (scaffold.hasOwnProperty('default_value')) { return scaffold.default_value }
+      if (scaffold.hasOwnProperty('default_value')) { return this.getDefaultValue(scaffold) }
       return typeof this.value === 'boolean' && !this.value ? this.getBaseValue(scaffold) : this.value
+    },
+    getDefaultValue (scaffold) {
+      const type = scaffold.type
+      const defaultValue = scaffold.default_value
+      if ((type === 'select' || type === 'radio' || type === 'checkbox') && typeof defaultValue === 'string') {
+        return scaffold.options.findIndex(option => option.label === defaultValue)
+      }
+      return scaffold.default_value
     },
     getBaseValue (scaffold) {
       const type = scaffold.type

@@ -18,26 +18,6 @@
       "heading": "General DataCap Notary Review Request",
       "submit_button_text": "Send Request",
       "scaffold": {
-        "application_name": {
-          "field_key": "application_name",
-          "type": "input",
-          "input_type": "text",
-          "model_key": "application_name",
-          "label": "Unique name for this application",
-          "placeholder": "e.g. Lorem Ipsum",
-          "required": true,
-          "pre": "[^\\u0000-\\u00ff]",
-          "autocomplete": "none",
-          "chars": {
-            "min": 2,
-            "max": 1000
-          },
-          "validation_message": {
-            "required": "This field is required",
-            "chars": "Input must be between 2 and 35 characters"
-          },
-          "default_value": "This is a test application, please ignore"
-        },
         "organization_name": {
           "field_key": "organization_name",
           "type": "input",
@@ -138,8 +118,8 @@
           ],
           "default_value": "Twitter"
         },
-        "total_datacap_size": {
-          "field_key": "total_datacap_size",
+        "total_datacap_size_input": {
+          "field_key": "total_datacap_size_input",
           "type": "input",
           "input_type": "number",
           "model_key": "total_datacap_size",

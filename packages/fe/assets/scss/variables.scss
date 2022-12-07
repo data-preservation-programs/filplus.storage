@@ -32,6 +32,7 @@ $mandysPink: #F4C9B2; // rgba(244, 201, 178, 1)
 $temptress: #2D0112; // rgba(45, 1, 18, 1)
 $flamingo: #E96731; // rgba(233, 103, 49, 1)
 $aquaSqueeze: #EAF6F6; // rgba(234, 246, 246, 1)
+$racingGreen: #101A17; // rgba(16, 26, 23, 1)
 
 $replace1: #D9D9D9;
 $replace2: #C6C6C6;
@@ -156,8 +157,8 @@ $breakpoint_UltraLarge: 140.625rem; // 2250px
 @mixin xlarge { @media screen and (max-width: 90rem) { @content; } }
 @mixin ultraLarge { @media screen and (max-width: 140.625rem) { @content; } }
 
-@mixin containerMaxMQ { @media screen and (max-width: 75rem) { @content; } }
-@mixin containerMinMQ { @media screen and (max-width: 75.0625rem) { @content; } }
+@mixin containerMaxMQ { @media screen and (max-width: 82rem) { @content; } }
+@mixin containerMinMQ { @media screen and (max-width: 82.0625rem) { @content; } }
 @mixin customMaxMQ($width) { @media screen and (max-width: $width) { @content; } }
 @mixin customMinMQ($width) { @media screen and (min-width: $width) { @content; } }
 

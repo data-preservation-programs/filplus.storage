@@ -18,11 +18,6 @@
           </div>
 
           <FieldContainer
-            :scaffold="formScaffold.application_name"
-            :value="getValue('application_name')"
-            form-id="filplus_application" />
-
-          <FieldContainer
             :scaffold="formScaffold.organization_name"
             :value="getValue('organization_name')"
             form-id="filplus_application" />
@@ -53,7 +48,7 @@
       <div class="grid">
         <div class="col-6" data-push-left="off-1">
           <FieldContainer
-            :scaffold="formScaffold.total_datacap_size"
+            :scaffold="formScaffold.total_datacap_size_input"
             :value="getValue('total_datacap_size')"
             form-id="filplus_application" />
         </div>
@@ -109,11 +104,6 @@
             form-id="filplus_application" />
 
           <FieldContainer
-            :scaffold="formScaffold.funding_sources"
-            :value="getValue('funding_sources')"
-            form-id="filplus_application" />
-
-          <FieldContainer
             :scaffold="formScaffold.ecosystem_associates"
             :value="getValue('ecosystem_associates')"
             form-id="filplus_application" />
@@ -138,7 +128,10 @@
 
       <div class="grid">
         <div class="col-5" data-push-left="off-1">
-          FIELD
+          <FieldContainer
+            :scaffold="formScaffold.public_availability"
+            :value="getValue('public_availability')"
+            form-id="filplus_application" />
         </div>
         <div class="col-4" data-push-left="off-1">
           <FieldContainer
@@ -176,10 +169,11 @@
             :value="getValue('replication_plan')"
             form-id="filplus_application" />
 
-          <FieldContainer
-            :scaffold="formScaffold.immediacy"
-            :value="getValue('immediacy')"
-            form-id="filplus_application" />
+          <ButtonA
+            class="submit-button"
+            @clicked="submitForm">
+            {{ submitButtonText }}
+          </ButtonA>
 
         </div>
       </div>
@@ -194,10 +188,11 @@
 
 <script>
 // ===================================================================== Imports
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 import HeroB from '@/components/hero-b'
 import FieldContainer from '@/components/form/field-container'
+import ButtonA from '@/components/buttons/button-a'
 import Overlay from '@/components/overlay'
 
 import ApplyLargePageData from '@/content/pages/apply-large.json'
@@ -209,6 +204,7 @@ export default {
   components: {
     HeroB,
     FieldContainer,
+    ButtonA,
     Overlay
   },
 
@@ -259,12 +255,24 @@ export default {
     },
     formScaffold () {
       return this.form.scaffold
+    },
+    submitButtonText () {
+      return this.form.submit_button_text
     }
   },
 
   methods: {
+    ...mapActions({
+      validateForm: 'form/validateForm',
+      submitLargeApplication: 'general/submitLargeApplication'
+    }),
     getValue (modelKey) {
       return this.application[modelKey]
+    },
+    async submitForm () {
+      const incoming = await this.validateForm('filplus_application')
+      console.log(incoming)
+      this.submitLargeApplication(incoming)
     }
   }
 }
@@ -286,6 +294,14 @@ export default {
 #application-top {
   padding: 8.75rem 0;
   border-bottom: 2px solid $nandor;
+}
+
+#application-bottom {
+  :deep(.field-wrapper) {
+    .field-label {
+      margin-bottom: 1.5rem;
+    }
+  }
 }
 
 .form-heading-1,

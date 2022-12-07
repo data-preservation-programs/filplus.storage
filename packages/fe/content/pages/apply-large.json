@@ -18,26 +18,8 @@
     "form": {
       "heading_1": "Background Information",
       "heading_2": "Application",
+      "submit_button_text": "Send Request",
       "scaffold": {
-        "application_name": {
-          "field_key": "application_name",
-          "type": "input",
-          "input_type": "text",
-          "model_key": "application_name",
-          "label": "Unique name for this application",
-          "placeholder": "e.g. Lorem Ipsum",
-          "required": true,
-          "pre": "[^\\u0000-\\u00ff]",
-          "autocomplete": "none",
-          "chars": {
-            "min": 2,
-            "max": 35
-          },
-          "validation_message": {
-            "required": "This field is required",
-            "chars": "Input must be between 2 and 35 characters"
-          }
-        },
         "organization_name": {
           "field_key": "organization_name",
           "type": "input",
@@ -50,12 +32,13 @@
           "autocomplete": "none",
           "chars": {
             "min": 2,
-            "max": 35
+            "max": 1000
           },
           "validation_message": {
             "required": "This field is required",
             "chars": "Input must be between 2 and 35 characters"
-          }
+          },
+          "default_value": "This is a test application, please ignore"
         },
         "organization_website": {
           "field_key": "organization_website",
@@ -69,12 +52,13 @@
           "autocomplete": "none",
           "chars": {
             "min": 2,
-            "max": 35
+            "max": 1000
           },
           "validation_message": {
             "required": "This field is required",
             "chars": "Input must be between 2 and 35 characters"
-          }
+          },
+          "default_value": "This is a test application, please ignore"
         },
         "organization_social_media_handle": {
           "field_key": "organization_social_media_handle",
@@ -88,12 +72,13 @@
           "autocomplete": "none",
           "chars": {
             "min": 2,
-            "max": 35
+            "max": 1000
           },
           "validation_message": {
             "required": "This field is required",
             "chars": "Input must be between 2 and 35 characters"
-          }
+          },
+          "default_value": "This is a test application, please ignore"
         },
         "organization_social_media_handle_type": {
           "field_key": "organization_social_media_handle_type",
@@ -109,10 +94,10 @@
             { "label": "Twitter" },
             { "label": "Slack" }
           ],
-          "default_value": 0
+          "default_value": "Twitter"
         },
-        "total_datacap_size": {
-          "field_key": "total_datacap_size",
+        "total_datacap_size_input": {
+          "field_key": "total_datacap_size_input",
           "type": "input",
           "input_type": "number",
           "model_key": "total_datacap_size",
@@ -132,7 +117,8 @@
           "validation_message": {
             "required": "This field is required",
             "minmax": "Number must be between 1 and 5242880"
-          }
+          },
+          "default_value": 34359738368
         },
         "total_datacap_size_unit": {
           "field_key": "total_datacap_size_unit",
@@ -149,7 +135,7 @@
             { "label": "TiB" },
             { "label": "PiB" }
           ],
-          "default_value": 0
+          "default_value": "GiB"
         },
         "weekly_data_size": {
           "field_key": "weekly_data_size",
@@ -172,7 +158,8 @@
           "validation_message": {
             "required": "This field is required",
             "minmax": "Number must be between 1 and 5242880"
-          }
+          },
+          "default_value": 34359738368
         },
         "weekly_data_size_unit": {
           "field_key": "weekly_data_size_unit",
@@ -189,7 +176,7 @@
             { "label": "TiB" },
             { "label": "PiB" }
           ],
-          "default_value": 0
+          "default_value": "GiB"
         },
         "filecoin_address": {
           "field_key": "filecoin_address",
@@ -203,12 +190,13 @@
           "autocomplete": "none",
           "chars": {
             "min": 2,
-            "max": 35
+            "max": 1000
           },
           "validation_message": {
             "required": "This field is required",
             "chars": "Input must be between 2 and 35 characters"
-          }
+          },
+          "default_value": "This is a test application, please ignore"
         },
         "about": {
           "field_key": "about",
@@ -221,30 +209,13 @@
           "autocomplete": "none",
           "chars": {
             "min": 2,
-            "max": 35
+            "max": 1000
           },
           "validation_message": {
             "required": "This field is required",
             "chars": "Input must be between 2 and 35 characters"
-          }
-        },
-        "funding_sources": {
-          "field_key": "funding_sources",
-          "type": "textarea",
-          "model_key": "funding_sources",
-          "label": "Funding Sources",
-          "placeholder": "What is the primary source of funding for this projet? Are there any other significant funding sources?",
-          "required": true,
-          "pre": "[^\\u0000-\\u00ff]",
-          "autocomplete": "none",
-          "chars": {
-            "min": 2,
-            "max": 35
           },
-          "validation_message": {
-            "required": "This field is required",
-            "chars": "Input must be between 2 and 35 characters"
-          }
+          "default_value": "This is a test application, please ignore"
         },
         "ecosystem_associates": {
           "field_key": "ecosystem_associates",
@@ -257,12 +228,13 @@
           "autocomplete": "none",
           "chars": {
             "min": 2,
-            "max": 35
+            "max": 1000
           },
           "validation_message": {
             "required": "This field is required",
             "chars": "Input must be between 2 and 35 characters"
-          }
+          },
+          "default_value": "This is a test application, please ignore"
         },
         "nature_of_data": {
           "field_key": "nature_of_data",
@@ -275,12 +247,13 @@
           "autocomplete": "none",
           "chars": {
             "min": 2,
-            "max": 35
+            "max": 1000
           },
           "validation_message": {
             "required": "This field is required",
             "chars": "Input must be between 2 and 35 characters"
-          }
+          },
+          "default_value": "This is a test application, please ignore"
         },
         "source_of_data": {
           "field_key": "source_of_data",
@@ -293,12 +266,13 @@
           "autocomplete": "none",
           "chars": {
             "min": 2,
-            "max": 35
+            "max": 1000
           },
           "validation_message": {
             "required": "This field is required",
             "chars": "Input must be between 2 and 35 characters"
-          }
+          },
+          "default_value": "This is a test application, please ignore"
         },
         "data_sample": {
           "field_key": "data_sample",
@@ -311,12 +285,30 @@
           "autocomplete": "none",
           "chars": {
             "min": 2,
-            "max": 35
+            "max": 1000
           },
           "validation_message": {
             "required": "This field is required",
             "chars": "Input must be between 2 and 35 characters"
-          }
+          },
+          "default_value": "This is a test application, please ignore"
+        },
+        "public_availability": {
+          "field_key": "public_availability",
+          "type": "radio",
+          "model_key": "public_availability",
+          "label": "Public availability",
+          "description": "Is this a public dataset that can be retrieved by anyone on the network?  (i.e., are specific permissions or access rights required to view the data)",
+          "required": true,
+          "output": "option",
+          "validation_message": {
+            "required": "This field is required"
+          },
+          "options": [
+            { "label": "Yes" },
+            { "label": "No" }
+          ],
+          "default_value": "Yes"
         },
         "frequency_of_retrieval": {
           "field_key": "frequency_of_retrieval",
@@ -335,7 +327,7 @@
             { "label": "Monthly" },
             { "label": "Yearly" }
           ],
-          "default_value": 0
+          "default_value": "Daily"
         },
         "duration_of_storage": {
           "field_key": "duration_of_storage",
@@ -348,12 +340,13 @@
           "autocomplete": "none",
           "chars": {
             "min": 2,
-            "max": 35
+            "max": 1000
           },
           "validation_message": {
             "required": "This field is required",
             "chars": "Input must be between 2 and 35 characters"
-          }
+          },
+          "default_value": "This is a test application, please ignore"
         },
         "geographic_distribution": {
           "field_key": "geographic_distribution",
@@ -366,12 +359,13 @@
           "autocomplete": "none",
           "chars": {
             "min": 2,
-            "max": 35
+            "max": 1000
           },
           "validation_message": {
             "required": "This field is required",
             "chars": "Input must be between 2 and 35 characters"
-          }
+          },
+          "default_value": "This is a test application, please ignore"
         },
         "sending_data": {
           "field_key": "sending_data",
@@ -384,12 +378,13 @@
           "autocomplete": "none",
           "chars": {
             "min": 2,
-            "max": 35
+            "max": 1000
           },
           "validation_message": {
             "required": "This field is required",
             "chars": "Input must be between 2 and 35 characters"
-          }
+          },
+          "default_value": "This is a test application, please ignore"
         },
         "storage_provider_selection_plan": {
           "field_key": "storage_provider_selection_plan",
@@ -402,12 +397,13 @@
           "autocomplete": "none",
           "chars": {
             "min": 2,
-            "max": 35
+            "max": 1000
           },
           "validation_message": {
             "required": "This field is required",
             "chars": "Input must be between 2 and 35 characters"
-          }
+          },
+          "default_value": "This is a test application, please ignore"
         },
         "replication_plan": {
           "field_key": "replication_plan",
@@ -420,30 +416,13 @@
           "autocomplete": "none",
           "chars": {
             "min": 2,
-            "max": 35
+            "max": 1000
           },
           "validation_message": {
             "required": "This field is required",
             "chars": "Input must be between 2 and 35 characters"
-          }
-        },
-        "immediacy": {
-          "field_key": "immediacy",
-          "type": "textarea",
-          "model_key": "immediacy",
-          "label": "Immediacy",
-          "placeholder": "Do you have the resources and funding to start making deals as soon as you receive DataCap? What support from the community would help you onboard your data onto Filecoin?",
-          "required": true,
-          "pre": "[^\\u0000-\\u00ff]",
-          "autocomplete": "none",
-          "chars": {
-            "min": 2,
-            "max": 35
           },
-          "validation_message": {
-            "required": "This field is required",
-            "chars": "Input must be between 2 and 35 characters"
-          }
+          "default_value": "This is a test application, please ignore"
         }
       }
     }
