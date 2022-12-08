@@ -1,7 +1,7 @@
 <template>
-  <div :class="['card', `corner-position__${cornerPosition}`, { outline }]">
+  <div :class="['card', `corner-position__${cornerPosition}`, { outline, small }]">
 
-    <div :class="['panel', { small }]">
+    <div class="panel">
       <svg
         class="corner"
         viewBox="0 0 92 92"
@@ -14,15 +14,18 @@
           stroke="white"
           stroke-width="2" />
       </svg>
+    </div>
 
+    <ButtonX @clicked="$emit('clicked')">
+      <div v-if="iconText" class="icon-text">
+        {{ iconText }}
+      </div>
       <div
-        v-if="icon"
         :class="['icon', icon]">
         <Arrow v-if="icon === 'arrow'" />
         <Chevron v-if="icon === 'chevron'" />
       </div>
-
-    </div>
+    </ButtonX>
 
     <div class="content">
       <slot />
@@ -33,6 +36,8 @@
 
 <script>
 // ====================================================================== Import
+import ButtonX from '@/components/buttons/button-x'
+
 import Arrow from '@/components/icons/arrow'
 import Chevron from '@/components/icons/chevron'
 
@@ -41,6 +46,7 @@ export default {
   name: 'Card',
 
   components: {
+    ButtonX,
     Arrow,
     Chevron
   },
@@ -51,7 +57,7 @@ export default {
       required: false,
       default: 'top-right',
       validator (val) {
-        return ['top-left', 'top-right', 'bottom-left', 'bottom-right'].includes(val)
+        return ['top-left', 'top-right', 'bottom-right', 'bottom-left'].includes(val)
       }
     },
     small: {
@@ -66,6 +72,11 @@ export default {
       validator (val) {
         return ['arrow', 'chevron'].includes(val)
       }
+    },
+    iconText: {
+      type: [String, Boolean],
+      required: false,
+      default: false
     },
     outline: {
       type: Boolean,
@@ -85,6 +96,36 @@ $cardRadiusSmall: 1.5625rem;
 // ///////////////////////////////////////////////////////////////////// General
 .card {
   position: relative;
+  &.small {
+    .panel {
+      &:before {
+        height: $squigglySizingSmall;
+        width: calc(100% - #{$squigglySizingSmall});
+        border-top-left-radius: $cardRadiusSmall;
+        border-left: 1px solid $titanWhite;
+        border-top: 1px solid $titanWhite;
+      }
+      &:after {
+        top: $squigglySizingSmall;
+        height: calc(100% - #{$squigglySizingSmall});
+        border-bottom-left-radius: $cardRadiusSmall;
+        border-bottom-right-radius: $cardRadiusSmall;
+        border: 1px solid white;
+        border-top: none;
+      }
+      .corner {
+        width: $squigglySizingSmall;
+        height: $squigglySizingSmall;
+        path {
+          stroke-width: 1px;
+        }
+      }
+    }
+    .icon {
+      width: toRem(41);
+      height: toRem(41);
+    }
+  }
 }
 
 .panel {
@@ -93,6 +134,7 @@ $cardRadiusSmall: 1.5625rem;
   left: 0;
   width: 100%;
   height: 100%;
+  z-index: 5;
   &:before,
   &:after {
     content: '';
@@ -126,56 +168,35 @@ $cardRadiusSmall: 1.5625rem;
     width: $squigglySizing;
     height: $squigglySizing;
   }
-  .icon {
-    width: toRem(54);
-    height: toRem(54);
-  }
-  &.small {
-    &:before {
-      height: $squigglySizingSmall;
-      width: calc(100% - #{$squigglySizingSmall});
-      border-top-left-radius: $cardRadiusSmall;
-      border-left: 1px solid $titanWhite;
-      border-top: 1px solid $titanWhite;
-    }
-    &:after {
-      top: $squigglySizingSmall;
-      height: calc(100% - #{$squigglySizingSmall});
-      border-bottom-left-radius: $cardRadiusSmall;
-      border-bottom-right-radius: $cardRadiusSmall;
-      border: 1px solid white;
-      border-top: none;
-    }
-    .corner {
-      width: $squigglySizingSmall;
-      height: $squigglySizingSmall;
-      path {
-        stroke-width: 1px;
-      }
-    }
-    .icon {
-      width: toRem(41);
-      height: toRem(41);
-    }
-  }
 }
 
 .corner {
   position: absolute;
-  right: 0;
   top: 0;
+  right: 0;
 }
 
 .content {
   position: relative;
-  padding: 3.125rem 7rem 1.875rem 3.4375rem;
   z-index: 10;
 }
 
-.icon {
+.button {
   position: absolute;
-  top: 0;
-  right: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  z-index: 20;
+}
+
+.icon-text {
+  font-size: toRem(24);
+}
+
+.icon {
+  position: relative;
+  width: toRem(54);
+  height: toRem(54);
   border-radius: 50%;
   background-color: $greenYellow;
   :deep(svg) {
@@ -203,34 +224,68 @@ $cardRadiusSmall: 1.5625rem;
 // ////////////////////////////////////////////////////// Corner Cutout Variants
 // -------------------------------------------------------------------- Top Left
 .card.corner-position__top-left {
-  .panel,
-  .icon {
+  .panel {
     transform: scaleX(-1);
+  }
+  .button {
+    flex-direction: row-reverse;
+    top: 0;
+    left: 0;
+  }
+  .icon-text {
+    padding-left: 2rem;
   }
   .content {
     padding: 3.125rem 3.4375rem 1.875rem 7rem;
   }
 }
 
-// ----------------------------------------------------------------- Bottom Left
-.card.corner-position__bottom-left {
-  .panel,
-  .icon {
-    transform: scale(-1);
+// ------------------------------------------------------------------- Top Right
+.card.corner-position__top-right {
+  .button {
+    top: 0;
+    right: 0;
+  }
+  .icon-text {
+    padding-right: 2rem;
   }
   .content {
-    padding: 1.875rem 3.4375rem 3.125rem 7rem;
+    padding: 3.125rem 7rem 1.875rem 3.4375rem;
   }
 }
 
 // ---------------------------------------------------------------- Bottom Right
 .card.corner-position__bottom-right {
-  .panel,
-  .icon {
+  .panel {
     transform: scaleY(-1);
+  }
+  .button {
+    bottom: 0;
+    right: 0;
+  }
+  .icon-text {
+    padding-right: 2rem;
   }
   .content {
     padding: 1.875rem 7rem 3.125rem 3.4375rem;
+  }
+}
+
+// ----------------------------------------------------------------- Bottom Left
+.card.corner-position__bottom-left {
+  .panel {
+    transform: scale(-1);
+  }
+  .button {
+    flex-direction: row-reverse;
+    bottom: 0;
+    left: 0;
+  }
+  .icon-text {
+    padding-left: 2rem;
+  }
+  .content {
+    padding: 1.875rem 3.4375rem 3.125rem 7rem;
   }
 }
 

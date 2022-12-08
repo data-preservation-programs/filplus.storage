@@ -90,12 +90,11 @@
               <ButtonX
                 v-for="(item, j) in secondaryLinks"
                 :key="`secondary-link-${j}`"
-                tag="a"
                 :to="item.url"
-                target="_blank">
-
+                tag="a"
+                target="_blank"
+                class="secondary-link">
                 <component :is="getIconComponent(item.icon)" />
-
               </ButtonX>
             </div>
 
@@ -264,7 +263,7 @@ export default {
   border-right: 3px solid $nandor;
 }
 
-:deep(.button-x) {
+:deep(.primary-link) {
   padding: toRem(38) toRem(40);
   width: 100%;
   border-bottom: 3px solid $nandor;
@@ -308,7 +307,7 @@ export default {
   }
 }
 
-.footer-cta-card {
+.footer-cta-card.corner-position__top-right {
   position: absolute;
   width: 63%;
   left: 2.1875rem;
@@ -355,7 +354,7 @@ export default {
 .secondary-links {
   display: flex;
   align-items: center;
-  :deep(.button-x) {
+  :deep(.secondary-link) {
     padding: 0;
     margin-right: 1.5625rem;
     height: 1.875rem;

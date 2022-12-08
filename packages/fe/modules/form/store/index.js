@@ -66,7 +66,6 @@ const actions = {
   },
   // ///////////////////////////////////////////////////////// registerFormField
   async registerFormField ({ commit, getters }, field) {
-    console.log(field.field_key, field.value)
     field.value = await this.$applyTransformation(field.value, field.transform)
     const index = getters.fields.findIndex(obj => obj.id === field.id)
     commit('REGISTER_FORM_FIELD', { field, index })

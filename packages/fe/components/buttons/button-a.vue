@@ -124,15 +124,13 @@ export default {
   }
 }
 
-// ///////////////////////////////////////////////////////////////////// Formats
-.format__mini {
-  // padding: 0.25rem 0.75rem;
-}
-
 // ////////////////////////////////////////////////////////////////////// Themes
 .theme__green {
   color: $toledo;
   background-color: $greenYellow;
+  &:hover {
+    background-color: $lima;
+  }
 }
 
 .theme__blue {
