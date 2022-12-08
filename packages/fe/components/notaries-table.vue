@@ -39,7 +39,12 @@
 
                 <template v-if="cell.slug === 'Miner'">
                   <div class="notary">
-                    {{ notary.Miner }}
+                    <div class="name">
+                      {{ notary.Miner }}
+                    </div>
+                    <div class="miner-id">
+                      {{ notary['Miner ID'] }}
+                    </div>
                   </div>
                 </template>
 
@@ -195,7 +200,7 @@ export default {
     vertical-align: bottom;
   }
   &.cell-body {
-    vertical-align: top;
+    vertical-align: center;
   }
 }
 
@@ -205,4 +210,9 @@ export default {
 }
 
 // /////////////////////////////////////////////////////////////////////// Cells
+.miner-id {
+  font-size: toRem(14);
+  font-family: $fontSuisseIntlMono;
+  color: rgba($titanWhite, 0.5);
+}
 </style>
