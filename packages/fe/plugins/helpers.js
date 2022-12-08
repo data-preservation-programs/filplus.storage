@@ -399,21 +399,24 @@ const ConnectWebsocket = config => (instance, next) => {
 
 // /////////////////////////////////////////////////////////// FormatDatacapSize
 const FormatDatacapSize = (ctx, size, args) => {
+  let value = size
   const store = ctx.store
   const action = args.action
   if (action === 'human') {
-    return parseFloat(FormatBytes(size, 'array').value)
+    return parseFloat(FormatBytes(value, 'array').value)
   } else if (action === 'bytes') {
     const options = store.getters['general/siteContent'].apply.page_content.form.scaffold.total_datacap_size_unit.options
     const unitField = store.getters['form/fields'].find(obj => obj.field_key === args.unit_from_field)
-    if (!unitField || unitField.value === -1) { return size }
+    const valueField = store.getters['form/fields'].find(obj => obj.field_key === args.value_from_field)
+    if (!unitField || !valueField || unitField.value === -1) { return value }
+    if (valueField) { value = valueField.value }
     const unit = options[unitField.value].label
     if (unit === 'GiB') {
-      return size * Math.pow(1024, 3)
+      return value * Math.pow(1024, 3)
     } else if (unit === 'TiB') {
-      return size * Math.pow(1024, 4)
+      return value * Math.pow(1024, 4)
     } else if (unit === 'PiB') {
-      return size * Math.pow(1024, 5)
+      return value * Math.pow(1024, 5)
     }
   }
 }

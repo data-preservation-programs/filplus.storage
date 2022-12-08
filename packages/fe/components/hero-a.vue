@@ -138,6 +138,7 @@ export default {
 
 // //////////////////////////////////////////////////////////// Image + Overlays
 .overlay.type__noise {
+  opacity: 0.9;
   z-index: 15;
 }
 
