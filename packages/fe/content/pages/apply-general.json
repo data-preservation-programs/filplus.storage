@@ -16,6 +16,7 @@
     },
     "form": {
       "heading": "General DataCap Notary Review Request",
+      "restore_saved_form_button_text": "Restore Saved Form",
       "submit_button_text": "Send Request",
       "scaffold": {
         "organization_name": {

@@ -100,7 +100,8 @@ export default {
     '~/modules/auth',
     // '~/modules/search',
     '~/modules/form',
-    '~/modules/button'
+    '~/modules/button',
+    '~/modules/ls'
   ],
   // /////////////////////////////////// Plugins to load before mounting the App
   // ---------------------------------------------------------------------------
@@ -141,6 +142,11 @@ export default {
   //     key: 'githubUsername'
   //   }
   // },
+  // /////////////////////////////////////////////////////////////// [Module] ls
+  // ---------------------------------------------------------------------------
+  ls: {
+    prefix: 'filplus__'
+  },
   // //////////////////////////////////////////////////////////// [Module] Axios
   // -------------------------------------- See https://axios.nuxtjs.org/options
   axios: {},

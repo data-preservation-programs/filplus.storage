@@ -22,6 +22,12 @@
 
           <div class="form-heading">
             {{ formHeading }}
+            <ButtonA
+              v-if="showRestoreSavedFormButton"
+              class="restore-saved-form-button"
+              @clicked="restoreSavedForm('filplus_application')">
+              {{ restoreSavedFormButtonText }}
+            </ButtonA>
           </div>
 
           <FieldContainer
@@ -124,7 +130,8 @@ export default {
 
   data () {
     return {
-      tag: 'apply-general'
+      tag: 'apply-general',
+      showRestoreSavedFormButton: false
     }
   },
 
@@ -166,15 +173,26 @@ export default {
     formScaffold () {
       return this.form.scaffold
     },
+    restoreSavedFormButtonText () {
+      return this.form.restore_saved_form_button_text
+    },
     submitButtonText () {
       return this.form.submit_button_text
+    }
+  },
+
+  mounted () {
+    const formSavedToLs = this.$ls.get('form__filplus_application')
+    if (formSavedToLs) {
+      this.showRestoreSavedFormButton = true
     }
   },
 
   methods: {
     ...mapActions({
       validateForm: 'form/validateForm',
-      submitGeneralApplication: 'general/submitGeneralApplication'
+      submitGeneralApplication: 'general/submitGeneralApplication',
+      restoreSavedForm: 'form/restoreSavedForm'
     }),
     getValue (modelKey) {
       return this.application[modelKey]
@@ -207,7 +225,15 @@ export default {
 
 .form-heading {
   @include headingHighlight;
+  position: relative;
   margin-bottom: 3rem;
+}
+
+.restore-saved-form-button {
+  position: absolute;
+  top: 50%;
+  left: calc(100% + 1rem);
+  transform: translateY(-50%);
 }
 
 .field-container {

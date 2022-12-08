@@ -79,13 +79,32 @@ const actions = {
   },
   // /////////////////////////////////////////////////////////// updateFormField
   async updateFormField ({ commit, getters, dispatch }, incoming) {
-    const fields = [incoming].concat(
-      await this.$applyMirrors(incoming),
-      await this.$applyReactions(incoming)
-    )
-    const model = CloneDeep(getters.models.find(obj => obj.formId === incoming.formId))
-    model.state = incoming.state
-    dispatch('updateFormModel', model)
+    try {
+      const formId = incoming.formId
+      const fields = [incoming].concat(
+        await this.$applyMirrors(incoming),
+        await this.$applyReactions(incoming)
+      )
+      const model = CloneDeep(getters.models.find(obj => obj.formId === formId))
+      model.state = incoming.state
+      dispatch('updateFormModel', model)
+      fields.forEach((field) => {
+        commit('UPDATE_FORM_FIELD', {
+          field,
+          index: getters.fields.findIndex(obj => obj.id === field.id)
+        })
+      })
+      // Save to localstorage
+      const allFields = getters.fields.filter(field => field.formId === formId)
+      this.$ls.set(`form__${formId}`, JSON.stringify(allFields))
+    } catch (e) {
+      console.log('====================== [Store Action: form/updateFormField]')
+      throw e
+    }
+  },
+  // ////////////////////////////////////////////////////////// restoreSavedForm
+  restoreSavedForm ({ commit, getters }, formId) {
+    const fields = JSON.parse(this.$ls.get(`form__${formId}`))
     fields.forEach((field) => {
       commit('UPDATE_FORM_FIELD', {
         field,

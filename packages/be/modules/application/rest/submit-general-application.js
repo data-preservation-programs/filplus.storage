@@ -14,9 +14,11 @@ MC.app.post('/submit-general-application', async (req, res) => {
   try {
     let template = await GetFileFromDisk(`${MC.staticRoot}/general-application-template.md`)
     template = template.toString()
+    console.log(template)
     Object.keys(body).forEach((key) => {
       template = template.replace(key, body[key])
     })
+    console.log(template)
     SendData(res, 200, 'General application submitted succesfully', true)
   } catch (e) {
     console.log('===================== [Endpoint: /submit-general-application]')

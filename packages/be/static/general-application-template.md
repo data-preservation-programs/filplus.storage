@@ -10,7 +10,7 @@ assignees: ''
 # Client Allocation Questions
 
 ## Core Information
-- Name: application_name / organization_name
+- Name: organization_name
 - Website / Social Media: organization_website, (organization_social_media_handle, organization_social_media_handle_type)
 - Region: region
 - DataCap Requested: total_datacap_size total_datacap_size_unit
