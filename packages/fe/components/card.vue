@@ -16,7 +16,7 @@
       </svg>
     </div>
 
-    <ButtonX @clicked="$emit('clicked')">
+    <ButtonX @clicked="$emit('clicked', $event)">
       <div v-if="iconText" class="icon-text">
         {{ iconText }}
       </div>
