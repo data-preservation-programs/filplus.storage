@@ -1,21 +1,19 @@
 <template>
   <div class="error-page">
 
-    <section class="content">
-      <div class="grid">
-        <div class="col">
-          <div class="inner-content">
+    <HeroA
+      :heading="message"
+      background-image="block-backsplash.jpg">
+      <div class="inner-container">
 
-            <h1 class="heading">
-              {{ message }}
-            </h1>
+        <ButtonX
+          :to="homeButtonUrl"
+          tag="nuxt-link">
+          {{ homeButtonText }}
+        </ButtonX>
 
-          </div>
-        </div>
       </div>
-    </section>
-
-    <img class="image" src="~assets/images/star-warp.jpg" />
+    </HeroA>
 
   </div>
 </template>
@@ -24,16 +22,33 @@
 // ===================================================================== Imports
 import { mapGetters } from 'vuex'
 
+import HeroA from '@/components/hero-a'
+import ButtonX from '@/components/buttons/button-x'
+
 // ====================================================================== Export
 export default {
   name: 'ErrorPage',
+
+  components: {
+    HeroA,
+    ButtonX
+  },
 
   computed: {
     ...mapGetters({
       siteContent: 'general/siteContent'
     }),
+    pageData () {
+      return this.siteContent.general
+    },
+    homeButtonUrl () {
+      return this.pageData.navigation.home_link
+    },
+    homeButtonText () {
+      return this.pageData['404_home_button_text']
+    },
     message () {
-      return this.siteContent.general['404_error_message']
+      return this.pageData['404_error_message']
     }
   }
 }
@@ -41,48 +56,11 @@ export default {
 
 <style lang="scss" scoped>
 // ///////////////////////////////////////////////////////////////////// General
-.error-page {
-  position: relative;
-  margin-bottom: -5rem;
-  overflow: hidden;
+.inner-container {
+  text-align: center;
 }
 
-.content {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 10;
-  [class~="grid"], [class*="grid-"], [class*="grid_"] {
-    width: 100%;
-    height: 100%;
-  }
-}
-
-.inner-content {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-}
-
-.heading {
-  font-size: 3.125rem;
-  font-weight: 600;
-  @include mini {
-    font-size: 2rem;
-  }
-}
-
-.image {
-  position: relative;
-  width: 100%;
-  @include mini {
-    width: 150%;
-    left: -22%;
-  }
+.button {
+  display: inline-block;
 }
 </style>

@@ -86,5 +86,6 @@
       "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
     }
   },
-  "404_error_message": "404 Not Found"
+  "404_error_message": "<span class='bubble right'>404</span>",
+  "404_home_button_text": "Back to home"
 }
