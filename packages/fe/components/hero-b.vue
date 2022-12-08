@@ -5,7 +5,7 @@
     <div class="content">
       <div class="grid-center">
 
-        <div :class="contentCols" data-push-left="off-1">
+        <div :class="contentCols" data-push-left="off-1_mi-0">
           <div class="panel-left">
 
             <div v-if="label" class="label" v-html="label" />
@@ -17,7 +17,7 @@
           </div>
         </div>
 
-        <div class="col-4" data-push-left="off-1">
+        <div class="col-4_sm-3_mi-2" data-push-left="off-1">
           <div class="panel-right">
             <div class="warp-image-double" />
           </div>
@@ -38,7 +38,7 @@ export default {
     contentCols: {
       type: String,
       required: false,
-      default: 'col-6'
+      default: 'col-6_sm-7_mi-9'
     },
     label: {
       type: [String, Boolean],
@@ -87,10 +87,19 @@ export default {
   font-weight: 500;
   line-height: 1;
   margin-bottom: 1.875rem;
+  @include tiny {
+    line-height: 1.2;
+  }
 }
 
 ::v-deep .heading {
   margin-bottom: 2rem;
+  @include mini {
+    font-size: toRem(30);
+  }
+  @include tiny {
+    font-size: toRem(24);
+  }
   .highlight {
     color: $greenYellow;
   }
@@ -99,6 +108,12 @@ export default {
 .subtext {
   @include headingHighlight;
   font-weight: 600;
+  @include mini {
+    font-size: toRem(30);
+  }
+  @include tiny {
+    font-size: toRem(24);
+  }
 }
 
 // //////////////////////////////////////////////////////////// Image + Overlays
@@ -115,6 +130,9 @@ export default {
   position: relative;
   top: -2.6875rem;
   height: 100%;
+  @include small {
+    top: -3.25rem;
+  }
 }
 
 .warp-image-double {
@@ -126,5 +144,8 @@ export default {
   background-image: url('~assets/images/warp-image-double.png');
   background-position: top left;
   background-size: 45rem;
+  @include tiny {
+    width: calc(100% + 100vw * 0.041665 + 2rem);
+  }
 }
 </style>

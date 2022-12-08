@@ -18,7 +18,7 @@
         class="section-bg-top-border" />
 
       <div class="grid">
-        <div class="col-6" data-push-left="off-1">
+        <div class="col-6_md-8_sm-10_ti-12" data-push-left="off-1_ti-0">
 
           <div class="form-heading-1">
             {{ formHeading1 }}
@@ -48,13 +48,13 @@
       </div>
 
       <div class="grid">
-        <div class="col-6" data-push-left="off-1">
+        <div class="col-6_md-6_ti-7" data-push-left="off-1_ti-0">
           <FieldContainer
             :scaffold="formScaffold.organization_social_media_handle"
             :value="getValue('organization_social_media_handle')"
             form-id="filplus_application" />
         </div>
-        <div class="col-2" data-push-left="off-1">
+        <div class="col-2_md-3_ti-4" data-push-left="off-1">
           <FieldContainer
             :scaffold="formScaffold.organization_social_media_handle_type"
             :value="getValue('organization_social_media_handle_type')"
@@ -63,13 +63,13 @@
       </div>
 
       <div class="grid">
-        <div class="col-6" data-push-left="off-1">
+        <div class="col-6_md-6_ti-7" data-push-left="off-1_ti-0">
           <FieldContainer
             :scaffold="formScaffold.total_datacap_size_input"
             :value="getValue('total_datacap_size')"
             form-id="filplus_application" />
         </div>
-        <div class="col-2" data-push-left="off-1">
+        <div class="col-2_md-3_ti-4" data-push-left="off-1">
           <FieldContainer
             :scaffold="formScaffold.total_datacap_size_unit"
             :value="getValue('total_datacap_size_unit')"
@@ -78,13 +78,13 @@
       </div>
 
       <div class="grid">
-        <div class="col-6" data-push-left="off-1">
+        <div class="col-6_md-6_ti-7" data-push-left="off-1_ti-0">
           <FieldContainer
             :scaffold="formScaffold.weekly_data_size"
             :value="getValue('weekly_data_size')"
             form-id="filplus_application" />
         </div>
-        <div class="col-2" data-push-left="off-1">
+        <div class="col-2_md-3_ti-4" data-push-left="off-1">
           <FieldContainer
             :scaffold="formScaffold.weekly_data_size_unit"
             :value="getValue('weekly_data_size_unit')"
@@ -93,7 +93,7 @@
       </div>
 
       <div class="grid">
-        <div class="col-6" data-push-left="off-1">
+        <div class="col-6_md-8_sm-10_ti-12" data-push-left="off-1_ti-0">
 
           <FieldContainer
             :scaffold="formScaffold.filecoin_address"
@@ -126,7 +126,7 @@
         class="section-app-top-border" />
 
       <div class="grid">
-        <div class="col-7" data-push-left="off-1">
+        <div class="col-6_md-8_sm-10_ti-12" data-push-left="off-1_ti-0">
 
           <div class="form-heading-2">
             {{ formHeading2 }}
@@ -191,10 +191,10 @@
       </div>
 
       <div class="grid">
-        <div class="col-5" data-push-left="off-1">
+        <div class="col-5" data-push-left="off-1_ti-0">
           FIELD
         </div>
-        <div class="col-4" data-push-left="off-1">
+        <div class="col-4_ti-6" data-push-left="off-1">
           <FieldContainer
             :scaffold="formScaffold.frequency_of_retrieval"
             :value="getValue('frequency_of_retrieval')"
@@ -203,7 +203,7 @@
       </div>
 
       <div class="grid">
-        <div class="col-7" data-push-left="off-1">
+        <div class="col-6_md-8_sm-10_ti-12" data-push-left="off-1_ti-0">
 
           <FieldContainer
             :scaffold="formScaffold.duration_of_storage"
@@ -377,7 +377,6 @@ export default {
 #application-top {
   position: relative;
   padding: 8.75rem 0;
-  border-bottom: 2px solid $nandor;
   [class~=grid], [class*=grid-], [class*=grid_] {
     @include descendingZindex(5);
     position: relative;
