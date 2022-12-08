@@ -20,7 +20,7 @@
 
       <div class="grid-spaceBetween">
 
-        <div class="col-7" data-push-left="off-1">
+        <div class="col-7_lg-8_sm-9_mi-10" data-push-left="off-1_mi-0">
 
           <MarkdownParser :markdown="markdown" />
 
@@ -44,7 +44,7 @@
 
         </div>
 
-        <div class="col-3">
+        <div class="col-4_lg-3_sm-2_mi-1">
           <div class="panel-right">
             <div class="warp-image-double" />
           </div>
@@ -130,11 +130,30 @@ export default {
 
 // //////////////////////////////////////////////////////////////////////// Hero
 ::v-deep #hero {
+  .heading {
+    @include medium {
+      flex-direction: column;
+    }
+  }
   .bubble {
     margin-left: 1.25rem;
+    @include medium {
+      margin-left: 0;
+      margin-top: 1.25rem;
+    }
+    @include mini {
+      margin-top: 0.75rem;
+      padding: 0.75rem 1.5rem;
+    }
   }
   .overlay.type__opaque {
     background-color: rgba(15, 31, 26, 0.9);
+  }
+}
+
+:deep(.hero-content) {
+  @include mini {
+    padding-bottom: 7rem;
   }
 }
 
@@ -152,11 +171,24 @@ export default {
 
 .markdown {
   padding: 5rem 0;
+  padding-right: 5rem;
+  @include small {
+    padding-right: 3rem;
+  }
+  @include mini {
+    padding-right: 0;
+  }
 }
 
 .apply-cta-card {
   width: 57%;
   @include medium {
+    width: calc(100% - 5rem);
+  }
+  @include small {
+    width: calc(100% - 3rem);
+  }
+  @include mini {
     width: 100%;
   }
   .title {
@@ -170,7 +202,7 @@ export default {
     margin-bottom: toRem(27);
   }
   :deep(.content) {
-    padding: toRem(37) 2rem 1.875rem toRem(43);
+    padding: toRem(37) 2rem 1.875rem toRem(43) !important;
   }
 }
 

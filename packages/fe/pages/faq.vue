@@ -18,7 +18,7 @@
 
       <div class="grid-spaceBetween">
 
-        <div class="col-7" data-push-left="off-1">
+        <div class="col-7_lg-8_sm-9_mi-10" data-push-left="off-1_mi-0">
           <FaqAccordion
             :entries="faqList"
             :toggle-button-content="accordionToggleButtonText" />
@@ -42,7 +42,7 @@
           </Card>
         </div>
 
-        <div class="col-3">
+        <div class="col-4_lg-3_sm-2_mi-1">
           <div class="panel-right">
             <div class="warp-image-double" />
           </div>
@@ -129,9 +129,20 @@ export default {
 }
 
 // //////////////////////////////////////////////////////////////////////// Hero
-::v-deep #hero {
+:deep(.hero-content) {
+  @include mini {
+    padding-bottom: 7rem;
+  }
   .bubble {
     margin-top: 2.75rem;
+    @include small {
+      margin-top: 1.5rem;
+    }
+    @include mini {
+      padding: 0.75rem 1.5rem;
+      margin-top: 1rem;
+      white-space: nowrap;
+    }
   }
 }
 
@@ -151,34 +162,25 @@ export default {
   padding: 5rem 0;
 }
 
-// .section-accordion {
-//   position: relative;
-//   left: calc(-#{math.div($containerWidth, 12)} / 2);
-//   width: calc(100% + #{math.div($containerWidth, 12)} / 2);
-//   margin-bottom: 6.5rem;
-// }
-
-// ::v-deep .faq-heading {
-//   display: flex;
-//   flex-direction: column;
-//   align-items: flex-start;
-//   margin-top: 7.625rem;
-//   margin-bottom: 1.875rem;
-//   .bubble {
-//     left: calc((-100vw + #{$containerWidth}) / 2 - #{math.div($containerWidth, 12)} - 0.5rem - 3.125rem - 2px); // 100vw - gutter - 1 col - 1/2 col gutter - 2px border-width
-//     padding-left: calc(3.125rem + (100vw - #{$containerWidth}) / 2 + #{math.div($containerWidth, 12)} + 0.5rem);
-//     border-color: $nandor;
-//     margin-top: 0.5rem;
-//   }
-// }
-//
-// .more-button {
-//   margin-top: 1.875rem;
-// }
+:deep(.faq-accordion) {
+  padding-right: 5rem;
+  @include small {
+    padding-right: 3rem;
+  }
+  @include mini {
+    padding-right: 0;
+  }
+}
 
 .apply-cta-card {
   width: 57%;
   @include medium {
+    width: calc(100% - 5rem);
+  }
+  @include small {
+    width: calc(100% - 3rem);
+  }
+  @include mini {
     width: 100%;
   }
   .title {
@@ -192,7 +194,7 @@ export default {
     margin-bottom: toRem(27);
   }
   :deep(.content) {
-    padding: toRem(37) 2rem 1.875rem toRem(43);
+    padding: toRem(37) 2rem 1.875rem toRem(43) !important;
   }
 }
 
