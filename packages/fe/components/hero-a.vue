@@ -95,6 +95,9 @@ export default {
   margin-top: -$siteHeaderHeight;
   padding-top: $siteHeaderHeight * 2;
   z-index: 25;
+  @include large {
+    height: unset;
+  }
 }
 
 [class~=grid], [class*=grid-], [class*=grid_] {
@@ -108,6 +111,15 @@ export default {
   justify-content: center;
   height: 100%;
   padding-bottom: $siteHeaderHeight;
+  @include large {
+    padding-top: 5rem;
+  }
+  @include small {
+    height: unset;
+  }
+  @include mini {
+    padding-top: 3rem;
+  }
 }
 
 .inner-content {
@@ -126,6 +138,7 @@ export default {
 ::v-deep .heading {
   display: flex;
   align-items: center;
+  line-height: 1.1;
   &.direction__vertical {
     flex-direction: column;
     text-align: center;
@@ -133,6 +146,12 @@ export default {
   &.direction__horizontal {
     flex-direction: row;
     justify-content: center;
+  }
+  @include small {
+    font-size: toRem(55);
+  }
+  @include mini {
+    font-size: toRem(35);
   }
 }
 

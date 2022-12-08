@@ -140,6 +140,9 @@ $padding: 2.25rem;
 
 .expand-all-button {
   margin-bottom: 1.5rem;
+  :deep(.button) {
+    font-size: toRem(18);
+  }
 }
 
 .accordion-wrapper {
@@ -179,6 +182,10 @@ $padding: 2.25rem;
   align-items: flex-start;
   font-size: toRem(24);
   line-height: leading(35, 24);
+  @include mini {
+    font-size: toRem(16);
+    line-height: leading(35, 16);
+  }
   .text {
     padding-right: 1rem;
   }
@@ -198,5 +205,9 @@ $padding: 2.25rem;
 
 .answer {
   padding-bottom: $padding;
+  @include mini {
+    font-size: toRem(14);
+    line-height: leading(25, 14);
+  }
 }
 </style>
