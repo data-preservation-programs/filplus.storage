@@ -51,12 +51,12 @@ export default {
     headingCols: {
       type: String,
       required: false,
-      default: 'col-10'
+      default: 'col-12_mi-10_ti-12'
     },
     contentCols: {
       type: String,
       required: false,
-      default: 'col-8'
+      default: 'col-8_sm-10_mi-12'
     },
     contentDirection: {
       type: String,

@@ -433,6 +433,10 @@ export default {
   font-weight: 400;
   line-height: leading(30, 16);
   color: #75938B;
+  @include large {
+    font-size: 0.875rem;
+    line-height: leading(20, 14);
+  }
   @include mini {
     padding: 0 1rem;
     margin-top: toRem(38);

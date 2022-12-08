@@ -5,7 +5,7 @@
     <HeroA
       :label="label"
       :heading="heading"
-      heading-cols="col-8" />
+      heading-cols="col-8_md-10_mi-10_ti-12" />
 
     <!-- ========================================================== Notaries -->
     <div id="section-notaries">
@@ -17,7 +17,7 @@
         :thick="true"
         class="notaries-top-border" />
 
-      <div class="grid-spaceBetween">
+      <div class="grid-spaceBetween-noBottom">
 
         <div class="col-1">
           <div class="panel-left">
@@ -127,6 +127,28 @@ export default {
   overflow: hidden;
 }
 
+:deep(.hero-content) {
+  .label {
+    @include mini {
+      font-size: toRem(14);
+      margin-left: 2rem;
+    }
+  }
+  .heading {
+    white-space: nowrap;
+    letter-spacing: 0;
+    .bubble {
+      margin-bottom: 1.25rem;
+    }
+    @include mini {
+      .bubble {
+        padding: 0.75rem 1.5rem;
+        margin-bottom: 0.75rem;
+      }
+    }
+  }
+}
+
 #section-notaries {
   position: relative;
   border-top: 2px solid transparent;
@@ -155,7 +177,7 @@ export default {
   top: 0;
   right: 0;
   width: 69rem;
-  height: 500rem;
+  height: calc(100% + 3px);
   background-image: url('~assets/images/warp-image-double.png');
   background-position: top right;
   background-size: 69rem;
@@ -165,10 +187,16 @@ export default {
 .table-heading-section,
 .table-notaries-list {
   padding-left: 2.5rem;
+  @include mini {
+    padding-left: 0.5rem;
+  }
 }
 
 .table-heading-section {
   padding-top: 5rem;
+  @include mini {
+    padding-top: 2rem;
+  }
 }
 
 .table-label,
@@ -179,10 +207,18 @@ export default {
 .table-label {
   font-size: 1rem;
   margin-bottom: 2.5rem;
+  @include small {
+    font-size: 0.875rem;
+    margin-bottom: 0.625rem;
+  }
 }
 
 .table-heading {
   @include headingHighlight;
   margin-bottom: 4rem;
+  @include small {
+    font-size: 1.25rem;
+    margin-bottom: 1.125rem;
+  }
 }
 </style>
