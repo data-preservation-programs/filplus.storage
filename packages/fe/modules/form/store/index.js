@@ -81,7 +81,11 @@ const actions = {
   async updateFormField ({ commit, getters, dispatch }, incoming) {
     try {
       const formId = incoming.formId
-      const fields = [incoming].concat(
+      commit('UPDATE_FORM_FIELD', {
+        field: incoming,
+        index: getters.fields.findIndex(obj => obj.id === incoming.id)
+      })
+      const fields = [].concat(
         await this.$applyMirrors(incoming),
         await this.$applyReactions(incoming)
       )
