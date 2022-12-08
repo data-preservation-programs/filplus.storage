@@ -22,6 +22,11 @@ class Ls {
   set (key, value) {
     localStorage.setItem(`${this.prefix}${key}`, value)
   }
+
+  // ==================================================================== remove
+  remove (key) {
+    localStorage.removeItem(`${this.prefix}${key}`)
+  }
 }
 
 // ////////////////////////////////////////////////////////////////////// Export

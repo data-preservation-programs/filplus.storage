@@ -113,14 +113,17 @@ const actions = {
     commit('SET_SAVED_FORM_EXISTS_STATUS', status)
   },
   // ////////////////////////////////////////////////////////// restoreSavedForm
-  restoreSavedForm ({ commit, getters }, formId) {
-    const fields = JSON.parse(this.$ls.get(`form__${formId}`))
+  restoreSavedForm ({ commit, getters, dispatch }, formId) {
+    const id = `form__${formId}`
+    const fields = JSON.parse(this.$ls.get(id))
     fields.forEach((field) => {
       commit('UPDATE_FORM_FIELD', {
         field,
         index: getters.fields.findIndex(obj => obj.id === field.id)
       })
     })
+    this.$ls.remove(id)
+    dispatch('setSavedFormExistsStatus', false)
   },
   // ////////////////////////////////////////////////////////////// validateForm
   async validateForm ({ commit, getters, dispatch }, formId) {
