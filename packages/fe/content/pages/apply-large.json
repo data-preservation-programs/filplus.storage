@@ -133,19 +133,23 @@
         },
         "organization_social_media_handle_type": {
           "field_key": "organization_social_media_handle_type",
-          "type": "select",
+          "type": "input",
+          "input_type": "text",
           "model_key": "organization_social_media_handle_type",
           "label": "Social Media Type",
+          "placeholder": "Twitter",
           "required": true,
-          "output": "option",
-          "validation_message": {
-            "required": "This field is required"
+          "pre": "[^\\u0000-\\u00ff]",
+          "autocomplete": "none",
+          "chars": {
+            "min": 2,
+            "max": 100
           },
-          "options": [
-            { "label": "Twitter" },
-            { "label": "Slack" }
-          ],
-          "default_value": "Twitter"
+          "validation_message": {
+            "required": "This field is required",
+            "chars": "Input must be between 2 and 35 characters"
+          },
+          "default_value": "Test"
         },
         "total_datacap_size_input": {
           "field_key": "total_datacap_size_input",
