@@ -157,6 +157,10 @@
           "max": 5242880,
           "required": true,
           "pre": "[^\\u0000-\\u00ff]",
+          "mirror": {
+            "field_key": "total_datacap_size_range",
+            "primary": false
+          },
           "transform": {
             "func": "$formatDatacapSize",
             "args": {
@@ -177,6 +181,13 @@
           "label": "Unit",
           "required": true,
           "output": "option",
+          "react": {
+            "field_key": "total_datacap_size_range",
+            "func": "$reactDatasizeUnitToRange",
+            "args": {
+              "value_from_field": "total_datacap_size_range"
+            }
+          },
           "validation_message": {
             "required": "This field is required"
           },
