@@ -23,7 +23,7 @@
           <div class="form-heading">
             {{ formHeading }}
             <ButtonA
-              v-if="showRestoreSavedFormButton"
+              v-if="savedFormExists"
               class="restore-saved-form-button"
               @clicked="restoreSavedForm('filplus_application')">
               {{ restoreSavedFormButtonText }}
@@ -130,8 +130,7 @@ export default {
 
   data () {
     return {
-      tag: 'apply-general',
-      showRestoreSavedFormButton: false
+      tag: 'apply-general'
     }
   },
 
@@ -156,7 +155,8 @@ export default {
   computed: {
     ...mapGetters({
       siteContent: 'general/siteContent',
-      application: 'general/application'
+      application: 'general/application',
+      savedFormExists: 'form/savedFormExists'
     }),
     pageData () {
       return this.siteContent[this.tag].page_content
@@ -178,13 +178,6 @@ export default {
     },
     submitButtonText () {
       return this.form.submit_button_text
-    }
-  },
-
-  mounted () {
-    const formSavedToLs = this.$ls.get('form__filplus_application')
-    if (formSavedToLs) {
-      this.showRestoreSavedFormButton = true
     }
   },
 

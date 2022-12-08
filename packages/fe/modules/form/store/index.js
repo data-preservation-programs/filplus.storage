@@ -4,14 +4,16 @@ import CloneDeep from 'lodash/cloneDeep'
 // -----------------------------------------------------------------------------
 const state = () => ({
   fields: [],
-  models: []
+  models: [],
+  savedFormExists: false
 })
 
 // ///////////////////////////////////////////////////////////////////// Getters
 // -----------------------------------------------------------------------------
 const getters = {
   fields: state => state.fields,
-  models: state => state.models
+  models: state => state.models,
+  savedFormExists: state => state.savedFormExists
 }
 
 // ///////////////////////////////////////////////////////////////////// Actions
@@ -106,6 +108,10 @@ const actions = {
       throw e
     }
   },
+  // ////////////////////////////////////////////////// setSavedFormExistsStatus
+  setSavedFormExistsStatus ({ commit }, status) {
+    commit('SET_SAVED_FORM_EXISTS_STATUS', status)
+  },
   // ////////////////////////////////////////////////////////// restoreSavedForm
   restoreSavedForm ({ commit, getters }, formId) {
     const fields = JSON.parse(this.$ls.get(`form__${formId}`))
@@ -177,6 +183,9 @@ const mutations = {
   },
   UPDATE_FORM_FIELD (state, payload) {
     state.fields.splice(payload.index, 1, payload.field)
+  },
+  SET_SAVED_FORM_EXISTS_STATUS (state, status) {
+    state.savedFormExists = status
   }
 }
 

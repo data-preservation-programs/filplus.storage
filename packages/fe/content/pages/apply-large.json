@@ -18,6 +18,7 @@
     "form": {
       "heading_1": "Background Information",
       "heading_2": "Application",
+      "restore_saved_form_button_text": "Restore Saved Form",
       "submit_button_text": "Send Request",
       "scaffold": {
         "organization_name": {
