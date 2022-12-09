@@ -17,18 +17,18 @@
     <input
       :id="fieldKey"
       ref="input"
+      :position="position"
       :name="fieldKey"
-      :value="value"
+      :value="position"
       :min="min"
-      :max="max"
-      step="500000000"
+      :max="steps"
       :style="rangeStyling"
       :class="['range', state]"
       :disabled="disabled"
       type="range"
       @focus="focused = true"
       @blur="focused = false"
-      @input="$emit('updateValue', $event.target.value)" />
+      @input="updateValue($event.target.value)" />
 
   </div>
 </template>
@@ -46,13 +46,17 @@ export default {
   },
 
   data () {
+    const self = this
     return {
+      position: self.field.min,
       focused: false,
       thumbDimensions: {
         x: 0,
         y: 0
       },
-      format: false
+      format: false,
+      steps: self.field.max,
+      transform: false
     }
   },
 
@@ -70,24 +74,35 @@ export default {
       return this.field.value
     },
     min () {
-      return this.field.min
+      return this.logarithmic ? 1 : this.field.min
     },
     max () {
       return this.field.max
+    },
+    intervals () {
+      return this.field.intervals
+    },
+    logarithmic () {
+      return this.field.hasOwnProperty('intervals')
     },
     state () {
       return this.field.state
     },
     tick () {
-      return (this.value / this.max) * 100
+      const position = this.position
+      const min = this.min
+      if (this.logarithmic) {
+        return ((position - min) / (this.steps - min)) * 100
+      }
+      return (position / this.max) * 100
     },
     thumbPosition () {
-      const tick = this.tick >= 100 ? 100 : this.tick
+      const tick = this.tick
       const thumbHeight = this.thumbDimensions.h
       return `left: calc(${tick}% - ${thumbHeight * (tick / 100)}px)`
     },
     progressBarWidth () {
-      const tick = this.tick >= 100 ? 100 : this.tick
+      const tick = this.tick
       const thumbHeight = this.thumbDimensions.h
       return `width: calc(${tick}% - ${thumbHeight * (tick / 100)}px + ${thumbHeight}px)`
     },
@@ -95,6 +110,15 @@ export default {
       const thumbDimensions = this.thumbDimensions
       const width = this.format === 'line' ? thumbDimensions.h : thumbDimensions.w
       return `--thumb-dimension-x: ${width}px; --thumb-dimension-y: ${thumbDimensions.h}px;`
+    }
+  },
+
+  created () {
+    if (this.logarithmic) {
+      const [steps, transform] = this.getScaleTransform()
+      this.steps = steps
+      this.transform = transform
+      this.position = this.min === 0 ? 0 : 1
     }
   },
 
@@ -107,6 +131,41 @@ export default {
       }
       this.format = this.thumbDimensions.w === this.thumbDimensions.h ? 'square' : 'line'
     })
+  },
+
+  methods: {
+    getScaleTransform () {
+      const min = this.min
+      const max = this.max
+      const intervals = this.intervals
+      const numIntervals = intervals.length
+      const descreteSteps = Math.ceil(
+        (max - min) / intervals.reduce((total, step) => total + step / numIntervals, 0)
+      )
+      return [
+        descreteSteps,
+        (input) => {
+          const stepTransforms = intervals.map((s, i) => {
+            const setCount = Math.min(Math.ceil(input - (descreteSteps * i / numIntervals)), Math.round(descreteSteps / numIntervals))
+            return setCount > 0 ? setCount * s : 0
+          })
+          let lastStep = 0
+          const out = Math.round(stepTransforms.reduce((total, num, i) => {
+            if (num) { lastStep = i }
+            return total + num
+          })) + min
+          const currentUnit = intervals[lastStep]
+          return Math.min(
+            Math.round((out / currentUnit)) * currentUnit,
+            max
+          )
+        }
+      ]
+    },
+    updateValue (value) {
+      this.position = value
+      this.$emit('updateValue', this.logarithmic ? this.transform(value) : value)
+    }
   }
 }
 </script>
