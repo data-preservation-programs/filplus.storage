@@ -26,9 +26,19 @@
         </div>
       </template>
 
-      <!-- <template #ticks="{ getValuePosition }">
-        {{ getValuePosition() }}
-      </template> -->
+      <template #tick-list="{ getPosition, getTick }">
+        <div class="positions">
+          <div class="position start" :style="{ left: `${getTick(getPosition(34359738368)) }%` }">
+            32 GiB
+          </div>
+          <div class="position middle" :style="{ left: `${getTick(getPosition(109951162777600)) }%` }">
+            100 TiB
+          </div>
+          <div class="position end" :style="{ left: `${getTick(getPosition(5629499534213120)) }%` }">
+            5 PiB
+          </div>
+        </div>
+      </template>
 
     </Range>
 
@@ -203,6 +213,25 @@ $borderWidth: 2px;
   height: 100%;
   &:not(:last-child) {
     margin-right: 2px;
+  }
+}
+
+// /////////////////////////////////////////////////////////////////// Positions
+.positions {
+  position: relative;
+  margin-top: 0.5rem;
+}
+
+.position {
+  position: absolute;
+  top: 0;
+  font-size: toRem(14);
+  white-space: nowrap;
+  &.middle {
+    transform: translateX(-50%);
+  }
+  &.end {
+    transform: translateX(-100%);
   }
 }
 </style>

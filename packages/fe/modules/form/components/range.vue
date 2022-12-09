@@ -1,36 +1,41 @@
 <template>
-  <div :class="['range-track', state, { focused }]">
+  <div :class="['range-container', state, { focused }]">
 
-    <div
-      ref="thumb"
-      class="thumb-container"
-      :style="thumbPosition">
-      <slot name="thumb" />
+    <div class="range-track">
+      <div
+        ref="thumb"
+        class="thumb-container"
+        :style="thumbPosition">
+        <slot name="thumb" />
+      </div>
+
+      <div
+        :style="progressBarWidth"
+        class="progress-bar-container">
+        <slot name="progress-bar" :tick="tick" />
+      </div>
+
+      <input
+        :id="fieldKey"
+        ref="input"
+        :position="position"
+        :name="fieldKey"
+        :value="position"
+        :min="min"
+        :max="steps"
+        :style="rangeStyling"
+        :class="['range', state]"
+        :disabled="disabled"
+        type="range"
+        @focus="focused = true"
+        @blur="focused = false"
+        @input="updateValue($event.target.value)" />
     </div>
 
-    <div
-      :style="progressBarWidth"
-      class="progress-bar-container">
-      <slot name="progress-bar" :tick="tick" />
-    </div>
-
-    <input
-      :id="fieldKey"
-      ref="input"
-      :position="position"
-      :name="fieldKey"
-      :value="position"
-      :min="min"
-      :max="steps"
-      :style="rangeStyling"
-      :class="['range', state]"
-      :disabled="disabled"
-      type="range"
-      @focus="focused = true"
-      @blur="focused = false"
-      @input="updateValue($event.target.value)" />
-
-    <!-- <slot name="ticks" :get-value-position="getValuePosition" /> -->
+    <slot
+      name="tick-list"
+      :get-position="getPosition"
+      :get-tick="getTick" />
 
   </div>
 </template>
@@ -265,7 +270,6 @@ export default {
   }
   &::-webkit-slider-thumb {
     @include thumb;
-    background-color: rgba(tomato, 0.5);
   }
   &::-moz-range-thumb {
     @include thumb;
