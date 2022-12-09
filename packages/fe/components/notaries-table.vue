@@ -22,7 +22,7 @@
         form-id="filplus_application">
         <tbody slot-scope="{ updateValue }" class="table-body">
           <tr
-            v-for="notary in filteredNotaries"
+            v-for="(notary, i) in filteredNotaries"
             :key="notary['Miner ID']"
             class="row row-body">
 
@@ -40,22 +40,54 @@
                 <template v-if="cell.slug === 'Miner'">
                   <div class="notary">
                     <div class="name">
-                      {{ notary.Miner }}
+                      {{ notary.name }}
                     </div>
                     <div class="miner-id">
-                      {{ notary['Miner ID'] }}
+                      {{ notary.sp_id }}
                     </div>
                   </div>
                 </template>
 
                 <template v-if="cell.slug === 'Location'">
                   <div class="location">
-                    {{ notary.Location }}
+                    {{ notary.location.full }}
+                    {{ $getFlagIcon(notary.location.country_code) }}
                   </div>
                 </template>
 
                 <template v-if="cell.slug === 'Contact Information'">
-                  <div class="contact-info" v-html="notary['Contact Information']" />
+                  <div class="contact-info">
+                    <ButtonX
+                      v-for="(item, j) in notary.contact_information"
+                      :key="`contact-${i}-${j}`"
+                      :to="getContactLink(item.link)"
+                      tag="a"
+                      target="_blank"
+                      class="contact-link">
+                      <component :is="getIconComponent(item.type)" />
+                    </ButtonX>
+                  </div>
+                </template>
+
+                <template v-if="cell.slug === 'Features'">
+                  <div :class="['features', { expanded: expandedNotaries.includes(i) }]">
+
+                    <ul>
+                      <li
+                        v-for="feature in notary.features"
+                        :key="feature">
+                        {{ feature }}
+                      </li>
+                    </ul>
+
+                    <button
+                      v-if="!expandedNotaries.includes(i)"
+                      class="see-more-features-button"
+                      @click="expandFeatures(i)">
+                      see more
+                    </button>
+
+                  </div>
                 </template>
 
                 <template v-if="cell.slug === 'request_button'">
@@ -89,6 +121,9 @@ import { mapGetters } from 'vuex'
 
 import Field from '@/modules/form/components/field'
 import ButtonA from '@/components/buttons/button-a'
+import ButtonX from '@/components/buttons/button-x'
+import SlackIcon from '@/components/icons/slack'
+import GithubIcon from '@/components/icons/github'
 
 // ====================================================================== Export
 export default {
@@ -96,7 +131,10 @@ export default {
 
   components: {
     Field,
-    ButtonA
+    ButtonA,
+    ButtonX,
+    SlackIcon,
+    GithubIcon
   },
 
   data () {
@@ -104,10 +142,12 @@ export default {
       columns: [
         { slug: 'Miner', label: 'Notary' },
         { slug: 'Location', label: 'Location' },
-        { slug: 'Contact Information', label: 'Contact Information' },
+        { slug: 'Contact Information', label: 'Contacts' },
+        { slug: 'Features', label: 'Features' },
         { slug: 'request_button' }
       ],
-      contactPanel: false
+      contactPanel: false,
+      expandedNotaries: []
     }
   },
 
@@ -140,9 +180,26 @@ export default {
 
   methods: {
     selectNotary (notary, updateValue) {
-      const name = notary.Miner
+      const name = notary.name
       updateValue(name)
       this.$router.push(`/apply/general/notaries/${name}`)
+    },
+    getIconComponent (icon) {
+      switch (icon) {
+        case 'website':
+          return 'GithubIcon'
+        case 'slack':
+          return 'SlackIcon'
+      }
+      return 'div'
+    },
+    getContactLink (link) {
+      return 'https://example.com'
+    },
+    expandFeatures (index) {
+      if (!this.expandedNotaries.includes(index)) {
+        this.expandedNotaries.push(index)
+      }
     }
   }
 }
@@ -210,9 +267,48 @@ export default {
 }
 
 // /////////////////////////////////////////////////////////////////////// Cells
-.miner-id {
+.miner-id,
+.see-more-features-button {
   font-size: toRem(14);
   font-family: $fontSuisseIntlMono;
   color: rgba($titanWhite, 0.5);
 }
+
+.notary {
+  .name {
+    font-weight: 500;
+  }
+}
+
+.contact-info {
+  .contact-link {
+    margin-right: 0.5rem;
+    :deep(path) {
+      fill: white;
+    }
+  }
+}
+
+.features {
+  max-width: toRem(360);
+  li {
+    font-size: 1rem;
+    &:nth-child(n + 4) {
+      display: none;
+    }
+  }
+  &.expanded {
+    li {
+      display: list-item;
+    }
+  }
+}
+
+.see-more-features-button {
+  transition: 200ms ease;
+  &:hover {
+    color: rgba($titanWhite, 0.75);
+  }
+}
+
 </style>
