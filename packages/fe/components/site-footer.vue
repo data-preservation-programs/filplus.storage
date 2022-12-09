@@ -44,24 +44,27 @@
 
               <Logo class="site-logo" />
 
-              <Card
-                corner-position="top-right"
-                variant="small"
-                icon="chevron"
-                class="footer-cta-card">
-                <template v-if="videoCta">
+              <template v-for="variant in ['small', 'tiny']">
+                <Card
+                  :key="`footer-card-${variant}`"
+                  :variant="variant"
+                  corner-position="top-right"
+                  icon="chevron"
+                  :class="['footer-cta-card', `${variant}-variant`]">
+                  <template v-if="videoCta">
 
-                  <img
-                    class="card-image"
-                    :src="videoCta.image" />
+                    <img
+                      class="card-image"
+                      :src="videoCta.image" />
 
-                  <div
-                    class="card-text"
-                    v-html="videoCta.text">
-                  </div>
+                    <div
+                      class="card-text"
+                      v-html="videoCta.text">
+                    </div>
 
-                </template>
-              </Card>
+                  </template>
+                </Card>
+              </template>
 
             </nuxt-link>
           </div>
@@ -378,18 +381,30 @@ export default {
   width: fit-content;
   left: 2.1875rem;
   bottom: 1.125rem;
-  @include mini {
-
-  }
   :deep(.content) {
     display: flex;
     justify-content: space-between;
     padding: 1.375rem 2.6875rem 1.4375rem 1.5rem;
+    @include mini {
+      padding: 0.875rem;
+      padding-right: 1.75rem;
+    }
   }
   :deep(.icon) {
     background-color: #0047FF;
     path {
       stroke: white;
+    }
+  }
+  &.small-variant {
+    @include mini {
+      display: none;
+    }
+  }
+  &.tiny-variant {
+    display: none;
+    @include mini {
+      display: block;
     }
   }
   .card-image {
@@ -409,6 +424,7 @@ export default {
     line-height: 1.3;
     @include mini {
       font-size: toRem(15);
+      margin-left: 0.875rem;
     }
   }
 }
