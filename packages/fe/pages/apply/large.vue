@@ -374,7 +374,8 @@ export default {
 
 <style lang="scss" scoped>
 // ///////////////////////////////////////////////////////////////////// General
-.page-large {
+.page-apply-large {
+  position: relative;
   overflow: hidden;
 }
 

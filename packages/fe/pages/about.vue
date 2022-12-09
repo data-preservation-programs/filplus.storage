@@ -121,6 +121,7 @@ export default {
 <style lang="scss" scoped>
 // ///////////////////////////////////////////////////////////////////// General
 .page-about {
+  position: relative;
   overflow: hidden;
 }
 

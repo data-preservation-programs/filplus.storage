@@ -124,6 +124,7 @@ export default {
 <style lang="scss" scoped>
 // ///////////////////////////////////////////////////////////////////// General
 .page-notaries {
+  position: relative;
   overflow: hidden;
 }
 

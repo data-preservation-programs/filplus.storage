@@ -201,14 +201,14 @@ export default {
 
 <style lang="scss" scoped>
 // ///////////////////////////////////////////////////////////////////// General
-.page-large {
+.page-apply-general {
+  position: relative;
   overflow: hidden;
 }
 
 #application {
   position: relative;
   padding: 8.75rem 0;
-  border-bottom: 2px solid $nandor;
   z-index: 10;
 }
 
