@@ -196,20 +196,22 @@
         </div>
       </div>
 
-      <div class="grid">
+      <!-- <div class="grid">
         <div class="col-5" data-push-left="off-1">
           FIELD
         </div>
         <div class="col-4" data-push-left="off-1">
+
+        </div>
+      </div> -->
+
+      <div class="grid">
+        <div class="col-7" data-push-left="off-1">
+
           <FieldContainer
             :scaffold="formScaffold.frequency_of_retrieval"
             :value="getValue('frequency_of_retrieval')"
             form-id="filplus_application" />
-        </div>
-      </div>
-
-      <div class="grid">
-        <div class="col-7" data-push-left="off-1">
 
           <FieldContainer
             :scaffold="formScaffold.duration_of_storage"

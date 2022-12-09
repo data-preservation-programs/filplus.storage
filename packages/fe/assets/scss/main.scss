@@ -378,25 +378,17 @@ span.error {
     top: calc(100% + 2px);
     border-left: 0.5rem solid transparent;
     border-right: 0.5rem solid transparent;
-    border-bottom: 0.375rem solid tomato;
+    border-bottom: 0.375rem solid $mineralGreen;
   }
   &:after {
     content: attr(data-tooltip);
     top: calc(100% + 0.5rem);
-    background-color: teal;
-    color: tomato;
+    background-color: $mineralGreen;
     font-family: inherit;
     font-size: 0.625rem;
     white-space: nowrap;
     padding: 0.25rem 0.5rem;
-    border: 1px solid tomato;
     border-radius: 1.5rem;
-  }
-  &[data-tooltip-theme="light"] {
-    &:after {
-      color: tomato;
-      background-color: teal;
-    }
   }
 }
 
@@ -481,6 +473,11 @@ span.error {
 
 .warp-image-double {
   margin-top: -3px;
+}
+
+.z-index-100 {
+  position: relative;
+  z-index: 100;
 }
 
 // ///////////////////////////////////////////////// Markdown content formatting

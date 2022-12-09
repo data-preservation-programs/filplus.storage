@@ -49,7 +49,7 @@
       </div>
 
       <div class="grid">
-        <div class="col-6" data-push-left="off-1">
+        <div class="col-6 z-index-100" data-push-left="off-1">
           <FieldContainer
             :scaffold="formScaffold.organization_social_media_handle"
             :value="getValue('organization_social_media_handle')"
@@ -64,7 +64,7 @@
       </div>
 
       <div class="grid">
-        <div class="col-6" data-push-left="off-1">
+        <div class="col-6 z-index-100" data-push-left="off-1">
           <FieldContainer
             :scaffold="formScaffold.total_datacap_size_input"
             :value="getValue('total_datacap_size')"
