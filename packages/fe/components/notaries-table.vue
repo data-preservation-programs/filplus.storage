@@ -23,7 +23,7 @@
         <tbody slot-scope="{ updateValue }" class="table-body">
           <tr
             v-for="(notary, i) in filteredNotaries"
-            :key="notary['Miner ID']"
+            :key="notary.sp_id"
             class="row row-body">
 
             <td
@@ -37,7 +37,7 @@
                   class="column-label"
                   v-html="cell.label" />
 
-                <template v-if="cell.slug === 'Miner'">
+                <template v-if="cell.slug === 'name'">
                   <div class="notary">
                     <div class="name">
                       {{ notary.name }}
@@ -48,28 +48,30 @@
                   </div>
                 </template>
 
-                <template v-if="cell.slug === 'Location'">
+                <template v-if="cell.slug === 'location'">
                   <div class="location">
                     {{ notary.location.full }}
                     {{ $getFlagIcon(notary.location.country_code) }}
                   </div>
                 </template>
 
-                <template v-if="cell.slug === 'Contact Information'">
+                <template v-if="cell.slug === 'contact_information'">
                   <div class="contact-info">
                     <ButtonX
                       v-for="(item, j) in notary.contact_information"
                       :key="`contact-${i}-${j}`"
-                      :to="getContactLink(item.link)"
+                      :to="item.link"
                       tag="a"
                       target="_blank"
                       class="contact-link">
-                      <component :is="getIconComponent(item.type)" />
+                      <component
+                        :is="getIconComponent(item.type)"
+                        :class="`icon-${item.type}`" />
                     </ButtonX>
                   </div>
                 </template>
 
-                <template v-if="cell.slug === 'Features'">
+                <template v-if="cell.slug === 'features'">
                   <div :class="['features', { expanded: expandedNotaries.includes(i) }]">
 
                     <ul>
@@ -81,7 +83,7 @@
                     </ul>
 
                     <button
-                      v-if="!expandedNotaries.includes(i)"
+                      v-if="notary.features.length > 3 && !expandedNotaries.includes(i)"
                       class="see-more-features-button"
                       @click="expandFeatures(i)">
                       see more
@@ -140,10 +142,10 @@ export default {
   data () {
     return {
       columns: [
-        { slug: 'Miner', label: 'Notary' },
-        { slug: 'Location', label: 'Location' },
-        { slug: 'Contact Information', label: 'Contacts' },
-        { slug: 'Features', label: 'Features' },
+        { slug: 'name', label: 'Notary' },
+        { slug: 'location', label: 'Location' },
+        { slug: 'contact_information', label: 'Contacts' },
+        { slug: 'features', label: 'Features' },
         { slug: 'request_button' }
       ],
       contactPanel: false,
@@ -184,17 +186,14 @@ export default {
       updateValue(name)
       this.$router.push(`/apply/general/notaries/${name}`)
     },
-    getIconComponent (icon) {
-      switch (icon) {
-        case 'website':
-          return 'GithubIcon'
-        case 'slack':
-          return 'SlackIcon'
+    getIconComponent (type) {
+      let icon
+      switch (type) {
+        case 'website': icon = 'GithubIcon'; break
+        case 'slack': icon = 'SlackIcon'; break
+        default: icon = 'div'
       }
-      return 'div'
-    },
-    getContactLink (link) {
-      return 'https://example.com'
+      return icon
     },
     expandFeatures (index) {
       if (!this.expandedNotaries.includes(index)) {
@@ -311,4 +310,11 @@ export default {
   }
 }
 
+.icon-slack {
+  width: 1.5rem;
+}
+
+.icon-website {
+  width: 1.8125rem;
+}
 </style>

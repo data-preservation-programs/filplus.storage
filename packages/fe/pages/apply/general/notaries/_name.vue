@@ -136,7 +136,7 @@ export default {
 
   async fetch ({ store, params, redirect }) {
     const name = params.name
-    const notary = NotariesListData.find(notary => notary.Miner === name)
+    const notary = NotariesListData.find(notary => notary.name === name)
     if (!notary) { return redirect('/apply/general/notaries') }
     await store.dispatch('general/updateApplication', { notary: name })
     await store.dispatch('general/getBaseData', { key: 'apply-general', data: ApplyGeneralPageData })

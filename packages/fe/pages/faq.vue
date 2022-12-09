@@ -177,7 +177,7 @@ export default {
 //   margin-top: 1.875rem;
 // }
 
-.apply-cta-card {
+.apply-cta-card.corner-position__top-right {
   width: 57%;
   @include medium {
     width: 100%;

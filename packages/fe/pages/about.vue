@@ -155,7 +155,7 @@ export default {
   padding: 5rem 0;
 }
 
-.apply-cta-card {
+.apply-cta-card.corner-position__top-right {
   width: 57%;
   @include medium {
     width: 100%;
