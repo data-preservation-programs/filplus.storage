@@ -148,7 +148,7 @@ export default {
 // ////////////////////////////////////////////////////////////////// Warp Image
 .panel-left {
   position: relative;
-  height: 100%;
+  height: calc(100% + 1.125rem);
 }
 
 .warp-image-double {
@@ -156,7 +156,7 @@ export default {
   top: 0;
   right: 0;
   width: 69rem;
-  height: 500rem;
+  height: 100%;
   background-image: url('~assets/images/warp-image-double.png');
   background-position: top right;
   background-size: 69rem;
