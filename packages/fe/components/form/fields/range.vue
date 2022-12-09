@@ -26,6 +26,10 @@
         </div>
       </template>
 
+      <!-- <template #ticks="{ getValuePosition }">
+        {{ getValuePosition() }}
+      </template> -->
+
     </Range>
 
   </div>

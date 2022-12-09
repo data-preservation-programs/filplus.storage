@@ -30,6 +30,8 @@
       @blur="focused = false"
       @input="updateValue($event.target.value)" />
 
+    <!-- <slot name="ticks" :get-value-position="getValuePosition" /> -->
+
   </div>
 </template>
 
@@ -56,7 +58,8 @@ export default {
       },
       format: false,
       steps: self.field.max,
-      transform: false
+      transform: false,
+      positionList: []
     }
   },
 
@@ -89,12 +92,7 @@ export default {
       return this.field.state
     },
     tick () {
-      const position = this.position
-      const min = this.min
-      if (this.logarithmic) {
-        return ((position - min) / (this.steps - min)) * 100
-      }
-      return (position / this.max) * 100
+      return this.getTick(this.position)
     },
     thumbPosition () {
       const tick = this.tick
@@ -113,13 +111,20 @@ export default {
     }
   },
 
+  watch: {
+    value (value) {
+      this.position = this.getPosition(value)
+    }
+  },
+
   created () {
     if (this.logarithmic) {
       const [steps, transform] = this.getScaleTransform()
       this.steps = steps
       this.transform = transform
-      this.position = this.min === 0 ? 0 : 1
+      this.positionList = this.getPositionList()
     }
+    this.position = this.getPosition(this.value)
   },
 
   mounted () {
@@ -163,8 +168,37 @@ export default {
       ]
     },
     updateValue (value) {
-      this.position = value
       this.$emit('updateValue', this.logarithmic ? this.transform(value) : value)
+    },
+    getPosition (value) {
+      if (!this.logarithmic) { return value }
+      const positionList = this.positionList
+      const len = positionList.length
+      let last
+      for (let i = 0; i < len; i++) {
+        const item = positionList[i]
+        if (value >= item.value) { last = i + 1 }
+      }
+      return last || this.min
+    },
+    getPositionList () {
+      const steps = this.steps
+      const compiled = []
+      for (let i = 0; i < steps; i++) {
+        const step = i + 1
+        compiled.push({
+          tick: this.getTick(step),
+          value: this.transform(step)
+        })
+      }
+      return compiled
+    },
+    getTick (position) {
+      const min = this.min
+      if (this.logarithmic) {
+        return ((position - min) / (this.steps - min)) * 100
+      }
+      return Math.min((position / this.max) * 100, 100)
     }
   }
 }
@@ -231,6 +265,7 @@ export default {
   }
   &::-webkit-slider-thumb {
     @include thumb;
+    background-color: rgba(tomato, 0.5);
   }
   &::-moz-range-thumb {
     @include thumb;
