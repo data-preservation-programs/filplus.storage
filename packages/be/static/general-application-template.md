@@ -4,7 +4,6 @@ about: Use the [Fil+ App](https://plus.fil.org/verifiers) in order to request Da
 title: 'Client Allocation Request for: [Personal or Organization Name]'
 labels: 'state:Request'
 assignees: ''
-
 ---
 
 # Client Allocation Questions

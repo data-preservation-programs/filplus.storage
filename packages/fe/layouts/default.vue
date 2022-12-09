@@ -14,6 +14,8 @@
 
 <script>
 // ===================================================================== Imports
+import { mapActions } from 'vuex'
+
 import SiteHeader from '@/components/site-header'
 import SiteFooter from '@/components/site-footer'
 import Toaster from '@/modules/toaster/components/toaster'
@@ -40,6 +42,7 @@ export default {
   },
 
   async mounted () {
+    // Scroll to hash
     const hash = this.$route.hash.replace('#', '')
     if (hash) {
       const element = document.getElementById(hash) || document.querySelector(`[data-id='${hash}']`)
@@ -47,6 +50,7 @@ export default {
         this.$scrollToElement(element, 200, -100)
       }
     }
+    // Initialize global connections
     await this.$connectWebsocket(this, () => {
       this.socket.emit('join-room', 'global')
       this.socket.on('cron|app-version-changed|payload', (message) => {
@@ -76,6 +80,16 @@ export default {
         this.$toaster.remove(this.networkErrorToastId)
         clearTimeout(timeout)
       }, 2000)
+    })
+    // Check to see if saved form exists in localStorage
+    if (this.$ls.get('form__filplus_application')) {
+      this.setSavedFormExistsStatus(true)
+    }
+  },
+
+  methods: {
+    ...mapActions({
+      setSavedFormExistsStatus: 'form/setSavedFormExistsStatus'
     })
   }
 }

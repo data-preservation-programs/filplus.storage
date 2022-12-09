@@ -121,6 +121,7 @@ export default {
 <style lang="scss" scoped>
 // ///////////////////////////////////////////////////////////////////// General
 .page-faq {
+  position: relative;
   overflow: hidden;
 }
 

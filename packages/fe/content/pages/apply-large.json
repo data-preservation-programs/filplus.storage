@@ -18,6 +18,7 @@
     "form": {
       "heading_1": "Background Information",
       "heading_2": "Application",
+      "restore_saved_form_button_text": "Restore Saved Form",
       "submit_button_text": "Send Request",
       "scaffold": {
         "organization_name": {
@@ -132,19 +133,23 @@
         },
         "organization_social_media_handle_type": {
           "field_key": "organization_social_media_handle_type",
-          "type": "select",
+          "type": "input",
+          "input_type": "text",
           "model_key": "organization_social_media_handle_type",
           "label": "Social Media Type",
+          "placeholder": "Twitter",
           "required": true,
-          "output": "option",
-          "validation_message": {
-            "required": "This field is required"
+          "pre": "[^\\u0000-\\u00ff]",
+          "autocomplete": "none",
+          "chars": {
+            "min": 2,
+            "max": 100
           },
-          "options": [
-            { "label": "Twitter" },
-            { "label": "Slack" }
-          ],
-          "default_value": "Twitter"
+          "validation_message": {
+            "required": "This field is required",
+            "chars": "Input must be between 2 and 35 characters"
+          },
+          "default_value": "Test"
         },
         "total_datacap_size_input": {
           "field_key": "total_datacap_size_input",
@@ -157,6 +162,10 @@
           "max": 5242880,
           "required": true,
           "pre": "[^\\u0000-\\u00ff]",
+          "mirror": {
+            "field_key": "total_datacap_size_range",
+            "primary": false
+          },
           "transform": {
             "func": "$formatDatacapSize",
             "args": {
@@ -177,6 +186,13 @@
           "label": "Unit",
           "required": true,
           "output": "option",
+          "react": {
+            "field_key": "total_datacap_size_range",
+            "func": "$reactDatasizeUnitToRange",
+            "args": {
+              "value_from_field": "total_datacap_size_range"
+            }
+          },
           "validation_message": {
             "required": "This field is required"
           },

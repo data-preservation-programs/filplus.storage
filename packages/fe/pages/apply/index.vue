@@ -43,7 +43,6 @@
 
           </template>
         </Card>
-
       </div>
     </HeroA>
 
@@ -219,6 +218,7 @@ $cardRadius: 1.875rem;
 
 // ///////////////////////////////////////////////////////////////////// General
 .page-apply {
+  position: relative;
   overflow: hidden;
 }
 

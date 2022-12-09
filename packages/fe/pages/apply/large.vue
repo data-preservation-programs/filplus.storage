@@ -22,6 +22,12 @@
 
           <div class="form-heading-1">
             {{ formHeading1 }}
+            <ButtonA
+              v-if="savedFormExists"
+              class="restore-saved-form-button"
+              @clicked="restoreSavedForm('filplus_application')">
+              {{ restoreSavedFormButtonText }}
+            </ButtonA>
           </div>
 
           <FieldContainer
@@ -316,7 +322,8 @@ export default {
     ...mapGetters({
       siteContent: 'general/siteContent',
       application: 'general/application',
-      networkStorageCapacity: 'general/networkStorageCapacity'
+      networkStorageCapacity: 'general/networkStorageCapacity',
+      savedFormExists: 'form/savedFormExists'
     }),
     pageData () {
       return this.siteContent[this.tag].page_content
@@ -339,6 +346,9 @@ export default {
     formScaffold () {
       return this.form.scaffold
     },
+    restoreSavedFormButtonText () {
+      return this.form.restore_saved_form_button_text
+    },
     submitButtonText () {
       return this.form.submit_button_text
     }
@@ -347,7 +357,8 @@ export default {
   methods: {
     ...mapActions({
       validateForm: 'form/validateForm',
-      submitLargeApplication: 'general/submitLargeApplication'
+      submitLargeApplication: 'general/submitLargeApplication',
+      restoreSavedForm: 'form/restoreSavedForm'
     }),
     getValue (modelKey) {
       return this.application[modelKey]
@@ -363,7 +374,8 @@ export default {
 
 <style lang="scss" scoped>
 // ///////////////////////////////////////////////////////////////////// General
-.page-large {
+.page-apply-large {
+  position: relative;
   overflow: hidden;
 }
 
@@ -399,7 +411,15 @@ export default {
 .form-heading-1,
 .form-heading-2 {
   @include headingHighlight;
+  position: relative;
   margin-bottom: 3rem;
+}
+
+.restore-saved-form-button {
+  position: absolute;
+  top: 50%;
+  left: calc(100% + 1rem);
+  transform: translateY(-50%);
 }
 
 .field-container {
