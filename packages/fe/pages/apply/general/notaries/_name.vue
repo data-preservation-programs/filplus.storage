@@ -4,24 +4,23 @@
     <!-- ============================================================== Hero -->
     <HeroB
       :label="hero.label"
-      :heading="hero.heading"
-      content-cols="col-5" />
+      :heading="hero.heading" />
 
     <!-- ======================================================= Application -->
     <div id="application">
 
       <Squigglie
         :percent-left="10"
-        orientation="up"
+        orientation="down"
         color="nandor"
         :thick="true"
         class="section-app-top-border" />
 
       <div class="grid">
-        <div class="col-6" data-push-left="off-1">
+        <div class="col-6_md-8_sm-10_ti-12" data-push-left="off-1_ti-0">
 
           <div class="form-heading">
-            {{ formHeading }}
+            <span>{{ formHeading }}</span>
             <ButtonA
               v-if="showRestoreSavedFormButton"
               class="restore-saved-form-button"
@@ -49,13 +48,13 @@
       </div>
 
       <div class="grid">
-        <div class="col-6" data-push-left="off-1">
+        <div class="col-6_md-6_ti-7" data-push-left="off-1_ti-0">
           <FieldContainer
             :scaffold="formScaffold.organization_social_media_handle"
             :value="getValue('organization_social_media_handle')"
             form-id="filplus_application" />
         </div>
-        <div class="col-2" data-push-left="off-1">
+        <div class="col-2_md-3_ti-4" data-push-left="off-1">
           <FieldContainer
             :scaffold="formScaffold.organization_social_media_handle_type"
             :value="getValue('organization_social_media_handle_type')"
@@ -64,13 +63,13 @@
       </div>
 
       <div class="grid">
-        <div class="col-6" data-push-left="off-1">
+        <div class="col-6_md-6_ti-7" data-push-left="off-1_ti-0">
           <FieldContainer
             :scaffold="formScaffold.total_datacap_size_input"
             :value="getValue('total_datacap_size')"
             form-id="filplus_application" />
         </div>
-        <div class="col-2" data-push-left="off-1">
+        <div class="col-2_md-3_ti-4" data-push-left="off-1">
           <FieldContainer
             :scaffold="formScaffold.total_datacap_size_unit"
             :value="getValue('total_datacap_size_unit')"
@@ -79,7 +78,7 @@
       </div>
 
       <div class="grid">
-        <div class="col-6" data-push-left="off-1">
+        <div class="col-6_md-8_sm-10_ti-12" data-push-left="off-1_ti-0">
 
           <FieldContainer
             :scaffold="formScaffold.filecoin_address"
@@ -215,18 +214,24 @@ export default {
 #application {
   position: relative;
   padding: 8.75rem 0;
-  border-bottom: 2px solid $nandor;
   z-index: 10;
+  overflow: hidden;
 }
 
 .section-app-top-border {
-  top: -3px;
+  top: 0px;
 }
 
 .form-heading {
   @include headingHighlight;
   position: relative;
   margin-bottom: 3rem;
+  padding-right: 2rem;
+  @include small {
+    * {
+      display: block;
+    }
+  }
 }
 
 .restore-saved-form-button {
@@ -234,6 +239,13 @@ export default {
   top: 50%;
   left: calc(100% + 1rem);
   transform: translateY(-50%);
+  @include small {
+    position: relative;
+    top: 0;
+    left: 0;
+    transform: none;
+    margin-top: 1.5rem;
+  }
 }
 
 .field-container {

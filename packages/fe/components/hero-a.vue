@@ -171,9 +171,12 @@ export default {
   right: -3px;
   width: calc(100% + 3px);
   height: 94.5%;
+  background-size: cover;
   background-repeat: no-repeat;
-  background-size: auto 100%;
   background-position: bottom right;
   z-index: 5;
+  @include xlarge {
+    background-size: auto 100%;
+  }
 }
 </style>
