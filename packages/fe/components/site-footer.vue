@@ -46,7 +46,7 @@
 
               <Card
                 corner-position="top-right"
-                :small="true"
+                variant="small"
                 icon="chevron"
                 class="footer-cta-card">
                 <template v-if="videoCta">

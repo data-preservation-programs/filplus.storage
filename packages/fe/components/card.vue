@@ -60,10 +60,13 @@ export default {
         return ['top-left', 'top-right', 'bottom-right', 'bottom-left'].includes(val)
       }
     },
-    small: {
-      type: Boolean,
+    variant: {
+      type: String,
       required: false,
-      default: false
+      default: '',
+      validator (val) {
+        return ['', 'small', 'tiny'].includes(val)
+      }
     },
     icon: {
       type: String,
