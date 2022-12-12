@@ -130,15 +130,34 @@ const compileArray = (arrayField, fields) => {
 }
 
 // //////////////////////////////////////////////////////////// reconcileMirrors
-const reconcileMirrors = (fields) => {
+const reconcileMirrors = (app, fields) => {
   return new Promise((resolve) => {
     const compiled = {}
     const len = fields.length
     for (let i = 0; i < len; i++) {
       const field = fields[i]
+      const fieldKey = field.field_key
       const mirror = field.mirror
+      // If mirror && no "primary" exists, use my value
+      const mirrored = fields.filter((obj) => {
+        return obj.mirror &&
+               obj.mirror.primary &&
+               obj.mirror.field_key === field.field_key &&
+               obj.id !== field.id &&
+               obj.model_key === field.model_key
+      })
+      console.log(mirrored)
+      // if (!mirror || mirror.primary || mirrored.length === 0) {
+      //   compiled[field.field_key] = field
+      // }
       if (!mirror || mirror.primary) {
         compiled[field.field_key] = field
+      } else if (mirror && !mirror.primary && mirrored.length === 0) {
+        compiled[field.field_key] = Object.assign(CloneDeep(field), {
+          mirror: Object.assign(CloneDeep(mirror), {
+            primary: true
+          })
+        })
       }
     }
     resolve(compiled)
@@ -146,9 +165,11 @@ const reconcileMirrors = (fields) => {
 }
 
 // ////////////////////////////////////////////////////// writeFieldsToFormModel
-const writeFieldsToFormModel = async (model, fields) => {
+const writeFieldsToFormModel = async (app, model, fields) => {
+  // console.log(model.total_datacap_size)
   try {
-    const reconciledMirrorFields = await reconcileMirrors(fields)
+    const reconciledMirrorFields = await reconcileMirrors(app, fields)
+    console.log(reconciledMirrorFields)
     const len = fields.length
     for (let i = 0; i < len; i++) {
       let field = fields[i]
@@ -161,6 +182,7 @@ const writeFieldsToFormModel = async (model, fields) => {
       field.state = 'valid'
       field.validation = false
       field.originalValue = value
+      // console.log(fieldKey, modelKey, field.value)
       if (!field.hasOwnProperty('parent_model_key') && (!mirror || mirror.primary)) {
         if (type === 'array') {
           model[modelKey] = await compileArray(field, fields)
@@ -174,12 +196,14 @@ const writeFieldsToFormModel = async (model, fields) => {
               if (!value) { throw new Error(`base_value key missing from ${fieldKey} field scaffold`) }
             }
           }
-          model[modelKey] = value
+          model[modelKey] = await app.$applyTransformation(value, field.transform)
         } else {
-          model[modelKey] = value
+          console.log(modelKey, model[modelKey], await app.$applyTransformation(value, field.transform))
+          model[modelKey] = await app.$applyTransformation(value, field.transform)
         }
       }
     }
+    // console.log(model.total_datacap_size)
     return model
   } catch (e) {
     console.log('========================== [Function: writeFieldsToFormModel]')
@@ -274,7 +298,7 @@ const applyReaction = (app, value, react) => {
 // -----------------------------------------------------------------------------
 export default ({ app, store }, inject) => {
   inject('validateFormFields', validateFormFields)
-  inject('writeFieldsToFormModel', writeFieldsToFormModel)
+  inject('writeFieldsToFormModel', (model, fields) => writeFieldsToFormModel(app, model, fields))
   inject('stripFormModel', stripFormModel)
   inject('applyMirrors', fieldToMirror => applyMirrors(app, store, fieldToMirror))
   inject('applyReactions', (transform, value) => applyReactions(app, store, transform, value))

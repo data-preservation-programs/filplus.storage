@@ -397,6 +397,16 @@ const ConnectWebsocket = config => (instance, next) => {
   })
 }
 
+const ConvertSizeToBytes = (size, unit) => {
+  if (unit === 'GiB') {
+    return size * Math.pow(1024, 3)
+  } else if (unit === 'TiB') {
+    return size * Math.pow(1024, 4)
+  } else if (unit === 'PiB') {
+    return size * Math.pow(1024, 5)
+  }
+}
+
 // /////////////////////////////////////////////////////////// FormatDatacapSize
 const FormatDatacapSize = (ctx, size, args) => {
   let value = size
@@ -411,13 +421,7 @@ const FormatDatacapSize = (ctx, size, args) => {
     if (!unitField || !valueField || unitField.value === -1) { return value }
     if (valueField) { value = valueField.value }
     const unit = options[unitField.value].label
-    if (unit === 'GiB') {
-      return value * Math.pow(1024, 3)
-    } else if (unit === 'TiB') {
-      return value * Math.pow(1024, 4)
-    } else if (unit === 'PiB') {
-      return value * Math.pow(1024, 5)
-    }
+    return ConvertSizeToBytes(value, unit)
   }
 }
 
@@ -435,13 +439,7 @@ const ReactDatasizeRangeToUnit = (ctx, unitValue, args) => {
   const inputField = store.getters['form/fields'].find(obj => obj.field_key === args.value_from_field)
   const unit = options[unitValue].label
   const size = inputField.value
-  if (unit === 'GiB') {
-    return size * Math.pow(1024, 3)
-  } else if (unit === 'TiB') {
-    return size * Math.pow(1024, 4)
-  } else if (unit === 'PiB') {
-    return size * Math.pow(1024, 5)
-  }
+  return ConvertSizeToBytes(size, unit)
 }
 
 // ////////////////////////////////////////////////////////////////////// Export
@@ -472,6 +470,7 @@ export default ({ $config, app }, inject) => {
   inject('delay', Delay)
   inject('awaitServerReconnect', AwaitServerReconnect($config, app))
   inject('connectWebsocket', ConnectWebsocket($config))
+  inject('convertSizeToBytes', ConvertSizeToBytes)
   inject('formatDatacapSize', FormatDatacapSize)
   inject('reactDatasizeUnitToRange', ReactDatasizeUnitToRange)
   inject('reactDatasizeRangeToUnit', ReactDatasizeRangeToUnit)

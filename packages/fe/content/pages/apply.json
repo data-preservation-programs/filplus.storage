@@ -27,7 +27,7 @@
           "required": true,
           "mirror": {
             "field_key": "total_datacap_size_input",
-            "primary": true
+            "primary": false
           },
           "transform": {
             "func": "$formatDatacapSize",
@@ -76,7 +76,7 @@
           "pre": "[^\\u0000-\\u00ff]",
           "mirror": {
             "field_key": "total_datacap_size_range",
-            "primary": false
+            "primary": true
           },
           "transform": {
             "func": "$formatDatacapSize",

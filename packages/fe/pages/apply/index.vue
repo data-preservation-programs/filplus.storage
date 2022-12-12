@@ -212,7 +212,8 @@ export default {
       const incoming = await this.validateForm('filplus_application')
       if (incoming) {
         this.updateApplication(incoming)
-        if (incoming.total_datacap_size <= this.submitThreshold) {
+        const bytes = this.$convertSizeToBytes(incoming.total_datacap_size, incoming.total_datacap_size_unit)
+        if (bytes <= this.submitThreshold) {
           this.$router.push('/apply/general/notaries')
         } else {
           this.$router.push('/apply/large')
