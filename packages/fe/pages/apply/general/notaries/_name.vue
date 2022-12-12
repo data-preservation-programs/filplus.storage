@@ -40,8 +40,8 @@
             form-id="filplus_application" />
 
           <FieldContainer
-            :scaffold="formScaffold.region"
-            :value="getValue('region')"
+            :scaffold="formScaffold.ga_region"
+            :value="getValue('ga_region')"
             form-id="filplus_application" />
 
         </div>

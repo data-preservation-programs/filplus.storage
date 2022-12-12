@@ -61,10 +61,10 @@
           },
           "default_value": "This is a test application, please ignore"
         },
-        "region": {
-          "field_key": "region",
+        "ga_region": {
+          "field_key": "ga_region",
           "type": "select",
-          "model_key": "region",
+          "model_key": "ga_region",
           "label": "Region",
           "required": true,
           "tooltip": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",

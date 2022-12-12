@@ -46,7 +46,7 @@ const state = () => ({
     replication_plan_select: '',
     replication_plan_textarea: '',
     notary: '',
-    region: '',
+    ga_region: '',
     public_availability_radio: '',
     public_availability_textarea: '',
     confirm_follow_fil_guideline: ''

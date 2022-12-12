@@ -113,7 +113,7 @@
             "required": "This field is required",
             "chars": "Input must be between 2 and 35 characters"
           },
-          "default_value": "This is a test application, please ignore"
+          "default_value": "https://example.com"
         },
         "organization_social_media_handle": {
           "field_key": "organization_social_media_handle",

@@ -8,7 +8,7 @@ data_owner_region
 data_owner_industry
 
 ### Website
-organization_website
+[organization_website](organization_website)
 
 ### Social Media
 organization_social_media_handle (organization_social_media_handle_type)
