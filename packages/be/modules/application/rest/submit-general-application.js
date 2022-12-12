@@ -13,14 +13,14 @@ const MC = require('@Root/config')
 // const submitApplication = async (template, body) => {
 //   try {
 //     const options = { headers: { Accept: 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28', Authorization: `token ${process.env.GITHUB_PERSONAL_ACCESS_TOKEN_2}` } }
-//     const response = await Axios.post('https://api.github.com/repos/filecoin-project/filecoin-plus-client-onboarding/issues', JSON.stringify({
+//     const response = await Axios.post('https://api.github.com/repos/filecoin-project/filecoin-plus-client-onboarding/issues', {
 //       title: `Client Allocation Request for: ${body.organization_name}`,
 //       body: template,
 //       labels: [
 //         'state:Request'
 //       ]
-//     }), options)
-//     console.log(response)
+//     }, options)
+//     return true
 //   } catch (e) {
 //     console.log('=============================== [Function: submitApplication]')
 //     throw e
@@ -36,7 +36,11 @@ MC.app.post('/submit-general-application', async (req, res) => {
     let template = await GetFileFromDisk(`${MC.staticRoot}/general-application-template.md`)
     template = template.toString()
     Object.keys(body).forEach((key) => {
-      template = template.replace(key, body[key])
+      if (key === 'organization_website') {
+        template = template.replaceAll(key, body[key])
+      } else {
+        template = template.replace(key, body[key])
+      }
     })
     console.log('=============================================================')
     console.log(template)
@@ -44,7 +48,7 @@ MC.app.post('/submit-general-application', async (req, res) => {
     SendData(res, 200, 'General application submitted succesfully', true)
   } catch (e) {
     console.log('===================== [Endpoint: /submit-general-application]')
-    console.log(e)
+    console.log(e.response)
     SendData(res, 403, 'Something went wrong. Try again.')
   }
 })
