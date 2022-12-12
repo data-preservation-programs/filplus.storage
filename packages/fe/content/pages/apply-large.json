@@ -285,7 +285,8 @@
           "options": [
             { "label": "Use Custom Multisig" }
           ],
-          "default_value": "Use Custom Multisig"
+          "default_value": "Use Custom Multisig",
+          "base_value": "No"
         },
         "identifier": {
           "field_key": "identifier",

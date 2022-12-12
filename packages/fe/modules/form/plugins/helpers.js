@@ -157,7 +157,7 @@ const writeFieldsToFormModel = async (model, fields) => {
       const type = field.type
       const modelKey = field.model_key
       const mirror = field.mirror
-      const value = field.value
+      let value = field.value
       field.state = 'valid'
       field.validation = false
       field.originalValue = value
@@ -165,7 +165,16 @@ const writeFieldsToFormModel = async (model, fields) => {
         if (type === 'array') {
           model[modelKey] = await compileArray(field, fields)
         } else if ((type === 'select' || type === 'radio' || type === 'checkbox') && field.output === 'option') {
-          model[modelKey] = typeof value === 'string' ? value : field.options[value].label
+          if (typeof value !== 'string') {
+            const option = field.options[value]
+            if (option) {
+              value = option.label
+            } else {
+              value = field.base_value
+              if (!value) { throw new Error(`base_value key missing from ${fieldKey} field scaffold`) }
+            }
+          }
+          model[modelKey] = value
         } else {
           model[modelKey] = value
         }
