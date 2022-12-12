@@ -53,7 +53,7 @@
         </div>
       </div>
 
-      <div class="grid">
+      <div class="grid zindex-descend-col">
         <div class="col-6_md-6_ti-7" data-push-left="off-1_ti-0">
           <FieldContainer
             :scaffold="formScaffold.organization_social_media_handle"
@@ -68,7 +68,7 @@
         </div>
       </div>
 
-      <div class="grid">
+      <div class="grid zindex-descend-col">
         <div class="col-6_md-6_ti-7" data-push-left="off-1_ti-0">
           <FieldContainer
             :scaffold="formScaffold.total_datacap_size_input"
@@ -83,7 +83,7 @@
         </div>
       </div>
 
-      <div class="grid">
+      <div class="grid zindex-descend-col">
         <div class="col-6_md-6_ti-7" data-push-left="off-1_ti-0">
           <FieldContainer
             :scaffold="formScaffold.weekly_data_size"
@@ -126,12 +126,12 @@
 
       <Squigglie
         :percent-left="90"
+        :thick="true"
         orientation="up"
         color="nandor"
-        :thick="true"
         class="section-app-top-border" />
 
-      <div class="grid">
+      <div class="grid zindex-descend-12">
         <div class="col-6_md-8_sm-10_ti-12" data-push-left="off-1_ti-0">
 
           <div class="form-heading-2">
@@ -196,7 +196,7 @@
         </div>
       </div>
 
-      <div class="grid">
+      <div class="grid zindex-descend-10">
         <div class="col-6_md-8_sm-10_ti-12" data-push-left="off-1_ti-0">
 
           <FieldContainer
@@ -391,13 +391,30 @@ export default {
   padding: 8.75rem 0;
   [class~=grid], [class*=grid-], [class*=grid_] {
     @include descendingZindex(5);
-    position: relative;
   }
 }
 
 .section-bg-top-border,
 .section-app-top-border {
   top: -3px;
+}
+
+.zindex-descend-col {
+  [class~=col], [class*=col-], [class*=col_] {
+    @include descendingZindex(2);
+  }
+}
+
+.zindex-descend-12 {
+  .field-container {
+    @include descendingZindex(12);
+  }
+}
+
+.zindex-descend-10 {
+  .field-container {
+    @include descendingZindex(10);
+  }
 }
 
 #application-bottom {

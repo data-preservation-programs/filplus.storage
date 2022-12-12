@@ -16,7 +16,7 @@
         :thick="true"
         class="section-app-top-border" />
 
-      <div class="grid">
+      <div class="grid z-index-100">
         <div class="col-6_md-8_sm-10_ti-12" data-push-left="off-1_ti-0">
 
           <div class="form-heading">
@@ -47,7 +47,7 @@
         </div>
       </div>
 
-      <div class="grid">
+      <div class="grid z-index-50">
         <div class="col-6_md-6_ti-7 z-index-100" data-push-left="off-1_ti-0">
           <FieldContainer
             :scaffold="formScaffold.organization_social_media_handle"
@@ -62,7 +62,7 @@
         </div>
       </div>
 
-      <div class="grid">
+      <div class="grid z-index-50">
         <div class="col-6_md-6_ti-7 z-index-100" data-push-left="off-1_ti-0">
           <FieldContainer
             :scaffold="formScaffold.total_datacap_size_input"
@@ -138,7 +138,6 @@ export default {
     const name = params.name
     const notary = NotariesListData.find(notary => notary.name === name)
     const notaryField = app.$field('notary|filplus_application')
-    console.log(notaryField)
     if (!notary || !notaryField) { return redirect('/apply/general/notaries') }
     await store.dispatch('general/updateApplication', { notary: name })
     await store.dispatch('general/getBaseData', { key: 'apply-general', data: ApplyGeneralPageData })

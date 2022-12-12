@@ -501,6 +501,11 @@ span.error {
   z-index: 100;
 }
 
+.z-index-50 {
+  position: relative;
+  z-index: 50;
+}
+
 // ///////////////////////////////////////////////// Markdown content formatting
 //------------------------------------------------------------------------------
 @keyframes shrink-bounce {

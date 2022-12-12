@@ -126,6 +126,7 @@ $breakpoint_UltraLarge: 140.625rem; // 2250px
 @mixin descendingZindex($n) {
   @for $i from 1 through $n {
     &:nth-child(#{$i}) {
+      position: relative;
       z-index: #{$n - $i};
     }
   }
