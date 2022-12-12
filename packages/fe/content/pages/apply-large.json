@@ -278,7 +278,6 @@
           "model_key": "custom_multisig",
           "label": "Custom multisig",
           "description": "Mark this checkbox if this client should use a specific multisig (for fil+ gov team).",
-          "required": true,
           "output": "option",
           "validation_message": {
             "required": "This field is required"

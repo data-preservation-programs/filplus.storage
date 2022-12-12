@@ -368,7 +368,13 @@ export default {
     async submitForm () {
       const incoming = await this.validateForm('filplus_application')
       console.log(incoming)
-      this.submitLargeApplication(incoming)
+      if (!incoming) {
+        const firstInvalidField = document.querySelector('.error')
+        console.log(firstInvalidField)
+        this.$scrollToElement(firstInvalidField, 250, -200)
+      } else {
+        this.submitLargeApplication(incoming)
+      }
     }
   }
 }

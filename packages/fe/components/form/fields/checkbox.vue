@@ -102,6 +102,11 @@ $dimension: 1.625rem;
   display: flex;
   flex-direction: row;
   align-items: center;
+  &.error {
+    .checkbox + .checker {
+      border-color: $flamingo;
+    }
+  }
 }
 
 .checkbox-wrapper {

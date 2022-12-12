@@ -20,7 +20,7 @@
         <slot />
 
         <div v-if="validationMessage" class="validation-message">
-          <sup>*</sup>{{ validationMessage }}
+          {{ validationMessage }}
         </div>
 
       </div>
@@ -158,7 +158,8 @@ export default {
   margin-top: 0.5rem;
   font-size: 0.75rem;
   font-weight: 500;
-  color: darkorange;
+  color: $flamingo;
+  font-style: italic;
   sup {
     top: -0.125rem;
     margin-right: 0.0625rem;

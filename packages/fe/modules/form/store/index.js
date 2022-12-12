@@ -81,7 +81,6 @@ const actions = {
   },
   // /////////////////////////////////////////////////////////// updateFormField
   async updateFormField ({ commit, getters, dispatch }, incoming) {
-    console.log(incoming.value)
     try {
       const formId = incoming.formId
       commit('UPDATE_FORM_FIELD', {
