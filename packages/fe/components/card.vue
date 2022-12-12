@@ -11,7 +11,7 @@
           d="M -1 94 C 62 94 18 94 91 94 V 94 C 91 78 78 65 62 65 L 59 65 C 42 65 28 51 28 34 L 28 32 L 28 30 C 28 14 15 1 -1 1 Z"
           fill="black"
           fill-opacity="0.4"
-          stroke="white"
+          stroke="#F6F5FF"
           stroke-width="2" />
       </svg>
     </div>

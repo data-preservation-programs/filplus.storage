@@ -7,7 +7,9 @@
       heading-cols="col-12">
       <div class="card-container">
         <Card
+          id="apply-form-card"
           :icon-text="submitButtonText"
+          :class="{ highlighted: applyFormHighlighted }"
           corner-position="bottom-right"
           icon="arrow"
           @clicked="submitForm">
@@ -140,7 +142,8 @@ export default {
   computed: {
     ...mapGetters({
       siteContent: 'general/siteContent',
-      application: 'general/application'
+      application: 'general/application',
+      applyFormHighlighted: 'general/applyFormHighlighted'
     }),
     pageData () {
       return this.siteContent[this.tag].page_content
@@ -186,10 +189,20 @@ export default {
     }
   },
 
+  mounted () {
+    this.$nextTick(() => {
+      const highlightForm = this.$route.query.highlight_form
+      if (highlightForm) {
+        this.highlightApplyForm()
+      }
+    })
+  },
+
   methods: {
     ...mapActions({
       validateForm: 'form/validateForm',
-      updateApplication: 'general/updateApplication'
+      updateApplication: 'general/updateApplication',
+      highlightApplyForm: 'general/highlightApplyForm'
     }),
     getValue (modelKey) {
       return this.application[modelKey]
@@ -284,6 +297,32 @@ $cardRadius: 1.875rem;
 // //////////////////////////////////////////////////////////////////////// Card
 .card-container {
   margin-top: 4.8125rem;
+}
+
+:deep(.card.corner-position__bottom-right) {
+  .panel {
+    &:before,
+    &:after,
+    svg path {
+      transition: 250ms ease-out;
+    }
+  }
+  &.highlighted {
+    .panel {
+      &:before,
+      &:after,
+      svg path {
+        transition: 250ms ease-in;
+      }
+      &:before,
+      &:after {
+        border-color: $greenYellow;
+      }
+      svg path {
+        stroke: $greenYellow;
+      }
+    }
+  }
 }
 
 // ////////////////////////////////////////////////////////////////// Warp Image
