@@ -22,7 +22,9 @@ const checkRequired = (fieldType, value) => {
     } else if (type === 'object' && !Array.isArray(value)) {
       if (Object.keys(value).length === 0) { state = 'error' }
     } else if (type === 'number') {
-      if (fieldType === 'select' && value === -1) { state = 'error' }
+      if ((fieldType === 'select' || fieldType === 'checkbox') && value === -1) {
+        state = 'error'
+      }
     }
     resolve({ state, validation: 'required' })
   })

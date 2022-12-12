@@ -13,7 +13,7 @@
           :name="`checkbox-${id}`"
           type="checkbox"
           class="checkbox"
-          @input="$emit('updateValue', index)" />
+          @input="updateValue(index)" />
         <div class="checker">
           <IconCheckmark />
         </div>
@@ -65,6 +65,14 @@ export default {
     },
     required () {
       return this.field.required
+    }
+  },
+
+  methods: {
+    updateValue (index) {
+      let value = index
+      if (this.value === index) { value = -1 }
+      this.$emit('updateValue', value)
     }
   }
 }
