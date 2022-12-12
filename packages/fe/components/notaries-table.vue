@@ -214,25 +214,15 @@ export default {
 
 <style lang="scss" scoped>
 // ///////////////////////////////////////////////////////////////////// General
-.table-notaries-list {
-}
-
 .table-container {
   width: 100%;
 }
 
-// .table-head {
-//   @include mini {
-//     display: none;
-//   }
-// }
-
-// .table-body {
-//   @include mini {
-//     display: flex;
-//     flex-direction: column;
-//   }
-// }
+.table-head {
+  @include small {
+    display: none;
+  }
+}
 
 .column-label {
   display: none;
@@ -246,6 +236,29 @@ export default {
   &.row-body {
     &:not(:last-child) {
       border-bottom: 2px solid $nandor;
+    }
+  }
+  @include small {
+    &.row-body {
+      display: block;
+      padding: 0.625rem 0;
+      position: relative;
+      border-bottom: none !important;
+      &:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -3.5rem;
+        width: 100vw;
+        border-top: 2px solid $nandor;
+      }
+    }
+  }
+  @include mini {
+    &.row-body {
+      &:before {
+        left: -1.5rem;
+      }
     }
   }
 }
@@ -266,6 +279,25 @@ export default {
   &.cell-body {
     vertical-align: center;
   }
+  @include small {
+    display: flex;
+    padding: 0.625rem 0;
+    padding-right: 1rem;
+    font-size: 1rem;
+    .cell-inner-wrapper {
+      font-size: 1rem;
+    }
+  }
+  @include small {
+    &:before {
+      width: 33%;
+    }
+  }
+  @include tiny {
+    &:before {
+      width: 25%;
+    }
+  }
 }
 
 .no-results-placeholder {
@@ -279,6 +311,30 @@ export default {
   font-size: toRem(14);
   font-family: $fontSuisseIntlMono;
   color: rgba($titanWhite, 0.5);
+}
+
+.cell.name {
+  @include small {
+    &:before {
+      content: 'Notary';
+    }
+  }
+}
+
+.cell.location {
+  @include small {
+    &:before {
+      content: 'Location';
+    }
+  }
+}
+
+.cell.contact_information {
+  @include small {
+    &:before {
+      content: 'Contacts';
+    }
+  }
 }
 
 .notary {
@@ -315,6 +371,12 @@ export default {
       display: list-item;
     }
   }
+}
+
+.notary,
+.location,
+.contact-info {
+  font-size: 1rem;
 }
 
 .see-more-features-button {

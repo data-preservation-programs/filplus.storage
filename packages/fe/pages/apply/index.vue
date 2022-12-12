@@ -4,7 +4,8 @@
     <!-- ============================================================== Hero -->
     <HeroA
       :heading="heading"
-      heading-cols="col-12">
+      heading-cols="col-12_mi-10_ti-12"
+      content-cols="col-8_sm-10_mi-12">
       <div class="card-container">
         <Card
           id="apply-form-card"
@@ -59,7 +60,7 @@
 
       <div class="grid-spaceBetween">
 
-        <div class="col-6" data-push-left="off-1">
+        <div class="col-7_lg-8_sm-9_mi-10" data-push-left="off-1_mi-0">
           <h2 class="faq-heading" v-html="faqHeading" />
           <div class="section-accordion">
             <FaqAccordion
@@ -74,7 +75,7 @@
           </div>
         </div>
 
-        <div class="col-4">
+        <div class="col-4_lg-3_sm-2_mi-1">
           <div class="panel-right">
             <div class="warp-image-double" />
           </div>
@@ -244,14 +245,24 @@ $cardRadius: 1.875rem;
 
 // //////////////////////////////////////////////////////////////////////// Hero
 ::v-deep #hero {
-  @include small {
-    padding-top: 50rem;
+  @include large {
+    padding-bottom: toRem(144);
+  }
+  @include mini {
+    padding-bottom: toRem(106);
   }
   .hero-content {
     padding-bottom: 0;
   }
   .bubble {
-    margin-top: 2.75rem;
+    margin-top: 1.5rem;
+    white-space: nowrap;
+    @include small {
+      margin-top: 1rem;
+    }
+    @include mini {
+      padding: 0.75rem 1.5rem;
+    }
   }
   .select-container {
     .dropdown {
@@ -271,9 +282,11 @@ $cardRadius: 1.875rem;
 
 .section-accordion {
   position: relative;
-  left: calc(-#{math.div($containerWidth, 12)} / 2);
-  width: calc(100% + #{math.div($containerWidth, 12)} / 2);
+  padding-right: toRem(50);
   margin-bottom: 6.5rem;
+  @include mini {
+    padding-right: 0;
+  }
 }
 
 ::v-deep .faq-heading {
@@ -282,11 +295,22 @@ $cardRadius: 1.875rem;
   align-items: flex-start;
   margin-top: 7.625rem;
   margin-bottom: 1.875rem;
+  @include small {
+    font-size: toRem(50);
+  }
+  @include mini {
+    font-size: toRem(35);
+    margin-top: toRem(50);
+  }
   .bubble {
     left: calc((-100vw + #{$containerWidth}) / 2 - #{math.div($containerWidth, 12)} - 0.5rem - 3.125rem - 2px); // 100vw - gutter - 1 col - 1/2 col gutter - 2px border-width
     padding-left: calc(3.125rem + (100vw - #{$containerWidth}) / 2 + #{math.div($containerWidth, 12)} + 0.5rem);
     border-color: $nandor;
     margin-top: 0.5rem;
+    @include containerMaxMQ {
+      left: toRem(-200);
+      padding-left: toRem(200);
+    }
   }
 }
 
@@ -297,6 +321,14 @@ $cardRadius: 1.875rem;
 // //////////////////////////////////////////////////////////////////////// Card
 .card-container {
   margin-top: 4.8125rem;
+  @include mini {
+    margin-top: 2rem;
+  }
+  :deep(.content) {
+    @include mini {
+      padding: 1.875rem 2.5rem 3.125rem 2.5rem !important;
+    }
+  }
 }
 
 :deep(.card.corner-position__bottom-right) {
@@ -348,6 +380,9 @@ $cardRadius: 1.875rem;
   font-size: toRem(24);
   line-height: leading(35, 24);
   font-weight: 500;
+  @include mini {
+    font-size: toRem(18);
+  }
 }
 
 .field-container {

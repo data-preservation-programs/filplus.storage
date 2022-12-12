@@ -51,12 +51,12 @@ export default {
     headingCols: {
       type: String,
       required: false,
-      default: 'col-10'
+      default: 'col-12_mi-10_ti-12'
     },
     contentCols: {
       type: String,
       required: false,
-      default: 'col-8'
+      default: 'col-8_sm-10_mi-12'
     },
     contentDirection: {
       type: String,
@@ -95,6 +95,9 @@ export default {
   margin-top: -$siteHeaderHeight;
   padding-top: $siteHeaderHeight * 2;
   z-index: 25;
+  @include large {
+    height: unset;
+  }
 }
 
 [class~=grid], [class*=grid-], [class*=grid_] {
@@ -108,6 +111,15 @@ export default {
   justify-content: center;
   height: 100%;
   padding-bottom: $siteHeaderHeight;
+  @include large {
+    padding-top: 5rem;
+  }
+  @include small {
+    height: unset;
+  }
+  @include mini {
+    padding-top: 3rem;
+  }
 }
 
 .inner-content {
@@ -126,6 +138,7 @@ export default {
 ::v-deep .heading {
   display: flex;
   align-items: center;
+  line-height: 1.1;
   &.direction__vertical {
     flex-direction: column;
     text-align: center;
@@ -133,6 +146,12 @@ export default {
   &.direction__horizontal {
     flex-direction: row;
     justify-content: center;
+  }
+  @include small {
+    font-size: toRem(55);
+  }
+  @include mini {
+    font-size: toRem(35);
   }
 }
 
@@ -152,9 +171,12 @@ export default {
   right: -3px;
   width: calc(100% + 3px);
   height: 94.5%;
+  background-size: cover;
   background-repeat: no-repeat;
-  background-size: auto 100%;
   background-position: bottom right;
   z-index: 5;
+  @include xlarge {
+    background-size: auto 100%;
+  }
 }
 </style>

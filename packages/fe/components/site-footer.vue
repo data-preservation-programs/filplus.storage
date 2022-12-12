@@ -13,7 +13,7 @@
     <section class="section-footer">
       <div class="grid-noGutter-equalHeight">
 
-        <div class="col-3">
+        <div class="col-3_md-5_mi-12">
           <div class="logo-cta">
             <Logo class="site-logo" />
             <div class="cta-wrapper">
@@ -23,7 +23,7 @@
           </div>
         </div>
 
-        <div class="col-4">
+        <div class="col-4_md-7_mi-12">
           <div class="footer-nav">
             <ButtonX
               v-for="(link, i) in primaryLinks"
@@ -38,30 +38,33 @@
           </div>
         </div>
 
-        <div class="col-5">
+        <div class="col-5_md-12_mi-12">
           <div class="video-cta-wrapper">
             <nuxt-link to="/" class="video-cta">
 
               <Logo class="site-logo" />
 
-              <Card
-                corner-position="top-right"
-                :small="true"
-                icon="chevron"
-                class="footer-cta-card">
-                <template v-if="videoCta">
+              <template v-for="variant in ['small', 'tiny']">
+                <Card
+                  :key="`footer-card-${variant}`"
+                  :variant="variant"
+                  corner-position="top-right"
+                  icon="chevron"
+                  :class="['footer-cta-card', `${variant}-variant`]">
+                  <template v-if="videoCta">
 
-                  <img
-                    class="card-image"
-                    :src="videoCta.image" />
+                    <img
+                      class="card-image"
+                      :src="videoCta.image" />
 
-                  <div
-                    class="card-text"
-                    v-html="videoCta.text">
-                  </div>
+                    <div
+                      class="card-text"
+                      v-html="videoCta.text">
+                    </div>
 
-                </template>
-              </Card>
+                  </template>
+                </Card>
+              </template>
 
             </nuxt-link>
           </div>
@@ -220,6 +223,13 @@ export default {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    @include mini {
+      width: toRem(194);
+    }
+  }
+  @include mini {
+    padding: 1.5rem 0;
+    height: toRem(350) !important;
   }
 }
 
@@ -228,6 +238,11 @@ export default {
   width: 39%;
   right: 1rem;
   top: calc(50% + 1rem);
+  @include mini {
+    width: toRem(130);
+    right: unset;
+    left: calc(50% + 1rem);
+  }
 }
 
 .cta-spinner {
@@ -261,14 +276,46 @@ export default {
   margin-bottom: 0.75rem;
   border-left: 3px solid $nandor;
   border-right: 3px solid $nandor;
+  @include medium {
+    border-right: none;
+  }
+  @include mini {
+    border-left: none;
+  }
 }
 
 :deep(.primary-link) {
+  position: relative;
   padding: toRem(38) toRem(40);
   width: 100%;
   border-bottom: 3px solid $nandor;
+  :deep(.button) {
+    @include mini {
+      font-size: toRem(18);
+    }
+  }
   &:last-child {
     border-bottom: none;
+  }
+  @include medium {
+    width: calc(100% + 100vw * 0.041665);
+  }
+  @include mini {
+    &:before {
+      content: '';
+      position: absolute;
+      right: 100%;
+      top: -7px;
+      width: calc(100vw * 0.041665);
+      height: 3px;
+      background-color: $nandor;
+    }
+    &:first-child {
+      border-top: 3px solid $nandor;
+      &:before {
+        top: -3px;
+      }
+    }
   }
 }
 
@@ -277,6 +324,12 @@ export default {
   position: relative;
   width: 100%;
   height: 100%;
+  @include medium {
+    height: toRem(314) !important;
+  }
+  @include tiny {
+    height: toRem(250) !important;
+  }
   &:before {
     content: '';
     position: absolute;
@@ -292,6 +345,22 @@ export default {
     background-image: url('~/assets/images/abstract-3d-object-with-three-layered-branches-and-rounded-edges.png');
     @include containerMaxMQ {
       width: calc(100% + 100vw * 0.041665 + 3px);
+    }
+    @include medium {
+      width: toRem(1024);
+      height: calc(100% - 2px);
+      left: 50%;
+      transform: translateX(-50%);
+      border-right: none;
+      border-top: 3px solid $nandor;
+      max-width: unset;
+      background-position: center;
+    }
+    @include mini {
+      width: toRem(640);
+    }
+    @include tiny {
+      width: toRem(415);
     }
   }
 }
@@ -309,13 +378,17 @@ export default {
 
 .footer-cta-card.corner-position__top-right {
   position: absolute;
-  width: 63%;
+  width: fit-content;
   left: 2.1875rem;
   bottom: 1.125rem;
   :deep(.content) {
     display: flex;
     justify-content: space-between;
     padding: 1.375rem 2.6875rem 1.4375rem 1.5rem;
+    @include mini {
+      padding: 0.875rem;
+      padding-right: 1.75rem;
+    }
   }
   :deep(.icon) {
     background-color: #0047FF;
@@ -323,16 +396,36 @@ export default {
       stroke: white;
     }
   }
+  &.small-variant {
+    @include mini {
+      display: none;
+    }
+  }
+  &.tiny-variant {
+    display: none;
+    @include mini {
+      display: block;
+    }
+  }
   .card-image {
     margin: auto 0;
     width: toRem(57);
     height: toRem(57);
     border-radius: 50%;
+    @include mini {
+      width: toRem(34);
+      height: toRem(34);
+    }
   }
   .card-text {
+    margin-left: 1.375rem;
     font-size: toRem(25);
     font-weight: 500;
     line-height: 1.3;
+    @include mini {
+      font-size: toRem(15);
+      margin-left: 0.875rem;
+    }
   }
 }
 
@@ -342,6 +435,13 @@ export default {
   justify-content: space-between;
   align-items: center;
   height: toRem(80);
+  @include mini {
+    height: unset;
+    flex-direction: column;
+    margin-top: toRem(45);
+    margin-bottom: toRem(68);
+    align-items: flex-start;
+  }
 }
 
 .copyright-text {
@@ -351,6 +451,14 @@ export default {
   line-height: leading(30, 16);
   color: $juniper;
   text-align: right;
+  @include large {
+    font-size: 0.875rem;
+    line-height: leading(20, 14);
+  }
+  @include mini {
+    padding: 0 1rem;
+    margin-top: toRem(38);
+  }
   :deep(a) {
     color: $greenYellow;
     &:hover {
@@ -370,6 +478,9 @@ export default {
   border-bottom: none;
   &:not(:last-child) {
     margin-right: 1.5625rem;
+  }
+  @include mini {
+    padding: 0 1rem;
   }
 }
 

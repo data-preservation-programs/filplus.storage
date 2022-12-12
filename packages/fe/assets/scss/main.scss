@@ -436,6 +436,9 @@ span.error {
   border: 2px solid $titanWhite;
   border-radius: 4rem;
   line-height: 1;
+  @include mini {
+    border: 1.5px solid $titanWhite;
+  }
   &:before,
   &:after {
     content: '';
@@ -447,26 +450,44 @@ span.error {
     width: calc(100% + 1.25rem);
     border: inherit;
     border-radius: inherit;
+    @include mini {
+      width: calc(100% + 0.5rem);
+    }
   }
   &:after {
     width: calc(100% + 2.75rem);
     border: inherit;
     border-radius: inherit;
+    @include mini {
+      width: calc(100% + 1rem);
+    }
   }
   &.right {
     &:before {
       right: calc(-1.25rem - 2px);
+      @include mini {
+        right: calc(-0.5rem - 1.5px);
+      }
     }
     &:after {
       right: calc(-2.75rem - 2px);
+      @include mini {
+        right: calc(-1rem - 1.5px);
+      }
     }
   }
   &.left {
     &:before {
       left: calc(-1.25rem - 2px);
+      @include mini {
+        left: calc(-0.5rem - 1.5px);
+      }
     }
     &:after {
       left: calc(-2.75rem - 2px);
+      @include mini {
+        left: calc(-1rem - 1.5px);
+      }
     }
   }
 }
