@@ -142,8 +142,7 @@ const actions = {
   // ////////////////////////////////////////////////// submitGeneralApplication
   async submitGeneralApplication ({ commit }, application) {
     try {
-      const response = await this.$axiosAuth.post('/submit-general-application', application)
-      console.log(response.data.payload)
+      await this.$axiosAuth.post('/submit-general-application', application)
       this.dispatch('button/removeLoader', 'ga-submit-button')
     } catch (e) {
       console.log('========== [Store Action: general/submitGeneralApplication]')
@@ -155,11 +154,12 @@ const actions = {
   // //////////////////////////////////////////////////// submitLargeApplication
   async submitLargeApplication ({ commit }, application) {
     try {
-      const response = await this.$axiosAuth.post('/submit-large-application', application)
-      console.log(response.data.payload)
+      await this.$axiosAuth.post('/submit-large-application', application)
+      this.dispatch('button/removeLoader', 'lda-submit-button')
     } catch (e) {
       console.log('============ [Store Action: general/submitLargeApplication]')
       console.log(e)
+      this.dispatch('button/removeLoader', 'lda-submit-button')
       return false
     }
   },

@@ -40,7 +40,7 @@ module.exports = {
   websocketUrl: env === 'development' ? `${baseUrls[env]}:${backendPort}` : baseUrls[env],
   // ==================================================================== Server
   server: false,
-  environment: env,
+  serverFlag: env,
   autocreateEntities: [
     { type: 'dir', path: 'static' },
     { type: 'dir', path: 'cache' },

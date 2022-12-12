@@ -251,6 +251,7 @@
 
           <ButtonA
             class="submit-button"
+            loader="lda-submit-button"
             @clicked="submitForm">
             {{ submitButtonText }}
           </ButtonA>
