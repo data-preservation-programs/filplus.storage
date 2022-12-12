@@ -87,6 +87,7 @@
 
           <ButtonA
             class="submit-button"
+            loader="ga-submit-button"
             @clicked="submitForm">
             {{ submitButtonText }}
           </ButtonA>

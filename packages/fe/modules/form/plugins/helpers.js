@@ -146,10 +146,6 @@ const reconcileMirrors = (app, fields) => {
                obj.id !== field.id &&
                obj.model_key === field.model_key
       })
-      console.log(mirrored)
-      // if (!mirror || mirror.primary || mirrored.length === 0) {
-      //   compiled[field.field_key] = field
-      // }
       if (!mirror || mirror.primary) {
         compiled[field.field_key] = field
       } else if (mirror && !mirror.primary && mirrored.length === 0) {
@@ -166,10 +162,8 @@ const reconcileMirrors = (app, fields) => {
 
 // ////////////////////////////////////////////////////// writeFieldsToFormModel
 const writeFieldsToFormModel = async (app, model, fields) => {
-  // console.log(model.total_datacap_size)
   try {
     const reconciledMirrorFields = await reconcileMirrors(app, fields)
-    console.log(reconciledMirrorFields)
     const len = fields.length
     for (let i = 0; i < len; i++) {
       let field = fields[i]
@@ -182,7 +176,6 @@ const writeFieldsToFormModel = async (app, model, fields) => {
       field.state = 'valid'
       field.validation = false
       field.originalValue = value
-      // console.log(fieldKey, modelKey, field.value)
       if (!field.hasOwnProperty('parent_model_key') && (!mirror || mirror.primary)) {
         if (type === 'array') {
           model[modelKey] = await compileArray(field, fields)
@@ -198,12 +191,10 @@ const writeFieldsToFormModel = async (app, model, fields) => {
           }
           model[modelKey] = await app.$applyTransformation(value, field.transform)
         } else {
-          console.log(modelKey, model[modelKey], await app.$applyTransformation(value, field.transform))
           model[modelKey] = await app.$applyTransformation(value, field.transform)
         }
       }
     }
-    // console.log(model.total_datacap_size)
     return model
   } catch (e) {
     console.log('========================== [Function: writeFieldsToFormModel]')

@@ -1,5 +1,5 @@
 <template>
-  <div :class="['triple-dot-loader', `theme-${theme}`]">
+  <div class="triple-dot-loader">
 
     <div class="dot dot-1"></div>
 
@@ -13,15 +13,7 @@
 <script>
 // ====================================================================== Export
 export default {
-  name: 'TripleDotLoader',
-
-  props: {
-    theme: {
-      type: String, // 'light' or 'dark'
-      required: false,
-      default: 'light'
-    }
-  }
+  name: 'TripleDotLoader'
 }
 </script>
 
@@ -37,16 +29,6 @@ export default {
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  &.theme-light {
-    .dot {
-      background-color: tomato;
-    }
-  }
-  &.theme-dark {
-    .dot {
-      background-color: teal;
-    }
-  }
 }
 
 .dot {
@@ -54,6 +36,7 @@ export default {
   height: 0.75rem;
   border-radius: 100%;
   display: inline-block;
+  background-color: $aztec;
   animation: dot 1.4s infinite ease-in-out both;
   transition: 250ms ease-in-out;
   &.dot-1 {

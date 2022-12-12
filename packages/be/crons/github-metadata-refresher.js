@@ -69,7 +69,7 @@ const getAndUpdateGithubUsers = async (databaseUsers) => {
     let user
     try {
       user = databaseUsers[i]
-      const options = { headers: { Accept: 'application/vnd.github+json', Authorization: `Bearer ${process.env.GITHUB_PERSONAL_ACCESS_TOKEN}` } }
+      const options = { headers: { Accept: 'application/vnd.github+json', Authorization: `Bearer ${process.env.GITHUB_PERSONAL_ACCESS_TOKEN_1}` } }
       const response = await Axios.get(`https://api.github.com/users/${user.githubUsername}`, options)
       const { changed, original } = match(response.data, databaseUsers[i])
       if (changed) {

@@ -128,8 +128,10 @@ export default {
 .theme__green {
   color: $toledo;
   background-color: $greenYellow;
-  &:hover {
-    background-color: $lima;
+  &:not([disabled]) {
+    &:hover {
+      background-color: $lima;
+    }
   }
 }
 

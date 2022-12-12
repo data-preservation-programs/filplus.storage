@@ -144,9 +144,11 @@ const actions = {
     try {
       const response = await this.$axiosAuth.post('/submit-general-application', application)
       console.log(response.data.payload)
+      this.dispatch('button/removeLoader', 'ga-submit-button')
     } catch (e) {
       console.log('========== [Store Action: general/submitGeneralApplication]')
       console.log(e)
+      this.dispatch('button/removeLoader', 'ga-submit-button')
       return false
     }
   },
