@@ -134,10 +134,12 @@ export default {
     }
   },
 
-  async fetch ({ store, params, redirect }) {
+  async fetch ({ app, store, params, redirect }) {
     const name = params.name
     const notary = NotariesListData.find(notary => notary.name === name)
-    if (!notary) { return redirect('/apply/general/notaries') }
+    const notaryField = app.$field('notary|filplus_application')
+    console.log(notaryField)
+    if (!notary || !notaryField) { return redirect('/apply/general/notaries') }
     await store.dispatch('general/updateApplication', { notary: name })
     await store.dispatch('general/getBaseData', { key: 'apply-general', data: ApplyGeneralPageData })
     const formId = 'filplus_application'
