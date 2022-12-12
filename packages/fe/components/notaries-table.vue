@@ -61,12 +61,13 @@
                       v-for="(item, j) in notary.contact_information"
                       :key="`contact-${i}-${j}`"
                       :to="item.link"
+                      :data-tooltip="item.link"
                       tag="a"
                       target="_blank"
                       class="contact-link">
                       <component
                         :is="getIconComponent(item.type)"
-                        :class="`icon-${item.type}`" />
+                        :class="['icon', `icon-${item.type}`]" />
                     </ButtonX>
                   </div>
                 </template>
@@ -124,8 +125,11 @@ import { mapGetters } from 'vuex'
 import Field from '@/modules/form/components/field'
 import ButtonA from '@/components/buttons/button-a'
 import ButtonX from '@/components/buttons/button-x'
+
 import SlackIcon from '@/components/icons/slack'
 import GithubIcon from '@/components/icons/github'
+import EmailIcon from '@/components/icons/email'
+import WebsiteIcon from '@/components/icons/website'
 
 // ====================================================================== Export
 export default {
@@ -136,7 +140,9 @@ export default {
     ButtonA,
     ButtonX,
     SlackIcon,
-    GithubIcon
+    GithubIcon,
+    EmailIcon,
+    WebsiteIcon
   },
 
   data () {
@@ -189,8 +195,10 @@ export default {
     getIconComponent (type) {
       let icon
       switch (type) {
-        case 'website': icon = 'GithubIcon'; break
+        case 'github': icon = 'GithubIcon'; break
         case 'slack': icon = 'SlackIcon'; break
+        case 'email': icon = 'EmailIcon'; break
+        case 'website': icon = 'WebsiteIcon'; break
         default: icon = 'div'
       }
       return icon
@@ -280,11 +288,17 @@ export default {
 }
 
 .contact-info {
-  .contact-link {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.contact-link {
+  &:not(:last-child) {
     margin-right: 0.5rem;
-    :deep(path) {
-      fill: white;
-    }
+  }
+  :deep(path) {
+    fill: white;
   }
 }
 
@@ -310,7 +324,12 @@ export default {
   }
 }
 
-.icon-slack {
+.icon {
+  display: block;
+}
+
+.icon-slack,
+.icon-github {
   width: 1.5rem;
 }
 
@@ -318,7 +337,7 @@ export default {
   width: 1.8125rem;
 }
 
-.icon-github {
-  width: 1.875rem;
+.icon-email {
+  width: 2.1875rem;
 }
 </style>
