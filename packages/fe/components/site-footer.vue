@@ -94,13 +94,13 @@
                 tag="a"
                 target="_blank"
                 class="secondary-link">
-                <component :is="getIconComponent(item.icon)" />
+                <component
+                  :is="getIconComponent(item.icon)"
+                  :class="`icon-${item.icon}`" />
               </ButtonX>
             </div>
 
-            <div class="copyright-text">
-              {{ copyright.text }}
-            </div>
+            <div class="copyright-text" v-html="copyright.text" />
 
           </div>
         </div>
@@ -170,14 +170,14 @@ export default {
       if (route.path === href) { return true }
       return false
     },
-    getIconComponent (icon) {
-      switch (icon) {
-        case 'github':
-          return 'GithubIcon'
-        case 'slack':
-          return 'SlackIcon'
+    getIconComponent (type) {
+      let icon
+      switch (type) {
+        case 'github': icon = 'GithubIcon'; break
+        case 'slack': icon = 'SlackIcon'; break
+        default: icon = 'div'
       }
-      return 'div'
+      return icon
     }
   }
 }
@@ -345,20 +345,36 @@ export default {
 }
 
 .copyright-text {
+  padding-left: 1rem;
   font-size: 1rem;
   font-weight: 400;
   line-height: leading(30, 16);
-  color: #75938B;
+  color: $juniper;
+  text-align: right;
+  :deep(a) {
+    color: $greenYellow;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 }
 
 .secondary-links {
   display: flex;
   align-items: center;
-  :deep(.secondary-link) {
-    padding: 0;
+}
+
+.secondary-link {
+  padding: 0;
+  height: 1.875rem;
+  border-bottom: none;
+  &:not(:last-child) {
     margin-right: 1.5625rem;
-    height: 1.875rem;
-    border-bottom: none;
   }
+}
+
+.icon-slack,
+.icon-github {
+  width: 1.875rem;
 }
 </style>

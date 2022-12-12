@@ -317,4 +317,8 @@ export default {
 .icon-website {
   width: 1.8125rem;
 }
+
+.icon-github {
+  width: 1.875rem;
+}
 </style>

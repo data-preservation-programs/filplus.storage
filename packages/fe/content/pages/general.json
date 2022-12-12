@@ -76,14 +76,14 @@
       "links": [
         {
           "icon": "github",
-          "url": "https://example.com"
+          "url": "https://github.com/filecoin-project/filecoin-plus-large-datasets"
         },
         {
           "icon": "slack",
           "url": "https://example.com"
         }
       ],
-      "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+      "text": "The Filecoin+ program applies <a href='the Filecoin Foundation privacy policies'>the Filecoin Foundation privacy policies</a>. Your participation in Filecoin+<br />serves as your acknowledgement and acceptance of these policies."
     }
   },
   "404_error_message": "<span class='bubble right'>404</span>",
