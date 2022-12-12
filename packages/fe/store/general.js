@@ -144,10 +144,20 @@ const actions = {
     try {
       await this.$axiosAuth.post('/submit-general-application', application)
       this.dispatch('button/removeLoader', 'ga-submit-button')
+      this.$toaster.add({
+        type: 'toast',
+        category: 'success',
+        message: 'General Application submitted successfully'
+      })
     } catch (e) {
       console.log('========== [Store Action: general/submitGeneralApplication]')
       console.log(e)
       this.dispatch('button/removeLoader', 'ga-submit-button')
+      this.$toaster.add({
+        type: 'toast',
+        category: 'error',
+        message: 'Something went wrong. Please refresh the page and try again.'
+      })
       return false
     }
   },
@@ -156,10 +166,20 @@ const actions = {
     try {
       await this.$axiosAuth.post('/submit-large-application', application)
       this.dispatch('button/removeLoader', 'lda-submit-button')
+      this.$toaster.add({
+        type: 'toast',
+        category: 'success',
+        message: 'Large Dataset Application submitted successfully'
+      })
     } catch (e) {
       console.log('============ [Store Action: general/submitLargeApplication]')
       console.log(e)
       this.dispatch('button/removeLoader', 'lda-submit-button')
+      this.$toaster.add({
+        type: 'toast',
+        category: 'error',
+        message: 'Something went wrong. Please refresh the page and try again.'
+      })
       return false
     }
   },
