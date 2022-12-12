@@ -8,7 +8,9 @@
       content-cols="col-8_sm-10_mi-12">
       <div class="card-container">
         <Card
+          id="apply-form-card"
           :icon-text="submitButtonText"
+          :class="{ highlighted: applyFormHighlighted }"
           corner-position="bottom-right"
           icon="arrow"
           @clicked="submitForm">
@@ -141,7 +143,8 @@ export default {
   computed: {
     ...mapGetters({
       siteContent: 'general/siteContent',
-      application: 'general/application'
+      application: 'general/application',
+      applyFormHighlighted: 'general/applyFormHighlighted'
     }),
     pageData () {
       return this.siteContent[this.tag].page_content
@@ -187,10 +190,20 @@ export default {
     }
   },
 
+  mounted () {
+    this.$nextTick(() => {
+      const highlightForm = this.$route.query.highlight_form
+      if (highlightForm) {
+        this.highlightApplyForm()
+      }
+    })
+  },
+
   methods: {
     ...mapActions({
       validateForm: 'form/validateForm',
-      updateApplication: 'general/updateApplication'
+      updateApplication: 'general/updateApplication',
+      highlightApplyForm: 'general/highlightApplyForm'
     }),
     getValue (modelKey) {
       return this.application[modelKey]
@@ -198,10 +211,10 @@ export default {
     async submitForm (e) {
       e.preventDefault()
       const incoming = await this.validateForm('filplus_application')
-      console.log(incoming)
       if (incoming) {
         this.updateApplication(incoming)
-        if (incoming.total_datacap_size <= this.submitThreshold) {
+        const bytes = this.$convertSizeToBytes(incoming.total_datacap_size, incoming.total_datacap_size_unit)
+        if (bytes <= this.submitThreshold) {
           this.$router.push('/apply/general/notaries')
         } else {
           this.$router.push('/apply/large')
@@ -314,6 +327,32 @@ $cardRadius: 1.875rem;
   :deep(.content) {
     @include mini {
       padding: 1.875rem 2.5rem 3.125rem 2.5rem !important;
+    }
+  }
+}
+
+:deep(.card.corner-position__bottom-right) {
+  .panel {
+    &:before,
+    &:after,
+    svg path {
+      transition: 250ms ease-out;
+    }
+  }
+  &.highlighted {
+    .panel {
+      &:before,
+      &:after,
+      svg path {
+        transition: 250ms ease-in;
+      }
+      &:before,
+      &:after {
+        border-color: $greenYellow;
+      }
+      svg path {
+        stroke: $greenYellow;
+      }
     }
   }
 }

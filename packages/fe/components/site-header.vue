@@ -72,8 +72,9 @@
               <ButtonA
                 v-if="cta"
                 :to="cta.href"
-                tag="nuxt-link"
-                class="site-nav-cta">
+                tag="button"
+                class="site-nav-cta"
+                @clicked="highlighFormOrChangeRoute">
                 {{ cta.label }}
               </ButtonA>
 
@@ -95,7 +96,7 @@
 
 <script>
 // ===================================================================== Imports
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 import Logo from '@/components/logo'
 import ButtonA from '@/components/buttons/button-a'
@@ -139,6 +140,8 @@ export default {
       mini: false,
       scroll: false,
       resize: false,
+      timeout1: false,
+      timeout2: false,
       squiggleWidth: 80,
       squiggleOffsetLeft: 0,
       pathKey: 0,
@@ -198,6 +201,9 @@ export default {
   },
 
   methods: {
+    ...mapActions({
+      highlightApplyForm: 'general/highlightApplyForm'
+    }),
     isRouteCurrent (href) {
       const route = this.$route
       if (route.path === href) { return true }
@@ -221,6 +227,16 @@ export default {
       if (mobileNav && mobileNav.modal) {
         mobileNav.toggleModal()
       }
+    },
+    highlighFormOrChangeRoute () {
+      if (this.$route.name !== 'apply') {
+        this.$router.push({
+          path: '/apply',
+          query: { highlight_form: true }
+        })
+        return
+      }
+      this.highlightApplyForm()
     }
   }
 }

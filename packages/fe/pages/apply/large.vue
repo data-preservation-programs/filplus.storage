@@ -197,19 +197,12 @@
       </div>
 
       <div class="grid">
-        <div class="col-5" data-push-left="off-1_ti-0">
-          FIELD
-        </div>
-        <div class="col-4_ti-6" data-push-left="off-1">
+        <div class="col-6_md-8_sm-10_ti-12" data-push-left="off-1_ti-0">
+
           <FieldContainer
             :scaffold="formScaffold.frequency_of_retrieval"
             :value="getValue('frequency_of_retrieval')"
             form-id="filplus_application" />
-        </div>
-      </div>
-
-      <div class="grid">
-        <div class="col-6_md-8_sm-10_ti-12" data-push-left="off-1_ti-0">
 
           <FieldContainer
             :scaffold="formScaffold.duration_of_storage"
@@ -366,7 +359,13 @@ export default {
     async submitForm () {
       const incoming = await this.validateForm('filplus_application')
       console.log(incoming)
-      this.submitLargeApplication(incoming)
+      if (!incoming) {
+        const firstInvalidField = document.querySelector('.error')
+        console.log(firstInvalidField)
+        this.$scrollToElement(firstInvalidField, 250, -200)
+      } else {
+        this.submitLargeApplication(incoming)
+      }
     }
   }
 }

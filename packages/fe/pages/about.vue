@@ -181,7 +181,7 @@ export default {
   }
 }
 
-.apply-cta-card {
+.apply-cta-card.corner-position__top-right {
   width: 57%;
   @include medium {
     width: calc(100% - 5rem);

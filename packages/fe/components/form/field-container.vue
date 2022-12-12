@@ -14,12 +14,13 @@
         <component
           :is="type"
           :field="field"
+          :data-tooltip="tooltip"
           @updateValue="updateValue" />
 
         <slot />
 
         <div v-if="validationMessage" class="validation-message">
-          <sup>*</sup>{{ validationMessage }}
+          {{ validationMessage }}
         </div>
 
       </div>
@@ -80,6 +81,12 @@ export default {
       required: false,
       default: false
     }
+  },
+
+  computed: {
+    tooltip () {
+      return this.scaffold.tooltip
+    }
   }
 }
 </script>
@@ -93,12 +100,43 @@ export default {
   &:not(.empty) {
     // background-color: teal;
   }
+  &:hover,
+  &.focused {
+    &[data-tooltip] {
+      &:before {
+        transform: translate(0, -50%) rotate(-90deg);
+      }
+      &:after {
+        transform: translate(0, -50%);
+      }
+    }
+  }
 }
 
 ::v-deep .description {
   margin-top: 0.5rem;
   line-height: leading(30, 18);
   margin-bottom: 2.25rem;
+}
+
+[data-tooltip] {
+  &:before {
+    top: calc(50% + 0.475rem);
+    left: calc(100% + 4px);
+    transform: translate(0.5rem, -50%) rotate(-90deg);
+    border-bottom-width: 0.5rem;
+  }
+  &:after {
+    white-space: break-spaces;
+    padding: 2rem;
+    top: 50%;
+    left: calc(100% + 1rem);
+    width: 26rem;
+    font-size: 1rem;
+    line-height: leading(27, 16);
+    border-radius: 1rem;
+    transform: translate(0.5rem, -50%);
+  }
 }
 
 // /////////////////////////////////////////////////////////////////////// Label
@@ -120,7 +158,8 @@ export default {
   margin-top: 0.5rem;
   font-size: 0.75rem;
   font-weight: 500;
-  color: darkorange;
+  color: $flamingo;
+  font-style: italic;
   sup {
     top: -0.125rem;
     margin-right: 0.0625rem;

@@ -48,7 +48,7 @@
       </div>
 
       <div class="grid">
-        <div class="col-6_md-6_ti-7" data-push-left="off-1_ti-0">
+        <div class="col-6_md-6_ti-7 z-index-100" data-push-left="off-1_ti-0">
           <FieldContainer
             :scaffold="formScaffold.organization_social_media_handle"
             :value="getValue('organization_social_media_handle')"
@@ -63,7 +63,7 @@
       </div>
 
       <div class="grid">
-        <div class="col-6_md-6_ti-7" data-push-left="off-1_ti-0">
+        <div class="col-6_md-6_ti-7 z-index-100" data-push-left="off-1_ti-0">
           <FieldContainer
             :scaffold="formScaffold.total_datacap_size_input"
             :value="getValue('total_datacap_size')"
@@ -135,7 +135,7 @@ export default {
 
   async fetch ({ store, params, redirect }) {
     const name = params.name
-    const notary = NotariesListData.find(notary => notary.Miner === name)
+    const notary = NotariesListData.find(notary => notary.name === name)
     if (!notary) { return redirect('/apply/general/notaries') }
     await store.dispatch('general/updateApplication', { notary: name })
     await store.dispatch('general/getBaseData', { key: 'apply-general', data: ApplyGeneralPageData })
@@ -192,7 +192,12 @@ export default {
     async submitForm () {
       const incoming = await this.validateForm('filplus_application')
       console.log(incoming)
-      this.submitGeneralApplication(incoming)
+      if (!incoming) {
+        const firstInvalidField = document.querySelector('.error')
+        this.$scrollToElement(firstInvalidField, 250, -200)
+      } else {
+        this.submitGeneralApplication(incoming)
+      }
     }
   }
 }

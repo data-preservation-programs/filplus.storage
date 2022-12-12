@@ -170,7 +170,7 @@ export default {
 // ////////////////////////////////////////////////////////////////// Warp Image
 .panel-left {
   position: relative;
-  height: 100%;
+  height: calc(100% + 1.125rem);
 }
 
 .warp-image-double {

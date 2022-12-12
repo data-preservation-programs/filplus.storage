@@ -27,7 +27,7 @@
           "required": true,
           "mirror": {
             "field_key": "total_datacap_size_input",
-            "primary": true
+            "primary": false
           },
           "transform": {
             "func": "$formatDatacapSize",
@@ -55,6 +55,7 @@
             4398046511104,
             17592186044416,
             70368744177664,
+            109951162777600,
             281474976710656
           ],
           "validation_message": {
@@ -75,7 +76,7 @@
           "pre": "[^\\u0000-\\u00ff]",
           "mirror": {
             "field_key": "total_datacap_size_range",
-            "primary": false
+            "primary": true
           },
           "transform": {
             "func": "$formatDatacapSize",

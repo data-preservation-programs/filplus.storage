@@ -26,6 +26,7 @@
           "model_key": "organization_name",
           "label": "Organization Name",
           "placeholder": "Lorem Ipsum",
+          "tooltip": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
           "required": true,
           "pre": "[^\\u0000-\\u00ff]",
           "autocomplete": "none",
@@ -46,6 +47,7 @@
           "model_key": "organization_website",
           "label": "Organization Website",
           "placeholder": "loremipsum.com",
+          "tooltip": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
           "required": true,
           "pre": "[^\\u0000-\\u00ff]",
           "autocomplete": "none",
@@ -65,6 +67,7 @@
           "model_key": "region",
           "label": "Region",
           "required": true,
+          "tooltip": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
           "output": "option",
           "validation_message": {
             "required": "This field is required"
@@ -90,6 +93,7 @@
           "model_key": "organization_social_media_handle",
           "label": "Organization Social Media Handle",
           "placeholder": "LoremIpsum",
+          "tooltip": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
           "required": true,
           "pre": "[^\\u0000-\\u00ff]",
           "autocomplete": "none",
@@ -130,13 +134,14 @@
           "model_key": "total_datacap_size",
           "label": "Total Datacap being requested",
           "placeholder": "32",
+          "tooltip": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
           "min": 1,
           "max": 5242880,
           "required": true,
           "pre": "[^\\u0000-\\u00ff]",
           "mirror": {
             "field_key": "total_datacap_size_range",
-            "primary": false
+            "primary": true
           },
           "transform": {
             "func": "$formatDatacapSize",
@@ -156,6 +161,7 @@
           "type": "select",
           "model_key": "total_datacap_size_unit",
           "label": "Unit",
+          "tooltip": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
           "required": true,
           "output": "option",
           "react": {
@@ -182,6 +188,7 @@
           "model_key": "filecoin_address",
           "label": "Filecoin Address",
           "placeholder": "f...",
+          "tooltip": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
           "required": true,
           "pre": "[^\\u0000-\\u00ff]",
           "autocomplete": "none",
