@@ -40,7 +40,7 @@
 
         <div class="col-5_md-12_mi-12">
           <div class="video-cta-wrapper">
-            <nuxt-link to="/" class="video-cta">
+            <nuxt-link to="/" target="_blank" class="video-cta">
 
               <Logo class="site-logo" />
 
@@ -324,6 +324,12 @@ export default {
   position: relative;
   width: 100%;
   height: 100%;
+  &:hover {
+    .footer-cta-card.corner-position__top-right {
+      transition: 150ms ease-in;
+      transform: scale(1.05);
+    }
+  }
   @include medium {
     height: toRem(314) !important;
   }
@@ -381,6 +387,8 @@ export default {
   width: fit-content;
   left: 2.1875rem;
   bottom: 1.125rem;
+  transform-origin: bottom left;
+  transition: 150ms ease-out;
   :deep(.content) {
     display: flex;
     justify-content: space-between;
@@ -476,6 +484,11 @@ export default {
   padding: 0;
   height: 1.875rem;
   border-bottom: none;
+  transition: 150ms ease-out;
+  &:hover {
+    transition: 150ms ease-in;
+    transform: scale(1.2);
+  }
   &:not(:last-child) {
     margin-right: 1.5625rem;
   }

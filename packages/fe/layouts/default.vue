@@ -43,13 +43,15 @@ export default {
 
   async mounted () {
     // Scroll to hash
-    const hash = this.$route.hash.replace('#', '')
-    if (hash) {
-      const element = document.getElementById(hash) || document.querySelector(`[data-id='${hash}']`)
-      if (element) {
-        this.$scrollToElement(element, 200, -100)
+    this.$nextTick(() => {
+      const hash = this.$route.hash.replace('#', '')
+      if (hash) {
+        const element = document.getElementById(hash) || document.querySelector(`[data-id='${hash}']`)
+        if (element) {
+          this.$scrollToElement(element, 200, -100)
+        }
       }
-    }
+    })
     // Initialize global connections
     await this.$connectWebsocket(this, () => {
       this.socket.emit('join-room', 'global')

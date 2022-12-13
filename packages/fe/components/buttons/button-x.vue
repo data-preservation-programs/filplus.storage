@@ -3,9 +3,11 @@
     v-bind="$props"
     class="button-x"
     v-on="$listeners">
+    <div class="button-content">
 
-    <slot />
+      <slot />
 
+    </div>
   </Button>
 </template>
 
@@ -55,10 +57,14 @@ export default {
 // ///////////////////////////////////////////////////////////////////// General
 .button {
   white-space: nowrap;
-  font-size: toRem(20);
-  font-weight: 500;
   cursor: pointer;
   &:not([disabled]) {
+    &:hover {
+      .button-content {
+        transition: 150ms ease-in;
+        text-decoration: underline;
+      }
+    }
     &:focus-visible {
       @include focusBoxShadow;
     }
@@ -67,5 +73,11 @@ export default {
     box-shadow: none;
     cursor: no-drop;
   }
+}
+
+.button-content {
+  font-size: toRem(20);
+  font-weight: 500;
+  transition: 150ms ease-out;
 }
 </style>

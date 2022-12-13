@@ -200,7 +200,7 @@ $height: 4rem;
     transition: 150ms ease-out;
   }
   .icon-chevron-down {
-    width: 0.625rem;
+    width: 0.6875rem;
   }
 }
 

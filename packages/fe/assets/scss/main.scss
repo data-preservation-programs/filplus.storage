@@ -565,7 +565,7 @@ span.error {
   hr {
     margin-bottom: 2rem;
   }
-  button {
+  button:not(.copy-heading-button) {
     white-space: nowrap;
     font-size: toRem(20);
     font-weight: 500;
@@ -660,9 +660,8 @@ span.error {
       justify-content: center;
       align-items: center;
       position: absolute;
-      top: 0;
+      top: 9px;
       right: 100%;
-      height: 100%;
       padding: 0 0.5rem;
       cursor: pointer;
       z-index: 20;

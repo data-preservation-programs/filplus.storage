@@ -47,7 +47,8 @@
     ],
     "cta_card": {
       "title": "Do you have data to store?",
-      "description": "The Fil+ program provides a network block reward subsidy. <i>Apply today</i> to get started."
+      "description": "The Fil+ program provides a network block reward subsidy. <i>Apply today</i> to get started.",
+      "link": "https://example.com"
     },
     "accordion_button_toggle_text": {
       "expand": "Expand All",

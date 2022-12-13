@@ -168,10 +168,21 @@ $cardRadiusTiny: 0.9375rem;
 
 .button {
   position: absolute;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
   z-index: 20;
+  &:hover {
+    .icon.arrow {
+      transition: 150ms ease-in;
+      transform: rotate(45deg);
+    }
+  }
+  :deep(.button-content) {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+  .icon.arrow {
+    transition: 150ms ease-out;
+  }
 }
 
 .icon-text {

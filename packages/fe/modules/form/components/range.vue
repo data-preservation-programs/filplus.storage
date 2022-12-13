@@ -241,6 +241,7 @@ export default {
   left: 0;
   width: var(--thumb-dimension-x);
   height: var(--thumb-dimension-y);
+  opacity: 0;
   transform: translateY(-50%);
   cursor: grab;
   &:active {
@@ -254,6 +255,7 @@ export default {
   height: 100%;
   border-color: transparent;
   color: transparent;
+  opacity: 0;
   cursor: pointer;
 }
 

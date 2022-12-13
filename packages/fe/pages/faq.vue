@@ -23,12 +23,14 @@
             :entries="faqList"
             :toggle-button-content="accordionToggleButtonText" />
 
-          <Card
-            icon="arrow"
-            :outline="true"
-            class="apply-cta-card">
-            <template v-if="ctaCard">
-
+          <a
+            v-if="ctaCard"
+            :href="ctaCard.link"
+            target="_blank">
+            <Card
+              icon="arrow"
+              :outline="true"
+              class="apply-cta-card">
               <div class="title">
                 {{ ctaCard.title }}
               </div>
@@ -37,9 +39,8 @@
                 class="description"
                 v-html="ctaCard.description">
               </div>
-
-            </template>
-          </Card>
+            </Card>
+          </a>
         </div>
 
         <div class="col-4_lg-3_sm-2_mi-1">
@@ -174,7 +175,8 @@ export default {
 }
 
 .apply-cta-card.corner-position__top-right {
-  width: 57%;
+  display: inline-block;
+  width: 26.6875rem;
   @include medium {
     width: calc(100% - 5rem);
   }
@@ -183,6 +185,11 @@ export default {
   }
   @include mini {
     width: 100%;
+  }
+  &:hover {
+    :deep(.icon.arrow) {
+      transform: rotate(45deg);
+    }
   }
   .title {
     font-size: toRem(30);

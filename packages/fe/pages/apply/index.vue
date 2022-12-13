@@ -332,13 +332,6 @@ $cardRadius: 1.875rem;
 }
 
 :deep(.card.corner-position__bottom-right) {
-  .panel {
-    &:before,
-    &:after,
-    svg path {
-      transition: 250ms ease-out;
-    }
-  }
   &.highlighted {
     .panel {
       &:before,
@@ -353,6 +346,13 @@ $cardRadius: 1.875rem;
       svg path {
         stroke: $greenYellow;
       }
+    }
+  }
+  .panel {
+    &:before,
+    &:after,
+    svg path {
+      transition: 250ms ease-out;
     }
   }
 }

@@ -60,9 +60,9 @@
                     <ButtonX
                       v-for="(item, j) in notary.contact_information"
                       :key="`contact-${i}-${j}`"
-                      :to="item.link"
-                      :data-tooltip="item.link"
-                      tag="a"
+                      :to="getContactLink(item)"
+                      :data-tooltip="getContactLink(item)"
+                      :tag="item.type === 'slack' ? 'div' : 'a'"
                       target="_blank"
                       class="contact-link">
                       <component
@@ -73,7 +73,7 @@
                 </template>
 
                 <template v-if="cell.slug === 'features'">
-                  <div :class="['features', { expanded: expandedNotaries.includes(i) }]">
+                  <div :class="['features-list', { expanded: expandedNotaries.includes(i) }]">
 
                     <ul>
                       <li
@@ -203,6 +203,15 @@ export default {
       }
       return icon
     },
+    getContactLink (item) {
+      let link
+      switch (item.type) {
+        case 'email': link = `mailto:${item.link}`; break
+        case 'slack': link = `@${item.link}`; break
+        case 'website': link = item.link; break
+      }
+      return link
+    },
     expandFeatures (index) {
       if (!this.expandedNotaries.includes(index)) {
         this.expandedNotaries.push(index)
@@ -277,7 +286,7 @@ export default {
     vertical-align: bottom;
   }
   &.cell-body {
-    vertical-align: center;
+    vertical-align: middle;
   }
   @include small {
     display: flex;
@@ -297,6 +306,12 @@ export default {
     &:before {
       width: 25%;
     }
+  }
+}
+
+.cell-head {
+  &:nth-child(4) {
+    padding-left: 2.1875rem;
   }
 }
 
@@ -358,8 +373,11 @@ export default {
   }
 }
 
-.features {
-  max-width: toRem(360);
+.cell.features {
+  padding-left: 3rem;
+}
+
+.features-list {
   li {
     font-size: 1rem;
     &:nth-child(n + 4) {

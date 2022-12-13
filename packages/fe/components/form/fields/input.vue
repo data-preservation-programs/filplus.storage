@@ -202,6 +202,7 @@ $height: 4rem;
   width: 100%;
   border-bottom: 2px solid $titanWhite;
   appearance: none;
+  -moz-appearance: textfield;
   transition: 150ms ease-in-out;
   @include placeholder {
     color: rgba($aquaSqueeze, 0.7);
