@@ -357,7 +357,7 @@ export default {
   }
 }
 
-.site-nav-cta {
+.button.site-nav-cta {
   padding: 0.375rem 1.5rem;
   @include medium {
     :deep(.button-content) {

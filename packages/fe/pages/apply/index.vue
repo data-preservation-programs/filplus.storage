@@ -213,18 +213,29 @@ export default {
     },
     async submitForm (e) {
       e.preventDefault()
-      const incoming = await this.validateForm('filplus_application')
-      if (incoming) {
-        this.updateApplication(incoming)
-        const bytes = this.$convertSizeToBytes(incoming.total_datacap_size, incoming.total_datacap_size_unit)
-        if (bytes < this.submitThresholdLow) {
-          window.open(
-            'https://verify.glif.io/',
-            '_blank'
-          )
-        } else if (bytes >= this.submitThresholdLow && bytes < this.submitThresholdHigh) {
+      const inputField = this.$field('total_datacap_size_input|filplus_application')
+      const unitField = this.$field('total_datacap_size_unit|filplus_application')
+      const bytes = this.$convertSizeToBytes(inputField.value, unitField.options[unitField.value].label)
+      if (bytes > 5629499534213120) { // > 5 PiB
+        this.$toaster.add({
+          type: 'toast',
+          category: 'error',
+          message: 'Please select a value up to 5 PiB'
+        })
+      } else if (bytes < this.submitThresholdLow) {
+        window.open(
+          'https://verify.glif.io/',
+          '_blank'
+        )
+      } else if (bytes >= this.submitThresholdLow && bytes < this.submitThresholdHigh) {
+        const incoming = await this.validateForm('filplus_application')
+        if (incoming) {
+          this.updateApplication(incoming)
           this.$router.push('/apply/general/notaries')
-        } else {
+        }
+      } else {
+        const incoming = await this.validateForm('filplus_application')
+        if (incoming) {
           this.$router.push('/apply/large')
         }
       }
