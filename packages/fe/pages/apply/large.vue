@@ -352,17 +352,17 @@ export default {
     ...mapActions({
       validateForm: 'form/validateForm',
       submitLargeApplication: 'general/submitLargeApplication',
-      restoreSavedForm: 'form/restoreSavedForm'
+      restoreSavedForm: 'form/restoreSavedForm',
+      removeLoader: 'button/removeLoader'
     }),
     getValue (modelKey) {
       return this.application[modelKey]
     },
     async submitForm () {
       const incoming = await this.validateForm('filplus_application')
-      console.log(incoming)
       if (!incoming) {
         const firstInvalidField = document.querySelector('.error')
-        console.log(firstInvalidField)
+        this.removeLoader('lda-submit-button')
         this.$scrollToElement(firstInvalidField, 250, -200)
       } else {
         this.submitLargeApplication(incoming)
