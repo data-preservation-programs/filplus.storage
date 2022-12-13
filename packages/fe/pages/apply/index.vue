@@ -222,7 +222,7 @@ export default {
             'https://verify.glif.io/',
             '_blank'
           )
-        } else if (bytes >= this.submitThresholdHigh) {
+        } else if (bytes >= this.submitThresholdLow && bytes < this.submitThresholdHigh) {
           this.$router.push('/apply/general/notaries')
         } else {
           this.$router.push('/apply/large')

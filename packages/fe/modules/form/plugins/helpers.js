@@ -84,7 +84,7 @@ const validateFormFields = async (fields) => {
       const max = field.max
       const mirror = field.mirror
       let check = { state: 'valid', validation: false }
-      if (type !== 'array') {
+      if (/*field.validate && */type !== 'array') {
         if (required && type !== 'array') { check = await checkRequired(type, value) }
         if (check.state === 'valid' && chars) { check = await checkChars(type, value, chars) }
         if (check.state === 'valid' && pattern) { check = await checkPattern(value, pattern) }
@@ -185,6 +185,7 @@ const writeFieldsToFormModel = async (app, model, fields) => {
             if (option) {
               value = option.label
             } else {
+              // console.log(field)
               value = field.base_value
               if (!value) { throw new Error(`base_value key missing from ${fieldKey} field scaffold`) }
             }

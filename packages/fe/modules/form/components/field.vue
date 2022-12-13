@@ -92,12 +92,22 @@ export default {
         value,
         originalValue: value,
         state: 'valid',
+        validate: true,
         validation: false
       }))
+    } else {
+      // this.updateFormField(Object.assign(CloneDeep(this.field), {
+      //   validate: true
+      // }))
     }
   },
 
   beforeDestroy () {
+    // this.updateFormField(Object.assign(CloneDeep(this.field), {
+    //   state: 'valid',
+    //   validate: false,
+    //   validation: false
+    // }))
     if (this.deregisterFormFieldOnDestroy) {
       this.deregisterFormField(this.id)
     }
