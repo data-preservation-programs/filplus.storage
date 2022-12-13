@@ -25,8 +25,8 @@
           "input_type": "text",
           "model_key": "organization_name",
           "label": "Organization Name",
-          "placeholder": "Lorem Ipsum",
-          "tooltip": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          "placeholder": "ABC Inc.",
+          "tooltip": "Provide the name of your group or organization.",
           "required": true,
           "pre": "[^\\u0000-\\u00ff]",
           "autocomplete": "none",
@@ -38,7 +38,7 @@
             "required": "This field is required",
             "chars": "Input must be between 2 and 35 characters"
           },
-          "default_value": "This is a test application, please ignore"
+          "default_value": ""
         },
         "organization_website": {
           "field_key": "organization_website",
@@ -46,8 +46,8 @@
           "input_type": "text",
           "model_key": "organization_website",
           "label": "Organization Website",
-          "placeholder": "loremipsum.com",
-          "tooltip": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          "placeholder": "https://foo.com",
+          "tooltip": "Enter the full URL of your group or organization's website.",
           "required": true,
           "pre": "[^\\u0000-\\u00ff]",
           "autocomplete": "none",
@@ -59,7 +59,7 @@
             "required": "This field is required",
             "chars": "Input must be between 2 and 35 characters"
           },
-          "default_value": "https://example.com"
+          "default_value": ""
         },
         "ga_region": {
           "field_key": "ga_region",
@@ -67,7 +67,7 @@
           "model_key": "ga_region",
           "label": "Region",
           "required": true,
-          "tooltip": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          "tooltip": "",
           "output": "option",
           "validation_message": {
             "required": "This field is required"
@@ -84,7 +84,7 @@
             { "label": "Greater China" },
             { "label": "None" }
           ],
-          "default_value": "North America"
+          "default_value": ""
         },
         "organization_social_media_handle": {
           "field_key": "organization_social_media_handle",
@@ -92,8 +92,8 @@
           "input_type": "text",
           "model_key": "organization_social_media_handle",
           "label": "Organization Social Media Handle",
-          "placeholder": "LoremIpsum",
-          "tooltip": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          "placeholder": "@foo",
+          "tooltip": "Provide the social media handle or full social media URL for your organization or group",
           "required": true,
           "pre": "[^\\u0000-\\u00ff]",
           "autocomplete": "none",
@@ -105,7 +105,7 @@
             "required": "This field is required",
             "chars": "Input must be between 2 and 35 characters"
           },
-          "default_value": "This is a test application, please ignore"
+          "default_value": ""
         },
         "organization_social_media_handle_type": {
           "field_key": "organization_social_media_handle_type",
@@ -125,16 +125,16 @@
             "required": "This field is required",
             "chars": "Input must be between 2 and 35 characters"
           },
-          "default_value": "Test"
+          "default_value": ""
         },
         "total_datacap_size_input": {
           "field_key": "total_datacap_size_input",
           "type": "input",
           "input_type": "number",
           "model_key": "total_datacap_size",
-          "label": "Total Datacap being requested",
+          "label": "Total DataCap being requested",
           "placeholder": "32",
-          "tooltip": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          "tooltip": "Provide the total amount of DataCap you're requesting, including replication. Use this field to select the amount and the adjecent field to select a unit.",
           "min": 1,
           "max": 5242880,
           "required": true,
@@ -154,14 +154,14 @@
             "required": "This field is required",
             "minmax": "Number must be between 1 and 5242880"
           },
-          "default_value": 34359738368
+          "default_value": ""
         },
         "total_datacap_size_unit": {
           "field_key": "total_datacap_size_unit",
           "type": "select",
           "model_key": "total_datacap_size_unit",
           "label": "Unit",
-          "tooltip": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          "tooltip": "Select a unit of measurement for the amount of DataCap you're requesting.",
           "required": true,
           "output": "option",
           "react": {
@@ -179,7 +179,7 @@
             { "label": "TiB" },
             { "label": "PiB" }
           ],
-          "default_value": "GiB"
+          "default_value": ""
         },
         "filecoin_address": {
           "field_key": "filecoin_address",
@@ -188,7 +188,7 @@
           "model_key": "filecoin_address",
           "label": "Filecoin Address",
           "placeholder": "f...",
-          "tooltip": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          "tooltip": "Provide your Filecoin wallet address, which will usually begin with f1 or f3 for addresses on the mainnet",
           "required": true,
           "pre": "[^\\u0000-\\u00ff]",
           "autocomplete": "none",
@@ -200,7 +200,7 @@
             "required": "This field is required",
             "chars": "Input must be between 2 and 35 characters"
           },
-          "default_value": "This is a test application, please ignore"
+          "default_value": ""
         }
       }
     }
