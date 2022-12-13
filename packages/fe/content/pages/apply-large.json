@@ -1,10 +1,10 @@
 {
   "seo": {
-    "title": "Apply — Fil+",
-    "description": "Fil+"
+    "title": "Large Dataset Application — Filecoin Plus",
+    "description": "Apply for DataCap to store a large dataset with Filecoin Plus."
   },
   "og": {
-    "site_name": "Apply — Fil+",
+    "site_name": "Large Dataset Application — Filecoin Plus",
     "url": "",
     "type": "website",
     "image": "/open-graph-image.png"
@@ -12,7 +12,7 @@
   "page_content": {
     "hero": {
       "label": "Large Dataset Application",
-      "heading": "With a storage capacity of <span class='highlight'>|data|</span> that’s growing every day, the Filecoin network is uniquely suited for storing large datasets.  ",
+      "heading": "With a storage capacity of <span class='highlight'>|data|</span> that’s growing every day, the Filecoin network is uniquely suited for storing large datasets.",
       "subtext": "Apply for DataCap below."
     },
     "form": {

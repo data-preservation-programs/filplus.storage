@@ -1,10 +1,10 @@
 {
   "seo": {
-    "title": "Fil+",
-    "description": "Fil+"
+    "title": "Filecoin Plus",
+    "description": "Filecoin Plus is a social layer mechanism that incentivizes all participants to make Filecoin more useful."
   },
   "og": {
-    "site_name": "Fil+",
+    "site_name": "Filecoin Plus",
     "url": "",
     "type": "website",
     "image": "/open-graph-image.png"
@@ -13,9 +13,10 @@
     "home_link": "/apply",
     "header": [
       {
-        "type": "nuxt-link",
-        "href": "/apply/general/notaries",
-        "label": "Notaries"
+        "type": "a",
+        "href": "https://filplus.d.interplanetary.one/notaries?showInactive=true",
+        "label": "Notaries",
+        "target": "_blank"
       },
       {
         "type": "nuxt-link",
@@ -28,9 +29,10 @@
         "label": "FAQ"
       },
       {
-        "type": "nuxt-link",
-        "href": "/",
-        "label": "Documentation"
+        "type": "a",
+        "href": "https://docs.filecoin.io/store/filecoin-plus",
+        "label": "Documentation",
+        "target": "_blank"
       }
     ],
     "cta": {
@@ -48,19 +50,22 @@
   "footer": {
     "links": [
       {
-        "type": "nuxt-link",
-        "href": "/",
-        "label": "Read the Docs"
+        "type": "a",
+        "href": "https://docs.filecoin.io/store/filecoin-plus",
+        "label": "Read the Docs",
+        "target": "_blank"
       },
       {
-        "type": "nuxt-link",
-        "href": "/",
-        "label": "Client Onboarding Repo"
+        "type": "a",
+        "href": "https://github.com/filecoin-project/filecoin-plus-client-onboarding",
+        "label": "Client Onboarding Repo",
+        "target": "_blank"
       },
       {
-        "type": "nuxt-link",
-        "href": "/",
-        "label": "Large Dataset Repo"
+        "type": "a",
+        "href": "https://github.com/filecoin-project/filecoin-plus-large-datasets",
+        "label": "Large Dataset Repo",
+        "target": "_blank"
       },
       {
         "type": "nuxt-link",
@@ -70,20 +75,21 @@
     ],
     "video_cta": {
       "image": "/images/fil-plus-system-overview-cta-portrait.png",
-      "text": "Watch the Fil+<br>System Overview"
+      "text": "Watch the Fil+<br>System Overview",
+      "url": "https://www.youtube.com/watch?v=8JqyEB80KFA"
     },
     "copyright": {
       "links": [
         {
           "icon": "github",
-          "url": "https://github.com/filecoin-project/filecoin-plus-large-datasets"
+          "url": "https://github.com/filecoin-project/filecoin-plus-client-onboarding"
         },
         {
           "icon": "slack",
-          "url": "https://example.com"
+          "url": "https://filecoinproject.slack.com/archives/C01DLAPKDGX"
         }
       ],
-      "text": "The Filecoin+ program applies <a href='the Filecoin Foundation privacy policies'>the Filecoin Foundation privacy policies</a>. Your participation in Filecoin+<br />serves as your acknowledgement and acceptance of these policies."
+      "text": "The Filecoin+ program applies <a href='https://fil.org/policy/' alt='Filecoin Foundation Privacy Policy' target='_blank'>the Filecoin Foundation privacy policies</a>. Your participation in Filecoin+<br />serves as your acknowledgement and acceptance of these policies."
     }
   },
   "404_error_message": "<span class='bubble right'>404</span>",
