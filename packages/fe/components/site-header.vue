@@ -34,7 +34,11 @@
                   height="40"
                   viewBox="0 0 1858 40"
                   xmlns="http://www.w3.org/2000/svg">
-                  <path :key="pathKey" stroke="white" stroke-width="2" />
+                  <path
+                    :d="path"
+                    :key="pathKey"
+                    stroke="white"
+                    stroke-width="2" />
                 </svg>
               </div>
               <div
@@ -46,7 +50,10 @@
                   height="40"
                   viewBox="0 0 1858 40"
                   xmlns="http://www.w3.org/2000/svg">
-                  <path stroke="white" stroke-width="2" />
+                  <path
+                    :d="path"
+                    stroke="white"
+                    stroke-width="2" />
                 </svg>
               </div>
             </div>
@@ -146,6 +153,7 @@ export default {
       squiggleWidth: 80,
       squiggleOffsetLeft: 0,
       pathKey: 0,
+      path: 'M 0 2 H 892 C 893 2 893 2 893 2 C 895 2 901 1 906 2 C 918 4 918 22 931 22 C 944 22 945 4 958 2 C 962 1 968 2 970 2 C 971 2 971 2 971 2 H 1862',
       breakpoint: 'default'
     }
   },
@@ -161,7 +169,7 @@ export default {
       return 828
     },
     squiggleDefaultOffset () {
-      const mediumOnly = this.breakpoint === 'medium' ? -20 : 0
+      const mediumOnly = this.breakpoint === 'medium' ? -10 : 0
       return (828 - this.navWidth) + 308 + mediumOnly
     },
     links () {
