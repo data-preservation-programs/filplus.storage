@@ -35,10 +35,6 @@
         "target": "_blank"
       }
     ],
-    "cta": {
-      "href": "/",
-      "label": "Apply Now"
-    },
     "footer": [
       {
         "type": "nuxt-link",
@@ -76,7 +72,9 @@
     "video_cta": {
       "image": "/images/fil-plus-system-overview-cta-portrait.png",
       "text": "Watch the Fil+<br>System Overview",
-      "url": "https://www.youtube.com/watch?v=8JqyEB80KFA"
+      "url": "https://www.youtube.com/watch?v=8JqyEB80KFA",
+      "type": "a",
+      "target": "_blank"
     },
     "copyright": {
       "links": [

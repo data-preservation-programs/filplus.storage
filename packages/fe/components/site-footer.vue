@@ -42,7 +42,11 @@
 
         <div class="col-5_md-12_mi-12">
           <div class="video-cta-wrapper">
-            <nuxt-link to="/" target="_blank" class="video-cta">
+            <ButtonX
+              :tag="videoCta.type"
+              :to="videoCta.url"
+              :target="videoCta.target"
+              class="video-cta">
 
               <Logo class="site-logo" />
 
@@ -68,7 +72,7 @@
                 </Card>
               </template>
 
-            </nuxt-link>
+            </ButtonX>
           </div>
         </div>
 
