@@ -164,6 +164,10 @@ export default {
   padding: 5rem 0;
 }
 
+:deep(.accordion-wrapper) {
+  width: 100%;
+}
+
 :deep(.faq-accordion) {
   padding-right: 5rem;
   @include small {
