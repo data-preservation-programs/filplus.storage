@@ -40,7 +40,6 @@ export default {
 
   data () {
     const id = `${this.scaffold.field_key}|${this.formId}`
-    console.log(id)
     return {
       id
     }
