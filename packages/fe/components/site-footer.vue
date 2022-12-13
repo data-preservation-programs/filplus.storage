@@ -16,7 +16,9 @@
         <div class="col-3_md-5_mi-12">
           <div class="logo-cta">
             <Logo class="site-logo" />
-            <div class="cta-wrapper">
+            <div
+              class="cta-wrapper"
+              @click="highlighFormOrChangeRoute">
               <CircleText class="cta-spinner" />
               <Arrow class="cta-arrow" />
             </div>
@@ -115,7 +117,7 @@
 
 <script>
 // ===================================================================== Imports
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 import Overlay from '@/components/overlay'
 import Logo from '@/components/logo'
@@ -168,6 +170,9 @@ export default {
   },
 
   methods: {
+    ...mapActions({
+      highlightApplyForm: 'general/highlightApplyForm'
+    }),
     isRouteCurrent (href) {
       const route = this.$route
       if (route.path === href) { return true }
@@ -181,6 +186,16 @@ export default {
         default: icon = 'div'
       }
       return icon
+    },
+    highlighFormOrChangeRoute () {
+      if (this.$route.name !== 'apply') {
+        this.$router.push({
+          path: '/apply',
+          query: { highlight_form: true }
+        })
+        return
+      }
+      this.highlightApplyForm()
     }
   }
 }
@@ -238,6 +253,7 @@ export default {
   width: 39%;
   right: 1rem;
   top: calc(50% + 1rem);
+  cursor: pointer;
   @include mini {
     width: toRem(130);
     right: unset;
@@ -269,6 +285,7 @@ export default {
     transform: rotate(360deg);
   }
 }
+
 // ///////////////////////////////////////////////////////////////////////// Nav
 .footer-nav {
   display: flex;
