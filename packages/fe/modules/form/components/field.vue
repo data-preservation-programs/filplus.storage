@@ -81,7 +81,7 @@ export default {
     }
   },
 
-  mounted () {
+  async mounted () {
     if (!this.field) {
       const formId = this.formId
       const scaffold = this.scaffold
@@ -96,18 +96,18 @@ export default {
         validation: false
       }))
     } else {
-      // this.updateFormField(Object.assign(CloneDeep(this.field), {
-      //   validate: true
-      // }))
+      await this.updateFormField(Object.assign(CloneDeep(this.field), {
+        validate: true
+      }))
     }
   },
 
-  beforeDestroy () {
-    // this.updateFormField(Object.assign(CloneDeep(this.field), {
-    //   state: 'valid',
-    //   validate: false,
-    //   validation: false
-    // }))
+  async beforeDestroy () {
+    await this.updateFormField(Object.assign(CloneDeep(this.field), {
+      state: 'valid',
+      validate: false,
+      validation: false
+    }))
     if (this.deregisterFormFieldOnDestroy) {
       this.deregisterFormField(this.id)
     }

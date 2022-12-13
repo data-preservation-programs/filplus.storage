@@ -84,7 +84,7 @@ const validateFormFields = async (fields) => {
       const max = field.max
       const mirror = field.mirror
       let check = { state: 'valid', validation: false }
-      if (/*field.validate && */type !== 'array') {
+      if (field.validate && type !== 'array') {
         if (required && type !== 'array') { check = await checkRequired(type, value) }
         if (check.state === 'valid' && chars) { check = await checkChars(type, value, chars) }
         if (check.state === 'valid' && pattern) { check = await checkPattern(value, pattern) }
@@ -130,7 +130,7 @@ const compileArray = (arrayField, fields) => {
 }
 
 // //////////////////////////////////////////////////////////// reconcileMirrors
-const reconcileMirrors = (app, fields) => {
+const reconcileMirrors = (fields) => {
   return new Promise((resolve) => {
     const compiled = {}
     const len = fields.length
@@ -163,7 +163,7 @@ const reconcileMirrors = (app, fields) => {
 // ////////////////////////////////////////////////////// writeFieldsToFormModel
 const writeFieldsToFormModel = async (app, model, fields) => {
   try {
-    const reconciledMirrorFields = await reconcileMirrors(app, fields)
+    const reconciledMirrorFields = await reconcileMirrors(fields)
     const len = fields.length
     for (let i = 0; i < len; i++) {
       let field = fields[i]
@@ -176,7 +176,7 @@ const writeFieldsToFormModel = async (app, model, fields) => {
       field.state = 'valid'
       field.validation = false
       field.originalValue = value
-      if (!field.hasOwnProperty('parent_model_key') && (!mirror || mirror.primary)) {
+      if (!field.hasOwnProperty('parent_model_key') && (!mirror || mirror.primary) && field.validate) {
         if (type === 'array') {
           model[modelKey] = await compileArray(field, fields)
         } else if ((type === 'select' || type === 'radio' || type === 'checkbox') && field.output === 'option') {
@@ -185,7 +185,6 @@ const writeFieldsToFormModel = async (app, model, fields) => {
             if (option) {
               value = option.label
             } else {
-              // console.log(field)
               value = field.base_value
               if (!value) { throw new Error(`base_value key missing from ${fieldKey} field scaffold`) }
             }
