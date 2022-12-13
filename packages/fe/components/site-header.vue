@@ -62,10 +62,11 @@
                   ref="navItems"
                   :to="link.href"
                   :selected="isRouteCurrent(link.href)"
-                  tag="nuxt-link"
+                  :tag="link.type"
+                  :target="link.target"
                   class="site-nav-link"
                   @mouseover.native="mouseOverLink(index)">
-                  {{ link.label }}
+                  <div class="text" v-html="link.label" />
                 </ButtonX>
               </div>
 
@@ -75,7 +76,7 @@
                 tag="button"
                 class="site-nav-cta"
                 @clicked="highlighFormOrChangeRoute">
-                {{ cta.label }}
+                <div class="text" v-html="cta.label" />
               </ButtonA>
 
             </nav>
@@ -357,8 +358,8 @@ export default {
 }
 
 .site-nav-cta {
+  padding: 0.375rem 1.5rem;
   @include medium {
-    padding: 0.75rem 1.5rem;
     :deep(.button-content) {
       font-size: 0.9375rem;
     }

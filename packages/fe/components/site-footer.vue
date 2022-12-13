@@ -94,8 +94,8 @@
                 v-for="(item, j) in secondaryLinks"
                 :key="`secondary-link-${j}`"
                 :to="item.url"
-                tag="a"
-                target="_blank"
+                :tag="item.type"
+                :target="item.target"
                 class="secondary-link">
                 <component
                   :is="getIconComponent(item.icon)"
