@@ -197,6 +197,7 @@ export default {
       const unitField = this.$field('total_datacap_size_unit|filplus_application')
       const bytes = this.$convertSizeToBytes(inputField.value, unitField.options[unitField.value].label)
       if (bytes > 5629499534213120) { // > 5 PiB
+        this.removeLoader('ga-submit-button')
         this.$toaster.add({
           type: 'toast',
           category: 'error',

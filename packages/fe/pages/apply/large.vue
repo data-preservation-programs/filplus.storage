@@ -368,6 +368,7 @@ export default {
           category: 'error',
           message: 'Please select a value up to 5 PiB'
         })
+        this.removeLoader('lda-submit-button')
         const inputFieldElement = document.querySelector('#total_datacap_size_input')
         this.$scrollToElement(inputFieldElement, 250, -200)
       } else {
