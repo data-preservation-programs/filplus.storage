@@ -27,15 +27,13 @@
 
           <AccordionHeader>
             <div class="question">
-              <span class="text">{{ entry.question }}</span>
+              <span class="text" v-html="entry.question" />
               <IconChevronDown />
             </div>
           </AccordionHeader>
 
           <AccordionContent>
-            <div class="answer">
-              {{ entry.answer }}
-            </div>
+            <div class="answer" v-html="entry.answer" />
           </AccordionContent>
 
         </AccordionSection>
@@ -214,6 +212,12 @@ $padding: 2.25rem;
   @include mini {
     font-size: toRem(14);
     line-height: leading(25, 14);
+  }
+  :deep(a) {
+    color: $greenYellow;
+    &:hover {
+      text-decoration: underline;
+    }
   }
 }
 </style>
