@@ -1,10 +1,10 @@
 {
   "seo": {
-    "title": "FAQ — Fil+",
-    "description": "Fil+"
+    "title": "FAQ - Filecoin Plus",
+    "description": "Frequently asked questions about the Filecoin Plus program, DataCap, and Notaries."
   },
   "og": {
-    "site_name": "FAQ — Fil+",
+    "site_name": "FAQ - Filecoin Plus",
     "url": "",
     "type": "website",
     "image": "/open-graph-image.jpg"
@@ -14,35 +14,59 @@
     "faq": [
       {
         "question": "What is Filecoin?",
-        "answer": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+        "answer": "Filecoin is a peer-to-peer network that allows anyone to store and retrieve data on the internet. Built-in economic incentives ensure that files are stored and retrieved reliably and continuously for however long a user specifies. Read more on the Filecoin docs <a target='_blank' alt='Filecoin docs' href='https://docs.filecoin.io/'>here</a>."
       },
       {
-        "question": "How does Filecoin plus work?",
-        "answer": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?"
+        "question": "What is Filecoin Plus?",
+        "answer": "A social layer mechanism that incentivizes all participants to make Filecoin more useful. Fil+ is a community governed program, where community members can make decisions to help increase the usefulness of the Filecoin Network and help onboard useful data. Read more on the Filecoin Plus docs <a target='_blank' alt='Filecoin Plus docs' href='https://docs.filecoin.io/store/filecoin-plus/'>here</a>."
       },
       {
-        "question": "What is datacap?",
-        "answer": "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat."
+        "question": "How does Filecoin Plus work?",
+        "answer": "Root key-holders, notaries, data owners and storage providers, interact through the allocation and spending of DataCap. Notaries apply through community governance and work with the root key holders to get a grant of DataCap, which they can then allocate out to data owners. Those data owners are then able to deploy DataCap to the Storage Providers through verified deals. Read more on the Filecoin Plus docs <a target='_blank' alt='Filecoin Plus docs' href='https://docs.filecoin.io/store/filecoin-plus/'>here</a>."
       },
       {
-        "question": "Where is the data stored?",
-        "answer": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-      },
-      {
-        "question": "What is Filecoin?",
-        "answer": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-      },
-      {
-        "question": "How does Filecoin plus work?",
-        "answer": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?"
-      },
-      {
-        "question": "What is datacap?",
-        "answer": "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat."
+        "question": "What is DataCap?",
+        "answer": "The resource within the Filecoin Network that goes from notaries to trustworthy data owners. Data owners can use DataCap to make storage deals, which are labeled on chain as verified deals that result in a 10x boost to the storage provider’s quality-adjusted power for the storage space offered in that deal, which increases their block reward share in the network. Read more on the Filecoin Plus docs <a target='_blank' alt='Filecoin Plus docs' href='https://docs.filecoin.io/store/filecoin-plus/'>here</a>."
       },
       {
         "question": "Where is the data stored?",
-        "answer": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+        "answer": "Once deals are made, the data is sent to the Storage Provider (SP). Storage Providers operate servers responsible for storing files and proving they have stored the files correctly over time. Data onboarded to the Filecoin network is stored where the servers of the SPs are located."
+      },
+      {
+        "question": "How much data can I store?",
+        "answer": "Based on the size of the dataset being onboarded, there are three different paths to receiving DataCap.<br/><br/>The first is a nearly instant process using an automated-notary at <a target='_blank' alt='Automated notary from Glif' href='https://verify.glif.io/'>verify.glif.io</a> for authentication via Github (so a <a target='_blank' alt='Github home' href='https://github.com'>Github</a> account is necessary). Approval will offer at least 64 GiB of DataCap, which is useful as a starting point for data owners that are new to Filecoin.<br/><br/>Second, data owners can go through General Verification, where they work with individual Filecoin Plus notaries to get an allocation typically in the range of 10-50 TiB of DataCap. Required due diligence is completed by the notary and data owner. Individual notaries have say over what they require for this due diligence and what processes they use — sometimes they may operate only in a specific geographic area or with data associated with specific fields of work.<br/><br/>Finally, for projects requiring upwards of 500 TiB of DataCap, data owners can use the large datasets pipeline. Applications are placed before the entire Filecoin Plus community of notaries to help audit and vet the data owner’s application, source of data, and in some cases, the data itself. In this path, DataCap is allocated in tranches over time."
+      },
+      {
+        "question": "What are the requirements to get DataCap?",
+        "answer": "Data owners are required to have an on-chain Filecoin address where DataCap can be received. You will need an address to proceed with getting DataCap in any of the defined ways. <br/><br/>Once a data owner has an address with DataCap, you can make deals using DataCap as a part of the payment. Because SPs receive a deal quality multiplier for taking Fil+ deals, many SPs offer special pricing and services to attract data owners who use DataCap to make deals."
+      },
+      {
+        "question": "What is a Notary?",
+        "answer": "Notaries are selected to serve as fiduciaries for the Filecoin Network and are responsible for allocating DataCap to data owners with valuable storage use cases. The base responsibilities of notaries include:<br><ul><li>Allocate DataCap responsibly to data owners to subsidize reliable and valuable storage on the network.</li><li>Ensure that in the allocation of the DataCap, no party is given excessive trust in any form that might jeopardize the network.</li><li>Follow operational guidelines, keep a record of decision flow, and respond to any requests for audits of their allocation decisions.</li><li>Participate in the proposals and discussions to improve the program and network</li></ul><br>You can find a list of current <a target='_blank' alt='Active notaries' href='https://plus.fil.org/'>active notaries at plus.fil.org</a>. Notaries are selected through an <a target='_blank' alt='Notary application' href='https://github.com/filecoin-project/notary-governance/tree/main/notaries#application--selection-process'>application process</a>. If approved, <a target='_blank' alt='Current root key holders' href='https://github.com/filecoin-project/notary-governance/tree/main/root-key-holders#overview'>root key-holders</a> (executors of the decisions made by the community on-chain) grant notary status and DataCap amounts. Those interested in becoming Notaries should apply for this role by filing an Issue in the <a target='_blank' alt='Github repo for Notary governance' href='https://github.com/filecoin-project/notary-governance/'>notary governance repo</a>."
+      },
+      {
+        "question": "How can I get in contact with Storage Providers?",
+        "answer": "There are a few different ways in which a data owners can find a storage provider to take a Filecoin Plus storage deal:<br/><ol><li>In the For Clients section of the <a target='_blank' alt='' href='https://plus.fil.org/'>Filecoin Plus Registry app</a>, there is a <a target='_blank' alt='' href='https://plus.fil.org/miners'>Storage Provider Registry</a> which lists a self-selected set of storage providers who are willing to take Filecoin Plus storage deals</li><li>Use a Reputation system such as <a target='_blank' alt='FilRep reputation system' href='http://filrep.io/'>FilRep</a> or Textile&rsquo;s <a target='_blank' alt='Textile miner index' href='https://docs.textile.io/filecoin/miner-index/'>Miner Index</a> to identify storage providers who can meet your needs</li><li>Join the <a target='_blank' alt='Filecoin Plus Slack channel' href='https://filecoinproject.slack.com/archives/C01DLAPKDGX'>#fil-plus</a> channel and/or <a target='_blank' alt='Deal market Slack channel' href='https://filecoinproject.slack.com/archives/C01KCAAURAN'>#fil-deal-market</a> on Filecoin Slack to discuss storage options</li><li>Hop into the network with your node and query storage providers (using query-ask) to check their verified deal prices</li></ol><br/>"
+      },
+      {
+        "question": "How can I get involved with the Filecoin Plus program?",
+        "answer": "If you are interested in participating in governance and shaping the program, here is how you can get involved:<br/><ul><li>Join the <a target='_blank' alt='Filecoin Plus Slack channel' href='https://filecoinproject.slack.com/archives/C01DLAPKDGX'>#fil-plus</a> channel on Filecoin Slack</li><li>Participate in Community Governance calls, which happen every other Tuesday. Use the <a target='_blank' alt='Filecoin Community Events Calendar' href='https://calendar.google.com/calendar/embed?src=c_k1gkfoom17g0j8c6bam6uf43j0%40group.calendar.google.com&amp;ctz=Europe%2FMadrid'>Filecoin Community Events calendar to join</a> or watch for updates in #fil-plus</li></ul>Create and comment on open issues and discussions in the <a target='_blank' alt='Creat a Github issue' href='https://github.com/filecoin-project/notary-governance/issues'>notary governance repo</a>."
+      },
+      {
+        "question": "How can I check my remaining DataCap balance?",
+        "answer": " Once you have received DataCap to an address, you can check the remaining balance either by visiting a site that enables this (e.g. verify.glif.io) or by querying your address on a node (e.g., using “lotus filplus check-client-datacap”)."
+      },
+      {
+        "question": "Why did my application get rejected?",
+        "answer": "Applications may get rejected when enough information was not provided when answering questions on the application or if the information on the application does not seem in line with how much DataCap was requested. Data owners can always apply again if their previous application was rejected."
+      },
+      {
+        "question": "When will I know my application went through?",
+        "answer": "As of now, each application goes through via Github. Sign up for GitHub notifications so you receive an email once your application gets approved."
+      },
+      {
+        "question": "Why is my application taking so long to get approved?",
+        "answer": "There is an influx of applications and the community works hard to make sure each application is trustworthy. The notaries do due diligence on every application that goes through, to make sure that each application is a real data owner with valid data."
       }
     ],
     "cta_card": {

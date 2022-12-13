@@ -1,10 +1,10 @@
 {
   "seo": {
-    "title": "About — Fil+",
-    "description": "Fil+"
+    "title": "About — Filecoin Plus",
+    "description": "An introduction to what the Filecoin Plus program is, how it works, and why it exists."
   },
   "og": {
-    "site_name": "About — Fil+",
+    "site_name": "About — Filecoin Plus",
     "url": "",
     "type": "website",
     "image": "/open-graph-image.jpg"

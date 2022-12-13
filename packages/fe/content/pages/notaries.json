@@ -1,10 +1,10 @@
 {
   "seo": {
-    "title": "Notaries — Fil+",
-    "description": "Fil+"
+    "title": "Select Notary — Filecoin Plus",
+    "description": "Select a notary to apply for DataCap with. Once one is picked you may fill out a general application."
   },
   "og": {
-    "site_name": "Notaries — Fil+",
+    "site_name": "Select Notary — Filecoin Plus",
     "url": "",
     "type": "website",
     "image": "/open-graph-image.jpg"
