@@ -35,6 +35,10 @@
         "target": "_blank"
       }
     ],
+    "cta": {
+     "href": "/",
+     "label": "Apply Now"
+   },
     "footer": [
       {
         "type": "nuxt-link",
