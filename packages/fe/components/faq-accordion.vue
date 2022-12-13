@@ -173,6 +173,12 @@ $padding: 2.25rem;
 
 .accordion-header {
   padding: $padding 0;
+  cursor: pointer;
+  &:hover {
+    .question {
+      text-decoration: underline;
+    }
+  }
 }
 
 .question {

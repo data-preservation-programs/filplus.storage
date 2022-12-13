@@ -249,6 +249,9 @@ export default {
   position: relative;
   width: 100%;
   animation: spinning 15s infinite linear reverse;
+  &:hover {
+    animation-play-state: paused;
+  }
 }
 
 .cta-arrow {
