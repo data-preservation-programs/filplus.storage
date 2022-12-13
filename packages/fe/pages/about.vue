@@ -24,10 +24,10 @@
 
           <MarkdownParser :markdown="markdown" />
 
-          <a
+          <div
             v-if="ctaCard"
-            :href="ctaCard.link"
-            target="_blank">
+            class="cta-card-wrapper"
+            @click="highlighFormOrChangeRoute">
             <Card
               icon="arrow"
               :outline="true"
@@ -41,7 +41,7 @@
                 v-html="ctaCard.description">
               </div>
             </Card>
-          </a>
+          </div>
 
         </div>
 
@@ -62,7 +62,7 @@
 
 <script>
 // ===================================================================== Imports
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 import HeroA from '@/components/hero-a'
 import MarkdownParser from '@/components/markdown-parser'
@@ -114,6 +114,22 @@ export default {
     },
     markdown () {
       return AboutContent
+    }
+  },
+
+  methods: {
+    ...mapActions({
+      highlightApplyForm: 'general/highlightApplyForm'
+    }),
+    highlighFormOrChangeRoute () {
+      if (this.$route.name !== 'apply') {
+        this.$router.push({
+          path: '/apply',
+          query: { highlight_form: true }
+        })
+        return
+      }
+      this.highlightApplyForm()
     }
   }
 }
@@ -180,6 +196,10 @@ export default {
   @include mini {
     padding-right: 0;
   }
+}
+
+.cta-card-wrapper {
+  cursor: pointer;
 }
 
 .apply-cta-card.corner-position__top-right {

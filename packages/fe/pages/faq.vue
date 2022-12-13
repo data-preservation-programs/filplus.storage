@@ -19,14 +19,15 @@
       <div class="grid-spaceBetween">
 
         <div class="col-7_lg-8_sm-9_mi-10" data-push-left="off-1_mi-0">
+
           <FaqAccordion
             :entries="faqList"
             :toggle-button-content="accordionToggleButtonText" />
 
-          <a
+          <div
             v-if="ctaCard"
-            :href="ctaCard.link"
-            target="_blank">
+            class="cta-card-wrapper"
+            @click="highlighFormOrChangeRoute">
             <Card
               icon="arrow"
               :outline="true"
@@ -40,7 +41,8 @@
                 v-html="ctaCard.description">
               </div>
             </Card>
-          </a>
+          </div>
+
         </div>
 
         <div class="col-4_lg-3_sm-2_mi-1">
@@ -60,7 +62,7 @@
 
 <script>
 // ===================================================================== Imports
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 import HeroA from '@/components/hero-a'
 import FaqAccordion from '@/components/faq-accordion'
@@ -114,6 +116,22 @@ export default {
     },
     ctaCard () {
       return this.pageData.cta_card
+    }
+  },
+
+  methods: {
+    ...mapActions({
+      highlightApplyForm: 'general/highlightApplyForm'
+    }),
+    highlighFormOrChangeRoute () {
+      if (this.$route.name !== 'apply') {
+        this.$router.push({
+          path: '/apply',
+          query: { highlight_form: true }
+        })
+        return
+      }
+      this.highlightApplyForm()
     }
   }
 }
@@ -176,6 +194,10 @@ export default {
   @include mini {
     padding-right: 0;
   }
+}
+
+.cta-card-wrapper {
+  cursor: pointer;
 }
 
 .apply-cta-card.corner-position__top-right {
