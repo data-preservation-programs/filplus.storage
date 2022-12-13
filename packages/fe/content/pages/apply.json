@@ -18,7 +18,8 @@
     "form": {
       "heading": "How much data are you bringing to the Filecoin network?",
       "submit_button_text": "Next",
-      "submit_threshold": 109951162777600,
+      "submit_threshold_low": 34359738368,
+      "submit_threshold_high": 109951162777600,
       "scaffold": {
         "total_datacap_size_range": {
           "field_key": "total_datacap_size_range",

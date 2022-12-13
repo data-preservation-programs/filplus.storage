@@ -164,8 +164,11 @@ export default {
     submitButtonText () {
       return this.form.submit_button_text
     },
-    submitThreshold () {
-      return this.form.submit_threshold
+    submitThresholdLow () {
+      return this.form.submit_threshold_low
+    },
+    submitThresholdHigh () {
+      return this.form.submit_threshold_high
     },
     faq () {
       return this.pageData.faq
@@ -214,7 +217,12 @@ export default {
       if (incoming) {
         this.updateApplication(incoming)
         const bytes = this.$convertSizeToBytes(incoming.total_datacap_size, incoming.total_datacap_size_unit)
-        if (bytes <= this.submitThreshold) {
+        if (bytes < this.submitThresholdLow) {
+          window.open(
+            'https://verify.glif.io/',
+            '_blank'
+          )
+        } else if (bytes >= this.submitThresholdHigh) {
           this.$router.push('/apply/general/notaries')
         } else {
           this.$router.push('/apply/large')
