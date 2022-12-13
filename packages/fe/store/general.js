@@ -119,14 +119,18 @@ const actions = {
     try {
       const token = this.$config.spacescopeToken
       const date = this.$moment.tz('UTC').subtract(1, 'days').format('YYYY-MM-DD')
-      const response = await this.$axios.get(`https://api.spacescope.io/v2/power/network_storage_capacity?end_date=${date}&start_date=${date}`, {
-        headers: {
-          authorization: `Bearer ${token}`
-        }
-      })
-      if (response.status === 200) {
+      const options = { headers: { authorization: `Bearer ${token}` } }
+      const response = await this.$axios.get(`https://api.spacescope.io/v2/power/network_storage_capacity?end_date=${date}&start_date=${date}`, options)
+      // data: {
+      //   request_id: '0c0ca661-288d-4250-898e-142d9ed19927#301034',
+      //   code: 30004,
+      //   message: 'SpaceScope API data is not available.'
+      // }
+      if (response.data.data) {
         const value = this.$formatBytes(response.data.data[0].total_raw_bytes_power)
         commit('SET_NETWORK_STORAGE_CAPACITY', value)
+      } else {
+        commit('SET_NETWORK_STORAGE_CAPACITY', '15.7 EiB')
       }
     } catch (e) {
       console.log('========= [Store Action: general/getNetworkStorageCapacity]')
