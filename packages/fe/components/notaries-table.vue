@@ -362,6 +362,9 @@ export default {
   display: flex;
   flex-direction: row;
   align-items: center;
+  @include tiny {
+    padding-left: 0.5rem;
+  }
 }
 
 .contact-link {

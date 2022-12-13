@@ -330,9 +330,11 @@ export default {
     }
   }
   @include medium {
-    font-size: 1rem;
     &:not(:last-child) {
       margin-right: 2rem;
+    }
+    :deep(.button-content) {
+      font-size: 1rem;
     }
   }
 }
