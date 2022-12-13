@@ -176,7 +176,7 @@ const writeFieldsToFormModel = async (app, model, fields) => {
       field.state = 'valid'
       field.validation = false
       field.originalValue = value
-      if (!field.hasOwnProperty('parent_model_key') && (!mirror || mirror.primary) && field.validate) {
+      if (!field.hasOwnProperty('parent_model_key') && (!mirror || mirror.primary) && (field.validate || field.include_output)) {
         if (type === 'array') {
           model[modelKey] = await compileArray(field, fields)
         } else if ((type === 'select' || type === 'radio' || type === 'checkbox') && field.output === 'option') {
