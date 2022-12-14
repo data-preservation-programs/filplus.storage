@@ -18,7 +18,7 @@ const submitApplication = async (template, body) => {
       title: `[DataCap Application] ${body.organization_name}`,
       body: template
     }, options)
-    return response.data.url
+    return response.data.html_url
   } catch (e) {
     console.log('=============================== [Function: submitApplication]')
     throw e

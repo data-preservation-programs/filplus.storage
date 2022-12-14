@@ -18,7 +18,7 @@ const submitApplication = async (template, body) => {
       body: template,
       labels: ['state:Request']
     }, options)
-    return response.data.url
+    return response.data.html_url
   } catch (e) {
     console.log('=============================== [Function: submitApplication]')
     throw e
