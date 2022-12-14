@@ -254,13 +254,24 @@
             :value="getValue('github_handle')"
             form-id="filplus_application" />
 
-          <ButtonA
-            class="submit-button"
-            loader="lda-submit-button"
-            @clicked="submitForm">
-            {{ submitButtonText }}
-          </ButtonA>
-
+          <div class="buttons">
+            <ButtonA
+              class="submit-button"
+              loader="lda-submit-button"
+              @clicked="submitForm">
+              {{ submitButtonText }}
+            </ButtonA>
+            <ButtonA
+              v-if="githubIssueLink"
+              class="github-issue-link-button"
+              theme="blue"
+              tag="a"
+              target="_blank"
+              :to="githubIssueLink">
+              <GithubIcon />
+              {{ githubIssueLinkText }}
+            </ButtonA>
+          </div>
         </div>
       </div>
 
@@ -282,6 +293,8 @@ import ButtonA from '@/components/buttons/button-a'
 import Overlay from '@/components/overlay'
 import Squigglie from '@/components/squigglie'
 
+import GithubIcon from '@/components/icons/github'
+
 import ApplyLargePageData from '@/content/pages/apply-large.json'
 
 // ====================================================================== Export
@@ -293,7 +306,8 @@ export default {
     FieldContainer,
     ButtonA,
     Overlay,
-    Squigglie
+    Squigglie,
+    GithubIcon
   },
 
   data () {
@@ -322,7 +336,8 @@ export default {
       siteContent: 'general/siteContent',
       application: 'general/application',
       networkStorageCapacity: 'general/networkStorageCapacity',
-      savedFormExists: 'form/savedFormExists'
+      savedFormExists: 'form/savedFormExists',
+      githubIssueLink: 'general/githubIssueLink'
     }),
     pageData () {
       return this.siteContent[this.tag].page_content
@@ -350,7 +365,14 @@ export default {
     },
     submitButtonText () {
       return this.form.submit_button_text
+    },
+    githubIssueLinkText () {
+      return this.form.github_issue_link_text
     }
+  },
+
+  beforeDestroy () {
+    this.setGithubIssueLink(false)
   },
 
   methods: {
@@ -358,7 +380,8 @@ export default {
       validateForm: 'form/validateForm',
       submitLargeApplication: 'general/submitLargeApplication',
       restoreSavedForm: 'form/restoreSavedForm',
-      removeLoader: 'button/removeLoader'
+      removeLoader: 'button/removeLoader',
+      setGithubIssueLink: 'general/setGithubIssueLink'
     }),
     getValue (modelKey) {
       return this.application[modelKey]
@@ -410,6 +433,36 @@ export default {
   padding: 8.75rem 0;
   [class~=grid], [class*=grid-], [class*=grid_] {
     @include descendingZindex(5);
+  }
+}
+
+.buttons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  .button-a {
+    &:not(:last-child) {
+      margin-right: 1rem;
+    }
+  }
+}
+
+.github-issue-link-button {
+  &:hover {
+    :deep(svg) {
+      path {
+        transition: 150ms ease-in;
+        fill: $titanWhite;
+      }
+    }
+  }
+  :deep(svg) {
+    width: 1rem;
+    margin-right: 0.5rem;
+    path {
+      transition: 150ms ease-out;
+      fill: $aztec;
+    }
   }
 }
 

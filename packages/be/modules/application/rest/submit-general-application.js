@@ -16,12 +16,9 @@ const submitApplication = async (template, body) => {
     const response = await Axios.post('https://api.github.com/repos/filecoin-project/filecoin-plus-client-onboarding/issues', {
       title: `Client Allocation Request for: ${body.organization_name}`,
       body: template,
-      labels: [
-        'state:Request'
-      ]
+      labels: ['state:Request']
     }, options)
-    console.log(response)
-    return true
+    return response.data.url
   } catch (e) {
     console.log('=============================== [Function: submitApplication]')
     throw e
@@ -49,10 +46,11 @@ MC.app.post('/submit-general-application', async (req, res) => {
       console.log(body)
       console.log(template)
     }
+    let githubIssueLink = '/'
     if (MC.serverFlag === 'production') {
-      await submitApplication(template, body)
+      githubIssueLink = await submitApplication(template, body)
     }
-    SendData(res, 200, 'General application submitted succesfully', true)
+    SendData(res, 200, 'General application submitted succesfully', githubIssueLink)
   } catch (e) {
     console.log('===================== [Endpoint: /submit-general-application]')
     console.log(e.response)

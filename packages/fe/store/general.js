@@ -53,7 +53,8 @@ const state = () => ({
     github_handle: ''
   },
   networkStorageCapacity: false,
-  applyFormHighlighted: false
+  applyFormHighlighted: false,
+  githubIssueLink: false
 })
 
 // ///////////////////////////////////////////////////////////////////// Getters
@@ -64,7 +65,8 @@ const getters = {
   clipboard: state => state.clipboard,
   application: state => state.application,
   networkStorageCapacity: state => state.networkStorageCapacity,
-  applyFormHighlighted: state => state.applyFormHighlighted
+  applyFormHighlighted: state => state.applyFormHighlighted,
+  githubIssueLink: state => state.githubIssueLink
 }
 
 // ///////////////////////////////////////////////////////////////////// Actions
@@ -145,9 +147,11 @@ const actions = {
     commit('SET_APPLICATION', application)
   },
   // ////////////////////////////////////////////////// submitGeneralApplication
-  async submitGeneralApplication ({ commit }, application) {
+  async submitGeneralApplication ({ commit, dispatch }, application) {
     try {
-      await this.$axiosAuth.post('/submit-general-application', application)
+      const response = await this.$axiosAuth.post('/submit-general-application', application)
+      const githubIssueLink = response.data.payload
+      dispatch('setGithubIssueLink', githubIssueLink)
       this.dispatch('button/removeLoader', 'ga-submit-button')
       this.$toaster.add({
         type: 'toast',
@@ -167,9 +171,11 @@ const actions = {
     }
   },
   // //////////////////////////////////////////////////// submitLargeApplication
-  async submitLargeApplication ({ commit }, application) {
+  async submitLargeApplication ({ commit, dispatch }, application) {
     try {
-      await this.$axiosAuth.post('/submit-large-application', application)
+      const response = await this.$axiosAuth.post('/submit-large-application', application)
+      const githubIssueLink = response.data.payload
+      dispatch('setGithubIssueLink', githubIssueLink)
       this.dispatch('button/removeLoader', 'lda-submit-button')
       this.$toaster.add({
         type: 'toast',
@@ -208,6 +214,10 @@ const actions = {
       clearTimeout(timeout2)
       timeout2 = false
     }, 2250)
+  },
+  // //////////////////////////////////////////////////////// setGithubIssueLink
+  setGithubIssueLink ({ commit }, link) {
+    commit('SET_GITHUB_ISSUE_LINK', link)
   }
 }
 
@@ -231,6 +241,9 @@ const mutations = {
   },
   HIGHLIGH_APPLY_FORM (state, status) {
     state.applyFormHighlighted = status
+  },
+  SET_GITHUB_ISSUE_LINK (state, link) {
+    state.githubIssueLink = link
   }
 }
 
