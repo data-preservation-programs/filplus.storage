@@ -104,6 +104,22 @@ const actions = {
       return false
     }
   },
+  // ///////////////////////////////////////////////////////////// getCachedFile
+  async getCachedFile ({ commit, dispatch }, path) {
+    try {
+      const response = await this.$axiosAuth.get('/get-cached-file', {
+        params: { path }
+      })
+      const file = response.data.payload
+      dispatch('setStaticFile', { path, file })
+      return file
+    } catch (e) {
+      console.log('===================== [Store Action: general/getCachedFile]')
+      console.log(e)
+      dispatch('setStaticFile', { path, file: false })
+      return false
+    }
+  },
   // ///////////////////////////////////////////////////////////// setStaticFile
   setStaticFile ({ commit, getters }, payload) {
     const staticFiles = CloneDeep(getters.staticFiles)
@@ -118,23 +134,10 @@ const actions = {
     commit('SET_CLIPBOARD', text)
   },
   // ///////////////////////////////////////////////// getNetworkStorageCapacity
-  async getNetworkStorageCapacity ({ commit }) {
+  async getNetworkStorageCapacity ({ commit, dispatch }) {
     try {
-      const token = this.$config.spacescopeToken
-      const date = this.$moment.tz('UTC').subtract(1, 'days').format('YYYY-MM-DD')
-      const options = { headers: { authorization: `Bearer ${token}` } }
-      const response = await this.$axios.get(`https://api.spacescope.io/v2/power/network_storage_capacity?end_date=${date}&start_date=${date}`, options)
-      // data: {
-      //   request_id: '0c0ca661-288d-4250-898e-142d9ed19927#301034',
-      //   code: 30004,
-      //   message: 'SpaceScope API data is not available.'
-      // }
-      if (response.data.data) {
-        const value = this.$formatBytes(response.data.data[0].total_raw_bytes_power)
-        commit('SET_NETWORK_STORAGE_CAPACITY', value)
-      } else {
-        commit('SET_NETWORK_STORAGE_CAPACITY', '15.7 EiB')
-      }
+      const file = await dispatch('getCachedFile', 'network-storage-capacity.json')
+      commit('SET_NETWORK_STORAGE_CAPACITY', this.$formatBytes(file[0].total_raw_bytes_power))
     } catch (e) {
       console.log('========= [Store Action: general/getNetworkStorageCapacity]')
       console.log(e)
