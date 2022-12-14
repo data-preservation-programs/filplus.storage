@@ -13,7 +13,7 @@ const MC = require('@Root/config')
 const submitApplication = async (template, body) => {
   try {
     const options = { headers: { Accept: 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28', Authorization: `Bearer ${process.env.GITHUB_PERSONAL_ACCESS_TOKEN_2}` } }
-    await Axios.post('https://api.github.com/repos/xinaxu/filecoin-plus-large-datasets/issues', {
+    await Axios.post('https://api.github.com/repos/filecoin-project/filecoin-plus-large-datasets/issues', {
       title: `[DataCap Application] ${body.organization_name}`,
       body: template
     }, options)
