@@ -150,8 +150,7 @@ const actions = {
   async submitGeneralApplication ({ commit, dispatch }, application) {
     try {
       const response = await this.$axiosAuth.post('/submit-general-application', application)
-      const githubIssueLink = response.data.payload
-      dispatch('setGithubIssueLink', githubIssueLink)
+      dispatch('setGithubIssueLink', response.data.payload)
       this.dispatch('button/removeLoader', 'ga-submit-button')
       this.$toaster.add({
         type: 'toast',
@@ -174,8 +173,7 @@ const actions = {
   async submitLargeApplication ({ commit, dispatch }, application) {
     try {
       const response = await this.$axiosAuth.post('/submit-large-application', application)
-      const githubIssueLink = response.data.payload
-      dispatch('setGithubIssueLink', githubIssueLink)
+      dispatch('setGithubIssueLink', response.data.payload)
       this.dispatch('button/removeLoader', 'lda-submit-button')
       this.$toaster.add({
         type: 'toast',
