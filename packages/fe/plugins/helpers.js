@@ -413,6 +413,8 @@ const FormatDatacapSize = (ctx, size, args) => {
   const store = ctx.store
   const action = args.action
   if (action === 'human') {
+    const valueField = store.getters['form/fields'].find(obj => obj.field_key === args.value_from_field)
+    if (valueField) { value = valueField.value }
     return parseFloat(FormatBytes(value, 'array').value)
   } else if (action === 'bytes') {
     const options = store.getters['general/siteContent'].apply.page_content.form.scaffold.total_datacap_size_unit.options

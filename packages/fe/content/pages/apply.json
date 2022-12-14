@@ -82,6 +82,7 @@
           "transform": {
             "func": "$formatDatacapSize",
             "args": {
+              "value_from_field": "total_datacap_size_range",
               "action": "human"
             }
           },
