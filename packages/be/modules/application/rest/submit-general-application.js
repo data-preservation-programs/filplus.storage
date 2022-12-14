@@ -13,13 +13,14 @@ const MC = require('@Root/config')
 const submitApplication = async (template, body) => {
   try {
     const options = { headers: { Accept: 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28', Authorization: `token ${process.env.GITHUB_PERSONAL_ACCESS_TOKEN_2}` } }
-    await Axios.post('https://api.github.com/repos/filecoin-project/filecoin-plus-client-onboarding/issues', {
+    const response = await Axios.post('https://api.github.com/repos/filecoin-project/filecoin-plus-client-onboarding/issues', {
       title: `Client Allocation Request for: ${body.organization_name}`,
       body: template,
       labels: [
         'state:Request'
       ]
     }, options)
+    console.log(response)
     return true
   } catch (e) {
     console.log('=============================== [Function: submitApplication]')
@@ -27,7 +28,7 @@ const submitApplication = async (template, body) => {
   }
 }
 
-// //////////////////////////////////////////////////////////////////// Endpoint
+// ///////////////////////////////////8///////////////////////////////// Endpoint
 // -----------------------------------------------------------------------------
 MC.app.post('/submit-general-application', async (req, res) => {
   const body = req.body
@@ -37,6 +38,8 @@ MC.app.post('/submit-general-application', async (req, res) => {
     Object.keys(body).forEach((key) => {
       if (key === 'organization_website') {
         template = template.replaceAll(key, body[key])
+      } else if (key === 'github_handle') {
+        template = template.replace(key, `@${body[key].replace('@', '')}`)
       } else {
         template = template.replace(key, body[key])
       }

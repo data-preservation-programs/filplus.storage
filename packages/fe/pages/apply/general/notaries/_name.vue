@@ -85,6 +85,11 @@
             :value="getValue('filecoin_address')"
             form-id="filplus_application" />
 
+          <FieldContainer
+            :scaffold="formScaffold.github_handle"
+            :value="getValue('github_handle')"
+            form-id="filplus_application" />
+
           <ButtonA
             class="submit-button"
             loader="ga-submit-button"
