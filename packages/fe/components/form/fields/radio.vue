@@ -94,6 +94,22 @@ $dimension: 1.625rem;
   display: flex;
   flex-direction: row;
   align-items: center;
+  &.caution {
+    .radio {
+      &:checked {
+        + .checker {
+          border-color: $mandysPink;
+        }
+      }
+    }
+  }
+  &.error {
+    .radio {
+      + .checker {
+        border-color: $flamingo;
+      }
+    }
+  }
 }
 
 .radio-wrapper {

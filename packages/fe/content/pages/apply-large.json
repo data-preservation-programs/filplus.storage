@@ -298,7 +298,6 @@
           "description": "If needed, the Filecoin team will fill up this field later on. You can skip this field.",
           "placeholder": "f...",
           "tooltip": "",
-          "required": true,
           "pre": "[^\\u0000-\\u00ff]",
           "autocomplete": "none",
           "chars": {
@@ -353,7 +352,6 @@
           "type": "textarea",
           "model_key": "ecosystem_associates_textarea",
           "placeholder": "If answered yes, please provide the other projects or ecosystem stakeholders",
-          "required": true,
           "pre": "[^\\u0000-\\u00ff]",
           "autocomplete": "none",
           "tooltip": "",
@@ -413,7 +411,6 @@
           "model_key": "source_of_data_textarea",
           "placeholder": "If you answered \"Other\" in the previous question, enter the details here",
           "tooltip": "",
-          "required": true,
           "pre": "[^\\u0000-\\u00ff]",
           "autocomplete": "none",
           "chars": {
@@ -450,7 +447,6 @@
           "model_key": "data_preparation_plan_textarea",
           "placeholder": "If you answered \"other/custom tool\" in the previous question, enter the details here",
           "tooltip": "",
-          "required": true,
           "pre": "[^\\u0000-\\u00ff]",
           "autocomplete": "none",
           "chars": {
@@ -632,7 +628,6 @@
           "model_key": "storage_provider_selection_plan_input",
           "description": "If you answered \"Other\" in the previous question, what is the tool or platform you plan to use?",
           "placeholder": "Provide a name for the tool you plan to use",
-          "required": true,
           "pre": "[^\\u0000-\\u00ff]",
           "autocomplete": "none",
           "chars": {
@@ -651,7 +646,6 @@
           "model_key": "storage_provider_selection_plan_textarea",
           "placeholder": "If you already have a list of storage providers to work with, fill out their names and SP IDs below",
           "tooltip": "Storage provider IDs should begin with f0...",
-          "required": true,
           "pre": "[^\\u0000-\\u00ff]",
           "autocomplete": "none",
           "chars": {
@@ -691,7 +685,6 @@
           "model_key": "replication_plan_textarea",
           "placeholder": "If you answered \"Others/custom tool\" in the previous question, enter the details here",
           "tooltip": "",
-          "required": true,
           "pre": "[^\\u0000-\\u00ff]",
           "autocomplete": "none",
           "chars": {

@@ -389,25 +389,31 @@ export default {
     async submitForm () {
       const inputField = this.$field('total_datacap_size_input|filplus_application')
       const unitField = this.$field('total_datacap_size_unit|filplus_application')
-      const bytes = this.$convertSizeToBytes(inputField.value, unitField.options[unitField.value].label)
-      if (bytes > 5629499534213120) { // > 5 PiB
-        this.$toaster.add({
-          type: 'toast',
-          category: 'error',
-          message: 'Please select a value up to 5 PiB'
-        })
-        this.removeLoader('lda-submit-button')
-        const inputFieldElement = document.querySelector('#total_datacap_size_input')
-        this.$scrollToElement(inputFieldElement, 250, -200)
-      } else {
-        const incoming = await this.validateForm('filplus_application')
-        if (!incoming) {
-          const firstInvalidField = document.querySelector('.error')
+      const option = unitField.options[unitField.value]
+      if (option) {
+        const bytes = this.$convertSizeToBytes(inputField.value, option.label)
+        if (bytes > 5629499534213120) {
+          this.$toaster.add({
+            type: 'toast',
+            category: 'error',
+            message: 'Please select a value up to 5 PiB'
+          })
           this.removeLoader('lda-submit-button')
-          this.$scrollToElement(firstInvalidField, 250, -200)
+          const inputFieldElement = document.querySelector('#total_datacap_size_input')
+          this.$scrollToElement(inputFieldElement, 250, -200)
         } else {
-          this.submitLargeApplication(incoming)
+          const incoming = await this.validateForm('filplus_application')
+          if (!incoming) {
+            const firstInvalidField = document.querySelector('.error')
+            this.removeLoader('lda-submit-button')
+            this.$scrollToElement(firstInvalidField, 250, -200)
+          } else {
+            this.submitLargeApplication(incoming)
+          }
         }
+      } else {
+        await this.validateForm('filplus_application')
+        this.removeLoader('lda-submit-button')
       }
     }
   }

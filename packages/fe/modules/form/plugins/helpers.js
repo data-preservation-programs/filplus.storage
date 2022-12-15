@@ -12,6 +12,7 @@ import CloneDeep from 'lodash/cloneDeep'
 // -----------------------------------------------------------------------------
 // /////////////////////////////////////////////////////////////// checkRequired
 const checkRequired = (fieldType, value) => {
+  console.log(fieldType, value)
   return new Promise((resolve) => {
     const type = typeof value
     let state = 'valid'
@@ -22,7 +23,7 @@ const checkRequired = (fieldType, value) => {
     } else if (type === 'object' && !Array.isArray(value)) {
       if (Object.keys(value).length === 0) { state = 'error' }
     } else if (type === 'number') {
-      if ((fieldType === 'select' || fieldType === 'checkbox') && value === -1) {
+      if ((fieldType === 'select' || fieldType === 'checkbox' || fieldType === 'radio') && value === -1) {
         state = 'error'
       }
     }
