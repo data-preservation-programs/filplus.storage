@@ -12,7 +12,6 @@ import CloneDeep from 'lodash/cloneDeep'
 // -----------------------------------------------------------------------------
 // /////////////////////////////////////////////////////////////// checkRequired
 const checkRequired = (fieldType, value) => {
-  console.log(fieldType, value)
   return new Promise((resolve) => {
     const type = typeof value
     let state = 'valid'
@@ -266,7 +265,7 @@ const applyReactions = (app, store, fieldToReactTo) => {
         const field = CloneDeep(reacted[i])
         const react = field.react
         compiled.push(Object.assign(field, {
-          value: app.$applyReaction(fieldToReactTo.value, field.react),
+          value: app.$applyReaction(field.value, fieldToReactTo.value, field.react),
           state: fieldToReactTo.state,
           validation: fieldToReactTo.validation
         }))
@@ -282,8 +281,8 @@ const applyTransformation = (app, value, transform) => {
 }
 
 // /////////////////////////////////////////////////////////////// applyReaction
-const applyReaction = (app, value, react) => {
-  return react ? app[react.func](app, value, react.args) : value
+const applyReaction = (app, originalValue, reactValue, react) => {
+  return react ? app[react.func](app, originalValue, reactValue, react.args) : value
 }
 
 // ////////////////////////////////////////////////////////////////////// Export
@@ -295,5 +294,5 @@ export default ({ app, store }, inject) => {
   inject('applyMirrors', fieldToMirror => applyMirrors(app, store, fieldToMirror))
   inject('applyReactions', (transform, value) => applyReactions(app, store, transform, value))
   inject('applyTransformation', (value, transform) => applyTransformation(app, value, transform))
-  inject('applyReaction', (value, react) => applyTransformation(app, value, react))
+  inject('applyReaction', (originalValue, reactValue, react) => applyReaction(app, originalValue, reactValue, react))
 }

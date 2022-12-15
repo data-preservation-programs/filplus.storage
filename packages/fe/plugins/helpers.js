@@ -428,17 +428,18 @@ const FormatDatacapSize = (ctx, size, args) => {
 }
 
 // //////////////////////////////////////////////////// ReactDatasizeUnitToRange
-const ReactDatasizeUnitToRange = (ctx, size, args) => {
+const ReactDatasizeUnitToRange = (ctx, originalValue, size, args) => {
   const options = ctx.store.getters['general/siteContent'].apply.page_content.form.scaffold.total_datacap_size_unit.options
   const unit = FormatBytes(size, 'array').unit
   return options.findIndex(option => option.label === unit)
 }
 
 // //////////////////////////////////////////////////// ReactDatasizeRangeToUnit
-const ReactDatasizeRangeToUnit = (ctx, unitValue, args) => {
+const ReactDatasizeRangeToUnit = (ctx, originalValue, unitValue, args) => {
   const store = ctx.store
   const options = store.getters['general/siteContent'].apply.page_content.form.scaffold.total_datacap_size_unit.options
   const inputField = store.getters['form/fields'].find(obj => obj.field_key === args.value_from_field)
+  if (unitValue === -1) { return originalValue }
   const unit = options[unitValue].label
   const size = inputField.value
   return ConvertSizeToBytes(size, unit)
