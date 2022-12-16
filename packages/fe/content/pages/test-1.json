@@ -1,0 +1,144 @@
+{
+  "seo": {
+    "title": "Test 1",
+    "description": ""
+  },
+  "og": {
+    "site_name": "Test 1",
+    "url": "",
+    "type": "website",
+    "image": "/open-graph-image.png"
+  },
+  "page_content": {
+    "form": {
+      "scaffold": {
+        "organization_name": {
+          "field_key": "organization_name",
+          "type": "input",
+          "input_type": "text",
+          "model_key": "organization_name",
+          "label": "Organization Name",
+          "placeholder": "ABC Inc.",
+          "tooltip": "Provide the name of your group or organization.",
+          "required": true,
+          "pre": "[^\\u0000-\\u00ff]",
+          "autocomplete": "none",
+          "chars": {
+            "min": 2,
+            "max": 1000
+          },
+          "validation_message": {
+            "required": "This field is required",
+            "chars": "Input must be between 2 and 35 characters"
+          },
+          "default_value": ""
+        },
+        "total_datacap_size_range": {
+          "field_key": "total_datacap_size_range",
+          "type": "range",
+          "model_key": "total_datacap_size",
+          "required": true,
+          "mirror": {
+            "field_key": "total_datacap_size_input",
+            "primary": false
+          },
+          "transform": {
+            "func": "$formatDatacapSize",
+            "args": {
+              "action": "bytes",
+              "unit_from_field": "total_datacap_size_unit",
+              "value_from_field": "total_datacap_size_input"
+            }
+          },
+          "react": {
+            "field_key": "total_datacap_size_unit",
+            "func": "$reactDatasizeRangeToUnit",
+            "args": {
+              "value_from_field": "total_datacap_size_input"
+            }
+          },
+          "autocomplete": "none",
+          "min": 34359738368,
+          "max": 5629499534213120,
+          "intervals": [
+            34359738368,
+            68719476736,
+            137438953472,
+            1099511627776,
+            4398046511104,
+            17592186044416,
+            70368744177664,
+            109951162777600,
+            281474976710656
+          ],
+          "validation_message": {
+            "required": "This field is required"
+          },
+          "default_value": 34359738368
+        },
+        "total_datacap_size_input": {
+          "field_key": "total_datacap_size_input",
+          "type": "input",
+          "input_type": "number",
+          "model_key": "total_datacap_size",
+          "label": "Total Datacap being requested",
+          "placeholder": "32",
+          "min": 1,
+          "max": 5242880,
+          "required": true,
+          "pre": "[^\\u0000-\\u00ff]",
+          "mirror": {
+            "field_key": "total_datacap_size_range",
+            "primary": true
+          },
+          "transform": {
+            "func": "$formatDatacapSize",
+            "args": {
+              "value_from_field": "total_datacap_size_range",
+              "action": "human"
+            }
+          },
+          "autocomplete": "none",
+          "validation_message": {
+            "required": "This field is required",
+            "minmax": "Number must be between 1 and 5242880"
+          },
+          "default_value": 32
+        },
+        "total_datacap_size_unit": {
+          "field_key": "total_datacap_size_unit",
+          "type": "select",
+          "model_key": "total_datacap_size_unit",
+          "label": "Unit",
+          "required": true,
+          "output": "option",
+          "react": {
+            "field_key": "total_datacap_size_range",
+            "func": "$reactDatasizeUnitToRange",
+            "args": {
+              "value_from_field": "total_datacap_size_range"
+            }
+          },
+          "validation_message": {
+            "required": "This field is required"
+          },
+          "options": [
+            { "label": "GiB" },
+            { "label": "TiB" },
+            { "label": "PiB" }
+          ],
+          "default_value": "GiB"
+        }
+      }
+    },
+    "faq": {
+      "heading": "Frequently Asked<br /><span class='bubble right'>Questions</span>",
+      "count": 4,
+      "more_button": {
+        "type": "nuxt-link",
+        "href": "/faq",
+        "label": "more FAQs"
+      }
+    }
+  }
+}
