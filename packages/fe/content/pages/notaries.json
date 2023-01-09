@@ -20,10 +20,10 @@
       "select_button_text": "Request",
       "scaffold": {
         "notary": {
-          "field_key": "notary",
+          "fieldKey": "notary",
           "type": "input",
-          "input_type": "text",
-          "model_key": "notary",
+          "inputType": "text",
+          "modelKey": "notary",
           "pre": "[^\\u0000-\\u00ff]",
           "autocomplete": "none",
           "include_output": true

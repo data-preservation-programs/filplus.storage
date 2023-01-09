@@ -9,6 +9,7 @@
     <Range
       ref="range"
       :field="field"
+      :field-key="fieldKey"
       v-on="$listeners">
 
       <template #thumb>
@@ -61,6 +62,10 @@ export default {
     field: {
       type: Object,
       required: true
+    },
+    fieldKey: {
+      type: String,
+      required: true
     }
   },
 
@@ -72,29 +77,29 @@ export default {
   },
 
   computed: {
-    inputType () {
-      return this.field.input_type || 'text'
+    scaffold () {
+      return this.field.scaffold
     },
     name () {
-      return this.field.name
+      return this.scaffold.name
     },
     label () {
-      return this.field.label
+      return this.scaffold.label
     },
     placeholder () {
-      return this.field.placeholder || 'Enter a value...'
+      return this.scaffold.placeholder || 'Enter a value...'
     },
     required () {
-      return this.field.required
+      return this.scaffold.required
     },
     disabled () {
-      return this.field.disabled
+      return this.scaffold.disabled
     },
     pre () {
-      return this.field.pre
+      return this.scaffold.pre
     },
     validationMessage () {
-      return this.field.validation_message
+      return this.scaffold.validationMessage
     },
     value () {
       return this.field.value
@@ -120,6 +125,32 @@ $trackHeight: 1.875rem;
 $thumbWidth: 4px;
 $borderWidth: 2px;
 
+// ///////////////////////////////////////////////////////////////////// General
+.field-range {
+  &.caution,
+  &.error {
+    :deep(.range-track) {
+      &:before {
+        transition: 150ms ease-in;
+      }
+    }
+  }
+  &.caution {
+    :deep(.range-track) {
+      &:before {
+        background-color: $mandysPink;
+      }
+    }
+  }
+  &.error {
+    :deep(.range-track) {
+      &:before {
+        background-color: $flamingo;
+      }
+    }
+  }
+}
+
 // /////////////////////////////////////////////////////////////////////// Track
 ::v-deep .range-track {
   position: relative;
@@ -135,6 +166,7 @@ $borderWidth: 2px;
     width: calc(100% - #{$trackHeight} + #{math.div($thumbWidth, 1)});
     height: $borderWidth;
     background-color: $titanWhite;
+    transition: 150ms ease-out;
   }
   &:hover {
     .thumb {
@@ -142,16 +174,6 @@ $borderWidth: 2px;
       &:after {
         height: 0.75rem;
       }
-    }
-  }
-  &.caution {
-    &:before {
-      background-color: $mandysPink;
-    }
-  }
-  &.error {
-    &:before {
-      background-color: $flamingo;
     }
   }
   &.disabled {

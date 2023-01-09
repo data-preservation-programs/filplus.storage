@@ -70,14 +70,17 @@ export default {
   },
 
   computed: {
+    scaffold () {
+      return this.field.scaffold
+    },
     modelKey () {
-      return this.field.model_key
+      return this.scaffold.modelKey
     },
     label () {
-      return this.field.label
+      return this.scaffold.label
     },
     options () {
-      return this.field.options
+      return this.scaffold.options
     },
     value () {
       return this.field.value

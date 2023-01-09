@@ -134,7 +134,7 @@ export default {
         const keyCode = e.keyCode
         const code = e.keyCode
         const key = e.key
-        // TODO: key and code shoulw not both be strings, this is a bug!
+        // TODO: key and code should not both be strings, this is a bug!
         const down = keyCode === 40 || key === 'ArrowDown' || code === 'ArrowDown'
         const up = keyCode === 38 || key === 'ArrowUp' || code === 'ArrowUp'
         const submit = keyCode === 32 || key === ' ' || code === 'Space' || keyCode === 13 || key === 'Enter' || code === 'Enter'

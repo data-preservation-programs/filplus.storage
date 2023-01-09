@@ -23,10 +23,9 @@
       "github_issue_link_text": "View Issue on Github",
       "scaffold": {
         "organization_name": {
-          "field_key": "organization_name",
           "type": "input",
-          "input_type": "text",
-          "model_key": "organization_name",
+          "inputType": "text",
+          "modelKey": "organization_name",
           "label": "Organization Name",
           "placeholder": "ABC Inc.",
           "tooltip": "Provide the name of your group or organization.",
@@ -37,42 +36,40 @@
             "min": 2,
             "max": 1000
           },
-          "validation_message": {
+          "validationMessage": {
             "required": "This field is required",
             "chars": "Input must be between 2 and 35 characters"
           },
-          "default_value": ""
+          "defaultValue": ""
         },
         "data_owner_region": {
-          "field_key": "data_owner_region",
           "type": "input",
-          "input_type": "text",
-          "model_key": "data_owner_region",
+          "inputType": "text",
+          "modelKey": "data_owner_region",
           "label": "Data owner country/region",
           "placeholder": "Country/region",
           "tooltip": "",
           "required": true,
           "autocomplete": "none",
           "pre": "[^\\u0000-\\u00ff]",
-          "validation_message": {
+          "validationMessage": {
             "required": "This field is required"
           },
           "predictive": true,
-          "predictive_options": {
+          "predictiveOptions": {
             "display_key": "name",
             "options": [{"name":"Afghanistan","code":"AF"},{"name":"Åland Islands","code":"AX"},{"name":"Albania","code":"AL"},{"name":"Algeria","code":"DZ"},{"name":"American Samoa","code":"AS"},{"name":"Andorra","code":"AD"},{"name":"Angola","code":"AO"},{"name":"Anguilla","code":"AI"},{"name":"Antarctica","code":"AQ"},{"name":"Antigua and Barbuda","code":"AG"},{"name":"Argentina","code":"AR"},{"name":"Armenia","code":"AM"},{"name":"Aruba","code":"AW"},{"name":"Australia","code":"AU"},{"name":"Austria","code":"AT"},{"name":"Azerbaijan","code":"AZ"},{"name":"Bahamas","code":"BS"},{"name":"Bahrain","code":"BH"},{"name":"Bangladesh","code":"BD"},{"name":"Barbados","code":"BB"},{"name":"Belarus","code":"BY"},{"name":"Belgium","code":"BE"},{"name":"Belize","code":"BZ"},{"name":"Benin","code":"BJ"},{"name":"Bermuda","code":"BM"},{"name":"Bhutan","code":"BT"},{"name":"Bolivia","code":"BO"},{"name":"Bosnia and Herzegovina","code":"BA"},{"name":"Botswana","code":"BW"},{"name":"Bouvet Island","code":"BV"},{"name":"Brazil","code":"BR"},{"name":"British Indian Ocean Territory","code":"IO"},{"name":"Brunei Darussalam","code":"BN"},{"name":"Bulgaria","code":"BG"},{"name":"Burkina Faso","code":"BF"},{"name":"Burundi","code":"BI"},{"name":"Cambodia","code":"KH"},{"name":"Cameroon","code":"CM"},{"name":"Canada","code":"CA"},{"name":"Cape Verde","code":"CV"},{"name":"Cayman Islands","code":"KY"},{"name":"Central African Republic","code":"CF"},{"name":"Chad","code":"TD"},{"name":"Chile","code":"CL"},{"name":"China","code":"CN"},{"name":"Christmas Island","code":"CX"},{"name":"Cocos (Keeling) Islands","code":"CC"},{"name":"Colombia","code":"CO"},{"name":"Comoros","code":"KM"},{"name":"Congo","code":"CG"},{"name":"Congo, The Democratic Republic of the","code":"CD"},{"name":"Cook Islands","code":"CK"},{"name":"Costa Rica","code":"CR"},{"name":"Cote D\"Ivoire","code":"CI"},{"name":"Croatia","code":"HR"},{"name":"Cuba","code":"CU"},{"name":"Cyprus","code":"CY"},{"name":"Czech Republic","code":"CZ"},{"name":"Denmark","code":"DK"},{"name":"Djibouti","code":"DJ"},{"name":"Dominica","code":"DM"},{"name":"Dominican Republic","code":"DO"},{"name":"Ecuador","code":"EC"},{"name":"Egypt","code":"EG"},{"name":"El Salvador","code":"SV"},{"name":"Equatorial Guinea","code":"GQ"},{"name":"Eritrea","code":"ER"},{"name":"Estonia","code":"EE"},{"name":"Ethiopia","code":"ET"},{"name":"Falkland Islands (Malvinas)","code":"FK"},{"name":"Faroe Islands","code":"FO"},{"name":"Fiji","code":"FJ"},{"name":"Finland","code":"FI"},{"name":"France","code":"FR"},{"name":"French Guiana","code":"GF"},{"name":"French Polynesia","code":"PF"},{"name":"French Southern Territories","code":"TF"},{"name":"Gabon","code":"GA"},{"name":"Gambia","code":"GM"},{"name":"Georgia","code":"GE"},{"name":"Germany","code":"DE"},{"name":"Ghana","code":"GH"},{"name":"Gibraltar","code":"GI"},{"name":"Greece","code":"GR"},{"name":"Greenland","code":"GL"},{"name":"Grenada","code":"GD"},{"name":"Guadeloupe","code":"GP"},{"name":"Guam","code":"GU"},{"name":"Guatemala","code":"GT"},{"name":"Guernsey","code":"GG"},{"name":"Guinea","code":"GN"},{"name":"Guinea-Bissau","code":"GW"},{"name":"Guyana","code":"GY"},{"name":"Haiti","code":"HT"},{"name":"Heard Island and Mcdonald Islands","code":"HM"},{"name":"Holy See (Vatican City State)","code":"VA"},{"name":"Honduras","code":"HN"},{"name":"Hong Kong","code":"HK"},{"name":"Hungary","code":"HU"},{"name":"Iceland","code":"IS"},{"name":"India","code":"IN"},{"name":"Indonesia","code":"ID"},{"name":"Iran, Islamic Republic Of","code":"IR"},{"name":"Iraq","code":"IQ"},{"name":"Ireland","code":"IE"},{"name":"Isle of Man","code":"IM"},{"name":"Israel","code":"IL"},{"name":"Italy","code":"IT"},{"name":"Jamaica","code":"JM"},{"name":"Japan","code":"JP"},{"name":"Jersey","code":"JE"},{"name":"Jordan","code":"JO"},{"name":"Kazakhstan","code":"KZ"},{"name":"Kenya","code":"KE"},{"name":"Kiribati","code":"KI"},{"name":"Korea, Democratic People\"S Republic of","code":"KP"},{"name":"Korea, Republic of","code":"KR"},{"name":"Kuwait","code":"KW"},{"name":"Kyrgyzstan","code":"KG"},{"name":"Lao People\"S Democratic Republic","code":"LA"},{"name":"Latvia","code":"LV"},{"name":"Lebanon","code":"LB"},{"name":"Lesotho","code":"LS"},{"name":"Liberia","code":"LR"},{"name":"Libyan Arab Jamahiriya","code":"LY"},{"name":"Liechtenstein","code":"LI"},{"name":"Lithuania","code":"LT"},{"name":"Luxembourg","code":"LU"},{"name":"Macao","code":"MO"},{"name":"Macedonia, The Former Yugoslav Republic of","code":"MK"},{"name":"Madagascar","code":"MG"},{"name":"Malawi","code":"MW"},{"name":"Malaysia","code":"MY"},{"name":"Maldives","code":"MV"},{"name":"Mali","code":"ML"},{"name":"Malta","code":"MT"},{"name":"Marshall Islands","code":"MH"},{"name":"Martinique","code":"MQ"},{"name":"Mauritania","code":"MR"},{"name":"Mauritius","code":"MU"},{"name":"Mayotte","code":"YT"},{"name":"Mexico","code":"MX"},{"name":"Micronesia, Federated States of","code":"FM"},{"name":"Moldova, Republic of","code":"MD"},{"name":"Monaco","code":"MC"},{"name":"Mongolia","code":"MN"},{"name":"Montserrat","code":"MS"},{"name":"Morocco","code":"MA"},{"name":"Mozambique","code":"MZ"},{"name":"Myanmar","code":"MM"},{"name":"Namibia","code":"NA"},{"name":"Nauru","code":"NR"},{"name":"Nepal","code":"NP"},{"name":"Netherlands","code":"NL"},{"name":"Netherlands Antilles","code":"AN"},{"name":"New Caledonia","code":"NC"},{"name":"New Zealand","code":"NZ"},{"name":"Nicaragua","code":"NI"},{"name":"Niger","code":"NE"},{"name":"Nigeria","code":"NG"},{"name":"Niue","code":"NU"},{"name":"Norfolk Island","code":"NF"},{"name":"Northern Mariana Islands","code":"MP"},{"name":"Norway","code":"NO"},{"name":"Oman","code":"OM"},{"name":"Pakistan","code":"PK"},{"name":"Palau","code":"PW"},{"name":"Palestinian Territory, Occupied","code":"PS"},{"name":"Panama","code":"PA"},{"name":"Papua New Guinea","code":"PG"},{"name":"Paraguay","code":"PY"},{"name":"Peru","code":"PE"},{"name":"Philippines","code":"PH"},{"name":"Pitcairn","code":"PN"},{"name":"Poland","code":"PL"},{"name":"Portugal","code":"PT"},{"name":"Puerto Rico","code":"PR"},{"name":"Qatar","code":"QA"},{"name":"Reunion","code":"RE"},{"name":"Romania","code":"RO"},{"name":"Russian Federation","code":"RU"},{"name":"RWANDA","code":"RW"},{"name":"Saint Helena","code":"SH"},{"name":"Saint Kitts and Nevis","code":"KN"},{"name":"Saint Lucia","code":"LC"},{"name":"Saint Pierre and Miquelon","code":"PM"},{"name":"Saint Vincent and the Grenadines","code":"VC"},{"name":"Samoa","code":"WS"},{"name":"San Marino","code":"SM"},{"name":"Sao Tome and Principe","code":"ST"},{"name":"Saudi Arabia","code":"SA"},{"name":"Senegal","code":"SN"},{"name":"Serbia and Montenegro","code":"CS"},{"name":"Seychelles","code":"SC"},{"name":"Sierra Leone","code":"SL"},{"name":"Singapore","code":"SG"},{"name":"Slovakia","code":"SK"},{"name":"Slovenia","code":"SI"},{"name":"Solomon Islands","code":"SB"},{"name":"Somalia","code":"SO"},{"name":"South Africa","code":"ZA"},{"name":"South Georgia and the South Sandwich Islands","code":"GS"},{"name":"Spain","code":"ES"},{"name":"Sri Lanka","code":"LK"},{"name":"Sudan","code":"SD"},{"name":"Suriname","code":"SR"},{"name":"Svalbard and Jan Mayen","code":"SJ"},{"name":"Swaziland","code":"SZ"},{"name":"Sweden","code":"SE"},{"name":"Switzerland","code":"CH"},{"name":"Syrian Arab Republic","code":"SY"},{"name":"Taiwan, Province of China","code":"TW"},{"name":"Tajikistan","code":"TJ"},{"name":"Tanzania, United Republic of","code":"TZ"},{"name":"Thailand","code":"TH"},{"name":"Timor-Leste","code":"TL"},{"name":"Togo","code":"TG"},{"name":"Tokelau","code":"TK"},{"name":"Tonga","code":"TO"},{"name":"Trinidad and Tobago","code":"TT"},{"name":"Tunisia","code":"TN"},{"name":"Turkey","code":"TR"},{"name":"Turkmenistan","code":"TM"},{"name":"Turks and Caicos Islands","code":"TC"},{"name":"Tuvalu","code":"TV"},{"name":"Uganda","code":"UG"},{"name":"Ukraine","code":"UA"},{"name":"United Arab Emirates","code":"AE"},{"name":"United Kingdom","code":"GB"},{"name":"United States","code":"US"},{"name":"United States Minor Outlying Islands","code":"UM"},{"name":"Uruguay","code":"UY"},{"name":"Uzbekistan","code":"UZ"},{"name":"Vanuatu","code":"VU"},{"name":"Venezuela","code":"VE"},{"name":"Viet Nam","code":"VN"},{"name":"Virgin Islands, British","code":"VG"},{"name":"Virgin Islands, U.S.","code":"VI"},{"name":"Wallis and Futuna","code":"WF"},{"name":"Western Sahara","code":"EH"},{"name":"Yemen","code":"YE"},{"name":"Zambia","code":"ZM"},{"name":"Zimbabwe","code":"ZW"}]
           },
-          "default_value": ""
+          "defaultValue": ""
         },
         "data_owner_industry": {
-          "field_key": "data_owner_industry",
           "type": "select",
-          "model_key": "data_owner_industry",
+          "modelKey": "data_owner_industry",
           "label": "Data owner industry",
           "tooltip": "Select the most applicable industry for your organization from the provided list",
           "required": true,
           "output": "option",
-          "validation_message": {
+          "validationMessage": {
             "required": "This field is required"
           },
           "options": [
@@ -93,13 +90,12 @@
             { "label": "Transport Services" },
             { "label": "Other" }
           ],
-          "default_value": ""
+          "defaultValue": ""
         },
         "organization_website": {
-          "field_key": "organization_website",
           "type": "input",
-          "input_type": "text",
-          "model_key": "organization_website",
+          "inputType": "text",
+          "modelKey": "organization_website",
           "label": "Organization Website",
           "placeholder": "https://foo.com",
           "tooltip": "Provide the full URL of your group or organization's website",
@@ -110,17 +106,16 @@
             "min": 2,
             "max": 1000
           },
-          "validation_message": {
+          "validationMessage": {
             "required": "This field is required",
             "chars": "Input must be between 2 and 35 characters"
           },
-          "default_value": ""
+          "defaultValue": ""
         },
         "organization_social_media_handle": {
-          "field_key": "organization_social_media_handle",
           "type": "input",
-          "input_type": "text",
-          "model_key": "organization_social_media_handle",
+          "inputType": "text",
+          "modelKey": "organization_social_media_handle",
           "label": "Organization Social Media Handle",
           "placeholder": "@foo",
           "tooltip": "Provide the social media handle or full social media URL for your organization or group",
@@ -131,17 +126,16 @@
             "min": 2,
             "max": 1000
           },
-          "validation_message": {
+          "validationMessage": {
             "required": "This field is required",
             "chars": "Input must be between 2 and 35 characters"
           },
-          "default_value": ""
+          "defaultValue": ""
         },
         "organization_social_media_handle_type": {
-          "field_key": "organization_social_media_handle_type",
           "type": "input",
-          "input_type": "text",
-          "model_key": "organization_social_media_handle_type",
+          "inputType": "text",
+          "modelKey": "organization_social_media_handle_type",
           "label": "Social Media Type",
           "placeholder": "Twitter",
           "required": true,
@@ -151,56 +145,52 @@
             "min": 2,
             "max": 100
           },
-          "validation_message": {
+          "validationMessage": {
             "required": "This field is required",
             "chars": "Input must be between 2 and 35 characters"
           },
-          "default_value": ""
+          "defaultValue": ""
         },
         "total_datacap_size_input": {
-          "field_key": "total_datacap_size_input",
           "type": "input",
-          "input_type": "number",
-          "model_key": "total_datacap_size",
+          "inputType": "number",
+          "modelKey": "total_datacap_size",
           "label": "Total Datacap being requested",
           "placeholder": "32",
-          "tooltip": "Provide the total amount of DataCap you're requesting, including replication. Use this field to select the amount and the adjecent field to select a unit.",
           "min": 1,
           "max": 5242880,
           "required": true,
           "pre": "[^\\u0000-\\u00ff]",
           "mirror": {
-            "field_key": "total_datacap_size_range",
-            "primary": true
-          },
-          "transform": {
+            "fieldKey": "total_datacap_size_range",
+            "primary": true,
             "func": "$formatDatacapSize",
             "args": {
+              "value_from_field": "total_datacap_size_range",
               "action": "human"
             }
           },
-          "autocomplete": "none",
-          "validation_message": {
+          "autocomplete": "off",
+          "validationMessage": {
             "required": "This field is required",
             "minmax": "Number must be between 1 and 5242880"
           },
-          "default_value": ""
+          "defaultValue": 32
         },
         "total_datacap_size_unit": {
-          "field_key": "total_datacap_size_unit",
           "type": "select",
-          "model_key": "total_datacap_size_unit",
+          "modelKey": "total_datacap_size_unit",
           "label": "Unit",
           "required": true,
           "output": "option",
           "react": {
-            "field_key": "total_datacap_size_range",
+            "fieldKey": "total_datacap_size_range",
             "func": "$reactDatasizeUnitToRange",
             "args": {
               "value_from_field": "total_datacap_size_range"
             }
           },
-          "validation_message": {
+          "validationMessage": {
             "required": "This field is required"
           },
           "options": [
@@ -208,13 +198,12 @@
             { "label": "TiB" },
             { "label": "PiB" }
           ],
-          "default_value": ""
+          "defaultValue": "GiB"
         },
         "weekly_data_size": {
-          "field_key": "weekly_data_size",
           "type": "input",
-          "input_type": "number",
-          "model_key": "weekly_data_size",
+          "inputType": "number",
+          "modelKey": "weekly_data_size",
           "label": "Weekly allocation of DataCap",
           "placeholder": "32",
           "tooltip": "How much of the DataCap you're requesting will you need on a weekly basis?",
@@ -229,20 +218,19 @@
             }
           },
           "autocomplete": "none",
-          "validation_message": {
+          "validationMessage": {
             "required": "This field is required",
             "minmax": "Number must be between 1 and 5242880"
           },
-          "default_value": ""
+          "defaultValue": ""
         },
         "weekly_data_size_unit": {
-          "field_key": "weekly_data_size_unit",
           "type": "select",
-          "model_key": "weekly_data_size_unit",
+          "modelKey": "weekly_data_size_unit",
           "label": "Unit",
           "required": true,
           "output": "option",
-          "validation_message": {
+          "validationMessage": {
             "required": "This field is required"
           },
           "options": [
@@ -250,13 +238,12 @@
             { "label": "TiB" },
             { "label": "PiB" }
           ],
-          "default_value": ""
+          "defaultValue": ""
         },
         "filecoin_address": {
-          "field_key": "filecoin_address",
           "type": "input",
-          "input_type": "text",
-          "model_key": "filecoin_address",
+          "inputType": "text",
+          "modelKey": "filecoin_address",
           "label": "Filecoin Address",
           "placeholder": "f...",
           "tooltip": "Provide your Filecoin wallet address, which will usually begin with f1 or f3 for addresses on the mainnet",
@@ -267,33 +254,31 @@
             "min": 2,
             "max": 1000
           },
-          "validation_message": {
+          "validationMessage": {
             "required": "This field is required",
             "chars": "Input must be between 2 and 35 characters"
           },
-          "default_value": ""
+          "defaultValue": ""
         },
         "custom_multisig": {
-          "field_key": "custom_multisig",
           "type": "checkbox",
-          "model_key": "custom_multisig",
+          "modelKey": "custom_multisig",
           "label": "Custom multisig",
           "description": "Check this box if this client should use a specific multisig (for the Fil+ governance team)",
           "output": "option",
-          "validation_message": {
+          "validationMessage": {
             "required": "This field is required"
           },
           "options": [
             { "label": "Use Custom Multisig" }
           ],
-          "default_value": "",
-          "base_value": "No"
+          "defaultValue": "",
+          "baseValue": "No"
         },
         "identifier": {
-          "field_key": "identifier",
           "type": "input",
-          "input_type": "text",
-          "model_key": "identifier",
+          "inputType": "text",
+          "modelKey": "identifier",
           "label": "Identifier",
           "description": "If needed, the Filecoin team will fill up this field later on. You can skip this field.",
           "placeholder": "f...",
@@ -304,16 +289,15 @@
             "min": 2,
             "max": 1000
           },
-          "validation_message": {
+          "validationMessage": {
             "required": "This field is required",
             "chars": "Input must be between 2 and 35 characters"
           },
-          "default_value": ""
+          "defaultValue": ""
         },
         "about": {
-          "field_key": "about",
           "type": "textarea",
-          "model_key": "about",
+          "modelKey": "about",
           "label": "About your project and organization",
           "placeholder": "Briefly share some information about your project including your organization's history",
           "required": true,
@@ -324,33 +308,31 @@
             "min": 2,
             "max": 1000
           },
-          "validation_message": {
+          "validationMessage": {
             "required": "This field is required",
             "chars": "Input must be between 2 and 35 characters"
           },
-          "default_value": ""
+          "defaultValue": ""
         },
         "ecosystem_associates_radio": {
-          "field_key": "ecosystem_associates_radio",
           "type": "radio",
-          "model_key": "ecosystem_associates_radio",
+          "modelKey": "ecosystem_associates_radio",
           "label": "Ecosystem associates",
           "description": "Is this project associated with ecosystem stakeholders or other relevant projects?",
           "required": true,
           "output": "option",
-          "validation_message": {
+          "validationMessage": {
             "required": "This field is required"
           },
           "options": [
             { "label": "Yes" },
             { "label": "No" }
           ],
-          "default_value": ""
+          "defaultValue": ""
         },
         "ecosystem_associates_textarea": {
-          "field_key": "ecosystem_associates_textarea",
           "type": "textarea",
-          "model_key": "ecosystem_associates_textarea",
+          "modelKey": "ecosystem_associates_textarea",
           "placeholder": "If answered yes, please provide the other projects or ecosystem stakeholders",
           "pre": "[^\\u0000-\\u00ff]",
           "autocomplete": "none",
@@ -359,16 +341,15 @@
             "min": 2,
             "max": 1000
           },
-          "validation_message": {
+          "validationMessage": {
             "required": "This field is required",
             "chars": "Input must be between 2 and 35 characters"
           },
-          "default_value": ""
+          "defaultValue": ""
         },
         "nature_of_data": {
-          "field_key": "nature_of_data",
           "type": "textarea",
-          "model_key": "nature_of_data",
+          "modelKey": "nature_of_data",
           "label": "Nature of the data",
           "placeholder": "Describe the data that will be stored on Filecoin",
           "tooltip": "",
@@ -379,21 +360,20 @@
             "min": 2,
             "max": 1000
           },
-          "validation_message": {
+          "validationMessage": {
             "required": "This field is required",
             "chars": "Input must be between 2 and 35 characters"
           },
-          "default_value": ""
+          "defaultValue": ""
         },
         "source_of_data_select": {
-          "field_key": "source_of_data_select",
           "type": "select",
-          "model_key": "source_of_data_select",
+          "modelKey": "source_of_data_select",
           "label": "Source of data",
           "description": "Where is the data in this dataset sourced from?",
           "required": true,
           "output": "option",
-          "validation_message": {
+          "validationMessage": {
             "required": "This field is required"
           },
           "options": [
@@ -403,12 +383,11 @@
             { "label": "My own storage infra" },
             { "label": "Other" }
           ],
-          "default_value": ""
+          "defaultValue": ""
         },
         "source_of_data_textarea": {
-          "field_key": "source_of_data_textarea",
           "type": "textarea",
-          "model_key": "source_of_data_textarea",
+          "modelKey": "source_of_data_textarea",
           "placeholder": "If you answered \"Other\" in the previous question, enter the details here",
           "tooltip": "",
           "pre": "[^\\u0000-\\u00ff]",
@@ -417,21 +396,20 @@
             "min": 2,
             "max": 1000
           },
-          "validation_message": {
+          "validationMessage": {
             "required": "This field is required",
             "chars": "Input must be between 2 and 35 characters"
           },
-          "default_value": ""
+          "defaultValue": ""
         },
         "data_preparation_plan_select": {
-          "field_key": "data_preparation_plan_select",
           "type": "select",
-          "model_key": "data_preparation_plan_select",
+          "modelKey": "data_preparation_plan_select",
           "label": "Data preparation plan",
           "description": "How do you plan to prepare the dataset?",
           "required": true,
           "output": "option",
-          "validation_message": {
+          "validationMessage": {
             "required": "This field is required"
           },
           "options": [
@@ -439,12 +417,11 @@
             { "label": "lotus" },
             { "label": "others/custom tool" }
           ],
-          "default_value": ""
+          "defaultValue": ""
         },
         "data_preparation_plan_textarea": {
-          "field_key": "data_preparation_plan_textarea",
           "type": "textarea",
-          "model_key": "data_preparation_plan_textarea",
+          "modelKey": "data_preparation_plan_textarea",
           "placeholder": "If you answered \"other/custom tool\" in the previous question, enter the details here",
           "tooltip": "",
           "pre": "[^\\u0000-\\u00ff]",
@@ -453,16 +430,15 @@
             "min": 2,
             "max": 1000
           },
-          "validation_message": {
+          "validationMessage": {
             "required": "This field is required",
             "chars": "Input must be between 2 and 35 characters"
           },
-          "default_value": ""
+          "defaultValue": ""
         },
         "data_sample": {
-          "field_key": "data_sample",
           "type": "textarea",
-          "model_key": "data_sample",
+          "modelKey": "data_sample",
           "label": "Data sample",
           "placeholder": "Are you able to share a sample of the data?",
           "tooltip": "Provide any link(s) to files, images, tables, etc. that are available",
@@ -473,33 +449,31 @@
             "min": 2,
             "max": 1000
           },
-          "validation_message": {
+          "validationMessage": {
             "required": "This field is required",
             "chars": "Input must be between 2 and 35 characters"
           },
-          "default_value": ""
+          "defaultValue": ""
         },
         "public_availability_radio": {
-          "field_key": "public_availability_radio",
           "type": "radio",
-          "model_key": "public_availability_radio",
+          "modelKey": "public_availability_radio",
           "label": "Public availability",
           "description": "Is this a public dataset that can be retrieved by anyone on the network?  (i.e., are specific permissions or access rights required to view the data)",
           "required": true,
           "output": "option",
-          "validation_message": {
+          "validationMessage": {
             "required": "This field is required"
           },
           "options": [
             { "label": "Yes" },
             { "label": "No" }
           ],
-          "default_value": ""
+          "defaultValue": ""
         },
         "public_availability_textarea": {
-          "field_key": "public_availability_textarea",
           "type": "textarea",
-          "model_key": "public_availability_textarea",
+          "modelKey": "public_availability_textarea",
           "placeholder": "If you selected \"No\", please explain the reason.",
           "pre": "[^\\u0000-\\u00ff]",
           "tooltip": "",
@@ -508,21 +482,20 @@
             "min": 2,
             "max": 1000
           },
-          "validation_message": {
+          "validationMessage": {
             "required": "This field is required",
             "chars": "Input must be between 2 and 35 characters"
           },
-          "default_value": ""
+          "defaultValue": ""
         },
         "frequency_of_retrieval": {
-          "field_key": "frequency_of_retrieval",
           "type": "select",
-          "model_key": "frequency_of_retrieval",
+          "modelKey": "frequency_of_retrieval",
           "label": "Frequency of retrieval",
           "description": "What is the expected retrieval frequency of this data?",
           "required": true,
           "output": "option",
-          "validation_message": {
+          "validationMessage": {
             "required": "This field is required"
           },
           "options": [
@@ -531,17 +504,16 @@
             { "label": "Monthly" },
             { "label": "Yearly" }
           ],
-          "default_value": ""
+          "defaultValue": ""
         },
         "duration_of_storage": {
-          "field_key": "duration_of_storage",
           "type": "select",
-          "model_key": "duration_of_storage",
+          "modelKey": "duration_of_storage",
           "label": "Duration of storage",
           "description": "How long do you plan to keep this dataset stored on Filecoin?",
           "required": true,
           "output": "option",
-          "validation_message": {
+          "validationMessage": {
             "required": "This field is required"
           },
           "options": [
@@ -552,17 +524,16 @@
             { "label": "More than 3 years" },
             { "label": "Permanently" }
           ],
-          "default_value": ""
+          "defaultValue": ""
         },
         "geographic_distribution": {
-          "field_key": "geographic_distribution",
           "type": "select",
-          "model_key": "geographic_distribution",
+          "modelKey": "geographic_distribution",
           "label": "Geographic distribution",
           "description": "In which geographicial region do you plan on making storage deals?",
           "required": true,
           "output": "option",
-          "validation_message": {
+          "validationMessage": {
             "required": "This field is required"
           },
           "options": [
@@ -576,17 +547,16 @@
             { "label": "Antarctica" },
             { "label": "None" }
           ],
-          "default_value": ""
+          "defaultValue": ""
         },
         "sending_data": {
-          "field_key": "sending_data",
           "type": "select",
-          "model_key": "sending_data",
+          "modelKey": "sending_data",
           "label": "Sending data",
           "description": "How will you be distributing your data to storage providers?",
           "required": true,
           "output": "option",
-          "validation_message": {
+          "validationMessage": {
             "required": "This field is required"
           },
           "options": [
@@ -598,17 +568,16 @@
             { "label": "I don't know yet" },
             { "label": "Others" }
           ],
-          "default_value": ""
+          "defaultValue": ""
         },
         "storage_provider_selection_plan_select": {
-          "field_key": "storage_provider_selection_plan_select",
           "type": "select",
-          "model_key": "storage_provider_selection_plan_select",
+          "modelKey": "storage_provider_selection_plan_select",
           "label": "Storage provider selection plan",
           "description": "How do you plan to choose a SP?",
           "required": true,
           "output": "option",
-          "validation_message": {
+          "validationMessage": {
             "required": "This field is required"
           },
           "options": [
@@ -619,13 +588,12 @@
             { "label": "I don't know yet" },
             { "label": "Other" }
           ],
-          "default_value": ""
+          "defaultValue": ""
         },
         "storage_provider_selection_plan_input": {
-          "field_key": "storage_provider_selection_plan_input",
           "type": "input",
-          "input_type": "text",
-          "model_key": "storage_provider_selection_plan_input",
+          "inputType": "text",
+          "modelKey": "storage_provider_selection_plan_input",
           "description": "If you answered \"Other\" in the previous question, what is the tool or platform you plan to use?",
           "placeholder": "Provide a name for the tool you plan to use",
           "pre": "[^\\u0000-\\u00ff]",
@@ -634,16 +602,15 @@
             "min": 2,
             "max": 1000
           },
-          "validation_message": {
+          "validationMessage": {
             "required": "This field is required",
             "chars": "Input must be between 2 and 35 characters"
           },
-          "default_value": ""
+          "defaultValue": ""
         },
         "storage_provider_selection_plan_textarea": {
-          "field_key": "storage_provider_selection_plan_textarea",
           "type": "textarea",
-          "model_key": "storage_provider_selection_plan_textarea",
+          "modelKey": "storage_provider_selection_plan_textarea",
           "placeholder": "If you already have a list of storage providers to work with, fill out their names and SP IDs below",
           "tooltip": "Storage provider IDs should begin with f0...",
           "pre": "[^\\u0000-\\u00ff]",
@@ -652,21 +619,20 @@
             "min": 2,
             "max": 1000
           },
-          "validation_message": {
+          "validationMessage": {
             "required": "This field is required",
             "chars": "Input must be between 2 and 35 characters"
           },
-          "default_value": ""
+          "defaultValue": ""
         },
         "replication_plan_select": {
-          "field_key": "replication_plan_select",
           "type": "select",
-          "model_key": "replication_plan_select",
+          "modelKey": "replication_plan_select",
           "label": "Replication plan",
           "description": "How will you be distributing deals across different storage providers?",
           "required": true,
           "output": "option",
-          "validation_message": {
+          "validationMessage": {
             "required": "This field is required"
           },
           "options": [
@@ -677,12 +643,11 @@
             { "label": "I don't know yet" },
             { "label": "Others/custom tool" }
           ],
-          "default_value": ""
+          "defaultValue": ""
         },
         "replication_plan_textarea": {
-          "field_key": "replication_plan_textarea",
           "type": "textarea",
-          "model_key": "replication_plan_textarea",
+          "modelKey": "replication_plan_textarea",
           "placeholder": "If you answered \"Others/custom tool\" in the previous question, enter the details here",
           "tooltip": "",
           "pre": "[^\\u0000-\\u00ff]",
@@ -691,17 +656,16 @@
             "min": 2,
             "max": 1000
           },
-          "validation_message": {
+          "validationMessage": {
             "required": "This field is required",
             "chars": "Input must be between 2 and 35 characters"
           },
-          "default_value": ""
+          "defaultValue": ""
         },
         "github_handle": {
-          "field_key": "github_handle",
           "type": "input",
-          "input_type": "text",
-          "model_key": "github_handle",
+          "inputType": "text",
+          "modelKey": "github_handle",
           "label": "Github Handle",
           "placeholder": "@mygithub",
           "tooltip": "Provide your github handle.",
@@ -712,26 +676,25 @@
             "min": 2,
             "max": 1000
           },
-          "validation_message": {
+          "validationMessage": {
             "required": "This field is required",
             "chars": "Input must be between 2 and 35 characters"
           },
-          "default_value": ""
+          "defaultValue": ""
         },
         "confirm_follow_fil_guideline": {
-          "field_key": "confirm_follow_fil_guideline",
           "type": "checkbox",
-          "model_key": "confirm_follow_fil_guideline",
+          "modelKey": "confirm_follow_fil_guideline",
           "label": "Have your read and do you agree to the Fil+ guidelines?",
           "required": true,
           "output": "option",
-          "validation_message": {
+          "validationMessage": {
             "required": "This field is required"
           },
           "options": [
             { "label": "Yes" }
           ],
-          "default_value": ""
+          "defaultValue": ""
         }
       }
     }
