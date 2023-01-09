@@ -21,10 +21,9 @@
       "github_issue_link_text": "View Issue on Github",
       "scaffold": {
         "organization_name": {
-          "field_key": "organization_name",
           "type": "input",
-          "input_type": "text",
-          "model_key": "organization_name",
+          "inputType": "text",
+          "modelKey": "organization_name",
           "label": "Organization Name",
           "placeholder": "ABC Inc.",
           "tooltip": "Provide the name of your group or organization.",
@@ -35,17 +34,16 @@
             "min": 2,
             "max": 1000
           },
-          "validation_message": {
+          "validationMessage": {
             "required": "This field is required",
             "chars": "Input must be between 2 and 35 characters"
           },
-          "default_value": ""
+          "defaultValue": ""
         },
         "organization_website": {
-          "field_key": "organization_website",
           "type": "input",
-          "input_type": "text",
-          "model_key": "organization_website",
+          "inputType": "text",
+          "modelKey": "organization_website",
           "label": "Organization Website",
           "placeholder": "https://foo.com",
           "tooltip": "Enter the full URL of your group or organization's website.",
@@ -56,21 +54,20 @@
             "min": 2,
             "max": 1000
           },
-          "validation_message": {
+          "validationMessage": {
             "required": "This field is required",
             "chars": "Input must be between 2 and 35 characters"
           },
-          "default_value": ""
+          "defaultValue": ""
         },
         "ga_region": {
-          "field_key": "ga_region",
           "type": "select",
-          "model_key": "ga_region",
+          "modelKey": "ga_region",
           "label": "Region",
           "required": true,
           "tooltip": "",
           "output": "option",
-          "validation_message": {
+          "validationMessage": {
             "required": "This field is required"
           },
           "options": [
@@ -85,13 +82,12 @@
             { "label": "Greater China" },
             { "label": "None" }
           ],
-          "default_value": ""
+          "defaultValue": ""
         },
         "organization_social_media_handle": {
-          "field_key": "organization_social_media_handle",
           "type": "input",
-          "input_type": "text",
-          "model_key": "organization_social_media_handle",
+          "inputType": "text",
+          "modelKey": "organization_social_media_handle",
           "label": "Organization Social Media Handle",
           "placeholder": "@foo",
           "tooltip": "Provide the social media handle or full social media URL for your organization or group",
@@ -102,17 +98,16 @@
             "min": 2,
             "max": 1000
           },
-          "validation_message": {
+          "validationMessage": {
             "required": "This field is required",
             "chars": "Input must be between 2 and 35 characters"
           },
-          "default_value": ""
+          "defaultValue": ""
         },
         "organization_social_media_handle_type": {
-          "field_key": "organization_social_media_handle_type",
           "type": "input",
-          "input_type": "text",
-          "model_key": "organization_social_media_handle_type",
+          "inputType": "text",
+          "modelKey": "organization_social_media_handle_type",
           "label": "Social Media Type",
           "placeholder": "Twitter",
           "required": true,
@@ -122,57 +117,52 @@
             "min": 2,
             "max": 100
           },
-          "validation_message": {
+          "validationMessage": {
             "required": "This field is required",
             "chars": "Input must be between 2 and 35 characters"
           },
-          "default_value": ""
+          "defaultValue": ""
         },
         "total_datacap_size_input": {
-          "field_key": "total_datacap_size_input",
           "type": "input",
-          "input_type": "number",
-          "model_key": "total_datacap_size",
-          "label": "Total DataCap being requested",
+          "inputType": "number",
+          "modelKey": "total_datacap_size",
+          "label": "Total Datacap being requested",
           "placeholder": "32",
-          "tooltip": "Provide the total amount of DataCap you're requesting, including replication. Use this field to select the amount and the adjecent field to select a unit.",
           "min": 1,
           "max": 5242880,
           "required": true,
           "pre": "[^\\u0000-\\u00ff]",
           "mirror": {
-            "field_key": "total_datacap_size_range",
-            "primary": true
-          },
-          "transform": {
+            "fieldKey": "total_datacap_size_range",
+            "primary": true,
             "func": "$formatDatacapSize",
             "args": {
+              "value_from_field": "total_datacap_size_range",
               "action": "human"
             }
           },
-          "autocomplete": "none",
-          "validation_message": {
+          "autocomplete": "off",
+          "validationMessage": {
             "required": "This field is required",
             "minmax": "Number must be between 1 and 5242880"
           },
-          "default_value": ""
+          "defaultValue": 32
         },
         "total_datacap_size_unit": {
-          "field_key": "total_datacap_size_unit",
           "type": "select",
-          "model_key": "total_datacap_size_unit",
+          "modelKey": "total_datacap_size_unit",
           "label": "Unit",
-          "tooltip": "Select a unit of measurement for the amount of DataCap you're requesting.",
           "required": true,
           "output": "option",
           "react": {
-            "field_key": "total_datacap_size_range",
+            "fieldKey": "total_datacap_size_range",
             "func": "$reactDatasizeUnitToRange",
             "args": {
               "value_from_field": "total_datacap_size_range"
             }
           },
-          "validation_message": {
+          "validationMessage": {
             "required": "This field is required"
           },
           "options": [
@@ -180,13 +170,12 @@
             { "label": "TiB" },
             { "label": "PiB" }
           ],
-          "default_value": ""
+          "defaultValue": "GiB"
         },
         "filecoin_address": {
-          "field_key": "filecoin_address",
           "type": "input",
-          "input_type": "text",
-          "model_key": "filecoin_address",
+          "inputType": "text",
+          "modelKey": "filecoin_address",
           "label": "Filecoin Address",
           "placeholder": "f...",
           "tooltip": "Provide your Filecoin wallet address, which will usually begin with f1 or f3 for addresses on the mainnet",
@@ -197,17 +186,16 @@
             "min": 2,
             "max": 1000
           },
-          "validation_message": {
+          "validationMessage": {
             "required": "This field is required",
             "chars": "Input must be between 2 and 35 characters"
           },
-          "default_value": ""
+          "defaultValue": ""
         },
         "github_handle": {
-          "field_key": "github_handle",
           "type": "input",
-          "input_type": "text",
-          "model_key": "github_handle",
+          "inputType": "text",
+          "modelKey": "github_handle",
           "label": "Github Handle",
           "placeholder": "@mygithub",
           "tooltip": "Provide your github handle.",
@@ -218,11 +206,11 @@
             "min": 2,
             "max": 1000
           },
-          "validation_message": {
+          "validationMessage": {
             "required": "This field is required",
             "chars": "Input must be between 2 and 35 characters"
           },
-          "default_value": ""
+          "defaultValue": ""
         }
       }
     }

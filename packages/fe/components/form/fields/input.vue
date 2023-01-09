@@ -75,35 +75,38 @@ export default {
   },
 
   computed: {
+    scaffold () {
+      return this.field.scaffold
+    },
     inputType () {
-      return this.field.input_type || 'text'
+      return this.scaffold.inputType || 'text'
     },
     fieldKey () {
-      return this.field.field_key
+      return this.field.fieldKey
     },
     label () {
-      return this.field.label
+      return this.scaffold.label
     },
     placeholder () {
-      return this.field.placeholder || 'Enter a value...'
+      return this.scaffold.placeholder || 'Enter a value...'
     },
     autocomplete () {
-      return this.field.autocomplete
+      return this.scaffold.autocomplete
     },
     required () {
-      return this.field.required
+      return this.scaffold.required
     },
     disabled () {
-      return this.field.disabled
+      return this.scaffold.disabled
     },
     pre () {
-      return this.field.pre
+      return this.scaffold.pre
     },
     chars () {
-      return this.field.chars
+      return this.scaffold.chars
     },
     validationMessage () {
-      return this.field.validation_message
+      return this.scaffold.validationMessage
     },
     value () {
       return this.field.value
@@ -112,10 +115,10 @@ export default {
       return this.field.originalValue
     },
     min () {
-      return this.field.min
+      return this.scaffold.min
     },
     max () {
-      return this.field.max
+      return this.scaffold.max
     },
     empty () {
       const value = this.value
@@ -125,16 +128,16 @@ export default {
       return this.field.state
     },
     predictive () {
-      return this.field.predictive
+      return this.scaffold.predictive
     },
     predictiveOptions () {
-      return this.field.predictive_options
+      return this.scaffold.predictiveOptions
     },
     predictiveDisplayKey () {
-      return this.field.predictive_options.display_key
+      return this.scaffold.predictiveOptions.display_key
     },
     predictiveOptionsList () {
-      return this.field.predictive_options.options
+      return this.scaffold.predictiveOptions.options
     },
     predictiveFiltered () {
       const filterValue = this.value.toLowerCase()

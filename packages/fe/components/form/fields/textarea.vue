@@ -50,32 +50,32 @@ export default {
   },
 
   computed: {
+    scaffold () {
+      return this.field.scaffold
+    },
     name () {
-      return this.field.name
+      return this.scaffold.name
     },
     label () {
-      return this.field.label
+      return this.scaffold.label
     },
     placeholder () {
-      return this.field.placeholder || 'Enter a value...'
+      return this.scaffold.placeholder || 'Enter a value...'
     },
     autocomplete () {
-      return this.field.autocomplete
+      return this.scaffold.autocomplete
     },
     required () {
-      return this.field.required
+      return this.scaffold.required
     },
     disabled () {
-      return this.field.disabled
+      return this.scaffold.disabled
     },
     pre () {
-      return this.field.pre
+      return this.scaffold.pre
     },
     chars () {
-      return this.field.chars
-    },
-    validationMessage () {
-      return this.field.validation_message
+      return this.scaffold.chars
     },
     value () {
       return this.field.value
@@ -110,7 +110,7 @@ export default {
     }
   }
   &:not(.empty) {
-    
+
   }
 }
 

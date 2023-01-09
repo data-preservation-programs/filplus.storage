@@ -48,6 +48,9 @@ export default {
   },
 
   computed: {
+    scaffold () {
+      return this.field.scaffold
+    },
     state () {
       return this.field.state
     },
@@ -58,13 +61,13 @@ export default {
       return this.field.value
     },
     options () {
-      return this.field.options
+      return this.scaffold.options
     },
     label () {
-      return this.field.label
+      return this.scaffold.label
     },
     required () {
-      return this.field.required
+      return this.scaffold.required
     }
   }
 }

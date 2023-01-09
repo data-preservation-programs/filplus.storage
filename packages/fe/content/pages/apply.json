@@ -18,19 +18,14 @@
     "form": {
       "heading": "How much data are you bringing to the Filecoin network?",
       "submit_button_text": "Next",
-      "submit_threshold_low": 34359738368,
-      "submit_threshold_high": 109951162777600,
       "scaffold": {
         "total_datacap_size_range": {
-          "field_key": "total_datacap_size_range",
           "type": "range",
-          "model_key": "total_datacap_size",
+          "modelKey": "total_datacap_size",
           "required": true,
           "mirror": {
-            "field_key": "total_datacap_size_input",
-            "primary": false
-          },
-          "transform": {
+            "fieldKey": "total_datacap_size_input",
+            "primary": false,
             "func": "$formatDatacapSize",
             "args": {
               "action": "bytes",
@@ -39,13 +34,13 @@
             }
           },
           "react": {
-            "field_key": "total_datacap_size_unit",
+            "fieldKey": "total_datacap_size_unit",
             "func": "$reactDatasizeRangeToUnit",
             "args": {
               "value_from_field": "total_datacap_size_input"
             }
           },
-          "autocomplete": "none",
+          "autocomplete": "off",
           "min": 34359738368,
           "max": 5629499534213120,
           "intervals": [
@@ -59,16 +54,15 @@
             109951162777600,
             281474976710656
           ],
-          "validation_message": {
+          "validationMessage": {
             "required": "This field is required"
           },
-          "default_value": 34359738368
+          "defaultValue": 34359738368
         },
         "total_datacap_size_input": {
-          "field_key": "total_datacap_size_input",
           "type": "input",
-          "input_type": "number",
-          "model_key": "total_datacap_size",
+          "inputType": "number",
+          "modelKey": "total_datacap_size",
           "label": "Total Datacap being requested",
           "placeholder": "32",
           "min": 1,
@@ -76,38 +70,35 @@
           "required": true,
           "pre": "[^\\u0000-\\u00ff]",
           "mirror": {
-            "field_key": "total_datacap_size_range",
-            "primary": true
-          },
-          "transform": {
+            "fieldKey": "total_datacap_size_range",
+            "primary": true,
             "func": "$formatDatacapSize",
             "args": {
               "value_from_field": "total_datacap_size_range",
               "action": "human"
             }
           },
-          "autocomplete": "none",
-          "validation_message": {
+          "autocomplete": "off",
+          "validationMessage": {
             "required": "This field is required",
             "minmax": "Number must be between 1 and 5242880"
           },
-          "default_value": 32
+          "defaultValue": 32
         },
         "total_datacap_size_unit": {
-          "field_key": "total_datacap_size_unit",
           "type": "select",
-          "model_key": "total_datacap_size_unit",
+          "modelKey": "total_datacap_size_unit",
           "label": "Unit",
           "required": true,
           "output": "option",
           "react": {
-            "field_key": "total_datacap_size_range",
+            "fieldKey": "total_datacap_size_range",
             "func": "$reactDatasizeUnitToRange",
             "args": {
               "value_from_field": "total_datacap_size_range"
             }
           },
-          "validation_message": {
+          "validationMessage": {
             "required": "This field is required"
           },
           "options": [
@@ -115,7 +106,7 @@
             { "label": "TiB" },
             { "label": "PiB" }
           ],
-          "default_value": "GiB"
+          "defaultValue": "GiB"
         }
       }
     },

@@ -31,17 +31,17 @@
 
           <FieldContainer
             :scaffold="formScaffold.organization_name"
-            :value="getValue('organization_name')"
+            field-key="organization_name"
             form-id="filplus_application" />
 
           <FieldContainer
             :scaffold="formScaffold.organization_website"
-            :value="getValue('organization_website')"
+            field-key="organization_website"
             form-id="filplus_application" />
 
           <FieldContainer
             :scaffold="formScaffold.ga_region"
-            :value="getValue('ga_region')"
+            field-key="ga_region"
             form-id="filplus_application" />
 
         </div>
@@ -51,13 +51,13 @@
         <div class="col-6_md-6_ti-7 z-index-100" data-push-left="off-1_ti-0">
           <FieldContainer
             :scaffold="formScaffold.organization_social_media_handle"
-            :value="getValue('organization_social_media_handle')"
+            field-key="organization_social_media_handle"
             form-id="filplus_application" />
         </div>
         <div class="col-2_md-3_ti-4" data-push-left="off-1">
           <FieldContainer
             :scaffold="formScaffold.organization_social_media_handle_type"
-            :value="getValue('organization_social_media_handle_type')"
+            field-key="organization_social_media_handle_type"
             form-id="filplus_application" />
         </div>
       </div>
@@ -66,13 +66,13 @@
         <div class="col-6_md-6_ti-7 z-index-100" data-push-left="off-1_ti-0">
           <FieldContainer
             :scaffold="formScaffold.total_datacap_size_input"
-            :value="getValue('total_datacap_size')"
+            field-key="total_datacap_size_input"
             form-id="filplus_application" />
         </div>
         <div class="col-2_md-3_ti-4" data-push-left="off-1">
           <FieldContainer
             :scaffold="formScaffold.total_datacap_size_unit"
-            :value="getValue('total_datacap_size_unit')"
+            field-key="total_datacap_size_unit"
             form-id="filplus_application" />
         </div>
       </div>
@@ -82,12 +82,12 @@
 
           <FieldContainer
             :scaffold="formScaffold.filecoin_address"
-            :value="getValue('filecoin_address')"
+            field-key="filecoin_address"
             form-id="filplus_application" />
 
           <FieldContainer
             :scaffold="formScaffold.github_handle"
-            :value="getValue('github_handle')"
+            field-key="github_handle"
             form-id="filplus_application" />
 
           <div class="buttons">
@@ -157,16 +157,10 @@ export default {
   async fetch ({ app, store, params, redirect }) {
     const name = params.name
     const notary = NotariesListData.find(notary => notary.name === name)
-    const notaryField = app.$field('notary|filplus_application')
+    const notaryField = app.$field('notary|filplus_application').get()
     if (!notary || !notaryField) { return redirect('/apply/general/notaries') }
-    await store.dispatch('general/updateApplication', { notary: name })
     await store.dispatch('general/getBaseData', { key: 'apply-general', data: ApplyGeneralPageData })
-    const formId = 'filplus_application'
-    const application = store.getters['general/application']
-    const model = await store.dispatch('form/getFormModel', formId)
-    if (!model) {
-      await store.dispatch('form/registerFormModel', Object.assign(application, { formId }))
-    }
+    await app.$form('filplus_application').register(store.getters['general/application'])
   },
 
   head () {
@@ -176,10 +170,12 @@ export default {
   computed: {
     ...mapGetters({
       siteContent: 'general/siteContent',
-      application: 'general/application',
       savedFormExists: 'form/savedFormExists',
       githubIssueLink: 'general/githubIssueLink'
     }),
+    generalPageData () {
+      return this.siteContent.general
+    },
     pageData () {
       return this.siteContent[this.tag].page_content
     },
@@ -203,6 +199,15 @@ export default {
     },
     githubIssueLinkText () {
       return this.form.github_issue_link_text
+    },
+    submitThresholdBottom () {
+      return this.generalPageData.forms.submit_threshold_bottom
+    },
+    submitThresholdMiddle () {
+      return this.generalPageData.forms.submit_threshold_middle
+    },
+    submitThresholdTop () {
+      return this.generalPageData.forms.submit_threshold_top
     }
   },
 
@@ -218,30 +223,36 @@ export default {
       removeLoader: 'button/removeLoader',
       setGithubIssueLink: 'general/setGithubIssueLink'
     }),
-    getValue (modelKey) {
-      return this.application[modelKey]
-    },
     async submitForm () {
-      const inputField = this.$field('total_datacap_size_input|filplus_application')
-      const unitField = this.$field('total_datacap_size_unit|filplus_application')
-      const bytes = this.$convertSizeToBytes(inputField.value, unitField.options[unitField.value].label)
-      if (bytes > 5629499534213120) { // > 5 PiB
-        this.removeLoader('ga-submit-button')
-        this.$toaster.add({
-          type: 'toast',
-          category: 'error',
-          message: 'Please select a value up to 5 PiB'
-        })
+      const bottom = this.submitThresholdBottom
+      const middle = this.submitThresholdMiddle
+      const top = this.submitThresholdTop
+      const inputField = this.$field('total_datacap_size_input|filplus_application').get()
+      const unitField = this.$field('total_datacap_size_unit|filplus_application').get()
+      const bytes = this.$convertSizeToBytes(inputField.value, unitField.scaffold.options[unitField.value].label)
+      const pass = await this.$handleFormRedirection(bytes, bottom, top)
+      if (!pass && bytes > top) {
         const inputFieldElement = document.querySelector('#total_datacap_size_input')
         this.$scrollToElement(inputFieldElement, 250, -200)
-      } else {
-        const incoming = await this.validateForm('filplus_application')
-        if (!incoming) {
-          const firstInvalidField = document.querySelector('.error')
+      } else if (pass) {
+        if (bytes >= middle && bytes <= top) {
           this.removeLoader('ga-submit-button')
-          this.$scrollToElement(firstInvalidField, 250, -200)
+          this.$toaster.add({
+            type: 'toast',
+            category: 'error',
+            message: 'Please fill out the Large Dataset Application for your requested amount'
+          })
+          this.$router.push('/apply/large')
         } else {
-          this.submitGeneralApplication(incoming)
+          const incoming = await this.$form('filplus_application').validate()
+          console.log(incoming)
+          if (!incoming) {
+            const firstInvalidField = document.querySelector('.error')
+            this.removeLoader('ga-submit-button')
+            this.$scrollToElement(firstInvalidField, 250, -200)
+          } else {
+            this.submitGeneralApplication(incoming)
+          }
         }
       }
     }

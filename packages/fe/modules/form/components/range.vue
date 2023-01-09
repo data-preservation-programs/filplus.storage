@@ -49,6 +49,10 @@ export default {
     field: {
       type: Object,
       required: true
+    },
+    fieldKey: {
+      type: String,
+      required: true
     }
   },
 
@@ -69,29 +73,29 @@ export default {
   },
 
   computed: {
-    fieldKey () {
-      return this.field.field_key
+    scaffold () {
+      return this.field.scaffold
     },
     disabled () {
-      return this.field.disabled
+      return this.scaffold.disabled
     },
     pre () {
-      return this.field.pre
+      return this.scaffold.pre
     },
     value () {
       return this.field.value
     },
     min () {
-      return this.logarithmic ? 1 : this.field.min
+      return this.logarithmic ? 1 : this.scaffold.min
     },
     max () {
-      return this.field.max
+      return this.scaffold.max
     },
     intervals () {
-      return this.field.intervals
+      return this.scaffold.intervals
     },
     logarithmic () {
-      return this.field.hasOwnProperty('intervals')
+      return this.scaffold.hasOwnProperty('intervals')
     },
     state () {
       return this.field.state

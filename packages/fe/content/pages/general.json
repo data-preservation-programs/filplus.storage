@@ -13,6 +13,16 @@
     "home_link": "/apply",
     "header": [
       {
+        "type": "nuxt-link",
+        "href": "/test-1",
+        "label": "Test 1"
+      },
+      {
+        "type": "nuxt-link",
+        "href": "/test-2",
+        "label": "Test 2"
+      },
+      {
         "type": "a",
         "href": "https://filplus.d.interplanetary.one/notaries?showInactive=true",
         "label": "Notaries",
@@ -97,6 +107,11 @@
       ],
       "text": "The Filecoin+ program applies <a href='https://fil.org/policy/' alt='Filecoin Foundation Privacy Policy' target='_blank'>the Filecoin Foundation privacy policies</a>. Your participation in Filecoin+<br />serves as your acknowledgement and acceptance of these policies."
     }
+  },
+  "forms": {
+    "submit_threshold_bottom": 34359738368,
+    "submit_threshold_middle": 109951162777600,
+    "submit_threshold_top": 5629499534213120
   },
   "404_error_message": "<span class='bubble right'>404</span>",
   "404_home_button_text": "Back to home"

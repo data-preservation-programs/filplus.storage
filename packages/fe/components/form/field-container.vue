@@ -1,28 +1,31 @@
 <template>
   <div class="field-container">
     <Field v-bind="$props">
-      <div slot-scope="{ updateValue, field, type, validationMessage }" :class="['field-wrapper', field.type]">
+      <div slot-scope="{ updateValue, field, type, validationMessage }" :class="['field-wrapper']">
+        <template v-if="field">
 
-        <label v-if="field.label" :for="field.field_key" class="field-label">
-          {{ field.label }}
-        </label>
+          <label v-if="scaffold.label" :for="fieldKey" class="field-label">
+            {{ scaffold.label }}
+          </label>
 
-        <div v-if="field.description" class="description">
-          {{ field.description }}
-        </div>
+          <div v-if="scaffold.description" class="description">
+            {{ scaffold.description }}
+          </div>
 
-        <component
-          :is="type"
-          :field="field"
-          :data-tooltip="tooltip"
-          @updateValue="updateValue" />
+          <component
+            :is="type"
+            :field="field"
+            :field-key="fieldKey"
+            :data-tooltip="tooltip"
+            @updateValue="updateValue" />
 
-        <slot />
+          <slot />
 
-        <div v-if="validationMessage" class="validation-message">
-          {{ validationMessage }}
-        </div>
+          <div v-if="validationMessage" class="validation-message">
+            {{ validationMessage }}
+          </div>
 
+        </template>
       </div>
     </Field>
   </div>
@@ -66,6 +69,10 @@ export default {
       type: String,
       required: true
     },
+    fieldKey: {
+      type: String,
+      required: true
+    },
     groupId: {
       type: String,
       required: false,
@@ -76,7 +83,7 @@ export default {
       required: false,
       default: false
     },
-    deregisterFormFieldOnDestroy: {
+    deregisterOnDestroy: {
       type: Boolean,
       required: false,
       default: false

@@ -143,12 +143,6 @@ const actions = {
       console.log(e)
     }
   },
-  // ///////////////////////////////////////////////////////// updateApplication
-  updateApplication ({ commit, getters }, incoming) {
-    let application = CloneDeep(getters.application)
-    application = Object.assign(application, incoming)
-    commit('SET_APPLICATION', application)
-  },
   // ////////////////////////////////////////////////// submitGeneralApplication
   async submitGeneralApplication ({ commit, dispatch }, application) {
     try {

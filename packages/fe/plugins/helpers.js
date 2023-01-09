@@ -397,6 +397,7 @@ const ConnectWebsocket = config => (instance, next) => {
   })
 }
 
+// ////////////////////////////////////////////////////////// ConvertSizeToBytes
 const ConvertSizeToBytes = (size, unit) => {
   if (unit === 'GiB') {
     return size * Math.pow(1024, 3)
@@ -408,18 +409,18 @@ const ConvertSizeToBytes = (size, unit) => {
 }
 
 // /////////////////////////////////////////////////////////// FormatDatacapSize
-const FormatDatacapSize = (ctx, size, args) => {
-  let value = size
+const FormatDatacapSize = (ctx, transformField, transformSourceField, args) => {
+  let value = transformSourceField.value
   const store = ctx.store
   const action = args.action
   if (action === 'human') {
-    const valueField = store.getters['form/fields'].find(obj => obj.field_key === args.value_from_field)
+    const valueField = store.getters['form/fields'].find(obj => obj.fieldKey === args.value_from_field)
     if (valueField) { value = valueField.value }
     return parseFloat(FormatBytes(value, 'array').value)
   } else if (action === 'bytes') {
     const options = store.getters['general/siteContent'].apply.page_content.form.scaffold.total_datacap_size_unit.options
-    const unitField = store.getters['form/fields'].find(obj => obj.field_key === args.unit_from_field)
-    const valueField = store.getters['form/fields'].find(obj => obj.field_key === args.value_from_field)
+    const unitField = store.getters['form/fields'].find(obj => obj.fieldKey === args.unit_from_field)
+    const valueField = store.getters['form/fields'].find(obj => obj.fieldKey === args.value_from_field)
     if (!unitField || !valueField || unitField.value === -1) { return value }
     if (valueField) { value = valueField.value }
     const unit = options[unitField.value].label
@@ -428,26 +429,52 @@ const FormatDatacapSize = (ctx, size, args) => {
 }
 
 // //////////////////////////////////////////////////// ReactDatasizeUnitToRange
-const ReactDatasizeUnitToRange = (ctx, originalValue, size, args) => {
+const ReactDatasizeUnitToRange = (ctx, transformField, transformSourceField, args) => {
+  const size = transformSourceField.value
   const options = ctx.store.getters['general/siteContent'].apply.page_content.form.scaffold.total_datacap_size_unit.options
   const unit = FormatBytes(size, 'array').unit
   return options.findIndex(option => option.label === unit)
 }
 
 // //////////////////////////////////////////////////// ReactDatasizeRangeToUnit
-const ReactDatasizeRangeToUnit = (ctx, originalValue, unitValue, args) => {
+const ReactDatasizeRangeToUnit = (ctx, transformField, transformSourceField, args) => {
+  const originalValue = transformField.value
+  const unitValue = transformSourceField.value
   const store = ctx.store
   const options = store.getters['general/siteContent'].apply.page_content.form.scaffold.total_datacap_size_unit.options
-  const inputField = store.getters['form/fields'].find(obj => obj.field_key === args.value_from_field)
+  const inputField = store.getters['form/fields'].find(obj => obj.fieldKey === args.value_from_field)
   if (unitValue === -1) { return originalValue }
   const unit = options[unitValue].label
   const size = inputField.value
   return ConvertSizeToBytes(size, unit)
 }
 
+// /////////////////////////////////////////////////////// HandleFormRedirection
+const HandleFormRedirection = (app, store, bytes, bottom, top) => {
+  if (bytes < bottom || bytes > top) {
+    store.dispatch('removeLoader', 'ga-submit-button')
+    store.dispatch('removeLoader', 'lda-submit-button')
+  }
+  if (bytes < bottom) {
+    window.open(
+      'https://verify.glif.io/',
+      '_blank'
+    )
+  } else if (bytes > top) {
+    app.$toaster.add({
+      type: 'toast',
+      category: 'error',
+      message: 'Please select a value up to 5 PiB'
+    })
+  } else {
+    return true
+  }
+  return false
+}
+
 // ////////////////////////////////////////////////////////////////////// Export
 // -----------------------------------------------------------------------------
-export default ({ $config, app }, inject) => {
+export default ({ $config, app, store }, inject) => {
   inject('slugify', Slugify)
   inject('parseURL', ParseURL)
   inject('throttle', Throttle)
@@ -477,4 +504,5 @@ export default ({ $config, app }, inject) => {
   inject('formatDatacapSize', FormatDatacapSize)
   inject('reactDatasizeUnitToRange', ReactDatasizeUnitToRange)
   inject('reactDatasizeRangeToUnit', ReactDatasizeRangeToUnit)
+  inject('handleFormRedirection', (bytes, bottom, top) => HandleFormRedirection(app, store, bytes, bottom, top))
 }

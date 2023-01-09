@@ -79,15 +79,10 @@ export default {
     }
   },
 
-  async fetch ({ store }) {
+  async fetch ({ app, store }) {
     await store.dispatch('general/getBaseData', { key: 'notaries', data: NotariesPageData })
     await store.dispatch('general/getBaseData', { key: 'notaries-list', data: NotariesListData })
-    const formId = 'filplus_application'
-    const application = store.getters['general/application']
-    const model = await store.dispatch('form/getFormModel', formId)
-    if (!model) {
-      await store.dispatch('form/registerFormModel', Object.assign(application, { formId }))
-    }
+    await app.$form('filplus_application').register(store.getters['general/application'])
   },
 
   head () {
@@ -96,8 +91,7 @@ export default {
 
   computed: {
     ...mapGetters({
-      siteContent: 'general/siteContent',
-      application: 'general/application'
+      siteContent: 'general/siteContent'
     }),
     pageData () {
       return this.siteContent[this.tag].page_content

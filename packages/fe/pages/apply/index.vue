@@ -24,19 +24,19 @@
 
               <FieldContainer
                 :scaffold="formScaffold.total_datacap_size_range"
-                :value="getValue('total_datacap_size')"
+                field-key="total_datacap_size_range"
                 form-id="filplus_application"
                 class="range-field" />
 
               <div class="row">
                 <FieldContainer
                   :scaffold="formScaffold.total_datacap_size_input"
-                  :value="getValue('total_datacap_size')"
+                  field-key="total_datacap_size_input"
                   form-id="filplus_application"
                   class="input-field" />
                 <FieldContainer
                   :scaffold="formScaffold.total_datacap_size_unit"
-                  :value="getValue('total_datacap_size_unit')"
+                  field-key="total_datacap_size_unit"
                   form-id="filplus_application"
                   class="select-field" />
               </div>
@@ -125,15 +125,10 @@ export default {
     }
   },
 
-  async fetch ({ store }) {
+  async fetch ({ app, store }) {
     await store.dispatch('general/getBaseData', { key: 'apply', data: ApplyPageData })
     await store.dispatch('general/getBaseData', { key: 'faq', data: FaqPageData })
-    const formId = 'filplus_application'
-    const application = store.getters['general/application']
-    const model = await store.dispatch('form/getFormModel', formId)
-    if (!model) {
-      await store.dispatch('form/registerFormModel', Object.assign(application, { formId }))
-    }
+    await app.$form('filplus_application').register(store.getters['general/application'])
   },
 
   head () {
@@ -143,9 +138,11 @@ export default {
   computed: {
     ...mapGetters({
       siteContent: 'general/siteContent',
-      application: 'general/application',
       applyFormHighlighted: 'general/applyFormHighlighted'
     }),
+    generalPageData () {
+      return this.siteContent.general
+    },
     pageData () {
       return this.siteContent[this.tag].page_content
     },
@@ -164,11 +161,14 @@ export default {
     submitButtonText () {
       return this.form.submit_button_text
     },
-    submitThresholdLow () {
-      return this.form.submit_threshold_low
+    submitThresholdBottom () {
+      return this.generalPageData.forms.submit_threshold_bottom
     },
-    submitThresholdHigh () {
-      return this.form.submit_threshold_high
+    submitThresholdMiddle () {
+      return this.generalPageData.forms.submit_threshold_middle
+    },
+    submitThresholdTop () {
+      return this.generalPageData.forms.submit_threshold_top
     },
     faq () {
       return this.pageData.faq
@@ -205,37 +205,20 @@ export default {
   methods: {
     ...mapActions({
       validateForm: 'form/validateForm',
-      updateApplication: 'general/updateApplication',
       highlightApplyForm: 'general/highlightApplyForm'
     }),
-    getValue (modelKey) {
-      return this.application[modelKey]
-    },
     async submitForm (e) {
       e.preventDefault()
-      const inputField = this.$field('total_datacap_size_input|filplus_application')
-      const unitField = this.$field('total_datacap_size_unit|filplus_application')
-      const bytes = this.$convertSizeToBytes(inputField.value, unitField.options[unitField.value].label)
-      if (bytes > 5629499534213120) { // > 5 PiB
-        this.$toaster.add({
-          type: 'toast',
-          category: 'error',
-          message: 'Please select a value up to 5 PiB'
-        })
-      } else if (bytes < this.submitThresholdLow) {
-        window.open(
-          'https://verify.glif.io/',
-          '_blank'
-        )
-      } else if (bytes >= this.submitThresholdLow && bytes < this.submitThresholdHigh) {
-        const incoming = await this.validateForm('filplus_application')
-        if (incoming) {
-          this.updateApplication(incoming)
+      const bottom = this.submitThresholdBottom
+      const middle = this.submitThresholdMiddle
+      const top = this.submitThresholdTop
+      const rangeField = this.$field('total_datacap_size_range|filplus_application').get()
+      const bytes = rangeField.value
+      const pass = await this.$handleFormRedirection(bytes, bottom, top)
+      if (pass) {
+        if (bytes >= bottom && bytes < middle) {
           this.$router.push('/apply/general/notaries')
-        }
-      } else {
-        const incoming = await this.validateForm('filplus_application')
-        if (incoming) {
+        } else if (bytes >= middle && bytes <= top) {
           this.$router.push('/apply/large')
         }
       }

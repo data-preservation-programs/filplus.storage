@@ -32,22 +32,22 @@
 
           <FieldContainer
             :scaffold="formScaffold.organization_name"
-            :value="getValue('organization_name')"
+            field-key="organization_name"
             form-id="filplus_application" />
 
           <FieldContainer
             :scaffold="formScaffold.data_owner_region"
-            :value="getValue('data_owner_region')"
+            field-key="data_owner_region"
             form-id="filplus_application" />
 
           <FieldContainer
             :scaffold="formScaffold.data_owner_industry"
-            :value="getValue('data_owner_industry')"
+            field-key="data_owner_industry"
             form-id="filplus_application" />
 
           <FieldContainer
             :scaffold="formScaffold.organization_website"
-            :value="getValue('organization_website')"
+            field-key="organization_website"
             form-id="filplus_application" />
 
         </div>
@@ -57,13 +57,13 @@
         <div class="col-6_md-6_ti-7" data-push-left="off-1_ti-0">
           <FieldContainer
             :scaffold="formScaffold.organization_social_media_handle"
-            :value="getValue('organization_social_media_handle')"
+            field-key="organization_social_media_handle"
             form-id="filplus_application" />
         </div>
         <div class="col-2_md-3_ti-4" data-push-left="off-1">
           <FieldContainer
             :scaffold="formScaffold.organization_social_media_handle_type"
-            :value="getValue('organization_social_media_handle_type')"
+            field-key="organization_social_media_handle_type"
             form-id="filplus_application" />
         </div>
       </div>
@@ -72,13 +72,13 @@
         <div class="col-6_md-6_ti-7" data-push-left="off-1_ti-0">
           <FieldContainer
             :scaffold="formScaffold.total_datacap_size_input"
-            :value="getValue('total_datacap_size')"
+            field-key="total_datacap_size_input"
             form-id="filplus_application" />
         </div>
         <div class="col-2_md-3_ti-4" data-push-left="off-1">
           <FieldContainer
             :scaffold="formScaffold.total_datacap_size_unit"
-            :value="getValue('total_datacap_size_unit')"
+            field-key="total_datacap_size_unit"
             form-id="filplus_application" />
         </div>
       </div>
@@ -87,13 +87,13 @@
         <div class="col-6_md-6_ti-7" data-push-left="off-1_ti-0">
           <FieldContainer
             :scaffold="formScaffold.weekly_data_size"
-            :value="getValue('weekly_data_size')"
+            field-key="weekly_data_size"
             form-id="filplus_application" />
         </div>
         <div class="col-2_md-3_ti-4" data-push-left="off-1">
           <FieldContainer
             :scaffold="formScaffold.weekly_data_size_unit"
-            :value="getValue('weekly_data_size_unit')"
+            field-key="weekly_data_size_unit"
             form-id="filplus_application" />
         </div>
       </div>
@@ -103,17 +103,17 @@
 
           <FieldContainer
             :scaffold="formScaffold.filecoin_address"
-            :value="getValue('filecoin_address')"
+            field-key="filecoin_address"
             form-id="filplus_application" />
 
           <FieldContainer
             :scaffold="formScaffold.custom_multisig"
-            :value="getValue('custom_multisig')"
+            field-key="custom_multisig"
             form-id="filplus_application" />
 
           <FieldContainer
             :scaffold="formScaffold.identifier"
-            :value="getValue('identifier')"
+            field-key="identifier"
             form-id="filplus_application" />
 
         </div>
@@ -140,57 +140,57 @@
 
           <FieldContainer
             :scaffold="formScaffold.about"
-            :value="getValue('about')"
+            field-key="about"
             form-id="filplus_application" />
 
           <FieldContainer
             :scaffold="formScaffold.ecosystem_associates_radio"
-            :value="getValue('ecosystem_associates_radio')"
+            field-key="ecosystem_associates_radio"
             form-id="filplus_application" />
 
           <FieldContainer
             :scaffold="formScaffold.ecosystem_associates_textarea"
-            :value="getValue('ecosystem_associates_textarea')"
+            field-key="ecosystem_associates_textarea"
             form-id="filplus_application" />
 
           <FieldContainer
             :scaffold="formScaffold.nature_of_data"
-            :value="getValue('nature_of_data')"
+            field-key="nature_of_data"
             form-id="filplus_application" />
 
           <FieldContainer
             :scaffold="formScaffold.source_of_data_select"
-            :value="getValue('source_of_data_select')"
+            field-key="source_of_data_select"
             form-id="filplus_application" />
 
           <FieldContainer
             :scaffold="formScaffold.source_of_data_textarea"
-            :value="getValue('source_of_data_textarea')"
+            field-key="source_of_data_textarea"
             form-id="filplus_application" />
 
           <FieldContainer
             :scaffold="formScaffold.data_preparation_plan_select"
-            :value="getValue('data_preparation_plan_select')"
+            field-key="data_preparation_plan_select"
             form-id="filplus_application" />
 
           <FieldContainer
             :scaffold="formScaffold.data_preparation_plan_textarea"
-            :value="getValue('data_preparation_plan_textarea')"
+            field-key="data_preparation_plan_textarea"
             form-id="filplus_application" />
 
           <FieldContainer
             :scaffold="formScaffold.data_sample"
-            :value="getValue('data_sample')"
+            field-key="data_sample"
             form-id="filplus_application" />
 
           <FieldContainer
             :scaffold="formScaffold.public_availability_radio"
-            :value="getValue('public_availability_radio')"
+            field-key="public_availability_radio"
             form-id="filplus_application" />
 
           <FieldContainer
             :scaffold="formScaffold.public_availability_textarea"
-            :value="getValue('public_availability_textarea')"
+            field-key="public_availability_textarea"
             form-id="filplus_application" />
 
         </div>
@@ -201,57 +201,57 @@
 
           <FieldContainer
             :scaffold="formScaffold.frequency_of_retrieval"
-            :value="getValue('frequency_of_retrieval')"
+            field-key="frequency_of_retrieval"
             form-id="filplus_application" />
 
           <FieldContainer
             :scaffold="formScaffold.duration_of_storage"
-            :value="getValue('duration_of_storage')"
+            field-key="duration_of_storage"
             form-id="filplus_application" />
 
           <FieldContainer
             :scaffold="formScaffold.geographic_distribution"
-            :value="getValue('geographic_distribution')"
+            field-key="geographic_distribution"
             form-id="filplus_application" />
 
           <FieldContainer
             :scaffold="formScaffold.sending_data"
-            :value="getValue('sending_data')"
+            field-key="sending_data"
             form-id="filplus_application" />
 
           <FieldContainer
             :scaffold="formScaffold.storage_provider_selection_plan_select"
-            :value="getValue('storage_provider_selection_plan_select')"
+            field-key="storage_provider_selection_plan_select"
             form-id="filplus_application" />
 
           <FieldContainer
             :scaffold="formScaffold.storage_provider_selection_plan_input"
-            :value="getValue('storage_provider_selection_plan_input')"
+            field-key="storage_provider_selection_plan_input"
             form-id="filplus_application" />
 
           <FieldContainer
             :scaffold="formScaffold.storage_provider_selection_plan_textarea"
-            :value="getValue('storage_provider_selection_plan_textarea')"
+            field-key="storage_provider_selection_plan_textarea"
             form-id="filplus_application" />
 
           <FieldContainer
             :scaffold="formScaffold.replication_plan_select"
-            :value="getValue('replication_plan_select')"
+            field-key="replication_plan_select"
             form-id="filplus_application" />
 
           <FieldContainer
             :scaffold="formScaffold.replication_plan_textarea"
-            :value="getValue('replication_plan_textarea')"
+            field-key="replication_plan_textarea"
             form-id="filplus_application" />
 
           <FieldContainer
             :scaffold="formScaffold.confirm_follow_fil_guideline"
-            :value="getValue('confirm_follow_fil_guideline')"
+            field-key="confirm_follow_fil_guideline"
             form-id="filplus_application" />
 
           <FieldContainer
             :scaffold="formScaffold.github_handle"
-            :value="getValue('github_handle')"
+            field-key="github_handle"
             form-id="filplus_application" />
 
           <div class="buttons">
@@ -316,15 +316,10 @@ export default {
     }
   },
 
-  async fetch ({ store }) {
+  async fetch ({ app, store }) {
     await store.dispatch('general/getBaseData', { key: 'apply-large', data: ApplyLargePageData })
     await store.dispatch('general/getNetworkStorageCapacity')
-    const formId = 'filplus_application'
-    const application = store.getters['general/application']
-    const model = await store.dispatch('form/getFormModel', formId)
-    if (!model) {
-      await store.dispatch('form/registerFormModel', Object.assign(application, { formId }))
-    }
+    await app.$form('filplus_application').register(store.getters['general/application'])
   },
 
   head () {
@@ -334,11 +329,13 @@ export default {
   computed: {
     ...mapGetters({
       siteContent: 'general/siteContent',
-      application: 'general/application',
       networkStorageCapacity: 'general/networkStorageCapacity',
       savedFormExists: 'form/savedFormExists',
       githubIssueLink: 'general/githubIssueLink'
     }),
+    generalPageData () {
+      return this.siteContent.general
+    },
     pageData () {
       return this.siteContent[this.tag].page_content
     },
@@ -368,6 +365,15 @@ export default {
     },
     githubIssueLinkText () {
       return this.form.github_issue_link_text
+    },
+    submitThresholdBottom () {
+      return this.generalPageData.forms.submit_threshold_bottom
+    },
+    submitThresholdMiddle () {
+      return this.generalPageData.forms.submit_threshold_middle
+    },
+    submitThresholdTop () {
+      return this.generalPageData.forms.submit_threshold_top
     }
   },
 
@@ -383,26 +389,28 @@ export default {
       removeLoader: 'button/removeLoader',
       setGithubIssueLink: 'general/setGithubIssueLink'
     }),
-    getValue (modelKey) {
-      return this.application[modelKey]
-    },
     async submitForm () {
-      const inputField = this.$field('total_datacap_size_input|filplus_application')
-      const unitField = this.$field('total_datacap_size_unit|filplus_application')
-      const option = unitField.options[unitField.value]
-      if (option) {
-        const bytes = this.$convertSizeToBytes(inputField.value, option.label)
-        if (bytes > 5629499534213120) {
+      const bottom = this.submitThresholdBottom
+      const middle = this.submitThresholdMiddle
+      const top = this.submitThresholdTop
+      const inputField = this.$field('total_datacap_size_input|filplus_application').get()
+      const unitField = this.$field('total_datacap_size_unit|filplus_application').get()
+      const bytes = this.$convertSizeToBytes(inputField.value, unitField.scaffold.options[unitField.value].label)
+      const pass = await this.$handleFormRedirection(bytes, bottom, top)
+      if (!pass && bytes > top) {
+        const inputFieldElement = document.querySelector('#total_datacap_size_input')
+        this.$scrollToElement(inputFieldElement, 250, -200)
+      } else if (pass) {
+        if (bytes >= middle && bytes <= top) {
+          this.removeLoader('lda-submit-button')
           this.$toaster.add({
             type: 'toast',
             category: 'error',
-            message: 'Please select a value up to 5 PiB'
+            message: 'Please fill out the Large Dataset Application for your requested amount'
           })
-          this.removeLoader('lda-submit-button')
-          const inputFieldElement = document.querySelector('#total_datacap_size_input')
-          this.$scrollToElement(inputFieldElement, 250, -200)
+          this.$router.push('/apply/large')
         } else {
-          const incoming = await this.validateForm('filplus_application')
+          const incoming = await this.$form('filplus_application').validate()
           if (!incoming) {
             const firstInvalidField = document.querySelector('.error')
             this.removeLoader('lda-submit-button')
@@ -411,9 +419,6 @@ export default {
             this.submitLargeApplication(incoming)
           }
         }
-      } else {
-        await this.validateForm('filplus_application')
-        this.removeLoader('lda-submit-button')
       }
     }
   }

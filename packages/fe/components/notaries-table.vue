@@ -18,7 +18,8 @@
       <!-- ============================================================ Body -->
       <Field
         :scaffold="formScaffold.notary"
-        :value="application.notary"
+        :validate-across-routes="true"
+        field-key="notary"
         form-id="filplus_application">
         <tbody slot-scope="{ updateValue }" class="table-body">
           <tr
