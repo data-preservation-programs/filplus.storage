@@ -13,16 +13,6 @@
     "home_link": "/apply",
     "header": [
       {
-        "type": "nuxt-link",
-        "href": "/test-1",
-        "label": "Test 1"
-      },
-      {
-        "type": "nuxt-link",
-        "href": "/test-2",
-        "label": "Test 2"
-      },
-      {
         "type": "a",
         "href": "https://filplus.d.interplanetary.one/notaries?showInactive=true",
         "label": "Notaries",
