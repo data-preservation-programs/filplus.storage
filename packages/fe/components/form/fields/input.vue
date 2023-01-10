@@ -213,6 +213,9 @@ $height: 4rem;
     font-weight: 400;
     font-style: italic;
   }
+  &:focus {
+    border-width: 4px;
+  }
   &::-webkit-inner-spin-button,
   &::-webkit-outer-spin-button {
     margin: 0;
