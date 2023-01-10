@@ -86,6 +86,18 @@
                 <div class="text" v-html="cta.label" />
               </ButtonA>
 
+              <IdentifierStatus v-slot="{ identifier }">
+                <Identifier v-if="identifier" :identifier="identifier" />
+                <ButtonA
+                  v-else
+                  :to="$config.githubOAuthLink"
+                  tag="a"
+                  class="auth-button">
+                  <GithubIcon class="icon-github" />
+                  <span>Login or Register</span>
+                </ButtonA>
+              </IdentifierStatus>
+
             </nav>
 
           </div>
@@ -110,6 +122,10 @@ import Logo from '@/components/logo'
 import ButtonA from '@/components/buttons/button-a'
 import ButtonX from '@/components/buttons/button-x'
 import MobileNav from '@/components/mobile-nav'
+import IdentifierStatus from '@/components/auth/identifier-status'
+import Identifier from '@/components/auth/identifier'
+
+import GithubIcon from '@/components/icons/github'
 
 // =================================================================== Functions
 const resizeHandler = (instance) => {
@@ -140,7 +156,10 @@ export default {
     Logo,
     ButtonA,
     ButtonX,
-    MobileNav
+    MobileNav,
+    IdentifierStatus,
+    Identifier,
+    GithubIcon
   },
 
   data () {
@@ -363,6 +382,15 @@ export default {
 // /////////////////////////////////////////////////////////////// Nav Detailing
 $squiggleAnimationDuration: 500ms;
 
+@keyframes wave {
+  0%, 100%{
+    d:path('M 0 2 H 892 C 893 2 893 2 893 2 C 895 2 901 1 906 2 C 918 4 918 22 931 22 C 944 22 945 4 958 2 C 962 1 968 2 970 2 C 971 2 971 2 971 2 H 1862');
+  }
+  50%{
+    d:path('M 0 2 H 892 C 893 2 893 2 893 2 C 895 2 901 2 906 4 C 918 8 918 17 931 17 C 944 17 946 6 958 3 C 962 2 968 2 970 2 C 971 2 971 2 971 2 H 1862')
+  }
+}
+
 .nav-detail {
   position: absolute;
   left: -1.25rem;
@@ -430,13 +458,18 @@ $squiggleAnimationDuration: 500ms;
   }
 }
 
-@keyframes wave {
-  0%, 100%{
-    d:path('M 0 2 H 892 C 893 2 893 2 893 2 C 895 2 901 1 906 2 C 918 4 918 22 931 22 C 944 22 945 4 958 2 C 962 1 968 2 970 2 C 971 2 971 2 971 2 H 1862');
-  }
-  50%{
-    d:path('M 0 2 H 892 C 893 2 893 2 893 2 C 895 2 901 2 906 4 C 918 8 918 17 931 17 C 944 17 946 6 958 3 C 962 2 968 2 970 2 C 971 2 971 2 971 2 H 1862')
-  }
+// ////////////////////////////////////////////////////////////// Authentication
+.auth-button {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
+::v-deep .icon-github {
+  width: 1rem;
+  margin-right: 0.5rem;
+  path {
+    fill: $aztec;
+  }
+}
 </style>

@@ -16,7 +16,7 @@ export default {
   props: {
     fill: {
       type: String,
-      default: '#FFFFFF',
+      default: '#0F1F1A',
       required: false
     }
   }

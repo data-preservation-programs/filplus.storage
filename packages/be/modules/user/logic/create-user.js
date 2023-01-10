@@ -6,6 +6,7 @@ const MC = require('@Root/config')
 // -----------------------------------------------------------------------------
 const CreateUser = async (incoming) => {
   try {
+    console.log(MC.model)
     const created = await MC.model.User.create(incoming)
     if (!created) { return false }
     const userId = created._id
@@ -15,9 +16,9 @@ const CreateUser = async (incoming) => {
       initiator: userId,
       client: userId,
       subject: userId,
-      initiator_ref: 'sl3_users',
-      client_ref: 'sl3_users',
-      subject_ref: 'sl3_users',
+      initiator_ref: 'fp_users',
+      client_ref: 'fp_users',
+      subject_ref: 'fp_users',
       before: null,
       after: created
     })

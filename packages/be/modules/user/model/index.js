@@ -1,4 +1,4 @@
-console.log('💿 [model] sl3_users')
+console.log('💿 [model] fp_users')
 
 // ///////////////////////////////////////////////////////////////////// Imports
 // -----------------------------------------------------------------------------
@@ -119,4 +119,4 @@ function allowEmptyStringIfNotRegistered () {
 
 // ////////////////////////////////////////////////////////////////////// Export
 // -----------------------------------------------------------------------------
-module.exports = Mongoose.model('sl3_users', UserSchema)
+module.exports = Mongoose.model('fp_users', UserSchema)

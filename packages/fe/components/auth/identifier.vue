@@ -12,21 +12,11 @@
     </ButtonA>
 
     <ButtonA
-      v-if="isAdmin"
-      :selected="isRouteCurrent('modify')"
-      to="/modify/editor"
-      tag="nuxt-link"
-      data-tooltip="omgz I'm an admin! 😍"
-      class="modify-button">
-      🔑
-    </ButtonA>
-
-    <ButtonB
       class="logout-button"
       data-tooltip="logout"
       @clicked="logout">
       <IconShutdown />
-    </ButtonB>
+    </ButtonA>
 
   </div>
 </template>
@@ -36,7 +26,6 @@
 import { mapGetters, mapActions } from 'vuex'
 
 import ButtonA from '@/components/buttons/button-a'
-import ButtonB from '@/components/buttons/button-b'
 import IconShutdown from '@/components/icons/shutdown'
 
 // ====================================================================== Export
@@ -45,7 +34,6 @@ export default {
 
   components: {
     ButtonA,
-    ButtonB,
     IconShutdown
   },
 
@@ -130,7 +118,7 @@ export default {
     font-size: 0.75rem;
   }
   .button-content {
-    text-shadow: 1px 1px 3px $mirage;
+    text-shadow: 1px 1px 3px white;
   }
 }
 

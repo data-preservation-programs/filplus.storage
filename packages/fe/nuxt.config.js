@@ -123,15 +123,15 @@ export default {
   auth: {
     redirectAfterLogin: {
       unregistered: {
-        path: '/account/:key',
+        path: '/apply',
         key: 'githubUsername'
       },
       registered: {
-        path: '/account/:key/datasets/claimed',
+        path: '/apply',
         key: 'githubUsername'
       }
     },
-    redirectAfterLogout: '/'
+    redirectAfterLogout: '/apply'
   },
   // ////////////////////////////////////////////////////////// [Module] Account
   // ---------------------------------------------------------------------------
