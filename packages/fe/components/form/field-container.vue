@@ -92,7 +92,8 @@ export default {
 
   computed: {
     tooltip () {
-      return this.scaffold.tooltip
+      const tooltip = this.scaffold.tooltip
+      return tooltip && tooltip !== '' ? tooltip : false
     }
   }
 }
