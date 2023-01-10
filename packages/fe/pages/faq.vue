@@ -27,7 +27,7 @@
           <div
             v-if="ctaCard"
             class="cta-card-wrapper"
-            @click="highlighFormOrChangeRoute">
+            @click="$highlightApplyForm">
             <Card
               icon="arrow"
               :outline="true"
@@ -62,7 +62,7 @@
 
 <script>
 // ===================================================================== Imports
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters } from 'vuex'
 
 import HeroA from '@/components/hero-a'
 import FaqAccordion from '@/components/faq-accordion'
@@ -116,22 +116,6 @@ export default {
     },
     ctaCard () {
       return this.pageData.cta_card
-    }
-  },
-
-  methods: {
-    ...mapActions({
-      highlightApplyForm: 'general/highlightApplyForm'
-    }),
-    highlighFormOrChangeRoute () {
-      if (this.$route.name !== 'apply') {
-        this.$router.push({
-          path: '/apply',
-          query: { highlight_form: true }
-        })
-        return
-      }
-      this.highlightApplyForm()
     }
   }
 }

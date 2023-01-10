@@ -197,15 +197,14 @@ export default {
     this.$nextTick(() => {
       const highlightForm = this.$route.query.highlight_form
       if (highlightForm) {
-        this.highlightApplyForm()
+        this.$highlightApplyForm()
       }
     })
   },
 
   methods: {
     ...mapActions({
-      validateForm: 'form/validateForm',
-      highlightApplyForm: 'general/highlightApplyForm'
+      validateForm: 'form/validateForm'
     }),
     async submitForm (e) {
       e.preventDefault()

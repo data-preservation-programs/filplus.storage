@@ -472,6 +472,39 @@ const HandleFormRedirection = (app, store, bytes, bottom, top) => {
   return false
 }
 
+// ////////////////////////////////////////////////////////// HighlightApplyForm
+let highlightApplyFormTimeout1
+let highlightApplyFormTimeout2
+
+const HighlightApplyForm = (app, store) => {
+  const route = app.router.history.current
+  const router = app.router
+  if (route.name !== 'apply') {
+    router.push({
+      path: '/apply',
+      query: { highlight_form: true }
+    })
+    return
+  }
+  if (highlightApplyFormTimeout2) { return }
+  const applyFormCard = document.getElementById('apply-form-card')
+  app.$scrollToElement(applyFormCard, 250, -(window.innerHeight - applyFormCard.clientHeight) / 2)
+  highlightApplyFormTimeout1 = setTimeout(() => {
+    store.dispatch('general/setApplyFormHighlightedStatus', true)
+    clearTimeout(highlightApplyFormTimeout1)
+  }, 250)
+  highlightApplyFormTimeout2 = setTimeout(() => {
+    store.dispatch('general/setApplyFormHighlightedStatus', false)
+    const query = Object.assign({}, route.query)
+    if (query.highlight_form) {
+      delete query.highlight_form
+      router.replace({ query })
+    }
+    clearTimeout(highlightApplyFormTimeout2)
+    highlightApplyFormTimeout2 = false
+  }, 2250)
+}
+
 // ////////////////////////////////////////////////////////////////////// Export
 // -----------------------------------------------------------------------------
 export default ({ $config, app, store }, inject) => {
@@ -505,4 +538,5 @@ export default ({ $config, app, store }, inject) => {
   inject('reactDatasizeUnitToRange', ReactDatasizeUnitToRange)
   inject('reactDatasizeRangeToUnit', ReactDatasizeRangeToUnit)
   inject('handleFormRedirection', (bytes, bottom, top) => HandleFormRedirection(app, store, bytes, bottom, top))
+  inject('highlightApplyForm', () => HighlightApplyForm(app, store))
 }
