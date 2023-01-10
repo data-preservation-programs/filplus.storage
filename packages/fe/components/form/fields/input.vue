@@ -1,5 +1,5 @@
 <template>
-  <div :class="['field field-input', state, { focused, empty, predictive }]">
+  <div :class="['field field-input', state, { focused, empty, predictive, 'dropdown-open': dropdownOpen }]">
 
     <div v-if="disabled" :class="['input', { disabled }]">
       {{ value }}
@@ -186,7 +186,7 @@ $height: 4rem;
 // ///////////////////////////////////////////////////////////////////// General
 .field-input {
   height: $height;
-  &.focused.predictive {
+  &.focused.predictive.dropdown-open {
     .input {
       border-bottom-color: transparent;
     }
