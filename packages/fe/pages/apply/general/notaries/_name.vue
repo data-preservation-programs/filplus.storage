@@ -245,7 +245,6 @@ export default {
           this.$router.push('/apply/large')
         } else {
           const incoming = await this.$form('filplus_application').validate()
-          console.log(incoming)
           if (!incoming) {
             const firstInvalidField = document.querySelector('.error')
             this.removeLoader('ga-submit-button')

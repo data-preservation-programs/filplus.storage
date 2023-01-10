@@ -452,8 +452,8 @@ const ReactDatasizeRangeToUnit = (ctx, transformField, transformSourceField, arg
 // /////////////////////////////////////////////////////// HandleFormRedirection
 const HandleFormRedirection = (app, store, bytes, bottom, top) => {
   if (bytes < bottom || bytes > top) {
-    store.dispatch('removeLoader', 'ga-submit-button')
-    store.dispatch('removeLoader', 'lda-submit-button')
+    store.dispatch('button/removeLoader', 'ga-submit-button')
+    store.dispatch('button/removeLoader', 'lda-submit-button')
   }
   if (bytes < bottom) {
     window.open(
