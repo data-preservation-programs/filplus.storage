@@ -1,6 +1,6 @@
 /**
  *
- * ⏱️️ [Cron | every 1 hour] NetworkStorageCapacity
+ * ⏱️️ [Cron | every 1 hour] Notaries
  *
  */
 
@@ -44,24 +44,24 @@ const { SecondsToHms } = require('@Module_Utilities')
 
 // ////////////////////////////////////////////////////////////////// Initialize
 // -----------------------------------------------------------------------------
-const NetworkStorageCapacity = async () => {
-  console.log('🤖 Fetch network storage capacity started')
+const Notaries = async () => {
+  console.log('🤖 Fetch notaries list started')
   try {
     const start = process.hrtime()[0]
-    const token = process.env.SPACESCOPE_TOKEN
-    const date = Moment.tz('UTC').subtract(1, 'days').format('YYYY-MM-DD')
-    const options = { headers: { authorization: `Bearer ${token}` } }
-    const response = await Axios.get(`https://api.spacescope.io/v2/power/network_storage_capacity?end_date=${date}&start_date=${date}`, options)
-    const data = response.data.data
-    if (data) {
-      Fs.writeFileSync(`${MC.cacheRoot}/network-storage-capacity.json`, JSON.stringify(data))
+    // const token = process.env.SPACESCOPE_TOKEN
+    // const date = Moment.tz('UTC').subtract(1, 'days').format('YYYY-MM-DD')
+    // const options = { headers: { authorization: `Bearer ${token}` } }
+    const response = await Axios.get('https://raw.githubusercontent.com/keyko-io/filecoin-content/main/json/prod/verifiers-registry.json')
+    const data = response.data
+    if (data && data.notaries) {
+      Fs.writeFileSync(`${MC.cacheRoot}/notaries-list.json`, JSON.stringify(data.notaries))
     }
     const end = process.hrtime()[0]
-    console.log(`🏁 Fetch network storage capacity complete | took ${SecondsToHms(end - start)}`)
+    console.log(`🏁 Fetch notaries list complete | took ${SecondsToHms(end - start)}`)
     process.exit(0)
   } catch (e) {
-    console.log('============================== [Cron: NetworkStorageCapacity]')
+    console.log('============================================ [Cron: Notaries]')
     console.log(e)
     process.exit(0)
   }
-}; NetworkStorageCapacity()
+}; Notaries()
