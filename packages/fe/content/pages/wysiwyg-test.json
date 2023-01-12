@@ -1,0 +1,37 @@
+{
+  "seo": {
+    "title": "WYSIWYG Test — Filecoin Plus",
+    "description": "Test form for WYSIWYG field."
+  },
+  "og": {
+    "site_name": "Test Application — Filecoin Plus",
+    "url": "",
+    "type": "website",
+    "image": "/open-graph-image.png"
+  },
+  "page_content": {
+    "hero": {
+      "label": "WYSIWYG Test",
+      "heading": "Does it work?"
+    },
+    "form": {
+      "heading": "This is a test form",
+      "restore_saved_form_button_text": "Restore Saved Form",
+      "submit_button_text": "Send Request",
+      "github_issue_link_text": "View Issue on Github",
+      "scaffold": {
+        "wysiwyg_test_field": {
+          "type": "wysiwyg",
+          "inputType": "text",
+          "modelKey": "organization_name",
+          "label": "Organization Name",
+          "placeholder": "ABC Inc.",
+          "tooltip": "Provide the name of your group or organization.",
+          "required": false,
+          "pre": "[^\\u0000-\\u00ff]",
+          "defaultValue": ""
+        }
+      }
+    }
+  }
+}

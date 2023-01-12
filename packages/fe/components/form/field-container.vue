@@ -40,6 +40,7 @@ import FieldRange from '@/components/form/fields/range'
 import FieldCheckbox from '@/components/form/fields/checkbox'
 import FieldRadio from '@/components/form/fields/radio'
 import FieldSelect from '@/components/form/fields/select'
+import FieldWysiwyg from '@/components/form/fields/wysiwyg'
 
 // ====================================================================== Export
 export default {
@@ -52,7 +53,8 @@ export default {
     FieldRange,
     FieldCheckbox,
     FieldRadio,
-    FieldSelect
+    FieldSelect,
+    FieldWysiwyg
   },
 
   props: {

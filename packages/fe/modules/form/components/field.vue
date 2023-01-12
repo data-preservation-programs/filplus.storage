@@ -62,6 +62,7 @@ export default {
         case 'checkbox' : component = 'FieldCheckbox'; break
         case 'radio' : component = 'FieldRadio'; break
         case 'select' : component = 'FieldSelect'; break
+        case 'wysiwyg' : component = 'FieldWysiwyg'; break
       }
       return component
     },

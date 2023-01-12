@@ -19,8 +19,8 @@
       },
       {
         "type": "nuxt-link",
-        "href": "/test-2",
-        "label": "Test 2"
+        "href": "/wysiwyg-test",
+        "label": "WYSIWYG Test"
       },
       {
         "type": "a",
