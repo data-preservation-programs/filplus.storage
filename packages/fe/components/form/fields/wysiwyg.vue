@@ -63,8 +63,12 @@ export default {
       content: '<p>I’m running Tiptap with Vue.js. 🎉</p>',
       extensions: [
         StarterKit
-      ]
+      ],
+      onUpdate ({ editor }) {
+        console.log('editor onUpdate ', editor.getText()) // outputs
+      }
     })
+    // console.log('mounted editor', this.editor)
   },
 
   beforeDestroy () {
