@@ -48,9 +48,6 @@ const Notaries = async () => {
   console.log('🤖 Fetch notaries list started')
   try {
     const start = process.hrtime()[0]
-    // const token = process.env.SPACESCOPE_TOKEN
-    // const date = Moment.tz('UTC').subtract(1, 'days').format('YYYY-MM-DD')
-    // const options = { headers: { authorization: `Bearer ${token}` } }
     const response = await Axios.get('https://raw.githubusercontent.com/keyko-io/filecoin-content/main/json/prod/verifiers-registry.json')
     const data = response.data
     if (data && data.notaries) {
