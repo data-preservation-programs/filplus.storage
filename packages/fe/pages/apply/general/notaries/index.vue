@@ -60,7 +60,6 @@ import NotariesTable from '@/components/notaries-table'
 import Squigglie from '@/components/squigglie'
 
 import NotariesPageData from '@/content/pages/notaries.json'
-import NotariesListData from '@/content/data/notaries-list.json'
 
 // ====================================================================== Export
 export default {
@@ -81,8 +80,8 @@ export default {
 
   async fetch ({ app, store }) {
     await store.dispatch('general/getBaseData', { key: 'notaries', data: NotariesPageData })
-    await store.dispatch('general/getBaseData', { key: 'notaries-list', data: NotariesListData })
     await store.dispatch('account/getAccount', app.$authIdentifier.githubUsername)
+    await store.dispatch('general/getCachedFile', 'notaries-list.json')
     await app.$form('filplus_application').register(store.getters['general/application'])
   },
 
