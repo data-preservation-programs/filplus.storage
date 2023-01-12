@@ -210,8 +210,6 @@ const Field = (app, store, id) => {
       let parsed = value
       if ((type === 'input' && inputType === 'number') || type === 'range') {
         parsed = value !== '' ? parseFloat(value) : null
-      } else if (typeof value === 'string') {
-        parsed = value.trim()
       }
       field.value = parsed
       field.state = field.value !== field.originalValue ? 'caution' : 'valid'
