@@ -86,17 +86,7 @@
                 <div class="text" v-html="cta.label" />
               </ButtonA>
 
-              <IdentifierStatus v-slot="{ identifier }">
-                <Identifier v-if="identifier" :identifier="identifier" />
-                <ButtonA
-                  v-else
-                  :to="$config.githubOAuthLink"
-                  tag="a"
-                  class="auth-button">
-                  <GithubIcon class="icon-github" />
-                  <span>Login or Register</span>
-                </ButtonA>
-              </IdentifierStatus>
+              <AuthButton />
 
             </nav>
 
@@ -122,10 +112,7 @@ import Logo from '@/components/logo'
 import ButtonA from '@/components/buttons/button-a'
 import ButtonX from '@/components/buttons/button-x'
 import MobileNav from '@/components/mobile-nav'
-import IdentifierStatus from '@/components/auth/identifier-status'
-import Identifier from '@/components/auth/identifier'
-
-import GithubIcon from '@/components/icons/github'
+import AuthButton from '@/components/auth/auth-button'
 
 // =================================================================== Functions
 const resizeHandler = (instance) => {
@@ -157,9 +144,7 @@ export default {
     ButtonA,
     ButtonX,
     MobileNav,
-    IdentifierStatus,
-    Identifier,
-    GithubIcon
+    AuthButton
   },
 
   data () {
@@ -455,21 +440,6 @@ $squiggleAnimationDuration: 500ms;
     left: 0;
     bottom: 0;
     transform: scaleY(-1) translateX(var(--bottom-squiggle-offset));
-  }
-}
-
-// ////////////////////////////////////////////////////////////// Authentication
-.auth-button {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-::v-deep .icon-github {
-  width: 1rem;
-  margin-right: 0.5rem;
-  path {
-    fill: $aztec;
   }
 }
 </style>

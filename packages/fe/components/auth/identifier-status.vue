@@ -1,11 +1,3 @@
-<template>
-  <component :is="rootNode">
-
-    <slot :identifier="identifier" />
-
-  </component>
-</template>
-
 <script>
 // ====================================================================== Export
 export default {
@@ -41,6 +33,12 @@ export default {
   destroyed () {
     clearInterval(this.interval)
     this.interval = false
+  },
+
+  render () {
+    return this.$scopedSlots.default({
+      identifier: this.identifier
+    })
   }
 }
 </script>

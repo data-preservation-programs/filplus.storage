@@ -82,6 +82,7 @@ export default {
   async fetch ({ app, store }) {
     await store.dispatch('general/getBaseData', { key: 'notaries', data: NotariesPageData })
     await store.dispatch('general/getBaseData', { key: 'notaries-list', data: NotariesListData })
+    await store.dispatch('account/getAccount', app.$authIdentifier.githubUsername)
     await app.$form('filplus_application').register(store.getters['general/application'])
   },
 

@@ -6,7 +6,6 @@ const MC = require('@Root/config')
 // -----------------------------------------------------------------------------
 const CreateUser = async (incoming) => {
   try {
-    console.log(MC.model)
     const created = await MC.model.User.create(incoming)
     if (!created) { return false }
     const userId = created._id

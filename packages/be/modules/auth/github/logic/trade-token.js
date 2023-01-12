@@ -3,6 +3,7 @@
 const Axios = require('axios')
 const FindUser = require('@Module_User/logic/find-user')
 const CreateUser = require('@Module_User/logic/create-user')
+const { Encrypt } = require('@Logic/cipher')
 
 // /////////////////////////////////////////////////////////////////// Functions
 // -----------------------------------------------------------------------------
@@ -36,6 +37,7 @@ const getUserFromGithub = async (token) => {
       githubUsername: data.login,
       githubAvatarUrl: data.avatar_url,
       githubHtmlUrl: data.html_url,
+      githubToken: Encrypt(token),
       email: data.email
     }
   } catch (e) {
@@ -96,8 +98,7 @@ const populateUser = (user, existingUser) => {
   return new Promise((resolve) => {
     if (existingUser) {
       const isAdmin = existingUser.isAdmin
-      user.email = existingUser.email
-      user.registered = existingUser.registered
+      user.email = Encrypt(existingUser.email)
       if (isAdmin) {
         user.isAdmin = isAdmin
       }
@@ -113,7 +114,7 @@ const TradeTokenAndGetUser = async (req, tempToken) => {
     let user = await getUserFromGithub(token)
     // Find existing user
     const query = { $or: [{ githubUsername: user.githubUsername }, { email: user.email }] }
-    const projections = '_id githubUsername githubAvatarUrl githubHtmlUrl email isAdmin registered'
+    const projections = '_id githubUsername githubAvatarUrl githubHtmlUrl githubToken email isAdmin'
     const existingUser = await FindUser(query, projections)
     // If none exists, create new user
     if (!existingUser) {

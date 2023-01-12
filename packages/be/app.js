@@ -21,7 +21,8 @@ ModuleAlias.addAliases({
   '@Static': `${MC.packageRoot}/static`,
   '@Public': `${MC.packageRoot}/public`,
   '@Cache': `${MC.packageRoot}/cache`,
-  '@Modules': `${MC.packageRoot}/modules`
+  '@Modules': `${MC.packageRoot}/modules`,
+  '@Logic': `${MC.packageRoot}/logic`
 })
 
 try {

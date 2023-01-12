@@ -55,7 +55,7 @@ const extractModel = (scaffold, fields) => {
             if (option) {
               value = option.label
             } else {
-              value = field.baseValue
+              value = fieldScaffold.baseValue
               if (!value) { throw new Error(`baseValue key missing from ${field.fieldKey} field scaffold`) }
             }
           }

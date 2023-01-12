@@ -91,8 +91,9 @@ export default {
     }
   },
 
-  async fetch ({ store }) {
+  async fetch ({ app, store }) {
     await store.dispatch('general/getBaseData', { key: 'about', data: AboutPageData })
+    await store.dispatch('account/getAccount', app.$authIdentifier.githubUsername)
   },
 
   head () {

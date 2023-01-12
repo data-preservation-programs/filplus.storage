@@ -4,15 +4,16 @@ console.log('💡 [endpoint] /submit-general-application')
 // -----------------------------------------------------------------------------
 const { SendData, GetFileFromDisk } = require('@Module_Utilities')
 const Axios = require('axios')
+const { Decrypt } = require('@Logic/cipher')
 
 const MC = require('@Root/config')
 
 // /////////////////////////////////////////////////////////////////// Functions
 // -----------------------------------------------------------------------------
 // /////////////////////////////////////////////////////////// submitApplication
-const submitApplication = async (template, body) => {
+const submitApplication = async (template, body, token) => {
   try {
-    const options = { headers: { Accept: 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28', Authorization: `token ${process.env.GITHUB_PERSONAL_ACCESS_TOKEN_2}` } }
+    const options = { headers: { Accept: 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28', Authorization: `token ${token}` } }
     const response = await Axios.post('https://api.github.com/repos/filecoin-project/filecoin-plus-client-onboarding/issues', {
       title: `Client Allocation Request for: ${body.organization_name}`,
       body: template,
@@ -25,11 +26,13 @@ const submitApplication = async (template, body) => {
   }
 }
 
-// ///////////////////////////////////8///////////////////////////////// Endpoint
+// //////////////////////////////////////////////////////////////////// Endpoint
 // -----------------------------------------------------------------------------
 MC.app.post('/submit-general-application', async (req, res) => {
   const body = req.body
   try {
+    const identifier = req.session.identifier
+    if (!identifier) { return SendData(res, 403, 'You are not logged in') }
     let template = await GetFileFromDisk(`${MC.staticRoot}/general-application-template.md`)
     template = template.toString()
     Object.keys(body).forEach((key) => {
@@ -48,7 +51,7 @@ MC.app.post('/submit-general-application', async (req, res) => {
     }
     let githubIssueLink = '/'
     if (MC.serverFlag === 'production') {
-      githubIssueLink = await submitApplication(template, body)
+      githubIssueLink = await submitApplication(template, body, Decrypt(identifier.githubToken))
     }
     SendData(res, 200, 'General application submitted succesfully', githubIssueLink)
   } catch (e) {

@@ -21,12 +21,17 @@ const actions = {
         params: { githubUsername }
       })
       const account = response.data.payload
-      if (!account) { return false }
+      console.log(account)
+      if (!account) {
+        commit('SET_ACCOUNT', false)
+        return false
+      }
       commit('SET_ACCOUNT', account)
       return account
     } catch (e) {
       console.log('======================== [Store Action: account/getAccount]')
       console.log(e)
+      commit('SET_ACCOUNT', false)
     }
   }
 }
