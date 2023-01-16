@@ -77,7 +77,8 @@
 
         <div class="col-4_lg-3_sm-2_mi-1">
           <div class="panel-right">
-            <div class="warp-image-double" />
+            <!-- <div class="warp-image-double" /> -->
+            <GridLayer />
           </div>
         </div>
 
@@ -101,6 +102,7 @@ import Card from '@/components/card'
 import FieldContainer from '@/components/form/field-container'
 import Overlay from '@/components/overlay'
 import Squigglie from '@/components/squigglie'
+import GridLayer from '@/components/warped-grid'
 
 import ApplyPageData from '@/content/pages/apply.json'
 import FaqPageData from '@/content/pages/faq.json'
@@ -116,7 +118,8 @@ export default {
     ButtonA,
     Card,
     Overlay,
-    Squigglie
+    Squigglie,
+    GridLayer
   },
 
   data () {
