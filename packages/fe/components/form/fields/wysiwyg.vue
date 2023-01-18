@@ -42,6 +42,26 @@
           @clicked="editor.chain().focus().redo().run()">
           redo
         </ButtonX>
+        <ButtonX
+          :class="[ 'wysiwyg-formatting-button', { 'is-active': editor.isActive({ textAlign: 'left' }) }]"
+          @clicked="editor.chain().focus().setTextAlign('left').run()">
+          left
+        </ButtonX>
+        <ButtonX
+          :class="[ 'wysiwyg-formatting-button', { 'is-active': editor.isActive({ textAlign: 'center' }) }]"
+          @clicked="editor.chain().focus().setTextAlign('center').run()">
+          center
+        </ButtonX>
+        <ButtonX
+          :class="[ 'wysiwyg-formatting-button', { 'is-active': editor.isActive({ textAlign: 'right' }) }]"
+          @clicked="editor.chain().focus().setTextAlign('right').run()">
+          right
+        </ButtonX>
+        <ButtonX
+          :class="[ 'wysiwyg-formatting-button', { 'is-active': editor.isActive({ textAlign: 'justify' }) }]"
+          @clicked="editor.chain().focus().setTextAlign('justify').run()">
+          justify
+        </ButtonX>
       </div>
       <client-only>
         <editor-content
@@ -64,6 +84,7 @@
 // ===================================================================== Imports
 import { Editor, EditorContent } from '@tiptap/vue-2'
 import StarterKit from '@tiptap/starter-kit'
+import TextAlign from '@tiptap/extension-text-align'
 
 import Select from '@/components/form/fields/select'
 import ButtonX from '@/components/buttons/button-x'
@@ -118,13 +139,15 @@ export default {
     this.editor = new Editor({
       content: this.value,
       extensions: [
-        StarterKit
+        StarterKit,
+        TextAlign.configure({
+          types: ['heading', 'paragraph']
+        })
       ],
       onUpdate: () => {
         this.$emit('updateValue', this.editor.getHTML())
       },
       onSelectionUpdate: ({ editor }) => {
-        console.log('editor.state ', editor.state)
         const anchor = editor.state.selection.$anchor.pos
         const head = editor.state.selection.$head.pos
         const anchorNodeType = editor.state.selection.$anchor.parent.type.name === 'heading' ? editor.state.selection.$anchor.parent.attrs.level : editor.state.selection.$anchor.parent.type.name
@@ -191,6 +214,8 @@ export default {
 }
 
 .wysiwyg-formatting-button {
+  margin-left: .25rem;
+  padding: 0 .2rem;
   border: 2px solid $nandor;
   border-radius: 0.625rem;
   background-color: $racingGreen;
@@ -204,6 +229,5 @@ export default {
   border-radius: 0.625rem;
   line-height: 1.1;
 }
-
 
 </style>
