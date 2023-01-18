@@ -1,18 +1,58 @@
 <template>
   <div class="field field-wysiwyg">
 
-    <div class="wysiwyg-container">
-
+    <div v-if="editor" class="wysiwyg-container">
+      <div class="wysiwyg-formatting-container">
+        <Select
+          class='wysiwig-heading-dropdown'
+          :field="headingSelectField"
+          @updateValue="updateHeadingSelectNode" />
+        <ButtonX
+          :class="[ 'wysiwyg-formatting-button', { 'is-active': editor.isActive('bold') }]"
+          @clicked="editor.chain().focus().toggleBold().run()">
+          bold
+        </ButtonX>
+        <ButtonX
+          :class="[ 'wysiwyg-formatting-button', { 'is-active': editor.isActive('italic') }]"
+          @clicked="editor.chain().focus().toggleItalic().run()">
+          italic
+        </ButtonX>
+        <ButtonX
+          :class="[ 'wysiwyg-formatting-button', { 'is-active': editor.isActive('bulletList') }]"
+          @clicked="editor.chain().focus().toggleBulletList().run()">
+          bullet list
+        </ButtonX>
+        <ButtonX
+          :class="[ 'wysiwyg-formatting-button', { 'is-active': editor.isActive('orderedList') }]"
+          @clicked="editor.chain().focus().toggleOrderedtList().run()">
+          ordered list
+        </ButtonX>
+        <ButtonX
+          :class="[ 'wysiwyg-formatting-button', { 'is-active': editor.isActive('orderedList') }]"
+          @clicked="editor.chain().focus().toggleOrderedtList().run()">
+          ordered list
+        </ButtonX>
+        <ButtonX
+          class="wysiwyg-formatting-button"
+          @clicked="editor.chain().focus().undo().run()">
+          undo
+        </ButtonX>
+        <ButtonX
+          class="wysiwyg-formatting-button"
+          @clicked="editor.chain().focus().redo().run()">
+          redo
+        </ButtonX>
+      </div>
       <client-only>
         <editor-content
           :id="fieldKey"
+          v-model="value"
           :editor="editor"
           :type="inputType"
           :name="fieldKey"
           :value="value"
-          :class="['wysiwyg', state]" />
+          :class="['wysiwyg-editor', state]" />
       </client-only>
-
     </div>
 
   </div>
@@ -20,14 +60,22 @@
 </template>
 
 <script>
+
+// ===================================================================== Imports
 import { Editor, EditorContent } from '@tiptap/vue-2'
 import StarterKit from '@tiptap/starter-kit'
 
+import Select from '@/components/form/fields/select'
+import ButtonX from '@/components/buttons/button-x'
+
+// ====================================================================== Export
 export default {
   name: 'FieldWysiwyg',
 
   components: {
-    EditorContent
+    EditorContent,
+    Select,
+    ButtonX
   },
 
   props: {
@@ -39,7 +87,8 @@ export default {
 
   data () {
     return {
-      editor: null
+      editor: null,
+      headingSelectValue: 0
     }
   },
 
@@ -55,24 +104,65 @@ export default {
     },
     state () {
       return this.field.state
+    },
+    headingSelectField () {
+      return {
+        id: `wysiwyg_heading_select|${this.field.id}`,
+        scaffold: this.field.scaffold.wysiwyg_heading_select,
+        value: this.headingSelectValue
+      }
     }
   },
 
   mounted () {
     this.editor = new Editor({
-      content: '<p>I’m running Tiptap with Vue.js. 🎉</p>',
+      content: this.value,
       extensions: [
         StarterKit
       ],
-      onUpdate ({ editor }) {
-        console.log('editor onUpdate ', editor.getText()) // outputs
+      onUpdate: () => {
+        this.$emit('updateValue', this.editor.getHTML())
+      },
+      onSelectionUpdate: ({ editor }) => {
+        console.log('editor.state ', editor.state)
+        const anchor = editor.state.selection.$anchor.pos
+        const head = editor.state.selection.$head.pos
+        const anchorNodeType = editor.state.selection.$anchor.parent.type.name === 'heading' ? editor.state.selection.$anchor.parent.attrs.level : editor.state.selection.$anchor.parent.type.name
+        const headNodeType = editor.state.selection.$head.parent.type.name === 'heading' ? editor.state.selection.$head.parent.attrs.level : editor.state.selection.$head.parent.type.name
+        if (anchor === head || anchorNodeType === headNodeType) {
+          this.showCurrentHeadingValue(anchorNodeType)
+        } else {
+          this.headingSelectValue = -1 // blanks dropdown if more than one node is selected, should blank if more than one heading type is selected
+        }
       }
     })
-    // console.log('mounted editor', this.editor)
   },
 
   beforeDestroy () {
     this.editor.destroy()
+  },
+
+  methods: {
+    showCurrentHeadingValue (nodeType) {
+      switch (nodeType) {
+        case 1:
+          this.headingSelectValue = 1
+          break
+        case 2:
+          this.headingSelectValue = 2
+          break
+        default: // default sets it to paragraph/Normal text
+          this.headingSelectValue = 0
+      }
+    },
+    updateHeadingSelectNode (value) {
+      if (value === 0) {
+        this.headingSelectValue = 0 // set the heading option to be shown in the dropdown
+        this.editor.chain().focus().setParagraph().run() // change the node type that's currently in focus
+      }
+      this.headingSelectValue = value
+      this.editor.chain().focus().setHeading({ level: value }).run()
+    }
   }
 }
 </script>
@@ -86,6 +176,34 @@ export default {
 
 .wysiwyg-container{
   height: 100%;
+  select {
+    background: transparent;
+  }
 }
+
+.wysiwyg-formatting-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.wysiwig-heading-dropdown {
+  width: 8rem;
+}
+
+.wysiwyg-formatting-button {
+  border: 2px solid $nandor;
+  border-radius: 0.625rem;
+  background-color: $racingGreen;
+  &.is-active {
+    border-color: $mandysPink;
+  }
+}
+.wysiwyg-editor {
+  padding: 1.5rem;
+  border: 2px solid $nandor;
+  border-radius: 0.625rem;
+  line-height: 1.1;
+}
+
 
 </style>

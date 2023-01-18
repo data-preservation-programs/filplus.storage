@@ -21,8 +21,6 @@
 
         <div class="col-12">
 
-          <!-- <Wysiwyg /> -->
-
           <FieldContainer
             :scaffold="formScaffold.wysiwyg_test_field"
             field-key="wysiwyg-test-field"
@@ -47,7 +45,6 @@ import HeroB from '@/components/hero-b'
 import Overlay from '@/components/overlay'
 import Squigglie from '@/components/squigglie'
 
-// import Wysiwyg from '@/components/form/fields/wysiwyg'
 import FieldContainer from '@/components/form/field-container'
 
 import WysiwygTestPageData from '@/content/pages/wysiwyg-test.json'
@@ -165,6 +162,7 @@ export default {
   padding-bottom: 4.125rem;
   border-top: 3px solid transparent;
   z-index: 25;
+  height: 30rem;
 }
 
 .wysiwyg-top-border {

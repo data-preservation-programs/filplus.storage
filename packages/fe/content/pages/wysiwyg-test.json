@@ -29,7 +29,30 @@
           "tooltip": "Provide the name of your group or organization.",
           "required": false,
           "pre": "[^\\u0000-\\u00ff]",
-          "defaultValue": ""
+          "defaultValue": "",
+          "wysiwyg_heading_select": {
+            "type": "select",
+            "modelKey": "wysiwyg_heading_select",
+            "label": "",
+            "required": true,
+            "output": "option",
+            "react": {
+              "fieldKey": "wysiwyg_heading_select",
+              "func": "$selectOption",
+              "args": {
+                "value_from_field": "wysiwyg_heading_select"
+              }
+            },
+            "validationMessage": {
+              "required": "This field is required"
+            },
+            "options": [
+              { "label": "Normal text" },
+              { "label": "Heading 1" },
+              { "label": "Heading 2" }
+            ],
+            "defaultValue": 0
+          }
         }
       }
     }
