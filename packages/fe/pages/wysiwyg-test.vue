@@ -23,7 +23,7 @@
 
           <FieldContainer
             :scaffold="formScaffold.wysiwyg_test_field"
-            field-key="wysiwyg-test-field"
+            field-key="wysiwyg_test_field"
             form-id="wysiwyg_test_form" />
 
         </div>

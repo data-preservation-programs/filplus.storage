@@ -208,8 +208,8 @@ export default {
         return
       }
       if (url === '') {
-        return
         this.editor.chain().focus().extendMarkRange('link').unsetLink().toggleUnderline().run()
+        return
       }
       this.editor.chain().focus().extendMarkRange('link').setLink({ href: url }).toggleUnderline().run()
     }
@@ -217,7 +217,7 @@ export default {
 }
 </script>
 
-<style lang='scss' scoped>
+<style lang="scss" scoped>
 
 // ///////////////////////////////////////////////////////////////////// General
 .field-wysiwyg {
@@ -250,20 +250,12 @@ export default {
     border-color: $mandysPink;
   }
 }
+
 .wysiwyg-editor {
   padding: 1.5rem;
   border: 2px solid $nandor;
   border-radius: 0.625rem;
   line-height: 1.1;
-  .ProseMirror {
-    color: violet;
-    > p {
-      color: teal;
-    }
-   :is(a, u).wysiwyg-link {
-      color: salmon;
-    }
-  }
 }
 
 </style>

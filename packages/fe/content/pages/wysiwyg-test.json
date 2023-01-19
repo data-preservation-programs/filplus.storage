@@ -23,9 +23,9 @@
         "wysiwyg_test_field": {
           "type": "wysiwyg",
           "inputType": "text",
-          "modelKey": "organization_name",
-          "label": "Organization Name",
-          "placeholder": "ABC Inc.",
+          "modelKey": "wysiwyg_test_field",
+          "label": "WYSIWYG Test Field",
+          "placeholder": "Placeholder text...",
           "tooltip": "Provide the name of your group or organization.",
           "required": false,
           "pre": "[^\\u0000-\\u00ff]",
