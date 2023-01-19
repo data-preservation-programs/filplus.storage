@@ -4,7 +4,7 @@
     <div v-if="editor" class="wysiwyg-container">
       <div class="wysiwyg-formatting-container">
         <Select
-          class='wysiwig-heading-dropdown'
+          class="wysiwig-heading-dropdown"
           :field="headingSelectField"
           @updateValue="updateHeadingSelectNode" />
         <ButtonX
@@ -152,9 +152,10 @@ export default {
         }),
         Link.configure({
           HTMLAttributes: {
-            class: 'wysiwyg-link',
-            openOnClick: false
-          }
+              class: 'wysiwyg-link',
+              style: 'text-decoration: underline;'
+          },
+          openOnClick: false
         }),
         Underline
       ],
