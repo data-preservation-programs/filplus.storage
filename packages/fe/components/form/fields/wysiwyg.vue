@@ -10,12 +10,17 @@
         <ButtonX
           :class="[ 'wysiwyg-formatting-button', { 'is-active': editor.isActive('bold') }]"
           @clicked="editor.chain().focus().toggleBold().run()">
-          bold
+          <strong>B</strong>
         </ButtonX>
         <ButtonX
           :class="[ 'wysiwyg-formatting-button', { 'is-active': editor.isActive('italic') }]"
           @clicked="editor.chain().focus().toggleItalic().run()">
-          italic
+          <em>I</em>
+        </ButtonX>
+        <ButtonX
+          :class="[ 'wysiwyg-formatting-button', { 'is-active': editor.isActive('underline') }]"
+          @clicked="editor.chain().focus().toggleUnderline().run()">
+          <u>U</u>
         </ButtonX>
         <ButtonX
           :class="[ 'wysiwyg-formatting-button', { 'is-active': editor.isActive('bulletList') }]"
@@ -24,12 +29,7 @@
         </ButtonX>
         <ButtonX
           :class="[ 'wysiwyg-formatting-button', { 'is-active': editor.isActive('orderedList') }]"
-          @clicked="editor.chain().focus().toggleOrderedtList().run()">
-          ordered list
-        </ButtonX>
-        <ButtonX
-          :class="[ 'wysiwyg-formatting-button', { 'is-active': editor.isActive('orderedList') }]"
-          @clicked="editor.chain().focus().toggleOrderedtList().run()">
+          @clicked="editor.chain().focus().toggleOrderedList().run()">
           ordered list
         </ButtonX>
         <ButtonX
@@ -62,6 +62,11 @@
           @clicked="editor.chain().focus().setTextAlign('justify').run()">
           justify
         </ButtonX>
+        <ButtonX
+          :class="[ 'wysiwyg-formatting-button', { 'is-active': editor.isActive('link') }]"
+          @clicked="setLink">
+          link
+        </ButtonX>
       </div>
       <client-only>
         <editor-content
@@ -85,6 +90,8 @@
 import { Editor, EditorContent } from '@tiptap/vue-2'
 import StarterKit from '@tiptap/starter-kit'
 import TextAlign from '@tiptap/extension-text-align'
+import Link from '@tiptap/extension-link'
+import Underline from '@tiptap/extension-underline'
 
 import Select from '@/components/form/fields/select'
 import ButtonX from '@/components/buttons/button-x'
@@ -142,7 +149,14 @@ export default {
         StarterKit,
         TextAlign.configure({
           types: ['heading', 'paragraph']
-        })
+        }),
+        Link.configure({
+          HTMLAttributes: {
+            class: 'wysiwyg-link',
+            openOnClick: false
+          }
+        }),
+        Underline
       ],
       onUpdate: () => {
         this.$emit('updateValue', this.editor.getHTML())
@@ -185,6 +199,19 @@ export default {
       }
       this.headingSelectValue = value
       this.editor.chain().focus().setHeading({ level: value }).run()
+    },
+    setLink () {
+      const previousURL = this.editor.getAttributes('link').href
+      const url = window.prompt('URL: ', previousURL)
+
+      if (url === null) {
+        return
+      }
+      if (url === '') {
+        return
+        this.editor.chain().focus().extendMarkRange('link').unsetLink().toggleUnderline().run()
+      }
+      this.editor.chain().focus().extendMarkRange('link').setLink({ href: url }).toggleUnderline().run()
     }
   }
 }
@@ -228,6 +255,15 @@ export default {
   border: 2px solid $nandor;
   border-radius: 0.625rem;
   line-height: 1.1;
+  .ProseMirror {
+    color: violet;
+    > p {
+      color: teal;
+    }
+   :is(a, u).wysiwyg-link {
+      color: salmon;
+    }
+  }
 }
 
 </style>
