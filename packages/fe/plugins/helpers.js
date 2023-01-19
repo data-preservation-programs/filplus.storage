@@ -419,8 +419,8 @@ const FormatDatacapSize = (ctx, transformField, transformSourceField, args) => {
     return parseFloat(FormatBytes(value, 'array').value)
   } else if (action === 'bytes') {
     const options = store.getters['general/siteContent'].apply.page_content.form.scaffold.total_datacap_size_unit.options
-    const unitField = store.getters['form/fields'].find(obj => obj.fieldKey === args.unit_from_field)
-    const valueField = store.getters['form/fields'].find(obj => obj.fieldKey === args.value_from_field)
+    const unitField = ctx.$field(`${args.unit_from_field}|filplus_application`).get()
+    const valueField = ctx.$field(`${args.value_from_field}|filplus_application`).get()
     if (!unitField || !valueField || unitField.value === -1) { return value }
     if (valueField) { value = valueField.value }
     const unit = options[unitField.value].label
@@ -442,7 +442,7 @@ const ReactDatasizeRangeToUnit = (ctx, transformField, transformSourceField, arg
   const unitValue = transformSourceField.value
   const store = ctx.store
   const options = store.getters['general/siteContent'].apply.page_content.form.scaffold.total_datacap_size_unit.options
-  const inputField = store.getters['form/fields'].find(obj => obj.fieldKey === args.value_from_field)
+  const inputField = ctx.$field(`${args.value_from_field}|filplus_application`).get()
   if (unitValue === -1) { return originalValue }
   const unit = options[unitValue].label
   const size = inputField.value
@@ -452,8 +452,8 @@ const ReactDatasizeRangeToUnit = (ctx, transformField, transformSourceField, arg
 // /////////////////////////////////////////////////////// HandleFormRedirection
 const HandleFormRedirection = (app, store, bytes, bottom, top) => {
   if (bytes < bottom || bytes > top) {
-    store.dispatch('removeLoader', 'ga-submit-button')
-    store.dispatch('removeLoader', 'lda-submit-button')
+    store.dispatch('button/removeLoader', 'ga-submit-button')
+    store.dispatch('button/removeLoader', 'lda-submit-button')
   }
   if (bytes < bottom) {
     window.open(
@@ -470,6 +470,39 @@ const HandleFormRedirection = (app, store, bytes, bottom, top) => {
     return true
   }
   return false
+}
+
+// ////////////////////////////////////////////////////////// HighlightApplyForm
+let highlightApplyFormTimeout1
+let highlightApplyFormTimeout2
+
+const HighlightApplyForm = (app, store) => {
+  const route = app.router.history.current
+  const router = app.router
+  if (route.name !== 'apply') {
+    router.push({
+      path: '/apply',
+      query: { highlight_form: true }
+    })
+    return
+  }
+  if (highlightApplyFormTimeout2) { return }
+  const applyFormCard = document.getElementById('apply-form-card')
+  app.$scrollToElement(applyFormCard, 250, -(window.innerHeight - applyFormCard.clientHeight) / 2)
+  highlightApplyFormTimeout1 = setTimeout(() => {
+    store.dispatch('general/setApplyFormHighlightedStatus', true)
+    clearTimeout(highlightApplyFormTimeout1)
+  }, 250)
+  highlightApplyFormTimeout2 = setTimeout(() => {
+    store.dispatch('general/setApplyFormHighlightedStatus', false)
+    const query = Object.assign({}, route.query)
+    if (query.highlight_form) {
+      delete query.highlight_form
+      router.replace({ query })
+    }
+    clearTimeout(highlightApplyFormTimeout2)
+    highlightApplyFormTimeout2 = false
+  }, 2250)
 }
 
 // ////////////////////////////////////////////////////////////////////// Export
@@ -505,4 +538,5 @@ export default ({ $config, app, store }, inject) => {
   inject('reactDatasizeUnitToRange', ReactDatasizeUnitToRange)
   inject('reactDatasizeRangeToUnit', ReactDatasizeRangeToUnit)
   inject('handleFormRedirection', (bytes, bottom, top) => HandleFormRedirection(app, store, bytes, bottom, top))
+  inject('highlightApplyForm', () => HighlightApplyForm(app, store))
 }

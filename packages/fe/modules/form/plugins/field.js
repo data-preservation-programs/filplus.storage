@@ -139,9 +139,14 @@ const applyTransformation = (app, transformField, transformSourceField, transfor
 }
 
 // //////////////////////////////////////////////// updateLocalStorageSavedField
-const updateLocalStorageSavedField = (ctx, formId, allFields) => {
+const updateLocalStorageSavedField = (ctx, store, formId) => {
   if (process.client) {
+    const allFields = store.getters['form/fields']
+    const savedFormExists = store.getters['form/savedFormExists']
     ctx.$ls.set(`form__${formId}`, JSON.stringify(allFields))
+    if (savedFormExists) {
+      store.dispatch('form/setSavedFormExistsStatus', false)
+    }
   }
 }
 
@@ -205,15 +210,13 @@ const Field = (app, store, id) => {
       let parsed = value
       if ((type === 'input' && inputType === 'number') || type === 'range') {
         parsed = value !== '' ? parseFloat(value) : null
-      } else if (typeof value === 'string') {
-        parsed = value.trim()
       }
       field.value = parsed
       field.state = field.value !== field.originalValue ? 'caution' : 'valid'
       field.validation = false
       await store.dispatch('form/setField', field)
       await applyTransformations(app, store, field)
-      updateLocalStorageSavedField(app, field.formId, store.getters['form/fields'])
+      updateLocalStorageSavedField(app, store, field.formId)
     },
 
     // ================================================================ validate

@@ -18,7 +18,7 @@
             <Logo class="site-logo" />
             <div
               class="cta-wrapper"
-              @click="highlighFormOrChangeRoute">
+              @click="$highlightApplyForm">
               <CircleText class="cta-spinner" />
               <Arrow class="cta-arrow" />
             </div>
@@ -121,7 +121,7 @@
 
 <script>
 // ===================================================================== Imports
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters } from 'vuex'
 
 import Overlay from '@/components/overlay'
 import Logo from '@/components/logo'
@@ -174,9 +174,6 @@ export default {
   },
 
   methods: {
-    ...mapActions({
-      highlightApplyForm: 'general/highlightApplyForm'
-    }),
     isRouteCurrent (href) {
       const route = this.$route
       if (route.path === href) { return true }
@@ -190,16 +187,6 @@ export default {
         default: icon = 'div'
       }
       return icon
-    },
-    highlighFormOrChangeRoute () {
-      if (this.$route.name !== 'apply') {
-        this.$router.push({
-          path: '/apply',
-          query: { highlight_form: true }
-        })
-        return
-      }
-      this.highlightApplyForm()
     }
   }
 }

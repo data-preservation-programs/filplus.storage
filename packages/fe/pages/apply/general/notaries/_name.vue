@@ -133,7 +133,6 @@ import Squigglie from '@/components/squigglie'
 import GithubIcon from '@/components/icons/github'
 
 import ApplyGeneralPageData from '@/content/pages/apply-general.json'
-import NotariesListData from '@/content/data/notaries-list.json'
 
 // ====================================================================== Export
 export default {
@@ -156,7 +155,8 @@ export default {
 
   async fetch ({ app, store, params, redirect }) {
     const name = params.name
-    const notary = NotariesListData.find(notary => notary.name === name)
+    const notariesList = await store.dispatch('general/getCachedFile', 'notaries-list.json')
+    const notary = notariesList.find(notary => notary.name === name || notary.organization === name)
     const notaryField = app.$field('notary|filplus_application').get()
     if (!notary || !notaryField) { return redirect('/apply/general/notaries') }
     await store.dispatch('general/getBaseData', { key: 'apply-general', data: ApplyGeneralPageData })
@@ -245,7 +245,6 @@ export default {
           this.$router.push('/apply/large')
         } else {
           const incoming = await this.$form('filplus_application').validate()
-          console.log(incoming)
           if (!incoming) {
             const firstInvalidField = document.querySelector('.error')
             this.removeLoader('ga-submit-button')

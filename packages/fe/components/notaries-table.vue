@@ -23,7 +23,7 @@
         form-id="filplus_application">
         <tbody slot-scope="{ updateValue }" class="table-body">
           <tr
-            v-for="(notary, i) in filteredNotaries"
+            v-for="notary in filteredNotaries"
             :key="notary.sp_id"
             class="row row-body">
 
@@ -40,57 +40,73 @@
 
                 <template v-if="cell.slug === 'name'">
                   <div class="notary">
-                    <div class="name">
+                    <div v-if="notary.name !== ''" class="name">
                       {{ notary.name }}
                     </div>
-                    <div class="miner-id">
-                      {{ notary.sp_id }}
+                    <div v-else-if="notary.organization !== ''" class="organization">
+                      {{ notary.organization }}
+                    </div>
+                    <div class="github-handles">
+                      <ButtonX
+                        v-for="(handle, index) in notary.github_user"
+                        :key="handle"
+                        :to="`https://github.com/${handle}`"
+                        :data-tooltip="`https://github.com/${handle}`"
+                        tag="a"
+                        target="_blank"
+                        class="github-handle">
+                        {{ handle }}<template v-if="index !== notary.github_user.length - 1">,</template>
+                      </ButtonX>
                     </div>
                   </div>
                 </template>
 
                 <template v-if="cell.slug === 'location'">
                   <div class="location">
-                    {{ notary.location.full }}
-                    {{ $getFlagIcon(notary.location.country_code) }}
+                    {{ notary.location }}
                   </div>
                 </template>
 
                 <template v-if="cell.slug === 'contact_information'">
                   <div class="contact-info">
                     <ButtonX
-                      v-for="(item, j) in notary.contact_information"
-                      :key="`contact-${i}-${j}`"
-                      :to="getContactLink(item)"
-                      :data-tooltip="getContactLink(item)"
-                      :tag="item.type === 'slack' ? 'div' : 'a'"
+                      v-if="notary.fil_slack_id !== ''"
+                      :data-tooltip="`@${notary.fil_slack_id.replace('@','')}`"
+                      class="contact-link">
+                      <SlackIcon class="icon icon-slack" />
+                    </ButtonX>
+                    <ButtonX
+                      v-if="notary.website !== ''"
+                      :to="notary.website"
+                      :data-tooltip="notary.website"
+                      tag="a"
                       target="_blank"
                       class="contact-link">
-                      <component
-                        :is="getIconComponent(item.type)"
-                        :class="['icon', `icon-${item.type}`]" />
+                      <WebsiteIcon class="icon icon-website" />
                     </ButtonX>
+                    <template v-if="notary.email.length > 0">
+                      <ButtonX
+                        v-for="email in notary.email"
+                        :key="email"
+                        :to="`mailto:${email}`"
+                        :data-tooltip="`mailto:${email}`"
+                        tag="a"
+                        class="contact-link">
+                        <EmailIcon class="icon icon-email" />
+                      </ButtonX>
+                    </template>
                   </div>
                 </template>
 
-                <template v-if="cell.slug === 'features'">
-                  <div :class="['features-list', { expanded: expandedNotaries.includes(i) }]">
-
-                    <ul>
-                      <li
-                        v-for="feature in notary.features"
-                        :key="feature">
-                        {{ feature }}
-                      </li>
-                    </ul>
-
-                    <button
-                      v-if="notary.features.length > 3 && !expandedNotaries.includes(i)"
-                      class="see-more-features-button"
-                      @click="expandFeatures(i)">
-                      see more
-                    </button>
-
+                <template v-if="cell.slug === 'use_case'">
+                  <div v-if="notary.use_case && notary.use_case !== ''" class="use-case">
+                    {{ notary.use_case }}
+                    <!-- <div
+                      v-for="(useCase, index) in notary.use_case.split(',')"
+                      :key="`${notary.id}-use_case-${index}`"
+                      class="use-case">
+                      {{ useCase }}
+                    </div> -->
                   </div>
                 </template>
 
@@ -128,7 +144,6 @@ import ButtonA from '@/components/buttons/button-a'
 import ButtonX from '@/components/buttons/button-x'
 
 import SlackIcon from '@/components/icons/slack'
-import GithubIcon from '@/components/icons/github'
 import EmailIcon from '@/components/icons/email'
 import WebsiteIcon from '@/components/icons/website'
 
@@ -141,7 +156,6 @@ export default {
     ButtonA,
     ButtonX,
     SlackIcon,
-    GithubIcon,
     EmailIcon,
     WebsiteIcon
   },
@@ -152,11 +166,10 @@ export default {
         { slug: 'name', label: 'Notary' },
         { slug: 'location', label: 'Location' },
         { slug: 'contact_information', label: 'Contacts' },
-        { slug: 'features', label: 'Features' },
+        { slug: 'use_case', label: 'Use Cases' },
         { slug: 'request_button' }
       ],
-      contactPanel: false,
-      expandedNotaries: []
+      contactPanel: false
     }
   },
 
@@ -179,44 +192,29 @@ export default {
       return this.form.scaffold
     },
     notaryList () {
-      return this.siteContent['notaries-list']
+      return this.staticFiles['notaries-list.json']
     },
     filteredNotaries () {
       const notaryList = this.notaryList
-      return notaryList && notaryList.length > 0 ? notaryList : false
+      const len = notaryList.length
+      const compiled = []
+      for (let i = 0; i < len; i++) {
+        const notary = notaryList[i]
+        if ((notary.name !== '' || notary.organization !== '') && notary.status === 'Active' && notary.github_user.length > 0) {
+          compiled.push(notary)
+        }
+      }
+      return compiled
     }
   },
 
   methods: {
     selectNotary (notary, updateValue) {
       const name = notary.name
-      updateValue(name)
-      this.$router.push(`/apply/general/notaries/${name}`)
-    },
-    getIconComponent (type) {
-      let icon
-      switch (type) {
-        case 'github': icon = 'GithubIcon'; break
-        case 'slack': icon = 'SlackIcon'; break
-        case 'email': icon = 'EmailIcon'; break
-        case 'website': icon = 'WebsiteIcon'; break
-        default: icon = 'div'
-      }
-      return icon
-    },
-    getContactLink (item) {
-      let link
-      switch (item.type) {
-        case 'email': link = `mailto:${item.link}`; break
-        case 'slack': link = `@${item.link}`; break
-        case 'website': link = item.link; break
-      }
-      return link
-    },
-    expandFeatures (index) {
-      if (!this.expandedNotaries.includes(index)) {
-        this.expandedNotaries.push(index)
-      }
+      const organization = notary.organization
+      const id = name !== '' ? name : organization
+      updateValue(id)
+      this.$router.push(`/apply/general/notaries/${id}`)
     }
   }
 }
@@ -322,13 +320,6 @@ export default {
 }
 
 // /////////////////////////////////////////////////////////////////////// Cells
-.miner-id,
-.see-more-features-button {
-  font-size: toRem(14);
-  font-family: $fontSuisseIntlMono;
-  color: rgba($titanWhite, 0.5);
-}
-
 .cell.name {
   @include small {
     &:before {
@@ -337,11 +328,30 @@ export default {
   }
 }
 
+.github-handles {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.github-handle.button-x {
+  margin-right: 0.25rem;
+  margin-bottom: 0.25rem;
+  :deep(.button-content) {
+    font-size: toRem(14);
+    font-family: $fontSuisseIntlMono;
+    color: rgba($titanWhite, 0.5);
+  }
+}
+
 .cell.location {
   @include small {
     &:before {
       content: 'Location';
     }
+  }
+  .location {
+    white-space: nowrap;
   }
 }
 
@@ -354,8 +364,10 @@ export default {
 }
 
 .notary {
-  .name {
+  .name,
+  .organization {
     font-weight: 500;
+    white-space: nowrap;
   }
 }
 
@@ -372,27 +384,14 @@ export default {
   &:not(:last-child) {
     margin-right: 0.5rem;
   }
-  :deep(path) {
-    fill: white;
-  }
 }
 
-.cell.features {
-  padding-left: 3rem;
-}
+// .cell.features {
+//   padding-left: 3rem;
+// }
 
-.features-list {
-  li {
-    font-size: 1rem;
-    &:nth-child(n + 4) {
-      display: none;
-    }
-  }
-  &.expanded {
-    li {
-      display: list-item;
-    }
-  }
+.use-case {
+  font-size: 1rem;
 }
 
 .notary,
@@ -401,15 +400,18 @@ export default {
   font-size: 1rem;
 }
 
-.see-more-features-button {
-  transition: 200ms ease;
-  &:hover {
-    color: rgba($titanWhite, 0.75);
-  }
-}
-
 .icon {
   display: block;
+  &:hover {
+    :deep(path) {
+      transition: 150ms ease-in;
+      fill: $greenYellow;
+    }
+  }
+  :deep(path) {
+    fill: white;
+    transition: 150ms ease-out;
+  }
 }
 
 .icon-slack,

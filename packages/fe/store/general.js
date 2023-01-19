@@ -4,9 +4,6 @@ import CloneDeep from 'lodash/cloneDeep'
 
 import GeneralSiteData from '@/content/pages/general.json'
 
-let timeout1 // used for highlighting /apply form in general/applyFormHighlighted action
-let timeout2 // used for highlighting /apply form in general/applyFormHighlighted action
-
 // /////////////////////////////////////////////////////////////////////// State
 // -----------------------------------------------------------------------------
 const state = () => ({
@@ -189,26 +186,9 @@ const actions = {
       return false
     }
   },
-  // //////////////////////////////////////////////////////// highlightApplyForm
-  highlightApplyForm ({ commit }, status) {
-    if (timeout2) { return }
-    const applyFormCard = document.getElementById('apply-form-card')
-    this.$scrollToElement(applyFormCard, 250, -(window.innerHeight - applyFormCard.clientHeight) / 2)
-    timeout1 = setTimeout(() => {
-      commit('HIGHLIGH_APPLY_FORM', true)
-      clearTimeout(timeout1)
-    }, 250)
-    timeout2 = setTimeout(() => {
-      commit('HIGHLIGH_APPLY_FORM', false)
-      const currentRoute = this.$router.history.current
-      const query = Object.assign({}, currentRoute.query)
-      if (query.highlight_form) {
-        delete query.highlight_form
-        this.$router.replace({ query })
-      }
-      clearTimeout(timeout2)
-      timeout2 = false
-    }, 2250)
+  // ///////////////////////////////////////////// setApplyFormHighlightedStatus
+  setApplyFormHighlightedStatus ({ commit }, status) {
+    commit('SET_APPLY_FORM_HIGHLIGHTED_STATUS', status)
   },
   // //////////////////////////////////////////////////////// setGithubIssueLink
   setGithubIssueLink ({ commit }, link) {
@@ -234,7 +214,7 @@ const mutations = {
   SET_APPLICATION (state, application) {
     state.application = application
   },
-  HIGHLIGH_APPLY_FORM (state, status) {
+  SET_APPLY_FORM_HIGHLIGHTED_STATUS (state, status) {
     state.applyFormHighlighted = status
   },
   SET_GITHUB_ISSUE_LINK (state, link) {

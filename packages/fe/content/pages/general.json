@@ -13,16 +13,6 @@
     "home_link": "/apply",
     "header": [
       {
-        "type": "nuxt-link",
-        "href": "/test-1",
-        "label": "Test 1"
-      },
-      {
-        "type": "nuxt-link",
-        "href": "/wysiwyg-test",
-        "label": "WYSIWYG Test"
-      },
-      {
         "type": "a",
         "href": "https://filplus.d.interplanetary.one/notaries?showInactive=true",
         "label": "Notaries",
@@ -43,6 +33,11 @@
         "href": "https://docs.filecoin.io/store/filecoin-plus",
         "label": "Documentation",
         "target": "_blank"
+      },
+      {
+        "type": "nuxt-link",
+        "href": "/wysiwyg-test",
+        "label": "WYSIWYG Test"
       }
     ],
     "cta": {
