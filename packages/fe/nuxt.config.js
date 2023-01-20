@@ -92,6 +92,7 @@ export default {
     '@nuxtjs/style-resources', // Doc: https://github.com/nuxt-community/style-resources-module/
     '@nuxtjs/axios', // Doc: https://axios.nuxtjs.org/usage
     'nuxt-socket-io', // Doc: https://nuxt-socket-io.netlify.app/
+    '@nuxtjs/gtm', // Doc: https://github.com/nuxt-community/gtm-module#nuxtjsgtm
     '~/modules/https',
     '~/modules/toaster',
     // '~/modules/slider',
@@ -117,6 +118,13 @@ export default {
   moment: {
     timezone: true,
     defaultTimezone: 'UTC'
+  },
+  // ////////////////////////////////////////////////////////////// [Module] GTM
+  // ------------------------- Doc: https://github.com/nuxt-community/gtm-module
+  gtm: {
+    // Currently hardcoded, can be added as an environment variable instead
+    id: 'GTM-N7WMPKK',
+    pageTracking: true
   },
   // ///////////////////////////////////////////////////////////// [Module] Auth
   // ---------------------------------------------------------------------------
