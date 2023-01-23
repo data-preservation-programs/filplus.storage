@@ -33,10 +33,10 @@
 <script>
 // ===================================================================== Imports
 import { Editor, EditorContent } from '@tiptap/vue-2'
-import StarterKit from '@tiptap/starter-kit'
-import TextAlign from '@tiptap/extension-text-align'
-import Link from '@tiptap/extension-link'
-import Underline from '@tiptap/extension-underline'
+import { StarterKit } from '@tiptap/starter-kit'
+import { TextAlign } from '@tiptap/extension-text-align'
+import { Link } from '@tiptap/extension-link'
+import { Underline } from '@tiptap/extension-underline'
 
 import ButtonX from '@/components/buttons/button-x'
 import Select from '@/components/form/fields/select'
