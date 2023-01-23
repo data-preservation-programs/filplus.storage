@@ -201,7 +201,7 @@ export default {
       ],
       onUpdate: () => {
         const value = this.editor.getHTML()
-        this.$emit('updateEditorValue', value)
+        this.$emit('updateContentValue', value)
       },
       onSelectionUpdate: ({ editor }) => {
         const anchor = editor.state.selection.$anchor.pos

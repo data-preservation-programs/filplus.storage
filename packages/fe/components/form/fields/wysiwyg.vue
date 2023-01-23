@@ -4,7 +4,7 @@
     <Wysiwyg
       :id="fieldKey"
       :field="field"
-      @updateEditorValue="updateEditorValue">
+      @updateContentValue="updateContentValue">
 
       <template #format-tool-label="{ formatTool }">
         <span v-html="formatTool.label ? formatTool.label : formatTool.name" />
@@ -38,7 +38,7 @@ export default {
 
   data () {
     return {
-      editor: null
+      content: null
     }
   },
 
@@ -58,8 +58,8 @@ export default {
   },
 
   methods: {
-    updateEditorValue (value) {
-      this.editor = value
+    updateContentValue (value) {
+      this.content = value
       this.$emit('updateValue', value)
     }
   }
