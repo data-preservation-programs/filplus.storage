@@ -126,7 +126,7 @@ import FieldContainer from '@/components/form/field-container'
 import ButtonA from '@/components/buttons/button-a'
 import Overlay from '@/components/overlay'
 import Squigglie from '@/components/squigglie'
-import AuthButton from '@/components/auth/auth-button'
+import AuthButton from '@/components/auth-button'
 
 import GithubIcon from '@/components/icons/github'
 
@@ -159,7 +159,6 @@ export default {
     const notaryField = app.$field('notary|filplus_application').get()
     if (!notary || !notaryField) { return redirect('/apply/general/notaries') }
     await store.dispatch('general/getBaseData', { key: 'apply-general', data: ApplyGeneralPageData })
-    await store.dispatch('account/getAccount', app.$authIdentifier.githubUsername)
     await app.$form('filplus_application').register(store.getters['general/application'])
   },
 

@@ -89,9 +89,9 @@ export default {
   // /////////////////////////////////////////////////////////// Nuxt.js Modules
   // ---------------------------------------------------------------------------
   modules: [
-    '@nuxtjs/style-resources', // Doc: https://github.com/nuxt-community/style-resources-module/
-    '@nuxtjs/axios', // Doc: https://axios.nuxtjs.org/usage
-    'nuxt-socket-io', // Doc: https://nuxt-socket-io.netlify.app/
+    '@nuxtjs/style-resources', // https://github.com/nuxt-community/style-resources-module/
+    '@nuxtjs/axios', // https://axios.nuxtjs.org/
+    'nuxt-socket-io', // https://nuxt-socket-io.netlify.app/
     '~/modules/https',
     '~/modules/toaster',
     // '~/modules/slider',
@@ -121,6 +121,7 @@ export default {
   // ///////////////////////////////////////////////////////////// [Module] Auth
   // ---------------------------------------------------------------------------
   auth: {
+    redirectUnauthenticated: '/apply',
     redirectAfterLogin: {
       unregistered: {
         path: '/apply',
@@ -130,17 +131,9 @@ export default {
         path: '/apply',
         key: 'githubUsername'
       }
-    },
-    redirectAfterLogout: '/apply'
+    }
+    // redirectAfterLogout: '/apply'
   },
-  // ////////////////////////////////////////////////////////// [Module] Account
-  // ---------------------------------------------------------------------------
-  // account: {
-  //   redirectAfterRegistering: {
-  //     path: '/account/:key/datasets/all',
-  //     key: 'githubUsername'
-  //   }
-  // },
   // /////////////////////////////////////////////////////////////// [Module] ls
   // ---------------------------------------------------------------------------
   ls: {

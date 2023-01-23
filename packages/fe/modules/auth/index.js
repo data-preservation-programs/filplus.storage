@@ -4,14 +4,13 @@
  *
  */
 
-// ///////////////////////////////////////////////////////////////////// Imports
+// ///////////////////////////////////////////////////////// Imports & Variables
 // -----------------------------------------------------------------------------
-// ///////////////////////////////////////////////////////////////////// General
 import Path from 'path'
 
-// ///////////////////////////////////////////////////////////////////// Plugins
-const AuthPlugin = Path.resolve(__dirname, 'plugins/index.js')
-const HelpersPlugin = Path.resolve(__dirname, 'plugins/helpers.js')
+const plugins = ['index', 'helpers']
+const pages = ['login/success']
+const layouts = ['auth']
 
 // /////////////////////////////////////////////////////////////////// Functions
 // -----------------------------------------------------------------------------
@@ -28,7 +27,6 @@ const performStartupChecks = (instance) => {
     if (!Config.auth.redirectAfterLogin.hasOwnProperty('unregistered')) { throw new Error('"auth.redirectAfterLogin.unregistered" parameter is missing from nuxt.config.js') }
     if (!Config.auth.redirectAfterLogin.unregistered.hasOwnProperty('path')) { throw new Error('"auth.redirectAfterLogin.unregistered.path" parameter is missing from nuxt.config.js') }
     if (!Config.auth.redirectAfterLogin.unregistered.hasOwnProperty('key')) { throw new Error('"auth.redirectAfterLogin.unregistered.key" parameter is missing from nuxt.config.js') }
-    if (!Config.auth.hasOwnProperty('redirectAfterLogout')) { throw new Error('"auth.redirectAfterLogout" parameter is missing from nuxt.config.js') }
     if (!Config.publicRuntimeConfig.hasOwnProperty('githubOAuthLink')) {
       throw new Error('"publicRuntimeConfig.githubOAuthLink" parameter is missing from nuxt.config.js')
     }
@@ -39,8 +37,8 @@ const performStartupChecks = (instance) => {
 // ////////////////////////////////////////////////////////// registerMiddleware
 const registerMiddleware = (instance, next) => {
   return new Promise((next) => {
-    // The functionality of the middleware below is imported in the Authentication Plugin
-    instance.options.router.middleware.push('github')
+    // The functionality of the middleware below is imported in @/modules/auth/plugins/index.js
+    instance.options.router.middleware.push('authenticate')
     next()
   })
 }
@@ -48,24 +46,46 @@ const registerMiddleware = (instance, next) => {
 // ////////////////////////////////////////////////////////////// registerPlugin
 const registerPlugin = (instance, next) => {
   return new Promise((next) => {
-    const AuthPluginDst = instance.addTemplate({
-      src: AuthPlugin,
-      fileName: 'auth/plugin-auth.js'
-    }).dst
-    const HelpersPluginDst = instance.addTemplate({
-      src: HelpersPlugin,
-      fileName: 'auth/plugin-helpers.js'
-    }).dst
-    instance.options.plugins.push({
-      src: Path.join(instance.options.buildDir, AuthPluginDst),
-      ssr: undefined,
-      mode: undefined
+    plugins.forEach((plugin) => {
+      const dst = instance.addTemplate({
+        src: Path.resolve(__dirname, `plugins/${plugin}.js`),
+        fileName: `auth/plugin-${plugin}.js`
+      }).dst
+      instance.options.plugins.push({
+        src: Path.join(instance.options.buildDir, dst),
+        ssr: undefined,
+        mode: undefined
+      })
     })
-    instance.options.plugins.push({
-      src: Path.join(instance.options.buildDir, HelpersPluginDst),
-      ssr: undefined,
-      mode: undefined
+    next()
+  })
+}
+
+// ///////////////////////////////////////////////////////////// registerLayouts
+const registerLayouts = (instance, next) => {
+  return new Promise((next) => {
+    layouts.forEach((layout) => {
+      instance.addLayout({
+        src: Path.resolve(__dirname, `layouts/${layout}.vue`),
+        fileName: `auth/layout-${layout}.vue`
+      }, layout)
     })
+    next()
+  })
+}
+
+// ////////////////////////////////////////////////////////////// registerRoutes
+const registerRoutes = (instance) => {
+  return new Promise((next) => {
+    instance.options.router.extendRoutes = (routes) => {
+      pages.forEach((page) => {
+        routes.push({
+          name: page.replace('/', '-'),
+          path: `/${page}`,
+          component: Path.resolve(__dirname, `pages/${page}.vue`)
+        })
+      })
+    }
     next()
   })
 }
@@ -76,4 +96,6 @@ export default async function () {
   await performStartupChecks(this)
   await registerMiddleware(this)
   await registerPlugin(this)
+  await registerLayouts(this)
+  await registerRoutes(this)
 }

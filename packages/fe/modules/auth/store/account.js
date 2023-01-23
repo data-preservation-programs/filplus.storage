@@ -15,24 +15,29 @@ const getters = {
 // -----------------------------------------------------------------------------
 const actions = {
   // //////////////////////////////////////////////////////////////// getAccount
-  async getAccount ({ commit }, githubUsername) {
+  async getAccount ({ commit, dispatch }, userId) {
     try {
       const response = await this.$axiosAuth.get('/get-user', {
-        params: { githubUsername }
+        params: {
+          ...(userId && { userId })
+        }
       })
       const account = response.data.payload
-      console.log(account)
       if (!account) {
-        commit('SET_ACCOUNT', false)
+        dispatch('setAccount', false)
         return false
       }
-      commit('SET_ACCOUNT', account)
+      dispatch('setAccount', account)
       return account
     } catch (e) {
       console.log('======================== [Store Action: account/getAccount]')
       console.log(e)
-      commit('SET_ACCOUNT', false)
+      dispatch('setAccount', false)
     }
+  },
+  // //////////////////////////////////////////////////////////////// setAccount
+  setAccount ({ commit }, account) {
+    commit('SET_ACCOUNT', account)
   }
 }
 

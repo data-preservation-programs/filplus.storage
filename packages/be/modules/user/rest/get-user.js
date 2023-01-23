@@ -10,9 +10,9 @@ const MC = require('@Root/config')
 // //////////////////////////////////////////////////////////////////// Endpoint
 // -----------------------------------------------------------------------------
 MC.app.get('/get-user', async (req, res) => {
-  const githubUsername = req.query.githubUsername
+  const userId = req.query.userId
   try {
-    const user = await FindUser({ githubUsername }, '-githubToken')
+    const user = await FindUser({ _id: userId }, '-githubToken')
     if (!user) { return SendData(res, 403, 'Something went wrong. Try logging in again.') }
     SendData(res, 200, 'User retrieved succesfully', user)
   } catch (e) {

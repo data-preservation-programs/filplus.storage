@@ -38,8 +38,6 @@ MC.app.post('/submit-general-application', async (req, res) => {
     Object.keys(body).forEach((key) => {
       if (key === 'organization_website') {
         template = template.replaceAll(key, body[key])
-      } else if (key === 'github_handle') {
-        template = template.replace(key, `@${body[key].replace('@', '')}`)
       } else {
         template = template.replace(key, body[key])
       }

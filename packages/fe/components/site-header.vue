@@ -75,6 +75,7 @@
                   @mouseover.native="mouseOverLink(index)">
                   <div class="text" v-html="link.label" />
                 </ButtonX>
+                <AuthButton />
               </div>
 
               <ButtonA
@@ -85,8 +86,6 @@
                 @clicked="$highlightApplyForm">
                 <div class="text" v-html="cta.label" />
               </ButtonA>
-
-              <AuthButton />
 
             </nav>
 
@@ -112,7 +111,7 @@ import Logo from '@/components/logo'
 import ButtonA from '@/components/buttons/button-a'
 import ButtonX from '@/components/buttons/button-x'
 import MobileNav from '@/components/mobile-nav'
-import AuthButton from '@/components/auth/auth-button'
+import AuthButton from '@/components/auth-button'
 
 // =================================================================== Functions
 const resizeHandler = (instance) => {
@@ -152,8 +151,6 @@ export default {
       mini: false,
       scroll: false,
       resize: false,
-      timeout1: false,
-      timeout2: false,
       squiggleWidth: 80,
       squiggleOffsetLeft: 0,
       pathKey: 0,
@@ -296,9 +293,10 @@ export default {
 }
 
 #site-nav {
-  position: relative;
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  position: relative;
   padding-right: toRem(46);
   @include medium {
     padding-right: toRem(42);

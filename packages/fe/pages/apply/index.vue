@@ -128,7 +128,6 @@ export default {
   async fetch ({ app, store }) {
     await store.dispatch('general/getBaseData', { key: 'apply', data: ApplyPageData })
     await store.dispatch('general/getBaseData', { key: 'faq', data: FaqPageData })
-    await store.dispatch('account/getAccount', app.$authIdentifier.githubUsername)
     await app.$form('filplus_application').register(store.getters['general/application'])
   },
 
