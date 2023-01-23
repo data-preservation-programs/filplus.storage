@@ -168,5 +168,4 @@ export default {
 .wysiwyg-top-border {
   top: -3px;
 }
-
 </style>

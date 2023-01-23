@@ -20,7 +20,6 @@
 <script>
 
 // ===================================================================== Imports
-
 import Wysiwyg from '@/modules/form/components/Wysiwyg'
 
 // ====================================================================== Export
@@ -158,7 +157,7 @@ export default {
   height: 4rem;
 }
 
-.wysiwyg-container{
+.wysiwyg-container {
   height: 100%;
   select {
     background: transparent;
