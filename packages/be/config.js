@@ -81,8 +81,7 @@ module.exports = {
       maxAge: 24 * 60 * 60 * 1000, // Expires in 24hrs
       httpOnly: false,
       sameSite: 'lax',
-      // secure: true, // process.env.SERVER_ENV === 'production',
-      secure: false,
+      secure: process.env.NODE_ENV === 'production',
       unset: 'destroy'
     }
   },
