@@ -31,7 +31,6 @@ const actions = {
       return account
     } catch (e) {
       console.log('======================== [Store Action: account/getAccount]')
-      console.log(e)
       dispatch('setAccount', false)
     }
   },
