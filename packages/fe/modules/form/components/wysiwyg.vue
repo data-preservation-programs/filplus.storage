@@ -16,7 +16,7 @@
           v-if="formatTool.type === 'button-x' && formatTool.include"
           :class="[ 'wysiwyg-formatting-button', formatTool.name, isFormatButtonActive(formatTool)]"
           @clicked="clickFormatButton(formatTool)">
-          <slot name="toolbar-option-name" :toolbar-option="formatTool" />
+          <slot name="format-tool-label" :format-tool="formatTool" />
         </ButtonX>
       </div>
     </div>

@@ -6,8 +6,8 @@
       :field="field"
       @updateEditorValue="updateEditorValue">
 
-      <template #toolbar-option-name="{ toolbarOption }">
-        <span v-html="toolbarOption.label ? toolbarOption.label : toolbarOption.name" />
+      <template #format-tool-label="{ formatTool }">
+        <span v-html="formatTool.label ? formatTool.label : formatTool.name" />
       </template>
 
     </Wysiwyg>
