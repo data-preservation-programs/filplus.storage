@@ -55,26 +55,105 @@ export default {
     field: {
       type: Object,
       required: true
-    },
-    toolbarConfig: {
-      type: Array,
-      required: true
     }
   },
 
   data () {
     return {
       editor: null,
-      headingSelectValue: 0
+      headingSelectValue: 0,
+      toolbar: [
+        {
+          name: 'heading-select',
+          type: 'select',
+          include: true
+        },
+        {
+          name: 'bold',
+          label: '<b>B</b>',
+          type: 'button-x',
+          include: true
+        },
+        {
+          name: 'italic',
+          label: '<em>I</em>',
+          type: 'button-x',
+          include: true
+        },
+        {
+          name: 'underline',
+          label: '<u>U</u>',
+          type: 'button-x',
+          include: true
+        },
+        {
+          name: 'bulletList',
+          type: 'button-x',
+          include: true
+        },
+        {
+          name: 'orderedList',
+          type: 'button-x',
+          include: true
+        },
+        {
+          name: 'undo',
+          type: 'button-x',
+          include: true
+        },
+        {
+          name: 'redo',
+          type: 'button-x',
+          include: true
+        },
+        {
+          name: 'left',
+          checkActive: { textAlign: 'left' },
+          type: 'button-x',
+          include: true
+        },
+        {
+          name: 'center',
+          checkActive: { textAlign: 'center' },
+          type: 'button-x',
+          include: true
+        },
+        {
+          name: 'right',
+          checkActive: { textAlign: 'right' },
+          type: 'button-x',
+          include: true
+        },
+        {
+          name: 'justify',
+          checkActive: { textAlign: 'justify' },
+          type: 'button-x',
+          include: true
+        },
+        {
+          name: 'link',
+          type: 'button-x',
+          include: true
+        }
+      ]
     }
   },
 
   computed: {
+    scaffold () {
+      return this.field.scaffold
+    },
     value () {
       return this.field.value
     },
     state () {
       return this.field.state
+    },
+    toolbarConfig () {
+      if (this.scaffold.toolbarConfig && this.scaffold.toolbarConfig.length > 0) {
+        return this.scaffold.toolbarConfig
+      }
+      return this.toolbar
     },
     headingSelectField () {
       return {
