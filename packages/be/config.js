@@ -80,7 +80,7 @@ module.exports = {
     cookie: {
       maxAge: 24 * 60 * 60 * 1000, // Expires in 24hrs
       httpOnly: false,
-      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+      sameSite: 'lax',
       secure: process.env.NODE_ENV === 'production',
       unset: 'destroy'
     }
