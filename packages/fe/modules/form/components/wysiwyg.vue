@@ -37,6 +37,7 @@ import { StarterKit } from '@tiptap/starter-kit'
 import { TextAlign } from '@tiptap/extension-text-align'
 import { Link } from '@tiptap/extension-link'
 import { Underline } from '@tiptap/extension-underline'
+import Kramed from 'kramed'
 
 import ButtonX from '@/components/buttons/button-x'
 import Select from '@/components/form/fields/select'
@@ -61,6 +62,7 @@ export default {
   data () {
     return {
       editor: null,
+      renderer: false,
       headingSelectValue: 0,
       toolbar: [
         {
@@ -184,6 +186,7 @@ export default {
   },
 
   mounted () {
+    this.renderer = new Kramed.Renderer()
     this.editor = new Editor({
       content: this.value,
       extensions: [
@@ -199,6 +202,29 @@ export default {
         }),
         Underline
       ],
+      editorProps: {
+        handlePaste: (view, event) => {
+          const pastedText = event.clipboardData.getData('text/plain')
+          const pastedHTML = event.clipboardData.getData('text/html')
+          if (pastedHTML) {
+            return false
+          }
+          if (pastedText) {
+            const markdownParsed = Kramed(pastedText, { renderer: this.renderer })
+            this.editor.commands.insertContentAt(
+              {
+                from: view.state.selection.$anchor.pos,
+                to: view.state.selection.$head.pos
+              },
+              markdownParsed,
+              {
+                parseOptions: { preserveWhitespace: true }
+              }
+            )
+          }
+          return true
+        }
+      },
       onUpdate: () => {
         const value = this.editor.getHTML()
         this.$emit('updateContentValue', value)
