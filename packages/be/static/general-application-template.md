@@ -7,4 +7,3 @@
 - DataCap Requested: total_datacap_size total_datacap_size_unit
 - Addresses to be Notarized: filecoin_address
 - Notary Requested: notary
-- Github handle: github_handle

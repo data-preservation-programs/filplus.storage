@@ -18,7 +18,7 @@
           </nuxt-link>
 
           <div
-            v-if="breakpoint !== 'small'"
+            v-if="breakpoint !== 'medium'"
             :class="['nav-wrapper', breakpoint]"
             :style="{ width: `${navWidth}px` }">
 
@@ -43,7 +43,7 @@
               </div>
               <div
                 class="svg-wrapper static"
-                :style="{ '--bottom-squiggle-offset': `${navWidth - 956}px` }">
+                :style="{ '--bottom-squiggle-offset': `${bottomSquiggleOffset}px` }">
                 <svg
                   class="squiggle"
                   width="1860"
@@ -75,16 +75,16 @@
                   @mouseover.native="mouseOverLink(index)">
                   <div class="text" v-html="link.label" />
                 </ButtonX>
+                <AuthButton />
+                <ButtonA
+                  v-if="cta"
+                  :to="cta.href"
+                  tag="button"
+                  class="site-nav-cta"
+                  @clicked="$highlightApplyForm">
+                  <div class="text" v-html="cta.label" />
+                </ButtonA>
               </div>
-
-              <ButtonA
-                v-if="cta"
-                :to="cta.href"
-                tag="button"
-                class="site-nav-cta"
-                @clicked="$highlightApplyForm">
-                <div class="text" v-html="cta.label" />
-              </ButtonA>
 
             </nav>
 
@@ -93,7 +93,8 @@
           <MobileNav
             v-else
             ref="mobileNav"
-            :links="links" />
+            :links="links"
+            :cta="cta" />
 
         </div>
       </div>
@@ -110,20 +111,22 @@ import Logo from '@/components/logo'
 import ButtonA from '@/components/buttons/button-a'
 import ButtonX from '@/components/buttons/button-x'
 import MobileNav from '@/components/mobile-nav'
+import AuthButton from '@/components/auth-button'
 
 // =================================================================== Functions
 const resizeHandler = (instance) => {
-  if (window.matchMedia('(max-width: 53.125rem)').matches) {
-    if (instance.breakpoint !== 'small') {
-      instance.breakpoint = 'small'
-    }
-  } else if (window.matchMedia('(max-width: 64rem)').matches) {
+  instance.squiggleOffsetLeft = 0
+  if (window.matchMedia('(max-width: 64rem)').matches) {
     if (instance.breakpoint !== 'medium') {
       instance.breakpoint = 'medium'
     }
   } else if (window.matchMedia('(max-width: 75rem)').matches) {
     if (instance.breakpoint !== 'large') {
       instance.breakpoint = 'large'
+    }
+  } else if (window.matchMedia('(max-width: 90rem)').matches) {
+    if (instance.breakpoint !== 'xlarge') {
+      instance.breakpoint = 'xlarge'
     }
   } else {
     if (instance.breakpoint !== 'default') {
@@ -140,7 +143,8 @@ export default {
     Logo,
     ButtonA,
     ButtonX,
-    MobileNav
+    MobileNav,
+    AuthButton
   },
 
   data () {
@@ -148,8 +152,6 @@ export default {
       mini: false,
       scroll: false,
       resize: false,
-      timeout1: false,
-      timeout2: false,
       squiggleWidth: 80,
       squiggleOffsetLeft: 0,
       pathKey: 0,
@@ -164,13 +166,12 @@ export default {
     }),
     navWidth () {
       if (this.breakpoint !== 'default') {
-        return this.breakpoint === 'large' ? 700 : this.breakpoint === 'medium' ? 580 : 600
+        return this.breakpoint === 'xlarge' ? 930 : 760
       }
-      return 828
+      return 960
     },
     squiggleDefaultOffset () {
-      const mediumOnly = this.breakpoint === 'medium' ? -10 : 0
-      return (828 - this.navWidth) + 308 + mediumOnly
+      return this.breakpoint === 'large' ? 532 : 436
     },
     links () {
       const siteContent = this.siteContent
@@ -179,6 +180,11 @@ export default {
     cta () {
       const siteContent = this.siteContent
       return siteContent.general ? siteContent.general.navigation.cta : false
+    },
+    bottomSquiggleOffset () {
+      if (this.breakpoint === 'xlarge') { return this.navWidth - 1114 }
+      if (this.breakpoint === 'large') { return this.navWidth - 1060 }
+      return this.navWidth - 1142
     }
   },
 
@@ -285,20 +291,31 @@ export default {
   justify-content: center;
   height: toRem(82);
   width: toRem(828);
-  &.large {
-    margin-left: toRem(80);
-    // width: toRem(760);
+  &:before {
+    content: '';
+    position: absolute;
+    left: calc(100% - 4rem);
+    top: 1px;
+    width: 129px;
+    height: calc(100% - 4px);
+    border-bottom: solid 2px white;
+    background-repeat: no-repeat;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg width='129' height='24' viewBox='0 0 129 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M 0 1.0005 H -0.826 C 2.212 0.7544 8.396 0.2395 12.5 1.0005 C 24.944 3.3076 25.346 20.7652 38 21.0005 C 50.963 21.2415 51.745 3.3262 64.5 1.0005 C 68.789 0.2185 75.256 0.7542 77.187 0.9423 C 77.563 0.9789 77.939 1.0005 78.317 1.0005 H 129' stroke='white' stroke-width='2'/%3e%3c/svg%3e ");
+    @include xlarge {
+      left: calc(100% - 1.75rem);
+    }
+    @include large {
+      display: none;
+    }
   }
 }
 
 #site-nav {
-  position: relative;
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  position: relative;
   padding-right: toRem(46);
-  @include medium {
-    padding-right: toRem(42);
-  }
 }
 
 .button-list {
@@ -306,11 +323,8 @@ export default {
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding-left: toRem(80);
+  padding-left: 2rem;
   @include large {
-    padding-left: 2rem;
-  }
-  @include medium {
     padding-left: 0.25rem;
   }
 }
@@ -321,11 +335,7 @@ export default {
     margin-right: 3.125rem;
   }
   @include large {
-    &:not(:last-child) {
-      margin-right: 2.75rem;
-    }
-  }
-  @include medium {
+    font-size: 1rem;
     &:not(:last-child) {
       margin-right: 2rem;
     }
@@ -352,16 +362,37 @@ export default {
   }
 }
 
+:deep(.auth-button) {
+  .button {
+    @include large {
+      padding: 0.625rem 1rem;
+    }
+  }
+}
+
 .button.site-nav-cta {
   padding: 0.375rem 1.5rem;
-  @include medium {
+  margin-left: 3.125rem;
+  @include large {
+    padding: 0.25rem 1.25rem;
+    margin-left: 2rem;
     :deep(.button-content) {
       font-size: 0.9375rem;
     }
   }
 }
+
 // /////////////////////////////////////////////////////////////// Nav Detailing
 $squiggleAnimationDuration: 500ms;
+
+@keyframes wave {
+  0%, 100%{
+    d:path('M 0 2 H 892 C 893 2 893 2 893 2 C 895 2 901 1 906 2 C 918 4 918 22 931 22 C 944 22 945 4 958 2 C 962 1 968 2 970 2 C 971 2 971 2 971 2 H 1862');
+  }
+  50%{
+    d:path('M 0 2 H 892 C 893 2 893 2 893 2 C 895 2 901 2 906 4 C 918 8 918 17 931 17 C 944 17 946 6 958 3 C 962 2 968 2 970 2 C 971 2 971 2 971 2 H 1862')
+  }
+}
 
 .nav-detail {
   position: absolute;
@@ -392,7 +423,7 @@ $squiggleAnimationDuration: 500ms;
 .squiggle-container {
   position: absolute;
   width: calc(100% + 50vw - #{math.div($containerWidth, 2)});
-  max-width: toRem(1000);
+  max-width: toRem(904);
   height: 100%;
   left: 0;
   top: 0;
@@ -429,14 +460,4 @@ $squiggleAnimationDuration: 500ms;
     transform: scaleY(-1) translateX(var(--bottom-squiggle-offset));
   }
 }
-
-@keyframes wave {
-  0%, 100%{
-    d:path('M 0 2 H 892 C 893 2 893 2 893 2 C 895 2 901 1 906 2 C 918 4 918 22 931 22 C 944 22 945 4 958 2 C 962 1 968 2 970 2 C 971 2 971 2 971 2 H 1862');
-  }
-  50%{
-    d:path('M 0 2 H 892 C 893 2 893 2 893 2 C 895 2 901 2 906 4 C 918 8 918 17 931 17 C 944 17 946 6 958 3 C 962 2 968 2 970 2 C 971 2 971 2 971 2 H 1862')
-  }
-}
-
 </style>

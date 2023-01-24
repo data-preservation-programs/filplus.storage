@@ -10,9 +10,6 @@ data_owner_industry
 ### Website
 [organization_website](organization_website)
 
-### Github Handle
-github_handle
-
 ### Social Media
 organization_social_media_handle (organization_social_media_handle_type)
 

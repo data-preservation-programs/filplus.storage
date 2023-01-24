@@ -40,9 +40,9 @@ MC.socket.listeners.push({
           initiator: user._id,
           client: fileId,
           subject: fileId,
-          initiator_ref: 'sl3_users',
-          client_ref: 'sl3_uploads',
-          subject_ref: 'sl3_uploads',
+          initiator_ref: 'fp_users',
+          client_ref: 'fp_uploads',
+          subject_ref: 'fp_uploads',
           before: historyBefore,
           after: saved
         })

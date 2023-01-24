@@ -13,16 +13,16 @@ MC.app.get('/logout', async (req, res) => {
   try {
     if (identifier) {
       req.session.destroy((err) => {
-        if (err) { return SendData(res, 403, 'Looks like you are already logged out') }
+        if (err) { return SendData(res, 422, 'Looks like you are already logged out') }
         res.clearCookie('connect.sid')
         SendData(res, 200, 'You are now logged out')
       })
     } else {
-      SendData(res, 403, 'Looks like you are already logged out')
+      SendData(res, 422, 'Looks like you are already logged out')
     }
   } catch (e) {
-    console.log('====================================================== LOGOUT')
+    console.log('======================================== [Endpoint: /logoout]')
     console.log(e)
-    SendData(res, 403, 'Looks like you are already logged out')
+    SendData(res, 422, 'Looks like you are already logged out')
   }
 })

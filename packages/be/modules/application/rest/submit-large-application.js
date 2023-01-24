@@ -4,16 +4,17 @@ console.log('💡 [endpoint] /submit-large-application')
 // -----------------------------------------------------------------------------
 const { SendData, GetFileFromDisk } = require('@Module_Utilities')
 const Axios = require('axios')
+const { Decrypt } = require('@Logic/cipher')
 
 const MC = require('@Root/config')
 
 // /////////////////////////////////////////////////////////////////// Functions
 // -----------------------------------------------------------------------------
 // /////////////////////////////////////////////////////////// submitApplication
-const submitApplication = async (template, body) => {
+const submitApplication = async (template, body, token) => {
   try {
     const repo = MC.serverFlag === 'production' ? 'filecoin-project/filecoin-plus-large-datasets' : 'xinaxu/filecoin-plus-large-datasets'
-    const options = { headers: { Accept: 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28', Authorization: `Bearer ${process.env.GITHUB_PERSONAL_ACCESS_TOKEN_2}` } }
+    const options = { headers: { Accept: 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28', Authorization: `Bearer ${token}` } }
     const response = await Axios.post(`https://api.github.com/repos/${repo}/issues`, {
       title: `[DataCap Application] ${body.organization_name}`,
       body: template
@@ -30,13 +31,13 @@ const submitApplication = async (template, body) => {
 MC.app.post('/submit-large-application', async (req, res) => {
   const body = req.body
   try {
+    const identifier = req.session.identifier
+    if (!identifier) { return SendData(res, 403, 'You are not logged in') }
     let template = await GetFileFromDisk(`${MC.staticRoot}/large-application-template.md`)
     template = template.toString()
     Object.keys(body).forEach((key) => {
       if (key === 'organization_website') {
         template = template.replaceAll(key, body[key])
-      } else if (key === 'github_handle') {
-        template = template.replace(key, `@${body[key].replace('@', '')}`)
       } else {
         template = template.replace(key, body[key])
       }
@@ -48,7 +49,7 @@ MC.app.post('/submit-large-application', async (req, res) => {
     }
     let githubIssueLink = '/'
     if (MC.serverFlag === 'production') {
-      githubIssueLink = await submitApplication(template, body)
+      githubIssueLink = await submitApplication(template, body, Decrypt(identifier.githubToken))
     }
     SendData(res, 200, 'Large application submitted succesfully', githubIssueLink)
   } catch (e) {

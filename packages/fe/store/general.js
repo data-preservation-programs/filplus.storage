@@ -46,8 +46,7 @@ const state = () => ({
     ga_region: '',
     public_availability_radio: '',
     public_availability_textarea: '',
-    confirm_follow_fil_guideline: '',
-    github_handle: ''
+    confirm_follow_fil_guideline: ''
   },
   networkStorageCapacity: false,
   applyFormHighlighted: false,

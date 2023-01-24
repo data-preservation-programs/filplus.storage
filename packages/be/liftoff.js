@@ -48,3 +48,15 @@ try {
 } catch (e) {
   console.log(e)
 }
+
+// /////////////////////////////////////////////////////////////////////////////
+// -----------------------------------------------------------------------------
+// const users = async () => {
+//   try {
+//     const user = await MC.model.User.findOne({ githubUsername: 'timelytree' })
+//     console.log(user)
+//     // users.save()
+//   } catch (e) {
+//     console.log(e)
+//   }
+// }; users()
