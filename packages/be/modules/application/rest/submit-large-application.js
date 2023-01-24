@@ -4,7 +4,6 @@ console.log('💡 [endpoint] /submit-large-application')
 // -----------------------------------------------------------------------------
 const { SendData, GetFileFromDisk } = require('@Module_Utilities')
 const Axios = require('axios')
-const { Decrypt } = require('@Logic/cipher')
 
 const MC = require('@Root/config')
 
@@ -33,6 +32,7 @@ MC.app.post('/submit-large-application', async (req, res) => {
   try {
     const identifier = req.session.identifier
     if (!identifier) { return SendData(res, 403, 'You are not logged in') }
+    const user = await MC.model.User.findById(identifier.userId)
     let template = await GetFileFromDisk(`${MC.staticRoot}/large-application-template.md`)
     template = template.toString()
     Object.keys(body).forEach((key) => {
@@ -49,7 +49,7 @@ MC.app.post('/submit-large-application', async (req, res) => {
     }
     let githubIssueLink = '/'
     if (MC.serverFlag === 'production') {
-      githubIssueLink = await submitApplication(template, body, Decrypt(identifier.githubToken))
+      githubIssueLink = await submitApplication(template, body, user.githubToken)
     }
     SendData(res, 200, 'Large application submitted succesfully', githubIssueLink)
   } catch (e) {
