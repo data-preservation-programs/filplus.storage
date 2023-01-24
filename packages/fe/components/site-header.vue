@@ -20,7 +20,11 @@
           <div
             v-if="breakpoint !== 'medium'"
             :class="['nav-wrapper', breakpoint]"
-            :style="{ width: `${navWidth}px` }">
+            :style="{
+              width: `${navWidth}px`,
+              '--squiggle-container-length': `${squiggleContainerLength}px`,
+              '--right-squiggle-offset': `${navWidth - squiggleContainerLength}px`,
+              }">
 
             <div class="nav-detail"></div>
             <!-- ================================================ Squigglies -->
@@ -61,6 +65,7 @@
             <nav id="site-nav">
               <!-- =============================================== Nav links -->
               <div
+                ref="buttonList"
                 class="button-list"
                 @mouseleave.self="mouseLeaveNav">
                 <ButtonX
@@ -132,6 +137,14 @@ const resizeHandler = (instance) => {
       instance.breakpoint = 'default'
     }
   }
+  if (instance.$refs.buttonList) {
+    const children = instance.$refs.buttonList.children
+    const lastButton = children[children.length - 1]
+    const offset = lastButton.offsetLeft - instance.navWidth
+    const offXlarge = instance.breakpoint === 'xlarge' ? 28 : instance.breakpoint === 'large' ? 24 : 0
+    instance.bottomSquiggleOffset = offset - offXlarge
+    instance.squiggleContainerLength = lastButton.offsetLeft + lastButton.clientWidth
+  }
 }
 
 // ====================================================================== Export
@@ -155,7 +168,9 @@ export default {
       squiggleOffsetLeft: 0,
       pathKey: 0,
       path: 'M 0 2 H 892 C 893 2 893 2 893 2 C 895 2 901 1 906 2 C 918 4 918 22 931 22 C 944 22 945 4 958 2 C 962 1 968 2 970 2 C 971 2 971 2 971 2 H 1862',
-      breakpoint: 'default'
+      breakpoint: 'default',
+      bottomSquiggleOffset: -182,
+      squiggleContainerLength: 0
     }
   },
 
@@ -179,11 +194,6 @@ export default {
     cta () {
       const siteContent = this.siteContent
       return siteContent.general ? siteContent.general.navigation.cta : false
-    },
-    bottomSquiggleOffset () {
-      if (this.breakpoint === 'xlarge') { return this.navWidth - 1114 }
-      if (this.breakpoint === 'large') { return this.navWidth - 1060 }
-      return this.navWidth - 1142
     }
   },
 
@@ -284,6 +294,8 @@ export default {
 
 // ////////////////////////////////////////////////////////////////// Navigation
 .nav-wrapper {
+  --squiggle-container-length: 100%;
+  --right-squiggle-offset: 0px;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -293,18 +305,22 @@ export default {
   &:before {
     content: '';
     position: absolute;
-    left: calc(100% - 4rem);
+    right: var(--right-squiggle-offset);
     top: 1px;
+    transform: translateX(calc(100% - 0.5rem));
     width: 129px;
     height: calc(100% - 4px);
     border-bottom: solid 2px white;
     background-repeat: no-repeat;
     background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg width='129' height='24' viewBox='0 0 129 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M 0 1.0005 H -0.826 C 2.212 0.7544 8.396 0.2395 12.5 1.0005 C 24.944 3.3076 25.346 20.7652 38 21.0005 C 50.963 21.2415 51.745 3.3262 64.5 1.0005 C 68.789 0.2185 75.256 0.7542 77.187 0.9423 C 77.563 0.9789 77.939 1.0005 78.317 1.0005 H 129' stroke='white' stroke-width='2'/%3e%3c/svg%3e ");
-    @include xlarge {
-      left: calc(100% - 1.75rem);
-    }
     @include large {
       display: none;
+    }
+  }
+  .squiggle-container {
+    width: var(--squiggle-container-length);
+    @include large {
+      width: calc(100% + 20rem);
     }
   }
 }
@@ -420,7 +436,6 @@ $squiggleAnimationDuration: 500ms;
 
 .squiggle-container {
   position: absolute;
-  width: calc(100% + 50vw - #{math.div($containerWidth, 2)});
   max-width: toRem(904);
   height: 100%;
   left: 0;
