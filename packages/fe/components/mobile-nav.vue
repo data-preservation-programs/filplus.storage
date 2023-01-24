@@ -35,6 +35,21 @@
         <div class="overflow-container">
           <nav id="site-nav-mobile">
 
+            <div class="cta-button-list">
+
+              <AuthButton />
+
+              <ButtonA
+                v-if="cta"
+                :to="cta.href"
+                tag="button"
+                class="site-nav-cta"
+                @clicked="highlightApplyForm()">
+                <div class="text" v-html="cta.label" />
+              </ButtonA>
+
+            </div>
+
             <ButtonX
               v-for="(link, index) in links"
               :key="`mobile-nav-link-${index}`"
@@ -68,7 +83,9 @@
 
 <script>
 // ====================================================================== Import
+import AuthButton from '@/components/auth-button'
 import Button from '@/modules/button/components/button'
+import ButtonA from '@/components/buttons/button-a'
 import ButtonX from '@/components/buttons/button-x'
 import NavModal from '@/components/nav-modal'
 import Squigglie from '@/components/squigglie'
@@ -80,7 +97,9 @@ export default {
   name: 'MobileNav',
 
   components: {
+    AuthButton,
     Button,
+    ButtonA,
     ButtonX,
     NavModal,
     Squigglie,
@@ -91,8 +110,11 @@ export default {
   props: {
     links: {
       type: Array,
-      required: true,
-      default: () => []
+      required: true
+    },
+    cta: {
+      type: Object,
+      required: true
     }
   },
 
@@ -110,6 +132,10 @@ export default {
       const route = this.$route
       if (route.path === href) { return true }
       return false
+    },
+    highlightApplyForm () {
+      this.toggleModal()
+      this.$highlightApplyForm()
     }
   }
 }
@@ -254,6 +280,25 @@ export default {
   flex-direction: column;
   justify-content: space-between;
   align-items: flex-start;
+}
+
+.cta-button-list {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  padding: 1.875rem 2rem;
+}
+
+.auth-button {
+  :deep(.button.login-button) {
+    margin-right: 0;
+  }
+}
+
+.button.site-nav-cta {
+  padding: 0.375rem 1rem;
+  margin-right: 0;
 }
 
 .site-mobile-nav-link {

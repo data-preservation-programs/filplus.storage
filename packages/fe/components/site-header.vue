@@ -93,7 +93,8 @@
           <MobileNav
             v-else
             ref="mobileNav"
-            :links="links" />
+            :links="links"
+            :cta="cta" />
 
         </div>
       </div>
@@ -380,6 +381,7 @@ export default {
     }
   }
 }
+
 // /////////////////////////////////////////////////////////////// Nav Detailing
 $squiggleAnimationDuration: 500ms;
 
