@@ -164,6 +164,9 @@ export default {
   position: relative;
   padding: 0.125rem 0.125rem 0.125rem 1.5rem;
   z-index: 10000;
+  @include medium {
+    margin-right: 1.125rem;
+  }
   @include small {
     margin-right: 1.75rem;
   }
