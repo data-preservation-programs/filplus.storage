@@ -24,7 +24,7 @@
               width: `${navWidth}px`,
               '--squiggle-container-length': `${squiggleContainerLength}px`,
               '--right-squiggle-offset': `${navWidth - squiggleContainerLength}px`,
-              }">
+            }">
 
             <div class="nav-detail"></div>
             <!-- ================================================ Squigglies -->
@@ -177,7 +177,8 @@ export default {
 
   computed: {
     ...mapGetters({
-      siteContent: 'general/siteContent'
+      siteContent: 'general/siteContent',
+      account: 'account/account'
     }),
     navWidth () {
       if (this.breakpoint !== 'default') {
@@ -201,6 +202,11 @@ export default {
   watch: {
     squiggleOffsetLeft () {
       this.pathKey++
+    },
+    account () {
+      this.$nextTick(() => {
+        resizeHandler(this)
+      })
     }
   },
 
