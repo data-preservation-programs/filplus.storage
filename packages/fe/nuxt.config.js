@@ -27,7 +27,7 @@ export default {
   publicRuntimeConfig: {
     frontendUrl: env === 'development' ? `${baseUrls[env]}:${frontendPort}` : baseUrls[env],
     backendUrl: env === 'development' ? `${baseUrls[env]}:${backendPort}` : `${baseUrls[env]}/api`,
-    githubOAuthLink: `https://github.com/login/oauth/authorize?client_id=${process.env.GITHUB_OAUTH_CLIENT_ID}&scope=user:email`,
+    githubOAuthLink: `https://github.com/login/oauth/authorize?client_id=${process.env.GITHUB_OAUTH_CLIENT_ID}&scope=user:email,public_repo`,
     serverFlag: env,
     seo: {
       siteName: 'Fil+'
@@ -89,10 +89,10 @@ export default {
   // /////////////////////////////////////////////////////////// Nuxt.js Modules
   // ---------------------------------------------------------------------------
   modules: [
-    '@nuxtjs/style-resources', // Doc: https://github.com/nuxt-community/style-resources-module/
-    '@nuxtjs/axios', // Doc: https://axios.nuxtjs.org/usage
-    'nuxt-socket-io', // Doc: https://nuxt-socket-io.netlify.app/
-    '@nuxtjs/gtm', // Doc: https://github.com/nuxt-community/gtm-module#nuxtjsgtm
+    '@nuxtjs/style-resources', // https://github.com/nuxt-community/style-resources-module/
+    '@nuxtjs/axios', // https://axios.nuxtjs.org/
+    'nuxt-socket-io', // https://nuxt-socket-io.netlify.app/
+    '@nuxtjs/gtm', // https://github.com/nuxt-community/gtm-module#nuxtjsgtm
     '~/modules/https',
     '~/modules/toaster',
     // '~/modules/slider',
@@ -129,26 +129,19 @@ export default {
   // ///////////////////////////////////////////////////////////// [Module] Auth
   // ---------------------------------------------------------------------------
   auth: {
+    redirectUnauthenticated: '/apply',
     redirectAfterLogin: {
       unregistered: {
-        path: '/account/:key',
+        path: '/apply',
         key: 'githubUsername'
       },
       registered: {
-        path: '/account/:key/datasets/claimed',
+        path: '/apply',
         key: 'githubUsername'
       }
-    },
-    redirectAfterLogout: '/'
+    }
+    // redirectAfterLogout: '/apply'
   },
-  // ////////////////////////////////////////////////////////// [Module] Account
-  // ---------------------------------------------------------------------------
-  // account: {
-  //   redirectAfterRegistering: {
-  //     path: '/account/:key/datasets/all',
-  //     key: 'githubUsername'
-  //   }
-  // },
   // /////////////////////////////////////////////////////////////// [Module] ls
   // ---------------------------------------------------------------------------
   ls: {

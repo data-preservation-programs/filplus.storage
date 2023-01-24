@@ -249,12 +249,7 @@
             field-key="confirm_follow_fil_guideline"
             form-id="filplus_application" />
 
-          <FieldContainer
-            :scaffold="formScaffold.github_handle"
-            field-key="github_handle"
-            form-id="filplus_application" />
-
-          <div class="buttons">
+          <div v-if="account" class="buttons">
             <ButtonA
               class="submit-button"
               loader="lda-submit-button"
@@ -272,6 +267,9 @@
               {{ githubIssueLinkText }}
             </ButtonA>
           </div>
+
+          <AuthButton v-else />
+
         </div>
       </div>
 
@@ -292,6 +290,7 @@ import FieldContainer from '@/components/form/field-container'
 import ButtonA from '@/components/buttons/button-a'
 import Overlay from '@/components/overlay'
 import Squigglie from '@/components/squigglie'
+import AuthButton from '@/components/auth-button'
 
 import GithubIcon from '@/components/icons/github'
 
@@ -307,7 +306,12 @@ export default {
     ButtonA,
     Overlay,
     Squigglie,
+    AuthButton,
     GithubIcon
+  },
+
+  meta: {
+    authenticate: true
   },
 
   data () {
@@ -331,7 +335,8 @@ export default {
       siteContent: 'general/siteContent',
       networkStorageCapacity: 'general/networkStorageCapacity',
       savedFormExists: 'form/savedFormExists',
-      githubIssueLink: 'general/githubIssueLink'
+      githubIssueLink: 'general/githubIssueLink',
+      account: 'account/account'
     }),
     generalPageData () {
       return this.siteContent.general
@@ -401,14 +406,14 @@ export default {
         const inputFieldElement = document.querySelector('#total_datacap_size_input')
         this.$scrollToElement(inputFieldElement, 250, -200)
       } else if (pass) {
-        if (bytes >= middle && bytes <= top) {
+        if (bytes < middle) {
           this.removeLoader('lda-submit-button')
           this.$toaster.add({
             type: 'toast',
             category: 'error',
-            message: 'Please fill out the Large Dataset Application for your requested amount'
+            message: 'Please fill out the General Application for your requested amount (< 100 TiB)'
           })
-          this.$router.push('/apply/large')
+          this.$router.push('/apply/general/notaries')
         } else {
           const incoming = await this.$form('filplus_application').validate()
           if (!incoming) {

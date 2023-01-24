@@ -13,8 +13,7 @@
 
 <script>
 // ===================================================================== Imports
-import { mapGetters } from 'vuex'
-import Cookie from 'cookie'
+import { mapGetters, mapActions } from 'vuex'
 
 import Toast from '@/modules/toaster/components/toast'
 
@@ -40,11 +39,27 @@ export default {
     }
   },
 
+  watch: {
+    '$route' (route) {
+      this.displayToastFromQuery(route)
+    }
+  },
+
   mounted () {
-    const cookie = this.$getCookie(document.cookie, 'toast')
-    if (cookie) {
-      this.$toaster.add(JSON.parse(cookie))
-      document.cookie = Cookie.serialize('toast', 'expired', { path: '/', maxAge: 0, expires: new Date('Thu, 01 Jan 1970 00:00:00 GMT') })
+    this.displayToastFromQuery(this.$route)
+  },
+
+  methods: {
+    ...mapActions({
+      addMessage: 'toaster/addMessage'
+    }),
+    displayToastFromQuery (route) {
+      const query = route.query
+      const toast = query.toast
+      if (toast) {
+        this.addMessage(JSON.parse(toast))
+        this.$router.replace({ query: Object.assign({ ...query }, { toast: undefined }) })
+      }
     }
   }
 }

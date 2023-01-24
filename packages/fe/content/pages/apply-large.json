@@ -662,26 +662,6 @@
           },
           "defaultValue": ""
         },
-        "github_handle": {
-          "type": "input",
-          "inputType": "text",
-          "modelKey": "github_handle",
-          "label": "Github Handle",
-          "placeholder": "@mygithub",
-          "tooltip": "Provide your github handle.",
-          "required": true,
-          "pre": "[^\\u0000-\\u00ff]",
-          "autocomplete": "none",
-          "chars": {
-            "min": 2,
-            "max": 1000
-          },
-          "validationMessage": {
-            "required": "This field is required",
-            "chars": "Input must be between 2 and 35 characters"
-          },
-          "defaultValue": ""
-        },
         "confirm_follow_fil_guideline": {
           "type": "checkbox",
           "modelKey": "confirm_follow_fil_guideline",
