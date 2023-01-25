@@ -217,8 +217,10 @@ export default {
       if (pass) {
         if (bytes >= bottom && bytes < middle) {
           this.$router.push('/apply/general/notaries')
+          this.$gtm.push({ event: 'general_application_submitted' })
         } else if (bytes >= middle && bytes <= top) {
           this.$router.push('/apply/large')
+          this.$gtm.push({ event: 'general_application_submitted' })
         }
       }
     }
