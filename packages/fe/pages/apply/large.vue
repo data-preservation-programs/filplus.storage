@@ -422,7 +422,6 @@ export default {
             this.$scrollToElement(firstInvalidField, 250, -200)
           } else {
             this.submitLargeApplication(incoming)
-            this.$gtm.push({ event: 'large_dataset_application_submitted' })
           }
         }
       }

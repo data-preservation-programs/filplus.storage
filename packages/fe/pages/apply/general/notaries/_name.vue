@@ -251,7 +251,6 @@ export default {
             this.$scrollToElement(firstInvalidField, 250, -200)
           } else {
             this.submitGeneralApplication(incoming)
-            this.$gtm.push({ event: 'general_dataset_application_submitted' })
           }
         }
       }
