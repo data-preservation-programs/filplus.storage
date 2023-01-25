@@ -216,11 +216,11 @@ export default {
       const pass = await this.$handleFormRedirection(bytes, bottom, top)
       if (pass) {
         if (bytes >= bottom && bytes < middle) {
+          this.$gtm.push({ event: 'general_application_submitted' })
           this.$router.push('/apply/general/notaries')
-          this.$gtm.push({ event: 'general_application_submitted' })
         } else if (bytes >= middle && bytes <= top) {
-          this.$router.push('/apply/large')
           this.$gtm.push({ event: 'general_application_submitted' })
+          this.$router.push('/apply/large')
         }
       }
     }
