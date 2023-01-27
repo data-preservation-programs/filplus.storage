@@ -251,6 +251,7 @@ export default {
             this.$scrollToElement(firstInvalidField, 250, -200)
           } else {
             this.submitGeneralApplication(incoming)
+            this.$router.push('/apply/success')
           }
         }
       }
