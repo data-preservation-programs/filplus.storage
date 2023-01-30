@@ -8,7 +8,7 @@
       content-cols="col-8_sm-10_mi-12">
     </HeroA>
 
-    <!-- =============================================================== FAQ -->
+    <!-- =========================================================== Success -->
     <div id="section-success">
 
       <Squigglie
@@ -16,19 +16,19 @@
         orientation="down"
         color="nandor"
         :thick="true"
-        class="faq-top-border" />
+        class="submitted-application-top-border" />
 
       <div class="grid">
-        <!-- <div class="col-7_lg-8_sm-9_mi-10 success" data-push-left="off-1_mi-0"> -->
-        <div class="col-12 success">
-          ADD THE CONTENT IN HERE
+        <div class="col-7_lg-8_sm-9_mi-10 success" data-push-left="off-1_mi-0">
+          <h2 class="success-heading" v-html="subheading" />
+          <MarkdownParser :markdown="submittedApplication.body" />
         </div>
 
-        <!-- <div class="col-4_lg-3_sm-2_mi-1">
+        <div class="col-4_lg-3_sm-2_mi-1">
           <div class="panel-right">
             <div class="warp-image-double" />
           </div>
-        </div> -->
+        </div>
 
       </div>
     </div>
@@ -46,6 +46,7 @@ import { mapGetters } from 'vuex'
 import HeroA from '@/components/hero-a'
 import Overlay from '@/components/overlay'
 import Squigglie from '@/components/squigglie'
+import MarkdownParser from '@/components/markdown-parser'
 
 import ApplySucessPageData from '@/content/pages/apply-success.json'
 
@@ -56,7 +57,8 @@ export default {
   components: {
     HeroA,
     Overlay,
-    Squigglie
+    Squigglie,
+    MarkdownParser
   },
 
   data () {
@@ -88,14 +90,17 @@ export default {
       return this.siteContent[this.tag].page_content
     },
     heading () {
-      return this.pageData.hero.heading
+      return this.pageData.heading
+    },
+    subheading () {
+      return this.pageData.subheading
     },
     githubIssueNumber () {
       // the regex I made is returning the '/' even though I put it in a non-capturing group?
-      return this.githubIssueLink ? this.githubIssueLink.slice(this.githubIssueLink.search(/(?:\/)(\d+)\b/) + 1) : null
+      return this.githubIssueLink ? parseInt(this.githubIssueLink.slice(this.githubIssueLink.search(/(?:\/)(\d+)\b/) + 1)) : null
     },
     submittedApplication () {
-      return this.isCurrentApplication(this.submittedApplications, 10)
+      return this.isCurrentApplication(this.submittedApplications, this.githubIssueNumber)
     }
   },
 
@@ -121,7 +126,7 @@ $squigglySizing: 5.75rem;
   overflow: hidden;
 }
 
-.success {
+.submitted-application {
   height: 50rem
 }
 
@@ -153,6 +158,29 @@ $squigglySizing: 5.75rem;
     @include mini {
       padding: 0.75rem 1.5rem;
     }
+  }
+}
+
+// /////////////////////////////////////////////////////// Submitted Application
+#section-success {
+  position: relative;
+  z-index: 25;
+  .submitted-applicaiton-top-border {
+    top: -3px;
+  }
+}
+
+.success-heading {
+  margin-top: 5rem;
+}
+
+.markdown {
+  padding: 3rem 5rem 5rem 0;
+  @include small {
+    padding-right: 3rem;
+  }
+  @include mini {
+    padding-right: 0;
   }
 }
 

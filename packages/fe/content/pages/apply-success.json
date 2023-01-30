@@ -10,9 +10,7 @@
     "image": "/open-graph-image.png"
   },
   "page_content": {
-    "hero": {
-      "label": "",
-      "heading": "Application Sucess!"
-    }
+    "heading": "Application Sucess!",
+    "subheading": "Your application:"
   }
 }

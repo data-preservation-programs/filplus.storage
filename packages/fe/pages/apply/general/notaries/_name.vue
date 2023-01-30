@@ -212,7 +212,7 @@ export default {
   },
 
   beforeDestroy () {
-    this.setGithubIssueLink(false)
+    // this.setGithubIssueLink(false)
   },
 
   methods: {
