@@ -219,7 +219,7 @@ export default {
           this.$gtm.push({ event: 'redirect_notarySelection' })
           this.$router.push('/apply/general/notaries')
         } else if (bytes >= middle && bytes <= top) {
-          this.$gtm.push({ event: 'redirect_ga' })
+          this.$gtm.push({ event: 'redirect_lda' })
           this.$router.push('/apply/large')
         }
       }
