@@ -1,7 +1,7 @@
 <template>
   <div v-if="editor" class="wysiwyg-container">
 
-    <!-- =============================================== Formatting Toolbar -->
+    <!-- ================================================ Formatting Toolbar -->
     <div class="wysiwyg-formatting-toolbar">
       <div
         v-for="formatTool in toolbarConfig"
@@ -21,6 +21,7 @@
       </div>
     </div>
 
+    <!-- ============================================================= Edior -->
     <client-only>
       <EditorContent
         :editor="editor"
