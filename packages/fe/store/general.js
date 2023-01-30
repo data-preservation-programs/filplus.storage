@@ -9,6 +9,7 @@ import GeneralSiteData from '@/content/pages/general.json'
 const state = () => ({
   siteContent: {},
   staticFiles: {},
+  submittedApplications: {},
   clipboard: false,
   application: {
     organization_name: '',
@@ -62,7 +63,8 @@ const getters = {
   application: state => state.application,
   networkStorageCapacity: state => state.networkStorageCapacity,
   applyFormHighlighted: state => state.applyFormHighlighted,
-  githubIssueLink: state => state.githubIssueLink
+  githubIssueLink: state => state.githubIssueLink,
+  submittedApplications: state => state.submittedApplications
 }
 
 // ///////////////////////////////////////////////////////////////////// Actions
@@ -192,6 +194,25 @@ const actions = {
   // //////////////////////////////////////////////////////// setGithubIssueLink
   setGithubIssueLink ({ commit }, link) {
     commit('SET_GITHUB_ISSUE_LINK', link)
+  },
+  // /////////////////////////////////////////////////// setSubmittedApplication
+  setSubmittedApplications ({ commit }, applications) {
+    commit('SET_SUBMITTED_APPLICATIONS', applications)
+  },
+  // /////////////////////////////////////////////////// getSubmittedApplication
+  async getSubmittedApplications ({ commit, dispatch }) {
+    try {
+      // const link = state.githubIssueLink
+      const response = await this.$axiosAuth.get('/get-submitted-applications')
+      const applications = response.data.payload
+      dispatch('setSubmittedApplications', applications)
+      return applications
+    } catch (e) {
+      console.log('===================== [Store Action: general/getCachedFile]')
+      console.log(e)
+      dispatch('setSubmittedApplication', { application: false })
+      return false
+    }
   }
 }
 
@@ -218,6 +239,9 @@ const mutations = {
   },
   SET_GITHUB_ISSUE_LINK (state, link) {
     state.githubIssueLink = link
+  },
+  SET_SUBMITTED_APPLICATIONS (state, applications) {
+    state.submittedApplications = applications
   }
 }
 

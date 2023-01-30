@@ -1,0 +1,18 @@
+{
+  "seo": {
+    "title": "Application Success — Filecoin Plus",
+    "description": "General DataCap application form with a selected notary."
+  },
+  "og": {
+    "site_name": "Application Success — Filecoin Plus",
+    "url": "",
+    "type": "website",
+    "image": "/open-graph-image.png"
+  },
+  "page_content": {
+    "hero": {
+      "label": "",
+      "heading": "Application Sucess!"
+    }
+  }
+}
