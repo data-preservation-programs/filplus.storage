@@ -212,7 +212,7 @@ export default {
   },
 
   beforeDestroy () {
-    // this.setGithubIssueLink(false)
+    this.setSubmittedApplicationType('general')
   },
 
   methods: {
@@ -221,7 +221,7 @@ export default {
       submitGeneralApplication: 'general/submitGeneralApplication',
       restoreSavedForm: 'form/restoreSavedForm',
       removeLoader: 'button/removeLoader',
-      setGithubIssueLink: 'general/setGithubIssueLink'
+      setSubmittedApplicationType: 'general/setSubmittedApplicationType'
     }),
     async submitForm () {
       const bottom = this.submitThresholdBottom

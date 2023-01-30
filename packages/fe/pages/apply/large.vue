@@ -383,7 +383,7 @@ export default {
   },
 
   beforeDestroy () {
-    this.setGithubIssueLink(false)
+    this.setSubmittedApplicationType('large')
   },
 
   methods: {
@@ -392,7 +392,7 @@ export default {
       submitLargeApplication: 'general/submitLargeApplication',
       restoreSavedForm: 'form/restoreSavedForm',
       removeLoader: 'button/removeLoader',
-      setGithubIssueLink: 'general/setGithubIssueLink'
+      setSubmittedApplicationType: 'general/setSubmittedApplicationType'
     }),
     async submitForm () {
       const bottom = this.submitThresholdBottom
@@ -422,6 +422,7 @@ export default {
             this.$scrollToElement(firstInvalidField, 250, -200)
           } else {
             this.submitLargeApplication(incoming)
+            this.$router.push('/apply/success')
           }
         }
       }

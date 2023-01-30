@@ -41,7 +41,7 @@
 
 <script>
 // ===================================================================== Imports
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 import HeroA from '@/components/hero-a'
 import Overlay from '@/components/overlay'
@@ -69,7 +69,8 @@ export default {
 
   async fetch ({ store }) {
     await store.dispatch('general/getBaseData', { key: 'apply-success', data: ApplySucessPageData })
-    await store.dispatch('general/getSubmittedApplications')
+    await store.dispatch('general/getSubmittedGeneralApplications')
+    await store.dispatch('general/getSubmittedLargeApplications')
   },
 
   head () {
@@ -79,7 +80,9 @@ export default {
   computed: {
     ...mapGetters({
       siteContent: 'general/siteContent',
-      submittedApplications: 'general/submittedApplications',
+      submittedGeneralApplications: 'general/submittedGeneralApplications',
+      submittedLargeApplications: 'general/submittedLargeApplications',
+      submittedApplicationType: 'general/submittedApplicationType',
       githubIssueLink: 'general/githubIssueLink',
       account: 'account/account'
     }),
@@ -100,11 +103,29 @@ export default {
       return this.githubIssueLink ? parseInt(this.githubIssueLink.slice(this.githubIssueLink.search(/(?:\/)(\d+)\b/) + 1)) : null
     },
     submittedApplication () {
-      return this.isCurrentApplication(this.submittedApplications, this.githubIssueNumber)
+      let application
+      switch (this.submittedApplicationType) {
+        case 'general':
+          application = this.isCurrentApplication(this.submittedGeneralApplications, this.githubIssueNumber)
+          break
+        case 'large':
+          application = this.isCurrentApplication(this.submittedLargeApplications, this.githubIssueNumber)
+          break
+      }
+      return application
     }
   },
 
+  beforeDestroy () {
+    this.setGithubIssueLink(false)
+    this.submittedApplicationType(false)
+  },
+
   methods: {
+    ...mapActions({
+      setGithubIssueLink: 'general/setGithubIssueLink',
+      setSubmittedApplicationType: 'general/setSubmittedApplicationType'
+    }),
     isCurrentApplication (allApplications, currentApplicationNumber) {
       return allApplications.find((application) => {
         if (application.number === currentApplicationNumber) {

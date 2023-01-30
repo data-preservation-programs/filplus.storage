@@ -9,7 +9,9 @@ import GeneralSiteData from '@/content/pages/general.json'
 const state = () => ({
   siteContent: {},
   staticFiles: {},
-  submittedApplications: {},
+  submittedApplicationType: false,
+  submittedGeneralApplications: {},
+  submittedLargeApplications: {},
   clipboard: false,
   application: {
     organization_name: '',
@@ -64,7 +66,9 @@ const getters = {
   networkStorageCapacity: state => state.networkStorageCapacity,
   applyFormHighlighted: state => state.applyFormHighlighted,
   githubIssueLink: state => state.githubIssueLink,
-  submittedApplications: state => state.submittedApplications
+  submittedApplicationType: state => state.submittedApplicationType,
+  submittedGeneralApplications: state => state.submittedGeneralApplications,
+  submittedLargeApplications: state => state.submittedLargeApplications
 }
 
 // ///////////////////////////////////////////////////////////////////// Actions
@@ -146,6 +150,7 @@ const actions = {
     try {
       const response = await this.$axiosAuth.post('/submit-general-application', application)
       dispatch('setGithubIssueLink', response.data.payload)
+      dispatch('setSubmittedApplicationType', 'general')
       this.dispatch('button/removeLoader', 'ga-submit-button')
       this.$toaster.add({
         type: 'toast',
@@ -169,6 +174,7 @@ const actions = {
     try {
       const response = await this.$axiosAuth.post('/submit-large-application', application)
       dispatch('setGithubIssueLink', response.data.payload)
+      dispatch('setSubmittedApplicationType', 'large')
       this.dispatch('button/removeLoader', 'lda-submit-button')
       this.$toaster.add({
         type: 'toast',
@@ -195,22 +201,43 @@ const actions = {
   setGithubIssueLink ({ commit }, link) {
     commit('SET_GITHUB_ISSUE_LINK', link)
   },
-  // /////////////////////////////////////////////////// setSubmittedApplication
-  setSubmittedApplications ({ commit }, applications) {
-    commit('SET_SUBMITTED_APPLICATIONS', applications)
+  // //////////////////////////////////////////// setSubmittedGeneralApplication
+  setSubmittedApplicationType ({ commit }, type) {
+    commit('SET_SUBMITTED_APPLICATION_TYPE', type)
   },
-  // /////////////////////////////////////////////////// getSubmittedApplication
-  async getSubmittedApplications ({ commit, dispatch }) {
+  // //////////////////////////////////////////// setSubmittedGeneralApplication
+  setSubmittedGeneralApplications ({ commit }, applications) {
+    commit('SET_SUBMITTED_GENERAL_APPLICATIONS', applications)
+  },
+  // //////////////////////////////////////////// getSubmittedGeneralApplication
+  async getSubmittedGeneralApplications ({ commit, dispatch }) {
     try {
-      // const link = state.githubIssueLink
-      const response = await this.$axiosAuth.get('/get-submitted-applications')
+      const response = await this.$axiosAuth.get('/get-submitted-general-applications')
       const applications = response.data.payload
-      dispatch('setSubmittedApplications', applications)
+      dispatch('setSubmittedGeneralApplications', applications)
       return applications
     } catch (e) {
-      console.log('===================== [Store Action: general/getCachedFile]')
+      console.log('=== [Store Action: general/getSubmittedGeneralApplications]')
       console.log(e)
-      dispatch('setSubmittedApplication', { application: false })
+      dispatch('setSubmittedGeneralApplication', { application: false })
+      return false
+    }
+  },
+  // //////////////////////////////////////////// setSubmittedGeneralApplication
+  setSubmittedLargeApplications ({ commit }, applications) {
+    commit('SET_SUBMITTED_LARGE_APPLICATIONS', applications)
+  },
+  // //////////////////////////////////////////// getSubmittedGeneralApplication
+  async getSubmittedLargeApplications ({ commit, dispatch }) {
+    try {
+      const response = await this.$axiosAuth.get('/get-submitted-large-applications')
+      const applications = response.data.payload
+      dispatch('setSubmittedLargeApplications', applications)
+      return applications
+    } catch (e) {
+      console.log('=== [Store Action: general/getSubmittedLargeApplications]')
+      console.log(e)
+      dispatch('setSubmittedLargeApplication', { application: false })
       return false
     }
   }
@@ -240,8 +267,14 @@ const mutations = {
   SET_GITHUB_ISSUE_LINK (state, link) {
     state.githubIssueLink = link
   },
-  SET_SUBMITTED_APPLICATIONS (state, applications) {
-    state.submittedApplications = applications
+  SET_SUBMITTED_APPLICATION_TYPE (state, type) {
+    state.submittedApplicationType = type
+  },
+  SET_SUBMITTED_GENERAL_APPLICATIONS (state, applications) {
+    state.submittedGeneralApplications = applications
+  },
+  SET_SUBMITTED_LARGE_APPLICATIONS (state, applications) {
+    state.submittedLargeApplications = applications
   }
 }
 
