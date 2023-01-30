@@ -17,7 +17,6 @@
 </template>
 
 <script>
-
 // ===================================================================== Imports
 import Wysiwyg from '@/modules/form/components/Wysiwyg'
 
@@ -43,12 +42,6 @@ export default {
   },
 
   computed: {
-    value () {
-      return this.field.value
-    },
-    required () {
-      return this.field.required
-    },
     fieldKey () {
       return this.field.fieldKey
     },
@@ -67,7 +60,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 // ///////////////////////////////////////////////////////////////////// General
 .field-wysiwyg {
   height: 4rem;
@@ -79,5 +71,4 @@ export default {
     background: transparent;
   }
 }
-
 </style>

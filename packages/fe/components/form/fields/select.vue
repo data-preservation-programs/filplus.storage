@@ -82,12 +82,6 @@ export default {
     options () {
       return this.scaffold.options
     },
-    value () {
-      return this.field.value
-    },
-    required () {
-      return this.field.required
-    },
     state () {
       return this.field.state
     },

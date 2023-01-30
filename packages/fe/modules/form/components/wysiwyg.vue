@@ -7,17 +7,20 @@
         v-for="formatTool in toolbarConfig"
         :key="formatTool.name"
         class="wysiwyg-formatting-option">
+
         <Select
           v-if="formatTool.type === 'select' && formatTool.include"
           class="wysiwig-formatting-dropdown"
           :field="headingSelectField"
           @updateValue="updateNodeHeading" />
+          
         <ButtonX
           v-if="formatTool.type === 'button-x' && formatTool.include"
           :class="[ 'wysiwyg-formatting-button', formatTool.name, isFormatButtonActive(formatTool)]"
           @clicked="clickFormatButton(formatTool)">
           <slot name="format-tool-label" :format-tool="formatTool" />
         </ButtonX>
+
       </div>
     </div>
 
@@ -352,5 +355,4 @@ export default {
   border-radius: 0.625rem;
   line-height: 1.1;
 }
-
 </style>
