@@ -14,6 +14,14 @@
 
             <div v-if="subtext" class="subtext" v-html="subtext" />
 
+            <div v-if="Object.keys(heroButton).length >= 3">
+              <ButtonX
+                :to="heroButton.href"
+                :tag="heroButton.type">
+                {{ heroButton.label }}
+              </ButtonX>
+            </div>
+
           </div>
         </div>
 
@@ -30,9 +38,16 @@
 </template>
 
 <script>
+// ===================================================================== Imports
+import ButtonX from '@/components/buttons/button-x'
+
 // ====================================================================== Export
 export default {
   name: 'HeroB',
+
+  components: {
+    ButtonX
+  },
 
   props: {
     contentCols: {
@@ -53,6 +68,13 @@ export default {
       type: [String, Boolean],
       required: false,
       default: false
+    },
+    heroButton: {
+      type: Object,
+      required: false,
+      default () {
+        return {}
+      }
     }
   }
 }

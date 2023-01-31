@@ -11,7 +11,7 @@
 
             <h1 :class="['heading', `direction__${contentDirection}`]" v-html="heading" />
 
-            <div v-if="heroButton">
+            <div v-if="Object.keys(heroButton).length >= 3">
               <ButtonX
                 :to="heroButton.href"
                 :tag="heroButton.type">
