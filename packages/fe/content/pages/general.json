@@ -104,5 +104,9 @@
     "submit_threshold_top": 5629499534213120
   },
   "404_error_message": "<span class='bubble right'>404</span>",
-  "404_home_button_text": "Back to home"
+  "404_hero_button": {
+    "type": "nuxt-link",
+    "href": "/",
+    "label": "Back to home"
+  }
 }
