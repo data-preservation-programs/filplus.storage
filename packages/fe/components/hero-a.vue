@@ -11,6 +11,13 @@
 
             <h1 :class="['heading', `direction__${contentDirection}`]" v-html="heading" />
 
+            <div v-if="heroButton">
+              <ButtonX
+                :to="heroButton.href"
+                :tag="heroButton.type">
+                {{ heroButton.label }}
+              </ButtonX>
+            </div>
           </div>
         </div>
       </div>
@@ -38,13 +45,15 @@
 <script>
 // ===================================================================== Imports
 import Overlay from '@/components/overlay'
+import ButtonX from '@/components/buttons/button-x'
 
 // ====================================================================== Export
 export default {
   name: 'HeroA',
 
   components: {
-    Overlay
+    Overlay,
+    ButtonX
   },
 
   props: {
@@ -76,6 +85,13 @@ export default {
       type: String,
       required: false,
       default: 'lego-backsplash.jpg'
+    },
+    heroButton: {
+      type: Object,
+      required: false,
+      default () {
+        return {}
+      }
     }
   },
 
@@ -153,6 +169,11 @@ export default {
   @include mini {
     font-size: toRem(35);
   }
+}
+
+.button {
+  text-align: center;
+  padding: 0 0.5rem 1rem;
 }
 
 // //////////////////////////////////////////////////////////// Image + Overlays
