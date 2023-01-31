@@ -142,6 +142,10 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  .button {
+    text-align: center;
+    padding: 0 0.5rem 1rem;
+  }
 }
 
 .label {
@@ -169,11 +173,6 @@ export default {
   @include mini {
     font-size: toRem(35);
   }
-}
-
-.button {
-  text-align: center;
-  padding: 0 0.5rem 1rem;
 }
 
 // //////////////////////////////////////////////////////////// Image + Overlays

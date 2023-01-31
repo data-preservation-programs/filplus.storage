@@ -12,6 +12,11 @@
   "page_content": {
     "label": "Filecoin Plus - General Application",
     "heading": "<span class='bubble left'>Choose a notary</span>to request a review",
+    "back_button": {
+      "type": "nuxt-link",
+      "href": "/apply",
+      "label": "Restart application"
+    },
     "table": {
       "label": "Choose a Notary",
       "heading": "You can filter through notaries using different criteria, or choose a notary you’ve worked with before."

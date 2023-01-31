@@ -5,6 +5,7 @@
     <HeroA
       :label="label"
       :heading="heading"
+      :hero-button="backButton"
       heading-cols="col-8_md-10_mi-10_ti-12" />
 
     <!-- ========================================================== Notaries -->
@@ -39,6 +40,13 @@
           <div class="col-12">
             <NotariesTable />
           </div>
+          <div class="col-11">
+            <ButtonX
+              :to="backButton.href"
+              :tag="backButton.type">
+              {{ backButton.label }}
+            </ButtonX>
+          </div>
         </div>
 
       </div>
@@ -58,6 +66,7 @@ import HeroA from '@/components/hero-a'
 import Overlay from '@/components/overlay'
 import NotariesTable from '@/components/notaries-table'
 import Squigglie from '@/components/squigglie'
+import ButtonX from '@/components/buttons/button-x'
 
 import NotariesPageData from '@/content/pages/notaries.json'
 
@@ -69,7 +78,8 @@ export default {
     HeroA,
     NotariesTable,
     Overlay,
-    Squigglie
+    Squigglie,
+    ButtonX
   },
 
   data () {
@@ -100,6 +110,9 @@ export default {
     },
     heading () {
       return this.pageData.heading
+    },
+    backButton () {
+      return this.pageData.back_button
     },
     table () {
       return this.pageData.table
@@ -158,6 +171,10 @@ export default {
 
 .overlay.type__noise {
   z-index: 5;
+}
+
+.button {
+  text-align: right;
 }
 
 // ////////////////////////////////////////////////////////////////// Warp Image
