@@ -460,14 +460,14 @@ const HandleFormRedirection = (app, store, bytes, bottom, top) => {
       'https://verify.glif.io/',
       '_blank'
     )
-    this.$gtm.push({ event: 'redirect_verifyGlif' })
+    this.$gtm.push({ event: 'redirect_glif' })
   } else if (bytes > top) {
     app.$toaster.add({
       type: 'toast',
       category: 'error',
       message: 'Please select a value up to 5 PiB'
     })
-    this.$gtm.push({ event: 'capture_greaterThanFivePibRequested' })
+    this.$gtm.push({ event: 'attempted_over_5PB' })
   } else {
     return true
   }

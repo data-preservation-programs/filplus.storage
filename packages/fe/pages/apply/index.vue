@@ -216,7 +216,7 @@ export default {
       const pass = await this.$handleFormRedirection(bytes, bottom, top)
       if (pass) {
         if (bytes >= bottom && bytes < middle) {
-          this.$gtm.push({ event: 'redirect_notarySelection' })
+          this.$gtm.push({ event: 'redirect_notary_selection' })
           this.$router.push('/apply/general/notaries')
         } else if (bytes >= middle && bytes <= top) {
           this.$gtm.push({ event: 'redirect_lda' })
