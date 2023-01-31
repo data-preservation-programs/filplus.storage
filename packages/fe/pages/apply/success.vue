@@ -21,7 +21,9 @@
       <div class="grid">
         <div class="col-7_lg-8_sm-9_mi-10 success" data-push-left="off-1_mi-0">
           <h2 class="success-heading" v-html="subheading" />
-          <MarkdownParser :markdown="submittedApplication.body" />
+          <div v-if="typeof application === 'string' ">
+            <MarkdownParser :markdown="application" />
+          </div>
         </div>
 
         <div class="col-4_lg-3_sm-2_mi-1">
@@ -69,8 +71,6 @@ export default {
 
   async fetch ({ store }) {
     await store.dispatch('general/getBaseData', { key: 'apply-success', data: ApplySucessPageData })
-    await store.dispatch('general/getSubmittedGeneralApplications')
-    await store.dispatch('general/getSubmittedLargeApplications')
   },
 
   head () {
@@ -80,10 +80,7 @@ export default {
   computed: {
     ...mapGetters({
       siteContent: 'general/siteContent',
-      submittedGeneralApplications: 'general/submittedGeneralApplications',
-      submittedLargeApplications: 'general/submittedLargeApplications',
-      submittedApplicationType: 'general/submittedApplicationType',
-      githubIssueLink: 'general/githubIssueLink',
+      githubIssue: 'general/githubIssue',
       account: 'account/account'
     }),
     generalPageData () {
@@ -98,42 +95,19 @@ export default {
     subheading () {
       return this.pageData.subheading
     },
-    githubIssueNumber () {
-      // the regex I made is returning the '/' even though I put it in a non-capturing group?
-      return this.githubIssueLink ? parseInt(this.githubIssueLink.slice(this.githubIssueLink.search(/(?:\/)(\d+)\b/) + 1)) : null
-    },
-    submittedApplication () {
-      let application
-      switch (this.submittedApplicationType) {
-        case 'general':
-          application = this.isCurrentApplication(this.submittedGeneralApplications, this.githubIssueNumber)
-          break
-        case 'large':
-          application = this.isCurrentApplication(this.submittedLargeApplications, this.githubIssueNumber)
-          break
-      }
-      return application
+    application () {
+      return this.githubIssue.body
     }
   },
 
   beforeDestroy () {
-    this.setGithubIssueLink(false)
-    this.submittedApplicationType(false)
+    this.setGithubIssue(false)
   },
 
   methods: {
     ...mapActions({
-      setGithubIssueLink: 'general/setGithubIssueLink',
-      setSubmittedApplicationType: 'general/setSubmittedApplicationType'
-    }),
-    isCurrentApplication (allApplications, currentApplicationNumber) {
-      return allApplications.find((application) => {
-        if (application.number === currentApplicationNumber) {
-          return application
-        }
-        return false
-      })
-    }
+      setGithubIssue: 'general/setGithubIssue'
+    })
   }
 }
 </script>

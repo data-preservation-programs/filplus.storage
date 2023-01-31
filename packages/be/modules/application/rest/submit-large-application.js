@@ -18,7 +18,7 @@ const submitApplication = async (template, body, token) => {
       title: `[DataCap Application] ${body.organization_name}`,
       body: template
     }, options)
-    return response.data.html_url
+    return response.data
   } catch (e) {
     console.log('=============================== [Function: submitApplication]')
     throw e
@@ -47,8 +47,8 @@ MC.app.post('/submit-large-application', async (req, res) => {
       console.log(body)
       console.log(template)
     }
-    const githubIssueLink = await submitApplication(template, body, user.githubToken)
-    SendData(res, 200, 'Large application submitted succesfully', githubIssueLink)
+    const githubIssue = await submitApplication(template, body, user.githubToken)
+    SendData(res, 200, 'Large application submitted succesfully', githubIssue)
   } catch (e) {
     console.log('======================= [Endpoint: /submit-large-application]')
     console.log(e.response)

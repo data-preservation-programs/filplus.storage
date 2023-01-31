@@ -256,16 +256,7 @@
               @clicked="submitForm">
               {{ submitButtonText }}
             </ButtonA>
-            <ButtonA
-              v-if="githubIssueLink"
-              class="github-issue-link-button"
-              theme="blue"
-              tag="a"
-              target="_blank"
-              :to="githubIssueLink">
-              <GithubIcon />
-              {{ githubIssueLinkText }}
-            </ButtonA>
+
           </div>
 
           <AuthButton v-else />
@@ -292,8 +283,6 @@ import Overlay from '@/components/overlay'
 import Squigglie from '@/components/squigglie'
 import AuthButton from '@/components/auth-button'
 
-import GithubIcon from '@/components/icons/github'
-
 import ApplyLargePageData from '@/content/pages/apply-large.json'
 
 // ====================================================================== Export
@@ -306,8 +295,7 @@ export default {
     ButtonA,
     Overlay,
     Squigglie,
-    AuthButton,
-    GithubIcon
+    AuthButton
   },
 
   meta: {
@@ -335,7 +323,6 @@ export default {
       siteContent: 'general/siteContent',
       networkStorageCapacity: 'general/networkStorageCapacity',
       savedFormExists: 'form/savedFormExists',
-      githubIssueLink: 'general/githubIssueLink',
       account: 'account/account'
     }),
     generalPageData () {
@@ -382,17 +369,12 @@ export default {
     }
   },
 
-  beforeDestroy () {
-    this.setSubmittedApplicationType('large')
-  },
-
   methods: {
     ...mapActions({
       validateForm: 'form/validateForm',
       submitLargeApplication: 'general/submitLargeApplication',
       restoreSavedForm: 'form/restoreSavedForm',
-      removeLoader: 'button/removeLoader',
-      setSubmittedApplicationType: 'general/setSubmittedApplicationType'
+      removeLoader: 'button/removeLoader'
     }),
     async submitForm () {
       const bottom = this.submitThresholdBottom

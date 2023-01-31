@@ -9,7 +9,6 @@ import GeneralSiteData from '@/content/pages/general.json'
 const state = () => ({
   siteContent: {},
   staticFiles: {},
-  submittedApplicationType: false,
   submittedGeneralApplications: {},
   submittedLargeApplications: {},
   clipboard: false,
@@ -53,7 +52,7 @@ const state = () => ({
   },
   networkStorageCapacity: false,
   applyFormHighlighted: false,
-  githubIssueLink: false
+  githubIssue: false
 })
 
 // ///////////////////////////////////////////////////////////////////// Getters
@@ -65,8 +64,7 @@ const getters = {
   application: state => state.application,
   networkStorageCapacity: state => state.networkStorageCapacity,
   applyFormHighlighted: state => state.applyFormHighlighted,
-  githubIssueLink: state => state.githubIssueLink,
-  submittedApplicationType: state => state.submittedApplicationType,
+  githubIssue: state => state.githubIssue,
   submittedGeneralApplications: state => state.submittedGeneralApplications,
   submittedLargeApplications: state => state.submittedLargeApplications
 }
@@ -149,8 +147,7 @@ const actions = {
   async submitGeneralApplication ({ commit, dispatch }, application) {
     try {
       const response = await this.$axiosAuth.post('/submit-general-application', application)
-      dispatch('setGithubIssueLink', response.data.payload)
-      dispatch('setSubmittedApplicationType', 'general')
+      dispatch('setGithubIssue', response.data.payload)
       this.dispatch('button/removeLoader', 'ga-submit-button')
       this.$toaster.add({
         type: 'toast',
@@ -173,8 +170,7 @@ const actions = {
   async submitLargeApplication ({ commit, dispatch }, application) {
     try {
       const response = await this.$axiosAuth.post('/submit-large-application', application)
-      dispatch('setGithubIssueLink', response.data.payload)
-      dispatch('setSubmittedApplicationType', 'large')
+      dispatch('setGithubIssue', response.data.payload)
       this.dispatch('button/removeLoader', 'lda-submit-button')
       this.$toaster.add({
         type: 'toast',
@@ -197,13 +193,9 @@ const actions = {
   setApplyFormHighlightedStatus ({ commit }, status) {
     commit('SET_APPLY_FORM_HIGHLIGHTED_STATUS', status)
   },
-  // //////////////////////////////////////////////////////// setGithubIssueLink
-  setGithubIssueLink ({ commit }, link) {
-    commit('SET_GITHUB_ISSUE_LINK', link)
-  },
-  // //////////////////////////////////////////// setSubmittedGeneralApplication
-  setSubmittedApplicationType ({ commit }, type) {
-    commit('SET_SUBMITTED_APPLICATION_TYPE', type)
+  // //////////////////////////////////////////////////////////// setGithubIssue
+  setGithubIssue ({ commit }, issue) {
+    commit('SET_GITHUB_ISSUE', issue)
   },
   // //////////////////////////////////////////// setSubmittedGeneralApplication
   setSubmittedGeneralApplications ({ commit }, applications) {
@@ -264,11 +256,8 @@ const mutations = {
   SET_APPLY_FORM_HIGHLIGHTED_STATUS (state, status) {
     state.applyFormHighlighted = status
   },
-  SET_GITHUB_ISSUE_LINK (state, link) {
-    state.githubIssueLink = link
-  },
-  SET_SUBMITTED_APPLICATION_TYPE (state, type) {
-    state.submittedApplicationType = type
+  SET_GITHUB_ISSUE (state, issue) {
+    state.githubIssue = issue
   },
   SET_SUBMITTED_GENERAL_APPLICATIONS (state, applications) {
     state.submittedGeneralApplications = applications
