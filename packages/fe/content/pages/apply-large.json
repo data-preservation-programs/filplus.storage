@@ -15,6 +15,11 @@
       "heading": "With a storage capacity of <span class='highlight'>|data|</span> that’s growing every day, the Filecoin network is uniquely suited for storing large datasets.",
       "subtext": "Apply for DataCap below."
     },
+    "back_button": {
+      "type": "nuxt-link",
+      "href": "/apply/",
+      "label": "Restart application"
+    },
     "form": {
       "heading_1": "Background Information",
       "heading_2": "Application",
