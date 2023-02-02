@@ -3,9 +3,8 @@
 
     <Select
       :options="options"
-      :aria-labelledby="modelKey"
+      :aria-labelledby="modelKey || fieldKey"
       :selected-option="value"
-      handle-state="internally"
       @dropdownToggled="dropdownToggled"
       @optionSelected="optionSelected">
 
@@ -75,6 +74,9 @@ export default {
     },
     modelKey () {
       return this.scaffold.modelKey
+    },
+    fieldKey () {
+      return this.field.fieldKey
     },
     label () {
       return this.scaffold.label

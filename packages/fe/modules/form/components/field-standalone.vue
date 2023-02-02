@@ -9,17 +9,23 @@ export default {
       required: true
     },
     formId: {
-      type: String,
-      required: true
+      type: [String, Boolean],
+      required: false,
+      default: false
     },
     fieldKey: {
       type: String,
       required: true
     },
-    groupId: {
+    resetGroupId: {
       type: String,
       required: false,
       default: ''
+    },
+    groupIndex: {
+      type: [Number, Boolean],
+      required: false,
+      default: false
     },
     validateOnEntry: {
       type: Boolean,
@@ -39,7 +45,12 @@ export default {
   },
 
   data () {
-    const id = `${this.fieldKey}|${this.formId}`
+    let fieldKey = this.fieldKey
+    const formId = this.formId
+    if (this.scaffold.hasOwnProperty('parentModelKey')) {
+      fieldKey = `${fieldKey}|${this.groupIndex}`
+    }
+    const id = fieldKey !== '' && formId ? `${fieldKey}|${formId}` : fieldKey
     return {
       id
     }
@@ -62,6 +73,8 @@ export default {
         case 'checkbox' : component = 'FieldCheckbox'; break
         case 'radio' : component = 'FieldRadio'; break
         case 'select' : component = 'FieldSelect'; break
+        case 'typeahead' : component = 'FieldTypeahead'; break
+        case 'chiclet' : component = 'FieldChiclet'; break
       }
       return component
     },
@@ -76,8 +89,9 @@ export default {
     },
     validationMessage () {
       const message = this.scaffold.validationMessage
-      if (!message) { return false }
-      return message[this.field.validation]
+      const field = this.field
+      if (!message || !field) { return false }
+      return message[field.validation]
     }
   },
 
@@ -91,10 +105,26 @@ export default {
 
   async created () {
     if (!this.field) {
-      await this.$field(this.id).register(this.formId, this.fieldKey, this.scaffold)
+      await this.$field(this.id).register(this.formId, this.groupIndex, this.fieldKey, this.scaffold)
     } else {
       await this.$field(this.id).update({ validate: true })
     }
+  },
+
+  mounted () {
+    /**
+      * This event is emitted in @/modules/search/plugins/index.js in the
+      * $clearSearchFilterSortAndLimit helper
+      * @param {object} payload contains id and resetTo keys
+      *  @param {string} payload.id If the field.vue prop (resetGroupId) matches this ID, then it will be reset
+      *  @param {string} payload.resetTo 'nullState' (nothing selected) or 'defaultValue' (back to default value as often set in JSON)
+      */
+    this.$nuxt.$on('resetFormFields', (payload) => {
+      if (this.resetGroupId === payload.id) {
+        this.$field(this.id).reset(payload.resetTo)
+      }
+    })
+    this.$emit('fieldRegistered', this.id)
   },
 
   async beforeDestroy () {
@@ -102,7 +132,7 @@ export default {
       await this.$field(this.id).update({ validate: false })
     }
     if (this.deregisterOnDestroy) {
-      this.$field(this.id).remove()
+      this.$field(this.id).deregister()
     }
   },
 

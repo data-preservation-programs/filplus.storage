@@ -1,6 +1,6 @@
 <template>
   <div class="field-container">
-    <Field v-bind="$props">
+    <FieldStandalone v-bind="$props">
       <div slot-scope="{ updateValue, field, type, validationMessage }" :class="['field-wrapper']">
         <template v-if="field">
 
@@ -17,7 +17,7 @@
             :field="field"
             :field-key="fieldKey"
             :data-tooltip="tooltip"
-            @updateValue="updateValue" />
+            @updateValue="pushValue($event, updateValue)" />
 
           <slot />
 
@@ -27,56 +27,62 @@
 
         </template>
       </div>
-    </Field>
+    </FieldStandalone>
   </div>
 </template>
 
 <script>
 // ===================================================================== Imports
-import Field from '@/modules/form/components/field'
+import FieldStandalone from '@/modules/form/components/field-standalone'
 import FieldInput from '@/components/form/fields/input'
 import FieldTextarea from '@/components/form/fields/textarea'
 import FieldRange from '@/components/form/fields/range'
 import FieldCheckbox from '@/components/form/fields/checkbox'
 import FieldRadio from '@/components/form/fields/radio'
 import FieldSelect from '@/components/form/fields/select'
+import FieldTypeahead from '@/components/form/fields/typeahead'
+import FieldChiclet from '@/components/form/fields/chiclet'
 
 // ====================================================================== Export
 export default {
   name: 'FieldContainer',
 
   components: {
-    Field,
+    FieldStandalone,
     FieldInput,
     FieldTextarea,
     FieldRange,
     FieldCheckbox,
     FieldRadio,
-    FieldSelect
+    FieldSelect,
+    FieldTypeahead,
+    FieldChiclet
   },
 
+  /**
+   * props:
+   *
+   * @updateValue - triggers when field has changed
+   * :resetGroupId - if this prop matches ID passed to 'resetFormFields' global bus event, then reset the field value
+   */
   props: {
     scaffold: {
       type: Object,
       required: true
     },
-    value: {
-      type: [Object, String, Number, Boolean],
+    formId: {
+      type: [String, Boolean],
       required: false,
       default: false
-    },
-    formId: {
-      type: String,
-      required: true
     },
     fieldKey: {
       type: String,
       required: true
     },
-    groupId: {
-      type: String,
+    groupIndex: {
+      type: [Number, Boolean],
       required: false,
-      default: ''
+      default: false
     },
     forceDisableFields: {
       type: Boolean,
@@ -94,6 +100,13 @@ export default {
     tooltip () {
       const tooltip = this.scaffold.tooltip
       return tooltip && tooltip !== '' ? tooltip : false
+    }
+  },
+
+  methods: {
+    pushValue (value, updateValue) {
+      updateValue(value)
+      this.$emit('updateValue', value)
     }
   }
 }

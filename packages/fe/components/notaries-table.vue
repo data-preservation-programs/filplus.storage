@@ -16,7 +16,7 @@
         </tr>
       </thead>
       <!-- ============================================================ Body -->
-      <Field
+      <FieldStandalone
         :scaffold="formScaffold.notary"
         :validate-across-routes="true"
         field-key="notary"
@@ -125,7 +125,7 @@
 
           </tr>
         </tbody>
-      </Field>
+      </FieldStandalone>
     </table>
 
     <div v-if="!filteredNotaries" class="no-results-placeholder">
@@ -139,7 +139,7 @@
 // ===================================================================== Imports
 import { mapGetters } from 'vuex'
 
-import Field from '@/modules/form/components/field'
+import FieldStandalone from '@/modules/form/components/field-standalone'
 import ButtonA from '@/components/buttons/button-a'
 import ButtonX from '@/components/buttons/button-x'
 
@@ -152,7 +152,7 @@ export default {
   name: 'NotariesTable',
 
   components: {
-    Field,
+    FieldStandalone,
     ButtonA,
     ButtonX,
     SlackIcon,
