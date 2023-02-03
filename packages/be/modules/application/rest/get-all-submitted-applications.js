@@ -49,23 +49,17 @@ const processApplicationList = (applicationList, applicationType) => {
   }
 }
 
-// //////////////////////////////////////////////// mergeAndSortApplicationLists
+// //////////////////////////////////////////////// mergeApplicationLists
 
-const mergeAndSortApplicationLists = (gaApplications, ldaApplications) => {
+const mergeApplicationLists = (gaApplications, ldaApplications) => {
   try {
     const generalApplicationList = processApplicationList(gaApplications, 'general')
     const largeApplicationList = processApplicationList(ldaApplications, 'large')
+    const allApplications = [...generalApplicationList, ...largeApplicationList]
 
-    const allApplications = [...generalApplicationList, ...largeApplicationList].sort((a, b) => {
-      if (a.state === b.state) { // if the state is the same sort by date created, newest first
-        return a.created_at > b.created_at ? -1 : 1
-      } else { // sort reverse alphabetically by state so 'open' comes before 'closed'
-        return a.state > b.state ? -1 : 1
-      }
-    })
     return allApplications
   } catch (e) {
-    console.log('==================== [Function: mergeAndSortApplicationLists]')
+    console.log('==================== [Function: mergeApplicationLists]')
     throw e
   }
 }
@@ -84,7 +78,7 @@ MC.app.get('/get-all-submitted-applications', async (req, res) => {
     const gaApplications = await getSubmittedGeneralApplications(user.githubUsername, githubOptions)
     const ldaApplications = await getSubmittedLargeApplications(user.githubUsername, githubOptions)
 
-    const sortedApplications = mergeAndSortApplicationLists(gaApplications, ldaApplications)
+    const sortedApplications = mergeApplicationLists(gaApplications, ldaApplications)
 
     SendData(res, 200, 'Submitted application retrieved succesfully', sortedApplications)
   } catch (e) {
