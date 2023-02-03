@@ -14,7 +14,6 @@ const getSubmittedGeneralApplications = async (username, options) => {
   try {
     const repo = MC.serverFlag === 'production' ? 'filecoin-project/filecoin-plus-large-datasets' : 'data-preservation-programs/filecoin-plus-client-onboarding'
     const response = await Axios.get(`https://api.github.com/repos/${repo}/issues?creator=${username}&state=all&per_page=100`, options)
-    console.log('getSubmittedGeneralApplications')
     return response.data
   } catch (e) {
     console.log('================= [Function: getSubmittedGeneralApplications]')
@@ -27,7 +26,6 @@ const getSubmittedLargeApplications = async (username, options) => {
   try {
     const repo = MC.serverFlag === 'production' ? 'filecoin-project/filecoin-plus-large-datasets' : 'data-preservation-programs/filecoin-plus-large-datasets'
     const response = await Axios.get(`https://api.github.com/repos/${repo}/issues?creator=${username}&state=all&per_page=100`, options)
-    console.log('getSubmittedLargeApplications')
     return response.data
   } catch (e) {
     console.log('=================== [Function: getSubmittedLargeApplications]')
@@ -35,11 +33,10 @@ const getSubmittedLargeApplications = async (username, options) => {
   }
 }
 
-// ////////////////////////////////////////////////////////// addApplicationType
+// ////////////////////////////////////////////////////////// processApplicationList
 
-const addApplicationType = (applicationList, applicationType) => {
+const processApplicationList = (applicationList, applicationType) => {
   try {
-    console.log('addApplicationType')
     return applicationList.map((application) => {
       return {
         ...application,
@@ -47,7 +44,7 @@ const addApplicationType = (applicationList, applicationType) => {
       }
     })
   } catch (e) {
-    console.log('============================== [Function: addApplicationType]')
+    console.log('============================== [Function: processApplicationList]')
     throw e
   }
 }
@@ -56,11 +53,8 @@ const addApplicationType = (applicationList, applicationType) => {
 
 const mergeAndSortApplicationLists = (gaApplications, ldaApplications) => {
   try {
-    const generalApplicationList = addApplicationType(gaApplications, 'general')
-    const largeApplicationList = addApplicationType(ldaApplications, 'large')
-
-    console.log('generalApplicationList ', generalApplicationList.length)
-    console.log('largeApplicationList ', largeApplicationList.length)
+    const generalApplicationList = processApplicationList(gaApplications, 'general')
+    const largeApplicationList = processApplicationList(ldaApplications, 'large')
 
     const allApplications = [...generalApplicationList, ...largeApplicationList].sort((a, b) => {
       if (a.state === b.state) { // if the state is the same sort by date created, newest first
@@ -69,7 +63,6 @@ const mergeAndSortApplicationLists = (gaApplications, ldaApplications) => {
         return a.state > b.state ? -1 : 1
       }
     })
-    console.log('mergeAndSortApplicationLists')
     return allApplications
   } catch (e) {
     console.log('==================== [Function: mergeAndSortApplicationLists]')
