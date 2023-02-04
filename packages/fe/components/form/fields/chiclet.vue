@@ -130,7 +130,7 @@ export default {
     },
     empty () {
       const value = this.inputValue
-      return value === undefined || value === '' || !this.disabled
+      return value === undefined || value === null || value === '' || !this.disabled
     },
     state () {
       return this.field.state

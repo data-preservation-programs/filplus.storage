@@ -131,7 +131,7 @@ export default {
     },
     empty () {
       const value = this.value
-      return value === undefined || value === ''
+      return value === undefined || value === null || value === ''
     },
     state () {
       return this.field.state

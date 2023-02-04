@@ -1,3 +1,4 @@
+/* eslint-disable */
 console.log('💡 [endpoint] /submit-large-application')
 
 // ///////////////////////////////////////////////////////////////////// Imports
@@ -35,11 +36,13 @@ MC.app.post('/submit-large-application', async (req, res) => {
     const user = await MC.model.User.findById(identifier.userId)
     let template = await GetFileFromDisk(`${MC.staticRoot}/large-application-template.md`)
     template = template.toString()
+    console.log(body)
     Object.keys(body).forEach((key) => {
+      const value = body[key] || ''
       if (key === 'organization_website') {
-        template = template.replaceAll(key, body[key])
+        template = template.replaceAll(key, value)
       } else {
-        template = template.replace(key, body[key])
+        template = template.replace(key, value)
       }
     })
     if (MC.serverFlag !== 'production') {
@@ -47,8 +50,8 @@ MC.app.post('/submit-large-application', async (req, res) => {
       console.log(body)
       console.log(template)
     }
-    const githubIssueLink = await submitApplication(template, body, user.githubToken)
-    SendData(res, 200, 'Large application submitted succesfully', githubIssueLink)
+    // const githubIssueLink = await submitApplication(template, body, user.githubToken)
+    // SendData(res, 200, 'Large application submitted succesfully', githubIssueLink)
   } catch (e) {
     console.log('======================= [Endpoint: /submit-large-application]')
     console.log(e.response)

@@ -1,34 +1,32 @@
 <template>
-  <div class="field-container">
-    <FieldStandalone v-bind="$props">
-      <div slot-scope="{ updateValue, field, type, validationMessage }" :class="['field-wrapper']">
-        <template v-if="field">
+  <FieldStandalone
+    v-slot="{ updateValue, field, type, validationMessage }"
+    v-bind="$props"
+    class="field-container"
+    v-on="$listeners">
 
-          <label v-if="scaffold.label" :for="fieldKey" class="field-label">
-            {{ scaffold.label }}
-          </label>
+    <label v-if="scaffold.label" :for="fieldKey" class="field-label">
+      {{ scaffold.label }}
+    </label>
 
-          <div v-if="scaffold.description" class="description">
-            {{ scaffold.description }}
-          </div>
+    <div v-if="scaffold.description" class="description">
+      {{ scaffold.description }}
+    </div>
 
-          <component
-            :is="type"
-            :field="field"
-            :field-key="fieldKey"
-            :data-tooltip="tooltip"
-            @updateValue="pushValue($event, updateValue)" />
+    <component
+      :is="type"
+      :field="field"
+      :field-key="fieldKey"
+      :data-tooltip="tooltip"
+      @updateValue="pushValue($event, updateValue)" />
 
-          <slot />
+    <slot />
 
-          <div v-if="validationMessage" class="validation-message">
-            {{ validationMessage }}
-          </div>
+    <div v-if="validationMessage" class="validation-message">
+      {{ validationMessage }}
+    </div>
 
-        </template>
-      </div>
-    </FieldStandalone>
-  </div>
+  </FieldStandalone>
 </template>
 
 <script>
