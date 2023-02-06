@@ -71,7 +71,7 @@ export default {
   data () {
     const fieldKey = this.fieldKey
     const formId = this.formId
-    let idSuffix = formId
+    let idSuffix = formId || ''
     if (this.scaffold.hasOwnProperty('parentModelKey')) {
       idSuffix = `${this.groupIndex}|${formId}`
     }
@@ -168,15 +168,6 @@ export default {
     updateValue (value) {
       this.$field(this.id).updateValue(value)
     }
-  },
-
-  render () {
-    return this.$scopedSlots.default({
-      updateValue: this.updateValue,
-      field: this.field,
-      type: this.type,
-      validationMessage: this.validationMessage
-    })
   }
 }
 </script>
