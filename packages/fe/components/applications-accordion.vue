@@ -145,12 +145,24 @@ export default {
             }
           },
           options: [
-            { label: 'Open issues first' },
+            { label: 'Open first' },
             { label: 'Newest first' }
           ],
           defaultValue: 0
         },
         value: this.sortSelectValue
+      }
+    }
+  },
+
+  mounted () {
+    if (this.$route.query.sort) {
+      switch (this.$route.query.sort) {
+        case 'newest':
+          this.sortSelectValue = 1
+          break
+        default:
+          this.sortSelectValue = 0
       }
     }
   },
@@ -170,9 +182,11 @@ export default {
       switch (value) {
         case 1:
           this.sortSelectValue = 1
+          this.$router.push({ path: this.$route.path, query: { sort: 'newest' } })
           break
         default: // default sort is open issues first
           this.sortSelectValue = 0
+          this.$router.push({ path: this.$route.path, query: { sort: 'open' } })
       }
     }
   }
