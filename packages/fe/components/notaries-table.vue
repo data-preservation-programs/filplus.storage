@@ -22,7 +22,7 @@
         :validate-across-routes="true"
         field-key="notary"
         form-id="filplus_application"
-        html-tag="tbody"
+        root-html-tag="tbody"
         class="table-body">
         <tr
           v-for="notary in filteredNotaries"
