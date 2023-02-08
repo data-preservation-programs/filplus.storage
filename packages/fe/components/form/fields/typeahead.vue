@@ -1,5 +1,14 @@
 <template>
-  <div :class="['field field-typeahead', state, { focused, empty, 'dropdown-open': dropdownOpen }]">
+  <div
+    :class="[
+      'field field-typeahead',
+      state, {
+        focused,
+        empty,
+        'dropdown-open': dropdownOpen,
+        'first-option-highlighted': firstOptionHighlighted,
+        'no-results': noOptionsMatchSearch
+      }]">
 
     <label v-if="label" :for="fieldKey" class="label floating">
       <span class="text">{{ label }}</span>
@@ -22,7 +31,8 @@
         :class="['input', state]"
         @focus="focusHandler"
         @blur="focused = false"
-        @input="$emit('updateValue', $event.target.value)" />
+        @input="$emit('updateValue', $event.target.value)"
+        v-on="$listeners" />
       <div v-if="typeof chars === 'number'" class="char-validation">
         {{ chars }}
       </div>
@@ -35,7 +45,8 @@
       :selected-option="selectedOption"
       :handle-click-outside="false"
       @dropdownToggled="dropdownToggled"
-      @optionSelected="optionSelected">
+      @optionSelected="optionSelected"
+      @optionHighlighted="optionHighlighted">
 
       <template #option-native-text="{ option }">
         {{ option[optionDisplayKey] }}
@@ -46,13 +57,45 @@
           :class="['option', { highlighted, selected, display: optionIncludedInSearch(option) }]"
           v-html="highlightText(option)" />
       </template>
-
     </Select>
 
   </div>
 </template>
 
 <script>
+/**
+ * Here's an example of a typeahead data structure
+ *
+ * "country": {
+ *   "type": "typeahead",
+ *   "inputType": "text",
+ *   "modelKey": "country",
+ *   "label": "Country",
+ *   "placeholder": "Country",
+ *   "description": "Where are you located?",
+ *   "required": true,
+ *   "autocomplete": "off",
+ *   "pre": "[^\\u0000-\\u00ff]",
+ *   "validationMessage": {
+ *     "required": "This field is required"
+ *   },
+ *   "optionDisplayKey": "name",
+ *   "optionReturnKey": "code",
+ *   "options": [{"name":"Afghanistan","code":"AF"},{"name":"Åland Islands","code":"AX"}]
+ * }
+ *
+ * Note the optionDisplayKey and optionReturnKey.
+ * You can pass in any data structure (array of objects) as options and then use
+ * optionDisplayKey to define which key in that data structure to match your
+ * input text to. Then when an item in the dropdown is clicked, it uses the
+ * optionReturnKey to to return the value you want. So for a dataset structure like this:
+ *
+ * {
+ *  "name": "Foo", ← "optionDisplayKey": "name"
+ *  "slug": "bar" ← "optionReturnKey": "slug"
+ * }
+ */
+
 // ===================================================================== Imports
 import Select from '@/modules/form/components/select'
 
@@ -85,7 +128,8 @@ export default {
     return {
       focused: false,
       dropdownOpen: false,
-      selectedOption: -1
+      selectedOption: -1,
+      noOptionsMatchSearch: false
     }
   },
 
@@ -131,7 +175,7 @@ export default {
     },
     empty () {
       const value = this.value
-      return value === undefined || value === null || value === ''
+      return value === undefined || value === ''
     },
     state () {
       return this.field.state
@@ -144,12 +188,16 @@ export default {
     },
     optionReturnKey () {
       return this.scaffold.optionReturnKey
+    },
+    firstOptionHighlighted () {
+      return this.highlightedOption === 0
     }
   },
 
   watch: {
     value (value) {
       preValidate(this, value, this.pre)
+      this.checkIfNoResultsMatchSearch()
     }
   },
 
@@ -171,8 +219,12 @@ export default {
     closeDropdown () {
       this.dropdown.closeDropdown()
     },
+    optionHighlighted (index) {
+      this.highlightedOption = index
+    },
     optionSelected (index) {
       this.selectedOption = index
+      this.$emit('optionSelected', this.options[index][this.optionReturnKey])
       this.$emit('updateValue', this.options[index][this.optionReturnKey])
     },
     optionIncludedInSearch (option) {
@@ -184,6 +236,17 @@ export default {
       const optionValue = option[this.optionDisplayKey]
       if (inputValue === '') { return optionValue }
       return optionValue.replace(this.valueMatchRegExp, '<span class="highlight">$1</span>')
+    },
+    checkIfNoResultsMatchSearch () {
+      const options = this.options
+      const len = options.length
+      let noOptionsMatch = true
+      for (let i = 0; i < len; i++) {
+        if (this.optionIncludedInSearch(options[i])) {
+          noOptionsMatch = false
+        }
+      }
+      this.noOptionsMatchSearch = noOptionsMatch
     }
   }
 }
@@ -195,6 +258,15 @@ $height: 2.5rem;
 // ///////////////////////////////////////////////////////////////////// General
 .field-typeahead {
   height: $height;
+  display: flex;
+  align-items: center;
+  &.no-results {
+    .select-container {
+      &:before {
+        display: none;
+      }
+    }
+  }
   &.dropdown-open {
     .select-container {
       display: block;
