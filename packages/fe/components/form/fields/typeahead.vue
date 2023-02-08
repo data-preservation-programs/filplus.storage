@@ -260,15 +260,8 @@ $height: 2.5rem;
   height: $height;
   display: flex;
   align-items: center;
-  &.no-results {
-    .select-container {
-      &:before {
-        display: none;
-      }
-    }
-  }
   &.dropdown-open {
-    .select-container {
+    :deep(div.select-container) {
       display: block;
     }
   }
@@ -313,7 +306,7 @@ $height: 2.5rem;
 }
 
 // //////////////////////////////////////////////////////////////////// Dropdown
-.select-container {
+:deep(div.select-container) {
   display: none;
   position: absolute;
   top: 100%;
@@ -322,7 +315,7 @@ $height: 2.5rem;
   z-index: 5;
 }
 
-:deep(.select) {
+:deep(div.select) {
   &.native {
     height: 0;
     border-radius: 0.25rem;
@@ -332,7 +325,7 @@ $height: 2.5rem;
   }
 }
 
-:deep(.dropdown) {
+:deep(div.dropdown) {
   @include shadow1;
   top: 0;
   max-height: $height * 5.5;
@@ -340,7 +333,7 @@ $height: 2.5rem;
   border-radius: 0 0 0.5rem 0.5rem;
 }
 
-:deep(.selection-window-wrapper) {
+:deep(div.selection-window-wrapper) {
   display: none;
 }
 
@@ -348,7 +341,7 @@ $height: 2.5rem;
   z-index: 10;
 }
 
-.selection-window {
+:deep(div.selection-window) {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -358,7 +351,7 @@ $height: 2.5rem;
   transition: 150ms ease-out;
 }
 
-.option {
+:deep(div.option) {
   padding: 0.5rem 0.75rem;
   transition: 150ms ease-out;
   &.highlighted {
@@ -368,7 +361,7 @@ $height: 2.5rem;
   &:not(.display) {
     display: none;
   }
-  :deep(span) {
+  span {
     font-weight: 700;
     text-decoration: underline;
   }
