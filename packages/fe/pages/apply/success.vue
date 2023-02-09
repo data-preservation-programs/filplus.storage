@@ -14,7 +14,7 @@
               <ButtonA
                 v-if="githubIssueLink"
                 class="github-issue-link-button"
-                theme="green"
+                theme="github"
                 tag="a"
                 target="_blank"
                 :to="githubIssueLink">
@@ -264,20 +264,22 @@ $padding: 2.25rem;
 }
 
 .github-issue-link-button {
-  &:hover {
-    :deep(svg) {
-      path {
-        transition: 150ms ease-in;
-        fill: $titanWhite;
-      }
-    }
-  }
   :deep(svg) {
     width: 1rem;
     margin-right: 0.5rem;
     path {
       transition: 150ms ease-out;
-      fill: $aztec;
+      fill: $greenYellow;
+    }
+  }
+  &:not([disabled]) {
+    &:hover {
+      :deep(svg) {
+        path {
+          transition: 150ms ease-in;
+          fill: $aztec;
+        }
+      }
     }
   }
 }

@@ -145,4 +145,15 @@ export default {
     }
   }
 }
+
+.theme__github {
+  color: $greenYellow;
+  border: 2px solid $greenYellow;
+  &:not([disabled]) {
+    &:hover {
+      color: $aztec;
+      background-color: $greenYellow;
+    }
+  }
+}
 </style>
