@@ -158,8 +158,8 @@ export default {
     applicationSubtitle () {
       // const issueNumber = this.githubIssue.number
       const issueNumber = this.submittedGeneralApplications[0].number
-      // const timeAgo = this.calculateTimeAgo(this.githubIssue.created_at)
-      const timeAgo = this.calculateTimeAgo(this.submittedGeneralApplications[0].created_at)
+      // const timeAgo = this.$timeago(new Date(this.githubIssue.created_at))
+      const timeAgo = this.$timeago(new Date(this.submittedGeneralApplications[0].created_at))
       // eslint-disable-next-line no-console
       console.log('applicationSubtitle ', timeAgo)
       // const user = this.githubIssue.user.name  ? this.githubIssue.user.name  : this.githubIssue.user.login
@@ -189,38 +189,6 @@ export default {
       } else {
         this.entireAccordionExpanded = false
       }
-    },
-    calculateTimeAgo (createdAt) {
-      const dateNowMs = Date.now()
-      const createdDateMs = Date.parse(createdAt)
-      const minAgo = (dateNowMs - createdDateMs) / 60000 // in minutes
-      const dateNow = new Date(dateNowMs)
-      const createdDate = new Date(createdDateMs)
-
-      let timeAgo
-      switch (true) {
-        case minAgo < 1:
-          timeAgo = 'now'
-          break
-        case (minAgo < 60):
-          timeAgo = Math.trunc(minAgo) > 1 ? `${Math.trunc(minAgo)} minutes ago` : `${Math.trunc(minAgo)} minute ago`
-          break
-        case (minAgo < 1440):
-          timeAgo = Math.trunc(minAgo / 60) > 1 ? `${Math.trunc(minAgo / 60)} hours ago` : `${Math.trunc(minAgo / 60)} hour ago`
-          break
-        case (minAgo < 10080):
-          timeAgo = Math.trunc(minAgo / 1440) > 1 ? `${Math.trunc(minAgo / 1440)} days ago` : `${Math.trunc(minAgo / 1440)} day ago`
-          break
-        case (minAgo > 10080 && minAgo < 40320):
-          timeAgo = Math.trunc(minAgo / 10080) > 1 ? `${Math.trunc(minAgo / 1440)} weeks ago` : `${Math.trunc(minAgo / 1440)} week ago`
-          break
-        case (minAgo < 525600):
-          timeAgo = (dateNow.getMonth() - createdDate.getMonth()) > 1 ? `${(dateNow.getMonth() - createdDate.getMonth())} months ago` : `${(dateNow.getMonth() - createdDate.getMonth())} month ago`
-          break
-        default:
-          timeAgo = ''
-      }
-      return timeAgo
     }
   }
 }
