@@ -63,6 +63,11 @@ export default {
       type: Boolean,
       required: false,
       default: false
+    },
+    accordionBottomBorder: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
 
@@ -73,7 +78,9 @@ export default {
         `orientation-${this.orientation}`,
         `anchor-${this.anchor}`,
         `color-${this.color}`,
-        { 'border-thick': this.thick }
+        { 'border-thick': this.thick },
+        { 'accordion-bottom-border': this.accordionBottomBorder }
+
       ]
     },
     beforeWidth () {
@@ -170,6 +177,30 @@ export default {
         path {
           stroke-width: 3;
         }
+      }
+    }
+  }
+  &.accordion-bottom-border {
+    .line-before,
+    .line-after {
+      border-bottom: 3px solid $nandor;
+      height: 10px;
+      top:unset;
+      bottom: -3px;
+      background-color: transparent;
+    }
+    .line-before {
+      border-left: 3px solid $nandor;
+      border-bottom-left-radius: toRem(10);
+    }
+    .line-after {
+      border-right: 3px solid $nandor;
+      border-bottom-right-radius: toRem(10);
+    }
+    .squigglie{
+      transform: scaleY(-1) translateY(40.5px);
+      path {
+        stroke-width: 3;
       }
     }
   }

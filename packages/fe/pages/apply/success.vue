@@ -55,6 +55,13 @@
                 </AccordionContent>
 
               </AccordionSection>
+              <Squigglie
+                :percent-left="85"
+                anchor="bottom"
+                orientation="up"
+                color="nandor"
+                :accordion-bottom-border="true" />
+
             </Accordion>
 
           </div>
@@ -82,9 +89,10 @@ import IconChevronDown from '@/components/icons/chevron-down'
 import ButtonA from '@/components/buttons/button-a'
 import MarkdownParser from '@/components/markdown-parser'
 import Accordion from '@/components/accordion/accordion'
+import AccordionSection from '@/components/accordion/accordion-section'
 import AccordionHeader from '@/components/accordion/accordion-header'
 import AccordionContent from '@/components/accordion/accordion-content'
-import AccordionSection from '@/components/accordion/accordion-section'
+import Squigglie from '@/components/squigglie'
 
 import ApplySucessPageData from '@/content/pages/apply-success.json'
 
@@ -98,9 +106,10 @@ export default {
     ButtonA,
     MarkdownParser,
     Accordion,
+    AccordionSection,
     AccordionHeader,
     AccordionContent,
-    AccordionSection
+    Squigglie
   },
 
   data () {
@@ -160,8 +169,6 @@ export default {
       const issueNumber = this.submittedGeneralApplications[0].number
       // const timeAgo = this.$timeago(new Date(this.githubIssue.created_at))
       const timeAgo = this.$timeago(new Date(this.submittedGeneralApplications[0].created_at))
-      // eslint-disable-next-line no-console
-      console.log('applicationSubtitle ', timeAgo)
       // const user = this.githubIssue.user.name  ? this.githubIssue.user.name  : this.githubIssue.user.login
       const user = this.submittedGeneralApplications[0].user.name ? this.submittedGeneralApplications[0].user.name : this.submittedGeneralApplications[0].user.login
       return this.pageData.application_subtitle.replace('|issue_number|', issueNumber).replace('|time_ago|', timeAgo).replace('|user|', user)
@@ -270,7 +277,16 @@ $padding: 2.25rem;
 }
 
 // /////////////////////////////////////////////////////////////////// Accordion
+.accordion {
+  margin-bottom: 11rem;
+  position: relative;
+}
+
 .accordion-section {
+  border: 3px solid $nandor;
+  border-bottom: none;
+  border-radius: toRem(10) toRem(10) toRem(7) toRem(7);
+  padding: 1.25rem;
   &.open {
     .icon-chevron-down {
       transition: 150ms ease-out;
@@ -280,7 +296,6 @@ $padding: 2.25rem;
 }
 
 .accordion-header {
-  padding: $padding 0;
   cursor: pointer;
 }
 
@@ -303,7 +318,7 @@ $padding: 2.25rem;
 }
 
 .markdown {
-  padding: 3rem 5rem 5rem 0;
+  padding: 3rem 5rem 0 0;
   @include small {
     padding-right: 3rem;
   }
@@ -311,6 +326,19 @@ $padding: 2.25rem;
     padding-right: 0;
   }
 }
+
+// .accordion-bottom-border {
+//   :deep(.squigglie) {
+//     path {
+//       stroke-width: 3;
+//     }
+//   }
+//   :deep(.line-after, .line-before) {
+//   }
+//   :deep(.line-before) {
+
+//   }
+// }
 
 // ////////////////////////////////////////////////////////////////// Warp Image
 .panel-right {
