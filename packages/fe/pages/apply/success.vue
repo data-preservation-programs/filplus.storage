@@ -1,32 +1,66 @@
 <template>
   <div :class="`page page-${tag} container`">
 
-    <!-- ============================================================== Hero -->
-    <HeroA
-      :heading="heading"
-      heading-cols="col-12_mi-10_ti-12"
-      content-cols="col-8_sm-10_mi-12">
-    </HeroA>
-
     <!-- =========================================================== Success -->
     <div id="section-success">
 
-      <Squigglie
-        :percent-left="6"
-        orientation="down"
-        color="nandor"
-        :thick="true"
-        class="submitted-application-top-border" />
-
       <div class="grid">
-        <div class="col-7_lg-8_sm-9_mi-10 success" data-push-left="off-1_mi-0">
-          <h2 class="success-heading" v-html="subheading" />
-          <div v-if="typeof application === 'string' ">
-            <MarkdownParser :markdown="application" />
+        <div class="col-8_mi-10 success" data-push-left="off-1_mi-0" data-push-right="off-1_mi-0">
+          <div class="panel-left">
+
+            <h1 class="heading h3" v-html="pageHeading" />
+
+            <div class="buttons">
+              <ButtonA
+                v-if="githubIssueLink"
+                class="github-issue-link-button"
+                theme="green"
+                tag="a"
+                target="_blank"
+                :to="githubIssueLink">
+                <GithubIcon />
+                {{ githubIssueButtonText }}
+              </ButtonA>
+
+              <ButtonA
+                class="new-application-button"
+                theme="green"
+                to="/apply"
+                tag="nuxt-link"
+                target="_blank">
+                {{ newApplicationButtonText }}
+              </ButtonA>
+
+            </div>
+
+            <Accordion
+              ref="accordion"
+              v-slot="{ active }"
+              :multiple="true"
+              @toggleStateChanged="accordionToggleStateChanged">
+              <AccordionSection
+                :active="active">
+
+                <AccordionHeader>
+                  <h2 class="header-title h5" v-html="applicationTitle" />
+                  <h3 class="header-subtitle p1" v-html="applicationSubtitle" />
+                  <IconChevronDown />
+                  <span v-html="expandApplicationText" />
+                </AccordionHeader>
+
+                <AccordionContent>
+                  <div v-if="typeof applicationBody === 'string' ">
+                    <MarkdownParser :markdown="applicationBody" />
+                  </div>
+                </AccordionContent>
+
+              </AccordionSection>
+            </Accordion>
+
           </div>
         </div>
 
-        <div class="col-4_lg-3_sm-2_mi-1">
+        <div class="col-2_mi-1">
           <div class="panel-right">
             <div class="warp-image-double" />
           </div>
@@ -35,9 +69,6 @@
       </div>
     </div>
 
-    <!-- ========================================================== Overlays -->
-    <Overlay type="noise" />
-
   </div>
 </template>
 
@@ -45,10 +76,15 @@
 // ===================================================================== Imports
 import { mapGetters, mapActions } from 'vuex'
 
-import HeroA from '@/components/hero-a'
-import Overlay from '@/components/overlay'
-import Squigglie from '@/components/squigglie'
+import GithubIcon from '@/components/icons/github'
+import IconChevronDown from '@/components/icons/chevron-down'
+
+import ButtonA from '@/components/buttons/button-a'
 import MarkdownParser from '@/components/markdown-parser'
+import Accordion from '@/components/accordion/accordion'
+import AccordionHeader from '@/components/accordion/accordion-header'
+import AccordionContent from '@/components/accordion/accordion-content'
+import AccordionSection from '@/components/accordion/accordion-section'
 
 import ApplySucessPageData from '@/content/pages/apply-success.json'
 
@@ -57,10 +93,14 @@ export default {
   name: 'ApplyPage',
 
   components: {
-    HeroA,
-    Overlay,
-    Squigglie,
-    MarkdownParser
+    GithubIcon,
+    IconChevronDown,
+    ButtonA,
+    MarkdownParser,
+    Accordion,
+    AccordionHeader,
+    AccordionContent,
+    AccordionSection
   },
 
   data () {
@@ -71,6 +111,7 @@ export default {
 
   async fetch ({ store }) {
     await store.dispatch('general/getBaseData', { key: 'apply-success', data: ApplySucessPageData })
+    await store.dispatch('general/getSubmittedGeneralApplications')
   },
 
   head () {
@@ -81,6 +122,7 @@ export default {
     ...mapGetters({
       siteContent: 'general/siteContent',
       githubIssue: 'general/githubIssue',
+      submittedGeneralApplications: 'general/submittedGeneralApplications',
       account: 'account/account'
     }),
     generalPageData () {
@@ -89,14 +131,47 @@ export default {
     pageData () {
       return this.siteContent[this.tag].page_content
     },
-    heading () {
-      return this.pageData.heading
+    pageHeading () {
+      return this.pageData.heading.replace('|data|', this.datacapRequested)
+    },
+    datacapRequested () {
+      // needs to be parsed from the markdwon
+      return '15.4 EiB'
     },
     subheading () {
       return this.pageData.subheading
     },
-    application () {
-      return this.githubIssue.body
+    githubIssueLink () {
+      // return this.githubIssue.body
+      return this.submittedGeneralApplications[0].html_url
+    },
+    githubIssueButtonText () {
+      return this.pageData.github_issue_button_text
+    },
+    newApplicationButtonText () {
+      return this.pageData.new_application_button_text
+    },
+    applicationTitle () {
+      // return this.githubIssue.title
+      return this.submittedGeneralApplications[0].title
+    },
+    applicationSubtitle () {
+      // const issueNumber = this.githubIssue.number
+      const issueNumber = this.submittedGeneralApplications[0].number
+      // const timeAgo = this.calculateTimeAgo(this.githubIssue.created_at)
+      const timeAgo = this.calculateTimeAgo(this.submittedGeneralApplications[0].created_at)
+      // eslint-disable-next-line no-console
+      console.log('applicationSubtitle ', timeAgo)
+      // const user = this.githubIssue.user.name  ? this.githubIssue.user.name  : this.githubIssue.user.login
+      const user = this.submittedGeneralApplications[0].user.name ? this.submittedGeneralApplications[0].user.name : this.submittedGeneralApplications[0].user.login
+      return this.pageData.application_subtitle.replace('|issue_number|', issueNumber).replace('|time_ago|', timeAgo).replace('|user|', user)
+    },
+    applicationBody () {
+      // return this.githubIssue.body
+      return this.submittedGeneralApplications[0].body
+    },
+    expandApplicationText () {
+      return this.pageData.expand_application_text
     }
   },
 
@@ -107,53 +182,70 @@ export default {
   methods: {
     ...mapActions({
       setGithubIssue: 'general/setGithubIssue'
-    })
+    }),
+    accordionToggleStateChanged (toggleState) {
+      if (toggleState.open === toggleState.total) {
+        this.entireAccordionExpanded = true
+      } else {
+        this.entireAccordionExpanded = false
+      }
+    },
+    calculateTimeAgo (createdAt) {
+      const dateNowMs = Date.now()
+      const createdDateMs = Date.parse(createdAt)
+      const minAgo = (dateNowMs - createdDateMs) / 60000 // in minutes
+      const dateNow = new Date(dateNowMs)
+      const createdDate = new Date(createdDateMs)
+
+      let timeAgo
+      switch (true) {
+        case minAgo < 1:
+          timeAgo = 'now'
+          break
+        case (minAgo < 60):
+          timeAgo = Math.trunc(minAgo) > 1 ? `${Math.trunc(minAgo)} minutes ago` : `${Math.trunc(minAgo)} minute ago`
+          break
+        case (minAgo < 1440):
+          timeAgo = Math.trunc(minAgo / 60) > 1 ? `${Math.trunc(minAgo / 60)} hours ago` : `${Math.trunc(minAgo / 60)} hour ago`
+          break
+        case (minAgo < 10080):
+          timeAgo = Math.trunc(minAgo / 1440) > 1 ? `${Math.trunc(minAgo / 1440)} days ago` : `${Math.trunc(minAgo / 1440)} day ago`
+          break
+        case (minAgo > 10080 && minAgo < 40320):
+          timeAgo = Math.trunc(minAgo / 10080) > 1 ? `${Math.trunc(minAgo / 1440)} weeks ago` : `${Math.trunc(minAgo / 1440)} week ago`
+          break
+        case (minAgo < 525600):
+          timeAgo = (dateNow.getMonth() - createdDate.getMonth()) > 1 ? `${(dateNow.getMonth() - createdDate.getMonth())} months ago` : `${(dateNow.getMonth() - createdDate.getMonth())} month ago`
+          break
+        default:
+          timeAgo = ''
+      }
+      return timeAgo
+    }
   }
 }
 </script>
 
 <style lang="scss" scoped>
 $squigglySizing: 5.75rem;
+$padding: 2.25rem;
+
+@mixin border {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: $titanWhite;
+}
 
 // ///////////////////////////////////////////////////////////////////// General
 .page-apply-success {
-  position: relative;
+  position: relative;margin-top: -$siteHeaderHeight;
+  padding-top: $siteHeaderHeight * 2;
   overflow: hidden;
-}
-
-.submitted-application {
-  height: 50rem
-}
-
-.overlay.type__noise {
-  z-index: 5;
-}
-
-.container {
-  position: relative;
-}
-
-// //////////////////////////////////////////////////////////////////////// Hero
-::v-deep #hero {
-  @include large {
-    padding-bottom: toRem(144);
-  }
-  @include mini {
-    padding-bottom: toRem(106);
-  }
-  .hero-content {
-    padding-bottom: 0;
-  }
-  .bubble {
-    margin-top: 1.5rem;
-    white-space: nowrap;
-    @include small {
-      margin-top: 1rem;
-    }
-    @include mini {
-      padding: 0.75rem 1.5rem;
-    }
-  }
+  z-index: 25;
 }
 
 // /////////////////////////////////////////////////////// Submitted Application
@@ -165,8 +257,81 @@ $squigglySizing: 5.75rem;
   }
 }
 
-.success-heading {
-  margin-top: 5rem;
+.panel-left {
+  padding-top: 9.375rem;
+}
+
+::v-deep .heading {
+  margin-bottom: 2rem;
+  @include mini {
+    font-size: toRem(30);
+  }
+  @include tiny {
+    font-size: toRem(24);
+  }
+}
+
+.buttons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  .button-a {
+    &:not(:last-child) {
+      margin-right: 1rem;
+    }
+  }
+}
+
+.github-issue-link-button {
+  &:hover {
+    :deep(svg) {
+      path {
+        transition: 150ms ease-in;
+        fill: $titanWhite;
+      }
+    }
+  }
+  :deep(svg) {
+    width: 1rem;
+    margin-right: 0.5rem;
+    path {
+      transition: 150ms ease-out;
+      fill: $aztec;
+    }
+  }
+}
+
+// /////////////////////////////////////////////////////////////////// Accordion
+.accordion-section {
+  &.open {
+    .icon-chevron-down {
+      transition: 150ms ease-out;
+      transform: rotate(-180deg);
+    }
+  }
+}
+
+.accordion-header {
+  padding: $padding 0;
+  cursor: pointer;
+}
+
+.header-title {
+  letter-spacing: 0;
+}
+
+.header-subtitle {
+  :deep(.highlight) {
+    color: $mandysPink;
+    letter-spacing: 0;
+  }
+}
+
+.icon-chevron-down {
+  width: 1rem;
+  margin-top: 1rem;
+  transition: 150ms ease-in;
+  margin-right: 1.5rem;
 }
 
 .markdown {
@@ -182,17 +347,24 @@ $squigglySizing: 5.75rem;
 // ////////////////////////////////////////////////////////////////// Warp Image
 .panel-right {
   position: relative;
+  top: -2.6875rem;
   height: 100%;
+  @include small {
+    top: -3.25rem;
+  }
 }
 
 .warp-image-double {
   position: absolute;
   top: 0;
   left: 0;
-  width: 69rem;
+  width: 18rem;
   height: 500rem;
   background-image: url('~assets/images/warp-image-double.png');
   background-position: top left;
-  background-size: 69rem;
+  background-size: 40.5rem;
+  @include tiny {
+    width: calc(100% + 100vw * 0.041665 + 2rem);
+  }
 }
 </style>

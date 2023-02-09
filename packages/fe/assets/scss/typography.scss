@@ -56,14 +56,23 @@ h4, .h4 {
 }
 
 h5, .h5 {
-  font-size: 0.9rem;
+  font-size: toRem(20);
+  line-height: leading(30, 20);
+  font-weight: 500;
 }
 
 h6, .h6 {
   font-size: 0.8rem;
 }
 
+.p2 {
+  font-size: toRem(16);
+  line-height: leading(30, 16);
+  font-weight: 400;
+}
+
 p,
+.p1,
 div,
 a,
 button {
