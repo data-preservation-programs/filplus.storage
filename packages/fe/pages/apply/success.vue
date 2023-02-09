@@ -42,7 +42,10 @@
                 :active="active">
 
                 <AccordionHeader>
-                  <h2 class="header-title h5" v-html="applicationTitle" />
+                  <h2 class="header-title h5">
+                    <IconApplicationOpen />
+                    {{ applicationTitle }}
+                  </h2>
                   <h3 class="header-subtitle p1" v-html="applicationSubtitle" />
                   <IconChevronDown />
                   <span v-html="expandApplicationText" />
@@ -85,6 +88,7 @@ import { mapGetters, mapActions } from 'vuex'
 
 import GithubIcon from '@/components/icons/github'
 import IconChevronDown from '@/components/icons/chevron-down'
+import IconApplicationOpen from '@/components/icons/application-open'
 
 import ButtonA from '@/components/buttons/button-a'
 import MarkdownParser from '@/components/markdown-parser'
@@ -103,6 +107,7 @@ export default {
   components: {
     GithubIcon,
     IconChevronDown,
+    IconApplicationOpen,
     ButtonA,
     MarkdownParser,
     Accordion,
@@ -250,6 +255,7 @@ $padding: 2.25rem;
   display: flex;
   flex-direction: row;
   align-items: center;
+  margin-bottom: 2.75rem;
   .button-a {
     &:not(:last-child) {
       margin-right: 1rem;
@@ -286,7 +292,7 @@ $padding: 2.25rem;
   border: 3px solid $nandor;
   border-bottom: none;
   border-radius: toRem(10) toRem(10) toRem(7) toRem(7);
-  padding: 1.25rem;
+  padding: 1.25rem 1.25rem 1.25rem 3.875rem;
   &.open {
     .icon-chevron-down {
       transition: 150ms ease-out;
@@ -301,6 +307,11 @@ $padding: 2.25rem;
 
 .header-title {
   letter-spacing: 0;
+  margin-left: -2.5rem;
+}
+
+.icon-application-open {
+  margin-right: 1.25rem;
 }
 
 .header-subtitle {
@@ -326,19 +337,6 @@ $padding: 2.25rem;
     padding-right: 0;
   }
 }
-
-// .accordion-bottom-border {
-//   :deep(.squigglie) {
-//     path {
-//       stroke-width: 3;
-//     }
-//   }
-//   :deep(.line-after, .line-before) {
-//   }
-//   :deep(.line-before) {
-
-//   }
-// }
 
 // ////////////////////////////////////////////////////////////////// Warp Image
 .panel-right {
