@@ -18,7 +18,8 @@
       :field="field"
       :field-key="fieldKey"
       :data-tooltip="tooltip"
-      @updateValue="pushValue($event, updateValue)" />
+      @updateValue="updateValue"
+      v-on="$listeners" />
 
     <slot />
 
@@ -108,13 +109,6 @@ export default {
     tooltip () {
       const tooltip = this.scaffold.tooltip
       return tooltip && tooltip !== '' ? tooltip : false
-    }
-  },
-
-  methods: {
-    pushValue (value, updateValue) {
-      updateValue(value)
-      this.$emit('updateValue', value)
     }
   }
 }
