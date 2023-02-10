@@ -14,6 +14,7 @@
             <div v-if="Object.keys(heroButton).length >= 3">
               <ButtonX
                 :to="heroButton.href"
+                :theme="heroButton.theme"
                 :tag="heroButton.type">
                 {{ heroButton.label }}
               </ButtonX>

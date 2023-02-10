@@ -17,6 +17,7 @@
             <div v-if="Object.keys(heroButton).length >= 3">
               <ButtonX
                 :to="heroButton.href"
+                :theme="heroButton.theme"
                 :tag="heroButton.type">
                 {{ heroButton.label }}
               </ButtonX>
@@ -130,6 +131,7 @@ export default {
 .subtext {
   @include headingHighlight;
   font-weight: 600;
+  margin-bottom: 2rem;
   @include mini {
     font-size: toRem(30);
   }

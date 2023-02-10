@@ -15,7 +15,8 @@
     "back_button": {
       "type": "nuxt-link",
       "href": "/apply",
-      "label": "Restart application"
+      "label": "Restart application",
+      "theme": "pink"
     },
     "table": {
       "label": "Choose a Notary",

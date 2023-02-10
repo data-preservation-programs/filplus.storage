@@ -264,7 +264,8 @@
 
             <ButtonX
               :to="backButton.href"
-              :tag="backButton.type">
+              :tag="backButton.type"
+              :theme="backButton.theme">
               {{ backButton.label }}
             </ButtonX>
 
