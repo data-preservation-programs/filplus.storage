@@ -79,7 +79,7 @@ export default {
 .button {
   display: inline-block;
   position: relative;
-  padding: 1rem 1.5rem;
+  padding: toRem(13.5) 1.25rem;
   border-radius: 3rem;
   line-height: 1;
   white-space: nowrap;
@@ -146,13 +146,13 @@ export default {
   }
 }
 
-.theme__github {
+.theme__green-outline {
   color: $greenYellow;
   border: 2px solid $greenYellow;
   &:not([disabled]) {
     &:hover {
-      color: $aztec;
-      background-color: $greenYellow;
+      color: $lima;
+      border-color: $lima;
     }
   }
 }

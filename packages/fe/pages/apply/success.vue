@@ -14,7 +14,7 @@
               <ButtonA
                 v-if="githubIssueLink"
                 class="github-issue-link-button"
-                theme="github"
+                theme="green-outline"
                 tag="a"
                 target="_blank"
                 :to="githubIssueLink">
