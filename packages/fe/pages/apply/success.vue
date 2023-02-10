@@ -52,9 +52,7 @@
                 </AccordionHeader>
 
                 <AccordionContent>
-                  <div v-if="typeof applicationBody === 'string' ">
-                    <MarkdownParser :markdown="applicationBody" />
-                  </div>
+                  <div class="application-body" v-html="applicationBody" />
                 </AccordionContent>
 
               </AccordionSection>
@@ -85,13 +83,13 @@
 <script>
 // ===================================================================== Imports
 import { mapGetters, mapActions } from 'vuex'
+import Kramed from 'kramed'
 
 import GithubIcon from '@/components/icons/github'
 import IconChevronDown from '@/components/icons/chevron-down'
 import IconApplicationOpen from '@/components/icons/application-open'
 
 import ButtonA from '@/components/buttons/button-a'
-import MarkdownParser from '@/components/markdown-parser'
 import Accordion from '@/components/accordion/accordion'
 import AccordionSection from '@/components/accordion/accordion-section'
 import AccordionHeader from '@/components/accordion/accordion-header'
@@ -109,7 +107,6 @@ export default {
     IconChevronDown,
     IconApplicationOpen,
     ButtonA,
-    MarkdownParser,
     Accordion,
     AccordionSection,
     AccordionHeader,
@@ -119,13 +116,14 @@ export default {
 
   data () {
     return {
-      tag: 'apply-success'
+      tag: 'apply-success',
+      renderer: false
     }
   },
 
   async fetch ({ store }) {
     await store.dispatch('general/getBaseData', { key: 'apply-success', data: ApplySucessPageData })
-    await store.dispatch('general/getSubmittedGeneralApplications')
+    await store.dispatch('general/getSubmittedLargeApplications')
   },
 
   head () {
@@ -136,7 +134,7 @@ export default {
     ...mapGetters({
       siteContent: 'general/siteContent',
       githubIssue: 'general/githubIssue',
-      submittedGeneralApplications: 'general/submittedGeneralApplications',
+      submittedLargeApplications: 'general/submittedLargeApplications',
       account: 'account/account'
     }),
     generalPageData () {
@@ -149,15 +147,16 @@ export default {
       return this.pageData.heading.replace('|data|', this.datacapRequested)
     },
     datacapRequested () {
-      // needs to be parsed from the markdwon
-      return '15.4 EiB'
+      const datacapRegEx = /(?:### Total amount of DataCap being requested\n)(\d+\.?\d{0,2} \w{3})/
+      // return this.githubIssue.body.match(datacapRegEx)[1]
+      return this.submittedLargeApplications[0].body.match(datacapRegEx)[1]
     },
     subheading () {
       return this.pageData.subheading
     },
     githubIssueLink () {
       // return this.githubIssue.body
-      return this.submittedGeneralApplications[0].html_url
+      return this.submittedLargeApplications[0].html_url
     },
     githubIssueButtonText () {
       return this.pageData.github_issue_button_text
@@ -167,24 +166,28 @@ export default {
     },
     applicationTitle () {
       // return this.githubIssue.title
-      return this.submittedGeneralApplications[0].title
+      return this.submittedLargeApplications[0].title
     },
     applicationSubtitle () {
       // const issueNumber = this.githubIssue.number
-      const issueNumber = this.submittedGeneralApplications[0].number
+      const issueNumber = this.submittedLargeApplications[0].number
       // const timeAgo = this.$timeago(new Date(this.githubIssue.created_at))
-      const timeAgo = this.$timeago(new Date(this.submittedGeneralApplications[0].created_at))
+      const timeAgo = this.$timeago(new Date(this.submittedLargeApplications[0].created_at))
       // const user = this.githubIssue.user.name  ? this.githubIssue.user.name  : this.githubIssue.user.login
-      const user = this.submittedGeneralApplications[0].user.name ? this.submittedGeneralApplications[0].user.name : this.submittedGeneralApplications[0].user.login
+      const user = this.submittedLargeApplications[0].user.name ? this.submittedLargeApplications[0].user.name : this.submittedLargeApplications[0].user.login
       return this.pageData.application_subtitle.replace('|issue_number|', issueNumber).replace('|time_ago|', timeAgo).replace('|user|', user)
     },
     applicationBody () {
       // return this.githubIssue.body
-      return this.submittedGeneralApplications[0].body
+      return Kramed(this.submittedLargeApplications[0].body, { renderer: this.renderer })
     },
     expandApplicationText () {
       return this.pageData.expand_application_text
     }
+  },
+
+  created () {
+    this.renderer = new Kramed.Renderer()
   },
 
   beforeDestroy () {
@@ -294,7 +297,7 @@ $padding: 2.25rem;
   border: 3px solid $nandor;
   border-bottom: none;
   border-radius: toRem(10) toRem(10) toRem(7) toRem(7);
-  padding: 1.25rem 1.25rem 1.25rem 3.875rem;
+  padding: 0 1.25rem 0 3.875rem;
   &.open {
     .icon-chevron-down {
       transition: 150ms ease-out;
@@ -305,6 +308,7 @@ $padding: 2.25rem;
 
 .accordion-header {
   cursor: pointer;
+  padding: 1.25rem 0;
 }
 
 .header-title {
@@ -330,8 +334,21 @@ $padding: 2.25rem;
   margin-right: 1.5rem;
 }
 
-.markdown {
-  padding: 3rem 5rem 0 0;
+.application-body {
+  font-size: toRem(16);
+  line-height: leading(35, 16);
+  padding-bottom: 3.375rem;
+  :deep(p) {
+    font-size: inherit;
+    line-height: inherit;
+    &:not(:last-child) {
+      margin-bottom: 1.5rem;
+    }
+  }
+  :deep(a) {
+    color: $mandysPink;
+    text-decoration: underline;
+  }
   @include small {
     padding-right: 3rem;
   }
