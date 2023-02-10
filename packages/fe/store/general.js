@@ -154,6 +154,7 @@ const actions = {
         category: 'success',
         message: 'General Application submitted successfully'
       })
+      this.$gtm.push({ event: 'submission_ga' })
     } catch (e) {
       console.log('========== [Store Action: general/submitGeneralApplication]')
       console.log(e)
@@ -177,6 +178,7 @@ const actions = {
         category: 'success',
         message: 'Large Dataset Application submitted successfully'
       })
+      this.$gtm.push({ event: 'submission_lda' })
     } catch (e) {
       console.log('============ [Store Action: general/submitLargeApplication]')
       console.log(e)
