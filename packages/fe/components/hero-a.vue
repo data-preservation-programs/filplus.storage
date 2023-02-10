@@ -90,9 +90,7 @@ export default {
     heroButton: {
       type: Object,
       required: false,
-      default () {
-        return {}
-      }
+      default: () => {}
     }
   },
 
