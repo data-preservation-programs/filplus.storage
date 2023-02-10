@@ -291,7 +291,7 @@ const Field = (app, store, id) => {
           field.validation = check.validation
         }
       }
-      await store.dispatch('form/setField', field)
+      store.dispatch('form/setField', field)
       if (formId) {
         app.$form(formId).updateState()
       }
