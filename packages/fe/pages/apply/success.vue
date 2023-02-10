@@ -123,7 +123,6 @@ export default {
 
   async fetch ({ store }) {
     await store.dispatch('general/getBaseData', { key: 'apply-success', data: ApplySucessPageData })
-    await store.dispatch('general/getSubmittedLargeApplications')
   },
 
   head () {
@@ -134,7 +133,6 @@ export default {
     ...mapGetters({
       siteContent: 'general/siteContent',
       githubIssue: 'general/githubIssue',
-      submittedLargeApplications: 'general/submittedLargeApplications',
       account: 'account/account'
     }),
     generalPageData () {
@@ -148,15 +146,13 @@ export default {
     },
     datacapRequested () {
       const datacapRegEx = /(?:### Total amount of DataCap being requested\n)(\d+\.?\d{0,2} \w{3})/
-      // return this.githubIssue.body.match(datacapRegEx)[1]
-      return this.submittedLargeApplications[0].body.match(datacapRegEx)[1]
+      return this.githubIssue.body.match(datacapRegEx)[1]
     },
     subheading () {
       return this.pageData.subheading
     },
     githubIssueLink () {
-      // return this.githubIssue.body
-      return this.submittedLargeApplications[0].html_url
+      return this.githubIssue.html_url
     },
     githubIssueButtonText () {
       return this.pageData.github_issue_button_text
@@ -165,21 +161,16 @@ export default {
       return this.pageData.new_application_button_text
     },
     applicationTitle () {
-      // return this.githubIssue.title
-      return this.submittedLargeApplications[0].title
+      return this.githubIssue.title
     },
     applicationSubtitle () {
-      // const issueNumber = this.githubIssue.number
-      const issueNumber = this.submittedLargeApplications[0].number
-      // const timeAgo = this.$timeago(new Date(this.githubIssue.created_at))
-      const timeAgo = this.$timeago(new Date(this.submittedLargeApplications[0].created_at))
-      // const user = this.githubIssue.user.name  ? this.githubIssue.user.name  : this.githubIssue.user.login
-      const user = this.submittedLargeApplications[0].user.name ? this.submittedLargeApplications[0].user.name : this.submittedLargeApplications[0].user.login
+      const issueNumber = this.githubIssue.number
+      const timeAgo = this.$timeago(new Date(this.githubIssue.created_at))
+      const user = this.githubIssue.user.name ? this.githubIssue.user.name : this.githubIssue.user.login
       return this.pageData.application_subtitle.replace('|issue_number|', issueNumber).replace('|time_ago|', timeAgo).replace('|user|', user)
     },
     applicationBody () {
-      // return this.githubIssue.body
-      return Kramed(this.submittedLargeApplications[0].body, { renderer: this.renderer })
+      return Kramed(this.githubIssue.body, { renderer: this.renderer })
     },
     expandApplicationText () {
       return this.pageData.expand_application_text
