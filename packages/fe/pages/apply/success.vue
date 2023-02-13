@@ -48,7 +48,7 @@
                   </h2>
                   <h3 class="header-subtitle p1" v-html="applicationSubtitle" />
                   <IconChevronDown />
-                  <span v-html="expandApplicationText" />
+                  <span class="p2 expand-application-text" v-html="expandApplicationText" />
                 </AccordionHeader>
 
                 <AccordionContent>
@@ -173,7 +173,7 @@ export default {
       return Kramed(this.githubIssue.body, { renderer: this.renderer })
     },
     expandApplicationText () {
-      return this.pageData.expand_application_text
+      return this.pageData.expand_application_text.replace('|github_link|', `"${this.githubIssueLink}"`)
     }
   },
 
@@ -271,7 +271,7 @@ $padding: 2.25rem;
       :deep(svg) {
         path {
           transition: 150ms ease-in;
-          fill: $aztec;
+          fill: $lima;
         }
       }
     }
@@ -318,6 +318,13 @@ $padding: 2.25rem;
   }
 }
 
+.expand-application-text {
+  font-weight: 500;
+  :deep(a) {
+    color: $greenYellow;
+  }
+}
+
 .icon-chevron-down {
   width: 1rem;
   margin-top: 1rem;
@@ -326,8 +333,7 @@ $padding: 2.25rem;
 }
 
 .application-body {
-  font-size: toRem(16);
-  line-height: leading(35, 16);
+  @include p2;
   padding-bottom: 3.375rem;
   :deep(p) {
     font-size: inherit;
@@ -338,7 +344,11 @@ $padding: 2.25rem;
   }
   :deep(a) {
     color: $mandysPink;
-    text-decoration: underline;
+    padding-bottom: .25rem;
+    &:hover {
+      border-bottom: solid 2px $nandor;
+      transition: none;
+    }
   }
   @include small {
     padding-right: 3rem;
