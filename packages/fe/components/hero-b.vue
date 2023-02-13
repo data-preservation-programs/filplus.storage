@@ -1,5 +1,5 @@
 <template>
-  <div id="hero">
+  <div id="hero" class="hero-b">
 
     <!-- =========================================================== Content -->
     <div class="content">
