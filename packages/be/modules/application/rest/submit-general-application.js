@@ -9,7 +9,7 @@ const MC = require('@Root/config')
 
 // /////////////////////////////////////////////////////////////////// Functions
 // -----------------------------------------------------------------------------
-// /////////////////////////////////////////////////////////// submitApplication
+// //////////////////////////////////////////////////// submitGeneralApplication
 const submitGeneralApplication = async (template, body, token) => {
   try {
     const repo = MC.serverFlag === 'production' ? 'filecoin-project/filecoin-plus-client-onboarding' : 'data-preservation-programs/filecoin-plus-client-onboarding'
