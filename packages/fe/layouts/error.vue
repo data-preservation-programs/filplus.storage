@@ -47,10 +47,6 @@ export default {
   text-align: center;
 }
 
-.button {
-  display: inline-block;
-}
-
 ::v-deep #hero {
   .overlay.type__opaque {
     background-color: rgba(15, 31, 26, 0.9);

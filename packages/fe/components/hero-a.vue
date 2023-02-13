@@ -141,9 +141,10 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
   .button {
-    text-align: center;
-    padding: 0 0.5rem 1rem;
+    display: inline-block;
+    margin-top: 2rem;
   }
 }
 

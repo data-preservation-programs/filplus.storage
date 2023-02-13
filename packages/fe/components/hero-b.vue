@@ -98,6 +98,7 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: flex-start;
   padding-top: 9.375rem;
   padding-bottom: 14rem;
 }
@@ -137,14 +138,9 @@ export default {
   }
 }
 
-// //////////////////////////////////////////////////////////// Image + Overlays
-// .overlay.type__noise {
-//   z-index: 15;
-// }
-//
-// .overlay.type__opaque {
-//   z-index: 10;
-// }
+.button {
+  display: inline-block;
+}
 
 // ////////////////////////////////////////////////////////////////// Warp Image
 .panel-right {
