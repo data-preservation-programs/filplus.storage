@@ -1,7 +1,7 @@
 <template>
   <Button
     v-bind="$props"
-    :class="['button-x', theme.length > 0 ? `theme__${theme}` : '' ]"
+    :class="['button-x', `theme__${theme}`]"
     v-on="$listeners">
     <div class="button-content">
 
@@ -52,7 +52,7 @@ export default {
     theme: {
       type: String,
       required: false,
-      default: ''
+      default: 'clear'
     }
   }
 }
@@ -95,5 +95,4 @@ export default {
     color: $mandysPink;
   }
 }
-
 </style>
