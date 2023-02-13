@@ -4,7 +4,7 @@
     <div id="section-success">
 
       <div class="grid">
-        <div class="col-8_mi-10 success" data-push-left="off-1_mi-0" data-push-right="off-1_mi-0">
+        <div class="col-8_mi-10" data-push-left="off-1_mi-0" data-push-right="off-1_mi-0">
           <div class="panel-left">
 
             <h1 class="heading h3" v-html="pageHeading" />

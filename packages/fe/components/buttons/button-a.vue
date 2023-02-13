@@ -79,7 +79,7 @@ export default {
 .button {
   display: inline-block;
   position: relative;
-  padding: toRem(13.5) 1.25rem;
+  padding: toRem(14) 1.25rem;
   border-radius: 3rem;
   line-height: 1;
   white-space: nowrap;
