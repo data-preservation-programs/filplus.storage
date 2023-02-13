@@ -24,11 +24,10 @@
               </ButtonA>
 
               <ButtonA
-                class="new-application-button"
-                theme="green"
                 to="/apply"
                 tag="nuxt-link"
-                target="_blank">
+                class="new-application-button"
+                theme="green">
                 {{ newApplicationButtonText }}
               </ButtonA>
 
@@ -55,7 +54,7 @@
                 </AccordionHeader>
 
                 <AccordionContent>
-                  <div class="application-body" v-html="applicationBody" />
+                  <div class="application-body" v-html="parsedApplication" />
                 </AccordionContent>
 
               </AccordionSection>
@@ -149,9 +148,15 @@ export default {
     pageHeading () {
       return this.pageData.heading.replace('|data|', this.datacapRequested)
     },
+    applicationBody () {
+      return this.githubIssue.body
+    },
     datacapRequested () {
-      const datacapRegEx = /(?:### Total amount of DataCap being requested\n)(\d+\.?\d{0,2} \w{3})/
-      return this.githubIssue.body.match(datacapRegEx)[1]
+      const generalDatacapRegEx = /(?:DataCap Requested: )(\d+\.?\d{0,2} \w{3})/
+      const largeDatacapRegEx = /(?:### Total amount of DataCap being requested\n)(\d+\.?\d{0,2} \w{3})/
+      const generalDatacap = this.applicationBody.match(generalDatacapRegEx)
+      const largeDatacap = this.applicationBody.match(largeDatacapRegEx)
+      return generalDatacap[1] || largeDatacap[1]
     },
     subheading () {
       return this.pageData.subheading
@@ -176,8 +181,8 @@ export default {
       const user = issueUser.name || issueUser.login
       return this.pageData.application_subtitle.replace('|issue_number|', issueNumber).replace('|time_ago|', timeAgo).replace('|user|', user)
     },
-    applicationBody () {
-      return Kramed(this.githubIssue.body, { renderer: this.renderer })
+    parsedApplication () {
+      return Kramed(this.applicationBody, { renderer: this.renderer })
     },
     expandApplicationText () {
       return this.pageData.expand_application_text.replace('|github_link|', `"${this.githubIssueLink}"`)
@@ -337,6 +342,10 @@ $padding: 2.25rem;
   margin-top: 1rem;
   transition: 150ms ease-in;
   margin-right: 1.5rem;
+}
+
+.accordion-content {
+  padding-top: .25rem;
 }
 
 .application-body {
