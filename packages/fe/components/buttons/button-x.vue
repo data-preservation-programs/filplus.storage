@@ -1,7 +1,7 @@
 <template>
   <Button
     v-bind="$props"
-    class="button-x"
+    :class="['button-x', theme.length > 0 ? `theme__${theme}` : '' ]"
     v-on="$listeners">
     <div class="button-content">
 
@@ -48,6 +48,11 @@ export default {
       type: Boolean,
       required: false,
       default: false
+    },
+    theme: {
+      type: String,
+      required: false,
+      default: ''
     }
   }
 }
@@ -80,4 +85,15 @@ export default {
   font-weight: 500;
   transition: 150ms ease-out;
 }
+
+// ////////////////////////////////////////////////////////////////////// Themes
+.theme__pink {
+  @include h5;
+  font-weight: 500;
+  color: $mandysPink;
+  &:hover {
+    color: $mandysPink;
+  }
+}
+
 </style>

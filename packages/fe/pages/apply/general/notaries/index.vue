@@ -43,7 +43,8 @@
           <div class="col-11">
             <ButtonX
               :to="backButton.href"
-              :tag="backButton.type">
+              :tag="backButton.type"
+              :theme="backButton.theme">
               {{ backButton.label }}
             </ButtonX>
           </div>

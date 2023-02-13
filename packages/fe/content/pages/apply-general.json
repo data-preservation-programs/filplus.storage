@@ -17,7 +17,8 @@
     "back_button": {
       "type": "nuxt-link",
       "href": "/apply/general/notaries",
-      "label": "Select a different notary"
+      "label": "Select a different notary",
+      "theme": "pink"
     },
     "form": {
       "heading": "General DataCap Notary Review Request",

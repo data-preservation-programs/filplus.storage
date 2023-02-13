@@ -18,7 +18,8 @@
     "back_button": {
       "type": "nuxt-link",
       "href": "/apply/",
-      "label": "Restart application"
+      "label": "Restart application",
+      "theme": "pink"
     },
     "form": {
       "heading_1": "Background Information",
