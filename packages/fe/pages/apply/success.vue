@@ -35,6 +35,7 @@
 
             <!-- ================================================= Accordion -->
             <Accordion
+              v-if="githubIssue"
               ref="accordion"
               v-slot="{ active }"
               :multiple="true"
@@ -146,7 +147,10 @@ export default {
       return this.siteContent[this.tag].page_content
     },
     pageHeading () {
-      return this.pageData.heading.replace('|data|', this.datacapRequested)
+      if (this.githubIssue) {
+        return this.pageData.heading.replace('|data|', this.datacapRequested)
+      }
+      return this.pageData.alt_heading
     },
     applicationBody () {
       return this.githubIssue.body
