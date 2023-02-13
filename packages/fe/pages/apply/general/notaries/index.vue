@@ -40,12 +40,12 @@
           <div class="col-12">
             <NotariesTable />
           </div>
-          <div class="col-11">
+          <div class="grid-right">
             <ButtonX
               :to="backButton.href"
               :tag="backButton.type"
               :theme="backButton.theme">
-              <Chevron :class="`icon-${backButton.icon}`" />
+              <ChevronLeft />
               {{ backButton.label }}
             </ButtonX>
           </div>
@@ -69,7 +69,7 @@ import Overlay from '@/components/overlay'
 import NotariesTable from '@/components/notaries-table'
 import Squigglie from '@/components/squigglie'
 import ButtonX from '@/components/buttons/button-x'
-import Chevron from '@/components/icons/chevron'
+import ChevronLeft from '@/components/icons/chevron-left'
 
 import NotariesPageData from '@/content/pages/notaries.json'
 
@@ -83,7 +83,7 @@ export default {
     Overlay,
     Squigglie,
     ButtonX,
-    Chevron
+    ChevronLeft
   },
 
   data () {
@@ -178,7 +178,8 @@ export default {
 }
 
 .button {
-  text-align: right;
+  display: inline-block;
+  margin-bottom: 2rem;
 }
 
 // ////////////////////////////////////////////////////////////////// Warp Image

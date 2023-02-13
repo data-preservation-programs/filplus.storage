@@ -88,11 +88,13 @@ export default {
 
 // ////////////////////////////////////////////////////////////////////// Themes
 .theme__pink {
+display: inline-block;
   @include h5;
   font-weight: 500;
   color: $mandysPink;
-  :deep(.icon-chevron) {
-    transform: rotate(180deg);
+  :deep(.icon-chevron-left) {
+    height: .8rem;
+    margin-right: 0.625rem;
     path {
       stroke: $mandysPink;
     }

@@ -16,9 +16,8 @@
               :to="heroButton.href"
               :theme="heroButton.theme"
               :tag="heroButton.type">
-              <Chevron
-                v-if="heroButton.icon === 'chevron'"
-                :class="`icon-${heroButton.icon}`" />
+              <ChevronLeft
+                v-if="heroButton.icon === 'chevron-left'" />
               {{ heroButton.label }}
             </ButtonX>
 
@@ -50,7 +49,7 @@
 // ===================================================================== Imports
 import Overlay from '@/components/overlay'
 import ButtonX from '@/components/buttons/button-x'
-import Chevron from '@/components/icons/chevron'
+import ChevronLeft from '@/components/icons/chevron-left'
 
 // ====================================================================== Export
 export default {
@@ -59,7 +58,7 @@ export default {
   components: {
     Overlay,
     ButtonX,
-    Chevron
+    ChevronLeft
   },
 
   props: {
@@ -148,7 +147,6 @@ export default {
   justify-content: center;
   align-items: center;
   .button {
-    display: inline-block;
     margin-top: 2rem;
   }
 }

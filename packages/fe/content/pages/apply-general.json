@@ -19,7 +19,7 @@
       "href": "/apply/general/notaries",
       "label": "Select a different notary",
       "theme": "pink",
-      "icon": "chevron"
+      "icon": "chevron-left"
     },
     "form": {
       "heading": "General DataCap Notary Review Request",
