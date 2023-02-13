@@ -148,7 +148,7 @@ const actions = {
     try {
       this.$gtm.push({ event: 'submission_ga' })
       const response = await this.$axiosAuth.post('/submit-general-application', application)
-      dispatch('setGithubIssue', response.data.payload)
+      await dispatch('setGithubIssue', response.data.payload)
       this.dispatch('button/removeLoader', 'ga-submit-button')
       this.$toaster.add({
         type: 'toast',
@@ -173,7 +173,7 @@ const actions = {
     try {
       this.$gtm.push({ event: 'submission_lda' })
       const response = await this.$axiosAuth.post('/submit-large-application', application)
-      dispatch('setGithubIssue', response.data.payload)
+      await dispatch('setGithubIssue', response.data.payload)
       this.dispatch('button/removeLoader', 'lda-submit-button')
       this.$toaster.add({
         type: 'toast',

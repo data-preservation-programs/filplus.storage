@@ -232,7 +232,7 @@ export default {
             this.removeLoader('ga-submit-button')
             this.$scrollToElement(firstInvalidField, 250, -200)
           } else {
-            this.submitGeneralApplication(incoming)
+            await this.submitGeneralApplication(incoming)
             this.$router.push('/apply/success')
           }
         }

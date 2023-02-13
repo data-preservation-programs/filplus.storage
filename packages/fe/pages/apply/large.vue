@@ -403,7 +403,7 @@ export default {
             this.removeLoader('lda-submit-button')
             this.$scrollToElement(firstInvalidField, 250, -200)
           } else {
-            this.submitLargeApplication(incoming)
+            await this.submitLargeApplication(incoming)
             this.$router.push('/apply/success')
           }
         }
