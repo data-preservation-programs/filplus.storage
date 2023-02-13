@@ -11,14 +11,14 @@
 
             <h1 :class="['heading', `direction__${contentDirection}`]" v-html="heading" />
 
-            <div v-if="Object.keys(heroButton).length >= 3">
-              <ButtonX
-                :to="heroButton.href"
-                :theme="heroButton.theme"
-                :tag="heroButton.type">
-                {{ heroButton.label }}
-              </ButtonX>
-            </div>
+            <ButtonX
+              v-if="heroButton"
+              :to="heroButton.href"
+              :theme="heroButton.theme"
+              :tag="heroButton.type">
+              {{ heroButton.label }}
+            </ButtonX>
+
           </div>
         </div>
       </div>
@@ -88,9 +88,9 @@ export default {
       default: 'lego-backsplash.jpg'
     },
     heroButton: {
-      type: Object,
+      type: [Object, Boolean],
       required: false,
-      default: () => {}
+      default: false
     }
   },
 
