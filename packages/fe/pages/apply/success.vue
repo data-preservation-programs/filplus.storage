@@ -1,7 +1,6 @@
 <template>
   <div :class="`page page-${tag} container`">
 
-    <!-- =========================================================== Success -->
     <div id="section-success">
 
       <div class="grid">
@@ -10,7 +9,9 @@
 
             <h1 class="heading h3" v-html="pageHeading" />
 
+            <!-- =================================================== Buttons -->
             <div class="buttons">
+
               <ButtonA
                 v-if="githubIssueLink"
                 class="github-issue-link-button"
@@ -33,11 +34,13 @@
 
             </div>
 
+            <!-- ================================================= Accordion -->
             <Accordion
               ref="accordion"
               v-slot="{ active }"
               :multiple="true"
               @toggleStateChanged="accordionToggleStateChanged">
+
               <AccordionSection
                 :active="active">
 
@@ -56,6 +59,7 @@
                 </AccordionContent>
 
               </AccordionSection>
+
               <Squigglie
                 :percent-left="85"
                 anchor="bottom"
@@ -68,6 +72,7 @@
           </div>
         </div>
 
+        <!-- ==================================================== warp image -->
         <div class="col-2_mi-1">
           <div class="panel-right">
             <div class="warp-image-double" />

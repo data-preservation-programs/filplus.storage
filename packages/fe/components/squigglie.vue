@@ -197,7 +197,7 @@ export default {
       border-right: 3px solid $nandor;
       border-bottom-right-radius: toRem(10);
     }
-    .squigglie{
+    .squigglie {
       transform: scaleY(-1) translateY(40.5px);
       path {
         stroke-width: 3;
