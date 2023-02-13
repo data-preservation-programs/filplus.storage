@@ -263,9 +263,12 @@ $height: 2.5rem;
 // ///////////////////////////////////////////////////////////////////// General
 .field-typeahead {
   height: $height;
-  display: flex;
-  align-items: center;
   &.dropdown-open {
+    &.no-results {
+      :deep(div.select-container) {
+        display: none;
+      }
+    }
     :deep(div.select-container) {
       display: block;
     }
