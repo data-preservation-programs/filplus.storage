@@ -146,6 +146,7 @@ const actions = {
   // ////////////////////////////////////////////////// submitGeneralApplication
   async submitGeneralApplication ({ commit, dispatch }, application) {
     try {
+      this.$gtm.push({ event: 'submission_ga' })
       const response = await this.$axiosAuth.post('/submit-general-application', application)
       dispatch('setGithubIssue', response.data.payload)
       this.dispatch('button/removeLoader', 'ga-submit-button')
@@ -154,7 +155,7 @@ const actions = {
         category: 'success',
         message: 'General Application submitted successfully'
       })
-      this.$gtm.push({ event: 'submission_ga' })
+      this.$gtm.push({ event: 'success_ga' })
     } catch (e) {
       console.log('========== [Store Action: general/submitGeneralApplication]')
       console.log(e)
@@ -170,6 +171,7 @@ const actions = {
   // //////////////////////////////////////////////////// submitLargeApplication
   async submitLargeApplication ({ commit, dispatch }, application) {
     try {
+      this.$gtm.push({ event: 'submission_lda' })
       const response = await this.$axiosAuth.post('/submit-large-application', application)
       dispatch('setGithubIssue', response.data.payload)
       this.dispatch('button/removeLoader', 'lda-submit-button')
@@ -178,7 +180,7 @@ const actions = {
         category: 'success',
         message: 'Large Dataset Application submitted successfully'
       })
-      this.$gtm.push({ event: 'submission_lda' })
+      this.$gtm.push({ event: 'success_lda' })
     } catch (e) {
       console.log('============ [Store Action: general/submitLargeApplication]')
       console.log(e)
