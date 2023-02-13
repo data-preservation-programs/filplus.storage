@@ -169,9 +169,11 @@ export default {
       return this.githubIssue.title
     },
     applicationSubtitle () {
-      const issueNumber = this.githubIssue.number
-      const timeAgo = this.$timeago(new Date(this.githubIssue.created_at))
-      const user = this.githubIssue.user.name ? this.githubIssue.user.name : this.githubIssue.user.login
+      const githubIssue = this.githubIssue
+      const issueUser = githubIssue.user
+      const issueNumber = githubIssue.number
+      const timeAgo = this.$timeago(new Date(githubIssue.created_at))
+      const user = issueUser.name || issueUser.login
       return this.pageData.application_subtitle.replace('|issue_number|', issueNumber).replace('|time_ago|', timeAgo).replace('|user|', user)
     },
     applicationBody () {
