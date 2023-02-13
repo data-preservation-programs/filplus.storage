@@ -9,8 +9,8 @@ import GeneralSiteData from '@/content/pages/general.json'
 const state = () => ({
   siteContent: {},
   staticFiles: {},
-  submittedGeneralApplications: {},
-  submittedLargeApplications: {},
+  generalApplicationList: {},
+  largeApplicationList: {},
   clipboard: false,
   application: {
     organization_name: '',
@@ -65,8 +65,8 @@ const getters = {
   networkStorageCapacity: state => state.networkStorageCapacity,
   applyFormHighlighted: state => state.applyFormHighlighted,
   githubIssue: state => state.githubIssue,
-  submittedGeneralApplications: state => state.submittedGeneralApplications,
-  submittedLargeApplications: state => state.submittedLargeApplications
+  generalApplicationList: state => state.generalApplicationList,
+  largeApplicationList: state => state.largeApplicationList
 }
 
 // ///////////////////////////////////////////////////////////////////// Actions
@@ -201,39 +201,39 @@ const actions = {
   setGithubIssue ({ commit }, issue) {
     commit('SET_GITHUB_ISSUE', issue)
   },
-  // //////////////////////////////////////////// setSubmittedGeneralApplication
-  setSubmittedGeneralApplications ({ commit }, applications) {
-    commit('SET_SUBMITTED_GENERAL_APPLICATIONS', applications)
+  // ///////////////////////////////////////////////// setGeneralApplicationList
+  setGeneralApplicationList ({ commit }, applications) {
+    commit('SET_GENERAL_APPLICATION_LIST', applications)
   },
-  // //////////////////////////////////////////// getSubmittedGeneralApplication
-  async getSubmittedGeneralApplications ({ commit, dispatch }) {
+  // ///////////////////////////////////////////////// getGeneralApplicationList
+  async getGeneralApplicationList ({ commit, dispatch }) {
     try {
-      const response = await this.$axiosAuth.get('/get-submitted-general-applications')
+      const response = await this.$axiosAuth.get('/get-general-application-list')
       const applications = response.data.payload
-      dispatch('setSubmittedGeneralApplications', applications)
+      dispatch('setGeneralApplicationList', applications)
       return applications
     } catch (e) {
-      console.log('=== [Store Action: general/getSubmittedGeneralApplications]')
+      console.log('=== [Store Action: general/getGeneralApplicationList]')
       console.log(e)
-      dispatch('setSubmittedGeneralApplication', { application: false })
+      dispatch('setGeneralApplicationList', { application: false })
       return false
     }
   },
-  // //////////////////////////////////////////// setSubmittedGeneralApplication
-  setSubmittedLargeApplications ({ commit }, applications) {
-    commit('SET_SUBMITTED_LARGE_APPLICATIONS', applications)
+  // /////////////////////////////////////////////////// setLargeApplicationList
+  setLargeApplicationList ({ commit }, applications) {
+    commit('SET_LARGE_APPLICATION_LIST', applications)
   },
-  // //////////////////////////////////////////// getSubmittedGeneralApplication
-  async getSubmittedLargeApplications ({ commit, dispatch }) {
+  // /////////////////////////////////////////////////// getLargeApplicationList
+  async getLargeApplicationList ({ commit, dispatch }) {
     try {
-      const response = await this.$axiosAuth.get('/get-submitted-large-applications')
+      const response = await this.$axiosAuth.get('/get-large-application-list')
       const applications = response.data.payload
-      dispatch('setSubmittedLargeApplications', applications)
+      dispatch('setLargeApplicationList', applications)
       return applications
     } catch (e) {
-      console.log('=== [Store Action: general/getSubmittedLargeApplications]')
+      console.log('=== [Store Action: general/getLargeApplicationList]')
       console.log(e)
-      dispatch('setSubmittedLargeApplication', { application: false })
+      dispatch('setLargeApplicationList', { application: false })
       return false
     }
   }
@@ -263,11 +263,11 @@ const mutations = {
   SET_GITHUB_ISSUE (state, issue) {
     state.githubIssue = issue
   },
-  SET_SUBMITTED_GENERAL_APPLICATIONS (state, applications) {
-    state.submittedGeneralApplications = applications
+  SET_GENERAL_APPLICATION_LIST (state, applications) {
+    state.generalApplicationList = applications
   },
-  SET_SUBMITTED_LARGE_APPLICATIONS (state, applications) {
-    state.submittedLargeApplications = applications
+  SET_LARGE_APPLICATION_LIST (state, applications) {
+    state.largeApplicationList = applications
   }
 }
 
