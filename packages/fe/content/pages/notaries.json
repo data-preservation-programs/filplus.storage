@@ -16,7 +16,8 @@
       "type": "nuxt-link",
       "href": "/apply",
       "label": "Restart application",
-      "theme": "pink"
+      "theme": "pink",
+      "icon": "chevron"
     },
     "table": {
       "label": "Choose a Notary",

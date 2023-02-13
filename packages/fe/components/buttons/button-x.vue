@@ -91,6 +91,12 @@ export default {
   @include h5;
   font-weight: 500;
   color: $mandysPink;
+  :deep(.icon-chevron) {
+    transform: rotate(180deg);
+    path {
+      stroke: $mandysPink;
+    }
+  }
   &:hover {
     color: $mandysPink;
   }

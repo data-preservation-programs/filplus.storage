@@ -102,6 +102,7 @@
               :to="backButton.href"
               :tag="backButton.type"
               :theme="backButton.theme">
+              <Chevron :class="`icon-${backButton.icon}`" />
               {{ backButton.label }}
             </ButtonX>
           </div>
@@ -127,6 +128,7 @@ import ButtonX from '@/components/buttons/button-x'
 import Overlay from '@/components/overlay'
 import Squigglie from '@/components/squigglie'
 import AuthButton from '@/components/auth-button'
+import Chevron from '@/components/icons/chevron'
 
 import ApplyGeneralPageData from '@/content/pages/apply-general.json'
 
@@ -141,7 +143,8 @@ export default {
     ButtonX,
     Overlay,
     Squigglie,
-    AuthButton
+    AuthButton,
+    Chevron
   },
 
   data () {

@@ -45,6 +45,7 @@
               :to="backButton.href"
               :tag="backButton.type"
               :theme="backButton.theme">
+              <Chevron :class="`icon-${backButton.icon}`" />
               {{ backButton.label }}
             </ButtonX>
           </div>
@@ -68,6 +69,7 @@ import Overlay from '@/components/overlay'
 import NotariesTable from '@/components/notaries-table'
 import Squigglie from '@/components/squigglie'
 import ButtonX from '@/components/buttons/button-x'
+import Chevron from '@/components/icons/chevron'
 
 import NotariesPageData from '@/content/pages/notaries.json'
 
@@ -80,7 +82,8 @@ export default {
     NotariesTable,
     Overlay,
     Squigglie,
-    ButtonX
+    ButtonX,
+    Chevron
   },
 
   data () {

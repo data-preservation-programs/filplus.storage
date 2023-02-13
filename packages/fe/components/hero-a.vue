@@ -16,6 +16,9 @@
               :to="heroButton.href"
               :theme="heroButton.theme"
               :tag="heroButton.type">
+              <Chevron
+                v-if="heroButton.icon === 'chevron'"
+                :class="`icon-${heroButton.icon}`" />
               {{ heroButton.label }}
             </ButtonX>
 
@@ -47,6 +50,7 @@
 // ===================================================================== Imports
 import Overlay from '@/components/overlay'
 import ButtonX from '@/components/buttons/button-x'
+import Chevron from '@/components/icons/chevron'
 
 // ====================================================================== Export
 export default {
@@ -54,7 +58,8 @@ export default {
 
   components: {
     Overlay,
-    ButtonX
+    ButtonX,
+    Chevron
   },
 
   props: {

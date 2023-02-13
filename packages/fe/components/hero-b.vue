@@ -19,6 +19,9 @@
               :to="heroButton.href"
               :theme="heroButton.theme"
               :tag="heroButton.type">
+              <Chevron
+                v-if="heroButton.icon === 'chevron'"
+                :class="`icon-${heroButton.icon}`" />
               {{ heroButton.label }}
             </ButtonX>
 
@@ -40,13 +43,15 @@
 <script>
 // ===================================================================== Imports
 import ButtonX from '@/components/buttons/button-x'
+import Chevron from '@/components/icons/chevron'
 
 // ====================================================================== Export
 export default {
   name: 'HeroB',
 
   components: {
-    ButtonX
+    ButtonX,
+    Chevron
   },
 
   props: {
