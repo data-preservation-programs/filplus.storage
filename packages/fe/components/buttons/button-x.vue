@@ -1,7 +1,7 @@
 <template>
   <Button
     v-bind="$props"
-    class="button-x"
+    :class="['button-x', `theme__${theme}`]"
     v-on="$listeners">
     <div class="button-content">
 
@@ -48,6 +48,11 @@ export default {
       type: Boolean,
       required: false,
       default: false
+    },
+    theme: {
+      type: String,
+      required: false,
+      default: 'clear'
     }
   }
 }
@@ -79,5 +84,30 @@ export default {
   font-size: toRem(20);
   font-weight: 500;
   transition: 150ms ease-out;
+}
+
+// ////////////////////////////////////////////////////////////////////// Themes
+.theme__pink {
+display: inline-block;
+  @include h5;
+  font-weight: 500;
+  color: $mandysPink;
+  .button-content {
+    display: flex;
+    align-items: center;
+  }
+  :deep(.icon-chevron) {
+    transform: rotate(90deg);
+    transition: 150ms ease-in;
+    width: toRem(12);
+    margin-right: toRem(8);
+  }
+  &:hover {
+    color: $mandysPink;
+    :deep(.icon-chevron) {
+      transform: rotate(90deg) translateY(1rem);
+      transition: 150ms ease-out;
+    }
+  }
 }
 </style>

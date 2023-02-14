@@ -56,7 +56,9 @@ h4, .h4 {
 }
 
 h5, .h5 {
-  font-size: 0.9rem;
+  font-size: toRem(20);
+  line-height: leading(30, 20);
+  font-weight: 400;
 }
 
 h6, .h6 {
@@ -73,6 +75,13 @@ button {
 
 // ////////////////////////////////////////////////////////////////////// Mixins
 // =============================================================================
+
+@mixin h5 {
+  font-size: toRem(20);
+  line-height: leading(30, 20);
+  font-weight: 400;
+}
+
 @mixin headingHighlight {
   font-size: toRem(35);
   line-height: leading(50, 35);
