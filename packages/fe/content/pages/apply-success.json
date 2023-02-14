@@ -11,7 +11,6 @@
   },
   "page_content": {
     "heading": "Congratulations, you've sucessfully applied for <span>|data|</span> of DataCap",
-    "alt_heading": "Submit an application first",
     "application_subtitle": "<span class=highlight>Issue #<span>|issue_number|</span></span> opened <span>|time_ago|</span> by <span>|user|</span>",
     "github_issue_button_text": "View Issue on Github",
     "new_application_button_text": "New Application",

@@ -35,7 +35,6 @@
 
             <!-- ================================================= Accordion -->
             <Accordion
-              v-if="githubIssue"
               ref="accordion"
               v-slot="{ active }"
               :multiple="true"
@@ -126,8 +125,9 @@ export default {
     }
   },
 
-  async fetch ({ store }) {
+  async fetch ({ store, redirect }) {
     await store.dispatch('general/getBaseData', { key: 'apply-success', data: ApplySucessPageData })
+    if (!this.githubIssue) { return redirect('/apply') }
   },
 
   head () {
@@ -147,10 +147,7 @@ export default {
       return this.siteContent[this.tag].page_content
     },
     pageHeading () {
-      if (this.githubIssue) {
-        return this.pageData.heading.replace('|data|', this.datacapRequested)
-      }
-      return this.pageData.alt_heading
+      return this.pageData.heading.replace('|data|', this.datacapRequested)
     },
     applicationBody () {
       return this.githubIssue.body
