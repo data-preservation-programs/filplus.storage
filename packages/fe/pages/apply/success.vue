@@ -49,7 +49,7 @@
                     {{ applicationTitle }}
                   </h2>
                   <h3 class="header-subtitle p1" v-html="applicationSubtitle" />
-                  <IconChevronDown />
+                  <IconChevron />
                   <span class="p2 expand-application-text" v-html="expandApplicationText" />
                 </AccordionHeader>
 
@@ -90,7 +90,7 @@ import { mapGetters, mapActions } from 'vuex'
 import Kramed from 'kramed'
 
 import GithubIcon from '@/components/icons/github'
-import IconChevronDown from '@/components/icons/chevron-down'
+import IconChevron from '@/components/icons/chevron'
 import IconApplicationOpen from '@/components/icons/application-open'
 
 import ButtonA from '@/components/buttons/button-a'
@@ -108,7 +108,7 @@ export default {
 
   components: {
     GithubIcon,
-    IconChevronDown,
+    IconChevron,
     IconApplicationOpen,
     ButtonA,
     Accordion,
@@ -303,7 +303,7 @@ $padding: 2.25rem;
   border-radius: toRem(10) toRem(10) toRem(7) toRem(7);
   padding: 0 1.25rem 0 3.875rem;
   &.open {
-    .icon-chevron-down {
+    .icon-chevron {
       transition: 150ms ease-out;
       transform: rotate(-180deg);
     }
@@ -338,7 +338,7 @@ $padding: 2.25rem;
   }
 }
 
-.icon-chevron-down {
+.icon-chevron {
   width: 1rem;
   margin-top: 1rem;
   transition: 150ms ease-in;
