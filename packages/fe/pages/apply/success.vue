@@ -81,6 +81,9 @@
       </div>
     </div>
 
+    <!-- ========================================================== Overlays -->
+    <Overlay type="noise" />
+
   </div>
 </template>
 
@@ -99,6 +102,7 @@ import AccordionSection from '@/components/accordion/accordion-section'
 import AccordionHeader from '@/components/accordion/accordion-header'
 import AccordionContent from '@/components/accordion/accordion-content'
 import Squigglie from '@/components/squigglie'
+import Overlay from '@/components/overlay'
 
 import ApplySucessPageData from '@/content/pages/apply-success.json'
 
@@ -115,7 +119,8 @@ export default {
     AccordionSection,
     AccordionHeader,
     AccordionContent,
-    Squigglie
+    Squigglie,
+    Overlay
   },
 
   data () {
