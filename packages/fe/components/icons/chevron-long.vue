@@ -7,7 +7,7 @@
 <script>
 // ====================================================================== Export
 export default {
-  name: 'Chevron'
+  name: 'IconChevronLong'
 }
 </script>
 
