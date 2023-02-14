@@ -266,7 +266,7 @@
               :to="backButton.href"
               :tag="backButton.type"
               :theme="backButton.theme">
-              <ChevronLeft />
+              <Chevron />
               {{ backButton.label }}
             </ButtonX>
 
@@ -293,7 +293,7 @@ import ButtonX from '@/components/buttons/button-x'
 import Overlay from '@/components/overlay'
 import Squigglie from '@/components/squigglie'
 import AuthButton from '@/components/auth-button'
-import ChevronLeft from '@/components/icons/chevron-left'
+import Chevron from '@/components/icons/chevron'
 
 import ApplyLargePageData from '@/content/pages/apply-large.json'
 
@@ -309,7 +309,7 @@ export default {
     Overlay,
     Squigglie,
     AuthButton,
-    ChevronLeft
+    Chevron
   },
 
   meta: {

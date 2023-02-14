@@ -92,15 +92,22 @@ display: inline-block;
   @include h5;
   font-weight: 500;
   color: $mandysPink;
-  :deep(.icon-chevron-left) {
-    height: .8rem;
-    margin-right: 0.625rem;
-    path {
-      stroke: $mandysPink;
-    }
+  .button-content {
+    display: flex;
+    align-items: center;
+  }
+  :deep(.icon-chevron) {
+    transform: rotate(90deg);
+    transition: 150ms ease-in;
+    width: toRem(12);
+    margin-right: toRem(8);
   }
   &:hover {
     color: $mandysPink;
+    :deep(.icon-chevron) {
+      transform: rotate(90deg) translateY(1rem);
+      transition: 150ms ease-out;
+    }
   }
 }
 </style>

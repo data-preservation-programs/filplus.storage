@@ -17,7 +17,7 @@
       "href": "/apply",
       "label": "Restart application",
       "theme": "pink",
-      "icon": "chevron-left"
+      "icon": "chevron"
     },
     "table": {
       "label": "Choose a Notary",

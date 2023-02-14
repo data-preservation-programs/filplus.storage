@@ -19,8 +19,8 @@
               :to="heroButton.href"
               :theme="heroButton.theme"
               :tag="heroButton.type">
-              <ChevronLeft
-                v-if="heroButton.icon === 'chevron-left'" />
+              <Chevron
+                v-if="heroButton.icon === 'chevron'" />
               {{ heroButton.label }}
             </ButtonX>
 
@@ -42,7 +42,7 @@
 <script>
 // ===================================================================== Imports
 import ButtonX from '@/components/buttons/button-x'
-import ChevronLeft from '@/components/icons/chevron-left'
+import Chevron from '@/components/icons/chevron'
 
 // ====================================================================== Export
 export default {
@@ -50,7 +50,7 @@ export default {
 
   components: {
     ButtonX,
-    ChevronLeft
+    Chevron
   },
 
   props: {

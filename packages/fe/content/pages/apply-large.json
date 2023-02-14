@@ -20,7 +20,7 @@
       "href": "/apply/",
       "label": "Restart application",
       "theme": "pink",
-      "icon": "chevron-left"
+      "icon": "chevron"
     },
     "form": {
       "heading_1": "Background Information",
