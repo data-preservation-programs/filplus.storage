@@ -19,7 +19,7 @@
             {{ getSelectedOptionLabel(selected) }}
           </div>
           <div class="icon-container">
-            <IconChevronDown />
+            <IconChevron />
           </div>
         </div>
       </template>
@@ -44,7 +44,7 @@
 // ===================================================================== Imports
 import Select from '@/modules/form/components/select'
 
-import IconChevronDown from '@/components/icons/chevron-down'
+import IconChevron from '@/components/icons/chevron'
 
 // ====================================================================== Export
 export default {
@@ -52,7 +52,7 @@ export default {
 
   components: {
     Select,
-    IconChevronDown
+    IconChevron
   },
 
   props: {
@@ -202,7 +202,7 @@ $height: 4rem;
     margin-left: auto;
     transition: 150ms ease-out;
   }
-  .icon-chevron-down {
+  .icon-chevron {
     width: 0.6875rem;
   }
 }

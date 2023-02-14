@@ -73,7 +73,7 @@ export default {
       required: false,
       default: '',
       validator (val) {
-        return ['arrow', 'chevron'].includes(val)
+        return ['arrow', 'chevron-long'].includes(val)
       }
     },
     iconText: {

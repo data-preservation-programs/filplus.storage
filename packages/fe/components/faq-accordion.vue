@@ -28,7 +28,7 @@
           <AccordionHeader>
             <div class="question">
               <span class="text" v-html="entry.question" />
-              <IconChevronDown />
+              <IconChevron />
             </div>
           </AccordionHeader>
 
@@ -60,7 +60,7 @@ import AccordionContent from '@/components/accordion/accordion-content'
 import AccordionSection from '@/components/accordion/accordion-section'
 import Squigglie from '@/components/squigglie'
 
-import IconChevronDown from '@/components/icons/chevron-down'
+import IconChevron from '@/components/icons/chevron'
 
 // ====================================================================== Export
 export default {
@@ -72,7 +72,7 @@ export default {
     AccordionHeader,
     AccordionContent,
     AccordionSection,
-    IconChevronDown,
+    IconChevron,
     Squigglie
   },
 
@@ -155,7 +155,7 @@ $padding: 2.25rem;
     }
   }
   &.open {
-    .icon-chevron-down {
+    .icon-chevron {
       transition: 150ms ease-out;
       transform: rotate(-180deg);
     }
@@ -195,8 +195,8 @@ $padding: 2.25rem;
   }
 }
 
-.icon-chevron-down {
-  width: 1rem;
+.icon-chevron {
+  width: toRem(14);
   margin-top: 1rem;
   transition: 150ms ease-in;
 }
