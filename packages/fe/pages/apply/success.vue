@@ -126,8 +126,9 @@ export default {
   },
 
   async fetch ({ store, redirect }) {
+    const application = await store.getters['general/githubIssue']
+    if (!application) { return redirect('/apply') }
     await store.dispatch('general/getBaseData', { key: 'apply-success', data: ApplySucessPageData })
-    if (!this.githubIssue) { return redirect('/apply') }
   },
 
   head () {
