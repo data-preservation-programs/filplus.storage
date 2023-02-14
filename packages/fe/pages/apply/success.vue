@@ -49,8 +49,17 @@
                     {{ applicationTitle }}
                   </h2>
                   <h3 class="header-subtitle p1" v-html="applicationSubtitle" />
-                  <IconChevron />
-                  <span class="p2 expand-application-text" v-html="expandApplicationText" />
+                  <span class="p2 expand-application-text">
+                    <IconChevron />
+                    <span v-html="expandApplicationText" />
+                    <ButtonX
+                      :to="githubIssueLink"
+                      tag="a"
+                      target="_blank"
+                      theme="green">
+                      {{ viewOnGithubText }}
+                    </ButtonX>
+                  </span>
                 </AccordionHeader>
 
                 <AccordionContent>
@@ -97,6 +106,7 @@ import IconChevron from '@/components/icons/chevron'
 import IconApplicationOpen from '@/components/icons/application-open'
 
 import ButtonA from '@/components/buttons/button-a'
+import ButtonX from '@/components/buttons/button-x'
 import Accordion from '@/components/accordion/accordion'
 import AccordionSection from '@/components/accordion/accordion-section'
 import AccordionHeader from '@/components/accordion/accordion-header'
@@ -120,7 +130,8 @@ export default {
     AccordionHeader,
     AccordionContent,
     Squigglie,
-    Overlay
+    Overlay,
+    ButtonX
   },
 
   data () {
@@ -192,7 +203,10 @@ export default {
       return Kramed(this.applicationBody, { renderer: this.renderer })
     },
     expandApplicationText () {
-      return this.pageData.expand_application_text.replace('|github_link|', `"${this.githubIssueLink}"`)
+      return this.pageData.expand_application_text
+    },
+    viewOnGithubText () {
+      return this.pageData.view_on_github_text
     }
   },
 
@@ -338,17 +352,15 @@ $padding: 2.25rem;
 }
 
 .expand-application-text {
+  display: flex;
   font-weight: 500;
-  :deep(a) {
-    color: $greenYellow;
-  }
 }
 
 .icon-chevron {
   width: 1rem;
-  margin-top: 1rem;
   transition: 150ms ease-in;
   margin-right: 1.5rem;
+  margin-left: .5rem;
 }
 
 .accordion-content {
