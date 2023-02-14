@@ -3,16 +3,8 @@
 
     <HeroA
       :heading="message"
-      background-image="block-backsplash.jpg">
-      <div class="inner-container">
-
-        <ButtonX
-          :to="homeButtonUrl"
-          tag="nuxt-link">
-          {{ homeButtonText }}
-        </ButtonX>
-
-      </div>
+      background-image="block-backsplash.jpg"
+      :hero-button="heroButton">
     </HeroA>
 
   </div>
@@ -23,15 +15,13 @@
 import { mapGetters } from 'vuex'
 
 import HeroA from '@/components/hero-a'
-import ButtonX from '@/components/buttons/button-x'
 
 // ====================================================================== Export
 export default {
   name: 'ErrorPage',
 
   components: {
-    HeroA,
-    ButtonX
+    HeroA
   },
 
   computed: {
@@ -41,11 +31,8 @@ export default {
     pageData () {
       return this.siteContent.general
     },
-    homeButtonUrl () {
-      return this.pageData.navigation.home_link
-    },
-    homeButtonText () {
-      return this.pageData['404_home_button_text']
+    heroButton () {
+      return this.pageData['404_hero_button']
     },
     message () {
       return this.pageData['404_error_message']
@@ -58,10 +45,6 @@ export default {
 // ///////////////////////////////////////////////////////////////////// General
 .inner-container {
   text-align: center;
-}
-
-.button {
-  display: inline-block;
 }
 
 ::v-deep #hero {

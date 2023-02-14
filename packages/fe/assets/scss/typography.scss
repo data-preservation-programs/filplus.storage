@@ -86,7 +86,12 @@ button {
 @mixin p2 {
   font-size: toRem(16);
   line-height: leading(30, 16);
-  font-weight: 400;
+}
+
+  @mixin h5 {
+  font-size: toRem(20);
+  line-height: leading(30, 20);
+  font-weight: 500;
 }
 
 @mixin headingHighlight {
