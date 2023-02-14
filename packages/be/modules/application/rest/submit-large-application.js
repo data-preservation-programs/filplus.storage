@@ -1,4 +1,3 @@
-/* eslint-disable */
 console.log('💡 [endpoint] /submit-large-application')
 
 // ///////////////////////////////////////////////////////////////////// Imports
@@ -50,7 +49,7 @@ MC.app.post('/submit-large-application', async (req, res) => {
       console.log(body)
       console.log(template)
     }
-    const githubIssueLink = '' // await submitApplication(template, body, user.githubToken)
+    const githubIssueLink = await submitApplication(template, body, user.githubToken)
     SendData(res, 200, 'Large application submitted succesfully', githubIssueLink)
   } catch (e) {
     console.log('======================= [Endpoint: /submit-large-application]')
