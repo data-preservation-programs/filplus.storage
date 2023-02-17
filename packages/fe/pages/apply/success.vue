@@ -383,20 +383,6 @@ $padding: 2.25rem;
       margin-bottom: 1.5rem;
     }
   }
-  :deep(a) {
-    color: $mandysPink;
-    padding-bottom: .25rem;
-    &:hover {
-      border-bottom: solid 2px $nandor;
-      transition: none;
-    }
-  }
-  @include small {
-    padding-right: 3rem;
-  }
-  @include mini {
-    padding-right: 0;
-  }
 }
 
 // ////////////////////////////////////////////////////////////////// Warp Image
