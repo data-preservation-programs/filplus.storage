@@ -44,10 +44,10 @@
                 :active="active">
 
                 <AccordionHeader>
-                  <h2 class="header-title h5">
+                  <div class="header-title-wrapper">
                     <IconApplicationOpen />
-                    {{ applicationTitle }}
-                  </h2>
+                    <h2 class="header-title h5" v-html="applicationTitle" />
+                  </div>
                   <h3 class="header-subtitle p1" v-html="applicationSubtitle" />
                   <span class="p2 expand-application-text">
                     <IconChevron />
@@ -63,7 +63,7 @@
                 </AccordionHeader>
 
                 <AccordionContent>
-                  <div class="application-body" v-html="parsedApplication" />
+                  <div class="application-body markdown-user-input" v-html="parsedApplication" />
                 </AccordionContent>
 
               </AccordionSection>
@@ -335,16 +335,22 @@ $padding: 2.25rem;
   padding: 1.25rem 0;
 }
 
+.header-title-wrapper {
+  display: flex;
+  align-items: center;
+}
+
 .header-title {
   letter-spacing: 0;
-  margin-left: -2.5rem;
 }
 
 .icon-application-open {
   margin-right: 1.25rem;
+  margin-left: -2.5rem;
 }
 
 .header-subtitle {
+  letter-spacing: 0;
   :deep(.highlight) {
     color: $mandysPink;
     letter-spacing: 0;
