@@ -35,7 +35,7 @@
           <AccordionHeader>
             <div class="application-title">
               <span class="text" v-html="entry.title" />
-              <IconChevronDown />
+              <IconChevron />
             </div>
           </AccordionHeader>
 
@@ -69,7 +69,7 @@ import AccordionSection from '@/components/accordion/accordion-section'
 import Squigglie from '@/components/squigglie'
 import MarkdownParser from '@/components/markdown-parser'
 
-import IconChevronDown from '@/components/icons/chevron-down'
+import IconChevron from '@/components/icons/chevron'
 
 // ====================================================================== Export
 export default {
@@ -81,7 +81,7 @@ export default {
     AccordionHeader,
     AccordionContent,
     AccordionSection,
-    IconChevronDown,
+    IconChevron,
     Squigglie,
     MarkdownParser,
     Select
