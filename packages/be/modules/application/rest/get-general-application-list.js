@@ -1,4 +1,4 @@
-console.log('💡 [endpoint] /get-submitted-general-applications')
+console.log('💡 [endpoint] /get-general-application-list')
 
 // ///////////////////////////////////////////////////////////////////// Imports
 // -----------------------------------------------------------------------------

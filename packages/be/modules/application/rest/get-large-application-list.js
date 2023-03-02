@@ -1,4 +1,4 @@
-console.log('💡 [endpoint] /get-submitted-large-applications')
+console.log('💡 [endpoint] /get-large-application-list')
 
 // ///////////////////////////////////////////////////////////////////// Imports
 // -----------------------------------------------------------------------------
