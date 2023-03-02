@@ -514,7 +514,7 @@ span.error {
   100% { transform: scale(1); }
 }
 
-.markdown {
+.markdown, .markdown-user-input {
   h1, h2, h3, p, ul, ol, pre {
     + h2, + h3 {
       margin-top: 3.75rem;
@@ -676,6 +676,54 @@ span.error {
       position: relative;
       padding-left: 2.25rem;
       margin-left: -2.25rem;
+    }
+  }
+}
+
+.markdown-user-input {
+  h1, h2, h3, p, ul, ol, pre {
+    + h2, + h3 {
+      margin-top: toRem(32);
+    }
+  }
+  h1, h2, h3, h4, h5, h6 {
+    margin-bottom: toRem(14);
+    + ul, + ol {
+      margin-top: toRem(12);
+    }
+  }
+  h1,
+  h2 {
+    font-size: toRem(20);
+    line-height: leading(30, 20);
+  }
+  h3 {
+    font-size: toRem(20);
+    line-height: leading(30, 20);
+    font-weight: 500;
+  }
+  p {
+    font-size: toRem(18);
+    line-height: leading(30, 18);
+    font-weight: 400;
+    &:not(:last-child) {
+      margin-bottom: 2rem;
+    }
+  }
+  a {
+    font-size: toRem(18);
+    line-height: leading(30, 18);
+    color: $mandysPink;
+    padding-bottom: .25rem;
+    &:hover {
+      border-bottom: 2px solid $nandor;
+      transition: none;
+    }
+  }
+  ul {
+    li {
+      font-size: toRem(18);
+      line-height: leading(30, 18);
     }
   }
 }

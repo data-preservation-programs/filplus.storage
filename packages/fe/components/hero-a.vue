@@ -1,5 +1,5 @@
 <template>
-  <div id="hero">
+  <div id="hero" class="hero-a">
 
     <div class="hero-content">
       <!-- ========================================================= Heading -->
@@ -10,6 +10,16 @@
             <div v-if="label" class="label" v-html="label" />
 
             <h1 :class="['heading', `direction__${contentDirection}`]" v-html="heading" />
+
+            <ButtonX
+              v-if="heroButton"
+              :to="heroButton.href"
+              :theme="heroButton.theme"
+              :tag="heroButton.type">
+              <Chevron
+                v-if="heroButton.icon === 'chevron'" />
+              {{ heroButton.label }}
+            </ButtonX>
 
           </div>
         </div>
@@ -38,13 +48,17 @@
 <script>
 // ===================================================================== Imports
 import Overlay from '@/components/overlay'
+import ButtonX from '@/components/buttons/button-x'
+import Chevron from '@/components/icons/chevron'
 
 // ====================================================================== Export
 export default {
   name: 'HeroA',
 
   components: {
-    Overlay
+    Overlay,
+    ButtonX,
+    Chevron
   },
 
   props: {
@@ -76,6 +90,11 @@ export default {
       type: String,
       required: false,
       default: 'lego-backsplash.jpg'
+    },
+    heroButton: {
+      type: [Object, Boolean],
+      required: false,
+      default: false
     }
   },
 
@@ -126,6 +145,10 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
+  .button {
+    margin-top: 2rem;
+  }
 }
 
 .label {

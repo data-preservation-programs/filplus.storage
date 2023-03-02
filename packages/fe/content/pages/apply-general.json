@@ -14,6 +14,13 @@
       "label": "General Application",
       "heading": "Fill out an application to send to your selected Notary."
     },
+    "back_button": {
+      "type": "nuxt-link",
+      "href": "/apply/general/notaries",
+      "label": "Select a different notary",
+      "theme": "pink",
+      "icon": "chevron"
+    },
     "form": {
       "heading": "General DataCap Notary Review Request",
       "restore_saved_form_button_text": "Restore Saved Form",

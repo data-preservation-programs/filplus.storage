@@ -1,5 +1,5 @@
 <template>
-  <div id="hero">
+  <div id="hero" class="hero-b">
 
     <!-- =========================================================== Content -->
     <div class="content">
@@ -13,6 +13,16 @@
             <h1 class="heading h3" v-html="heading" />
 
             <div v-if="subtext" class="subtext" v-html="subtext" />
+
+            <ButtonX
+              v-if="heroButton"
+              :to="heroButton.href"
+              :theme="heroButton.theme"
+              :tag="heroButton.type">
+              <Chevron
+                v-if="heroButton.icon === 'chevron'" />
+              {{ heroButton.label }}
+            </ButtonX>
 
           </div>
         </div>
@@ -30,9 +40,18 @@
 </template>
 
 <script>
+// ===================================================================== Imports
+import ButtonX from '@/components/buttons/button-x'
+import Chevron from '@/components/icons/chevron'
+
 // ====================================================================== Export
 export default {
   name: 'HeroB',
+
+  components: {
+    ButtonX,
+    Chevron
+  },
 
   props: {
     contentCols: {
@@ -51,6 +70,11 @@ export default {
     },
     subtext: {
       type: [String, Boolean],
+      required: false,
+      default: false
+    },
+    heroButton: {
+      type: [Object, Boolean],
       required: false,
       default: false
     }
@@ -78,6 +102,7 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: flex-start;
   padding-top: 9.375rem;
   padding-bottom: 14rem;
 }
@@ -108,6 +133,7 @@ export default {
 .subtext {
   @include headingHighlight;
   font-weight: 600;
+  margin-bottom: 2rem;
   @include mini {
     font-size: toRem(30);
   }
@@ -115,15 +141,6 @@ export default {
     font-size: toRem(24);
   }
 }
-
-// //////////////////////////////////////////////////////////// Image + Overlays
-// .overlay.type__noise {
-//   z-index: 15;
-// }
-//
-// .overlay.type__opaque {
-//   z-index: 10;
-// }
 
 // ////////////////////////////////////////////////////////////////// Warp Image
 .panel-right {

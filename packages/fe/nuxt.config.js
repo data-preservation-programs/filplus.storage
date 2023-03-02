@@ -122,6 +122,7 @@ export default {
   // ////////////////////////////////////////////////////////////// [Module] GTM
   // ------------------------- Doc: https://github.com/nuxt-community/gtm-module
   gtm: {
+    enabled: env === 'production', // disable in all but production
     // Currently hardcoded, can be added as an environment variable instead
     id: 'GTM-N7WMPKK',
     pageTracking: true
