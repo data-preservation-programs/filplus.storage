@@ -164,7 +164,7 @@ export default {
       return this.siteContent[this.tag].page_content
     },
     pageHeading () {
-      return this.pageData.heading.replace('|data|', this.datacapRequested)
+      return this.pageData.heading.replace('|data|', this.datacapRequested[1])
     },
     applicationBody () {
       return this.githubIssue.body
@@ -174,7 +174,9 @@ export default {
       const largeDatacapRegEx = /(?:### Total amount of DataCap being requested\n)(\d+\.?\d{0,2} \w{3})/
       const generalDatacap = this.applicationBody.match(generalDatacapRegEx)
       const largeDatacap = this.applicationBody.match(largeDatacapRegEx)
-      return generalDatacap[1] || largeDatacap[1]
+      // eslint-disable-next-line no-console
+      console.log('datacapRequested', generalDatacap, largeDatacap)
+      return generalDatacap || largeDatacap
     },
     subheading () {
       return this.pageData.subheading
