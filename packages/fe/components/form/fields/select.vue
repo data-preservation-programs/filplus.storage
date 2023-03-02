@@ -150,11 +150,6 @@ $height: 4rem;
 }
 
 ::v-deep .select-container {
-  &:not(.focused) {
-    .select.native {
-      color: transparent;
-    }
-  }
   &.dropdown-open {
     .select {
       border-bottom-color: transparent;

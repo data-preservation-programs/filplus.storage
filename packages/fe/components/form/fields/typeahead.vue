@@ -29,6 +29,7 @@
         :value="value"
         :autocomplete="autocomplete"
         :class="['input', state]"
+        @keydown="$emit('handleKeydown', $event)"
         @focus="focusAndClickHandler"
         @click="focusAndClickHandler"
         @blur="focused = false"
@@ -282,6 +283,7 @@ $height: 2.5rem;
 
 .input-container,
 .input {
+  width: 100%;
   height: 100%;
 }
 
