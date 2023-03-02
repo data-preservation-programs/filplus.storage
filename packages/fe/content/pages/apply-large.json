@@ -340,9 +340,16 @@
         "ecosystem_associates_textarea": {
           "type": "textarea",
           "modelKey": "ecosystem_associates_textarea",
-          "placeholder": "If answered yes, please provide the other projects or ecosystem stakeholders",
+          "placeholder": "Please provide the other projects or ecosystem stakeholders",
           "pre": "[^\\u0000-\\u00ff]",
           "autocomplete": "none",
+          "required": true,
+          "conditions": [
+            {
+              "fieldKey": "ecosystem_associates_radio",
+              "value": 0
+            }
+          ],
           "tooltip": "",
           "chars": {
             "min": 2,
@@ -395,10 +402,17 @@
         "source_of_data_textarea": {
           "type": "textarea",
           "modelKey": "source_of_data_textarea",
-          "placeholder": "If you answered \"Other\" in the previous question, enter the details here",
+          "placeholder": "Enter the details here",
           "tooltip": "",
           "pre": "[^\\u0000-\\u00ff]",
           "autocomplete": "none",
+          "required": true,
+          "conditions": [
+            {
+              "fieldKey": "source_of_data_select",
+              "value": 4
+            }
+          ],
           "chars": {
             "min": 2,
             "max": 1000
@@ -429,10 +443,17 @@
         "data_preparation_plan_textarea": {
           "type": "textarea",
           "modelKey": "data_preparation_plan_textarea",
-          "placeholder": "If you answered \"other/custom tool\" in the previous question, enter the details here",
+          "placeholder": "Enter the details here",
           "tooltip": "",
           "pre": "[^\\u0000-\\u00ff]",
           "autocomplete": "none",
+          "required": true,
+          "conditions": [
+            {
+              "fieldKey": "data_preparation_plan_select",
+              "value": 2
+            }
+          ],
           "chars": {
             "min": 2,
             "max": 1000
@@ -481,10 +502,17 @@
         "public_availability_textarea": {
           "type": "textarea",
           "modelKey": "public_availability_textarea",
-          "placeholder": "If you selected \"No\", please explain the reason.",
+          "placeholder": "Please explain the reason",
           "pre": "[^\\u0000-\\u00ff]",
           "tooltip": "",
           "autocomplete": "none",
+          "required": true,
+          "conditions": [
+            {
+              "fieldKey": "public_availability_radio",
+              "value": 1
+            }
+          ],
           "chars": {
             "min": 2,
             "max": 1000
@@ -601,10 +629,17 @@
           "type": "input",
           "inputType": "text",
           "modelKey": "storage_provider_selection_plan_input",
-          "description": "If you answered \"Other\" in the previous question, what is the tool or platform you plan to use?",
+          "description": "What is the tool or platform you plan to use?",
           "placeholder": "Provide a name for the tool you plan to use",
           "pre": "[^\\u0000-\\u00ff]",
           "autocomplete": "none",
+          "required": true,
+          "conditions": [
+            {
+              "fieldKey": "storage_provider_selection_plan_select",
+              "value": 5
+            }
+          ],
           "chars": {
             "min": 2,
             "max": 1000
@@ -655,10 +690,17 @@
         "replication_plan_textarea": {
           "type": "textarea",
           "modelKey": "replication_plan_textarea",
-          "placeholder": "If you answered \"Others/custom tool\" in the previous question, enter the details here",
+          "placeholder": "Enter the details here",
           "tooltip": "",
           "pre": "[^\\u0000-\\u00ff]",
           "autocomplete": "none",
+          "required": true,
+          "conditions": [
+            {
+              "fieldKey": "replication_plan_select",
+              "value": 5
+            }
+          ],
           "chars": {
             "min": 2,
             "max": 1000

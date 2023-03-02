@@ -3,11 +3,11 @@
 
     <Select
       :options="options"
-      :aria-labelledby="modelKey"
+      :aria-labelledby="modelKey || fieldKey"
       :selected-option="value"
-      handle-state="internally"
       @dropdownToggled="dropdownToggled"
-      @optionSelected="optionSelected">
+      @optionSelected="optionSelected"
+      v-on="$listeners">
 
       <template #option-native-text="{ option }">
         {{ getOptionDescription(option) ? `${option.label}, ${getOptionDescription(option)}` : option.label }}
@@ -75,6 +75,9 @@ export default {
     },
     modelKey () {
       return this.scaffold.modelKey
+    },
+    fieldKey () {
+      return this.field.fieldKey
     },
     label () {
       return this.scaffold.label
@@ -147,11 +150,6 @@ $height: 4rem;
 }
 
 ::v-deep .select-container {
-  &:not(.focused) {
-    .select.native {
-      color: transparent;
-    }
-  }
   &.dropdown-open {
     .select {
       border-bottom-color: transparent;
