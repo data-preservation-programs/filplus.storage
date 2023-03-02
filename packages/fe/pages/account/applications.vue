@@ -21,7 +21,7 @@
         <div class="col-12">
 
           <ApplicationsAccordion
-            :entries="allSubmittedApplications"
+            :entries="applicationList"
             :toggle-button-content="accordionToggleButtonText" />
 
         </div>
@@ -65,7 +65,8 @@ export default {
 
   async fetch ({ app, store }) {
     await store.dispatch('general/getBaseData', { key: 'applications', data: ApplicationsPageData })
-    await store.dispatch('general/getAllSubmittedApplications')
+    await store.dispatch('general/getGeneralApplicationList')
+    await store.dispatch('general/getLargeApplicationList')
   },
 
   head () {
@@ -75,7 +76,8 @@ export default {
   computed: {
     ...mapGetters({
       siteContent: 'general/siteContent',
-      allSubmittedApplications: 'general/allSubmittedApplications'
+      generalApplicationList: 'general/generalApplicationList',
+      largeApplicationList: 'general/largeApplicationList'
     }),
     pageData () {
       return this.siteContent[this.tag].page_content
@@ -88,6 +90,9 @@ export default {
     },
     ctaCard () {
       return this.pageData.cta_card
+    },
+    applicationList () {
+      return [...this.generalApplicationList, ...this.largeApplicationList]
     }
   }
 }
