@@ -680,34 +680,36 @@ span.error {
   }
 }
 
+// ///////////////////////////////////////////////////////// User Input Markdown
 .markdown-user-input {
   h1, h2, h3, p, ul, ol, pre {
     + h2, + h3 {
-      margin-top: toRem(32);
+      margin-top: unset;
     }
   }
   h1, h2, h3, h4, h5, h6 {
-    margin-bottom: toRem(14);
+    margin-bottom: toRem(5);
     + ul, + ol {
       margin-top: toRem(12);
     }
   }
   h1,
   h2 {
-    font-size: toRem(20);
-    line-height: leading(30, 20);
+    font-size: toRem(16);
+    line-height: leading(25, 16);
+    font-weight: 500;
   }
   h3 {
-    font-size: toRem(20);
-    line-height: leading(30, 20);
+    font-size: toRem(16);
+    line-height: leading(25, 16);
     font-weight: 500;
   }
   p {
-    font-size: toRem(18);
-    line-height: leading(30, 18);
+    font-size: toRem(16);
+    line-height: leading(25, 16);
     font-weight: 400;
     &:not(:last-child) {
-      margin-bottom: 2rem;
+      margin-bottom: toRem(30);
     }
   }
   a {
