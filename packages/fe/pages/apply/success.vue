@@ -174,8 +174,6 @@ export default {
       const largeDatacapRegEx = /(?:### Total amount of DataCap being requested\n)(\d+\.?\d{0,2} \w{3})/
       const generalDatacap = this.applicationBody.match(generalDatacapRegEx)
       const largeDatacap = this.applicationBody.match(largeDatacapRegEx)
-      // eslint-disable-next-line no-console
-      console.log('datacapRequested', generalDatacap, largeDatacap)
       return generalDatacap || largeDatacap
     },
     subheading () {
@@ -368,7 +366,7 @@ $padding: 2.25rem;
   width: 1rem;
   transition: 150ms ease-in;
   margin-right: 1.5rem;
-  margin-left: .5rem;
+  margin-left: 0.125rem;
 }
 
 .accordion-content {
