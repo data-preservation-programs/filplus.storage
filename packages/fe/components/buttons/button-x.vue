@@ -110,4 +110,15 @@ display: inline-block;
     }
   }
 }
+
+.theme__green {
+  color: $greenYellow;
+  .button-content {
+    @include p2;
+  }
+  &:hover {
+    color: $greenYellow;
+    text-decoration: underline;
+  }
+}
 </style>

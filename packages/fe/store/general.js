@@ -9,6 +9,8 @@ import GeneralSiteData from '@/content/pages/general.json'
 const state = () => ({
   siteContent: {},
   staticFiles: {},
+  generalApplicationList: {},
+  largeApplicationList: {},
   clipboard: false,
   application: {
     organization_name: null,
@@ -50,7 +52,7 @@ const state = () => ({
   },
   networkStorageCapacity: false,
   applyFormHighlighted: false,
-  githubIssueLink: false
+  githubIssue: false
 })
 
 // ///////////////////////////////////////////////////////////////////// Getters
@@ -62,7 +64,9 @@ const getters = {
   application: state => state.application,
   networkStorageCapacity: state => state.networkStorageCapacity,
   applyFormHighlighted: state => state.applyFormHighlighted,
-  githubIssueLink: state => state.githubIssueLink
+  githubIssue: state => state.githubIssue,
+  generalApplicationList: state => state.generalApplicationList,
+  largeApplicationList: state => state.largeApplicationList
 }
 
 // ///////////////////////////////////////////////////////////////////// Actions
@@ -142,15 +146,16 @@ const actions = {
   // ////////////////////////////////////////////////// submitGeneralApplication
   async submitGeneralApplication ({ commit, dispatch }, application) {
     try {
+      this.$gtm.push({ event: 'submission_ga' })
       const response = await this.$axiosAuth.post('/submit-general-application', application)
-      dispatch('setGithubIssueLink', response.data.payload)
+      await dispatch('setGithubIssue', response.data.payload)
       this.dispatch('button/removeLoader', 'ga-submit-button')
       this.$toaster.add({
         type: 'toast',
         category: 'success',
         message: 'General Application submitted successfully'
       })
-      this.$gtm.push({ event: 'submission_ga' })
+      this.$gtm.push({ event: 'success_ga' })
     } catch (e) {
       console.log('========== [Store Action: general/submitGeneralApplication]')
       console.log(e)
@@ -166,15 +171,16 @@ const actions = {
   // //////////////////////////////////////////////////// submitLargeApplication
   async submitLargeApplication ({ commit, dispatch }, application) {
     try {
+      this.$gtm.push({ event: 'submission_lda' })
       const response = await this.$axiosAuth.post('/submit-large-application', application)
-      dispatch('setGithubIssueLink', response.data.payload)
+      await dispatch('setGithubIssue', response.data.payload)
       this.dispatch('button/removeLoader', 'lda-submit-button')
       this.$toaster.add({
         type: 'toast',
         category: 'success',
         message: 'Large Dataset Application submitted successfully'
       })
-      this.$gtm.push({ event: 'submission_lda' })
+      this.$gtm.push({ event: 'success_lda' })
     } catch (e) {
       console.log('============ [Store Action: general/submitLargeApplication]')
       console.log(e)
@@ -191,9 +197,45 @@ const actions = {
   setApplyFormHighlightedStatus ({ commit }, status) {
     commit('SET_APPLY_FORM_HIGHLIGHTED_STATUS', status)
   },
-  // //////////////////////////////////////////////////////// setGithubIssueLink
-  setGithubIssueLink ({ commit }, link) {
-    commit('SET_GITHUB_ISSUE_LINK', link)
+  // //////////////////////////////////////////////////////////// setGithubIssue
+  setGithubIssue ({ commit }, issue) {
+    commit('SET_GITHUB_ISSUE', issue)
+  },
+  // ///////////////////////////////////////////////// setGeneralApplicationList
+  setGeneralApplicationList ({ commit }, applications) {
+    commit('SET_GENERAL_APPLICATION_LIST', applications)
+  },
+  // ///////////////////////////////////////////////// getGeneralApplicationList
+  async getGeneralApplicationList ({ commit, dispatch }) {
+    try {
+      const response = await this.$axiosAuth.get('/get-general-application-list')
+      const applications = response.data.payload
+      dispatch('setGeneralApplicationList', applications)
+      return applications
+    } catch (e) {
+      console.log('=== [Store Action: general/getGeneralApplicationList]')
+      console.log(e)
+      dispatch('setGeneralApplicationList', { application: false })
+      return false
+    }
+  },
+  // /////////////////////////////////////////////////// setLargeApplicationList
+  setLargeApplicationList ({ commit }, applications) {
+    commit('SET_LARGE_APPLICATION_LIST', applications)
+  },
+  // /////////////////////////////////////////////////// getLargeApplicationList
+  async getLargeApplicationList ({ commit, dispatch }) {
+    try {
+      const response = await this.$axiosAuth.get('/get-large-application-list')
+      const applications = response.data.payload
+      dispatch('setLargeApplicationList', applications)
+      return applications
+    } catch (e) {
+      console.log('=== [Store Action: general/getLargeApplicationList]')
+      console.log(e)
+      dispatch('setLargeApplicationList', { application: false })
+      return false
+    }
   }
 }
 
@@ -218,8 +260,14 @@ const mutations = {
   SET_APPLY_FORM_HIGHLIGHTED_STATUS (state, status) {
     state.applyFormHighlighted = status
   },
-  SET_GITHUB_ISSUE_LINK (state, link) {
-    state.githubIssueLink = link
+  SET_GITHUB_ISSUE (state, issue) {
+    state.githubIssue = issue
+  },
+  SET_GENERAL_APPLICATION_LIST (state, applications) {
+    state.generalApplicationList = applications
+  },
+  SET_LARGE_APPLICATION_LIST (state, applications) {
+    state.largeApplicationList = applications
   }
 }
 

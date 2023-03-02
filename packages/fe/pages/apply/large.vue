@@ -337,7 +337,6 @@ export default {
       siteContent: 'general/siteContent',
       networkStorageCapacity: 'general/networkStorageCapacity',
       savedFormExists: 'form/savedFormExists',
-      githubIssueLink: 'general/githubIssueLink',
       account: 'account/account'
     }),
     generalPageData () {
@@ -387,17 +386,12 @@ export default {
     }
   },
 
-  beforeDestroy () {
-    this.setGithubIssueLink(false)
-  },
-
   methods: {
     ...mapActions({
       validateForm: 'form/validateForm',
       submitLargeApplication: 'general/submitLargeApplication',
       restoreSavedForm: 'form/restoreSavedForm',
-      removeLoader: 'button/removeLoader',
-      setGithubIssueLink: 'general/setGithubIssueLink'
+      removeLoader: 'button/removeLoader'
     }),
     async submitForm () {
       const bottom = this.submitThresholdBottom
@@ -427,7 +421,8 @@ export default {
             this.removeLoader('lda-submit-button')
             this.$scrollToElement(firstInvalidField, 250, -200)
           } else {
-            this.submitLargeApplication(incoming)
+            await this.submitLargeApplication(incoming)
+            this.$router.push('/apply/success')
           }
         }
       }

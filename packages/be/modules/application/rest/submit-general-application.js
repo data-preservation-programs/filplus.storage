@@ -9,8 +9,8 @@ const MC = require('@Root/config')
 
 // /////////////////////////////////////////////////////////////////// Functions
 // -----------------------------------------------------------------------------
-// /////////////////////////////////////////////////////////// submitApplication
-const submitApplication = async (template, body, token) => {
+// //////////////////////////////////////////////////// submitGeneralApplication
+const submitGeneralApplication = async (template, body, token) => {
   try {
     const repo = MC.serverFlag === 'production' ? 'filecoin-project/filecoin-plus-client-onboarding' : 'data-preservation-programs/filecoin-plus-client-onboarding'
     const options = { headers: { Accept: 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28', Authorization: `Bearer ${token}` } }
@@ -19,9 +19,9 @@ const submitApplication = async (template, body, token) => {
       body: template,
       labels: ['state:Request']
     }, options)
-    return response.data.html_url
+    return response.data
   } catch (e) {
-    console.log('=============================== [Function: submitApplication]')
+    console.log('======================== [Function: submitGeneralApplication]')
     throw e
   }
 }
@@ -48,8 +48,8 @@ MC.app.post('/submit-general-application', async (req, res) => {
       console.log(body)
       console.log(template)
     }
-    const githubIssueLink = await submitApplication(template, body, user.githubToken)
-    SendData(res, 200, 'General application submitted succesfully', githubIssueLink)
+    const githubIssue = await submitGeneralApplication(template, body, user.githubToken)
+    SendData(res, 200, 'General application submitted succesfully', githubIssue)
   } catch (e) {
     console.log('===================== [Endpoint: /submit-general-application]')
     console.log(e.response)

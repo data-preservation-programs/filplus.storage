@@ -171,7 +171,6 @@ export default {
     ...mapGetters({
       siteContent: 'general/siteContent',
       savedFormExists: 'form/savedFormExists',
-      githubIssueLink: 'general/githubIssueLink',
       account: 'account/account'
     }),
     generalPageData () {
@@ -215,17 +214,12 @@ export default {
     }
   },
 
-  beforeDestroy () {
-    this.setGithubIssueLink(false)
-  },
-
   methods: {
     ...mapActions({
       validateForm: 'form/validateForm',
       submitGeneralApplication: 'general/submitGeneralApplication',
       restoreSavedForm: 'form/restoreSavedForm',
-      removeLoader: 'button/removeLoader',
-      setGithubIssueLink: 'general/setGithubIssueLink'
+      removeLoader: 'button/removeLoader'
     }),
     async submitForm () {
       const bottom = this.submitThresholdBottom
@@ -254,7 +248,8 @@ export default {
             this.removeLoader('ga-submit-button')
             this.$scrollToElement(firstInvalidField, 250, -200)
           } else {
-            this.submitGeneralApplication(incoming)
+            await this.submitGeneralApplication(incoming)
+            this.$router.push('/apply/success')
           }
         }
       }
