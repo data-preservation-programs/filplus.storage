@@ -206,9 +206,14 @@ const actions = {
     commit('SET_GENERAL_APPLICATION_LIST', applications)
   },
   // ///////////////////////////////////////////////// getGeneralApplicationList
-  async getGeneralApplicationList ({ commit, dispatch }) {
+  async getGeneralApplicationList ({ commit, dispatch }, perpage) {
     try {
-      const response = await this.$axiosAuth.get('/get-general-application-list')
+      // eslint-disable-next-line no-console
+      console.log('getGeneralApplicationList ', perpage)
+      // for some reason ^perpage isn't defined??
+      const response = await this.$axiosAuth.get('/get-general-application-list', {
+        params: { applicationsPerPage: 10 }
+      })
       const applications = response.data.payload
       dispatch('setGeneralApplicationList', applications)
       return applications
@@ -224,9 +229,13 @@ const actions = {
     commit('SET_LARGE_APPLICATION_LIST', applications)
   },
   // /////////////////////////////////////////////////// getLargeApplicationList
-  async getLargeApplicationList ({ commit, dispatch }) {
+  async getLargeApplicationList ({ commit, dispatch }, applicationsPerPage) {
     try {
-      const response = await this.$axiosAuth.get('/get-large-application-list')
+      // eslint-disable-next-line no-console
+      console.log('getLargeApplicationList ', applicationsPerPage)
+      const response = await this.$axiosAuth.get('/get-large-application-list', {
+        params: { applicationsPerPage }
+      })
       const applications = response.data.payload
       dispatch('setLargeApplicationList', applications)
       return applications

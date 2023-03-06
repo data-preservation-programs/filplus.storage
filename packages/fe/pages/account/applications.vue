@@ -59,14 +59,19 @@ export default {
 
   data () {
     return {
-      tag: 'applications'
+      tag: 'applications',
+      entireAccordionExpanded: false,
+      applicationsPerPage: 10,
+      sortSelectValue: 0,
+      currentPage: 1,
+      loading: false
     }
   },
 
   async fetch ({ app, store }) {
     await store.dispatch('general/getBaseData', { key: 'applications', data: ApplicationsPageData })
-    await store.dispatch('general/getGeneralApplicationList')
-    await store.dispatch('general/getLargeApplicationList')
+    await store.dispatch('general/getGeneralApplicationList', this.applicationsPerPage)
+    await store.dispatch('general/getLargeApplicationList', this.applicationsPerPage)
   },
 
   head () {
@@ -77,7 +82,8 @@ export default {
     ...mapGetters({
       siteContent: 'general/siteContent',
       generalApplicationList: 'general/generalApplicationList',
-      largeApplicationList: 'general/largeApplicationList'
+      largeApplicationList: 'general/largeApplicationList',
+      account: 'account/account'
     }),
     pageData () {
       return this.siteContent[this.tag].page_content
@@ -93,7 +99,36 @@ export default {
     },
     applicationList () {
       return [...this.generalApplicationList, ...this.largeApplicationList]
+    },
+    sortedApplications () {
+    // eslint-disable-next-line no-console
+    // console.log('sortedApplications ', Array.isArray(this.allSubmittedApplications))
+      const applications = Array.isArray(this.applicationList) ? [...this.applicationList] : null
+      // eslint-disable-next-line no-console
+      // console.log('sortedApplications applications ', applications)
+      if (Array.isArray(applications)) {
+        switch (this.sortSelectValue) {
+          case 1: // newest first
+            return applications.sort((a, b) => {
+              return a.created_at > b.created_at ? -1 : 1
+            })
+          default: // open first
+            return applications.sort((a, b) => {
+              if (a.state === b.state) {
+                return a.created_at > b.created_at ? -1 : 1
+              } else {
+                return a.state > b.state ? -1 : 1
+              }
+            })
+        }
+      }
+      return applications
     }
+  },
+
+  mounted () {
+    // eslint-disable-next-line no-console
+    console.log('applications.vue mounted ', this.applicationsPerPage)
   }
 }
 </script>

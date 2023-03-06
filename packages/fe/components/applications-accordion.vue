@@ -13,7 +13,11 @@
       </ButtonX>
     </div>
 
-    <div class="accordion-wrapper">
+    <div v-if="loading">
+      LOADING
+    </div>
+
+    <div v-else class="accordion-wrapper">
 
       <Squigglie
         :percent-left="16"
@@ -27,7 +31,7 @@
         :multiple="true"
         @toggleStateChanged="accordionToggleStateChanged">
         <AccordionSection
-          v-for="(entry, index) in sortedApplications"
+          v-for="(entry, index) in entries"
           :key="index"
           :class="`application-${entry.state}`"
           :active="active">
@@ -101,7 +105,10 @@ export default {
   data () {
     return {
       entireAccordionExpanded: false,
-      sortSelectValue: 0
+      sortSelectValue: 0,
+      currentPage: 1,
+      applicationsPerPage: 10,
+      loading: false
     }
   },
 
@@ -110,23 +117,6 @@ export default {
       const buttonText = this.toggleButtonContent
       if (this.entireAccordionExpanded) { return buttonText.collapse }
       return buttonText.expand
-    },
-    sortedApplications () {
-      const applications = [...this.entries]
-      switch (this.sortSelectValue) {
-        case 1: // newest first
-          return applications.sort((a, b) => {
-            return a.created_at > b.created_at ? -1 : 1
-          })
-        default: // open first
-          return applications.sort((a, b) => {
-            if (a.state === b.state) {
-              return a.created_at > b.created_at ? -1 : 1
-            } else {
-              return a.state > b.state ? -1 : 1
-            }
-          })
-      }
     },
     sortSelectField () {
       return {
