@@ -16,116 +16,117 @@
         </tr>
       </thead>
       <!-- ============================================================ Body -->
-      <Field
+      <FieldStandalone
+        v-slot="{ updateValue }"
         :scaffold="formScaffold.notary"
         :validate-across-routes="true"
         field-key="notary"
-        form-id="filplus_application">
-        <tbody slot-scope="{ updateValue }" class="table-body">
-          <tr
-            v-for="notary in filteredNotaries"
-            :key="notary.sp_id"
-            class="row row-body">
+        form-id="filplus_application"
+        root-html-tag="tbody"
+        class="table-body">
+        <tr
+          v-for="notary in filteredNotaries"
+          :key="notary.sp_id"
+          class="row row-body">
 
-            <td
-              v-for="cell in columns"
-              :key="cell.slug"
-              :class="['cell cell-body', cell.slug]">
-              <div :class="['cell-inner-wrapper', `cell-${cell.slug}`]">
+          <td
+            v-for="cell in columns"
+            :key="cell.slug"
+            :class="['cell cell-body', cell.slug]">
+            <div :class="['cell-inner-wrapper', `cell-${cell.slug}`]">
 
-                <div
-                  v-if="cell.label !== ''"
-                  class="column-label"
-                  v-html="cell.label" />
+              <div
+                v-if="cell.label !== ''"
+                class="column-label"
+                v-html="cell.label" />
 
-                <template v-if="cell.slug === 'name'">
-                  <div class="notary">
-                    <div v-if="notary.name !== ''" class="name">
-                      {{ notary.name }}
-                    </div>
-                    <div v-else-if="notary.organization !== ''" class="organization">
-                      {{ notary.organization }}
-                    </div>
-                    <div class="github-handles">
-                      <ButtonX
-                        v-for="(handle, index) in notary.github_user"
-                        :key="handle"
-                        :to="`https://github.com/${handle}`"
-                        :data-tooltip="`https://github.com/${handle}`"
-                        tag="a"
-                        target="_blank"
-                        class="github-handle">
-                        {{ handle }}<template v-if="index !== notary.github_user.length - 1">,</template>
-                      </ButtonX>
-                    </div>
+              <template v-if="cell.slug === 'name'">
+                <div class="notary">
+                  <div v-if="notary.name !== ''" class="name">
+                    {{ notary.name }}
                   </div>
-                </template>
-
-                <template v-if="cell.slug === 'location'">
-                  <div class="location">
-                    {{ notary.location }}
+                  <div v-else-if="notary.organization !== ''" class="organization">
+                    {{ notary.organization }}
                   </div>
-                </template>
-
-                <template v-if="cell.slug === 'contact_information'">
-                  <div class="contact-info">
+                  <div class="github-handles">
                     <ButtonX
-                      v-if="notary.fil_slack_id !== ''"
-                      :data-tooltip="`@${notary.fil_slack_id.replace('@','')}`"
-                      class="contact-link">
-                      <SlackIcon class="icon icon-slack" />
-                    </ButtonX>
-                    <ButtonX
-                      v-if="notary.website !== ''"
-                      :to="notary.website"
-                      :data-tooltip="notary.website"
+                      v-for="(handle, index) in notary.github_user"
+                      :key="handle"
+                      :to="`https://github.com/${handle}`"
+                      :data-tooltip="`https://github.com/${handle}`"
                       tag="a"
                       target="_blank"
-                      class="contact-link">
-                      <WebsiteIcon class="icon icon-website" />
+                      class="github-handle">
+                      {{ handle }}<template v-if="index !== notary.github_user.length - 1">,</template>
                     </ButtonX>
-                    <template v-if="notary.email.length > 0">
-                      <ButtonX
-                        v-for="email in notary.email"
-                        :key="email"
-                        :to="`mailto:${email}`"
-                        :data-tooltip="`mailto:${email}`"
-                        tag="a"
-                        class="contact-link">
-                        <EmailIcon class="icon icon-email" />
-                      </ButtonX>
-                    </template>
                   </div>
-                </template>
+                </div>
+              </template>
 
-                <template v-if="cell.slug === 'use_case'">
-                  <div v-if="notary.use_case && notary.use_case !== ''" class="use-case">
-                    {{ notary.use_case }}
-                    <!-- <div
-                      v-for="(useCase, index) in notary.use_case.split(',')"
-                      :key="`${notary.id}-use_case-${index}`"
-                      class="use-case">
-                      {{ useCase }}
-                    </div> -->
-                  </div>
-                </template>
+              <template v-if="cell.slug === 'location'">
+                <div class="location">
+                  {{ notary.location }}
+                </div>
+              </template>
 
-                <template v-if="cell.slug === 'request_button'">
-                  <ButtonA
-                    theme="blue"
-                    format="mini"
-                    class="select-button"
-                    @clicked="selectNotary(notary, updateValue)">
-                    {{ form.select_button_text }}
-                  </ButtonA>
-                </template>
+              <template v-if="cell.slug === 'contact_information'">
+                <div class="contact-info">
+                  <ButtonX
+                    v-if="notary.fil_slack_id !== ''"
+                    :data-tooltip="`@${notary.fil_slack_id.replace('@','')}`"
+                    class="contact-link">
+                    <SlackIcon class="icon icon-slack" />
+                  </ButtonX>
+                  <ButtonX
+                    v-if="notary.website !== ''"
+                    :to="notary.website"
+                    :data-tooltip="notary.website"
+                    tag="a"
+                    target="_blank"
+                    class="contact-link">
+                    <WebsiteIcon class="icon icon-website" />
+                  </ButtonX>
+                  <template v-if="notary.email.length > 0">
+                    <ButtonX
+                      v-for="email in notary.email"
+                      :key="email"
+                      :to="`mailto:${email}`"
+                      :data-tooltip="`mailto:${email}`"
+                      tag="a"
+                      class="contact-link">
+                      <EmailIcon class="icon icon-email" />
+                    </ButtonX>
+                  </template>
+                </div>
+              </template>
 
-              </div>
-            </td>
+              <template v-if="cell.slug === 'use_case'">
+                <div v-if="notary.use_case && notary.use_case !== ''" class="use-case">
+                  {{ notary.use_case }}
+                  <!-- <div
+                    v-for="(useCase, index) in notary.use_case.split(',')"
+                    :key="`${notary.id}-use_case-${index}`"
+                    class="use-case">
+                    {{ useCase }}
+                  </div> -->
+                </div>
+              </template>
 
-          </tr>
-        </tbody>
-      </Field>
+              <template v-if="cell.slug === 'request_button'">
+                <ButtonA
+                  theme="blue"
+                  format="mini"
+                  class="select-button"
+                  @clicked="selectNotary(notary, updateValue)">
+                  {{ form.select_button_text }}
+                </ButtonA>
+              </template>
+
+            </div>
+          </td>
+
+        </tr>
+      </FieldStandalone>
     </table>
 
     <div v-if="!filteredNotaries" class="no-results-placeholder">
@@ -139,7 +140,7 @@
 // ===================================================================== Imports
 import { mapGetters } from 'vuex'
 
-import Field from '@/modules/form/components/field'
+import FieldStandalone from '@/modules/form/components/field-standalone'
 import ButtonA from '@/components/buttons/button-a'
 import ButtonX from '@/components/buttons/button-x'
 
@@ -152,7 +153,7 @@ export default {
   name: 'NotariesTable',
 
   components: {
-    Field,
+    FieldStandalone,
     ButtonA,
     ButtonX,
     SlackIcon,

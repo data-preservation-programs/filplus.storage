@@ -35,11 +35,13 @@ MC.app.post('/submit-large-application', async (req, res) => {
     const user = await MC.model.User.findById(identifier.userId)
     let template = await GetFileFromDisk(`${MC.staticRoot}/large-application-template.md`)
     template = template.toString()
+    console.log(body)
     Object.keys(body).forEach((key) => {
+      const value = body[key] || ''
       if (key === 'organization_website') {
-        template = template.replaceAll(key, body[key])
+        template = template.replaceAll(key, value)
       } else {
-        template = template.replace(key, body[key])
+        template = template.replace(key, value)
       }
     })
     if (MC.serverFlag !== 'production') {
