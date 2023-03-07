@@ -8,6 +8,13 @@
           <div class="panel-left">
 
             <h1 class="heading h3" v-html="pageHeading" />
+            <ButtonA
+              to="/apply"
+              tag="nuxt-link"
+              class="new-application-button"
+              theme="green">
+              {{ newApplicationButtonText }}
+            </ButtonA>
 
             <AppAccordion
               :entries="applicationList"
@@ -38,6 +45,7 @@
 import { mapGetters } from 'vuex'
 
 import AppAccordion from '@/components/app-accordion'
+import ButtonA from '@/components/buttons/button-a'
 import Overlay from '@/components/overlay'
 
 import ApplicationsPageData from '@/content/pages/account-applications.json'
@@ -48,6 +56,7 @@ export default {
 
   components: {
     AppAccordion,
+    ButtonA,
     Overlay
   },
 
@@ -84,6 +93,9 @@ export default {
     },
     pageHeading () {
       return this.pageData.heading.replace('|username|', 'tikagan')
+    },
+    newApplicationButtonText () {
+      return this.pageData.new_application_button_text
     },
     applicationList () {
       return [...this.generalApplicationList, ...this.largeApplicationList]

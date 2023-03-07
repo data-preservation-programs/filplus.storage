@@ -12,6 +12,7 @@
   "page_content": {
     "heading": "Hi <span>|username|</span>, find your DataCap application history below",
     "application_subtitle": "<span class=highlight>Issue #<span>|issue_number|</span></span> opened <span>|time_ago|</span> by <span>|user|</span>",
+    "new_application_button_text": "New Application",
     "github_issue_button_text": "View Issue on Github",
     "expand_application_text": "Read issue description or&nbsp;",
     "view_on_github_text": "view issue on Github"
