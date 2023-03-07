@@ -31,7 +31,7 @@
               <IconChevron />
               <span v-html="expandApplicationText" />
               <ButtonX
-                :to="githubIssueLink"
+                :to="entry.html_url"
                 tag="a"
                 target="_blank"
                 theme="green">
@@ -164,15 +164,16 @@ export default {
 
 .accordion-section {
   border: 3px solid $nandor;
-  border-bottom: 3px solid transparent;
+  border-bottom: none;
   border-radius: toRem(10) toRem(10) toRem(7) toRem(7);
-  padding: 0 1.25rem 3px 3.875rem;
+  padding: 0 1.25rem 0 3.875rem;
   margin-bottom: toRem(18);
-  width: 100%;
+  overflow: clip;
+  overflow-clip-margin: 3px;
   &.open {
     .icon-chevron {
       transition: 150ms ease-out;
-      transform: rotate(-180deg);
+      transform: rotate(180deg);
     }
   }
 }
@@ -222,7 +223,7 @@ export default {
 
 .application-body {
   @include p2;
-  padding-bottom: 3.375rem;
+  padding-bottom: 2.375rem;
   :deep(p) {
     font-size: inherit;
     line-height: inherit;
