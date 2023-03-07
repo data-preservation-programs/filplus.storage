@@ -10,7 +10,7 @@
     "image": "/open-graph-image.png"
   },
   "page_content": {
-    "heading": "Application<br /><span class='bubble right'>History</span>",
+    "heading": "Hi <span>|username|</span>, find your DataCap application history below",
     "application_subtitle": "<span class=highlight>Issue #<span>|issue_number|</span></span> opened <span>|time_ago|</span> by <span>|user|</span>",
     "github_issue_button_text": "View Issue on Github",
     "expand_application_text": "Read issue description or&nbsp;",

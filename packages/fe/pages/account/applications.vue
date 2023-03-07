@@ -1,34 +1,30 @@
 <template>
   <div :class="`page page-${tag} container`">
 
-    <!-- ============================================================== Hero -->
-    <HeroA
-      :heading="heading"
-      heading-cols="col-12" />
-
-    <!-- =============================================================== FAQ -->
     <div id="section-applications">
 
-      <Squigglie
-        :percent-left="6"
-        orientation="down"
-        color="nandor"
-        :thick="true"
-        class="applications-top-border" />
+      <div class="grid">
+        <div class="col-8_mi-10" data-push-left="off-1_mi-0" data-push-right="off-1_mi-0">
+          <div class="panel-left">
 
-      <div class="grid-spaceBetween">
+            <h1 class="heading h3" v-html="pageHeading" />
 
-        <div class="col-12">
-
-          <AppAccordion
-            :entries="applicationList"
-            :expand-application-text="expandApplicationText"
-            :view-on-github-text="viewOnGithubText"
-            :application-subtitle="applicationSubtitle" />
-
+            <AppAccordion
+              :entries="applicationList"
+              :expand-application-text="expandApplicationText"
+              :view-on-github-text="viewOnGithubText"
+              :application-subtitle="applicationSubtitle" />
+          </div>
         </div>
 
+        <!-- ======================================================== warp image -->
+        <div class="col-2_mi-1">
+          <div class="panel-right">
+            <div class="warp-image-double" />
+          </div>
+        </div>
       </div>
+
     </div>
 
     <!-- ========================================================== Overlays -->
@@ -41,10 +37,8 @@
 // ===================================================================== Imports
 import { mapGetters } from 'vuex'
 
-import HeroA from '@/components/hero-a'
 import AppAccordion from '@/components/app-accordion'
 import Overlay from '@/components/overlay'
-import Squigglie from '@/components/squigglie'
 
 import ApplicationsPageData from '@/content/pages/account-applications.json'
 
@@ -53,10 +47,8 @@ export default {
   name: 'ApplicationsPage',
 
   components: {
-    HeroA,
     AppAccordion,
-    Overlay,
-    Squigglie
+    Overlay
   },
 
   data () {
@@ -90,8 +82,8 @@ export default {
     pageData () {
       return this.siteContent[this.tag].page_content
     },
-    heading () {
-      return this.pageData.heading
+    pageHeading () {
+      return this.pageData.heading.replace('|username|', 'tikagan')
     },
     applicationList () {
       return [...this.generalApplicationList, ...this.largeApplicationList]
@@ -166,33 +158,13 @@ export default {
 <style lang="scss" scoped>
 // ///////////////////////////////////////////////////////////////////// General
 .page-applications {
-  position: relative;
+  position: relative;margin-top: -$siteHeaderHeight;
+  padding-top: $siteHeaderHeight * 2;
   overflow: hidden;
+  z-index: 25;
 }
 
-.overlay.type__noise {
-  z-index: 5;
-}
-
-// //////////////////////////////////////////////////////////////////////// Hero
-:deep(.hero-content) {
-  @include mini {
-    padding-bottom: 7rem;
-  }
-  .bubble {
-    margin-top: 2.75rem;
-    @include small {
-      margin-top: 1.5rem;
-    }
-    @include mini {
-      padding: 0.75rem 1.5rem;
-      margin-top: 1rem;
-      white-space: nowrap;
-    }
-  }
-}
-
-// ///////////////////////////////////////////////////////////////////////// FAQ
+// //////////////////////////////////////////////////////////////// Applications
 #section-applications {
   position: relative;
   padding-bottom: 4.125rem;
@@ -200,8 +172,18 @@ export default {
   z-index: 25;
 }
 
-.applications-top-border {
-  top: -3px;
+.panel-left {
+  padding-top: 9.375rem;
+}
+
+::v-deep .heading {
+  margin-bottom: 2rem;
+  @include mini {
+    font-size: toRem(30);
+  }
+  @include tiny {
+    font-size: toRem(24);
+  }
 }
 
 .applications-accordion {
@@ -255,6 +237,29 @@ export default {
   }
   :deep(.content) {
     padding: toRem(37) 2rem 1.875rem toRem(43) !important;
+  }
+}
+// ////////////////////////////////////////////////////////////////// Warp Image
+.panel-right {
+  position: relative;
+  top: -2.6875rem;
+  height: 100%;
+  @include small {
+    top: -3.25rem;
+  }
+}
+
+.warp-image-double {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 18rem;
+  height: 500rem;
+  background-image: url('~assets/images/warp-image-double.png');
+  background-position: top left;
+  background-size: 40.5rem;
+  @include tiny {
+    width: calc(100% + 100vw * 0.041665 + 2rem);
   }
 }
 </style>

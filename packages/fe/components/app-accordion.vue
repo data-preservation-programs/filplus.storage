@@ -1,11 +1,5 @@
 <template>
   <div class="applications-accordion">
-    <!--
-    <ButtonX
-      class="expand-all-button"
-      @clicked="expandAllAccordionSections">
-      {{ toggleButtonText }}
-    </ButtonX> -->
 
     <div class="accordion-wrapper">
 
