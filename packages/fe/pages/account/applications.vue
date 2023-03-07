@@ -20,9 +20,11 @@
 
         <div class="col-12">
 
-          <ApplicationsAccordion
+          <AppAccordion
             :entries="applicationList"
-            :toggle-button-content="accordionToggleButtonText" />
+            :expand-application-text="expandApplicationText"
+            :view-on-github-text="viewOnGithubText"
+            :application-subtitle="applicationSubtitle" />
 
         </div>
 
@@ -40,7 +42,7 @@
 import { mapGetters } from 'vuex'
 
 import HeroA from '@/components/hero-a'
-import ApplicationsAccordion from '@/components/applications-accordion'
+import AppAccordion from '@/components/app-accordion'
 import Overlay from '@/components/overlay'
 import Squigglie from '@/components/squigglie'
 
@@ -52,7 +54,7 @@ export default {
 
   components: {
     HeroA,
-    ApplicationsAccordion,
+    AppAccordion,
     Overlay,
     Squigglie
   },
@@ -91,14 +93,17 @@ export default {
     heading () {
       return this.pageData.heading
     },
-    accordionToggleButtonText () {
-      return this.pageData.accordion_button_toggle_text
-    },
-    ctaCard () {
-      return this.pageData.cta_card
-    },
     applicationList () {
       return [...this.generalApplicationList, ...this.largeApplicationList]
+    },
+    expandApplicationText () {
+      return this.pageData.expand_application_text
+    },
+    viewOnGithubText () {
+      return this.pageData.view_on_github_text
+    },
+    applicationSubtitle () {
+      return this.pageData.application_subtitle
     },
     sortedApplications () {
     // eslint-disable-next-line no-console
@@ -123,6 +128,31 @@ export default {
         }
       }
       return applications
+    },
+    sortSelectField () {
+      return {
+        id: 'application_sort_select|applications_accordion',
+        scaffold: {
+          type: 'select',
+          modelKey: 'application_sort_select',
+          label: '',
+          required: true,
+          output: 'option',
+          react: {
+            fieldKey: 'application_sort_select',
+            func: '$selectOption',
+            args: {
+              value_from_field: 'application_sort_select'
+            }
+          },
+          options: [
+            { label: 'Open first' },
+            { label: 'Newest first' }
+          ],
+          defaultValue: 0
+        },
+        value: this.sortSelectValue
+      }
     }
   },
 
