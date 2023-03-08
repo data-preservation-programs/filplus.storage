@@ -156,7 +156,7 @@ $dimension: 2.5rem;
     }
   }
   &.current {
-    border: 2px solid $tasman;
+    border: 2px solid $nandor;
     border-radius: 0.3125rem;
     cursor: default;
   }

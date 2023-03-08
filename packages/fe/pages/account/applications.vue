@@ -16,11 +16,25 @@
               {{ newApplicationButtonText }}
             </ButtonA>
 
+            <div class="applications-accordion-toolbar">
+              <CheckboxFullyStored
+                :options="viewOnlyOpenData" />
+              <Radio
+                :options="viewApplicationType" />
+              <Sort
+                class="applications-sort-by"
+                :options="sortOrderData" />
+            </div>
+
             <AppAccordion
               :entries="applicationList"
               :expand-application-text="expandApplicationText"
               :view-on-github-text="viewOnGithubText"
               :application-subtitle="applicationSubtitle" />
+
+            <PaginationControls
+              :page="1"
+              :total-pages="30" />
           </div>
         </div>
 
@@ -46,6 +60,10 @@ import { mapGetters } from 'vuex'
 
 import AppAccordion from '@/components/app-accordion'
 import ButtonA from '@/components/buttons/button-a'
+import CheckboxFullyStored from '@/components/search/checkbox'
+import Radio from '@/components/search/radio'
+import Sort from '@/components/search/sort'
+import PaginationControls from '@/components/search/pagination-controls'
 import Overlay from '@/components/overlay'
 
 import ApplicationsPageData from '@/content/pages/account-applications.json'
@@ -57,17 +75,16 @@ export default {
   components: {
     AppAccordion,
     ButtonA,
+    CheckboxFullyStored,
+    Radio,
+    Sort,
+    PaginationControls,
     Overlay
   },
 
   data () {
     return {
-      tag: 'applications',
-      entireAccordionExpanded: false,
-      applicationsPerPage: 10,
-      sortSelectValue: 0,
-      currentPage: 1,
-      loading: false
+      tag: 'applications'
     }
   },
 
@@ -97,6 +114,9 @@ export default {
     newApplicationButtonText () {
       return this.pageData.new_application_button_text
     },
+    applicationSubtitle () {
+      return this.pageData.application_subtitle
+    },
     applicationList () {
       return [...this.generalApplicationList, ...this.largeApplicationList]
     },
@@ -106,63 +126,46 @@ export default {
     viewOnGithubText () {
       return this.pageData.view_on_github_text
     },
-    applicationSubtitle () {
-      return this.pageData.application_subtitle
+    viewOnlyOpenData () {
+      return [{
+        label: 'View only open applications',
+        value: 'true'
+      }]
     },
-    sortedApplications () {
-    // eslint-disable-next-line no-console
-    // console.log('sortedApplications ', Array.isArray(this.allSubmittedApplications))
-      const applications = Array.isArray(this.applicationList) ? [...this.applicationList] : null
-      // eslint-disable-next-line no-console
-      // console.log('sortedApplications applications ', applications)
-      if (Array.isArray(applications)) {
-        switch (this.sortSelectValue) {
-          case 1: // newest first
-            return applications.sort((a, b) => {
-              return a.created_at > b.created_at ? -1 : 1
-            })
-          default: // open first
-            return applications.sort((a, b) => {
-              if (a.state === b.state) {
-                return a.created_at > b.created_at ? -1 : 1
-              } else {
-                return a.state > b.state ? -1 : 1
-              }
-            })
-        }
-      }
-      return applications
-    },
-    sortSelectField () {
-      return {
-        id: 'application_sort_select|applications_accordion',
-        scaffold: {
-          type: 'select',
-          modelKey: 'application_sort_select',
-          label: '',
-          required: true,
-          output: 'option',
-          react: {
-            fieldKey: 'application_sort_select',
-            func: '$selectOption',
-            args: {
-              value_from_field: 'application_sort_select'
-            }
-          },
-          options: [
-            { label: 'Open first' },
-            { label: 'Newest first' }
-          ],
-          defaultValue: 0
+    viewApplicationType () {
+      return [
+        {
+          label: 'GA',
+          value: 'GA'
         },
-        value: this.sortSelectValue
-      }
+        {
+          label: 'LDA',
+          value: 'LDA'
+        }
+      ]
+    },
+    sortOrderData () {
+      return [
+        {
+          label: 'Newest first',
+          value: 'newest_first'
+        },
+        {
+          label: 'Open first ↓',
+          value: 'open_first'
+        }
+      ]
     }
   },
 
-  mounted () {
-    // eslint-disable-next-line no-console
-    console.log('applications.vue mounted ', this.applicationsPerPage)
+  watch: {
+    '$route' () {
+      this.$nextTick(() => {
+        // eslint-disable-next-line no-console
+        console.log('$route ', this.$route)
+        // this.insertFunctionName({ route: this.$route })
+      })
+    }
   }
 }
 </script>
@@ -200,6 +203,20 @@ export default {
 
 .applications-accordion {
   padding: 5rem 0;
+}
+
+.applications-accordion-toolbar {
+  display: flex;
+  .field-container {
+    margin-right: 1rem;
+  }
+}
+
+.applications-sort-by {
+  display: flex;
+  .field-select {
+      height: unset !important;
+  }
 }
 
 :deep(.accordion-wrapper) {

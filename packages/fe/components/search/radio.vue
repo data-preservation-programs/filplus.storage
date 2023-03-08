@@ -1,19 +1,19 @@
 <template>
   <Filterer
     v-slot="{ applyFilter, originalSelected }"
-    filter-key="onlyOpenApplications"
+    filter-key="applicationType"
     :is-single-option="true"
     :options="options"
     v-on="$listeners">
     <FieldContainer
-      field-key="toggle_only_open_applications"
+      field-key="application_type"
       :scaffold="{
-        type: 'checkbox',
+        type: 'radio',
         required: false,
         options: options,
         defaultValue: originalSelected,
-        resetGroupId: 'only-open-applications',
-        updateGroupId: 'only-open-applications',
+        resetGroupId: 'application-type',
+        updateGroupId: 'application-type',
         resetTo: 'nullState',
         isSingleOption: true
       }"
@@ -28,7 +28,7 @@ import FieldContainer from '@/components/form/field-container'
 
 // ====================================================================== Export
 export default {
-  name: 'CheckboxFullyStored',
+  name: 'Radio',
 
   components: {
     Filterer,
@@ -46,7 +46,7 @@ export default {
     async initializeFilter (index, applyFilter) {
       await applyFilter({ index, live: false })
       await this.$filter('page').for({ index: 0, live: false })
-      await this.$applyMultipleFiltersToQuery({ filters: ['page', 'onlyOpenApplications'] })
+      await this.$applyMultipleFiltersToQuery({ filters: ['page', 'applicationType'] })
     }
   }
 }

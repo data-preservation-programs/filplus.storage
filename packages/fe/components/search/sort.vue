@@ -4,10 +4,9 @@
     filter-key="sort"
     :is-single-option="true"
     :options="options"
-    class="datasets-sort"
     v-on="$listeners">
     <FieldContainer
-      field-key="sort_by"
+      field-key="sort"
       :scaffold="{
         type: 'select',
         required: false,
