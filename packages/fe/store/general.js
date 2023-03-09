@@ -206,17 +206,29 @@ const actions = {
     commit('SET_GENERAL_APPLICATION_LIST', applications)
   },
   // ///////////////////////////////////////////////// getGeneralApplicationList
-  async getGeneralApplicationList ({ commit, dispatch }, perpage) {
+  async getGeneralApplicationList ({ commit, getters, dispatch }, metadata) {
     try {
-      // eslint-disable-next-line no-console
-      console.log('getGeneralApplicationList ', perpage)
-      // for some reason ^perpage isn't defined??
-      const response = await this.$axiosAuth.get('/get-general-application-list', {
-        params: { applicationsPerPage: 10 }
-      })
-      const applications = response.data.payload
-      dispatch('setGeneralApplicationList', applications)
-      return applications
+      const route = metadata.route
+      const query = CloneDeep(route.query)
+      const page = parseInt(query.page)
+      const state = query.onlyOpenApplications ? 'open' : 'all'
+      const type = query.applicationType
+      const perPage = query.perPage
+      if (type === 'LDA') {
+        dispatch('setGeneralApplicationList', [])
+        return []
+      } else {
+        const response = await this.$axiosAuth.get('/get-general-application-list', {
+          params: {
+            page,
+            ...(state && { state }),
+            ...(perPage && { perPage })
+          }
+        })
+        const applications = response.data.payload
+        dispatch('setGeneralApplicationList', applications)
+        return applications
+      }
     } catch (e) {
       console.log('=== [Store Action: general/getGeneralApplicationList]')
       console.log(e)
@@ -229,16 +241,29 @@ const actions = {
     commit('SET_LARGE_APPLICATION_LIST', applications)
   },
   // /////////////////////////////////////////////////// getLargeApplicationList
-  async getLargeApplicationList ({ commit, dispatch }, applicationsPerPage) {
+  async getLargeApplicationList ({ commit, getters, dispatch }, metadata) {
     try {
-      // eslint-disable-next-line no-console
-      console.log('getLargeApplicationList ', applicationsPerPage)
-      const response = await this.$axiosAuth.get('/get-large-application-list', {
-        params: { applicationsPerPage }
-      })
-      const applications = response.data.payload
-      dispatch('setLargeApplicationList', applications)
-      return applications
+      const route = metadata.route
+      const query = CloneDeep(route.query)
+      const page = parseInt(query.page)
+      const state = query.onlyOpenApplications ? 'open' : 'all'
+      const type = query.applicationType
+      const perPage = query.perPage
+      if (type === 'GA') {
+        dispatch('setLargeApplicationList', [])
+        return []
+      } else {
+        const response = await this.$axiosAuth.get('/get-large-application-list', {
+          params: {
+            page,
+            ...(state && { state }),
+            ...(perPage && { perPage })
+          }
+        })
+        const applications = response.data.payload
+        dispatch('setLargeApplicationList', applications)
+        return applications
+      }
     } catch (e) {
       console.log('=== [Store Action: general/getLargeApplicationList]')
       console.log(e)

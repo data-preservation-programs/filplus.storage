@@ -17,13 +17,13 @@
             </ButtonA>
 
             <div class="applications-accordion-toolbar">
-              <CheckboxFullyStored
-                :options="viewOnlyOpenData" />
+              <Checkbox
+                :options="viewOnlyOpen" />
               <Radio
                 :options="viewApplicationType" />
               <Sort
                 class="applications-sort-by"
-                :options="sortOrderData" />
+                :options="sortOrder" />
             </div>
 
             <AppAccordion
@@ -32,38 +32,45 @@
               :view-on-github-text="viewOnGithubText"
               :application-subtitle="applicationSubtitle" />
 
-            <PaginationControls
-              :page="1"
-              :total-pages="30" />
+            <div class="applications-accordion-toolbar">
+              <PaginationControls
+                :page="1"
+                :total-pages="30" />
+
+              <Limit
+                :options="viewingPerPage" />
+            </div>
+
+          </div>
+
+          <!-- ======================================================== warp image -->
+          <div class="col-2_mi-1">
+            <div class="panel-right">
+              <div class="warp-image-double" />
+            </div>
           </div>
         </div>
 
-        <!-- ======================================================== warp image -->
-        <div class="col-2_mi-1">
-          <div class="panel-right">
-            <div class="warp-image-double" />
-          </div>
-        </div>
       </div>
 
+      <!-- ========================================================== Overlays -->
+      <Overlay type="noise" />
+
     </div>
-
-    <!-- ========================================================== Overlays -->
-    <Overlay type="noise" />
-
   </div>
 </template>
 
 <script>
 // ===================================================================== Imports
-import { mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 import AppAccordion from '@/components/app-accordion'
 import ButtonA from '@/components/buttons/button-a'
-import CheckboxFullyStored from '@/components/search/checkbox'
+import Checkbox from '@/components/search/checkbox'
 import Radio from '@/components/search/radio'
 import Sort from '@/components/search/sort'
 import PaginationControls from '@/components/search/pagination-controls'
+import Limit from '@/components/search/limit'
 import Overlay from '@/components/overlay'
 
 import ApplicationsPageData from '@/content/pages/account-applications.json'
@@ -75,10 +82,11 @@ export default {
   components: {
     AppAccordion,
     ButtonA,
-    CheckboxFullyStored,
+    Checkbox,
     Radio,
     Sort,
     PaginationControls,
+    Limit,
     Overlay
   },
 
@@ -88,10 +96,10 @@ export default {
     }
   },
 
-  async fetch ({ app, store }) {
+  async fetch ({ app, store, route }) {
     await store.dispatch('general/getBaseData', { key: 'applications', data: ApplicationsPageData })
-    await store.dispatch('general/getGeneralApplicationList', this.applicationsPerPage)
-    await store.dispatch('general/getLargeApplicationList', this.applicationsPerPage)
+    await store.dispatch('general/getGeneralApplicationList', { route })
+    await store.dispatch('general/getLargeApplicationList', { route })
   },
 
   head () {
@@ -109,7 +117,7 @@ export default {
       return this.siteContent[this.tag].page_content
     },
     pageHeading () {
-      return this.pageData.heading.replace('|username|', 'tikagan')
+      return this.pageData.heading.replace('|username|', this.account.githubUsername)
     },
     newApplicationButtonText () {
       return this.pageData.new_application_button_text
@@ -119,6 +127,7 @@ export default {
     },
     applicationList () {
       return [...this.generalApplicationList, ...this.largeApplicationList]
+      // return []
     },
     expandApplicationText () {
       return this.pageData.expand_application_text
@@ -126,7 +135,7 @@ export default {
     viewOnGithubText () {
       return this.pageData.view_on_github_text
     },
-    viewOnlyOpenData () {
+    viewOnlyOpen () {
       return [{
         label: 'View only open applications',
         value: 'true'
@@ -134,6 +143,10 @@ export default {
     },
     viewApplicationType () {
       return [
+        {
+          label: 'All',
+          value: 'all'
+        },
         {
           label: 'GA',
           value: 'GA'
@@ -144,7 +157,7 @@ export default {
         }
       ]
     },
-    sortOrderData () {
+    sortOrder () {
       return [
         {
           label: 'Newest first',
@@ -155,17 +168,39 @@ export default {
           value: 'open_first'
         }
       ]
+    },
+    viewingPerPage () {
+      return [
+        {
+          label: 10,
+          value: 10
+        },
+        {
+          label: 20,
+          value: 20
+        },
+        {
+          label: 30,
+          value: 30
+        }
+      ]
     }
   },
 
   watch: {
     '$route' () {
       this.$nextTick(() => {
-        // eslint-disable-next-line no-console
-        console.log('$route ', this.$route)
-        // this.insertFunctionName({ route: this.$route })
+        this.getGeneralApplicationList({ route: this.$route })
+        this.getLargeApplicationList({ route: this.$route })
       })
     }
+  },
+
+  methods: {
+    ...mapActions({
+      getGeneralApplicationList: 'general/getGeneralApplicationList',
+      getLargeApplicationList: 'general/getLargeApplicationList'
+    })
   }
 }
 </script>
