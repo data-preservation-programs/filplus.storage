@@ -507,6 +507,11 @@ const HighlightApplyForm = (app, store) => {
   }, 2250)
 }
 
+// ////////////////////////////////////////////////////////////// IsRouteCurrent
+const IsRouteCurrent = (route, href) => {
+  return route.fullPath === href
+}
+
 // ////////////////////////////////////////////////////////////////////// Export
 // -----------------------------------------------------------------------------
 export default ({ $config, app, store }, inject) => {
@@ -541,4 +546,5 @@ export default ({ $config, app, store }, inject) => {
   inject('reactDatasizeRangeToUnit', ReactDatasizeRangeToUnit)
   inject('handleFormRedirection', (bytes, bottom, top) => HandleFormRedirection(app, store, bytes, bottom, top))
   inject('highlightApplyForm', () => HighlightApplyForm(app, store))
+  inject('isRouteCurrent', IsRouteCurrent)
 }

@@ -1,6 +1,5 @@
 <template>
   <header
-    v-if="links"
     id="site-header"
     ref="header"
     :class="{ mini }">
@@ -26,7 +25,8 @@
               '--right-squiggle-offset': `${navWidth - squiggleContainerLength}px`,
             }">
 
-            <div class="nav-detail"></div>
+            <div class="nav-detail" />
+
             <!-- ================================================ Squigglies -->
             <div class="squiggle-container">
               <div
@@ -73,14 +73,14 @@
                   :key="index"
                   ref="navItems"
                   :to="link.href"
-                  :selected="isRouteCurrent(link.href)"
+                  :selected="$isRouteCurrent($route, link.href)"
                   :tag="link.type"
                   :target="link.target"
                   class="site-nav-link"
                   @mouseover.native="mouseOverLink(index)">
                   <div class="text" v-html="link.label" />
                 </ButtonX>
-                <AuthButton />
+                <AuthButton :links="authDropdownLinks" />
                 <ButtonA
                   v-if="cta"
                   :to="cta.href"
@@ -95,6 +95,7 @@
 
           </div>
 
+          <!-- ================================================== Mobile nav -->
           <MobileNav
             v-else
             ref="mobileNav"
@@ -189,13 +190,17 @@ export default {
     squiggleDefaultOffset () {
       return this.breakpoint === 'large' ? 532 : 436
     },
+    navigationContent () {
+      return this.siteContent.general.navigation
+    },
     links () {
-      const siteContent = this.siteContent
-      return siteContent.general ? siteContent.general.navigation.header : false
+      return this.navigationContent.header
+    },
+    authDropdownLinks () {
+      return this.navigationContent.auth
     },
     cta () {
-      const siteContent = this.siteContent
-      return siteContent.general ? siteContent.general.navigation.cta : false
+      return this.navigationContent.cta
     }
   },
 
@@ -205,26 +210,30 @@ export default {
     },
     account () {
       this.$nextTick(() => {
-        resizeHandler(this)
+        setTimeout(() => {
+          resizeHandler(this)
+        }, 100)
       })
     }
   },
 
   mounted () {
-    const scrollHandler = () => {
-      const y = window.pageYOffset || document.documentElement.scrollTop
-      const mini = this.mini
-      if (y > 0) {
-        if (!mini) { this.mini = true }
-      } else {
-        if (mini) { this.mini = false }
-      }
-    }; scrollHandler()
-    this.scroll = this.$throttle(scrollHandler, 1)
-    window.addEventListener('scroll', this.scroll)
-    resizeHandler(this)
-    this.resize = this.$throttle(() => { resizeHandler(this) }, 1)
-    window.addEventListener('resize', this.resize)
+    this.$nextTick(() => {
+      const scrollHandler = () => {
+        const y = window.pageYOffset || document.documentElement.scrollTop
+        const mini = this.mini
+        if (y > 0) {
+          if (!mini) { this.mini = true }
+        } else {
+          if (mini) { this.mini = false }
+        }
+      }; scrollHandler()
+      this.scroll = this.$throttle(scrollHandler, 1)
+      window.addEventListener('scroll', this.scroll)
+      resizeHandler(this)
+      this.resize = this.$throttle(() => { resizeHandler(this) }, 1)
+      window.addEventListener('resize', this.resize)
+    })
   },
 
   beforeDestroy () {
@@ -232,11 +241,6 @@ export default {
   },
 
   methods: {
-    isRouteCurrent (href) {
-      const route = this.$route
-      if (route.path === href) { return true }
-      return false
-    },
     mouseOverLink (index) {
       if (this.$refs.navItems) {
         const element = this.$refs.navItems[index].$el
