@@ -10,6 +10,7 @@
       :scaffold="{
         type: 'radio',
         required: false,
+        label: 'Show',
         options: options,
         defaultValue: originalSelected,
         resetGroupId: 'application-type',

@@ -20,9 +20,10 @@
               <Checkbox
                 :options="viewOnlyOpen" />
               <Radio
+                class="filter-radio"
                 :options="viewApplicationType" />
               <Sort
-                class="applications-sort-by"
+                class="sort-dropdown"
                 :options="sortOrder" />
             </div>
 
@@ -43,20 +44,20 @@
 
           </div>
 
-          <!-- ======================================================== warp image -->
-          <div class="col-2_mi-1">
-            <div class="panel-right">
-              <div class="warp-image-double" />
-            </div>
+        </div>
+        <!-- ======================================================== warp image -->
+        <div class="col-2_mi-1">
+          <div class="panel-right">
+            <div class="warp-image-double" />
           </div>
         </div>
 
       </div>
 
-      <!-- ========================================================== Overlays -->
-      <Overlay type="noise" />
-
     </div>
+    <!-- ========================================================== Overlays -->
+    <Overlay type="noise" />
+
   </div>
 </template>
 
@@ -171,11 +172,11 @@ export default {
     sortOrder () {
       return [
         {
-          label: 'Open first',
+          label: 'Open status',
           value: 'open_first'
         },
         {
-          label: 'Newest first',
+          label: 'Newest to oldest',
           value: 'newest_first'
         }
       ]
@@ -254,7 +255,7 @@ export default {
 }
 
 ::v-deep .heading {
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   @include mini {
     font-size: toRem(30);
   }
@@ -263,21 +264,63 @@ export default {
   }
 }
 
-.applications-accordion {
-  padding: 5rem 0;
+.new-application-button {
+  margin-bottom: 4rem;
 }
 
 .applications-accordion-toolbar {
   display: flex;
+  justify-content: space-between;
+  margin-bottom: toRem(19);
   .field-container {
-    margin-right: 1rem;
+    display: flex;
+    align-items: center;
+    // margin-right: toRem(20);
+    :deep(.label), :deep(.field-label) {
+      @include p2;
+      font-weight: 500;
+    }
   }
 }
 
-.applications-sort-by {
-  display: flex;
-  .field-select {
-      height: unset !important;
+.filter-radio {
+  :deep(.field-label) {
+    margin-right: toRem(18);
+  }
+  :deep(.radio-wrapper) {
+    .label {
+      font-weight: 400;
+    }
+    &:not(:last-child) {
+      margin-right: toRem(27);
+    }
+  }
+}
+
+.sort-dropdown {
+  :deep(.field-label) {
+    margin-right: toRem(18);
+  }
+  :deep(.field-select) {
+    border: 2px solid $nandor;
+    border-radius: toRem(10);
+    padding: 0 toRem(15);
+    width: toRem(195);
+    height: unset;
+  }
+  :deep(.select) {
+    border: none;
+  }
+  :deep(.selection-window) {
+    padding: toRem(2) toRem(15);
+    flex-direction: row-reverse;
+    .icon-container {
+      margin-right: toRem(20);
+    }
+  }
+  :deep(.text) {
+    @include p2;
+    font-weight: 400;
   }
 }
 
@@ -286,7 +329,6 @@ export default {
 }
 
 :deep(.applications-accordion) {
-  padding-right: 5rem;
   @include small {
     padding-right: 3rem;
   }
@@ -295,41 +337,6 @@ export default {
   }
 }
 
-.cta-card-wrapper {
-  cursor: pointer;
-}
-
-.apply-cta-card.corner-position__top-right {
-  display: inline-block;
-  width: 26.6875rem;
-  @include medium {
-    width: calc(100% - 5rem);
-  }
-  @include small {
-    width: calc(100% - 3rem);
-  }
-  @include mini {
-    width: 100%;
-  }
-  &:hover {
-    :deep(.icon.arrow) {
-      transform: rotate(45deg);
-    }
-  }
-  .title {
-    font-size: toRem(30);
-    line-height: leading(40, 30);
-    font-weight: 500;
-    margin-bottom: 1.5rem;
-    margin-right: 5rem;
-  }
-  .description {
-    margin-bottom: toRem(27);
-  }
-  :deep(.content) {
-    padding: toRem(37) 2rem 1.875rem toRem(43) !important;
-  }
-}
 // ////////////////////////////////////////////////////////////////// Warp Image
 .panel-right {
   position: relative;
