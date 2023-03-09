@@ -20,7 +20,6 @@ const parseNumber = (page) => {
 // /////////////////////////////////////////////////// getGeneralApplicationList
 const getGeneralApplicationList = async (username, token, page, state, perPage) => {
   try {
-    console.log('getGeneralApplicationList ', perPage)
     const repo = MC.serverFlag === 'production' ? 'filecoin-project/filecoin-plus-large-datasets' : 'data-preservation-programs/filecoin-plus-client-onboarding'
     const options = { headers: { Accept: 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28', Authorization: `Bearer ${token}` } }
     const response = await Axios.get(`https://api.github.com/repos/${repo}/issues?state=${state}&creator=${username}&per_page=${perPage}`, options)

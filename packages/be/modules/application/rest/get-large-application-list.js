@@ -41,7 +41,6 @@ MC.app.get('/get-large-application-list', async (req, res) => {
       console.log('=============================================== development')
     }
     const query = req.query
-    console.log('/get-large-application-list ', query)
     const page = await parseNumber(query.page)
     const state = await query.state
     const perPage = await parseNumber(query.perPage)
