@@ -126,11 +126,22 @@ export default {
       return this.pageData.application_subtitle
     },
     applicationList () {
-      return [...this.generalApplicationList, ...this.largeApplicationList]
-      // return []
+      const perPage = this.$route.query.perPage
+      const applications = [...this.sortedApplicationList]
+      return applications.slice(0, perPage)
     },
     expandApplicationText () {
       return this.pageData.expand_application_text
+    },
+    sortedApplicationList () {
+      const allApplications = [...this.generalApplicationList, ...this.largeApplicationList]
+      const sort = this.$route.query.sort
+      switch (sort) {
+        case 'newest_first':
+          return this.sortApplications(allApplications, 1)
+        default:
+          return this.sortApplications(allApplications, 0)
+      }
     },
     viewOnGithubText () {
       return this.pageData.view_on_github_text
@@ -160,12 +171,12 @@ export default {
     sortOrder () {
       return [
         {
-          label: 'Newest first',
-          value: 'newest_first'
+          label: 'Open first',
+          value: 'open_first'
         },
         {
-          label: 'Open first ↓',
-          value: 'open_first'
+          label: 'Newest first',
+          value: 'newest_first'
         }
       ]
     },
@@ -200,7 +211,23 @@ export default {
     ...mapActions({
       getGeneralApplicationList: 'general/getGeneralApplicationList',
       getLargeApplicationList: 'general/getLargeApplicationList'
-    })
+    }),
+    sortApplications (applications, sort) {
+      switch (sort) {
+        case 1: // newest first
+          return applications.sort((a, b) => {
+            return a.created_at > b.created_at ? -1 : 1
+          })
+        default: // open first
+          return applications.sort((a, b) => {
+            if (a.state === b.state) {
+              return a.created_at > b.created_at ? -1 : 1
+            } else {
+              return a.state > b.state ? -1 : 1
+            }
+          })
+      }
+    }
   }
 }
 </script>

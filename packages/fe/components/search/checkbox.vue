@@ -14,7 +14,6 @@
         defaultValue: originalSelected,
         resetGroupId: 'only-open-applications',
         updateGroupId: 'only-open-applications',
-        resetTo: 'nullState',
         isSingleOption: true
       }"
       @updateValue="initializeFilter($event, applyFilter)" />
