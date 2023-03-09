@@ -152,7 +152,6 @@ export default {
 <style lang="scss" scoped>
 // /////////////////////////////////////////////////////////////////// Accordion
 .accordion {
-  margin-bottom: 11rem;
   position: relative;
 }
 
@@ -161,9 +160,11 @@ export default {
   border-bottom: none;
   border-radius: toRem(10) toRem(10) toRem(7) toRem(7);
   padding: 0 1.25rem 0 3.875rem;
-  margin-bottom: toRem(18);
   overflow: clip;
   overflow-clip-margin: 3px;
+  &:not(:last-child) {
+    margin-bottom: toRem(18);
+  }
   &.open {
     .icon-chevron {
       transition: 150ms ease-out;

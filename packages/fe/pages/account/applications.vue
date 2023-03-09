@@ -18,6 +18,7 @@
 
             <div class="applications-accordion-toolbar">
               <Checkbox
+                class="filter-checkbox"
                 :options="viewOnlyOpen" />
               <Radio
                 class="filter-radio"
@@ -35,10 +36,11 @@
 
             <div class="applications-accordion-toolbar">
               <PaginationControls
-                :page="1"
+                :page="page"
                 :total-pages="30" />
 
               <Limit
+                class="viewing-per-page"
                 :options="viewingPerPage" />
             </div>
 
@@ -93,7 +95,8 @@ export default {
 
   data () {
     return {
-      tag: 'applications'
+      tag: 'applications',
+      page: 1
     }
   },
 
@@ -275,11 +278,22 @@ export default {
   .field-container {
     display: flex;
     align-items: center;
-    // margin-right: toRem(20);
     :deep(.label), :deep(.field-label) {
       @include p2;
-      font-weight: 500;
     }
+    :deep(.select) {
+      border: none;
+      .text {
+        @include p2;
+        font-weight: 400;
+      }
+    }
+  }
+}
+
+.filter-checkbox {
+  :deep(.label) {
+    font-weight: 500;
   }
 }
 
@@ -308,9 +322,6 @@ export default {
     width: toRem(195);
     height: unset;
   }
-  :deep(.select) {
-    border: none;
-  }
   :deep(.selection-window) {
     padding: toRem(2) toRem(15);
     flex-direction: row-reverse;
@@ -318,10 +329,23 @@ export default {
       margin-right: toRem(20);
     }
   }
-  :deep(.text) {
-    @include p2;
+}
+
+.viewing-per-page {
+  :deep(.field-label) {
+    margin-right: toRem(20);
     font-weight: 400;
   }
+  :deep(.field-select) {
+    width: toRem(36);
+  }
+  :deep(.text) {
+    padding-right: toRem(9);
+  }
+}
+
+#pagination-controls {
+  color: $greenYellow;
 }
 
 :deep(.accordion-wrapper) {
@@ -329,6 +353,7 @@ export default {
 }
 
 :deep(.applications-accordion) {
+  margin-bottom: 2rem;
   @include small {
     padding-right: 3rem;
   }

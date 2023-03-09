@@ -6,11 +6,11 @@
     :options="options"
     v-on="$listeners">
     <FieldContainer
-      field-key="results_per_page"
+      field-key="viewing_per_page"
       :scaffold="{
         type: 'select',
         required: false,
-        label: 'Results per page',
+        label: 'Viewing',
         options,
         defaultValue: originalSelected.length > 0 ? originalSelected : [0], /* manually set to 0 because default in store corresponds with the 0'th value in options prop */
         resetGroupId: 'per-page',
