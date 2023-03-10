@@ -18,7 +18,15 @@
           <AccordionHeader>
             <div class="header-top-row">
               <div class="header-title-wrapper">
-                <IconApplicationOpen />
+                <IconApplicationOpen
+                  v-if="entry.state === 'open' "
+                  class="application-icon" />
+                <IconApplicationRejected
+                  v-if="entry.state === 'closed' && entry.state_reason === 'not_planned' "
+                  class="application-icon" />
+                <IconApplicationAccepted
+                  v-if="entry.state === 'closed' && entry.state_reason === 'completed' "
+                  class="application-icon" />
                 <h2 class="header-title h5" v-html="entry.title" />
               </div>
               <p class="application-type p2" v-html="entry.type" />
@@ -60,9 +68,10 @@
 // ===================================================================== Imports
 import Kramed from 'kramed'
 
-// import GithubIcon from '@/components/icons/github'
 import IconChevron from '@/components/icons/chevron'
 import IconApplicationOpen from '@/components/icons/application-open'
+import IconApplicationRejected from '@/components/icons/application-rejected'
+import IconApplicationAccepted from '@/components/icons/application-accepted'
 
 import Accordion from '@/components/accordion/accordion'
 import AccordionSection from '@/components/accordion/accordion-section'
@@ -79,6 +88,8 @@ export default {
     // GithubIcon,
     IconChevron,
     IconApplicationOpen,
+    IconApplicationRejected,
+    IconApplicationAccepted,
     Accordion,
     AccordionSection,
     AccordionHeader,
@@ -195,7 +206,7 @@ export default {
   letter-spacing: 0;
 }
 
-.icon-application-open {
+.application-icon {
   margin-right: 1.25rem;
   margin-left: -2.5rem;
 }

@@ -222,7 +222,8 @@ export default {
         query: {
           page: 1,
           perPage: 10,
-          onlyOpenApplications: true
+          onlyOpenApplications: true,
+          sort: 'newest_first'
         }
       })
     }
