@@ -37,7 +37,7 @@
             <div class="applications-accordion-toolbar">
               <PaginationControls
                 :page="page"
-                :total-pages="30" />
+                :total-pages="10" />
 
               <Limit
                 class="viewing-per-page"
@@ -148,6 +148,9 @@ export default {
           return this.sortApplications(allApplications, 0)
       }
     },
+    page () {
+      return parseInt(this.$route.query.page)
+    },
     viewOnGithubText () {
       return this.pageData.view_on_github_text
     },
@@ -176,12 +179,12 @@ export default {
     sortOrder () {
       return [
         {
-          label: 'Open status',
-          value: 'open_first'
-        },
-        {
           label: 'Newest to oldest',
           value: 'newest_first'
+        },
+        {
+          label: 'Open status',
+          value: 'open_first'
         }
       ]
     },
@@ -208,6 +211,19 @@ export default {
       this.$nextTick(() => {
         this.getGeneralApplicationList({ route: this.$route })
         this.getLargeApplicationList({ route: this.$route })
+      })
+    }
+  },
+
+  mounted () {
+    if (Object.keys(this.$route.query).length === 0) {
+      this.$router.push({
+        route: this.$route,
+        query: {
+          page: 1,
+          perPage: 10,
+          onlyOpenApplications: true
+        }
       })
     }
   },
