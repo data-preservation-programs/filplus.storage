@@ -16,12 +16,15 @@
           :active="active">
 
           <AccordionHeader>
-            <div class="header-title-wrapper">
-              <IconApplicationOpen />
-              <h2 class="header-title h5" v-html="entry.title" />
+            <div class="header-top-row">
+              <div class="header-title-wrapper">
+                <IconApplicationOpen />
+                <h2 class="header-title h5" v-html="entry.title" />
+              </div>
+              <p class="application-type p2" v-html="entry.type" />
             </div>
             <h3 class="header-subtitle p1" v-html="constructApplicationSubtitle(entry)" />
-            <span class="p2 expand-application-text">
+            <span class="expand-application-text p2">
               <IconChevron />
               <span v-html="expandApplicationText" />
               <ButtonX
@@ -176,6 +179,11 @@ export default {
 .accordion-header {
   cursor: pointer;
   padding: 1.25rem 0;
+}
+
+.header-top-row {
+  display: flex;
+  justify-content: space-between;
 }
 
 .header-title-wrapper {

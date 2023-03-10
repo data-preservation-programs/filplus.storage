@@ -225,7 +225,12 @@ const actions = {
             ...(perPage && { perPage })
           }
         })
-        const applications = response.data.payload
+        const applications = response.data.payload.map((x) => {
+          return {
+            ...x,
+            type: 'GA (General Application)'
+          }
+        })
         dispatch('setGeneralApplicationList', applications)
         return applications
       }
@@ -260,7 +265,12 @@ const actions = {
             ...(perPage && { perPage })
           }
         })
-        const applications = response.data.payload
+        const applications = response.data.payload.map((x) => {
+          return {
+            ...x,
+            type: 'LDA (Large Dataset Application)'
+          }
+        })
         dispatch('setLargeApplicationList', applications)
         return applications
       }
