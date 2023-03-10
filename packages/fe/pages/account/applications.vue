@@ -95,12 +95,13 @@ export default {
 
   data () {
     return {
-      tag: 'applications',
-      page: 1
+      tag: 'applications'
     }
   },
 
-  async fetch ({ app, store, route }) {
+  async fetch ({ app, store, redirect, route }) {
+    const accountExists = await store.getters['account/account']
+    if (!accountExists) { return redirect('/apply') }
     await store.dispatch('general/getBaseData', { key: 'applications', data: ApplicationsPageData })
     await store.dispatch('general/getGeneralApplicationList', { route })
     await store.dispatch('general/getLargeApplicationList', { route })
