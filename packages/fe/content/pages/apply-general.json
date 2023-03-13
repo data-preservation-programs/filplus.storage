@@ -12,7 +12,8 @@
   "page_content": {
     "hero": {
       "label": "General Application",
-      "heading": "Fill out an application to send to your selected Notary."
+      "heading": "Fill out an application to send to the following notary → <span class='highlight'>|notary|</span>"
+
     },
     "back_button": {
       "type": "nuxt-link",
