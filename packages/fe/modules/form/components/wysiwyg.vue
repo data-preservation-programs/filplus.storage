@@ -93,6 +93,12 @@ export default {
           include: true
         },
         {
+          name: 'strike',
+          label: '<s>S</s>',
+          type: 'button-x',
+          include: true
+        },
+        {
           name: 'bulletList',
           type: 'button-x',
           include: true
@@ -304,6 +310,9 @@ export default {
           break
         case 'underline':
           this.editor.chain().focus().toggleUnderline().run()
+          break
+        case 'strike':
+          this.editor.chain().focus().toggleStrike().run()
           break
         case 'bulletList':
           this.editor.chain().focus().toggleBulletList().run()
