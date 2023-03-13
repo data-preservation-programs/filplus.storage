@@ -46,7 +46,12 @@
           </AccordionHeader>
 
           <AccordionContent>
-            <div class="application-body markdown-user-input" v-html="parseApplicationMarkdown(entry.body)" />
+            <div class="accordion-content-wrapper">
+              <div class="application-body markdown-user-input" v-html="parseApplicationMarkdown(entry.body)" />
+              <ButtonX class="close-accordion-button">
+                <IconCloseAccordion />
+              </ButtonX>
+            </div>
           </AccordionContent>
 
           <Squigglie
@@ -72,6 +77,7 @@ import IconChevron from '@/components/icons/chevron'
 import IconApplicationOpen from '@/components/icons/application-open'
 import IconApplicationRejected from '@/components/icons/application-rejected'
 import IconApplicationAccepted from '@/components/icons/application-accepted'
+import IconCloseAccordion from '@/components/icons/close-accordion'
 
 import Accordion from '@/components/accordion/accordion'
 import AccordionSection from '@/components/accordion/accordion-section'
@@ -85,11 +91,11 @@ export default {
   name: 'AppAccordion',
 
   components: {
-    // GithubIcon,
     IconChevron,
     IconApplicationOpen,
     IconApplicationRejected,
     IconApplicationAccepted,
+    IconCloseAccordion,
     Accordion,
     AccordionSection,
     AccordionHeader,
@@ -232,6 +238,16 @@ export default {
   margin-left: 0.125rem;
 }
 
+.accordion-content-wrapper {
+  display: flex;
+}
+
+.close-accordion-button {
+  height: fit-content;
+  position:sticky;
+  // top: 50%;
+}
+
 .accordion-content {
   padding-top: .25rem;
 }
@@ -239,6 +255,7 @@ export default {
 .application-body {
   @include p2;
   padding-bottom: 2.375rem;
+  flex: 1;
   :deep(p) {
     font-size: inherit;
     line-height: inherit;
