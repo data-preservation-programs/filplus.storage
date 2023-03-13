@@ -5,7 +5,8 @@
     <HeroB
       :label="hero.label"
       :heading="heroHeading"
-      :subtext="hero.subtext" />
+      :subtext="hero.subtext"
+      :hero-button="backButton" />
 
     <!-- ============================== [Application] Background Information -->
     <div id="application-top">
@@ -249,27 +250,27 @@
             field-key="confirm_follow_fil_guideline"
             form-id="filplus_application" />
 
-          <div v-if="account" class="buttons">
-            <ButtonA
-              class="submit-button"
-              loader="lda-submit-button"
-              @clicked="submitForm">
-              {{ submitButtonText }}
-            </ButtonA>
-            <ButtonA
-              v-if="githubIssueLink"
-              class="github-issue-link-button"
-              theme="blue"
-              tag="a"
-              target="_blank"
-              :to="githubIssueLink">
-              <GithubIcon />
-              {{ githubIssueLinkText }}
-            </ButtonA>
+          <div class="buttons">
+            <div v-if="account">
+              <ButtonA
+                class="submit-button"
+                loader="lda-submit-button"
+                @clicked="submitForm">
+                {{ submitButtonText }}
+              </ButtonA>
+            </div>
+
+            <AuthButton v-else />
+
+            <ButtonX
+              :to="backButton.href"
+              :tag="backButton.type"
+              :theme="backButton.theme">
+              <Chevron />
+              {{ backButton.label }}
+            </ButtonX>
+
           </div>
-
-          <AuthButton v-else />
-
         </div>
       </div>
 
@@ -288,11 +289,11 @@ import { mapGetters, mapActions } from 'vuex'
 import HeroB from '@/components/hero-b'
 import FieldContainer from '@/components/form/field-container'
 import ButtonA from '@/components/buttons/button-a'
+import ButtonX from '@/components/buttons/button-x'
 import Overlay from '@/components/overlay'
 import Squigglie from '@/components/squigglie'
 import AuthButton from '@/components/auth-button'
-
-import GithubIcon from '@/components/icons/github'
+import Chevron from '@/components/icons/chevron'
 
 import ApplyLargePageData from '@/content/pages/apply-large.json'
 
@@ -304,10 +305,11 @@ export default {
     HeroB,
     FieldContainer,
     ButtonA,
+    ButtonX,
     Overlay,
     Squigglie,
     AuthButton,
-    GithubIcon
+    Chevron
   },
 
   meta: {
@@ -335,7 +337,6 @@ export default {
       siteContent: 'general/siteContent',
       networkStorageCapacity: 'general/networkStorageCapacity',
       savedFormExists: 'form/savedFormExists',
-      githubIssueLink: 'general/githubIssueLink',
       account: 'account/account'
     }),
     generalPageData () {
@@ -349,6 +350,9 @@ export default {
     },
     heroHeading () {
       return this.hero.heading.replace('|data|', this.networkStorageCapacity)
+    },
+    backButton () {
+      return this.pageData.back_button
     },
     form () {
       return this.pageData.form
@@ -382,17 +386,12 @@ export default {
     }
   },
 
-  beforeDestroy () {
-    this.setGithubIssueLink(false)
-  },
-
   methods: {
     ...mapActions({
       validateForm: 'form/validateForm',
       submitLargeApplication: 'general/submitLargeApplication',
       restoreSavedForm: 'form/restoreSavedForm',
-      removeLoader: 'button/removeLoader',
-      setGithubIssueLink: 'general/setGithubIssueLink'
+      removeLoader: 'button/removeLoader'
     }),
     async submitForm () {
       const bottom = this.submitThresholdBottom
@@ -416,12 +415,14 @@ export default {
           this.$router.push('/apply/general/notaries')
         } else {
           const incoming = await this.$form('filplus_application').validate()
+          console.log(incoming)
           if (!incoming) {
             const firstInvalidField = document.querySelector('.error')
             this.removeLoader('lda-submit-button')
             this.$scrollToElement(firstInvalidField, 250, -200)
           } else {
-            this.submitLargeApplication(incoming)
+            await this.submitLargeApplication(incoming)
+            this.$router.push('/apply/success')
           }
         }
       }
@@ -456,10 +457,8 @@ export default {
   display: flex;
   flex-direction: row;
   align-items: center;
-  .button-a {
-    &:not(:last-child) {
-      margin-right: 1rem;
-    }
+  .button-x {
+    margin-left: 3.125rem;
   }
 }
 

@@ -4,7 +4,8 @@
     <!-- ============================================================== Hero -->
     <HeroB
       :label="hero.label"
-      :heading="hero.heading" />
+      :heading="hero.heading"
+      :hero-button="backButton" />
 
     <!-- ======================================================= Application -->
     <div id="application">
@@ -85,27 +86,26 @@
             field-key="filecoin_address"
             form-id="filplus_application" />
 
-          <div v-if="account" class="buttons">
-            <ButtonA
-              class="submit-button"
-              loader="ga-submit-button"
-              @clicked="submitForm">
-              {{ submitButtonText }}
-            </ButtonA>
-            <ButtonA
-              v-if="githubIssueLink"
-              class="github-issue-link-button"
-              theme="blue"
-              tag="a"
-              target="_blank"
-              :to="githubIssueLink">
-              <GithubIcon />
-              {{ githubIssueLinkText }}
-            </ButtonA>
+          <div class="buttons">
+            <div v-if="account">
+              <ButtonA
+                class="submit-button"
+                loader="ga-submit-button"
+                @clicked="submitForm">
+                {{ submitButtonText }}
+              </ButtonA>
+            </div>
+
+            <AuthButton v-else />
+
+            <ButtonX
+              :to="backButton.href"
+              :tag="backButton.type"
+              :theme="backButton.theme">
+              <Chevron />
+              {{ backButton.label }}
+            </ButtonX>
           </div>
-
-          <AuthButton v-else />
-
         </div>
       </div>
 
@@ -124,11 +124,11 @@ import { mapGetters, mapActions } from 'vuex'
 import HeroB from '@/components/hero-b'
 import FieldContainer from '@/components/form/field-container'
 import ButtonA from '@/components/buttons/button-a'
+import ButtonX from '@/components/buttons/button-x'
 import Overlay from '@/components/overlay'
 import Squigglie from '@/components/squigglie'
 import AuthButton from '@/components/auth-button'
-
-import GithubIcon from '@/components/icons/github'
+import Chevron from '@/components/icons/chevron'
 
 import ApplyGeneralPageData from '@/content/pages/apply-general.json'
 
@@ -140,10 +140,11 @@ export default {
     HeroB,
     FieldContainer,
     ButtonA,
+    ButtonX,
     Overlay,
     Squigglie,
     AuthButton,
-    GithubIcon
+    Chevron
   },
 
   data () {
@@ -170,7 +171,6 @@ export default {
     ...mapGetters({
       siteContent: 'general/siteContent',
       savedFormExists: 'form/savedFormExists',
-      githubIssueLink: 'general/githubIssueLink',
       account: 'account/account'
     }),
     generalPageData () {
@@ -181,6 +181,9 @@ export default {
     },
     hero () {
       return this.pageData.hero
+    },
+    backButton () {
+      return this.pageData.back_button
     },
     form () {
       return this.pageData.form
@@ -211,17 +214,12 @@ export default {
     }
   },
 
-  beforeDestroy () {
-    this.setGithubIssueLink(false)
-  },
-
   methods: {
     ...mapActions({
       validateForm: 'form/validateForm',
       submitGeneralApplication: 'general/submitGeneralApplication',
       restoreSavedForm: 'form/restoreSavedForm',
-      removeLoader: 'button/removeLoader',
-      setGithubIssueLink: 'general/setGithubIssueLink'
+      removeLoader: 'button/removeLoader'
     }),
     async submitForm () {
       const bottom = this.submitThresholdBottom
@@ -250,7 +248,8 @@ export default {
             this.removeLoader('ga-submit-button')
             this.$scrollToElement(firstInvalidField, 250, -200)
           } else {
-            this.submitGeneralApplication(incoming)
+            await this.submitGeneralApplication(incoming)
+            this.$router.push('/apply/success')
           }
         }
       }
@@ -311,10 +310,8 @@ export default {
   display: flex;
   flex-direction: row;
   align-items: center;
-  .button-a {
-    &:not(:last-child) {
-      margin-right: 1rem;
-    }
+  .button-x {
+    margin-left: 3.125rem;
   }
 }
 
