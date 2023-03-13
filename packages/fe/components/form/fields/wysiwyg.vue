@@ -62,7 +62,17 @@ export default {
 <style lang="scss" scoped>
 // ///////////////////////////////////////////////////////////////////// General
 .field-wysiwyg {
-  height: 4rem;
+  border: 2px solid $nandor;
+  border-radius: toRem(10);
+}
+
+:deep(.wysiwyg-toolbar) {
+  border-bottom: 2px solid $nandor;
+  .wysiwyg-formatting-option {
+    &:not(:last-child) {
+      border-right: 2px solid $nandor;
+    }
+  }
 }
 
 .wysiwyg-container {

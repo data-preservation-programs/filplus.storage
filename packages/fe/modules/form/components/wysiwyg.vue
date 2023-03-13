@@ -2,7 +2,7 @@
   <div v-if="editor" class="wysiwyg-container">
 
     <!-- ================================================ Formatting Toolbar -->
-    <div class="wysiwyg-formatting-toolbar">
+    <div class="wysiwyg-toolbar">
       <div
         v-for="formatTool in toolbarConfig"
         :key="formatTool.name"
@@ -13,7 +13,7 @@
           class="wysiwig-formatting-dropdown"
           :field="headingSelectField"
           @updateValue="updateNodeHeading" />
-          
+
         <ButtonX
           v-if="formatTool.type === 'button-x' && formatTool.include"
           :class="[ 'wysiwyg-formatting-button', formatTool.name, isFormatButtonActive(formatTool)]"
@@ -178,9 +178,9 @@ export default {
             }
           },
           options: [
-            { label: 'Normal text' },
-            { label: 'Heading 1' },
-            { label: 'Heading 2' }
+            { label: 'p' },
+            { label: 'H1' },
+            { label: 'H2' }
           ],
           defaultValue: 0
         },
@@ -328,31 +328,35 @@ export default {
 
 <style lang="scss" scoped>
 // ///////////////////////////////////////////////////////////////////// General
-.wysiwyg-formatting-toolbar {
+.wysiwyg-toolbar {
   display: flex;
   flex-direction: row;
-  margin-bottom: 1rem;
 }
 
 .wysiwig-formatting-dropdown {
   width: 8rem;
+  height: unset;
+  :deep(.select) {
+    border: none;
+  }
+  :deep(.custom) {
+    padding: toRem(9) toRem(16) toRem(5) toRem(20);
+  }
 }
 
 .wysiwyg-formatting-button {
   margin-left: .25rem;
   padding: 0 .2rem;
-  border: 2px solid $nandor;
-  border-radius: 0.625rem;
-  background-color: $racingGreen;
+  // border: 2px solid $nandor;
+  // border-radius: 0.625rem;
+  // background-color: $racingGreen;
   &.is-active {
-    border-color: $mandysPink;
+    // border-color: $mandysPink;
   }
 }
 
 .wysiwyg-editor {
   padding: 1.5rem;
-  border: 2px solid $nandor;
-  border-radius: 0.625rem;
   line-height: 1.1;
 }
 </style>
