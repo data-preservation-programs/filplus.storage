@@ -4,50 +4,73 @@
     <div id="section-applications">
 
       <div class="grid">
+
+        <!-- ======================================================= Content -->
         <div class="col-8_mi-10" data-push-left="off-1_mi-0" data-push-right="off-1_mi-0">
           <div class="panel-left">
 
             <h1 class="heading h3" v-html="pageHeading" />
+
             <ButtonA
               to="/apply"
               tag="nuxt-link"
               class="new-application-button"
               theme="green">
-              {{ newApplicationButtonText }}
+              {{ pageData.new_application_button_text }}
             </ButtonA>
 
-            <div class="applications-accordion-toolbar">
-              <Checkbox
-                class="filter-checkbox"
-                :options="viewOnlyOpen" />
-              <Radio
-                class="filter-radio"
-                :options="viewApplicationType" />
-              <Sort
-                class="sort-dropdown"
-                :options="sortOrder" />
+            <div :class="['toolbar top', { loading: refresh }]">
+              <Spinner />
+              <div class="content">
+                <Checkbox
+                  class="filter-checkbox"
+                  :options="filters.state" />
+                <Radio
+                  class="filter-radio"
+                  :options="filters.view_application_type" />
+                <Sort
+                  class="filter-sort"
+                  :options="filters.sort" />
+              </div>
+            </div>
+
+            {{ !applicationList }}
+            {{ noResults }}
+
+            <div v-if="noResults" class="no-results">
+              {{ pageData.no_results_text }}
             </div>
 
             <AppAccordion
+              v-if="applicationList"
               :entries="applicationList"
-              :expand-application-text="expandApplicationText"
-              :view-on-github-text="viewOnGithubText"
-              :application-subtitle="applicationSubtitle" />
+              :expand-application-text="pageData.expand_application_text"
+              :view-on-github-text="pageData.view_on_github_text"
+              :application-subtitle="pageData.application_subtitle" />
 
-            <div class="applications-accordion-toolbar">
+            <div
+              v-if="loading && (!applicationList || noResults)"
+              class="loading-container">
+              <span>{{ pageData.loading_text }}</span>
+              <LoaderTripleDot />
+            </div>
+
+            <div class="toolbar bottom">
               <PaginationControls
+                v-if="totalPages > 1"
                 :page="page"
-                :total-pages="10" />
-
+                :total-pages="totalPages"
+                :loading="refresh" />
               <Limit
-                class="viewing-per-page"
-                :options="viewingPerPage" />
+                class="limit"
+                :options="filters.limit" />
             </div>
 
           </div>
 
         </div>
-        <!-- ======================================================== warp image -->
+
+        <!-- ==================================================== Warp image -->
         <div class="col-2_mi-1">
           <div class="panel-right">
             <div class="warp-image-double" />
@@ -57,6 +80,7 @@
       </div>
 
     </div>
+
     <!-- ========================================================== Overlays -->
     <Overlay type="noise" />
 
@@ -75,6 +99,8 @@ import Sort from '@/components/search/sort'
 import PaginationControls from '@/components/search/pagination-controls'
 import Limit from '@/components/search/limit'
 import Overlay from '@/components/overlay'
+import Spinner from '@/components/spinners/material-circle'
+import LoaderTripleDot from '@/components/spinners/triple-dot'
 
 import ApplicationsPageData from '@/content/pages/account-applications.json'
 
@@ -90,7 +116,9 @@ export default {
     Sort,
     PaginationControls,
     Limit,
-    Overlay
+    Overlay,
+    LoaderTripleDot,
+    Spinner
   },
 
   data () {
@@ -103,8 +131,7 @@ export default {
     const accountExists = await store.getters['account/account']
     if (!accountExists) { return redirect('/apply') }
     await store.dispatch('general/getBaseData', { key: 'applications', data: ApplicationsPageData })
-    await store.dispatch('general/getGeneralApplicationList', { route })
-    await store.dispatch('general/getLargeApplicationList', { route })
+    await store.dispatch('general/setLoadingStatus', { type: 'loading', status: true })
   },
 
   head () {
@@ -114,141 +141,68 @@ export default {
   computed: {
     ...mapGetters({
       siteContent: 'general/siteContent',
-      generalApplicationList: 'general/generalApplicationList',
-      largeApplicationList: 'general/largeApplicationList',
+      applicationList: 'general/applicationList',
+      loading: 'general/loading',
+      refresh: 'general/refresh',
+      metadata: 'general/metadata',
       account: 'account/account'
     }),
     pageData () {
       return this.siteContent[this.tag].page_content
     },
+    filters () {
+      return this.pageData.filters
+    },
     pageHeading () {
       return this.pageData.heading.replace('|username|', this.account.githubUsername)
     },
-    newApplicationButtonText () {
-      return this.pageData.new_application_button_text
-    },
-    applicationSubtitle () {
-      return this.pageData.application_subtitle
-    },
-    applicationList () {
-      const perPage = this.$route.query.perPage
-      const applications = [...this.sortedApplicationList]
-      return applications.slice(0, perPage)
-    },
-    expandApplicationText () {
-      return this.pageData.expand_application_text
-    },
-    sortedApplicationList () {
-      const allApplications = [...this.generalApplicationList, ...this.largeApplicationList]
-      const sort = this.$route.query.sort
-      switch (sort) {
-        case 'newest_first':
-          return this.sortApplications(allApplications, 1)
-        default:
-          return this.sortApplications(allApplications, 0)
-      }
-    },
     page () {
-      return parseInt(this.$route.query.page)
+      return this.metadata.page
     },
-    viewOnGithubText () {
-      return this.pageData.view_on_github_text
+    totalPages () {
+      return this.metadata.totalPages
     },
-    viewOnlyOpen () {
-      return [{
-        label: 'View only open applications',
-        value: 'true'
-      }]
-    },
-    viewApplicationType () {
-      return [
-        {
-          label: 'All',
-          value: 'all'
-        },
-        {
-          label: 'GA',
-          value: 'GA'
-        },
-        {
-          label: 'LDA',
-          value: 'LDA'
-        }
-      ]
-    },
-    sortOrder () {
-      return [
-        {
-          label: 'Newest to oldest',
-          value: 'newest_first'
-        },
-        {
-          label: 'Open status',
-          value: 'open_first'
-        }
-      ]
-    },
-    viewingPerPage () {
-      return [
-        {
-          label: 10,
-          value: 10
-        },
-        {
-          label: 20,
-          value: 20
-        },
-        {
-          label: 30,
-          value: 30
-        }
-      ]
+    noResults () {
+      const applicationList = this.applicationList
+      return applicationList && applicationList.length === 0 && !this.loading
     }
   },
 
   watch: {
-    '$route' () {
+    '$route' (route) {
+      this.setLoadingStatus({ type: 'refresh', status: true })
       this.$nextTick(() => {
-        this.getGeneralApplicationList({ route: this.$route })
-        this.getLargeApplicationList({ route: this.$route })
+        const view = route.query.view
+        switch (view) {
+          case 'all' : this.getApplicationList(); break
+          case 'GA' : this.getGeneralApplicationList(); break
+          case 'LDA' : this.getLargeApplicationList(); break
+        }
       })
+    },
+    applicationList () {
+      this.stopLoading()
     }
   },
 
-  mounted () {
-    if (Object.keys(this.$route.query).length === 0) {
-      this.$router.push({
-        route: this.$route,
-        query: {
-          page: 1,
-          perPage: 10,
-          onlyOpenApplications: true,
-          sort: 'newest_first'
-        }
-      })
-    }
+  async mounted () {
+    await this.getApplicationList()
   },
 
   methods: {
     ...mapActions({
+      getApplicationList: 'general/getApplicationList',
       getGeneralApplicationList: 'general/getGeneralApplicationList',
-      getLargeApplicationList: 'general/getLargeApplicationList'
+      getLargeApplicationList: 'general/getLargeApplicationList',
+      setLoadingStatus: 'general/setLoadingStatus'
     }),
-    sortApplications (applications, sort) {
-      switch (sort) {
-        case 1: // newest first
-          return applications.sort((a, b) => {
-            return a.created_at > b.created_at ? -1 : 1
-          })
-        default: // open first
-          return applications.sort((a, b) => {
-            if (a.state === b.state) {
-              return a.created_at > b.created_at ? -1 : 1
-            } else {
-              return a.state > b.state ? -1 : 1
-            }
-          })
-      }
+    stopLoading () {
+      this.$nextTick(() => {
+        if (typeof this.applicationList !== 'boolean') {
+          this.setLoadingStatus({ type: 'loading', status: false })
+          this.setLoadingStatus({ type: 'refresh', status: false })
+        }
+      })
     }
   }
 }
@@ -289,22 +243,57 @@ export default {
   margin-bottom: 4rem;
 }
 
-.applications-accordion-toolbar {
+.toolbar {
+  position: relative;
   display: flex;
-  justify-content: space-between;
-  margin-bottom: toRem(19);
-  .field-container {
-    display: flex;
-    align-items: center;
-    :deep(.label), :deep(.field-label) {
-      @include p2;
+  margin-bottom: 1rem;
+  &.top {
+    .content {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
     }
-    :deep(.select) {
-      border: none;
-      .text {
-        @include p2;
-        font-weight: 400;
-      }
+  }
+  &.bottom {
+    justify-content: space-between;
+  }
+  &.loading {
+    .spinner {
+      display: flex;
+    }
+    .content {
+      transition: 100ms ease-in;
+      opacity: 0.2;
+      pointer-events: none;
+    }
+  }
+  .content {
+    transition: 100ms ease-out;
+  }
+  .spinner {
+    display: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+  }
+}
+
+.field-container {
+  display: flex;
+  align-items: center;
+  :deep(.label),
+  :deep(.field-label) {
+    @include p2;
+  }
+  :deep(.select) {
+    border: none;
+    .text {
+      @include p2;
+      font-weight: 400;
     }
   }
 }
@@ -329,7 +318,7 @@ export default {
   }
 }
 
-.sort-dropdown {
+.filter-sort {
   :deep(.field-label) {
     margin-right: toRem(18);
   }
@@ -349,7 +338,7 @@ export default {
   }
 }
 
-.viewing-per-page {
+.limit {
   :deep(.field-label) {
     margin-right: toRem(20);
     font-weight: 400;
@@ -362,8 +351,35 @@ export default {
   }
 }
 
+.loading-container,
+.no-results {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 1rem;
+  border: 3px solid $nandor;
+  padding: 1.25rem 1.75rem;
+  border-radius: 0.625rem;
+}
+
+:deep(.triple-dot-loader) {
+  margin-left: 0.5rem;
+  .dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    background-color: $greenYellow;
+  }
+}
+
 #pagination-controls {
   color: $greenYellow;
+}
+
+.spinner {
+  margin-left: 1rem;
+  :deep(circle) {
+    stroke: $greenYellow;
+  }
 }
 
 :deep(.accordion-wrapper) {

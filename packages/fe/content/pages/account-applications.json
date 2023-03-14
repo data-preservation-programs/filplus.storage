@@ -15,6 +15,28 @@
     "new_application_button_text": "New Application",
     "github_issue_button_text": "View Issue on Github",
     "expand_application_text": "Read issue description or&nbsp;",
-    "view_on_github_text": "view issue on Github"
+    "view_on_github_text": "view issue on Github",
+    "loading_text": "Loading application list",
+    "no_results_text": "No applications found",
+    "filters": {
+      "state": [{
+        "label": "View only open applications",
+        "value": "open"
+      }],
+      "view_application_type": [
+        { "label": "All", "value": "all" },
+        { "label": "GA", "value": "GA" },
+        { "label": "LDA", "value": "LDA" }
+      ],
+      "sort": [
+        { "label": "Newest to oldest", "value": "newest_first" },
+        { "label": "Open status", "value": "open_first" }
+      ],
+      "limit": [
+        { "label": 10, "value": 10 },
+        { "label": 20, "value": 20 },
+        { "label": 30, "value": 30 }
+      ]
+    }
   }
 }

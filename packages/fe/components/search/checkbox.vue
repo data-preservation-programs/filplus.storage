@@ -1,19 +1,17 @@
 <template>
   <Filterer
     v-slot="{ applyFilter, originalSelected }"
-    filter-key="onlyOpenApplications"
+    filter-key="state"
     :is-single-option="true"
     :options="options"
     v-on="$listeners">
     <FieldContainer
-      field-key="toggle_only_open_applications"
+      field-key="state"
       :scaffold="{
         type: 'checkbox',
         required: false,
         options: options,
         defaultValue: originalSelected,
-        resetGroupId: 'only-open-applications',
-        updateGroupId: 'only-open-applications',
         isSingleOption: true
       }"
       @updateValue="initializeFilter($event, applyFilter)" />
@@ -45,7 +43,7 @@ export default {
     async initializeFilter (index, applyFilter) {
       await applyFilter({ index, live: false })
       await this.$filter('page').for({ index: 0, live: false })
-      await this.$applyMultipleFiltersToQuery({ filters: ['page', 'onlyOpenApplications'] })
+      await this.$applyMultipleFiltersToQuery({ filters: ['page', 'state'] })
     }
   }
 }

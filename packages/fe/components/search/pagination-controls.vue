@@ -186,5 +186,8 @@ $dimension: 2.5rem;
 
 .spinner {
   margin-left: 1rem;
+  :deep(circle) {
+    stroke: $greenYellow;
+  }
 }
 </style>

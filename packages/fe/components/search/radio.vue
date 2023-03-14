@@ -1,21 +1,18 @@
 <template>
   <Filterer
     v-slot="{ applyFilter, originalSelected }"
-    filter-key="applicationType"
+    filter-key="view"
     :is-single-option="true"
     :options="options"
     v-on="$listeners">
     <FieldContainer
-      field-key="application_type"
+      field-key="view"
       :scaffold="{
         type: 'radio',
         required: false,
         label: 'Show',
-        options: options,
-        defaultValue: originalSelected,
-        resetGroupId: 'application-type',
-        updateGroupId: 'application-type',
-        resetTo: 'nullState',
+        options,
+        defaultValue: originalSelected.length > 0 ? originalSelected : [0], /* manually set to 0 because default in store corresponds with the 0'th value in options prop */
         isSingleOption: true
       }"
       @updateValue="initializeFilter($event, applyFilter)" />
@@ -47,7 +44,7 @@ export default {
     async initializeFilter (index, applyFilter) {
       await applyFilter({ index, live: false })
       await this.$filter('page').for({ index: 0, live: false })
-      await this.$applyMultipleFiltersToQuery({ filters: ['page', 'applicationType'] })
+      await this.$applyMultipleFiltersToQuery({ filters: ['page', 'view'] })
     }
   }
 }

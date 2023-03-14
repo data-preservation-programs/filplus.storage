@@ -9,8 +9,14 @@ import GeneralSiteData from '@/content/pages/general.json'
 const state = () => ({
   siteContent: {},
   staticFiles: {},
-  generalApplicationList: {},
-  largeApplicationList: {},
+  applicationList: false,
+  loading: false,
+  refresh: false,
+  metadata: {
+    page: 1,
+    limit: 12,
+    totalPages: 1
+  },
   clipboard: false,
   application: {
     organization_name: null,
@@ -65,8 +71,10 @@ const getters = {
   networkStorageCapacity: state => state.networkStorageCapacity,
   applyFormHighlighted: state => state.applyFormHighlighted,
   githubIssue: state => state.githubIssue,
-  generalApplicationList: state => state.generalApplicationList,
-  largeApplicationList: state => state.largeApplicationList
+  applicationList: state => state.applicationList,
+  loading: state => state.loading,
+  refresh: state => state.refresh,
+  metadata: state => state.metadata
 }
 
 // ///////////////////////////////////////////////////////////////////// Actions
@@ -201,85 +209,76 @@ const actions = {
   setGithubIssue ({ commit }, issue) {
     commit('SET_GITHUB_ISSUE', issue)
   },
-  // ///////////////////////////////////////////////// setGeneralApplicationList
-  setGeneralApplicationList ({ commit }, applications) {
-    commit('SET_GENERAL_APPLICATION_LIST', applications)
+  // //////////////////////////////////////////////////////// getApplicationList
+  async getApplicationList ({ commit, getters, dispatch }, metadata) {
+    try {
+      const { compiled: params } = await this.$exportSearchAndFiltersFromQuery([
+        { queryKey: 'page', key: 'page', type: 'number', default: getters.metadata.page },
+        { queryKey: 'limit', key: 'limit', type: 'number', default: getters.metadata.limit },
+        { queryKey: 'sort', key: 'sort', default: 'newest_first' },
+        { queryKey: 'state', key: 'state' }
+      ])
+      const response = await this.$axiosAuth.get('/get-application-list', { params })
+      const payload = response.data.payload
+      dispatch('setApplicationList', {
+        applicationList: payload.results,
+        metadata: payload.metadata
+      })
+    } catch (e) {
+      console.log('================ [Store Action: general/getApplicationList]')
+      console.log(e)
+      dispatch('setLoadingStatus', { type: 'loading', status: false })
+    }
   },
   // ///////////////////////////////////////////////// getGeneralApplicationList
   async getGeneralApplicationList ({ commit, getters, dispatch }, metadata) {
     try {
-      const route = metadata.route
-      const query = CloneDeep(route.query)
-      const page = parseInt(query.page)
-      const state = query.onlyOpenApplications ? 'open' : 'all'
-      const type = query.applicationType
-      const perPage = query.perPage
-      if (type === 'LDA') {
-        dispatch('setGeneralApplicationList', [])
-        return []
-      } else {
-        const response = await this.$axiosAuth.get('/get-general-application-list', {
-          params: {
-            page,
-            ...(state && { state }),
-            ...(perPage && { perPage })
-          }
-        })
-        const applications = response.data.payload.map((x) => {
-          return {
-            ...x,
-            type: 'GA (General Application)'
-          }
-        })
-        dispatch('setGeneralApplicationList', applications)
-        return applications
-      }
+      const { compiled: params } = await this.$exportSearchAndFiltersFromQuery([
+        { queryKey: 'page', key: 'page', type: 'number', default: getters.metadata.page },
+        { queryKey: 'limit', key: 'limit', type: 'number', default: getters.metadata.limit },
+        { queryKey: 'sort', key: 'sort', default: 'newest_first' },
+        { queryKey: 'state', key: 'state' }
+      ])
+      const response = await this.$axiosAuth.get('/get-general-application-list', { params })
+      const payload = response.data.payload
+      dispatch('setApplicationList', {
+        applicationList: payload.results,
+        metadata: payload.metadata
+      })
     } catch (e) {
-      console.log('=== [Store Action: general/getGeneralApplicationList]')
+      console.log('========= [Store Action: general/getGeneralApplicationList]')
       console.log(e)
-      dispatch('setGeneralApplicationList', { application: false })
-      return false
+      dispatch('setLoadingStatus', { type: 'loading', status: false })
     }
-  },
-  // /////////////////////////////////////////////////// setLargeApplicationList
-  setLargeApplicationList ({ commit }, applications) {
-    commit('SET_LARGE_APPLICATION_LIST', applications)
   },
   // /////////////////////////////////////////////////// getLargeApplicationList
   async getLargeApplicationList ({ commit, getters, dispatch }, metadata) {
     try {
-      const route = metadata.route
-      const query = CloneDeep(route.query)
-      const page = parseInt(query.page)
-      const state = query.onlyOpenApplications ? 'open' : 'all'
-      const type = query.applicationType
-      const perPage = query.perPage
-      if (type === 'GA') {
-        dispatch('setLargeApplicationList', [])
-        return []
-      } else {
-        const response = await this.$axiosAuth.get('/get-large-application-list', {
-          params: {
-            page,
-            ...(state && { state }),
-            ...(perPage && { perPage })
-          }
-        })
-        const applications = response.data.payload.map((x) => {
-          return {
-            ...x,
-            type: 'LDA (Large Dataset Application)'
-          }
-        })
-        dispatch('setLargeApplicationList', applications)
-        return applications
-      }
+      const { compiled: params } = await this.$exportSearchAndFiltersFromQuery([
+        { queryKey: 'page', key: 'page', type: 'number', default: getters.metadata.page },
+        { queryKey: 'limit', key: 'limit', type: 'number', default: getters.metadata.limit },
+        { queryKey: 'sort', key: 'sort', default: 'newest_first' },
+        { queryKey: 'state', key: 'state' }
+      ])
+      const response = await this.$axiosAuth.get('/get-large-application-list', { params })
+      const payload = response.data.payload
+      dispatch('setApplicationList', {
+        applicationList: payload.results,
+        metadata: payload.metadata
+      })
     } catch (e) {
-      console.log('=== [Store Action: general/getLargeApplicationList]')
+      console.log('=========== [Store Action: general/getLargeApplicationList]')
       console.log(e)
-      dispatch('setLargeApplicationList', { application: false })
-      return false
+      dispatch('setLoadingStatus', { type: 'loading', status: false })
     }
+  },
+  // //////////////////////////////////////////////////////// setApplicationList
+  setApplicationList ({ commit }, applicationList) {
+    commit('SET_APPLICATION_LIST', applicationList)
+  },
+  // ////////////////////////////////////////////////////////// setLoadingStatus
+  setLoadingStatus ({ commit }, payload) {
+    commit('SET_LOADING_STATUS', payload)
   }
 }
 
@@ -307,11 +306,16 @@ const mutations = {
   SET_GITHUB_ISSUE (state, issue) {
     state.githubIssue = issue
   },
-  SET_GENERAL_APPLICATION_LIST (state, applications) {
-    state.generalApplicationList = applications
+  SET_APPLICATION_LIST (state, payload) {
+    state.applicationList = payload.applicationList
+    const metadata = payload.metadata
+    if (metadata) {
+      state.metadata.totalPages = metadata.totalPages
+      state.metadata.page = metadata.page
+    }
   },
-  SET_LARGE_APPLICATION_LIST (state, applications) {
-    state.largeApplicationList = applications
+  SET_LOADING_STATUS (state, payload) {
+    state[payload.type] = payload.status
   }
 }
 

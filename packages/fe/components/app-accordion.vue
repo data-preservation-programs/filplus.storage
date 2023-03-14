@@ -60,6 +60,7 @@
             orientation="up"
             color="nandor"
             :accordion-bottom-border="true" />
+
         </AccordionSection>
 
       </Accordion>
