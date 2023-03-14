@@ -6,8 +6,15 @@
       :field="field"
       @updateContentValue="updateContentValue">
 
-      <template #format-tool-label="{ formatTool }">
+      <template #format-button-label="{ formatTool }">
         <span v-if="formatTool.label" v-html="formatTool.label" />
+      </template>
+
+      <template #format-input-label="{ formatTool }">
+        <label
+          v-if="formatTool.label"
+          :for="formatTool.name"
+          v-html="formatTool.label" />
       </template>
 
     </Wysiwyg>
@@ -60,6 +67,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@mixin input {
+    box-sizing: border-box;
+    border: 1px solid $mineralGreen;
+    border-radius: toRem(1);
+    height: 5px;
+}
 // ///////////////////////////////////////////////////////////////////// General
 .field-wysiwyg {
   border: 2px solid $nandor;
@@ -68,6 +81,14 @@ export default {
 
 :deep(.wysiwyg-toolbar) {
   border-bottom: 2px solid $nandor;
+
+  .wysiwyg-formatting-input::-webkit-color-swatch {
+    @include input;
+  }
+  .wysiwyg-formatting-input::-moz-color-swatch {
+    @include input;
+  }
+
   .wysiwyg-formatting-button {
     &:hover {
       background: rgba(59, 86, 79, 0.5);

@@ -6,7 +6,7 @@
       <div
         v-for="formatTool in toolbarConfig"
         :key="formatTool.name"
-        class="wysiwyg-formatting-option">
+        :class="['wysiwyg-formatting-option', formatTool.type === 'input' ? 'input-option' : '']">
 
         <Select
           v-if="formatTool.type === 'select' && formatTool.include"
@@ -18,11 +18,27 @@
           v-if="formatTool.type === 'button-x' && formatTool.include"
           :class="[ 'wysiwyg-formatting-button', formatTool.name, isFormatButtonActive(formatTool)]"
           @clicked="clickFormatButton(formatTool)">
-          <slot name="format-tool-label" :format-tool="formatTool" />
+          <slot name="format-button-label" :format-tool="formatTool" />
           <component
             :is="buttonIcon(formatTool.name)"
-            v-if="formatTool.name" />
+            v-if="formatTool.name"
+            class="toolbar-icon" />
         </ButtonX>
+
+        <div v-if="formatTool.type === 'input' && formatTool.include" class="input-wrapper">
+          <slot name="format-input-label" :format-tool="formatTool" />
+          <component
+            :is="buttonIcon(formatTool.name)"
+            v-if="formatTool.name"
+            class="toolbar-icon"
+            :for="formatTool.inputType" />
+          <input
+            :type="formatTool.inputType"
+            :name="formatTool.inputType"
+            :value="showCurrentColor(formatTool)"
+            class="wysiwyg-formatting-input"
+            @input="clickColorInputButton(formatTool, $event.target.value)">
+        </div>
 
       </div>
     </div>
@@ -46,6 +62,9 @@ import { Link } from '@tiptap/extension-link'
 import { Underline } from '@tiptap/extension-underline'
 import { Superscript } from '@tiptap/extension-superscript'
 import { Subscript } from '@tiptap/extension-subscript'
+import { TextStyle } from '@tiptap/extension-text-style'
+import { Color } from '@tiptap/extension-color'
+import { Highlight } from '@tiptap/extension-highlight'
 import Kramed from 'kramed'
 
 import IconBlockquote from '@/components/icons/blockquote'
@@ -53,6 +72,7 @@ import IconBulletList from '@/components/icons/bullet-list'
 import IconCenterAlign from '@/components/icons/center-align'
 import IconCodeBlock from '@/components/icons/code-block'
 import IconCode from '@/components/icons/code'
+import IconHighlight from '@/components/icons/highlight'
 import IconImage from '@/components/icons/image'
 import IconJustify from '@/components/icons/justify'
 import IconLeftAlign from '@/components/icons/left-align'
@@ -80,6 +100,7 @@ export default {
     IconCenterAlign,
     IconCodeBlock,
     IconCode,
+    IconHighlight,
     IconImage,
     IconJustify,
     IconLeftAlign,
@@ -144,6 +165,19 @@ export default {
           name: 'subscript',
           label: '<p>A<sub>1</sub></p>',
           type: 'button-x',
+          include: true
+        },
+        {
+          name: 'textColor',
+          label: '<p>A</p>',
+          type: 'input',
+          inputType: 'color',
+          include: true
+        },
+        {
+          name: 'highlight',
+          type: 'input',
+          inputType: 'color',
           include: true
         },
         {
@@ -270,7 +304,10 @@ export default {
         }),
         Underline,
         Superscript,
-        Subscript
+        Subscript,
+        TextStyle,
+        Color,
+        Highlight.configure({ multicolor: true })
       ],
       editorProps: {
         handlePaste: (view, event) => {
@@ -326,6 +363,7 @@ export default {
         case 'centerAlign' : component = 'IconCenterAlign'; break
         case 'codeBlock' : component = 'IconCodeBlock'; break
         case 'code' : component = 'IconCode'; break
+        case 'highlight' : component = 'IconHighlight'; break
         case 'image' : component = 'IconImage'; break
         case 'justify' : component = 'IconJustify'; break
         case 'leftAlign' : component = 'IconLeftAlign'; break
@@ -424,6 +462,24 @@ export default {
           this.editor.chain().focus().redo().run()
           break
       }
+    },
+    showCurrentColor (formatTool) {
+      switch (formatTool.name) {
+        case 'textColor':
+          return this.editor.getAttributes('textStyle').color || '#F6F5FF'
+        case 'highlight':
+          return this.editor.getAttributes('highlight').color || '#B7F651'
+      }
+    },
+    clickColorInputButton (formatTool, value) {
+      switch (formatTool.name) {
+        case 'textColor':
+          this.editor.chain().focus().toggleColor(value).run()
+          break
+        case 'highlight':
+          this.editor.chain().focus().toggleHighlight({ color: value }).run()
+          break
+      }
     }
   }
 }
@@ -434,7 +490,10 @@ export default {
 .wysiwyg-toolbar {
   display: flex;
   flex-direction: row;
-  padding: toRem(7) 0;
+}
+
+.toolbar-icon {
+  height: toRem(14);
 }
 
 .wysiwig-formatting-dropdown {
@@ -445,6 +504,28 @@ export default {
   }
   :deep(.custom) {
     padding: toRem(9) toRem(16) toRem(5) toRem(20);
+  }
+}
+.wysiwyg-formatting-option {
+  padding: toRem(2) 0;
+}
+
+.input-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 0 toRem(7);
+  .toolbar-icon {
+    margin-bottom: toRem(4);
+  }
+  label {
+    line-height: 1;
+  }
+  input {
+    height: 20%;
+    width: calc(100% + toRem(10));
   }
 }
 
