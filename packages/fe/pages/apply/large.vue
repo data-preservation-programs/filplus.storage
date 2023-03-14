@@ -18,7 +18,7 @@
         :thick="true"
         class="section-bg-top-border" />
 
-      <div class="grid">
+      <div class="grid zindex-descend-12">
         <div class="col-6_md-8_sm-10_ti-12" data-push-left="off-1_ti-0">
 
           <div class="form-heading-1">
@@ -489,6 +489,12 @@ export default {
 .zindex-descend-col {
   [class~=col], [class*=col-], [class*=col_] {
     @include descendingZindex(2);
+  }
+}
+
+.zindex-descend-5 {
+  .field-container {
+    @include descendingZindex(5);
   }
 }
 
