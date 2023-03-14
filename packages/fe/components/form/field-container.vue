@@ -55,7 +55,7 @@ export default {
     FieldCheckbox,
     FieldRadio,
     FieldSelect,
-    FieldWysiwyg
+    FieldWysiwyg,
     FieldTypeahead,
     FieldChiclet
   },
