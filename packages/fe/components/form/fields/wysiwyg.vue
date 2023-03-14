@@ -7,7 +7,7 @@
       @updateContentValue="updateContentValue">
 
       <template #format-tool-label="{ formatTool }">
-        <span v-html="formatTool.label ? formatTool.label : formatTool.name" />
+        <span v-if="formatTool.label" v-html="formatTool.label" />
       </template>
 
     </Wysiwyg>
@@ -68,9 +68,12 @@ export default {
 
 :deep(.wysiwyg-toolbar) {
   border-bottom: 2px solid $nandor;
-  .wysiwyg-formatting-option {
-    &:not(:last-child) {
-      border-right: 2px solid $nandor;
+  .wysiwyg-formatting-button {
+    &:hover {
+      background: rgba(59, 86, 79, 0.5);
+    }
+    &.is-active {
+      background: $mineralGreen;
     }
   }
 }

@@ -19,6 +19,9 @@
           :class="[ 'wysiwyg-formatting-button', formatTool.name, isFormatButtonActive(formatTool)]"
           @clicked="clickFormatButton(formatTool)">
           <slot name="format-tool-label" :format-tool="formatTool" />
+          <component
+            :is="buttonIcon(formatTool.name)"
+            v-if="formatTool.name" />
         </ButtonX>
 
       </div>
@@ -43,6 +46,22 @@ import { Link } from '@tiptap/extension-link'
 import { Underline } from '@tiptap/extension-underline'
 import Kramed from 'kramed'
 
+import IconBlockquote from '@/components/icons/blockquote'
+import IconBulletList from '@/components/icons/bullet-list'
+import IconCenterAlign from '@/components/icons/center-align'
+import IconCodeBlock from '@/components/icons/code-block'
+import IconCode from '@/components/icons/code'
+import IconImage from '@/components/icons/image'
+import IconJustify from '@/components/icons/justify'
+import IconLeftAlign from '@/components/icons/left-align'
+import IconLink from '@/components/icons/link'
+import IconOrderedList from '@/components/icons/ordered-list'
+import IconRedoArrow from '@/components/icons/redo-arrow'
+import IconRightAlign from '@/components/icons/right-align'
+import IconTable from '@/components/icons/table'
+import IconTaskList from '@/components/icons/task-list'
+import IconUndoArrow from '@/components/icons/undo-arrow'
+
 import ButtonX from '@/components/buttons/button-x'
 import Select from '@/components/form/fields/select'
 
@@ -53,7 +72,22 @@ export default {
   components: {
     EditorContent,
     Select,
-    ButtonX
+    ButtonX,
+    IconBlockquote,
+    IconBulletList,
+    IconCenterAlign,
+    IconCodeBlock,
+    IconCode,
+    IconImage,
+    IconJustify,
+    IconLeftAlign,
+    IconLink,
+    IconOrderedList,
+    IconRedoArrow,
+    IconRightAlign,
+    IconTable,
+    IconTaskList,
+    IconUndoArrow
   },
 
   props: {
@@ -109,29 +143,19 @@ export default {
           include: true
         },
         {
-          name: 'undo',
-          type: 'button-x',
-          include: true
-        },
-        {
-          name: 'redo',
-          type: 'button-x',
-          include: true
-        },
-        {
-          name: 'left',
+          name: 'leftAlign',
           checkActive: { textAlign: 'left' },
           type: 'button-x',
           include: true
         },
         {
-          name: 'center',
+          name: 'centerAlign',
           checkActive: { textAlign: 'center' },
           type: 'button-x',
           include: true
         },
         {
-          name: 'right',
+          name: 'rightAlign',
           checkActive: { textAlign: 'right' },
           type: 'button-x',
           include: true
@@ -143,7 +167,27 @@ export default {
           include: true
         },
         {
+          name: 'blockquote',
+          type: 'button-x',
+          include: true
+        },
+        {
           name: 'link',
+          type: 'button-x',
+          include: true
+        },
+        {
+          name: 'codeBlock',
+          type: 'button-x',
+          include: true
+        },
+        {
+          name: 'undo',
+          type: 'button-x',
+          include: true
+        },
+        {
+          name: 'redo',
           type: 'button-x',
           include: true
         }
@@ -258,6 +302,27 @@ export default {
   },
 
   methods: {
+    buttonIcon (iconName) {
+      let component = false
+      switch (iconName) {
+        case 'blockquote' : component = 'IconBlockquote'; break
+        case 'bulletList' : component = 'IconBulletList'; break
+        case 'centerAlign' : component = 'IconCenterAlign'; break
+        case 'codeBlock' : component = 'IconCodeBlock'; break
+        case 'code' : component = 'IconCode'; break
+        case 'image' : component = 'IconImage'; break
+        case 'justify' : component = 'IconJustify'; break
+        case 'leftAlign' : component = 'IconLeftAlign'; break
+        case 'link' : component = 'IconLink'; break
+        case 'orderedList' : component = 'IconOrderedList'; break
+        case 'redo' : component = 'IconRedoArrow'; break
+        case 'rightAlign' : component = 'IconRightAlign'; break
+        case 'table' : component = 'IconTable'; break
+        case 'taskList' : component = 'IconTaskList'; break
+        case 'undo' : component = 'IconUndoArrow'; break
+      }
+      return component
+    },
     showCurrentHeadingValue (nodeType) {
       switch (nodeType) {
         case 1:
@@ -314,20 +379,26 @@ export default {
         case 'strike':
           this.editor.chain().focus().toggleStrike().run()
           break
+        case 'blockquote':
+          this.editor.chain().focus().toggleBlockquote().run()
+          break
         case 'bulletList':
           this.editor.chain().focus().toggleBulletList().run()
           break
         case 'orderedList':
           this.editor.chain().focus().toggleOrderedList().run()
           break
+        case 'link':
+          this.setLink()
+          break
+        case 'codeBlock':
+          this.editor.chain().focus().toggleCodeBlock().run()
+          break
         case 'undo':
           this.editor.chain().focus().undo().run()
           break
         case 'redo':
           this.editor.chain().focus().redo().run()
-          break
-        case 'link':
-          this.setLink()
           break
       }
     }
@@ -340,6 +411,7 @@ export default {
 .wysiwyg-toolbar {
   display: flex;
   flex-direction: row;
+  padding: toRem(7) 0;
 }
 
 .wysiwig-formatting-dropdown {
@@ -355,13 +427,8 @@ export default {
 
 .wysiwyg-formatting-button {
   margin-left: .25rem;
-  padding: 0 .2rem;
-  // border: 2px solid $nandor;
-  // border-radius: 0.625rem;
-  // background-color: $racingGreen;
-  &.is-active {
-    // border-color: $mandysPink;
-  }
+  padding: 0 toRem(7);
+  border-radius: toRem(3);
 }
 
 .wysiwyg-editor {
