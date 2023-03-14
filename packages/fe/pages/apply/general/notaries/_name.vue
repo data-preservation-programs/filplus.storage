@@ -268,6 +268,13 @@ export default {
   overflow: hidden;
 }
 
+:deep(#hero) {
+  .highlight {
+    display: block;
+    margin-top: 0.5rem;
+  }
+}
+
 #application {
   position: relative;
   padding: 8.75rem 0;

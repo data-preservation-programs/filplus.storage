@@ -12,8 +12,7 @@
   "page_content": {
     "hero": {
       "label": "General Application",
-      "heading": "Fill out an application to send to the following notary → <span class='highlight'>|notary|</span>"
-
+      "heading": "Send an application for DataCap to the notary you selected<br /><span class='highlight'>|notary|</span>"
     },
     "back_button": {
       "type": "nuxt-link",
