@@ -474,7 +474,7 @@ export default {
     clickColorInputButton (formatTool, value) {
       switch (formatTool.name) {
         case 'textColor':
-          this.editor.chain().focus().toggleColor(value).run()
+          this.editor.chain().focus().setColor(value).run()
           break
         case 'highlight':
           this.editor.chain().focus().toggleHighlight({ color: value }).run()
