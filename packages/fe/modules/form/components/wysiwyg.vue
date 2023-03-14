@@ -44,6 +44,8 @@ import { StarterKit } from '@tiptap/starter-kit'
 import { TextAlign } from '@tiptap/extension-text-align'
 import { Link } from '@tiptap/extension-link'
 import { Underline } from '@tiptap/extension-underline'
+import { Superscript } from '@tiptap/extension-superscript'
+import { Subscript } from '@tiptap/extension-subscript'
 import Kramed from 'kramed'
 
 import IconBlockquote from '@/components/icons/blockquote'
@@ -129,6 +131,18 @@ export default {
         {
           name: 'strike',
           label: '<s>S</s>',
+          type: 'button-x',
+          include: true
+        },
+        {
+          name: 'superscript',
+          label: '<p>A<sup>1</sup></p>',
+          type: 'button-x',
+          include: true
+        },
+        {
+          name: 'subscript',
+          label: '<p>A<sub>1</sub></p>',
           type: 'button-x',
           include: true
         },
@@ -254,7 +268,9 @@ export default {
           },
           openOnClick: false
         }),
-        Underline
+        Underline,
+        Superscript,
+        Subscript
       ],
       editorProps: {
         handlePaste: (view, event) => {
@@ -363,8 +379,9 @@ export default {
       return this.editor.isActive(formatTool.name) ? 'is-active' : ''
     },
     clickFormatButton (formatTool) {
-      if (formatTool.checkActive !== undefined) {
-        this.editor.chain().focus().setTextAlign(formatTool.name).run()
+      const isActive = formatTool.checkActive
+      if (isActive !== undefined) {
+        this.editor.chain().focus().setTextAlign(isActive.textAlign).run()
       }
       switch (formatTool.name) {
         case 'bold':
@@ -378,6 +395,12 @@ export default {
           break
         case 'strike':
           this.editor.chain().focus().toggleStrike().run()
+          break
+        case 'superscript':
+          this.editor.chain().focus().toggleSuperscript().run()
+          break
+        case 'subscript':
+          this.editor.commands.toggleSubscript()
           break
         case 'blockquote':
           this.editor.chain().focus().toggleBlockquote().run()
