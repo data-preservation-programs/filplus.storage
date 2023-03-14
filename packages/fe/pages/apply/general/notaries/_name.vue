@@ -4,7 +4,7 @@
     <!-- ============================================================== Hero -->
     <HeroB
       :label="hero.label"
-      :heading="hero.heading"
+      :heading="heroHeading"
       :hero-button="backButton" />
 
     <!-- ======================================================= Application -->
@@ -182,6 +182,9 @@ export default {
     hero () {
       return this.pageData.hero
     },
+    heroHeading () {
+      return this.hero.heading.replace('|notary|', this.$route.params.name)
+    },
     backButton () {
       return this.pageData.back_button
     },
@@ -263,6 +266,13 @@ export default {
 .page-apply-general {
   position: relative;
   overflow: hidden;
+}
+
+:deep(#hero) {
+  .highlight {
+    display: block;
+    margin-top: 0.5rem;
+  }
 }
 
 #application {
