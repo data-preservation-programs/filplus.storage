@@ -265,6 +265,11 @@ $height: 2.5rem;
 .field-typeahead {
   height: $height;
   &.dropdown-open {
+    &:not(.no-results) {
+      .input {
+        border-color: transparent;
+      }
+    }
     &.no-results {
       :deep(div.select-container) {
         display: none;
@@ -292,7 +297,7 @@ $height: 2.5rem;
   flex-direction: row;
   align-items: center;
   width: 100%;
-  border-bottom: 2px solid tomato;
+  border-bottom: 2px solid $titanWhite;
   appearance: none;
   transition: 150ms ease-in-out;
   @include placeholder {
@@ -304,14 +309,14 @@ $height: 2.5rem;
     appearance: none;
   }
   &.caution {
-    border-color: darkorange;
+    border-color: $mandysPink;
   }
   &.error {
-    border-color: red;
+    border-color: $flamingo;
   }
   &.disabled {
     cursor: no-drop;
-    border-bottom-color: rgba(227, 211, 192, 0.25);
+    border-bottom-color: rgba(246, 245, 255, 0.25);
   }
 }
 
@@ -319,7 +324,7 @@ $height: 2.5rem;
 :deep(div.select-container) {
   display: none;
   position: absolute;
-  top: 100%;
+  top: calc(100% - 6px);
   left: 0;
   width: 100%;
   z-index: 5;
@@ -332,11 +337,14 @@ $height: 2.5rem;
 }
 
 :deep(div.dropdown) {
-  @include shadow1;
-  top: 0;
+  position: absolute;
+  top: calc(100% - 2px);
+  left: 0;
+  width: 100%;
   max-height: $height * 5.5;
-  background-color: teal;
-  border-radius: 0 0 0.5rem 0.5rem;
+  background-color: $aztec;
+  border: 2px solid $titanWhite;
+  border-radius: 0.3125rem;
 }
 
 :deep(div.selection-window-wrapper) {
@@ -362,7 +370,7 @@ $height: 2.5rem;
   transition: 150ms ease-out;
   &.highlighted {
     transition: 150ms ease-in;
-    background-color: teal;
+    background-color: rgba(white, 0.1);
   }
   &:not(.display) {
     display: none;
