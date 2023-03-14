@@ -113,6 +113,11 @@
             form-id="filplus_application" />
 
           <FieldContainer
+            :scaffold="formScaffold.application_data_type"
+            field-key="application_data_type"
+            form-id="filplus_application" />
+
+          <FieldContainer
             :scaffold="formScaffold.identifier"
             field-key="identifier"
             form-id="filplus_application" />

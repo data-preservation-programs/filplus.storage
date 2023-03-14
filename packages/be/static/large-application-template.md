@@ -22,6 +22,9 @@ weekly_data_size weekly_data_size_unit
 ### On-chain address for first allocation
 filecoin_address
 
+### Data Type of Application
+application_data_type
+
 ### Custom multisig
 custom_multisig
 
