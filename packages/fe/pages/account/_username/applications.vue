@@ -34,9 +34,6 @@
               </div>
             </div>
 
-            {{ !applicationList }}
-            {{ noResults }}
-
             <div v-if="noResults" class="no-results">
               {{ pageData.no_results_text }}
             </div>
