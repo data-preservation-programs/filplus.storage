@@ -75,6 +75,7 @@ import { Highlight } from '@tiptap/extension-highlight'
 import { TaskList } from '@tiptap/extension-task-list'
 import { TaskItem } from '@tiptap/extension-task-item'
 import { Image } from '@tiptap/extension-image'
+import { Code } from '@tiptap/extension-code'
 import Kramed from 'kramed'
 
 import IconBlockquote from '@/components/icons/blockquote'
@@ -240,12 +241,17 @@ export default {
             include: true
           },
           {
-            name: 'image',
+            name: 'imageButton',
             type: 'button-x',
             include: true
           },
           {
             name: 'link',
+            type: 'button-x',
+            include: true
+          },
+          {
+            name: 'code',
             type: 'button-x',
             include: true
           },
@@ -306,7 +312,8 @@ export default {
           options: [
             { label: 'p' },
             { label: 'H1' },
-            { label: 'H2' }
+            { label: 'H2' },
+            { label: 'H3' }
           ],
           defaultValue: 0
         },
@@ -350,7 +357,8 @@ export default {
               class: 'task-item'
             }
           }),
-        Image
+        Image,
+        Code
       ],
       editorProps: {
         handlePaste: (view, event) => {
@@ -407,7 +415,7 @@ export default {
         case 'codeBlock' : component = 'IconCodeBlock'; break
         case 'code' : component = 'IconCode'; break
         case 'highlight' : component = 'IconHighlight'; break
-        case 'image' : component = 'IconImage'; break
+        case 'imageButton' : component = 'IconImage'; break
         case 'justify' : component = 'IconJustify'; break
         case 'leftAlign' : component = 'IconLeftAlign'; break
         case 'link' : component = 'IconLink'; break
@@ -501,11 +509,14 @@ export default {
         case 'taskList':
           this.editor.chain().focus().toggleTaskList().run()
           break
-        case 'image':
+        case 'imageButton':
           this.setImage()
           break
         case 'link':
           this.setLink()
+          break
+        case 'code':
+          this.editor.chain().focus().toggleCode().run()
           break
         case 'codeBlock':
           this.editor.chain().focus().toggleCodeBlock().run()
@@ -552,7 +563,7 @@ export default {
 }
 
 .wysiwig-formatting-dropdown {
-  width: 5rem;
+  width: 4rem;
   height: unset;
   :deep(.select) {
     border: none;
