@@ -265,6 +265,25 @@
           },
           "defaultValue": ""
         },
+        "application_data_type": {
+          "type": "select",
+          "modelKey": "application_data_type",
+          "label": "Data Type of Application",
+          "description": "Where is the data in this dataset sourced from?",
+          "required": true,
+          "output": "option",
+          "validationMessage": {
+            "required": "This field is required"
+          },
+          "options": [
+            { "label": "Slingshot" },
+            { "label": "Public, Open Dataset (Research/Non-Profit)" },
+            { "label": "Public, Open Commercial/Enterprise" },
+            { "label": "Private Commercial/Enterprise" },
+            { "label": "Private Non-Profit / Social impact" }
+          ],
+          "defaultValue": ""
+        },
         "custom_multisig": {
           "type": "checkbox",
           "modelKey": "custom_multisig",
