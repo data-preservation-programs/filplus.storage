@@ -67,6 +67,7 @@ import { Color } from '@tiptap/extension-color'
 import { Highlight } from '@tiptap/extension-highlight'
 import { TaskList } from '@tiptap/extension-task-list'
 import { TaskItem } from '@tiptap/extension-task-item'
+import { Image } from '@tiptap/extension-image'
 import Kramed from 'kramed'
 
 import IconBlockquote from '@/components/icons/blockquote'
@@ -227,6 +228,11 @@ export default {
           include: true
         },
         {
+          name: 'image',
+          type: 'button-x',
+          include: true
+        },
+        {
           name: 'link',
           type: 'button-x',
           include: true
@@ -328,7 +334,8 @@ export default {
             HTMLAttributes: {
               class: 'task-item'
             }
-          })
+          }),
+        Image
       ],
       editorProps: {
         handlePaste: (view, event) => {
@@ -431,6 +438,12 @@ export default {
       }
       this.editor.chain().focus().extendMarkRange('link').setLink({ href: url }).toggleUnderline().run()
     },
+    setImage () {
+      const url = window.prompt('URL: ')
+      if (url) {
+        return this.editor.chain().focus().setImage({ src: url }).run()
+      }
+    },
     isFormatButtonActive (formatTool) {
       if (formatTool.checkActive !== undefined) {
         return this.editor.isActive(formatTool.checkActive) ? 'is-active' : ''
@@ -472,6 +485,9 @@ export default {
           break
         case 'taskList':
           this.editor.chain().focus().toggleTaskList().run()
+          break
+        case 'image':
+          this.setImage()
           break
         case 'link':
           this.setLink()
@@ -570,6 +586,9 @@ export default {
         margin-right: .5rem;
       }
     }
+  }
+  :deep(img) {
+    max-width: 100%;
   }
 }
 

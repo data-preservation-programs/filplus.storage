@@ -162,7 +162,6 @@ export default {
   padding-bottom: 4.125rem;
   border-top: 3px solid transparent;
   z-index: 25;
-  height: 30rem;
 }
 
 .wysiwyg-top-border {
