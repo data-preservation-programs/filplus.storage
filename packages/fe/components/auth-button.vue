@@ -31,14 +31,12 @@
       <template #options>
         <div class="options">
           <ButtonX
-            v-for="(link, index) in links"
-            :key="index"
-            :to="link.href"
-            :selected="$isRouteCurrent($route, link.href)"
-            :tag="link.type"
-            :target="link.target"
+            :to="applicationHistoryButton.href"
+            :selected="$isRouteCurrent($route, applicationHistoryButton.href)"
+            :tag="applicationHistoryButton.type"
+            :target="applicationHistoryButton.target"
             class="auth-link">
-            <div class="auth-link-text" v-html="link.label" />
+            <div class="auth-link-text" v-html="applicationHistoryButton.label" />
           </ButtonX>
           <Logout v-slot="{ logout }">
             <ButtonX
@@ -85,17 +83,17 @@ export default {
     IconChevron
   },
 
-  props: {
-    links: {
-      type: Array,
-      required: true
-    }
-  },
-
   computed: {
     ...mapGetters({
       account: 'account/account'
-    })
+    }),
+    applicationHistoryButton () {
+      return {
+        type: 'nuxt-link',
+        href: `/account/${this.account.githubUsername}/applications`,
+        label: 'Application History Page'
+      }
+    }
   }
 }
 </script>

@@ -80,7 +80,7 @@
                   @mouseover.native="mouseOverLink(index)">
                   <div class="text" v-html="link.label" />
                 </ButtonX>
-                <AuthButton :links="authDropdownLinks" />
+                <AuthButton />
                 <ButtonA
                   v-if="cta"
                   :to="cta.href"
@@ -195,9 +195,6 @@ export default {
     },
     links () {
       return this.navigationContent.header
-    },
-    authDropdownLinks () {
-      return this.navigationContent.auth
     },
     cta () {
       return this.navigationContent.cta

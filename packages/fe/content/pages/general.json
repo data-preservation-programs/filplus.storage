@@ -35,13 +35,6 @@
         "target": "_blank"
       }
     ],
-    "auth": [
-      {
-        "type": "nuxt-link",
-        "href": "/applications",
-        "label": "Application History Page"
-      }
-    ],
     "cta": {
      "href": "/",
      "label": "Apply Now"
