@@ -216,7 +216,8 @@ const actions = {
         { queryKey: 'page', key: 'page', type: 'number', default: getters.metadata.page },
         { queryKey: 'limit', key: 'limit', type: 'number', default: getters.metadata.limit },
         { queryKey: 'sort', key: 'sort', default: 'newest_first' },
-        { queryKey: 'state', key: 'state' }
+        { queryKey: 'state', key: 'state' },
+        { queryKey: 'user', key: 'user' }
       ])
       const response = await this.$axiosAuth.get('/get-application-list', { params })
       const payload = response.data.payload
@@ -237,7 +238,8 @@ const actions = {
         { queryKey: 'page', key: 'page', type: 'number', default: getters.metadata.page },
         { queryKey: 'limit', key: 'limit', type: 'number', default: getters.metadata.limit },
         { queryKey: 'sort', key: 'sort', default: 'newest_first' },
-        { queryKey: 'state', key: 'state' }
+        { queryKey: 'state', key: 'state' },
+        { queryKey: 'user', key: 'user' }
       ])
       const response = await this.$axiosAuth.get('/get-general-application-list', { params })
       const payload = response.data.payload
@@ -258,7 +260,8 @@ const actions = {
         { queryKey: 'page', key: 'page', type: 'number', default: getters.metadata.page },
         { queryKey: 'limit', key: 'limit', type: 'number', default: getters.metadata.limit },
         { queryKey: 'sort', key: 'sort', default: 'newest_first' },
-        { queryKey: 'state', key: 'state' }
+        { queryKey: 'state', key: 'state' },
+        { queryKey: 'user', key: 'user' }
       ])
       const response = await this.$axiosAuth.get('/get-large-application-list', { params })
       const payload = response.data.payload

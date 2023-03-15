@@ -7,13 +7,13 @@ const MC = require('@Root/config')
 
 // ////////////////////////////////////////////////////////////////////// Export
 // -----------------------------------------------------------------------------
-module.exports = async (username, token, page = 1, state = 'all', limit = 10) => {
+module.exports = async (user, page = 1, state = 'all', limit = 10) => {
   try {
     const repo = MC.serverFlag === 'production' ? 'filecoin-project/filecoin-plus-large-datasets' : 'data-preservation-programs/filecoin-plus-large-datasets'
     const options = {
-      headers: { Accept: 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28', Authorization: `Bearer ${token}` },
+      headers: { Accept: 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28', Authorization: `Bearer ${user.githubToken}` },
       params: {
-        creator: username,
+        creator: user.githubUsername,
         ...(state && { state }),
         ...(page && { page }),
         ...(limit && { per_page: limit })
