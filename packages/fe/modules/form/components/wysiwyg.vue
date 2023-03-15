@@ -27,14 +27,16 @@
 
         <div v-if="formatTool.type === 'input' && formatTool.include" class="input-wrapper">
           <slot name="format-input-label" :format-tool="formatTool" />
-          <component
-            :is="buttonIcon(formatTool.name)"
-            v-if="formatTool.name"
-            class="toolbar-icon"
-            :for="formatTool.inputType" />
+          <label
+            v-if="!formatTool.label"
+            :for="formatTool.name">
+            <component
+              :is="buttonIcon(formatTool.name)"
+              class="toolbar-icon" />
+          </label>
           <input
+            :id="formatTool.name"
             :type="formatTool.inputType"
-            :name="formatTool.inputType"
             :value="showCurrentColor(formatTool)"
             class="wysiwyg-formatting-input"
             @input="clickColorInputButton(formatTool, $event.target.value)">
@@ -47,7 +49,7 @@
     <client-only>
       <EditorContent
         :editor="editor"
-        class="wysiwyg-editor" />
+        class="wysiwyg-editor markdown-user-input" />
     </client-only>
 
   </div>
@@ -563,9 +565,6 @@ export default {
   justify-content: center;
   height: 100%;
   padding: 0 toRem(7);
-  .toolbar-icon {
-    margin-bottom: toRem(4);
-  }
   label {
     line-height: 1;
   }
@@ -580,10 +579,20 @@ export default {
   line-height: 1.1;
   :deep(.task-list) {
     list-style-type: none;
+    font-size: toRem(16);
+    line-height: leading(25, 16);
     .task-item {
       display: flex;
+      align-items: flex-start;
+      width: calc(100% - 1.75rem);
       label {
         margin-right: .5rem;
+      }
+      > div {
+        width: 100%;
+      }
+      &::before {
+        display: none;
       }
     }
   }

@@ -89,7 +89,7 @@ export default {
     @include input;
   }
 
-  .wysiwyg-formatting-button {
+  .wysiwyg-formatting-button, .input-wrapper {
     &:hover {
       background: rgba(59, 86, 79, 0.5);
     }
