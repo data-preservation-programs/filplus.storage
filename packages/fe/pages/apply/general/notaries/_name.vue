@@ -218,8 +218,7 @@ export default {
     ...mapActions({
       validateForm: 'form/validateForm',
       submitGeneralApplication: 'general/submitGeneralApplication',
-      restoreSavedForm: 'form/restoreSavedForm',
-      removeLoader: 'button/removeLoader'
+      restoreSavedForm: 'form/restoreSavedForm'
     }),
     async submitForm () {
       const bottom = this.submitThresholdBottom
@@ -234,7 +233,7 @@ export default {
         this.$scrollToElement(inputFieldElement, 250, -200)
       } else if (pass) {
         if (bytes >= middle && bytes <= top) {
-          this.removeLoader('ga-submit-button')
+          this.$button('ga-submit-button').set({ loading: false })
           this.$toaster.add({
             type: 'toast',
             category: 'error',
@@ -245,7 +244,7 @@ export default {
           const incoming = await this.$form('filplus_application').validate()
           if (!incoming) {
             const firstInvalidField = document.querySelector('.error')
-            this.removeLoader('ga-submit-button')
+            this.$button('ga-submit-button').set({ loading: false })
             this.$scrollToElement(firstInvalidField, 250, -200)
           } else {
             await this.submitGeneralApplication(incoming)
