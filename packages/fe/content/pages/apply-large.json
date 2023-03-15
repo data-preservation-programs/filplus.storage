@@ -269,7 +269,6 @@
           "type": "select",
           "modelKey": "application_data_type",
           "label": "Data Type of Application",
-          "description": "Where is the data in this dataset sourced from?",
           "required": true,
           "output": "option",
           "validationMessage": {
