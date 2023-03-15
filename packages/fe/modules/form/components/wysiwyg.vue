@@ -65,6 +65,8 @@ import { Subscript } from '@tiptap/extension-subscript'
 import { TextStyle } from '@tiptap/extension-text-style'
 import { Color } from '@tiptap/extension-color'
 import { Highlight } from '@tiptap/extension-highlight'
+import { TaskList } from '@tiptap/extension-task-list'
+import { TaskItem } from '@tiptap/extension-task-item'
 import Kramed from 'kramed'
 
 import IconBlockquote from '@/components/icons/blockquote'
@@ -191,6 +193,11 @@ export default {
           include: true
         },
         {
+          name: 'taskList',
+          type: 'button-x',
+          include: true
+        },
+        {
           name: 'leftAlign',
           checkActive: { textAlign: 'left' },
           type: 'button-x',
@@ -292,7 +299,13 @@ export default {
     this.editor = new Editor({
       content: this.value,
       extensions: [
-        StarterKit,
+        StarterKit.configure({
+          listItem: {
+            HTMLAttributes: {
+              class: 'list-item'
+            }
+          }
+        }),
         TextAlign.configure({
           types: ['heading', 'paragraph']
         }),
@@ -307,7 +320,15 @@ export default {
         Subscript,
         TextStyle,
         Color,
-        Highlight.configure({ multicolor: true })
+        Highlight.configure({ multicolor: true }),
+        TaskList.configure({ HTMLAttributes: { class: 'task-list' } }),
+        TaskItem.configure(
+          {
+            nested: true,
+            HTMLAttributes: {
+              class: 'task-item'
+            }
+          })
       ],
       editorProps: {
         handlePaste: (view, event) => {
@@ -449,6 +470,9 @@ export default {
         case 'orderedList':
           this.editor.chain().focus().toggleOrderedList().run()
           break
+        case 'taskList':
+          this.editor.chain().focus().toggleTaskList().run()
+          break
         case 'link':
           this.setLink()
           break
@@ -510,6 +534,12 @@ export default {
   padding: toRem(2) 0;
 }
 
+.wysiwyg-formatting-button {
+  margin-left: .25rem;
+  padding: 0 toRem(7);
+  border-radius: toRem(3);
+}
+
 .input-wrapper {
   display: flex;
   flex-direction: column;
@@ -529,14 +559,18 @@ export default {
   }
 }
 
-.wysiwyg-formatting-button {
-  margin-left: .25rem;
-  padding: 0 toRem(7);
-  border-radius: toRem(3);
-}
-
 .wysiwyg-editor {
   padding: 1.5rem;
   line-height: 1.1;
+  :deep(.task-list) {
+    list-style-type: none;
+    .task-item {
+      display: flex;
+      label {
+        margin-right: .5rem;
+      }
+    }
+  }
 }
+
 </style>
