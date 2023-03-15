@@ -131,6 +131,7 @@ import AuthButton from '@/components/auth-button'
 import Chevron from '@/components/icons/chevron'
 
 import ApplyGeneralPageData from '@/content/pages/apply-general.json'
+import NotariesPageData from '@/content/pages/notaries.json'
 
 // ====================================================================== Export
 export default {
@@ -157,10 +158,21 @@ export default {
     const name = params.name
     const notariesList = await store.dispatch('general/getCachedFile', 'notaries-list.json')
     const notary = notariesList.find(notary => notary.name === name || notary.organization === name)
-    const notaryField = app.$field('notary|filplus_application').get()
-    if (!notary || !notaryField) { return redirect('/apply/general/notaries') }
-    await store.dispatch('general/getBaseData', { key: 'apply-general', data: ApplyGeneralPageData })
+    if (!notary) { return redirect('/apply/general/notaries') }
+    const notaryFieldId = 'notary|filplus_application'
+    const notaryField = app.$field(notaryFieldId).get()
     await app.$form('filplus_application').register(store.getters['general/application'])
+    if (!notaryField) {
+      await app.$field(notaryFieldId).register(
+        'filplus_application',
+        false,
+        'notary',
+        NotariesPageData.page_content.form.scaffold.notary,
+        'nullState'
+      )
+      await app.$field(notaryFieldId).updateValue(name)
+    }
+    await store.dispatch('general/getBaseData', { key: 'apply-general', data: ApplyGeneralPageData })
   },
 
   head () {

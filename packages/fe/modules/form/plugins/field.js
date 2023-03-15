@@ -223,6 +223,20 @@ const Field = (app, store, id) => {
       if (!field) {
         const form = app.$form(formId).get()
         const value = getValue(app, scaffold, form, formId, false, groupIndex)
+        console.log({
+          id,
+          fieldKey,
+          formId,
+          ...(typeof groupIndex === 'number' && { groupIndex }),
+          value,
+          includeInFormSubmission: true, // used to keep "validate" disabled in field-standalone component
+          originalValue: value,
+          state: 'valid',
+          validate: true,
+          validation: false,
+          resetTo,
+          scaffold
+        })
         await store.dispatch('form/setField', {
           id,
           fieldKey,
