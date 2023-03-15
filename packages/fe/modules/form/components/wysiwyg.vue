@@ -4,44 +4,49 @@
     <!-- ================================================ Formatting Toolbar -->
     <div class="wysiwyg-toolbar">
       <div
-        v-for="formatTool in toolbarConfig"
-        :key="formatTool.name"
-        :class="['wysiwyg-formatting-option', formatTool.type === 'input' ? 'input-option' : '']">
+        v-for="(toolbarSection, index) in toolbarConfig"
+        :key="index"
+        class="toolbar-section">
+        <div
+          v-for="formatTool in toolbarSection"
+          :key="formatTool.name"
+          :class="['wysiwyg-formatting-option', formatTool.type === 'input' ? 'input-option' : '']">
 
-        <Select
-          v-if="formatTool.type === 'select' && formatTool.include"
-          class="wysiwig-formatting-dropdown"
-          :field="headingSelectField"
-          @updateValue="updateNodeHeading" />
+          <Select
+            v-if="formatTool.type === 'select' && formatTool.include"
+            class="wysiwig-formatting-dropdown"
+            :field="headingSelectField"
+            @updateValue="updateNodeHeading" />
 
-        <ButtonX
-          v-if="formatTool.type === 'button-x' && formatTool.include"
-          :class="[ 'wysiwyg-formatting-button', formatTool.name, isFormatButtonActive(formatTool)]"
-          @clicked="clickFormatButton(formatTool)">
-          <slot name="format-button-label" :format-tool="formatTool" />
-          <component
-            :is="buttonIcon(formatTool.name)"
-            v-if="formatTool.name"
-            class="toolbar-icon" />
-        </ButtonX>
-
-        <div v-if="formatTool.type === 'input' && formatTool.include" class="input-wrapper">
-          <slot name="format-input-label" :format-tool="formatTool" />
-          <label
-            v-if="!formatTool.label"
-            :for="formatTool.name">
+          <ButtonX
+            v-if="formatTool.type === 'button-x' && formatTool.include"
+            :class="[ 'wysiwyg-formatting-button', formatTool.name, isFormatButtonActive(formatTool)]"
+            @clicked="clickFormatButton(formatTool)">
+            <slot name="format-button-label" :format-tool="formatTool" />
             <component
               :is="buttonIcon(formatTool.name)"
+              v-if="formatTool.name"
               class="toolbar-icon" />
-          </label>
-          <input
-            :id="formatTool.name"
-            :type="formatTool.inputType"
-            :value="showCurrentColor(formatTool)"
-            class="wysiwyg-formatting-input"
-            @input="clickColorInputButton(formatTool, $event.target.value)">
-        </div>
+          </ButtonX>
 
+          <div v-if="formatTool.type === 'input' && formatTool.include" class="input-wrapper">
+            <slot name="format-input-label" :format-tool="formatTool" />
+            <label
+              v-if="!formatTool.label"
+              :for="formatTool.name">
+              <component
+                :is="buttonIcon(formatTool.name)"
+                class="toolbar-icon" />
+            </label>
+            <input
+              :id="formatTool.name"
+              :type="formatTool.inputType"
+              :value="showCurrentColor(formatTool)"
+              class="wysiwyg-formatting-input"
+              @input="clickColorInputButton(formatTool, $event.target.value)">
+          </div>
+
+        </div>
       </div>
     </div>
 
@@ -131,129 +136,137 @@ export default {
       renderer: false,
       headingSelectValue: 0,
       toolbar: [
-        {
+        [{
           name: 'heading-select',
           type: 'select',
           include: true
-        },
-        {
-          name: 'bold',
-          label: '<b>B</b>',
-          type: 'button-x',
-          include: true
-        },
-        {
-          name: 'italic',
-          label: '<em>I</em>',
-          type: 'button-x',
-          include: true
-        },
-        {
-          name: 'underline',
-          label: '<u>U</u>',
-          type: 'button-x',
-          include: true
-        },
-        {
-          name: 'strike',
-          label: '<s>S</s>',
-          type: 'button-x',
-          include: true
-        },
-        {
-          name: 'superscript',
-          label: '<p>A<sup>1</sup></p>',
-          type: 'button-x',
-          include: true
-        },
-        {
-          name: 'subscript',
-          label: '<p>A<sub>1</sub></p>',
-          type: 'button-x',
-          include: true
-        },
-        {
-          name: 'textColor',
-          label: '<p>A</p>',
-          type: 'input',
-          inputType: 'color',
-          include: true
-        },
-        {
-          name: 'highlight',
-          type: 'input',
-          inputType: 'color',
-          include: true
-        },
-        {
-          name: 'bulletList',
-          type: 'button-x',
-          include: true
-        },
-        {
-          name: 'orderedList',
-          type: 'button-x',
-          include: true
-        },
-        {
-          name: 'taskList',
-          type: 'button-x',
-          include: true
-        },
-        {
-          name: 'leftAlign',
-          checkActive: { textAlign: 'left' },
-          type: 'button-x',
-          include: true
-        },
-        {
-          name: 'centerAlign',
-          checkActive: { textAlign: 'center' },
-          type: 'button-x',
-          include: true
-        },
-        {
-          name: 'rightAlign',
-          checkActive: { textAlign: 'right' },
-          type: 'button-x',
-          include: true
-        },
-        {
-          name: 'justify',
-          checkActive: { textAlign: 'justify' },
-          type: 'button-x',
-          include: true
-        },
-        {
-          name: 'blockquote',
-          type: 'button-x',
-          include: true
-        },
-        {
-          name: 'image',
-          type: 'button-x',
-          include: true
-        },
-        {
-          name: 'link',
-          type: 'button-x',
-          include: true
-        },
-        {
-          name: 'codeBlock',
-          type: 'button-x',
-          include: true
-        },
-        {
-          name: 'undo',
-          type: 'button-x',
-          include: true
-        },
-        {
-          name: 'redo',
-          type: 'button-x',
-          include: true
-        }
+        }],
+        [
+          {
+            name: 'bold',
+            label: '<b>B</b>',
+            type: 'button-x',
+            include: true
+          },
+          {
+            name: 'italic',
+            label: '<em>I</em>',
+            type: 'button-x',
+            include: true
+          },
+          {
+            name: 'underline',
+            label: '<u>U</u>',
+            type: 'button-x',
+            include: true
+          },
+          {
+            name: 'strike',
+            label: '<s>S</s>',
+            type: 'button-x',
+            include: true
+          },
+          {
+            name: 'superscript',
+            label: '<p>A<sup>1</sup></p>',
+            type: 'button-x',
+            include: true
+          },
+          {
+            name: 'subscript',
+            label: '<p>A<sub>1</sub></p>',
+            type: 'button-x',
+            include: true
+          },
+          {
+            name: 'textColor',
+            label: '<p>A</p>',
+            type: 'input',
+            inputType: 'color',
+            include: true
+          },
+          {
+            name: 'highlight',
+            type: 'input',
+            inputType: 'color',
+            include: true
+          }
+        ],
+        [
+          {
+            name: 'bulletList',
+            type: 'button-x',
+            include: true
+          },
+          {
+            name: 'orderedList',
+            type: 'button-x',
+            include: true
+          },
+          {
+            name: 'taskList',
+            type: 'button-x',
+            include: true
+          }
+        ],
+        [
+          {
+            name: 'leftAlign',
+            checkActive: { textAlign: 'left' },
+            type: 'button-x',
+            include: true
+          },
+          {
+            name: 'centerAlign',
+            checkActive: { textAlign: 'center' },
+            type: 'button-x',
+            include: true
+          },
+          {
+            name: 'rightAlign',
+            checkActive: { textAlign: 'right' },
+            type: 'button-x',
+            include: true
+          },
+          {
+            name: 'justify',
+            checkActive: { textAlign: 'justify' },
+            type: 'button-x',
+            include: true
+          },
+          {
+            name: 'blockquote',
+            type: 'button-x',
+            include: true
+          },
+          {
+            name: 'image',
+            type: 'button-x',
+            include: true
+          },
+          {
+            name: 'link',
+            type: 'button-x',
+            include: true
+          },
+          {
+            name: 'codeBlock',
+            type: 'button-x',
+            include: true
+          }
+        ],
+        [
+          {
+            name: 'undo',
+            type: 'button-x',
+            include: true
+          },
+          {
+            name: 'redo',
+            type: 'button-x',
+            include: true
+          }
+        ]
       ]
     }
   },
@@ -529,7 +542,7 @@ export default {
 
 <style lang="scss" scoped>
 // ///////////////////////////////////////////////////////////////////// General
-.wysiwyg-toolbar {
+.wysiwyg-toolbar, .toolbar-section {
   display: flex;
   flex-direction: row;
 }
@@ -539,23 +552,30 @@ export default {
 }
 
 .wysiwig-formatting-dropdown {
-  width: 8rem;
+  width: 5rem;
   height: unset;
   :deep(.select) {
     border: none;
   }
   :deep(.custom) {
-    padding: toRem(9) toRem(16) toRem(5) toRem(20);
+    padding: toRem(9) 0 toRem(5) toRem(4);
   }
 }
 .wysiwyg-formatting-option {
-  padding: toRem(2) 0;
+  padding: toRem(5) 0;
+  margin-left: toRem(4);
+  &:first-child {
+    margin-left: toRem(16);
+  }
+  &:last-child {
+    margin-right: toRem(16);
+  }
 }
 
 .wysiwyg-formatting-button {
-  margin-left: .25rem;
   padding: 0 toRem(7);
   border-radius: toRem(3);
+  line-height: 1.6;
 }
 
 .input-wrapper {
@@ -565,6 +585,7 @@ export default {
   justify-content: center;
   height: 100%;
   padding: 0 toRem(7);
+  border-radius: toRem(3);
   label {
     line-height: 1;
   }

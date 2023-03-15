@@ -82,6 +82,12 @@ export default {
 :deep(.wysiwyg-toolbar) {
   border-bottom: 2px solid $nandor;
 
+  .toolbar-section {
+    &:not(:last-child) {
+      border-right: 2px solid $nandor;
+    }
+  }
+
   .wysiwyg-formatting-input::-webkit-color-swatch {
     @include input;
   }
