@@ -1,43 +1,40 @@
 // /////////////////////////////////////////////////////////////////////// State
 // ---------------------- https://vuex.vuejs.org/guide/modules.html#module-reuse
 const state = () => ({
-  loaders: []
+  buttons: []
 })
 
 // ///////////////////////////////////////////////////////////////////// Getters
 // -----------------------------------------------------------------------------
 const getters = {
-  loaders: state => state.loaders
+  buttons: state => state.buttons
 }
 
 // ///////////////////////////////////////////////////////////////////// Actions
 // -----------------------------------------------------------------------------
 const actions = {
-  // ///////////////////////////////////////////////////////////////// addLoader
-  addLoader ({ commit, getters }, action) {
-    const found = getters.loaders.find(obj => obj === action)
-    if (!found) {
-      commit('ADD_LOADER', action)
-    }
+  // ///////////////////////////////////////////////////////////////// setButton
+  setButton ({ commit, getters }, payload) {
+    const index = getters.buttons.findIndex(button => button.id === payload.id)
+    commit('SET_BUTTON', { index, button: payload })
   },
-  // ////////////////////////////////////////////////////////////// removeLoader
-  removeLoader ({ commit, getters }, action) {
-    const loaders = getters.loaders.slice()
-    const index = loaders.findIndex(obj => obj === action)
-    if (index !== -1) {
-      commit('REMOVE_LOADER', index)
-    }
+  // ////////////////////////////////////////////////////////////// removeButton
+  removeButton ({ commit, getters }, id) {
+    const index = getters.buttons.findIndex(button => button.id === id)
+    commit('REMOVE_BUTTON', index)
   }
 }
 
 // /////////////////////////////////////////////////////////////////// Mutations
 // -----------------------------------------------------------------------------
 const mutations = {
-  ADD_LOADER (state, action) {
-    state.loaders.push(action)
+  SET_BUTTON (state, payload) {
+    const index = payload.index
+    const button = payload.button
+    index === -1 ? state.buttons.push(button) : state.buttons.splice(index, 1, button)
   },
-  REMOVE_LOADER (state, index) {
-    state.loaders.splice(index, 1)
+  REMOVE_BUTTON (state, index) {
+    state.buttons.splice(index, 1)
   }
 }
 

@@ -140,8 +140,13 @@ export default {
         path: '/apply',
         key: 'githubUsername'
       }
+    },
+    redirectAfterLogout: {
+      path: '/apply',
+      match: [
+        '/account'
+      ]
     }
-    // redirectAfterLogout: '/apply'
   },
   // /////////////////////////////////////////////////////////////// [Module] ls
   // ---------------------------------------------------------------------------

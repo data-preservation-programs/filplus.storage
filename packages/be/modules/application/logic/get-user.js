@@ -6,7 +6,7 @@ const MC = require('@Root/config')
 
 // ////////////////////////////////////////////////////////////////////// Export
 // -----------------------------------------------------------------------------
-module.exports = async (req, query) => {
+module.exports = async (req, res, query) => {
   const identifier = req.session.identifier
   if (!identifier) { return SendData(res, 403, 'You are not logged in') }
   let user = await MC.model.User.findById(identifier.userId)

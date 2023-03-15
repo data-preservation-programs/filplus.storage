@@ -178,6 +178,7 @@ export default {
 // /////////////////////////////////////////////////////// Submitted Application
 #section-success {
   position: relative;
+  margin-bottom: toRem(143);
   z-index: 25;
   .submitted-applicaiton-top-border {
     top: -3px;

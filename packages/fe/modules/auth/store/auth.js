@@ -32,7 +32,7 @@ const actions = {
       const response = await this.$axiosAuth.get('/login', {
         params: payload // { strategy, token }
       })
-      this.dispatch('button/removeLoader', 'login-button')
+      this.$button('login-button').set({ loading: false })
       const data = response.data
       return {
         session: data.payload,
@@ -51,7 +51,7 @@ const actions = {
   async logout ({ commit }, token) {
     try {
       const response = await this.$axiosAuth.get('/logout')
-      this.dispatch('button/removeLoader', 'logout-button')
+      this.$button('logout-button').set({ loading: false })
       const data = response.data
       this.$toaster.add({
         type: 'toast',
@@ -60,11 +60,21 @@ const actions = {
         message: data.message
       })
       const from = this.$router.history.current.path
-      const to = Config.auth.redirectAfterLogout
-      if (to && from !== to) {
-        this.$router.replace({ path: to })
+      const redirectTo = Config.auth.redirectAfterLogout
+      if (redirectTo.path && from !== redirectTo.path) { // if redirectAfterLogout exists and we're not on the same page we're redirecting to
+        const path = redirectTo.path
+        if (!redirectTo.match) { // if no need to do partial URL matches, just redirect from all routes
+          this.$router.replace({ path })
+        } else { // otherwise, choose which routes to redirect away from after logout
+          redirectTo.match.forEach((partialRoute) => {
+            if (from.includes(partialRoute)) {
+              this.$router.replace({ path })
+            }
+          })
+        }
       }
     } catch (e) {
+      console.log(e)
       const data = e.response.data
       this.$toaster.add({
         type: 'toast',

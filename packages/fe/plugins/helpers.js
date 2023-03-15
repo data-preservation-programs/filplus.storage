@@ -452,8 +452,8 @@ const ReactDatasizeRangeToUnit = (ctx, transformField, transformSourceField, arg
 // /////////////////////////////////////////////////////// HandleFormRedirection
 const HandleFormRedirection = (app, store, bytes, bottom, top) => {
   if (bytes < bottom || bytes > top) {
-    store.dispatch('button/removeLoader', 'ga-submit-button')
-    store.dispatch('button/removeLoader', 'lda-submit-button')
+    this.$button('ga-submit-button').set({ loading: false })
+    this.$button('lda-submit-button').set({ loading: false })
   }
   if (bytes < bottom) {
     window.open(
@@ -507,6 +507,11 @@ const HighlightApplyForm = (app, store) => {
   }, 2250)
 }
 
+// ////////////////////////////////////////////////////////////// IsRouteCurrent
+const IsRouteCurrent = (route, href) => {
+  return route.fullPath === href
+}
+
 // ////////////////////////////////////////////////////////////////////// Export
 // -----------------------------------------------------------------------------
 export default ({ $config, app, store }, inject) => {
@@ -541,4 +546,5 @@ export default ({ $config, app, store }, inject) => {
   inject('reactDatasizeRangeToUnit', ReactDatasizeRangeToUnit)
   inject('handleFormRedirection', (bytes, bottom, top) => HandleFormRedirection(app, store, bytes, bottom, top))
   inject('highlightApplyForm', () => HighlightApplyForm(app, store))
+  inject('isRouteCurrent', IsRouteCurrent)
 }

@@ -14,7 +14,7 @@ const MC = require('@Root/config')
 MC.app.get('/get-general-application-list', async (req, res) => {
   try {
     const query = req.query
-    const user = await GetUser(req, query)
+    const user = await GetUser(req, res, query)
     const page = await ParseNumber(query.page)
     const state = query.state
     const sort = query.sort

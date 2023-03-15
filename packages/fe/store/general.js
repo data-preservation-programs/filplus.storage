@@ -157,7 +157,7 @@ const actions = {
       this.$gtm.push({ event: 'submission_ga' })
       const response = await this.$axiosAuth.post('/submit-general-application', application)
       await dispatch('setGithubIssue', response.data.payload)
-      this.dispatch('button/removeLoader', 'ga-submit-button')
+      this.$button('ga-submit-button').set({ loading: false })
       this.$toaster.add({
         type: 'toast',
         category: 'success',
@@ -167,7 +167,7 @@ const actions = {
     } catch (e) {
       console.log('========== [Store Action: general/submitGeneralApplication]')
       console.log(e)
-      this.dispatch('button/removeLoader', 'ga-submit-button')
+      this.$button('ga-submit-button').set({ loading: false })
       this.$toaster.add({
         type: 'toast',
         category: 'error',
@@ -182,7 +182,7 @@ const actions = {
       this.$gtm.push({ event: 'submission_lda' })
       const response = await this.$axiosAuth.post('/submit-large-application', application)
       await dispatch('setGithubIssue', response.data.payload)
-      this.dispatch('button/removeLoader', 'lda-submit-button')
+      this.$button('lda-submit-button').set({ loading: false })
       this.$toaster.add({
         type: 'toast',
         category: 'success',
@@ -192,7 +192,7 @@ const actions = {
     } catch (e) {
       console.log('============ [Store Action: general/submitLargeApplication]')
       console.log(e)
-      this.dispatch('button/removeLoader', 'lda-submit-button')
+      this.$button('lda-submit-button').set({ loading: false })
       this.$toaster.add({
         type: 'toast',
         category: 'error',
