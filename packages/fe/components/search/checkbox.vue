@@ -11,7 +11,7 @@
         type: 'checkbox',
         required: false,
         options: options,
-        defaultValue: originalSelected,
+        defaultValue: originalSelected.length > 0 ? originalSelected : [0], /* manually set to 0 because default value corresponds with the 0'th value in options prop */
         isSingleOption: true
       }"
       @updateValue="initializeFilter($event, applyFilter)" />

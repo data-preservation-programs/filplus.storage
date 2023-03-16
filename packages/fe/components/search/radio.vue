@@ -12,7 +12,7 @@
         required: false,
         label: 'Show',
         options,
-        defaultValue: originalSelected.length > 0 ? originalSelected : [0], /* manually set to 0 because default in store corresponds with the 0'th value in options prop */
+        defaultValue: originalSelected.length > 0 ? originalSelected : [1], /* manually set to 1 because default corresponds with the 1'th value in options prop */
         isSingleOption: true
       }"
       @updateValue="initializeFilter($event, applyFilter)" />
