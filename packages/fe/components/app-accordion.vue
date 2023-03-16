@@ -135,12 +135,10 @@ export default {
 
   methods: {
     constructApplicationSubtitle (application) {
-      const issueUser = application.user
       const issueNumber = application.number
       const status = application.state === 'open' ? 'opened' : application.state_reason === 'completed' ? 'approved' : 'rejected'
-      const timeAgo = this.$timeago(new Date(application.created_at))
-      const user = issueUser.name || issueUser.login
-      return this.applicationSubtitle.replace('|issue_number|', issueNumber).replace('|status|', status).replace('|time_ago|', timeAgo).replace('|user|', user)
+      const timeAgo = status === 'opened' ? this.$timeago(new Date(application.created_at)) : this.$timeago(new Date(application.closed_at))
+      return this.applicationSubtitle.replace('|issue_number|', issueNumber).replace('|status|', status).replace('|time_ago|', timeAgo)
     },
     parseApplicationMarkdown (applicationBody) {
       return Kramed(applicationBody, { renderer: this.renderer })
