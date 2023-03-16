@@ -171,7 +171,6 @@ export default {
       this.$nextTick(() => {
         const view = route.query.view
         switch (view) {
-          case 'all' : this.getApplicationList(); break
           case 'GA' : this.getGeneralApplicationList(); break
           case 'LDA' : this.getLargeApplicationList(); break
         }
@@ -183,12 +182,11 @@ export default {
   },
 
   async mounted () {
-    await this.getApplicationList()
+    await this.getLargeApplicationList()
   },
 
   methods: {
     ...mapActions({
-      getApplicationList: 'general/getApplicationList',
       getGeneralApplicationList: 'general/getGeneralApplicationList',
       getLargeApplicationList: 'general/getLargeApplicationList',
       setLoadingStatus: 'general/setLoadingStatus'
