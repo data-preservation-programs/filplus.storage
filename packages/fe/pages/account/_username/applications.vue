@@ -310,6 +310,13 @@ export default {
     &:not(:last-child) {
       margin-right: toRem(27);
     }
+    .radio {
+      &:checked {
+        + .checker {
+          border-color: $nandor;
+        }
+      }
+    }
   }
   :deep(.checker) {
     border-radius: 50%;
