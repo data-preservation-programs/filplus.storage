@@ -323,16 +323,23 @@ export default {
   }
 }
 
-.filter-sort {
-  :deep(.field-label) {
-    margin-right: toRem(18);
-  }
+.filter-sort,
+.limit {
   :deep(.field-select) {
     border: 2px solid $nandor;
     border-radius: toRem(10);
     padding: 0 toRem(15);
     width: toRem(195);
     height: unset;
+    .icon-chevron {
+      color: $nandor;
+    }
+  }
+}
+
+.filter-sort {
+  :deep(.field-label) {
+    margin-right: toRem(18);
   }
   :deep(.selection-window) {
     padding: toRem(2) toRem(15);
@@ -349,10 +356,21 @@ export default {
     font-weight: 400;
   }
   :deep(.field-select) {
-    width: toRem(36);
+    width: toRem(65);
   }
-  :deep(.text) {
-    padding-right: toRem(9);
+  :deep(.selection-window) {
+    padding: toRem(10);
+    .text {
+      padding-right: toRem(9);
+      color: $greenYellow;
+    }
+  }
+  :deep(.dropdown) {
+    top: unset;
+    bottom: 100%;
+    .option.selected {
+      color: $greenYellow;
+    }
   }
 }
 
