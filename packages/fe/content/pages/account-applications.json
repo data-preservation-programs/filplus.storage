@@ -24,8 +24,8 @@
         "value": "open"
       }],
       "view_application_type": [
-        { "label": "GA", "value": "GA" },
-        { "label": "LDA", "value": "LDA" }
+        { "label": "LDA", "value": "LDA", "radio_type": "dot" },
+        { "label": "GA", "value": "GA", "radio_type": "dot" }
       ],
       "sort": [
         { "label": "Newest to oldest", "value": "newest_first" },

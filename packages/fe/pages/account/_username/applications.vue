@@ -311,6 +311,9 @@ export default {
       margin-right: toRem(27);
     }
   }
+  :deep(.checker) {
+    border-radius: 50%;
+  }
 }
 
 .filter-sort {

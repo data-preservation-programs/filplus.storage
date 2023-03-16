@@ -15,7 +15,8 @@
           class="radio"
           @input="$emit('updateValue', index)" />
         <div class="checker">
-          <IconCheckmark />
+          <div v-if="option.radio_type === 'dot'" class="radio-dot" />
+          <IconCheckmark v-else />
         </div>
       </div>
 
@@ -151,6 +152,9 @@ $dimension: 1.625rem;
       .icon-checkmark {
         animation: checkbox-check 75ms 200ms cubic-bezier(0.4, 0, 0.23, 1) forwards;
       }
+      .radio-dot {
+        display: block;
+      }
     }
   }
   &:focus-visible {
@@ -176,6 +180,12 @@ $dimension: 1.625rem;
   pointer-events: none;
   z-index: 5;
   transition: border-color 150ms, background-color 150ms, transform 150ms ease-out;
+}
+
+.radio-dot {
+  display: none;
+  border: calc(($dimension/2) - 5px) solid $mandysPink;
+  border-radius: 50%;
 }
 
 .icon-checkmark {
