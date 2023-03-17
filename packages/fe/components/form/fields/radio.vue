@@ -184,8 +184,10 @@ $dimension: 1.625rem;
 
 .radio-dot {
   display: none;
-  border: calc(($dimension/2) - 5px) solid $mandysPink;
-  border-radius: 50%;
+  clip-path: circle(50%);
+  background: radial-gradient(50% 50% at 50% 50%, transparent 0%, $greenYellow 100%);
+  height: toRem(12);
+  width: toRem(12);
 }
 
 .icon-checkmark {
