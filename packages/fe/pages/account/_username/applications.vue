@@ -183,6 +183,10 @@ export default {
 
   async mounted () {
     await this.getLargeApplicationList()
+    if (this.applicationList.length === 0) {
+      // this.radioDefaultValue = [0]
+      await this.getGeneralApplicationList()
+    }
   },
 
   methods: {
