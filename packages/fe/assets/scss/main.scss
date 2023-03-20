@@ -695,16 +695,11 @@ span.error {
   }
   h1,
   h2 {
-    font-size: toRem(20);
-    line-height: leading(25, 20);
-    font-weight: 500;
-  }
-  h1 {
-    letter-spacing: 1px;
+    @include h5;
   }
   h3 {
-    font-size: toRem(18);
-    line-height: leading(25, 18);
+    font-size: toRem(16);
+    line-height: leading(25, 16);
     font-weight: 500;
   }
   p {
@@ -725,11 +720,10 @@ span.error {
       transition: none;
     }
   }
-  ul {
-    li {
-      font-size: toRem(18);
-      line-height: leading(30, 18);
-    }
+  ol,
+  ul > li {
+    font-size: toRem(16);
+    line-height: leading(25, 16);
   }
   blockquote {
     border-left: 3px solid $nandor;

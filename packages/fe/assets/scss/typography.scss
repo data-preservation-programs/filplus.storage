@@ -11,6 +11,47 @@ $fontInconsolata: 'Inconsolata', sans-serif, monospace;
   @return math.div(math.round(10 * math.div($lineHeight, $fontSize)), 10);
 }
 
+// ////////////////////////////////////////////////////////////////////// Mixins
+// =============================================================================
+
+@mixin h2 {
+  font-size: toRem(60);
+  line-height: leading(105, 60);
+  font-weight: 500;
+}
+
+@mixin h5 {
+  font-size: toRem(20);
+  line-height: leading(30, 20);
+  font-weight: 500;
+}
+
+@mixin h6 {
+  font-size: toRem(18);
+  line-height: leading(30, 18);
+  font-weight: 500;
+}
+
+@mixin p1 {
+  font-size: toRem(18);
+  line-height: leading(35, 18);
+  font-weight: 400;
+}
+
+@mixin p2 {
+  font-size: toRem(16);
+  line-height: leading(30, 16);
+  font-weight: 400;
+}
+
+@mixin headingHighlight {
+  font-size: toRem(35);
+  line-height: leading(50, 35);
+  font-weight: 500;
+  color: $mandysPink;
+}
+
+
 // ////////////////////////////////////////////////////////////////////// Sizing
 // =============================================================================
 h1, .h1,
@@ -43,8 +84,7 @@ h1, .h1 {
 }
 
 h2, .h2 {
-  font-size: toRem(60);
-  line-height: leading(105, 60);
+  @include h2
 }
 
 h3, .h3 {
@@ -56,19 +96,15 @@ h4, .h4 {
 }
 
 h5, .h5 {
-  font-size: toRem(20);
-  line-height: leading(30, 20);
-  font-weight: 500;
+  @include h5;
 }
 
 h6, .h6 {
-  font-size: 0.8rem;
+  @include h6;
 }
 
 .p2 {
-  font-size: toRem(16);
-  line-height: leading(30, 16);
-  font-weight: 400;
+  @include p2;
 }
 
 p,
@@ -76,27 +112,6 @@ p,
 div,
 a,
 button {
-  font-size: toRem(18);
-  line-height: leading(35, 18);
+  @include p1;
 }
 
-// ////////////////////////////////////////////////////////////////////// Mixins
-// =============================================================================
-
-@mixin p2 {
-  font-size: toRem(16);
-  line-height: leading(30, 16);
-}
-
-  @mixin h5 {
-  font-size: toRem(20);
-  line-height: leading(30, 20);
-  font-weight: 500;
-}
-
-@mixin headingHighlight {
-  font-size: toRem(35);
-  line-height: leading(50, 35);
-  font-weight: 500;
-  color: $mandysPink;
-}
