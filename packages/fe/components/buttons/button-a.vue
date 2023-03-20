@@ -126,7 +126,7 @@ export default {
 
 // ////////////////////////////////////////////////////////////////////// Themes
 .theme__green {
-  color: $toledo;
+  color: $aztec;
   background-color: $greenYellow;
   &:not([disabled]) {
     &:hover {
@@ -136,7 +136,7 @@ export default {
 }
 
 .theme__blue {
-  color: $toledo;
+  color: $aztec;
   background-color: $perano;
   &:not([disabled]) {
     &:hover {
