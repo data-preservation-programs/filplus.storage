@@ -55,6 +55,7 @@
       <EditorContent
         :editor="editor"
         class="wysiwyg-editor markdown-user-input" />
+      <div class="wysiwyg-char-count" v-html="`Character count: ${editor.storage.characterCount.characters()}`" />
     </client-only>
 
   </div>
@@ -76,6 +77,8 @@ import { TaskList } from '@tiptap/extension-task-list'
 import { TaskItem } from '@tiptap/extension-task-item'
 import { Image } from '@tiptap/extension-image'
 import { Code } from '@tiptap/extension-code'
+import { Placeholder } from '@tiptap/extension-placeholder'
+import { CharacterCount } from '@tiptap/extension-character-count'
 import Kramed from 'kramed'
 
 import IconBlockquote from '@/components/icons/blockquote'
@@ -319,6 +322,9 @@ export default {
         },
         value: this.headingSelectValue
       }
+    },
+    placeholder () {
+      return this.scaffold.placeholder
     }
   },
 
@@ -358,7 +364,9 @@ export default {
             }
           }),
         Image,
-        Code
+        Code,
+        Placeholder.configure({ placeholder: this.placeholder }),
+        CharacterCount
       ],
       editorProps: {
         handlePaste: (view, event) => {
@@ -562,6 +570,8 @@ export default {
   height: toRem(14);
 }
 
+.wysiwyg-editor
+
 .wysiwig-formatting-dropdown {
   width: 4rem;
   height: unset;
@@ -609,6 +619,15 @@ export default {
 .wysiwyg-editor {
   padding: 1.5rem;
   line-height: 1.1;
+  :deep(p.is-editor-empty:first-child::before) { // placeholder only on first line
+  // p.is-empty::before { // placeholder on every new line
+  color: rgba($aquaSqueeze, 0.7);
+  content: attr(data-placeholder);
+  background: salmon;
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
   :deep(.task-list) {
     list-style-type: none;
     font-size: toRem(16);
@@ -631,6 +650,12 @@ export default {
   :deep(img) {
     max-width: 100%;
   }
+}
+.wysiwyg-char-count {
+  color: rgba($aquaSqueeze, 0.7);
+  margin-right: toRem(13);
+  text-align: right;
+  @include p3;
 }
 
 </style>
