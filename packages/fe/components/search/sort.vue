@@ -12,7 +12,7 @@
         required: false,
         label: 'Sort by',
         options,
-        defaultValue: originalSelected.length > 0 ? originalSelected : [0], /* manually set to 0 because default in store corresponds with the 0'th value in options prop */
+        defaultValue: originalSelected.length > 0 ? originalSelected : [0], /* manually set to corresponding n'th value in options prop */
         isSingleOption: true
       }"
       @updateValue="initializeFilter($event, applyFilter)" />
