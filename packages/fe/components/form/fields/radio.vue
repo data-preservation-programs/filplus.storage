@@ -15,8 +15,7 @@
           class="radio"
           @input="$emit('updateValue', index)" />
         <div class="checker">
-          <div v-if="option.radio_type === 'dot'" class="radio-dot" />
-          <IconCheckmark v-else />
+          <div class="dot" />
         </div>
       </div>
 
@@ -30,16 +29,9 @@
 </template>
 
 <script>
-// ===================================================================== Imports
-import IconCheckmark from '@/components/icons/checkmark'
-
 // ====================================================================== Export
 export default {
   name: 'FieldRadio',
-
-  components: {
-    IconCheckmark
-  },
 
   props: {
     field: {
@@ -149,10 +141,7 @@ $dimension: 1.625rem;
       animation: shrink-bounce 150ms cubic-bezier(0.4, 0, 0.23, 1);
       border-color: $nandor;
       background-color: $racingGreen;
-      .icon-checkmark {
-        animation: checkbox-check 75ms 200ms cubic-bezier(0.4, 0, 0.23, 1) forwards;
-      }
-      .radio-dot {
+      .dot {
         display: block;
       }
     }
@@ -182,18 +171,12 @@ $dimension: 1.625rem;
   transition: border-color 150ms, background-color 150ms, transform 150ms ease-out;
 }
 
-.radio-dot {
+.dot {
   display: none;
   clip-path: circle(50%);
   background: radial-gradient(50% 50% at 50% 50%, transparent 0%, $greenYellow 100%);
   height: toRem(12);
   width: toRem(12);
-}
-
-.icon-checkmark {
-  display: block;
-  width: 0.875rem;
-  opacity: 0;
 }
 
 .label {
