@@ -622,14 +622,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@mixin placeholder {
-  @include p3;
-  color: rgba($aquaSqueeze, 0.7);
-}
 // ///////////////////////////////////////////////////////////////////// General
 .wysiwyg-toolbar, .toolbar-section {
   display: flex;
   flex-direction: row;
+  align-items: center;
 }
 
 .toolbar-icon {
@@ -691,6 +688,9 @@ export default {
   padding: 0 toRem(7);
   border-radius: toRem(3);
   line-height: 1.6;
+  :deep(.button-content) {
+    @include p2;
+  }
 }
 
 .input-wrapper {
@@ -747,7 +747,8 @@ export default {
 }
 
 .wysiwyg-char-count {
-  @include placeholder;
+  @include p3;
+  color: rgba($aquaSqueeze, 0.7);
   margin-right: toRem(13);
   text-align: right;
 }
