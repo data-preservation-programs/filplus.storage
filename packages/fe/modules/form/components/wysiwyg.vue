@@ -29,6 +29,28 @@
               class="toolbar-icon" />
           </ButtonX>
 
+          <div
+            v-if="formatTool.userInput"
+            :class="[
+              `${formatTool.name === 'link' ? 'link': 'image'}-user-input-wrapper`,
+              'user-input-wrapper',
+              whichUserInput(formatTool.name) ? 'active' : '']">
+            <component
+              :is="buttonIcon(formatTool.name)"
+              class="toolbar-icon" />
+            <input
+              class="wysiwyg-user-input"
+              type="url"
+              :placeholder="formatTool.placeholder"
+              @input="updateUserInputValue($event.target.value, formatTool.name)" />
+            <ButtonX
+              class="user-input-apply"
+              theme="mineral-green"
+              @clicked="submitUserInput(formatTool.name)">
+              Apply
+            </ButtonX>
+          </div>
+
           <div v-if="formatTool.type === 'input' && formatTool.include" class="input-wrapper">
             <slot name="format-input-label" :format-tool="formatTool" />
             <label
@@ -63,6 +85,7 @@
 
 <script>
 // ===================================================================== Imports
+// /////////////////////////////////////////////////////////////////// libraries
 import { Editor, EditorContent } from '@tiptap/vue-2'
 import { StarterKit } from '@tiptap/starter-kit'
 import { TextAlign } from '@tiptap/extension-text-align'
@@ -76,11 +99,15 @@ import { Highlight } from '@tiptap/extension-highlight'
 import { TaskList } from '@tiptap/extension-task-list'
 import { TaskItem } from '@tiptap/extension-task-item'
 import { Image } from '@tiptap/extension-image'
-import { Code } from '@tiptap/extension-code'
 import { Placeholder } from '@tiptap/extension-placeholder'
 import { CharacterCount } from '@tiptap/extension-character-count'
 import Kramed from 'kramed'
 
+// ////////////////////////////////////////////////////////////////// components
+import ButtonX from '@/components/buttons/button-x'
+import Select from '@/components/form/fields/select'
+
+// /////////////////////////////////////////////////////////////////////// icons
 import IconBlockquote from '@/components/icons/blockquote'
 import IconBulletList from '@/components/icons/bullet-list'
 import IconCenterAlign from '@/components/icons/center-align'
@@ -97,9 +124,6 @@ import IconRightAlign from '@/components/icons/right-align'
 import IconTable from '@/components/icons/table'
 import IconTaskList from '@/components/icons/task-list'
 import IconUndoArrow from '@/components/icons/undo-arrow'
-
-import ButtonX from '@/components/buttons/button-x'
-import Select from '@/components/form/fields/select'
 
 // ====================================================================== Export
 export default {
@@ -139,6 +163,10 @@ export default {
       editor: null,
       renderer: false,
       headingSelectValue: 0,
+      linkInputActive: false,
+      imageButtonInputActive: false,
+      linkUserInputValue: '',
+      imageButtonUserInputValue: '',
       toolbar: [
         [{
           name: 'heading-select',
@@ -246,11 +274,15 @@ export default {
           {
             name: 'imageButton',
             type: 'button-x',
+            userInput: true,
+            placeholder: 'Link an image',
             include: true
           },
           {
             name: 'link',
             type: 'button-x',
+            userInput: true,
+            placeholder: 'Paste a link',
             include: true
           },
           {
@@ -356,15 +388,13 @@ export default {
         Color,
         Highlight.configure({ multicolor: true }),
         TaskList.configure({ HTMLAttributes: { class: 'task-list' } }),
-        TaskItem.configure(
-          {
-            nested: true,
-            HTMLAttributes: {
-              class: 'task-item'
-            }
-          }),
+        TaskItem.configure({
+          nested: true,
+          HTMLAttributes: {
+            class: 'task-item'
+          }
+        }),
         Image,
-        Code,
         Placeholder.configure({ placeholder: this.placeholder }),
         CharacterCount
       ],
@@ -469,6 +499,49 @@ export default {
       }
       this.editor.chain().focus().extendMarkRange('link').setLink({ href: url }).toggleUnderline().run()
     },
+    whichUserInput (toolName) {
+      switch (toolName) {
+        case 'imageButton':
+          return this.imageButtonInputActive
+        case 'link':
+          return this.linkInputActive
+      }
+    },
+    toggleUserInput (toolName) {
+      switch (toolName) {
+        case 'imageButton':
+          this.imageButtonInputActive = !this.imageButtonInputActive
+          break
+        case 'link':
+          this.linkInputActive = !this.linkInputActive
+          break
+      }
+    },
+    updateUserInputValue (value, toolName) {
+      if (value.length > 0) {
+        switch (toolName) {
+          case 'imageButton':
+            this.imageButtonUserInputValue = value
+            break
+          case 'link':
+            this.linkUserInputValue = value
+            break
+        }
+      }
+    },
+    submitUserInput (toolName) {
+      switch (toolName) {
+        case 'link':
+          this.editor.chain().focus().toggleLink({ href: this.linkUserInputValue }).run()
+          this.toggleUserInput(toolName)
+          this.linkUserInputValue = ''
+          break
+        case 'imageButton':
+          this.editor.chain().focus().setImage({ src: this.imageButtonUserInputValue }).run()
+          this.toggleUserInput(toolName)
+          this.imageButtonUserInputValue = ''
+      }
+    },
     setImage () {
       const url = window.prompt('URL: ')
       if (url) {
@@ -518,10 +591,8 @@ export default {
           this.editor.chain().focus().toggleTaskList().run()
           break
         case 'imageButton':
-          this.setImage()
-          break
         case 'link':
-          this.setLink()
+          this.toggleUserInput(formatTool.name)
           break
         case 'code':
           this.editor.chain().focus().toggleCode().run()
@@ -560,6 +631,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@mixin placeholder {
+  @include p3;
+  color: rgba($aquaSqueeze, 0.7);
+}
 // ///////////////////////////////////////////////////////////////////// General
 .wysiwyg-toolbar, .toolbar-section {
   display: flex;
@@ -570,12 +645,9 @@ export default {
   height: toRem(14);
 }
 
-.wysiwyg-editor
-
 .wysiwig-formatting-dropdown {
   width: 4rem;
-  height: unset;
-  :deep(.select) {
+  :deep(.select.custom) {
     border: none;
   }
   :deep(.custom) {
@@ -583,13 +655,44 @@ export default {
   }
 }
 .wysiwyg-formatting-option {
-  padding: toRem(5) 0;
+  position: relative;
+  padding: toRem(1) 0;
   margin-left: toRem(4);
   &:first-child {
     margin-left: toRem(16);
   }
   &:last-child {
     margin-right: toRem(16);
+  }
+  .wysiwig-formatting-dropdown.field-select {
+    height: unset;
+  }
+  .user-input-wrapper {
+    &.active {
+      display: flex;
+      z-index: 50;
+    }
+    display: none;
+    align-items: center;
+    position: absolute;
+    left: -150%;
+    top: 85%;
+    border-radius: toRem(4);
+    background-color: $aztec;
+    .toolbar-icon{
+      margin: toRem(8) toRem(13) toRem(8) toRem(7) ;
+    }
+    .wysiwyg-user-input {
+      .input-container > .input {
+        border: none;
+        background: salmon;
+      }
+      @include p3;
+      max-width: 6rem;
+    }
+    .user-input-apply {
+      margin: toRem(3);
+    }
   }
 }
 
@@ -651,11 +754,11 @@ export default {
     max-width: 100%;
   }
 }
+
 .wysiwyg-char-count {
-  color: rgba($aquaSqueeze, 0.7);
+  @include placeholder;
   margin-right: toRem(13);
   text-align: right;
-  @include p3;
 }
 
 </style>

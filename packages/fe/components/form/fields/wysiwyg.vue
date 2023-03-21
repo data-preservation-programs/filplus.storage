@@ -88,6 +88,12 @@ export default {
     }
   }
 
+  .wysiwyg-formatting-option {
+    .user-input-wrapper {
+      border: 2px solid $nandor;
+    }
+  }
+
   .wysiwyg-formatting-input::-webkit-color-swatch {
     @include input;
   }

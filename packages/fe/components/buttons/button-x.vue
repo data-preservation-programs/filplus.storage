@@ -121,4 +121,23 @@ display: inline-block;
     text-decoration: underline;
   }
 }
+
+.theme__mineral-green {
+  background-color: rgba($mineralGreen, 0.5);
+  border-radius: toRem(3);
+  .button-content{
+    @include p3;
+    line-height: 1.8;
+    font-weight: 500;
+    padding: 0 toRem(13);
+  }
+  &:not([disabled]) {
+    &:hover {
+      background-color: rgba($mineralGreen, 1);
+      :deep(.button-content) {
+        text-decoration: none;
+      }
+    }
+  }
+}
 </style>
