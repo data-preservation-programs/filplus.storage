@@ -8,6 +8,6 @@
 <script>
 // ====================================================================== Export
 export default {
-  name: 'Image'
+  name: 'IconImage'
 }
 </script>
