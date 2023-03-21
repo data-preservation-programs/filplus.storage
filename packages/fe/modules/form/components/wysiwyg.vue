@@ -42,9 +42,10 @@
               class="wysiwyg-user-input"
               type="url"
               :placeholder="formatTool.placeholder"
+              :value="userInputValue[formatTool.name] ? userInputValue[formatTool.name] : ''"
               @input="updateUserInputValue($event.target.value, formatTool.name)" />
             <ButtonX
-              class="user-input-apply"
+              class="user-input-submit"
               theme="mineral-green"
               @clicked="submitUserInput(formatTool.name)">
               Apply
@@ -163,9 +164,11 @@ export default {
       editor: null,
       renderer: false,
       headingSelectValue: 0,
-      userInputActive: '',
-      linkUserInputValue: '',
-      imageButtonUserInputValue: '',
+      userInputActive: false,
+      userInputValue: {
+        imageButton: false,
+        link: false
+      },
       toolbar: [
         [{
           name: 'heading-select',
@@ -425,6 +428,7 @@ export default {
         this.$emit('updateContentValue', value)
       },
       onSelectionUpdate: ({ editor }) => {
+        // update heading select dropdown for current selection
         const anchor = editor.state.selection.$anchor.pos
         const head = editor.state.selection.$head.pos
         const anchorNodeType = editor.state.selection.$anchor.parent.type.name === 'heading' ? editor.state.selection.$anchor.parent.attrs.level : editor.state.selection.$anchor.parent.type.name
@@ -433,6 +437,18 @@ export default {
           this.showCurrentHeadingValue(anchorNodeType)
         } else {
           this.headingSelectValue = -1
+        }
+        // update userInputValue.link for current selection
+        const isLink = this.editor.isActive('link')
+        const linkValue = this.userInputValue.link
+        switch (true) {
+          case (isLink && linkValue):
+            break
+          case (isLink && !linkValue):
+            this.userInputValue.link = this.editor.getAttributes('link').href
+            break
+          case (!isLink):
+            this.userInputValue.link = false
         }
       }
     })
@@ -485,22 +501,9 @@ export default {
       this.editor.chain().focus().setHeading({ level: value }).run()
       this.headingSelectValue = value
     },
-    setLink () {
-      const previousURL = this.editor.getAttributes('link').href
-      const url = window.prompt('URL: ', previousURL)
-
-      if (url === null) {
-        return
-      }
-      if (url === '') {
-        this.editor.chain().focus().extendMarkRange('link').unsetLink().toggleUnderline().run()
-        return
-      }
-      this.editor.chain().focus().extendMarkRange('link').setLink({ href: url }).toggleUnderline().run()
-    },
     toggleUserInputActive (toolName) {
       if (this.userInputActive === toolName) {
-        this.userInputActive = ''
+        this.userInputActive = false
       } else {
         switch (toolName) {
           case 'imageButton':
@@ -512,39 +515,29 @@ export default {
       }
     },
     updateUserInputValue (value, toolName) {
-      if (value.length > 0) {
-        switch (toolName) {
-          case 'imageButton':
-            this.imageButtonUserInputValue = value
-            break
-          case 'link':
-            this.linkUserInputValue = value
-            break
-        }
+      if (value) {
+        this.userInputValue[toolName] = value
       }
     },
     submitUserInput (toolName) {
-      switch (toolName) {
-        case 'link':
-          this.editor.chain().focus().toggleLink({ href: this.linkUserInputValue }).run()
-          this.toggleUserInput(toolName)
-          this.linkUserInputValue = ''
-          break
-        case 'imageButton':
-          this.editor.chain().focus().setImage({ src: this.imageButtonUserInputValue }).run()
-          this.toggleUserInput(toolName)
-          this.imageButtonUserInputValue = ''
-      }
-    },
-    setImage () {
-      const url = window.prompt('URL: ')
-      if (url) {
-        return this.editor.chain().focus().setImage({ src: url }).run()
+      const userInput = this.userInputValue[toolName]
+      if (userInput) {
+        switch (toolName) {
+          case 'link':
+            this.editor.chain().focus().toggleLink({ href: userInput }).run()
+            this.toggleUserInputActive(toolName)
+            break
+          case 'imageButton':
+            this.editor.chain().focus().setImage({ src: userInput }).run()
+            this.toggleUserInputActive(toolName)
+        }
+        this.userInputValue[toolName] = false
       }
     },
     isFormatButtonActive (formatTool) {
-      if (formatTool.checkActive !== undefined) {
-        return this.editor.isActive(formatTool.checkActive) ? 'is-active' : ''
+      const checkActive = formatTool.checkActive
+      if (checkActive !== undefined) {
+        return this.editor.isActive(checkActive) ? 'is-active' : ''
       }
       return this.editor.isActive(formatTool.name) ? 'is-active' : ''
     },
@@ -685,7 +678,7 @@ export default {
       @include p3;
       max-width: 6rem;
     }
-    .user-input-apply {
+    .user-input-submit {
       margin: toRem(3);
     }
   }
