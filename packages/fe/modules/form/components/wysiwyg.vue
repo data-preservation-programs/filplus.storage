@@ -48,7 +48,8 @@
               class="user-input-submit"
               theme="mineral-green"
               @clicked="submitUserInput(formatTool.name)">
-              Apply
+              <span v-if="formatTool.name === 'link'">{{ editor.isActive('link') ? formatTool.buttonText[0] : formatTool.buttonText[1] }}</span>
+              <span v-if="formatTool.name === 'imageButton'">{{ formatTool.buttonText }}</span>
             </ButtonX>
           </div>
 
@@ -278,6 +279,7 @@ export default {
             type: 'button-x',
             userInput: true,
             placeholder: 'Link an image',
+            buttonText: 'Apply',
             include: true
           },
           {
@@ -285,6 +287,7 @@ export default {
             type: 'button-x',
             userInput: true,
             placeholder: 'Paste a link',
+            buttonText: ['Unlink', 'Link'],
             include: true
           },
           {
