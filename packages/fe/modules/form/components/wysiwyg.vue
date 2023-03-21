@@ -34,7 +34,7 @@
             :class="[
               `${formatTool.name === 'link' ? 'link': 'image'}-user-input-wrapper`,
               'user-input-wrapper',
-              whichUserInput(formatTool.name) ? 'active' : '']">
+              userInputActive === formatTool.name ? 'active' : '' ]">
             <component
               :is="buttonIcon(formatTool.name)"
               class="toolbar-icon" />
@@ -163,8 +163,7 @@ export default {
       editor: null,
       renderer: false,
       headingSelectValue: 0,
-      linkInputActive: false,
-      imageButtonInputActive: false,
+      userInputActive: '',
       linkUserInputValue: '',
       imageButtonUserInputValue: '',
       toolbar: [
@@ -499,22 +498,17 @@ export default {
       }
       this.editor.chain().focus().extendMarkRange('link').setLink({ href: url }).toggleUnderline().run()
     },
-    whichUserInput (toolName) {
-      switch (toolName) {
-        case 'imageButton':
-          return this.imageButtonInputActive
-        case 'link':
-          return this.linkInputActive
-      }
-    },
-    toggleUserInput (toolName) {
-      switch (toolName) {
-        case 'imageButton':
-          this.imageButtonInputActive = !this.imageButtonInputActive
-          break
-        case 'link':
-          this.linkInputActive = !this.linkInputActive
-          break
+    toggleUserInputActive (toolName) {
+      if (this.userInputActive === toolName) {
+        this.userInputActive = ''
+      } else {
+        switch (toolName) {
+          case 'imageButton':
+            this.userInputActive = 'imageButton'
+            break
+          case 'link':
+            this.userInputActive = 'link'
+        }
       }
     },
     updateUserInputValue (value, toolName) {
@@ -556,10 +550,11 @@ export default {
     },
     clickFormatButton (formatTool) {
       const isActive = formatTool.checkActive
+      const toolName = formatTool.name
       if (isActive !== undefined) {
         this.editor.chain().focus().setTextAlign(isActive.textAlign).run()
       }
-      switch (formatTool.name) {
+      switch (toolName) {
         case 'bold':
           this.editor.chain().focus().toggleBold().run()
           break
@@ -592,7 +587,7 @@ export default {
           break
         case 'imageButton':
         case 'link':
-          this.toggleUserInput(formatTool.name)
+          this.toggleUserInputActive(toolName)
           break
         case 'code':
           this.editor.chain().focus().toggleCode().run()
