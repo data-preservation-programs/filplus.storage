@@ -3,6 +3,7 @@
     v-slot="{ applyFilter, originalSelected }"
     filter-key="state"
     :is-single-option="true"
+    :default-selection="0"
     :options="options"
     v-on="$listeners">
     <FieldContainer
@@ -11,7 +12,8 @@
         type: 'checkbox',
         required: false,
         options: options,
-        defaultValue: originalSelected.length > 0 ? originalSelected : [0], /* manually set to corresponding n'th value in options prop */
+        defaultValue: originalSelected,
+        updateGroupId: 'state',
         isSingleOption: true
       }"
       @updateValue="initializeFilter($event, applyFilter)" />

@@ -25,7 +25,7 @@
       }],
       "view_application_type": [
         { "label": "GA", "value": "GA" },
-        { "label": "LDA", "value": "LDA" }
+        { "label": "LDN", "value": "LDN" }
       ],
       "sort": [
         { "label": "Newest to oldest", "value": "newest_first" },

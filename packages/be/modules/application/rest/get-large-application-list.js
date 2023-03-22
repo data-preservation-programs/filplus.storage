@@ -15,7 +15,7 @@ MC.app.get('/get-large-application-list', async (req, res) => {
   try {
     const query = req.query
     const user = await GetUser(req, res, query)
-    const page = await ParseNumber(query.page)
+    const page = await ParseNumber(query.page) || 1
     const state = query.state
     const sort = query.sort
     const limit = await ParseNumber(query.limit)

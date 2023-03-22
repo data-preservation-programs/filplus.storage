@@ -17,6 +17,10 @@ export default {
       type: Array,
       required: true
     },
+    defaultSelection: {
+      type: Number,
+      required: true
+    },
     // for options with boolean or single-select value
     // ie. checkboxes or select
     isSingleOption: {
@@ -58,24 +62,12 @@ export default {
     }
   },
 
-  watch: {
-    '$route' (route) {
-      if (this.action === 'query') {
-        this.$filter(this.filterKey).refresh(route)
-        const selected = this.filter.selected
-        window.$nuxt.$emit('updateFormField', {
-          id: this.filterKey,
-          value: this.isSingleOption ? selected[0] : selected // this.$filter(this.searchKey).get().value
-        })
-      }
-    }
-  },
-
   async created () {
     if (!this.filter) {
       await this.$filter(this.filterKey).register(
         this.filterKey,
         this.options,
+        this.defaultSelection,
         this.isSingleOption,
         this.action
       )
@@ -94,12 +86,21 @@ export default {
       if (!payload.hasOwnProperty('live')) {
         throw new Error('Forgot to specify { live: true|false }')
       }
-      await this.$filter(this.filterKey).for({
+      const id = this.filterKey
+      const live = payload.live
+      await this.$filter(id).for({
         instance: this,
         index: payload.index,
         live: payload.live
       })
-      this.$emit('filterApplied')
+      let value
+      if (this.action === 'query') {
+        value = this.$filter(id).convert('query', this.filter.selected, this.filter.options)
+      }
+      this.$emit('filterApplied', {
+        live,
+        filter: { id, value, live }
+      })
     },
     isSelected (index) {
       return this.selected.includes(index)

@@ -512,6 +512,16 @@ const IsRouteCurrent = (route, href) => {
   return route.fullPath === href
 }
 
+// ///////////////////////////////////////////////////////////////// ParseNumber
+const ParseNumber = (number, returnOriginal = false) => {
+  return new Promise((resolve) => {
+    if (!number || number === '') { resolve(undefined) }
+    const parsed = parseInt(number)
+    if (!isNaN(parsed)) { resolve(parsed) }
+    resolve(returnOriginal ? number : undefined)
+  })
+}
+
 // ////////////////////////////////////////////////////////////////////// Export
 // -----------------------------------------------------------------------------
 export default ({ $config, app, store }, inject) => {
@@ -547,4 +557,5 @@ export default ({ $config, app, store }, inject) => {
   inject('handleFormRedirection', (bytes, bottom, top) => HandleFormRedirection(app, store, bytes, bottom, top))
   inject('highlightApplyForm', () => HighlightApplyForm(app, store))
   inject('isRouteCurrent', IsRouteCurrent)
+  inject('parseNumber', ParseNumber)
 }
