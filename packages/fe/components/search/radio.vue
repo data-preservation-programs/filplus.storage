@@ -3,6 +3,7 @@
     v-slot="{ applyFilter, originalSelected }"
     filter-key="view"
     :is-single-option="true"
+    :default-selection="1"
     :options="options"
     v-on="$listeners">
     <FieldContainer
@@ -12,7 +13,8 @@
         required: false,
         label: 'Show',
         options,
-        defaultValue: originalSelected.length > 0 ? originalSelected : [0], /* manually set to 0 because default in store corresponds with the 0'th value in options prop */
+        defaultValue: originalSelected,
+        updateGroupId: 'view',
         isSingleOption: true
       }"
       @updateValue="initializeFilter($event, applyFilter)" />

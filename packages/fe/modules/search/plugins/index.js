@@ -8,6 +8,7 @@
 // -----------------------------------------------------------------------------
 import CloneDeep from 'lodash/cloneDeep'
 
+import NuxtMiddleware from '../middleware' // This resolves to .nuxt/middleware.js
 import Store from '@/modules/search/store'
 
 // /////////////////////////////////////////////////////////////////// Functions
@@ -21,6 +22,17 @@ const registerStore = (store, next) => {
     next()
   })
   if (next) { return next() }
+}
+
+// ////////////////////////////////////////////////////////// registerMiddleware
+const registerMiddleware = () => {
+  return new Promise((next) => {
+    import('@/modules/search/middleware/filter')
+      .then((middleware) => {
+        NuxtMiddleware.filter = middleware.default
+        return next()
+      })
+  })
 }
 
 // ///////////////////////////////////////////////////////////// resetFormFields
@@ -71,8 +83,8 @@ const ClearSearchAndFilters = async (app, payload) => {
   try {
     const searchers = payload.searchers || []
     let filterers = payload.filters.clear || []
-    searchers.forEach(searcher => app.$search(searcher).clear())
-    filterers.forEach(filterer => app.$filter(filterer).clear())
+    searchers.forEach(id => app.$search(id).clear())
+    filterers.forEach(id => app.$filter(id).clear())
     filterers = filterers.concat(payload.filters.override || [])
     app.$applyMultipleFiltersToQuery({ filters: filterers })
     if (payload.resetFormFields) {
@@ -96,37 +108,49 @@ const CheckIfFilterSelectionsExist = async (app, filters) => {
 }
 
 // ///////////////////////////////////////////// ExportSearchAndFiltersFromQuery
-const ExportSearchAndFiltersFromQuery = async (app, filters) => {
+const ExportSearchAndFiltersFromQuery = async (app, paramsToCompile) => {
+  const params = {}
   const query = app.router.history.current.query
-  const compiled = {}
-  filters.forEach((filter) => {
-    const filterQueryKey = filter.queryKey
-    const compileKey = filter.key
-    const compileGroup = filter.group
-    const defaultValue = filter.default
-    let value = query[filterQueryKey] || defaultValue
-    if (value && filter.type === 'number') {
-      value = parseInt(value)
+  const len = paramsToCompile.length
+  for (let i = 0; i < len; i++) {
+    const paramToCompile = paramsToCompile[i]
+    const filterKey = paramToCompile.filterKey
+    const searchKey = paramToCompile.searchKey
+    const key = filterKey || searchKey
+    const compileGroup = paramToCompile.group
+    const defaultOverride = paramToCompile.default
+    const filterer = await app.$filter(filterKey).get()
+    const searcher = await app.$search(searchKey).get()
+    let value
+    if (filterer) {
+      value = await app.$filter(filterKey).convert('query', filterer.selected)
+    } else if (searcher) {
+      value = searcher.value
     }
-    if (value !== undefined) { // only compile filters that exist in URL query or have a manually set default
-      if (compileKey) { // compile as a string, (ex: page: '1')
-        compiled[compileKey] = value
-      } else if (compileGroup) { // compile as an object, (ex: filters: { categories: '', licenses: '' })
-        if (!compiled.hasOwnProperty(compileGroup)) {
-          compiled[compileGroup] = { [filterQueryKey]: value }
+    value = await app.$parseNumber(
+      process.server ? value || query[key] || defaultOverride : value || defaultOverride,
+      true
+    )
+    if (value !== undefined) { // don't compile filters that don't exist
+      if (!compileGroup) { // compile as a string, (ex: page: '1')
+        params[key] = value
+      } else { // compile as an object, (ex: filters: { categories: '', licenses: '' })
+        if (!params.hasOwnProperty(compileGroup)) {
+          params[compileGroup] = { [key]: value }
         } else {
-          compiled[compileGroup][filterQueryKey] = value
+          params[compileGroup][key] = value
         }
       }
     }
-  })
-  return { compiled, query }
+  }
+  return { params, query }
 }
 
 // ////////////////////////////////////////////////////////////////////// Export
 // -----------------------------------------------------------------------------
 export default async function ({ app, store }, inject) {
   await registerStore(store)
+  await registerMiddleware()
   inject('applyMultipleFiltersToQuery', (filters) => ApplyMultipleFiltersToQuery(app, filters))
   inject('clearSearchAndFilters', (filters) => ClearSearchAndFilters(app, filters))
   inject('checkIfFilterSelectionsExist', (filters) => CheckIfFilterSelectionsExist(app, filters))

@@ -58,7 +58,8 @@ const state = () => ({
   },
   networkStorageCapacity: false,
   applyFormHighlighted: false,
-  githubIssue: false
+  githubIssue: false,
+  view: 'LDN' // 'GA' or 'LDN'
 })
 
 // ///////////////////////////////////////////////////////////////////// Getters
@@ -74,7 +75,8 @@ const getters = {
   applicationList: state => state.applicationList,
   loading: state => state.loading,
   refresh: state => state.refresh,
-  metadata: state => state.metadata
+  metadata: state => state.metadata,
+  view: state => state.view
 }
 
 // ///////////////////////////////////////////////////////////////////// Actions
@@ -212,12 +214,12 @@ const actions = {
   // //////////////////////////////////////////////////////// getApplicationList
   async getApplicationList ({ commit, getters, dispatch }, metadata) {
     try {
-      const { compiled: params } = await this.$exportSearchAndFiltersFromQuery([
-        { queryKey: 'page', key: 'page', type: 'number', default: getters.metadata.page },
-        { queryKey: 'limit', key: 'limit', type: 'number', default: getters.metadata.limit },
-        { queryKey: 'sort', key: 'sort', default: 'newest_first' },
-        { queryKey: 'state', key: 'state' },
-        { queryKey: 'user', key: 'user' }
+      const { params } = await this.$exportSearchAndFiltersFromQuery([
+        { filterKey: 'page', default: 1 },
+        { filterKey: 'limit' },
+        { filterKey: 'sort' },
+        { filterKey: 'state' },
+        { filterKey: 'user' }
       ])
       const response = await this.$axiosAuth.get('/get-application-list', { params })
       const payload = response.data.payload
@@ -234,45 +236,51 @@ const actions = {
   // ///////////////////////////////////////////////// getGeneralApplicationList
   async getGeneralApplicationList ({ commit, getters, dispatch }, metadata) {
     try {
-      const { compiled: params } = await this.$exportSearchAndFiltersFromQuery([
-        { queryKey: 'page', key: 'page', type: 'number', default: getters.metadata.page },
-        { queryKey: 'limit', key: 'limit', type: 'number', default: getters.metadata.limit },
-        { queryKey: 'sort', key: 'sort', default: 'newest_first' },
-        { queryKey: 'state', key: 'state' },
-        { queryKey: 'user', key: 'user' }
+      const { params } = await this.$exportSearchAndFiltersFromQuery([
+        { filterKey: 'page', default: 1 },
+        { filterKey: 'limit' },
+        { filterKey: 'sort' },
+        { filterKey: 'state' },
+        { filterKey: 'user' }
       ])
       const response = await this.$axiosAuth.get('/get-general-application-list', { params })
       const payload = response.data.payload
-      dispatch('setApplicationList', {
-        applicationList: payload.results,
+      const applicationList = payload.results
+      await dispatch('setApplicationList', {
+        applicationList: applicationList.length > 0 ? applicationList : false,
         metadata: payload.metadata
       })
+      return applicationList
     } catch (e) {
       console.log('========= [Store Action: general/getGeneralApplicationList]')
       console.log(e)
       dispatch('setLoadingStatus', { type: 'loading', status: false })
+      return []
     }
   },
   // /////////////////////////////////////////////////// getLargeApplicationList
   async getLargeApplicationList ({ commit, getters, dispatch }, metadata) {
     try {
-      const { compiled: params } = await this.$exportSearchAndFiltersFromQuery([
-        { queryKey: 'page', key: 'page', type: 'number', default: getters.metadata.page },
-        { queryKey: 'limit', key: 'limit', type: 'number', default: getters.metadata.limit },
-        { queryKey: 'sort', key: 'sort', default: 'newest_first' },
-        { queryKey: 'state', key: 'state' },
-        { queryKey: 'user', key: 'user' }
+      const { params } = await this.$exportSearchAndFiltersFromQuery([
+        { filterKey: 'page', default: 1 },
+        { filterKey: 'limit' },
+        { filterKey: 'sort' },
+        { filterKey: 'state' },
+        { filterKey: 'user' }
       ])
       const response = await this.$axiosAuth.get('/get-large-application-list', { params })
       const payload = response.data.payload
-      dispatch('setApplicationList', {
-        applicationList: payload.results,
+      const applicationList = payload.results
+      await dispatch('setApplicationList', {
+        applicationList: applicationList.length > 0 ? applicationList : false,
         metadata: payload.metadata
       })
+      return applicationList
     } catch (e) {
       console.log('=========== [Store Action: general/getLargeApplicationList]')
       console.log(e)
       dispatch('setLoadingStatus', { type: 'loading', status: false })
+      return []
     }
   },
   // //////////////////////////////////////////////////////// setApplicationList
@@ -282,6 +290,10 @@ const actions = {
   // ////////////////////////////////////////////////////////// setLoadingStatus
   setLoadingStatus ({ commit }, payload) {
     commit('SET_LOADING_STATUS', payload)
+  },
+  // /////////////////////////////////////////////////////////////////// setView
+  setView ({ commit }, view) {
+    commit('SET_VIEW', view)
   }
 }
 
@@ -319,6 +331,9 @@ const mutations = {
   },
   SET_LOADING_STATUS (state, payload) {
     state[payload.type] = payload.status
+  },
+  SET_VIEW (state, view) {
+    state.view = view
   }
 }
 

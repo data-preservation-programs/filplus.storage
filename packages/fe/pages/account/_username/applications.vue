@@ -24,7 +24,8 @@
               <div class="content">
                 <Checkbox
                   class="filter-checkbox"
-                  :options="filters.state" />
+                  :options="filters.state"
+                  @filterApplied="filterApplied" />
                 <Radio
                   class="filter-radio"
                   :options="filters.view_application_type" />
@@ -34,7 +35,7 @@
               </div>
             </div>
 
-            <div v-if="noResults" class="no-results">
+            <div v-if="noResults && !loading" class="no-results">
               {{ pageData.no_results_text }}
             </div>
 
@@ -52,15 +53,18 @@
               <LoaderTripleDot />
             </div>
 
-            <div class="toolbar bottom">
-              <PaginationControls
-                v-if="totalPages > 1"
-                :page="page"
-                :total-pages="totalPages"
-                :loading="refresh" />
-              <Limit
-                class="limit"
-                :options="filters.limit" />
+            <div :class="['toolbar bottom', { loading: refresh }]">
+              <Spinner />
+              <div class="content">
+                <PaginationControls
+                  v-if="totalPages > 1"
+                  :page="page"
+                  :total-pages="totalPages"
+                  :loading="refresh" />
+                <Limit
+                  class="limit"
+                  :options="filters.limit" />
+              </div>
             </div>
 
           </div>
@@ -142,7 +146,8 @@ export default {
       loading: 'general/loading',
       refresh: 'general/refresh',
       metadata: 'general/metadata',
-      account: 'account/account'
+      account: 'account/account',
+      view: 'general/view'
     }),
     pageData () {
       return this.siteContent[this.tag].page_content
@@ -160,46 +165,63 @@ export default {
       return this.metadata.totalPages
     },
     noResults () {
-      const applicationList = this.applicationList
-      return applicationList && applicationList.length === 0 && !this.loading
+      return !this.applicationList
     }
   },
 
   watch: {
-    '$route' (route) {
-      this.setLoadingStatus({ type: 'refresh', status: true })
-      this.$nextTick(() => {
-        const view = route.query.view
-        switch (view) {
-          case 'all' : this.getApplicationList(); break
-          case 'GA' : this.getGeneralApplicationList(); break
-          case 'LDA' : this.getLargeApplicationList(); break
-        }
-      })
-    },
     applicationList () {
-      this.stopLoading()
-    }
-  },
-
-  async mounted () {
-    await this.getApplicationList()
-  },
-
-  methods: {
-    ...mapActions({
-      getApplicationList: 'general/getApplicationList',
-      getGeneralApplicationList: 'general/getGeneralApplicationList',
-      getLargeApplicationList: 'general/getLargeApplicationList',
-      setLoadingStatus: 'general/setLoadingStatus'
-    }),
-    stopLoading () {
       this.$nextTick(() => {
         if (typeof this.applicationList !== 'boolean') {
           this.setLoadingStatus({ type: 'loading', status: false })
           this.setLoadingStatus({ type: 'refresh', status: false })
         }
       })
+    }
+  },
+
+  async mounted () {
+    await this.fetchData(this.$route.query.view || this.view)
+    if (!this.applicationList) {
+      await this.fetchData('GA')
+      // manually select index of 'GA' in filter but live: false because we don't
+      // want the route to change onMounted
+      await this.$filter('state').for({ index: 0, live: false })
+      // Manually switch radio to 'GA' view
+      await this.$filter('view').for({ index: 0, live: false })
+      // Manually set the defaultSelection to 0 ('GA')
+      await this.$filter('view').set({ defaultSelection: 0 })
+      await this.setLoadingStatus({ type: 'loading', status: false })
+    }
+    this.$nuxt.$on('filtersApplied', (payload) => {
+      const filters = payload.filters
+      const viewFilter = filters.find(filter => filter.id === 'view')
+      if (!this.refresh) {
+        this.filterApplied(viewFilter)
+      }
+    })
+  },
+
+  methods: {
+    ...mapActions({
+      getGeneralApplicationList: 'general/getGeneralApplicationList',
+      getLargeApplicationList: 'general/getLargeApplicationList',
+      setLoadingStatus: 'general/setLoadingStatus',
+      setView: 'general/setView'
+    }),
+    async fetchData (view) {
+      switch (view) {
+        case 'GA' : await this.getGeneralApplicationList(); break
+        case 'LDN' : await this.getLargeApplicationList(); break
+      }
+    },
+    async filterApplied (filter) {
+      if (!this.refresh) {
+        await this.setLoadingStatus({ type: 'refresh', status: true })
+        if (filter && filter.id === 'view') { await this.setView(filter.value) }
+        await this.fetchData(this.view)
+        await this.setLoadingStatus({ type: 'refresh', status: false })
+      }
     }
   }
 }
@@ -244,17 +266,6 @@ export default {
   position: relative;
   display: flex;
   margin-bottom: 1rem;
-  &.top {
-    .content {
-      width: 100%;
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-    }
-  }
-  &.bottom {
-    justify-content: space-between;
-  }
   &.loading {
     .spinner {
       display: flex;
@@ -266,6 +277,10 @@ export default {
     }
   }
   .content {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     transition: 100ms ease-out;
   }
   .spinner {
@@ -312,19 +327,36 @@ export default {
     &:not(:last-child) {
       margin-right: toRem(27);
     }
+    .radio {
+      &:checked {
+        + .checker {
+          border-color: $nandor;
+        }
+      }
+    }
+  }
+  :deep(.checker) {
+    border-radius: 50%;
   }
 }
 
-.filter-sort {
-  :deep(.field-label) {
-    margin-right: toRem(18);
-  }
+.filter-sort,
+.limit {
   :deep(.field-select) {
     border: 2px solid $nandor;
     border-radius: toRem(10);
     padding: 0 toRem(15);
     width: toRem(195);
     height: unset;
+    .icon-chevron {
+      color: $nandor;
+    }
+  }
+}
+
+.filter-sort {
+  :deep(.field-label) {
+    margin-right: toRem(18);
   }
   :deep(.selection-window) {
     padding: toRem(2) toRem(15);
@@ -341,10 +373,21 @@ export default {
     font-weight: 400;
   }
   :deep(.field-select) {
-    width: toRem(36);
+    width: toRem(65);
   }
-  :deep(.text) {
-    padding-right: toRem(9);
+  :deep(.selection-window) {
+    padding: toRem(10);
+    .text {
+      padding-right: toRem(9);
+      color: $greenYellow;
+    }
+  }
+  :deep(.dropdown) {
+    top: unset;
+    bottom: 100%;
+    .option.selected {
+      color: $greenYellow;
+    }
   }
 }
 

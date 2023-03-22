@@ -58,25 +58,19 @@
       </button>
     </template>
 
-    <template #after>
-      <Spinner v-if="loading" />
-    </template>
-
   </Paginator>
 </template>
 
 <script>
 // ===================================================================== Imports
 import Paginator from '@/modules/search/components/paginator'
-import Spinner from '@/components/spinners/material-circle'
 
 // ====================================================================== Export
 export default {
   name: 'PaginationControls',
 
   components: {
-    Paginator,
-    Spinner
+    Paginator
   },
 
   props: {
@@ -181,13 +175,6 @@ $dimension: 2.5rem;
     @include mini {
       display: none;
     }
-  }
-}
-
-.spinner {
-  margin-left: 1rem;
-  :deep(circle) {
-    stroke: $greenYellow;
   }
 }
 </style>

@@ -3,6 +3,7 @@
     v-slot="{ applyFilter }"
     filter-key="page"
     :is-single-option="true"
+    :default-selection="getIndex(page)"
     :options="pages"
     v-on="$listeners">
     <div class="paginator">

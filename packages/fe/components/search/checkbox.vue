@@ -3,6 +3,7 @@
     v-slot="{ applyFilter, originalSelected }"
     filter-key="state"
     :is-single-option="true"
+    :default-selection="0"
     :options="options"
     v-on="$listeners">
     <FieldContainer
@@ -12,6 +13,7 @@
         required: false,
         options: options,
         defaultValue: originalSelected,
+        updateGroupId: 'state',
         isSingleOption: true
       }"
       @updateValue="initializeFilter($event, applyFilter)" />
