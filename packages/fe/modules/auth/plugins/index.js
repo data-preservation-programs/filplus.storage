@@ -48,6 +48,7 @@ const listenToLogin = (app, store, $config) => {
         if ((e.origin !== $config.frontendUrl) || !data || e.source.name !== 'login-popup') { return }
         if (typeof data === 'object' && data.session) {
           await store.dispatch('account/getAccount', data.session.userId)
+          app.$button('login-button').set({ loading: false })
           app.$toaster.add(data.toast)
         }
       }, false)

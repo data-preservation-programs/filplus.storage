@@ -4,7 +4,7 @@
     <!-- ============================================================== Hero -->
     <HeroB
       :label="hero.label"
-      :heading="hero.heading"
+      :heading="heroHeading"
       :hero-button="backButton" />
 
     <!-- ======================================================= Application -->
@@ -131,6 +131,7 @@ import AuthButton from '@/components/auth-button'
 import Chevron from '@/components/icons/chevron'
 
 import ApplyGeneralPageData from '@/content/pages/apply-general.json'
+import NotariesPageData from '@/content/pages/notaries.json'
 
 // ====================================================================== Export
 export default {
@@ -157,10 +158,21 @@ export default {
     const name = params.name
     const notariesList = await store.dispatch('general/getCachedFile', 'notaries-list.json')
     const notary = notariesList.find(notary => notary.name === name || notary.organization === name)
-    const notaryField = app.$field('notary|filplus_application').get()
-    if (!notary || !notaryField) { return redirect('/apply/general/notaries') }
-    await store.dispatch('general/getBaseData', { key: 'apply-general', data: ApplyGeneralPageData })
+    if (!notary) { return redirect('/apply/general/notaries') }
+    const notaryFieldId = 'notary|filplus_application'
+    const notaryField = app.$field(notaryFieldId).get()
     await app.$form('filplus_application').register(store.getters['general/application'])
+    if (!notaryField) {
+      await app.$field(notaryFieldId).register(
+        'filplus_application',
+        false,
+        'notary',
+        NotariesPageData.page_content.form.scaffold.notary,
+        'nullState'
+      )
+      await app.$field(notaryFieldId).updateValue(name)
+    }
+    await store.dispatch('general/getBaseData', { key: 'apply-general', data: ApplyGeneralPageData })
   },
 
   head () {
@@ -181,6 +193,9 @@ export default {
     },
     hero () {
       return this.pageData.hero
+    },
+    heroHeading () {
+      return this.hero.heading.replace('|notary|', this.$route.params.name)
     },
     backButton () {
       return this.pageData.back_button
@@ -218,8 +233,7 @@ export default {
     ...mapActions({
       validateForm: 'form/validateForm',
       submitGeneralApplication: 'general/submitGeneralApplication',
-      restoreSavedForm: 'form/restoreSavedForm',
-      removeLoader: 'button/removeLoader'
+      restoreSavedForm: 'form/restoreSavedForm'
     }),
     async submitForm () {
       const bottom = this.submitThresholdBottom
@@ -234,7 +248,7 @@ export default {
         this.$scrollToElement(inputFieldElement, 250, -200)
       } else if (pass) {
         if (bytes >= middle && bytes <= top) {
-          this.removeLoader('ga-submit-button')
+          this.$button('ga-submit-button').set({ loading: false })
           this.$toaster.add({
             type: 'toast',
             category: 'error',
@@ -245,7 +259,7 @@ export default {
           const incoming = await this.$form('filplus_application').validate()
           if (!incoming) {
             const firstInvalidField = document.querySelector('.error')
-            this.removeLoader('ga-submit-button')
+            this.$button('ga-submit-button').set({ loading: false })
             this.$scrollToElement(firstInvalidField, 250, -200)
           } else {
             await this.submitGeneralApplication(incoming)
@@ -263,6 +277,13 @@ export default {
 .page-apply-general {
   position: relative;
   overflow: hidden;
+}
+
+:deep(#hero) {
+  .highlight {
+    display: block;
+    margin-top: 0.5rem;
+  }
 }
 
 #application {

@@ -15,7 +15,7 @@
 
 <script>
 // ===================================================================== Imports
-import { mapGetters, mapActions } from 'vuex'
+// import { mapGetters, mapActions } from 'vuex'
 
 // ====================================================================== Export
 export default {
@@ -55,36 +55,34 @@ export default {
   },
 
   data () {
+    const self = this
     return {
-      timeout: false
+      id: self.loader || self.$uuid.v4()
     }
   },
 
   computed: {
-    ...mapGetters({
-      loaders: 'button/loaders'
-    }),
+    button () {
+      return this.$button(this.id).get()
+    },
     loading () {
-      return this.loaders.find(obj => obj === this.loader)
+      return this.button && this.button.loading
+    }
+  },
+
+  async created () {
+    if (!this.field) {
+      await this.$button(this.id).register()
     }
   },
 
   methods: {
-    ...mapActions({
-      addLoader: 'button/addLoader',
-      removeLoader: 'button/removeLoader'
-    }),
     clickHandler (e) {
       e.stopPropagation()
       if (!this.disabled) {
-        clearTimeout(this.timeout)
         const loader = this.loader
         if (typeof loader === 'string') {
-          this.addLoader(loader)
-          this.timeout = setTimeout(() => {
-            this.removeLoader(loader)
-            clearTimeout(this.timeout)
-          }, 4000)
+          this.$button(this.id).set({ loading: true })
         }
         this.$emit('clicked', e)
       }

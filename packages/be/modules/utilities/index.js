@@ -5,6 +5,7 @@ console.log('📦 [module] utilities')
 const Fs = require('fs-extra')
 const Filesize = require('filesize')
 const Mongoose = require('mongoose')
+const QueryString = require('querystring')
 const Axios = require('axios')
 const { Types: { ObjectId } } = Mongoose
 const { io } = require('socket.io-client')
@@ -137,11 +138,93 @@ const GetFileFromDisk = async (path = false, parseJson = false) => {
   }
 }
 
+// ///////////////////////////////////////////////////////////////// ParseNumber
+const ParseNumber = (number, returnOriginal = false) => {
+  return new Promise((resolve) => {
+    if (!number || number === '') { resolve(undefined) }
+    const parsed = parseInt(number)
+    if (!isNaN(parsed)) { resolve(parsed) }
+    resolve(returnOriginal ? number : undefined)
+  })
+}
+
 // //////////////////////////////////////////////////////////// ParseQuerySearch
-const ParseQuerySearch = async (search = '') => {
+const ParseQuerySearch = (search = '') => {
   return new Promise((resolve) => {
     resolve(search.replace(/([.\-+|?*$<>!?=^{}[]()\\])/g, '\\$1'))
   })
+}
+
+// ////////////////////////////////////////////////////////////// ParseQuerySort
+const ParseQuerySort = (sort) => {
+  return new Promise((resolve) => {
+    if (!sort) { resolve({}) }
+    const split = sort.split(',')
+    resolve({ [split[0]]: parseInt(split[1]) })
+  })
+}
+
+// /////////////////////////////////////////////////////////// ParseQueryFilters
+const ParseQueryFilters = (filters, split = false) => {
+  return new Promise((resolve) => {
+    if (!filters) { resolve({}) }
+    filters = JSON.parse(filters)
+    if (split) {
+      Object.keys(filters).forEach((filterKey) => {
+        filters[filterKey] = filters[filterKey].split(',')
+      })
+    }
+    resolve(filters)
+  })
+}
+
+// ///////////////////////////////////////////////////////////// ParseLinkHeader
+const ParseLinkHeader = async (header, data) => {
+  const base = { totalPages: 1 }
+  if (!header) { return base }
+  const compiled = header
+    .split(/,\s*</)
+    // ......................................................... parse the links
+    .map((link) => {
+      try {
+        const match = link.match(/<?([^>]*)>(.*)/)
+        const linkUrl = match[1]
+        const parts = match[2].split(';')
+        const parsedUrl = new URL(linkUrl)
+        const query = QueryString.parse(parsedUrl.search.replace('?', ''))
+        parts.shift()
+        let info = parts.reduce((acc, p) => {
+          const match = p.match(/\s*(.+)\s*=\s*"?([^"]+)"?/)
+          if (match) { acc[match[1]] = match[2] }
+          return acc
+        }, {})
+        info = Object.assign(query, info)
+        info.url = linkUrl
+        return info
+      } catch (e) {
+        return null
+      }
+    })
+    // ................................... filter for links that have 'rel' attr
+    .filter(link => link.rel)
+    // ........................................... output final object structure
+    .reduce((acc, link) => {
+      function splitRel (rel) {
+        acc[rel] = Object.assign(link, { rel })
+      }
+      link.rel.split(/\s+/).forEach(splitRel)
+      return acc
+    }, {})
+  if (compiled.last) {
+    compiled.totalPages = await ParseNumber(compiled.last.page)
+  } else if (compiled.next) {
+    compiled.totalPages = await ParseNumber(compiled.next.page)
+  } else if (compiled.prev) {
+    compiled.totalPages = await ParseNumber(compiled.prev.page) + 1
+  } else if (compiled.first) {
+    compiled.totalPages = await ParseNumber(compiled.first.page) + 1
+  }
+  return Object.assign(base, compiled)
 }
 
 // ///////////////////////////////////////////////////////////// IsValidObjectId
@@ -227,7 +310,11 @@ module.exports = {
   CopyFiles,
   SecondsToHms,
   GetFileFromDisk,
+  ParseNumber,
   ParseQuerySearch,
+  ParseQuerySort,
+  ParseQueryFilters,
+  ParseLinkHeader,
   GenerateWebsocketClient,
   GetSocket,
   IsValidObjectId,

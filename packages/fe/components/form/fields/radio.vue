@@ -15,7 +15,7 @@
           class="radio"
           @input="$emit('updateValue', index)" />
         <div class="checker">
-          <IconCheckmark />
+          <div class="dot" />
         </div>
       </div>
 
@@ -29,16 +29,9 @@
 </template>
 
 <script>
-// ===================================================================== Imports
-import IconCheckmark from '@/components/icons/checkmark'
-
 // ====================================================================== Export
 export default {
   name: 'FieldRadio',
-
-  components: {
-    IconCheckmark
-  },
 
   props: {
     field: {
@@ -178,10 +171,12 @@ $dimension: 1.625rem;
   transition: border-color 150ms, background-color 150ms, transform 150ms ease-out;
 }
 
-.icon-checkmark {
-  display: block;
-  width: 0.875rem;
-  opacity: 0;
+.dot {
+  display: none;
+  clip-path: circle(50%);
+  background: radial-gradient(50% 50% at 50% 50%, transparent 0%, $greenYellow 100%);
+  height: toRem(12);
+  width: toRem(12);
 }
 
 .label {

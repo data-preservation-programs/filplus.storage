@@ -18,7 +18,7 @@
         :thick="true"
         class="section-bg-top-border" />
 
-      <div class="grid">
+      <div class="grid zindex-descend-12">
         <div class="col-6_md-8_sm-10_ti-12" data-push-left="off-1_ti-0">
 
           <div class="form-heading-1">
@@ -110,6 +110,11 @@
           <FieldContainer
             :scaffold="formScaffold.custom_multisig"
             field-key="custom_multisig"
+            form-id="filplus_application" />
+
+          <FieldContainer
+            :scaffold="formScaffold.application_data_type"
+            field-key="application_data_type"
             form-id="filplus_application" />
 
           <FieldContainer
@@ -390,8 +395,7 @@ export default {
     ...mapActions({
       validateForm: 'form/validateForm',
       submitLargeApplication: 'general/submitLargeApplication',
-      restoreSavedForm: 'form/restoreSavedForm',
-      removeLoader: 'button/removeLoader'
+      restoreSavedForm: 'form/restoreSavedForm'
     }),
     async submitForm () {
       const bottom = this.submitThresholdBottom
@@ -406,7 +410,7 @@ export default {
         this.$scrollToElement(inputFieldElement, 250, -200)
       } else if (pass) {
         if (bytes < middle) {
-          this.removeLoader('lda-submit-button')
+          this.$button('lda-submit-button').set({ loading: false })
           this.$toaster.add({
             type: 'toast',
             category: 'error',
@@ -418,7 +422,7 @@ export default {
           console.log(incoming)
           if (!incoming) {
             const firstInvalidField = document.querySelector('.error')
-            this.removeLoader('lda-submit-button')
+            this.$button('lda-submit-button').set({ loading: false })
             this.$scrollToElement(firstInvalidField, 250, -200)
           } else {
             await this.submitLargeApplication(incoming)
@@ -489,6 +493,12 @@ export default {
 .zindex-descend-col {
   [class~=col], [class*=col-], [class*=col_] {
     @include descendingZindex(2);
+  }
+}
+
+.zindex-descend-5 {
+  .field-container {
+    @include descendingZindex(5);
   }
 }
 
