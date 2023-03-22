@@ -12,8 +12,10 @@ module.exports = async (req, res, query) => {
   let user = await MC.model.User.findById(identifier.userId)
   const overrideUserId = query.user
   if (process.env.NODE_ENV !== 'production' && overrideUserId) {
-    user = await MC.model.User.find({ githubUsername: overrideUserId })
-    user = user[0]
+    const overrideUser = await MC.model.User.find({ githubUsername: overrideUserId })
+    if (overrideUser[0]) {
+      user = overrideUser[0]
+    }
   }
   if (!user) { return SendData(res, 500, 'Something went wrong, please try again') }
   return user
