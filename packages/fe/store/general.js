@@ -9,8 +9,14 @@ import GeneralSiteData from '@/content/pages/general.json'
 const state = () => ({
   siteContent: {},
   staticFiles: {},
-  generalApplicationList: {},
-  largeApplicationList: {},
+  applicationList: false,
+  loading: false,
+  refresh: false,
+  metadata: {
+    page: 1,
+    limit: 10,
+    totalPages: 1
+  },
   clipboard: false,
   application: {
     organization_name: null,
@@ -52,7 +58,8 @@ const state = () => ({
   },
   networkStorageCapacity: false,
   applyFormHighlighted: false,
-  githubIssue: false
+  githubIssue: false,
+  view: 'LDN' // 'GA' or 'LDN'
 })
 
 // ///////////////////////////////////////////////////////////////////// Getters
@@ -65,8 +72,11 @@ const getters = {
   networkStorageCapacity: state => state.networkStorageCapacity,
   applyFormHighlighted: state => state.applyFormHighlighted,
   githubIssue: state => state.githubIssue,
-  generalApplicationList: state => state.generalApplicationList,
-  largeApplicationList: state => state.largeApplicationList
+  applicationList: state => state.applicationList,
+  loading: state => state.loading,
+  refresh: state => state.refresh,
+  metadata: state => state.metadata,
+  view: state => state.view
 }
 
 // ///////////////////////////////////////////////////////////////////// Actions
@@ -149,7 +159,7 @@ const actions = {
       this.$gtm.push({ event: 'submission_ga' })
       const response = await this.$axiosAuth.post('/submit-general-application', application)
       await dispatch('setGithubIssue', response.data.payload)
-      this.dispatch('button/removeLoader', 'ga-submit-button')
+      this.$button('ga-submit-button').set({ loading: false })
       this.$toaster.add({
         type: 'toast',
         category: 'success',
@@ -159,7 +169,7 @@ const actions = {
     } catch (e) {
       console.log('========== [Store Action: general/submitGeneralApplication]')
       console.log(e)
-      this.dispatch('button/removeLoader', 'ga-submit-button')
+      this.$button('ga-submit-button').set({ loading: false })
       this.$toaster.add({
         type: 'toast',
         category: 'error',
@@ -174,7 +184,7 @@ const actions = {
       this.$gtm.push({ event: 'submission_lda' })
       const response = await this.$axiosAuth.post('/submit-large-application', application)
       await dispatch('setGithubIssue', response.data.payload)
-      this.dispatch('button/removeLoader', 'lda-submit-button')
+      this.$button('lda-submit-button').set({ loading: false })
       this.$toaster.add({
         type: 'toast',
         category: 'success',
@@ -184,7 +194,7 @@ const actions = {
     } catch (e) {
       console.log('============ [Store Action: general/submitLargeApplication]')
       console.log(e)
-      this.dispatch('button/removeLoader', 'lda-submit-button')
+      this.$button('lda-submit-button').set({ loading: false })
       this.$toaster.add({
         type: 'toast',
         category: 'error',
@@ -201,41 +211,89 @@ const actions = {
   setGithubIssue ({ commit }, issue) {
     commit('SET_GITHUB_ISSUE', issue)
   },
-  // ///////////////////////////////////////////////// setGeneralApplicationList
-  setGeneralApplicationList ({ commit }, applications) {
-    commit('SET_GENERAL_APPLICATION_LIST', applications)
+  // //////////////////////////////////////////////////////// getApplicationList
+  async getApplicationList ({ commit, getters, dispatch }, metadata) {
+    try {
+      const { params } = await this.$exportSearchAndFiltersFromQuery([
+        { filterKey: 'page', default: 1 },
+        { filterKey: 'limit' },
+        { filterKey: 'sort' },
+        { filterKey: 'state' },
+        { filterKey: 'user' }
+      ])
+      const response = await this.$axiosAuth.get('/get-application-list', { params })
+      const payload = response.data.payload
+      dispatch('setApplicationList', {
+        applicationList: payload.results,
+        metadata: payload.metadata
+      })
+    } catch (e) {
+      console.log('================ [Store Action: general/getApplicationList]')
+      console.log(e)
+      dispatch('setLoadingStatus', { type: 'loading', status: false })
+    }
   },
   // ///////////////////////////////////////////////// getGeneralApplicationList
-  async getGeneralApplicationList ({ commit, dispatch }) {
+  async getGeneralApplicationList ({ commit, getters, dispatch }, metadata) {
     try {
-      const response = await this.$axiosAuth.get('/get-general-application-list')
-      const applications = response.data.payload
-      dispatch('setGeneralApplicationList', applications)
-      return applications
+      const { params } = await this.$exportSearchAndFiltersFromQuery([
+        { filterKey: 'page', default: 1 },
+        { filterKey: 'limit' },
+        { filterKey: 'sort' },
+        { filterKey: 'state' },
+        { filterKey: 'user' }
+      ])
+      const response = await this.$axiosAuth.get('/get-general-application-list', { params })
+      const payload = response.data.payload
+      const applicationList = payload.results
+      await dispatch('setApplicationList', {
+        applicationList: applicationList.length > 0 ? applicationList : false,
+        metadata: payload.metadata
+      })
+      return applicationList
     } catch (e) {
-      console.log('=== [Store Action: general/getGeneralApplicationList]')
+      console.log('========= [Store Action: general/getGeneralApplicationList]')
       console.log(e)
-      dispatch('setGeneralApplicationList', { application: false })
-      return false
+      dispatch('setLoadingStatus', { type: 'loading', status: false })
+      return []
     }
-  },
-  // /////////////////////////////////////////////////// setLargeApplicationList
-  setLargeApplicationList ({ commit }, applications) {
-    commit('SET_LARGE_APPLICATION_LIST', applications)
   },
   // /////////////////////////////////////////////////// getLargeApplicationList
-  async getLargeApplicationList ({ commit, dispatch }) {
+  async getLargeApplicationList ({ commit, getters, dispatch }, metadata) {
     try {
-      const response = await this.$axiosAuth.get('/get-large-application-list')
-      const applications = response.data.payload
-      dispatch('setLargeApplicationList', applications)
-      return applications
+      const { params } = await this.$exportSearchAndFiltersFromQuery([
+        { filterKey: 'page', default: 1 },
+        { filterKey: 'limit' },
+        { filterKey: 'sort' },
+        { filterKey: 'state' },
+        { filterKey: 'user' }
+      ])
+      const response = await this.$axiosAuth.get('/get-large-application-list', { params })
+      const payload = response.data.payload
+      const applicationList = payload.results
+      await dispatch('setApplicationList', {
+        applicationList: applicationList.length > 0 ? applicationList : false,
+        metadata: payload.metadata
+      })
+      return applicationList
     } catch (e) {
-      console.log('=== [Store Action: general/getLargeApplicationList]')
+      console.log('=========== [Store Action: general/getLargeApplicationList]')
       console.log(e)
-      dispatch('setLargeApplicationList', { application: false })
-      return false
+      dispatch('setLoadingStatus', { type: 'loading', status: false })
+      return []
     }
+  },
+  // //////////////////////////////////////////////////////// setApplicationList
+  setApplicationList ({ commit }, applicationList) {
+    commit('SET_APPLICATION_LIST', applicationList)
+  },
+  // ////////////////////////////////////////////////////////// setLoadingStatus
+  setLoadingStatus ({ commit }, payload) {
+    commit('SET_LOADING_STATUS', payload)
+  },
+  // /////////////////////////////////////////////////////////////////// setView
+  setView ({ commit }, view) {
+    commit('SET_VIEW', view)
   }
 }
 
@@ -263,11 +321,19 @@ const mutations = {
   SET_GITHUB_ISSUE (state, issue) {
     state.githubIssue = issue
   },
-  SET_GENERAL_APPLICATION_LIST (state, applications) {
-    state.generalApplicationList = applications
+  SET_APPLICATION_LIST (state, payload) {
+    state.applicationList = payload.applicationList
+    const metadata = payload.metadata
+    if (metadata) {
+      state.metadata.totalPages = metadata.totalPages
+      state.metadata.page = metadata.page
+    }
   },
-  SET_LARGE_APPLICATION_LIST (state, applications) {
-    state.largeApplicationList = applications
+  SET_LOADING_STATUS (state, payload) {
+    state[payload.type] = payload.status
+  },
+  SET_VIEW (state, view) {
+    state.view = view
   }
 }
 

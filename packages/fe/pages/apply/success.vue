@@ -34,48 +34,11 @@
             </div>
 
             <!-- ================================================= Accordion -->
-            <Accordion
-              ref="accordion"
-              v-slot="{ active }"
-              :multiple="true"
-              @toggleStateChanged="accordionToggleStateChanged">
-
-              <AccordionSection
-                :active="active">
-
-                <AccordionHeader>
-                  <div class="header-title-wrapper">
-                    <IconApplicationOpen />
-                    <h2 class="header-title h5" v-html="applicationTitle" />
-                  </div>
-                  <h3 class="header-subtitle p1" v-html="applicationSubtitle" />
-                  <span class="p2 expand-application-text">
-                    <IconChevron />
-                    <span v-html="expandApplicationText" />
-                    <ButtonX
-                      :to="githubIssueLink"
-                      tag="a"
-                      target="_blank"
-                      theme="green">
-                      {{ viewOnGithubText }}
-                    </ButtonX>
-                  </span>
-                </AccordionHeader>
-
-                <AccordionContent>
-                  <div class="application-body markdown-user-input" v-html="parsedApplication" />
-                </AccordionContent>
-
-              </AccordionSection>
-
-              <Squigglie
-                :percent-left="85"
-                anchor="bottom"
-                orientation="up"
-                color="nandor"
-                :accordion-bottom-border="true" />
-
-            </Accordion>
+            <AppAccordion
+              :entries="[githubIssue]"
+              :expand-application-text="expandApplicationText"
+              :view-on-github-text="viewOnGithubText"
+              :application-subtitle="applicationSubtitle" />
 
           </div>
         </div>
@@ -99,19 +62,11 @@
 <script>
 // ===================================================================== Imports
 import { mapGetters, mapActions } from 'vuex'
-import Kramed from 'kramed'
 
 import GithubIcon from '@/components/icons/github'
-import IconChevron from '@/components/icons/chevron'
-import IconApplicationOpen from '@/components/icons/application-open'
 
 import ButtonA from '@/components/buttons/button-a'
-import ButtonX from '@/components/buttons/button-x'
-import Accordion from '@/components/accordion/accordion'
-import AccordionSection from '@/components/accordion/accordion-section'
-import AccordionHeader from '@/components/accordion/accordion-header'
-import AccordionContent from '@/components/accordion/accordion-content'
-import Squigglie from '@/components/squigglie'
+import AppAccordion from '@/components/app-accordion'
 import Overlay from '@/components/overlay'
 
 import ApplySucessPageData from '@/content/pages/apply-success.json'
@@ -122,22 +77,14 @@ export default {
 
   components: {
     GithubIcon,
-    IconChevron,
-    IconApplicationOpen,
     ButtonA,
-    Accordion,
-    AccordionSection,
-    AccordionHeader,
-    AccordionContent,
-    Squigglie,
-    Overlay,
-    ButtonX
+    AppAccordion,
+    Overlay
   },
 
   data () {
     return {
-      tag: 'apply-success',
-      renderer: false
+      tag: 'apply-success'
     }
   },
 
@@ -166,14 +113,12 @@ export default {
     pageHeading () {
       return this.pageData.heading.replace('|data|', this.datacapRequested[1])
     },
-    applicationBody () {
-      return this.githubIssue.body
-    },
     datacapRequested () {
+      const applicationBody = this.githubIssue.body
       const generalDatacapRegEx = /(?:DataCap Requested: )(\d+\.?\d{0,2} \w{3})/
       const largeDatacapRegEx = /(?:### Total amount of DataCap being requested\n)(\d+\.?\d{0,2} \w{3})/
-      const generalDatacap = this.applicationBody.match(generalDatacapRegEx)
-      const largeDatacap = this.applicationBody.match(largeDatacapRegEx)
+      const generalDatacap = applicationBody.match(generalDatacapRegEx)
+      const largeDatacap = applicationBody.match(largeDatacapRegEx)
       return generalDatacap || largeDatacap
     },
     subheading () {
@@ -192,15 +137,7 @@ export default {
       return this.githubIssue.title
     },
     applicationSubtitle () {
-      const githubIssue = this.githubIssue
-      const issueUser = githubIssue.user
-      const issueNumber = githubIssue.number
-      const timeAgo = this.$timeago(new Date(githubIssue.created_at))
-      const user = issueUser.name || issueUser.login
-      return this.pageData.application_subtitle.replace('|issue_number|', issueNumber).replace('|time_ago|', timeAgo).replace('|user|', user)
-    },
-    parsedApplication () {
-      return Kramed(this.applicationBody, { renderer: this.renderer })
+      return this.pageData.application_subtitle
     },
     expandApplicationText () {
       return this.pageData.expand_application_text
@@ -208,10 +145,6 @@ export default {
     viewOnGithubText () {
       return this.pageData.view_on_github_text
     }
-  },
-
-  created () {
-    this.renderer = new Kramed.Renderer()
   },
 
   beforeDestroy () {
@@ -234,19 +167,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$squigglySizing: 5.75rem;
-$padding: 2.25rem;
-
-@mixin border {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background-color: $titanWhite;
-}
-
 // ///////////////////////////////////////////////////////////////////// General
 .page-apply-success {
   position: relative;margin-top: -$siteHeaderHeight;
@@ -258,6 +178,7 @@ $padding: 2.25rem;
 // /////////////////////////////////////////////////////// Submitted Application
 #section-success {
   position: relative;
+  margin-bottom: toRem(143);
   z-index: 25;
   .submitted-applicaiton-top-border {
     top: -3px;
@@ -307,80 +228,6 @@ $padding: 2.25rem;
           fill: $lima;
         }
       }
-    }
-  }
-}
-
-// /////////////////////////////////////////////////////////////////// Accordion
-.accordion {
-  margin-bottom: 11rem;
-  position: relative;
-}
-
-.accordion-section {
-  border: 3px solid $nandor;
-  border-bottom: none;
-  border-radius: toRem(10) toRem(10) toRem(7) toRem(7);
-  padding: 0 1.25rem 0 3.875rem;
-  &.open {
-    .icon-chevron {
-      transition: 150ms ease-out;
-      transform: rotate(-180deg);
-    }
-  }
-}
-
-.accordion-header {
-  cursor: pointer;
-  padding: 1.25rem 0;
-}
-
-.header-title-wrapper {
-  display: flex;
-  align-items: center;
-}
-
-.header-title {
-  letter-spacing: 0;
-}
-
-.icon-application-open {
-  margin-right: 1.25rem;
-  margin-left: -2.5rem;
-}
-
-.header-subtitle {
-  letter-spacing: 0;
-  :deep(.highlight) {
-    color: $mandysPink;
-    letter-spacing: 0;
-  }
-}
-
-.expand-application-text {
-  display: flex;
-  font-weight: 500;
-}
-
-.icon-chevron {
-  width: 1rem;
-  transition: 150ms ease-in;
-  margin-right: 1.5rem;
-  margin-left: 0.125rem;
-}
-
-.accordion-content {
-  padding-top: .25rem;
-}
-
-.application-body {
-  @include p2;
-  padding-bottom: 3.375rem;
-  :deep(p) {
-    font-size: inherit;
-    line-height: inherit;
-    &:not(:last-child) {
-      margin-bottom: 1.5rem;
     }
   }
 }

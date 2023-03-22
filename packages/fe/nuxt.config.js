@@ -98,7 +98,7 @@ export default {
     // '~/modules/slider',
     // '~/modules/alert',
     '~/modules/auth',
-    // '~/modules/search',
+    '~/modules/search',
     '~/modules/form',
     '~/modules/button',
     '~/modules/ls'
@@ -140,8 +140,13 @@ export default {
         path: '/apply',
         key: 'githubUsername'
       }
+    },
+    redirectAfterLogout: {
+      path: '/apply',
+      match: [
+        '/account'
+      ]
     }
-    // redirectAfterLogout: '/apply'
   },
   // /////////////////////////////////////////////////////////////// [Module] ls
   // ---------------------------------------------------------------------------

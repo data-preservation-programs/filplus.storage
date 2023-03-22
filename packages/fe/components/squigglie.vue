@@ -181,6 +181,8 @@ export default {
     }
   }
   &.accordion-bottom-border {
+    left: -3px;
+    width: calc(100% + 6px);
     .line-before,
     .line-after {
       border-bottom: 3px solid $nandor;

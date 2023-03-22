@@ -2,38 +2,35 @@ console.log('💡 [endpoint] /get-large-application-list')
 
 // ///////////////////////////////////////////////////////////////////// Imports
 // -----------------------------------------------------------------------------
-const { SendData } = require('@Module_Utilities')
-const Axios = require('axios')
+const { SendData, ParseNumber } = require('@Module_Utilities')
+const GetLargeApplicationList = require('@Module_Application/logic/get-large-application-list')
+const SortApplications = require('@Module_Application/logic/sort-applications')
+const GetUser = require('@Module_Application/logic/get-user')
 
 const MC = require('@Root/config')
-
-// /////////////////////////////////////////////////////////////////// Functions
-// -----------------------------------------------------------------------------
-// ///////////////////////////////////////////////////// getLargeApplicationList
-const getLargeApplicationList = async (username, token) => {
-  try {
-    const repo = MC.serverFlag === 'production' ? 'filecoin-project/filecoin-plus-large-datasets' : 'data-preservation-programs/filecoin-plus-large-datasets'
-    const options = { headers: { Accept: 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28', Authorization: `Bearer ${token}` } }
-    const response = await Axios.get(`https://api.github.com/repos/${repo}/issues?creator=${username}`, options)
-    return response.data
-  } catch (e) {
-    console.log('=================== [Function: getLargeApplicationList]')
-    throw e
-  }
-}
 
 // //////////////////////////////////////////////////////////////////// Endpoint
 // -----------------------------------------------------------------------------
 MC.app.get('/get-large-application-list', async (req, res) => {
   try {
-    const identifier = req.session.identifier
-    if (!identifier) { return SendData(res, 403, 'You are not logged in') }
-    const user = await MC.model.User.findById(identifier.userId)
-    if (MC.serverFlag !== 'production') {
-      console.log('=============================================== development')
-    }
-    const largeApplicationList = await getLargeApplicationList(user.githubUsername, user.githubToken)
-    SendData(res, 200, 'Submitted application retrieved succesfully', largeApplicationList)
+    const query = req.query
+    const user = await GetUser(req, res, query)
+    const page = await ParseNumber(query.page) || 1
+    const state = query.state
+    const sort = query.sort
+    const limit = await ParseNumber(query.limit)
+    const applicationList = await GetLargeApplicationList(user, page, state, limit)
+    const results = applicationList.results
+    await SortApplications(results, sort)
+    SendData(res, 200, 'LDA list retrieved succesfully', {
+      metadata: {
+        page,
+        limit,
+        count: results.length,
+        totalPages: applicationList.metadata.totalPages
+      },
+      results
+    })
   } catch (e) {
     console.log('=============== [Endpoint: /get-large-application-list]')
     console.log(e.response)
