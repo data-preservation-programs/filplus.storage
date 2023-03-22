@@ -212,9 +212,14 @@ $height: 4rem;
     font-size: toRem(18);
     font-weight: 400;
     font-style: italic;
+    opacity: 1;
   }
   &:focus {
-    border-width: 4px;
+    @include placeholder {
+      color: $aquaSqueeze;
+      font-size: toRem(20);
+      font-style: normal;
+    }
   }
   &::-webkit-inner-spin-button,
   &::-webkit-outer-spin-button {

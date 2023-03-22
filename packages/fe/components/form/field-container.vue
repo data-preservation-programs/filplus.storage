@@ -163,6 +163,12 @@ export default {
 }
 
 // /////////////////////////////////////////////////////////////////////// Label
+.field-container:focus-within {
+  .field-label {
+    color: rgba($aquaSqueeze, 0.7);
+  }
+}
+
 .field-label {
   display: block;
   font-size: toRem(20);

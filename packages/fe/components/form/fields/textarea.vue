@@ -130,6 +130,14 @@ export default {
     font-size: toRem(18);
     font-weight: 400;
     font-style: italic;
+    opacity: 1;
+  }
+  &:focus {
+    @include placeholder {
+      color: $aquaSqueeze;
+      font-size: toRem(20);
+      font-style: normal;
+    }
   }
   &.caution {
     border-color: $mandysPink;
