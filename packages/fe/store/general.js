@@ -219,7 +219,7 @@ const actions = {
         { filterKey: 'limit' },
         { filterKey: 'sort' },
         { filterKey: 'state' },
-        { filterKey: 'user' }
+        { queryKey: 'user' }
       ])
       const response = await this.$axiosAuth.get('/get-application-list', { params })
       const payload = response.data.payload
@@ -241,7 +241,7 @@ const actions = {
         { filterKey: 'limit' },
         { filterKey: 'sort' },
         { filterKey: 'state' },
-        { filterKey: 'user' }
+        { queryKey: 'user' }
       ])
       const response = await this.$axiosAuth.get('/get-general-application-list', { params })
       const payload = response.data.payload
@@ -266,7 +266,7 @@ const actions = {
         { filterKey: 'limit' },
         { filterKey: 'sort' },
         { filterKey: 'state' },
-        { filterKey: 'user' }
+        { queryKey: 'user' }
       ])
       const response = await this.$axiosAuth.get('/get-large-application-list', { params })
       const payload = response.data.payload

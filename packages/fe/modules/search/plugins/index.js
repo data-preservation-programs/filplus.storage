@@ -116,7 +116,8 @@ const ExportSearchAndFiltersFromQuery = async (app, paramsToCompile) => {
     const paramToCompile = paramsToCompile[i]
     const filterKey = paramToCompile.filterKey
     const searchKey = paramToCompile.searchKey
-    const key = filterKey || searchKey
+    const queryKey = paramToCompile.queryKey
+    const key = filterKey || searchKey || queryKey
     const compileGroup = paramToCompile.group
     const defaultOverride = paramToCompile.default
     const filterer = await app.$filter(filterKey).get()
@@ -131,6 +132,9 @@ const ExportSearchAndFiltersFromQuery = async (app, paramsToCompile) => {
       process.server ? value || query[key] || defaultOverride : value || defaultOverride,
       true
     )
+    if (queryKey) {
+      value = await app.$parseNumber(query[key], true)
+    }
     if (value !== undefined) { // don't compile filters that don't exist
       if (!compileGroup) { // compile as a string, (ex: page: '1')
         params[key] = value
