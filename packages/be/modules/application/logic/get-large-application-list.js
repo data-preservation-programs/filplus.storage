@@ -25,7 +25,7 @@ module.exports = async (user, page = 1, state = 'all', limit = 10) => {
       results: response.data.map((application) => {
         return {
           ...application,
-          type: 'LDA (Large Dataset Application)'
+          type: 'LDN (Large Dataset Application)'
         }
       })
     }
