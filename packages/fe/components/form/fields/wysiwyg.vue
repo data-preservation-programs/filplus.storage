@@ -7,12 +7,11 @@
       @updateContentValue="updateContentValue">
 
       <template #format-button-label="{ formatTool }">
-        <span v-if="formatTool.label" v-html="formatTool.label" />
+        <span v-html="formatTool.label" />
       </template>
 
       <template #format-input-label="{ formatTool }">
         <label
-          v-if="formatTool.label"
           :for="formatTool.name"
           v-html="formatTool.label" />
       </template>
@@ -82,10 +81,26 @@ export default {
 :deep(.wysiwyg-toolbar) {
   border-bottom: 2px solid $nandor;
 
-  .toolbar-section {
-    &:not(:last-child) {
-      border-right: 2px solid $nandor;
+  .toolbar-section-mobile-wrapper {
+    &:is(:first-child){
+      @include medium {
+        .toolbar-section:is(:last-child) {
+          border-right: none;
+        }
+      }
     }
+    &:is(:last-child) {
+      .toolbar-section:is(:last-child) {
+        border-right: none;
+      }
+      @include medium {
+        border-top: 2px solid $nandor;
+      }
+    }
+  }
+
+  .toolbar-section {
+    border-right: 2px solid $nandor;
   }
 
   .wysiwyg-formatting-option {

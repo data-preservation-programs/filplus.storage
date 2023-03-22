@@ -4,72 +4,79 @@
     <!-- ================================================ Formatting Toolbar -->
     <div class="wysiwyg-toolbar">
       <div
-        v-for="(toolbarSection, index) in toolbarConfig"
-        :key="index"
-        class="toolbar-section">
+        v-for="(toolbarSectionMobileWrapper, wrapperIndex) in toolbarConfig"
+        :key="wrapperIndex"
+        :class="['toolbar-section-mobile-wrapper', wrapperIndex === 1 && expandMobileToolbar ? 'expanded' : '']">
         <div
-          v-for="formatTool in toolbarSection"
-          :key="formatTool.name"
-          :class="['wysiwyg-formatting-option', formatTool.type === 'input' ? 'input-option' : '']">
-
-          <Select
-            v-if="formatTool.type === 'select' && formatTool.include"
-            class="wysiwig-formatting-dropdown"
-            :field="headingSelectField"
-            @updateValue="updateNodeHeading" />
-
-          <ButtonX
-            v-if="formatTool.type === 'button-x' && formatTool.include"
-            :class="[ 'wysiwyg-formatting-button', formatTool.name, isFormatButtonActive(formatTool)]"
-            @clicked="clickFormatButton(formatTool)">
-            <slot name="format-button-label" :format-tool="formatTool" />
-            <component
-              :is="buttonIcon(formatTool.name)"
-              v-if="formatTool.name"
-              class="toolbar-icon" />
-          </ButtonX>
-
+          v-for="(toolbarSection, index) in toolbarSectionMobileWrapper"
+          :key="index"
+          class="toolbar-section">
           <div
-            v-if="formatTool.userInput"
-            :class="[
-              `${formatTool.name === 'link' ? 'link': 'image'}-user-input-wrapper`,
-              'user-input-wrapper',
-              userInputActive === formatTool.name ? 'active' : '' ]">
-            <component
-              :is="buttonIcon(formatTool.name)"
-              class="toolbar-icon" />
-            <input
-              class="wysiwyg-user-input"
-              type="url"
-              :placeholder="formatTool.placeholder"
-              :value="userInputValue[formatTool.name] ? userInputValue[formatTool.name] : ''"
-              @input="updateUserInputValue($event.target.value, formatTool.name)" />
-            <ButtonX
-              class="user-input-submit"
-              theme="mineral-green"
-              @clicked="submitUserInput(formatTool.name)">
-              <span v-if="formatTool.name === 'link'">{{ editor.isActive('link') ? formatTool.buttonText[0] : formatTool.buttonText[1] }}</span>
-              <span v-if="formatTool.name === 'imageButton'">{{ formatTool.buttonText }}</span>
-            </ButtonX>
-          </div>
+            v-for="formatTool in toolbarSection"
+            :key="formatTool.name"
+            :class="['wysiwyg-formatting-option', formatTool.type === 'input' ? 'input-option' : '']">
 
-          <div v-if="formatTool.type === 'input' && formatTool.include" class="input-wrapper">
-            <slot name="format-input-label" :format-tool="formatTool" />
-            <label
-              v-if="!formatTool.label"
-              :for="formatTool.name">
+            <Select
+              v-if="formatTool.type === 'select' && formatTool.include"
+              class="wysiwig-formatting-dropdown"
+              :field="headingSelectField"
+              @updateValue="updateNodeHeading" />
+
+            <ButtonX
+              v-if="formatTool.type === 'button-x' && formatTool.include"
+              :class="[
+                'wysiwyg-formatting-button',
+                formatTool.name, isFormatButtonActive(formatTool),
+                formatTool.name === 'toolbarToggle' && expandMobileToolbar ? 'expanded': '']"
+              @clicked="clickFormatButton(formatTool)">
+              <slot v-if="formatTool.label" name="format-button-label" :format-tool="formatTool" />
+              <component
+                :is="buttonIcon(formatTool.name)"
+                v-if="formatTool.name"
+                class="toolbar-icon" />
+            </ButtonX>
+
+            <div
+              v-if="formatTool.userInput"
+              :class="[ 'user-input-wrapper', userInputActive === formatTool.name ? 'active' : '' ]">
               <component
                 :is="buttonIcon(formatTool.name)"
                 class="toolbar-icon" />
-            </label>
-            <input
-              :id="formatTool.name"
-              :type="formatTool.inputType"
-              :value="showCurrentColor(formatTool)"
-              class="wysiwyg-formatting-input"
-              @input="clickColorInputButton(formatTool, $event.target.value)">
-          </div>
+              <input
+                class="wysiwyg-user-input"
+                type="url"
+                :placeholder="formatTool.placeholder"
+                :value="userInputValue[formatTool.name] ? userInputValue[formatTool.name] : ''"
+                @input="updateUserInputValue($event.target.value, formatTool.name)" />
+              <ButtonX
+                class="user-input-submit"
+                theme="mineral-green"
+                @clicked="submitUserInput(formatTool.name)">
+                <span v-if="formatTool.name === 'link'">
+                  {{ editor.isActive('link') ? formatTool.buttonText[0] : formatTool.buttonText[1] }}
+                </span>
+                <span v-if="formatTool.name === 'imageButton'">{{ formatTool.buttonText }}</span>
+              </ButtonX>
+            </div>
 
+            <div v-if="formatTool.type === 'input' && formatTool.include" class="input-wrapper">
+              <slot v-if="formatTool.label" name="format-input-label" :format-tool="formatTool" />
+              <label
+                v-if="!formatTool.label"
+                :for="formatTool.name">
+                <component
+                  :is="buttonIcon(formatTool.name)"
+                  class="toolbar-icon" />
+              </label>
+              <input
+                :id="formatTool.name"
+                :type="formatTool.inputType"
+                :value="showCurrentColor(formatTool)"
+                class="wysiwyg-formatting-input"
+                @input="clickColorInputButton(formatTool, $event.target.value)">
+            </div>
+
+          </div>
         </div>
       </div>
     </div>
@@ -126,6 +133,7 @@ import IconRightAlign from '@/components/icons/right-align'
 import IconTable from '@/components/icons/table'
 import IconTaskList from '@/components/icons/task-list'
 import IconUndoArrow from '@/components/icons/undo-arrow'
+import IconChevron from '@/components/icons/chevron'
 
 // ====================================================================== Export
 export default {
@@ -150,7 +158,8 @@ export default {
     IconRightAlign,
     IconTable,
     IconTaskList,
-    IconUndoArrow
+    IconUndoArrow,
+    IconChevron
   },
 
   props: {
@@ -170,148 +179,158 @@ export default {
         imageButton: false,
         link: false
       },
+      expandMobileToolbar: false,
       toolbar: [
-        [{
-          name: 'heading-select',
-          type: 'select',
-          include: true
-        }],
         [
-          {
-            name: 'bold',
-            label: '<b>B</b>',
-            type: 'button-x',
+          [{
+            name: 'heading-select',
+            type: 'select',
             include: true
-          },
-          {
-            name: 'italic',
-            label: '<em>I</em>',
-            type: 'button-x',
-            include: true
-          },
-          {
-            name: 'underline',
-            label: '<u>U</u>',
-            type: 'button-x',
-            include: true
-          },
-          {
-            name: 'strike',
-            label: '<s>S</s>',
-            type: 'button-x',
-            include: true
-          },
-          {
-            name: 'superscript',
-            label: '<p>A<sup>1</sup></p>',
-            type: 'button-x',
-            include: true
-          },
-          {
-            name: 'subscript',
-            label: '<p>A<sub>1</sub></p>',
-            type: 'button-x',
-            include: true
-          },
-          {
-            name: 'textColor',
-            label: '<p>A</p>',
-            type: 'input',
-            inputType: 'color',
-            include: true
-          },
-          {
-            name: 'highlight',
-            type: 'input',
-            inputType: 'color',
-            include: true
-          }
+          }],
+          [
+            {
+              name: 'bold',
+              label: '<b>B</b>',
+              type: 'button-x',
+              include: true
+            },
+            {
+              name: 'italic',
+              label: '<em>I</em>',
+              type: 'button-x',
+              include: true
+            },
+            {
+              name: 'underline',
+              label: '<u>U</u>',
+              type: 'button-x',
+              include: true
+            },
+            {
+              name: 'strike',
+              label: '<s>S</s>',
+              type: 'button-x',
+              include: true
+            },
+            {
+              name: 'superscript',
+              label: '<p>A<sup>1</sup></p>',
+              type: 'button-x',
+              include: true
+            },
+            {
+              name: 'subscript',
+              label: '<p>A<sub>1</sub></p>',
+              type: 'button-x',
+              include: true
+            },
+            {
+              name: 'textColor',
+              label: '<p>A</p>',
+              type: 'input',
+              inputType: 'color',
+              include: true
+            },
+            {
+              name: 'highlight',
+              type: 'input',
+              inputType: 'color',
+              include: true
+            },
+            {
+              name: 'toolbarToggle',
+              type: 'button-x',
+              include: true
+            }
+          ]
         ],
         [
-          {
-            name: 'bulletList',
-            type: 'button-x',
-            include: true
-          },
-          {
-            name: 'orderedList',
-            type: 'button-x',
-            include: true
-          },
-          {
-            name: 'taskList',
-            type: 'button-x',
-            include: true
-          }
-        ],
-        [
-          {
-            name: 'leftAlign',
-            checkActive: { textAlign: 'left' },
-            type: 'button-x',
-            include: true
-          },
-          {
-            name: 'centerAlign',
-            checkActive: { textAlign: 'center' },
-            type: 'button-x',
-            include: true
-          },
-          {
-            name: 'rightAlign',
-            checkActive: { textAlign: 'right' },
-            type: 'button-x',
-            include: true
-          },
-          {
-            name: 'justify',
-            checkActive: { textAlign: 'justify' },
-            type: 'button-x',
-            include: true
-          },
-          {
-            name: 'blockquote',
-            type: 'button-x',
-            include: true
-          },
-          {
-            name: 'imageButton',
-            type: 'button-x',
-            userInput: true,
-            placeholder: 'Link an image',
-            buttonText: 'Apply',
-            include: true
-          },
-          {
-            name: 'link',
-            type: 'button-x',
-            userInput: true,
-            placeholder: 'Paste a link',
-            buttonText: ['Unlink', 'Link'],
-            include: true
-          },
-          {
-            name: 'code',
-            type: 'button-x',
-            include: true
-          },
-          {
-            name: 'codeBlock',
-            type: 'button-x',
-            include: true
-          }
-        ],
-        [
-          {
-            name: 'undo',
-            type: 'button-x',
-            include: true
-          },
-          {
-            name: 'redo',
-            type: 'button-x',
-            include: true
-          }
+          [
+            {
+              name: 'bulletList',
+              type: 'button-x',
+              include: true
+            },
+            {
+              name: 'orderedList',
+              type: 'button-x',
+              include: true
+            },
+            {
+              name: 'taskList',
+              type: 'button-x',
+              include: true
+            }
+          ],
+          [
+            {
+              name: 'leftAlign',
+              checkActive: { textAlign: 'left' },
+              type: 'button-x',
+              include: true
+            },
+            {
+              name: 'centerAlign',
+              checkActive: { textAlign: 'center' },
+              type: 'button-x',
+              include: true
+            },
+            {
+              name: 'rightAlign',
+              checkActive: { textAlign: 'right' },
+              type: 'button-x',
+              include: true
+            },
+            {
+              name: 'justify',
+              checkActive: { textAlign: 'justify' },
+              type: 'button-x',
+              include: true
+            },
+            {
+              name: 'blockquote',
+              type: 'button-x',
+              include: true
+            },
+            {
+              name: 'imageButton',
+              type: 'button-x',
+              userInput: true,
+              placeholder: 'Link an image',
+              buttonText: 'Apply',
+              include: true
+            },
+            {
+              name: 'link',
+              type: 'button-x',
+              userInput: true,
+              placeholder: 'Paste a link',
+              buttonText: ['Unlink', 'Link'],
+              include: true
+            },
+            {
+              name: 'code',
+              type: 'button-x',
+              include: true
+            },
+            {
+              name: 'codeBlock',
+              type: 'button-x',
+              include: true
+            }
+          ],
+          [
+            {
+              name: 'undo',
+              type: 'button-x',
+              include: true
+            },
+            {
+              name: 'redo',
+              type: 'button-x',
+              include: true
+            }
+          ]
         ]
       ]
     }
@@ -480,6 +499,7 @@ export default {
         case 'rightAlign' : component = 'IconRightAlign'; break
         case 'table' : component = 'IconTable'; break
         case 'taskList' : component = 'IconTaskList'; break
+        case 'toolbarToggle' : component = 'IconChevron'; break
         case 'undo' : component = 'IconUndoArrow'; break
       }
       return component
@@ -538,11 +558,15 @@ export default {
       }
     },
     isFormatButtonActive (formatTool) {
+      const toolName = formatTool.name
       const checkActive = formatTool.checkActive
-      if (checkActive !== undefined) {
-        return this.editor.isActive(checkActive) ? 'is-active' : ''
+      switch (true) {
+        case (toolName === 'toggleToolbar'):
+          return ''
+        case (checkActive !== undefined):
+          return this.editor.isActive(checkActive) ? 'is-active' : ''
+        default: return this.editor.isActive(toolName) ? 'is-active' : ''
       }
-      return this.editor.isActive(formatTool.name) ? 'is-active' : ''
     },
     clickFormatButton (formatTool) {
       const isActive = formatTool.checkActive
@@ -597,6 +621,9 @@ export default {
         case 'redo':
           this.editor.chain().focus().redo().run()
           break
+        case 'toolbarToggle':
+          this.expandMobileToolbar = !this.expandMobileToolbar
+          break
       }
     },
     showCurrentColor (formatTool) {
@@ -623,18 +650,59 @@ export default {
 
 <style lang="scss" scoped>
 // ///////////////////////////////////////////////////////////////////// General
-.wysiwyg-toolbar, .toolbar-section {
+.wysiwyg-toolbar {
   display: flex;
-  flex-direction: row;
-  align-items: center;
+  @include medium {
+  flex-direction: column;
+  }
+}
+
+.toolbar-section-mobile-wrapper, .toolbar-section {
+  display: flex;
+}
+
+.toolbar-section-mobile-wrapper {
+  @include medium {
+    &:is(:first-child) {
+      .toolbar-section:is(:last-child) {
+        flex: 1;
+        .wysiwyg-formatting-option:is(:last-child) {
+          position: absolute;
+          right: 0;
+        }
+        .toolbarToggle {
+          display: block;
+        }
+      }
+    }
+    &:is(:last-child) {
+      display: none;
+      &.expanded {
+        display: flex;
+      }
+    }
+  }
 }
 
 .toolbar-icon {
   height: toRem(14);
 }
 
+.toolbarToggle {
+  display: none;
+  .icon-chevron {
+    width: toRem(14);
+    transition: 150ms ease;
+  }
+  &.expanded {
+    .icon-chevron {
+      transform: rotate(180deg);
+    }
+  }
+}
+
 .wysiwig-formatting-dropdown {
-  width: 4rem;
+  min-width: 4rem;
   :deep(.select.custom) {
     border: none;
   }
@@ -643,14 +711,15 @@ export default {
   }
 }
 .wysiwyg-formatting-option {
+  align-self: center;
   position: relative;
   padding: toRem(1) 0;
-  margin-left: toRem(4);
+  margin-left: toRem(3);
   &:first-child {
-    margin-left: toRem(16);
+    margin-left: toRem(13);
   }
   &:last-child {
-    margin-right: toRem(16);
+    margin-right: toRem(13);
   }
   .wysiwig-formatting-dropdown.field-select {
     height: unset;
