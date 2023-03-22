@@ -242,6 +242,7 @@ export default {
 }
 
 .close-accordion-button {
+  display: none;
   height: fit-content;
   position:sticky;
   // top: 50%;
