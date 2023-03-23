@@ -5,19 +5,25 @@
       {{ value }}
     </div>
 
-    <div v-else class="textarea-container">
-      <textarea
-        :value="value"
-        :placeholder="placeholder"
-        :class="['textarea', state]"
-        @focus="focused = true"
-        @blur="focused = false"
-        @input="$emit('updateValue', $event.target.value)"></textarea>
-      <div v-if="typeof chars === 'number'" class="char-validation">
-        {{ chars }}
-      </div>
-    </div>
+    <div v-else class="textarea-wrapper">
 
+      <div class="textarea-container">
+        <textarea
+          :value="value"
+          :placeholder="placeholder"
+          :class="['textarea', state]"
+          @focus="focused = true"
+          @blur="focused = false"
+          @input="$emit('updateValue', $event.target.value)"></textarea>
+        <div v-if="typeof chars === 'number'" class="char-validation">
+          {{ chars }}
+        </div>
+
+      </div>
+
+      <slot name="tooltip" />
+
+    </div>
   </div>
 </template>
 
@@ -114,9 +120,21 @@ export default {
   }
 }
 
+.textarea-wrapper {
+  width: calc(100% + 3rem);
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.textarea-container {
+  }
+
 .textarea-container,
 .textarea {
   height: 100%;
+  width: calc(100% - 3rem);
 }
 
 .textarea {

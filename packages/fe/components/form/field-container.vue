@@ -17,9 +17,14 @@
       :is="type"
       :field="field"
       :field-key="fieldKey"
-      :data-tooltip="tooltip"
       @updateValue="updateValue"
-      v-on="$listeners" />
+      v-on="$listeners">
+      <template #tooltip>
+        <div v-if="tooltip" class="tooltip" :data-tooltip="tooltip">
+          <IconQuestionMark />
+        </div>
+      </template>
+    </component>
 
     <slot />
 
@@ -42,6 +47,8 @@ import FieldSelect from '@/components/form/fields/select'
 import FieldTypeahead from '@/components/form/fields/typeahead'
 import FieldChiclet from '@/components/form/fields/chiclet'
 
+import IconQuestionMark from '@/components/icons/question-mark'
+
 // ====================================================================== Export
 export default {
   name: 'FieldContainer',
@@ -55,7 +62,8 @@ export default {
     FieldRadio,
     FieldSelect,
     FieldTypeahead,
-    FieldChiclet
+    FieldChiclet,
+    IconQuestionMark
   },
 
   props: {
@@ -125,12 +133,20 @@ export default {
   }
   &:hover,
   &.focused {
-    &[data-tooltip] {
-      &:before {
-        transform: translate(0, -50%) rotate(-90deg);
-      }
-      &:after {
-        transform: translate(0, -50%);
+    .tooltip {
+      display: block;
+      &:hover {
+        cursor: pointer;
+        &[data-tooltip] {
+          &:before {
+            display: block;
+            transform: translate(0, -50%) rotate(-90deg);
+          }
+          &:after {
+            display: block;
+            transform: translate(0, -50%);
+          }
+        }
       }
     }
   }
@@ -142,23 +158,31 @@ export default {
   margin-bottom: 2.25rem;
 }
 
-[data-tooltip] {
-  &:before {
-    top: calc(50% + 0.475rem);
-    left: calc(100% + 4px);
-    transform: translate(0.5rem, -50%) rotate(-90deg);
-    border-bottom-width: 0.5rem;
-  }
-  &:after {
-    white-space: break-spaces;
-    padding: 2rem;
-    top: 50%;
-    left: calc(100% + 1rem);
-    width: 26rem;
-    font-size: 1rem;
-    line-height: leading(27, 16);
-    border-radius: 1rem;
-    transform: translate(0.5rem, -50%);
+// ///////////////////////////////////////////////////////////////////// Tooltip
+.tooltip {
+  &[data-tooltip] {
+    display: none;
+    height: toRem(25);
+    width: toRem(25);
+    &:before {
+      top: 50%;
+      left: calc(100% + 4px);
+      transform: translate(0.5rem, -50%) rotate(-90deg);
+      border-bottom-width: 0.5rem;
+      border-bottom-color: $dodgerBlue;
+    }
+    &:after {
+      white-space: break-spaces;
+      padding: 2rem;
+      top: 50%;
+      left: calc(100% + 1rem);
+      width: 26rem;
+      font-size: 1rem;
+      line-height: leading(27, 16);
+      border-radius: 1rem;
+      transform: translate(0.5rem, -50%);
+      background-color: $dodgerBlue;
+    }
   }
 }
 
