@@ -5,6 +5,8 @@ console.log('💡 [endpoint] /submit-large-application')
 const { SendData, GetFileFromDisk } = require('@Module_Utilities')
 const Axios = require('axios')
 
+const SubmitHubspotContact = require('@Module_Application/logic/submit-hubspot-contact')
+
 const MC = require('@Root/config')
 
 // /////////////////////////////////////////////////////////////////// Functions
@@ -35,7 +37,6 @@ MC.app.post('/submit-large-application', async (req, res) => {
     const user = await MC.model.User.findById(identifier.userId)
     let template = await GetFileFromDisk(`${MC.staticRoot}/large-application-template.md`)
     template = template.toString()
-    console.log(body)
     Object.keys(body).forEach((key) => {
       const value = body[key] || ''
       if (key === 'organization_website') {
@@ -48,6 +49,11 @@ MC.app.post('/submit-large-application', async (req, res) => {
       console.log('===========================================================')
       console.log(body)
       console.log(template)
+    }
+    const hubspotOptIn = body.hubspot_opt_in
+    const hubspotOptInEmail = body.hubspot_opt_in_email
+    if (!user.hubspotOptIn && hubspotOptIn && hubspotOptInEmail !== '') {
+      await SubmitHubspotContact(user, hubspotOptInEmail)
     }
     const githubIssue = await submitLargeApplication(template, body, user.githubToken)
     SendData(res, 200, 'Large application submitted succesfully', githubIssue)

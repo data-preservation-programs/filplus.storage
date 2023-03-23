@@ -23,10 +23,25 @@ const UserSchema = new Schema({
     type: String,
     required: false
   },
+  githubEmail: {
+    type: String,
+    required: false,
+    default: null
+  },
   email: {
     type: String,
-    required: allowEmptyStringsOnly,
-    default: ''
+    required: false,
+    default: null
+  },
+  hubspotOptIn: {
+    type: Boolean,
+    required: false,
+    default: false
+  },
+  hubspotOptInEmail: {
+    type: String,
+    required: false,
+    default: null
   },
   disabled: {
     type: Boolean,
@@ -53,15 +68,11 @@ UserSchema.plugin(MongooseLeanGetter)
 // ////////////////////////////////////////////////////////////// Before Actions
 // -----------------------------------------------------------------------------
 UserSchema.pre('validate', function (next) {
-  if (typeof this.email === 'object') { this.email = '' }
+  if (this.githubEmail === '') { this.githubEmail = null }
+  if (this.email === '') { this.email = null }
+  if (this.hubspotOptInEmail === '') { this.hubspotOptInEmail = null }
   next()
 })
-
-// /////////////////////////////////////////////////////////////////// Functions
-// -----------------------------------------------------------------------------
-function allowEmptyStringsOnly () {
-  return typeof this.email !== 'string'
-}
 
 // ////////////////////////////////////////////////////////////////////// Export
 // -----------------------------------------------------------------------------

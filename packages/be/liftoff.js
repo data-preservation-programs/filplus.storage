@@ -55,8 +55,35 @@ try {
 //   try {
 //     const user = await MC.model.User.findOne({ githubUsername: 'timelytree' })
 //     console.log(user)
-//     // users.save()
+//     // user.hubspotOptIn = undefined
+//     // user.hubspotOptInEmail = undefined
+//     // await user.save()
+//     // console.log(saved)
 //   } catch (e) {
 //     console.log(e)
 //   }
+//
+//   // try {
+//   //   const user = await MC.model.User.deleteOne({ githubUsername: 'timelytree' })
+//   //   console.log(user)
+//   // } catch (e) {
+//   //   console.log(e)
+//   // }
+//
+//   // try {
+//   //   const users = await MC.model.User.find()
+//   //   const len = users.length
+//   //   for (let i = 0; i < len; i++) {
+//   //     const user = users[i]
+//   //     // const beforeEmail = `${user.email}`
+//   //     console.log(user)
+//   //     // user.githubEmail = user.email === '' ? null : user.email
+//   //     // user.email = null
+//   //     // const saved = await user.save()
+//   //     // console.log(saved)
+//   //     // console.log(`Before: ${beforeEmail} | After: ${saved.githubEmail}`)
+//   //   }
+//   // } catch (e) {
+//   //   console.log(e)
+//   // }
 // }; users()

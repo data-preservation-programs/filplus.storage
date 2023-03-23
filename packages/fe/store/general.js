@@ -54,7 +54,9 @@ const state = () => ({
     ga_region: null,
     public_availability_radio: null,
     public_availability_textarea: null,
-    confirm_follow_fil_guideline: null
+    confirm_follow_fil_guideline: null,
+    hubspot_opt_in: null,
+    hubspot_opt_in_email: null
   },
   networkStorageCapacity: false,
   applyFormHighlighted: false,
@@ -153,12 +155,26 @@ const actions = {
       console.log(e)
     }
   },
+  // /////////////////////////////////////////////////////// setHubspotOptInData
+  setHubspotOptInData ({ commit, getters }, account) {
+    const application = CloneDeep(getters.application)
+    const optedIn = account.hubspotOptIn
+    if (!optedIn && account.githubEmail) {
+      application.hubspot_opt_in_email = account.githubEmail
+    } else if (optedIn) {
+      application.hubspot_opt_in = optedIn
+      application.hubspot_opt_in_email = account.hubspotOptInEmail
+    }
+    commit('SET_APPLICATION', application)
+    return application
+  },
   // ////////////////////////////////////////////////// submitGeneralApplication
   async submitGeneralApplication ({ commit, dispatch }, application) {
     try {
       this.$gtm.push({ event: 'submission_ga' })
       const response = await this.$axiosAuth.post('/submit-general-application', application)
       await dispatch('setGithubIssue', response.data.payload)
+      await this.dispatch('account/getAccount', this.getters['account/account']._id)
       this.$button('ga-submit-button').set({ loading: false })
       this.$toaster.add({
         type: 'toast',
@@ -166,6 +182,7 @@ const actions = {
         message: 'General Application submitted successfully'
       })
       this.$gtm.push({ event: 'success_ga' })
+      this.$router.push('/apply/success')
     } catch (e) {
       console.log('========== [Store Action: general/submitGeneralApplication]')
       console.log(e)
@@ -184,6 +201,7 @@ const actions = {
       this.$gtm.push({ event: 'submission_lda' })
       const response = await this.$axiosAuth.post('/submit-large-application', application)
       await dispatch('setGithubIssue', response.data.payload)
+      await this.dispatch('account/getAccount', this.getters['account/account']._id)
       this.$button('lda-submit-button').set({ loading: false })
       this.$toaster.add({
         type: 'toast',
@@ -191,6 +209,7 @@ const actions = {
         message: 'Large Dataset Application submitted successfully'
       })
       this.$gtm.push({ event: 'success_lda' })
+      this.$router.push('/apply/success')
     } catch (e) {
       console.log('============ [Store Action: general/submitLargeApplication]')
       console.log(e)

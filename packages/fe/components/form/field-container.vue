@@ -2,7 +2,7 @@
   <FieldStandalone
     v-slot="{ updateValue, field, type, validationMessage }"
     v-bind="$props"
-    class="field-container"
+    :class="['field-container', { disabled }]"
     v-on="$listeners">
 
     <label v-if="scaffold.label" :for="fieldKey" class="field-label">
@@ -18,6 +18,7 @@
       :field="field"
       :field-key="fieldKey"
       :data-tooltip="tooltip"
+      :force-disabled="forceDisabled"
       @updateValue="updateValue"
       v-on="$listeners" />
 
@@ -82,7 +83,7 @@ export default {
       required: false,
       default: false
     },
-    forceDisableFields: {
+    forceDisabled: {
       type: Boolean,
       required: false,
       default: false
@@ -109,6 +110,9 @@ export default {
     tooltip () {
       const tooltip = this.scaffold.tooltip
       return tooltip && tooltip !== '' ? tooltip : false
+    },
+    disabled () {
+      return this.forceDisabled || this.scaffold.disabled
     }
   }
 }
@@ -116,6 +120,14 @@ export default {
 
 <style lang="scss" scoped>
 // ///////////////////////////////////////////////////////////////////// General
+.field-container {
+  &.disabled {
+    .field-label {
+      cursor: default;
+    }
+  }
+}
+
 ::v-deep .field {
   position: relative;
   font-weight: 500;

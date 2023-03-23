@@ -5,6 +5,8 @@ console.log('💡 [endpoint] /submit-general-application')
 const { SendData, GetFileFromDisk } = require('@Module_Utilities')
 const Axios = require('axios')
 
+const SubmitHubspotContact = require('@Module_Application/logic/submit-hubspot-contact')
+
 const MC = require('@Root/config')
 
 // /////////////////////////////////////////////////////////////////// Functions
@@ -37,16 +39,22 @@ MC.app.post('/submit-general-application', async (req, res) => {
     let template = await GetFileFromDisk(`${MC.staticRoot}/general-application-template.md`)
     template = template.toString()
     Object.keys(body).forEach((key) => {
+      const value = body[key] || ''
       if (key === 'organization_website') {
-        template = template.replaceAll(key, body[key])
+        template = template.replaceAll(key, value)
       } else {
-        template = template.replace(key, body[key])
+        template = template.replace(key, value)
       }
     })
     if (MC.serverFlag !== 'production') {
       console.log('===========================================================')
       console.log(body)
       console.log(template)
+    }
+    const hubspotOptIn = body.hubspot_opt_in
+    const hubspotOptInEmail = body.hubspot_opt_in_email
+    if (!user.hubspotOptIn && hubspotOptIn && hubspotOptInEmail !== '') {
+      await SubmitHubspotContact(user, hubspotOptInEmail)
     }
     const githubIssue = await submitGeneralApplication(template, body, user.githubToken)
     SendData(res, 200, 'General application submitted succesfully', githubIssue)
