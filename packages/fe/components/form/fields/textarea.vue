@@ -133,6 +133,9 @@ export default {
     opacity: 1;
   }
   &:focus {
+    color: $aquaSqueeze;
+    font-size: toRem(20);
+    font-style: normal;
     @include placeholder {
       color: $aquaSqueeze;
       font-size: toRem(20);

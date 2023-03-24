@@ -215,10 +215,9 @@ $height: 4rem;
     opacity: 1;
   }
   &:focus {
+    font-size: toRem(20);
     @include placeholder {
-      color: $aquaSqueeze;
       font-size: toRem(20);
-      font-style: normal;
     }
   }
   &::-webkit-inner-spin-button,

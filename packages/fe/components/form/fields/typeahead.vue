@@ -308,6 +308,9 @@ $height: 2.5rem;
     margin: 0;
     appearance: none;
   }
+  &:focus {
+    font-size: toRem(20);
+  }
   &.caution {
     border-color: $mandysPink;
   }
