@@ -1,47 +1,42 @@
 <template>
   <div :class="['field field-select', state, { empty, 'dropdown-open': dropdownOpen }]">
 
-    <div class="select-wrapper">
+    <Select
+      :options="options"
+      :aria-labelledby="modelKey || fieldKey"
+      :selected-option="value"
+      @dropdownToggled="dropdownToggled"
+      @optionSelected="optionSelected"
+      v-on="$listeners">
 
-      <Select
-        :options="options"
-        :aria-labelledby="modelKey || fieldKey"
-        :selected-option="value"
-        @dropdownToggled="dropdownToggled"
-        @optionSelected="optionSelected"
-        v-on="$listeners">
+      <template #option-native-text="{ option }">
+        {{ getOptionDescription(option) ? `${option.label}, ${getOptionDescription(option)}` : option.label }}
+      </template>
 
-        <template #option-native-text="{ option }">
-          {{ getOptionDescription(option) ? `${option.label}, ${getOptionDescription(option)}` : option.label }}
-        </template>
-
-        <template #selection-window="{ selected }">
-          <div class="selection-window">
-            <div v-if="!empty" class="text">
-              {{ getSelectedOptionLabel(selected) }}
-            </div>
-            <div class="icon-container">
-              <IconChevron />
-            </div>
+      <template #selection-window="{ selected }">
+        <div class="selection-window">
+          <div v-if="!empty" class="text">
+            {{ getSelectedOptionLabel(selected) }}
           </div>
-        </template>
-
-        <template #option-custom="{ option, highlighted, selected }">
-          <div :class="['option', { highlighted, selected }]">
-            <div class="label">
-              {{ option.label }}
-            </div>
-            <div v-if="getOptionDescription(option)" class="description">
-              {{ getOptionDescription(option) }}
-            </div>
+          <div class="icon-container">
+            <IconChevron />
           </div>
-        </template>
+        </div>
+      </template>
 
-      </Select>
+      <template #option-custom="{ option, highlighted, selected }">
+        <div :class="['option', { highlighted, selected }]">
+          <div class="label">
+            {{ option.label }}
+          </div>
+          <div v-if="getOptionDescription(option)" class="description">
+            {{ getOptionDescription(option) }}
+          </div>
+        </div>
+      </template>
 
-      <slot name="tooltip" />
+    </Select>
 
-    </div>
   </div>
 </template>
 
@@ -154,18 +149,7 @@ $height: 4rem;
   }
 }
 
-.select-wrapper {
-  width: calc(100% + 3rem);
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
 ::v-deep .select-container {
-  width: calc(100% + -3rem);
-  display: flex;
-  align-items: center;
   &.dropdown-open {
     .select {
       border-bottom-color: transparent;

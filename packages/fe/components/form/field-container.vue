@@ -7,6 +7,9 @@
 
     <label v-if="scaffold.label" :for="fieldKey" class="field-label">
       {{ scaffold.label }}
+      <div v-if="tooltip" class="tooltip" :data-tooltip="tooltip">
+        <IconQuestionMark />
+      </div>
     </label>
 
     <div v-if="scaffold.description" class="description">
@@ -19,11 +22,6 @@
       :field-key="fieldKey"
       @updateValue="updateValue"
       v-on="$listeners">
-      <template #tooltip>
-        <div v-if="tooltip" class="tooltip" :data-tooltip="tooltip">
-          <IconQuestionMark />
-        </div>
-      </template>
     </component>
 
     <slot />
@@ -124,6 +122,26 @@ export default {
 
 <style lang="scss" scoped>
 // ///////////////////////////////////////////////////////////////////// General
+.field-container {
+  &:hover,
+  &:focus-within {
+    .tooltip {
+      display: block;
+      &:hover {
+        cursor: pointer;
+        &:before {
+          display: block;
+          transform: translate(0, -50%) rotate(-90deg);
+        }
+        &:after {
+          display: block;
+          transform: translate(0, -50%);
+        }
+      }
+    }
+  }
+}
+
 ::v-deep .field {
   position: relative;
   font-weight: 500;
@@ -133,22 +151,6 @@ export default {
   }
   &:hover,
   &.focused {
-    .tooltip {
-      display: block;
-      &:hover {
-        cursor: pointer;
-        &[data-tooltip] {
-          &:before {
-            display: block;
-            transform: translate(0, -50%) rotate(-90deg);
-          }
-          &:after {
-            display: block;
-            transform: translate(0, -50%);
-          }
-        }
-      }
-    }
   }
 }
 
@@ -188,7 +190,9 @@ export default {
 
 // /////////////////////////////////////////////////////////////////////// Label
 .field-label {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   font-size: toRem(20);
   font-weight: 500;
   cursor: pointer;

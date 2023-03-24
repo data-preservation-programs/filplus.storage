@@ -23,7 +23,6 @@
       <div v-if="typeof chars === 'number'" class="char-validation">
         {{ chars }}
       </div>
-      <slot name="tooltip" />
     </div>
 
     <div
@@ -191,14 +190,6 @@ $height: 4rem;
     .input {
       border-bottom-color: transparent;
     }
-  }
-}
-.input-container {
-  display: flex;
-  align-items: center;
-  .tooltip{
-    position: absolute;
-    right: 0;
   }
 }
 
