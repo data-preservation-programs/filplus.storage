@@ -10,7 +10,8 @@
 
             <div v-if="label" class="label" v-html="label" />
 
-            <h1 class="heading h3" v-html="heading" />
+            <!-- the module style applied here isn't working with scss, only the topmost defined style -->
+            <h1 :class="['heading h3', $style.hasTooltip]" v-html="heading" />
 
             <div v-if="subtext" class="subtext" v-html="subtext" />
 
@@ -44,6 +45,8 @@
 import ButtonX from '@/components/buttons/button-x'
 import Chevron from '@/components/icons/chevron'
 
+// import IconQuestionMark from '@/components/icons/question-mark'
+
 // ====================================================================== Export
 export default {
   name: 'HeroB',
@@ -51,6 +54,7 @@ export default {
   components: {
     ButtonX,
     Chevron
+    // IconQuestionMark
   },
 
   props: {
@@ -68,6 +72,11 @@ export default {
       type: String,
       required: true
     },
+    tooltip: {
+      type: [String, Boolean],
+      required: false,
+      default: false
+    },
     subtext: {
       type: [String, Boolean],
       required: false,
@@ -81,6 +90,42 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" module>
+.hasTooltip {
+  background: salmon;
+  .highlight {
+    .tooltip {
+      &[data-tooltip] {
+        &:before {
+          display: none;
+          top: 50%;
+          left: calc(100% + 4px);
+          transform: translate(0.5rem, -50%) rotate(-90deg);
+          border-bottom-width: 0.5rem;
+          border-bottom-color: $dodgerBlue;
+        }
+        &:after {
+          display: none;
+          color: $titanWhite;
+          white-space: break-spaces;
+          padding: 2rem;
+          top: 50%;
+          left: calc(100% + 1rem);
+          width: 26rem;
+          font-size: 1rem;
+          line-height: leading(27, 16);
+          border-radius: 1rem;
+          transform: translate(0.5rem, -50%);
+          background-color: $dodgerBlue;
+          z-index: 1;
+        }
+      }
+    }
+  }
+}
+
+</style>
 
 <style lang="scss" scoped>
 // ///////////////////////////////////////////////////////////////////// General
@@ -127,6 +172,47 @@ export default {
   }
   .highlight {
     color: $greenYellow;
+    .tooltip {
+      display: inline-block;
+      margin: 0 0.5rem;
+      content: url(icons/question-mark.svg);
+      // these are the same styles that's in the <style module> above
+      // &[data-tooltip] {
+      //   &:before {
+      //     display: none;
+      //     top: 50%;
+      //     left: calc(100% + 4px);
+      //     transform: translate(0.5rem, -50%) rotate(-90deg);
+      //     border-bottom-width: 0.5rem;
+      //     border-bottom-color: $dodgerBlue;
+      //   }
+      //   &:after {
+      //     display: none;
+      //     color: $titanWhite;
+      //     white-space: break-spaces;
+      //     padding: 2rem;
+      //     top: 50%;
+      //     left: calc(100% + 1rem);
+      //     width: 26rem;
+      //     font-size: 1rem;
+      //     line-height: leading(27, 16);
+      //     border-radius: 1rem;
+      //     transform: translate(0.5rem, -50%);
+      //     background-color: $dodgerBlue;
+      //     z-index: 1;
+      //   }
+      //   &:hover {
+      //     &:before {
+      //       display: block;
+      //       transform: translate(0, -50%) rotate(-90deg);
+      //     }
+      //     &:after {
+      //       display: block;
+      //       transform: translate(0, -50%);
+      //     }
+      //   }
+      // }
+    }
   }
 }
 

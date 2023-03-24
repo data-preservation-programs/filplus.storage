@@ -5,6 +5,7 @@
     <HeroB
       :label="hero.label"
       :heading="heroHeading"
+      :tooltip="headingTooltip"
       :subtext="hero.subtext"
       :hero-button="backButton" />
 
