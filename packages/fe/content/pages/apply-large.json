@@ -29,6 +29,26 @@
       "submit_button_text": "Send Request",
       "github_issue_link_text": "View Issue on Github",
       "scaffold": {
+        "unique_application_name": {
+          "type": "input",
+          "inputType": "text",
+          "modelKey": "unique_application_name",
+          "label": "Unique name for this application",
+          "placeholder": "Filecoin is the bestcoin",
+          "tooltip": "Give your application a unique name, including (if relevant) a combination of the type of data, your organization, any kind of numbering system used, etc.",
+          "required": true,
+          "pre": "[^\\u0000-\\u00ff]",
+          "autocomplete": "none",
+          "chars": {
+            "min": 2,
+            "max": 1000
+          },
+          "validationMessage": {
+            "required": "This field is required",
+            "chars": "Input must be between 2 and 35 characters"
+          },
+          "defaultValue": ""
+        },
         "organization_name": {
           "type": "input",
           "inputType": "text",

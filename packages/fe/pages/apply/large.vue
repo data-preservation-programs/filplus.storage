@@ -32,6 +32,11 @@
           </div>
 
           <FieldContainer
+            :scaffold="formScaffold.unique_application_name"
+            field-key="unique_application_name"
+            form-id="filplus_application" />
+
+          <FieldContainer
             :scaffold="formScaffold.organization_name"
             field-key="organization_name"
             form-id="filplus_application" />
@@ -354,7 +359,14 @@ export default {
       return this.pageData.hero
     },
     heroHeading () {
-      return this.hero.heading.replace('|data|', this.networkStorageCapacity)
+      return this.hero.heading.replace('|data|', this.networkStorageCapacity).replace('|data-tooltip|', `data-tooltip="${this.headingTooltip}"`)
+    },
+    headingTooltip () {
+      const tooltip = this.hero.heading_tooltip
+      if (tooltip && tooltip !== '') {
+        return tooltip
+      }
+      return false
     },
     backButton () {
       return this.pageData.back_button

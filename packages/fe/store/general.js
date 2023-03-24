@@ -19,6 +19,7 @@ const state = () => ({
   },
   clipboard: false,
   application: {
+    unique_application_name: null,
     organization_name: null,
     data_owner_region: null,
     data_owner_industry: null,
