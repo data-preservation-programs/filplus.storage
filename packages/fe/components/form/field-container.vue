@@ -163,9 +163,16 @@ export default {
 }
 
 // /////////////////////////////////////////////////////////////////////// Label
-.field-container:focus-within {
-  .field-label {
-    color: rgba($aquaSqueeze, 0.7);
+.field-container {
+  &:focus-within {
+    .field-label {
+      color: rgba($aquaSqueeze, 0.7);
+    }
+  }
+  &:has(.dropdown-open) { // not fully supported across browsers
+    .field-label {
+      color: rgba($aquaSqueeze, 0.7);
+    }
   }
 }
 
