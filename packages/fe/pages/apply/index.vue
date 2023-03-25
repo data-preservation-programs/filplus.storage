@@ -128,7 +128,7 @@ export default {
   async fetch ({ app, store }) {
     await store.dispatch('general/getBaseData', { key: 'apply', data: ApplyPageData })
     await store.dispatch('general/getBaseData', { key: 'faq', data: FaqPageData })
-    await app.$form('filplus_application').register(store.getters['general/application'])
+    await app.$form('filplus_application').register(store.getters['account/application'])
   },
 
   head () {

@@ -1,0 +1,242 @@
+// /////////////////////////////////////////////////////////////////////// State
+// ---------------------- https://vuex.vuejs.org/guide/modules.html#module-reuse
+const state = () => ({
+  applicationList: false,
+  loading: false,
+  refresh: false,
+  metadata: {
+    page: 1,
+    limit: 10,
+    totalPages: 1
+  },
+  application: {
+    organization_name: null,
+    data_owner_region: null,
+    data_owner_industry: null,
+    organization_website: null,
+    organization_social_media_handle: null,
+    organization_social_media_handle_type: null,
+    total_datacap_size: null,
+    total_datacap_size_unit: null,
+    weekly_data_size: null,
+    weekly_data_size_unit: null,
+    filecoin_address: null,
+    custom_multisig: null,
+    identifier: null,
+    about: null,
+    source_of_data_select: null,
+    ecosystem_associates_textarea: null,
+    nature_of_data: null,
+    source_of_data_radio: null,
+    source_of_data_textarea: null,
+    data_preparation_plan_select: null,
+    data_preparation_plan_textarea: null,
+    data_sample: null,
+    frequency_of_retrieval: null,
+    duration_of_storage: null,
+    geographic_distribution: null,
+    sending_data: null,
+    storage_provider_selection_plan_select: null,
+    storage_provider_selection_plan_input: null,
+    storage_provider_selection_plan_textarea: null,
+    replication_plan_select: null,
+    replication_plan_textarea: null,
+    notary: null,
+    ga_region: null,
+    public_availability_radio: null,
+    public_availability_textarea: null,
+    confirm_follow_fil_guideline: null
+  },
+  applyFormHighlighted: false,
+  githubIssue: false,
+  view: 'LDN' // 'GA' or 'LDN'
+})
+
+// ///////////////////////////////////////////////////////////////////// Getters
+// -----------------------------------------------------------------------------
+const getters = {
+  application: state => state.application,
+  githubIssue: state => state.githubIssue,
+  applicationList: state => state.applicationList,
+  loading: state => state.loading,
+  refresh: state => state.refresh,
+  metadata: state => state.metadata,
+  view: state => state.view
+}
+
+// ///////////////////////////////////////////////////////////////////// Actions
+// -----------------------------------------------------------------------------
+const actions = {
+  // ////////////////////////////////////////////////// submitGeneralApplication
+  async submitGeneralApplication ({ commit, dispatch }, application) {
+    try {
+      this.$gtm.push({ event: 'submission_ga' })
+      const response = await this.$axiosAuth.post('/submit-general-application', application)
+      await dispatch('setGithubIssue', response.data.payload)
+      this.$button('ga-submit-button').set({ loading: false })
+      this.$toaster.add({
+        type: 'toast',
+        category: 'success',
+        message: 'General Application submitted successfully'
+      })
+      this.$gtm.push({ event: 'success_ga' })
+    } catch (e) {
+      console.log('========== [Store Action: account/submitGeneralApplication]')
+      console.log(e)
+      this.$button('ga-submit-button').set({ loading: false })
+      this.$toaster.add({
+        type: 'toast',
+        category: 'error',
+        message: 'Something went wrong. Please refresh the page and try again.'
+      })
+      return false
+    }
+  },
+  // //////////////////////////////////////////////////// submitLargeApplication
+  async submitLargeApplication ({ commit, dispatch }, application) {
+    try {
+      this.$gtm.push({ event: 'submission_lda' })
+      const response = await this.$axiosAuth.post('/submit-large-application', application)
+      await dispatch('setGithubIssue', response.data.payload)
+      this.$button('lda-submit-button').set({ loading: false })
+      this.$toaster.add({
+        type: 'toast',
+        category: 'success',
+        message: 'Large Dataset Application submitted successfully'
+      })
+      this.$gtm.push({ event: 'success_lda' })
+    } catch (e) {
+      console.log('============ [Store Action: account/submitLargeApplication]')
+      console.log(e)
+      this.$button('lda-submit-button').set({ loading: false })
+      this.$toaster.add({
+        type: 'toast',
+        category: 'error',
+        message: 'Something went wrong. Please refresh the page and try again.'
+      })
+      return false
+    }
+  },
+  // //////////////////////////////////////////////////////////// setGithubIssue
+  setGithubIssue ({ commit }, issue) {
+    commit('SET_GITHUB_ISSUE', issue)
+  },
+  // //////////////////////////////////////////////////////// getApplicationList
+  async getApplicationList ({ commit, getters, dispatch }, metadata) {
+    try {
+      const { params } = await this.$exportSearchAndFiltersFromQuery([
+        { filterKey: 'page', default: 1 },
+        { filterKey: 'limit' },
+        { filterKey: 'sort' },
+        { filterKey: 'state' },
+        { queryKey: 'user' }
+      ])
+      const response = await this.$axiosAuth.get('/get-application-list', { params })
+      const payload = response.data.payload
+      dispatch('setApplicationList', {
+        applicationList: payload.results,
+        metadata: payload.metadata
+      })
+    } catch (e) {
+      console.log('================ [Store Action: account/getApplicationList]')
+      console.log(e)
+      dispatch('setLoadingStatus', { type: 'loading', status: false })
+    }
+  },
+  // ///////////////////////////////////////////////// getGeneralApplicationList
+  async getGeneralApplicationList ({ commit, getters, dispatch }, metadata) {
+    try {
+      const { params } = await this.$exportSearchAndFiltersFromQuery([
+        { filterKey: 'page', default: 1 },
+        { filterKey: 'limit' },
+        { filterKey: 'sort' },
+        { filterKey: 'state' },
+        { queryKey: 'user' }
+      ])
+      const response = await this.$axiosAuth.get('/get-general-application-list', { params })
+      const payload = response.data.payload
+      const applicationList = payload.results
+      await dispatch('setApplicationList', {
+        applicationList: applicationList.length > 0 ? applicationList : false,
+        metadata: payload.metadata
+      })
+      return applicationList
+    } catch (e) {
+      console.log('========= [Store Action: account/getGeneralApplicationList]')
+      console.log(e)
+      dispatch('setLoadingStatus', { type: 'loading', status: false })
+      return []
+    }
+  },
+  // /////////////////////////////////////////////////// getLargeApplicationList
+  async getLargeApplicationList ({ commit, getters, dispatch }, metadata) {
+    try {
+      const { params } = await this.$exportSearchAndFiltersFromQuery([
+        { filterKey: 'page', default: 1 },
+        { filterKey: 'limit' },
+        { filterKey: 'sort' },
+        { filterKey: 'state' },
+        { queryKey: 'user' }
+      ])
+      const response = await this.$axiosAuth.get('/get-large-application-list', { params })
+      const payload = response.data.payload
+      const applicationList = payload.results
+      await dispatch('setApplicationList', {
+        applicationList: applicationList.length > 0 ? applicationList : false,
+        metadata: payload.metadata
+      })
+      return applicationList
+    } catch (e) {
+      console.log('=========== [Store Action: account/getLargeApplicationList]')
+      console.log(e)
+      dispatch('setLoadingStatus', { type: 'loading', status: false })
+      return []
+    }
+  },
+  // //////////////////////////////////////////////////////// setApplicationList
+  setApplicationList ({ commit }, applicationList) {
+    commit('SET_APPLICATION_LIST', applicationList)
+  },
+  // ////////////////////////////////////////////////////////// setLoadingStatus
+  setLoadingStatus ({ commit }, payload) {
+    commit('SET_LOADING_STATUS', payload)
+  },
+  // /////////////////////////////////////////////////////////////////// setView
+  setView ({ commit }, view) {
+    commit('SET_VIEW', view)
+  }
+}
+
+// /////////////////////////////////////////////////////////////////// Mutations
+// -----------------------------------------------------------------------------
+const mutations = {
+  SET_APPLICATION (state, application) {
+    state.application = application
+  },
+  SET_GITHUB_ISSUE (state, issue) {
+    state.githubIssue = issue
+  },
+  SET_APPLICATION_LIST (state, payload) {
+    state.applicationList = payload.applicationList
+    const metadata = payload.metadata
+    if (metadata) {
+      state.metadata.totalPages = metadata.totalPages
+      state.metadata.page = metadata.page
+    }
+  },
+  SET_LOADING_STATUS (state, payload) {
+    state[payload.type] = payload.status
+  },
+  SET_VIEW (state, view) {
+    state.view = view
+  }
+}
+
+// ////////////////////////////////////////////////////////////////////// Export
+// -----------------------------------------------------------------------------
+export default {
+  state,
+  getters,
+  actions,
+  mutations
+}

@@ -8,7 +8,7 @@ export default {
 
   methods: {
     ...mapActions({
-      getAccount: 'account/getAccount'
+      getAccount: 'auth/getAccount'
     }),
     loginWith (strategy) {
       let oauthService

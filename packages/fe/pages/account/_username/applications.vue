@@ -129,10 +129,10 @@ export default {
   },
 
   async fetch ({ app, store, redirect, route }) {
-    const accountExists = await store.getters['account/account']
+    const accountExists = await store.getters['auth/account']
     if (!accountExists) { return redirect('/apply') }
     await store.dispatch('general/getBaseData', { key: 'applications', data: ApplicationsPageData })
-    await store.dispatch('general/setLoadingStatus', { type: 'loading', status: true })
+    await store.dispatch('account/setLoadingStatus', { type: 'loading', status: true })
   },
 
   head () {
@@ -142,12 +142,12 @@ export default {
   computed: {
     ...mapGetters({
       siteContent: 'general/siteContent',
-      applicationList: 'general/applicationList',
-      loading: 'general/loading',
-      refresh: 'general/refresh',
-      metadata: 'general/metadata',
-      account: 'account/account',
-      view: 'general/view'
+      applicationList: 'account/applicationList',
+      loading: 'account/loading',
+      refresh: 'account/refresh',
+      metadata: 'account/metadata',
+      account: 'auth/account',
+      view: 'account/view'
     }),
     pageData () {
       return this.siteContent[this.tag].page_content
@@ -195,10 +195,10 @@ export default {
 
   methods: {
     ...mapActions({
-      getGeneralApplicationList: 'general/getGeneralApplicationList',
-      getLargeApplicationList: 'general/getLargeApplicationList',
-      setLoadingStatus: 'general/setLoadingStatus',
-      setView: 'general/setView'
+      getGeneralApplicationList: 'account/getGeneralApplicationList',
+      getLargeApplicationList: 'account/getLargeApplicationList',
+      setLoadingStatus: 'account/setLoadingStatus',
+      setView: 'account/setView'
     }),
     async fetchData () {
       const view = this.view

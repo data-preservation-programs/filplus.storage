@@ -330,7 +330,7 @@ export default {
   async fetch ({ app, store }) {
     await store.dispatch('general/getBaseData', { key: 'apply-large', data: ApplyLargePageData })
     await store.dispatch('general/getNetworkStorageCapacity')
-    await app.$form('filplus_application').register(store.getters['general/application'])
+    await app.$form('filplus_application').register(store.getters['account/application'])
   },
 
   head () {
@@ -342,7 +342,7 @@ export default {
       siteContent: 'general/siteContent',
       networkStorageCapacity: 'general/networkStorageCapacity',
       savedFormExists: 'form/savedFormExists',
-      account: 'account/account'
+      account: 'auth/account'
     }),
     generalPageData () {
       return this.siteContent.general
@@ -394,7 +394,7 @@ export default {
   methods: {
     ...mapActions({
       validateForm: 'form/validateForm',
-      submitLargeApplication: 'general/submitLargeApplication',
+      submitLargeApplication: 'account/submitLargeApplication',
       restoreSavedForm: 'form/restoreSavedForm'
     }),
     async submitForm () {

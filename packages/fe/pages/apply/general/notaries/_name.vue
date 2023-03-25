@@ -161,7 +161,7 @@ export default {
     if (!notary) { return redirect('/apply/general/notaries') }
     const notaryFieldId = 'notary|filplus_application'
     const notaryField = app.$field(notaryFieldId).get()
-    await app.$form('filplus_application').register(store.getters['general/application'])
+    await app.$form('filplus_application').register(store.getters['account/application'])
     if (!notaryField) {
       await app.$field(notaryFieldId).register(
         'filplus_application',
@@ -183,7 +183,7 @@ export default {
     ...mapGetters({
       siteContent: 'general/siteContent',
       savedFormExists: 'form/savedFormExists',
-      account: 'account/account'
+      account: 'auth/account'
     }),
     generalPageData () {
       return this.siteContent.general
@@ -232,7 +232,7 @@ export default {
   methods: {
     ...mapActions({
       validateForm: 'form/validateForm',
-      submitGeneralApplication: 'general/submitGeneralApplication',
+      submitGeneralApplication: 'account/submitGeneralApplication',
       restoreSavedForm: 'form/restoreSavedForm'
     }),
     async submitForm () {
