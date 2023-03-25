@@ -394,7 +394,7 @@ export default {
   methods: {
     ...mapActions({
       validateForm: 'form/validateForm',
-      submitLargeApplication: 'account/submitLargeApplication',
+      submitApplication: 'account/submitApplication',
       restoreSavedForm: 'form/restoreSavedForm'
     }),
     async submitForm () {
@@ -418,14 +418,13 @@ export default {
           })
           this.$router.push('/apply/general/notaries')
         } else {
-          const incoming = await this.$form('filplus_application').validate()
-          console.log(incoming)
-          if (!incoming) {
+          const application = await this.$form('filplus_application').validate()
+          if (!application) {
             const firstInvalidField = document.querySelector('.error')
             this.$button('lda-submit-button').set({ loading: false })
             this.$scrollToElement(firstInvalidField, 250, -200)
           } else {
-            await this.submitLargeApplication(incoming)
+            await this.submitApplication({ application, type: 'lda' })
             this.$router.push('/apply/success')
           }
         }

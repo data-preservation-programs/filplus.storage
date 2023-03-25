@@ -174,13 +174,13 @@ export default {
     await this.setView(query.view || this.view)
     await this.fetchData()
     if (!this.applicationList) {
-      await this.setView('GA')
+      await this.setView('ga')
       this.$router.replace({
         path: this.$route.path,
         query: {
           ...query,
           state: 'open',
-          view: 'GA'
+          view: 'ga'
         }
       }).catch(() => {})
     }
@@ -195,17 +195,12 @@ export default {
 
   methods: {
     ...mapActions({
-      getGeneralApplicationList: 'account/getGeneralApplicationList',
-      getLargeApplicationList: 'account/getLargeApplicationList',
+      getApplicationList: 'account/getApplicationList',
       setLoadingStatus: 'account/setLoadingStatus',
       setView: 'account/setView'
     }),
     async fetchData () {
-      const view = this.view
-      switch (view) {
-        case 'GA' : await this.getGeneralApplicationList(); break
-        case 'LDN' : await this.getLargeApplicationList(); break
-      }
+      await this.getApplicationList(this.view)
       this.setLoadingStatus({ type: 'loading', status: false })
       this.setLoadingStatus({ type: 'refresh', status: false })
     },

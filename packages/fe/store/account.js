@@ -49,7 +49,7 @@ const state = () => ({
   },
   applyFormHighlighted: false,
   githubIssue: false,
-  view: 'LDN' // 'GA' or 'LDN'
+  view: 'lda' // 'ga' or 'lda'
 })
 
 // ///////////////////////////////////////////////////////////////////// Getters
@@ -67,48 +67,26 @@ const getters = {
 // ///////////////////////////////////////////////////////////////////// Actions
 // -----------------------------------------------------------------------------
 const actions = {
-  // ////////////////////////////////////////////////// submitGeneralApplication
-  async submitGeneralApplication ({ commit, dispatch }, application) {
+  async submitApplication ({ commit, dispatch }, payload) {
+    const tag = payload.type === 'GA' ? 'ga' : 'lda'
     try {
-      this.$gtm.push({ event: 'submission_ga' })
-      const response = await this.$axiosAuth.post('/submit-general-application', application)
+      const application = payload.application
+      this.$gtm.push({ event: `submission_${tag}` })
+      const response = await this.$axiosAuth.post('/submit-application', application, {
+        params: { type: tag }
+      })
       await dispatch('setGithubIssue', response.data.payload)
-      this.$button('ga-submit-button').set({ loading: false })
+      this.$button(`${tag}-submit-button`).set({ loading: false })
       this.$toaster.add({
         type: 'toast',
         category: 'success',
-        message: 'General Application submitted successfully'
+        message: 'Application submitted successfully'
       })
-      this.$gtm.push({ event: 'success_ga' })
+      this.$gtm.push({ event: `success_${tag}` })
     } catch (e) {
-      console.log('========== [Store Action: account/submitGeneralApplication]')
+      console.log('================= [Store Action: account/submitApplication]')
       console.log(e)
-      this.$button('ga-submit-button').set({ loading: false })
-      this.$toaster.add({
-        type: 'toast',
-        category: 'error',
-        message: 'Something went wrong. Please refresh the page and try again.'
-      })
-      return false
-    }
-  },
-  // //////////////////////////////////////////////////// submitLargeApplication
-  async submitLargeApplication ({ commit, dispatch }, application) {
-    try {
-      this.$gtm.push({ event: 'submission_lda' })
-      const response = await this.$axiosAuth.post('/submit-large-application', application)
-      await dispatch('setGithubIssue', response.data.payload)
-      this.$button('lda-submit-button').set({ loading: false })
-      this.$toaster.add({
-        type: 'toast',
-        category: 'success',
-        message: 'Large Dataset Application submitted successfully'
-      })
-      this.$gtm.push({ event: 'success_lda' })
-    } catch (e) {
-      console.log('============ [Store Action: account/submitLargeApplication]')
-      console.log(e)
-      this.$button('lda-submit-button').set({ loading: false })
+      this.$button(`${tag}-submit-button`).set({ loading: false })
       this.$toaster.add({
         type: 'toast',
         category: 'error',
@@ -129,68 +107,21 @@ const actions = {
         { filterKey: 'limit' },
         { filterKey: 'sort' },
         { filterKey: 'state' },
+        { filterKey: 'view' },
         { queryKey: 'user' }
       ])
       const response = await this.$axiosAuth.get('/get-application-list', { params })
       const payload = response.data.payload
+      const applicationList = payload.results
       dispatch('setApplicationList', {
-        applicationList: payload.results,
+        applicationList: applicationList.length > 0 ? applicationList : false,
         metadata: payload.metadata
       })
     } catch (e) {
       console.log('================ [Store Action: account/getApplicationList]')
       console.log(e)
       dispatch('setLoadingStatus', { type: 'loading', status: false })
-    }
-  },
-  // ///////////////////////////////////////////////// getGeneralApplicationList
-  async getGeneralApplicationList ({ commit, getters, dispatch }, metadata) {
-    try {
-      const { params } = await this.$exportSearchAndFiltersFromQuery([
-        { filterKey: 'page', default: 1 },
-        { filterKey: 'limit' },
-        { filterKey: 'sort' },
-        { filterKey: 'state' },
-        { queryKey: 'user' }
-      ])
-      const response = await this.$axiosAuth.get('/get-general-application-list', { params })
-      const payload = response.data.payload
-      const applicationList = payload.results
-      await dispatch('setApplicationList', {
-        applicationList: applicationList.length > 0 ? applicationList : false,
-        metadata: payload.metadata
-      })
-      return applicationList
-    } catch (e) {
-      console.log('========= [Store Action: account/getGeneralApplicationList]')
-      console.log(e)
-      dispatch('setLoadingStatus', { type: 'loading', status: false })
-      return []
-    }
-  },
-  // /////////////////////////////////////////////////// getLargeApplicationList
-  async getLargeApplicationList ({ commit, getters, dispatch }, metadata) {
-    try {
-      const { params } = await this.$exportSearchAndFiltersFromQuery([
-        { filterKey: 'page', default: 1 },
-        { filterKey: 'limit' },
-        { filterKey: 'sort' },
-        { filterKey: 'state' },
-        { queryKey: 'user' }
-      ])
-      const response = await this.$axiosAuth.get('/get-large-application-list', { params })
-      const payload = response.data.payload
-      const applicationList = payload.results
-      await dispatch('setApplicationList', {
-        applicationList: applicationList.length > 0 ? applicationList : false,
-        metadata: payload.metadata
-      })
-      return applicationList
-    } catch (e) {
-      console.log('=========== [Store Action: account/getLargeApplicationList]')
-      console.log(e)
-      dispatch('setLoadingStatus', { type: 'loading', status: false })
-      return []
+      return false
     }
   },
   // //////////////////////////////////////////////////////// setApplicationList

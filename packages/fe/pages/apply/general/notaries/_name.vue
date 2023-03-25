@@ -232,7 +232,7 @@ export default {
   methods: {
     ...mapActions({
       validateForm: 'form/validateForm',
-      submitGeneralApplication: 'account/submitGeneralApplication',
+      submitApplication: 'account/submitApplication',
       restoreSavedForm: 'form/restoreSavedForm'
     }),
     async submitForm () {
@@ -256,13 +256,13 @@ export default {
           })
           this.$router.push('/apply/large')
         } else {
-          const incoming = await this.$form('filplus_application').validate()
-          if (!incoming) {
+          const application = await this.$form('filplus_application').validate()
+          if (!application) {
             const firstInvalidField = document.querySelector('.error')
             this.$button('ga-submit-button').set({ loading: false })
             this.$scrollToElement(firstInvalidField, 250, -200)
           } else {
-            await this.submitGeneralApplication(incoming)
+            await this.submitApplication({ application, type: 'GA' })
             this.$router.push('/apply/success')
           }
         }
