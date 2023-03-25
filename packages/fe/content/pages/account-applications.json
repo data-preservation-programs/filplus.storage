@@ -21,7 +21,7 @@
     "filters": {
       "state": [{
         "label": "View only open applications",
-        "value": "open"
+        "value": ["all", "open"]
       }],
       "view_application_type": [
         { "label": "GA", "value": "GA" },

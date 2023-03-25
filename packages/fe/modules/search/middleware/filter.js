@@ -3,6 +3,7 @@
 export default async (ctx) => {
   if (!process.client) { return }
   const { app, from, route: to, store } = ctx
+  if (!from || !to) { return }
   const beforeQuery = from.query
   const afterQuery = to.query
   const filters = await store.getters['search/filters']
@@ -25,12 +26,12 @@ export default async (ctx) => {
     const selected = filter.selected
     applied.push({
       id: filterKey,
-      value: app.$filter(filterKey).convert('query', filter.selected, filter.options),
+      value: await app.$filter(filterKey).convert('query', filter.selected, filter.options, filter.isSingleOption),
       live: true
     })
     window.$nuxt.$emit('updateFormField', {
       id: filterKey,
-      value: filter.isSingleOption ? selected[0] : selected
+      value: filter.isSingleSelection ? selected[0] : selected
     })
   }
   /**

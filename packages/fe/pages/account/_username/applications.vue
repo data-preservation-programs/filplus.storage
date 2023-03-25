@@ -53,7 +53,7 @@
               <LoaderTripleDot />
             </div>
 
-            <div :class="['toolbar bottom', { loading: refresh }]">
+            <div :class="['toolbar bottom', { loading: refresh, 'single-page-results': totalPages === 1 }]">
               <Spinner />
               <div class="content">
                 <PaginationControls
@@ -169,29 +169,20 @@ export default {
     }
   },
 
-  watch: {
-    applicationList () {
-      this.$nextTick(() => {
-        if (typeof this.applicationList !== 'boolean') {
-          this.setLoadingStatus({ type: 'loading', status: false })
-          this.setLoadingStatus({ type: 'refresh', status: false })
-        }
-      })
-    }
-  },
-
   async mounted () {
-    await this.fetchData(this.$route.query.view || this.view)
+    const query = this.$route.query
+    await this.setView(query.view || this.view)
+    await this.fetchData()
     if (!this.applicationList) {
-      await this.fetchData('GA')
-      // manually select index of 'GA' in filter but live: false because we don't
-      // want the route to change onMounted
-      await this.$filter('state').for({ index: 0, live: false })
-      // Manually switch radio to 'GA' view
-      await this.$filter('view').for({ index: 0, live: false })
-      // Manually set the defaultSelection to 0 ('GA')
-      await this.$filter('view').set({ defaultSelection: 0 })
-      await this.setLoadingStatus({ type: 'loading', status: false })
+      await this.setView('GA')
+      this.$router.replace({
+        path: this.$route.path,
+        query: {
+          ...query,
+          state: 'open',
+          view: 'GA'
+        }
+      }).catch(() => {})
     }
     this.$nuxt.$on('filtersApplied', (payload) => {
       const filters = payload.filters
@@ -209,18 +200,20 @@ export default {
       setLoadingStatus: 'general/setLoadingStatus',
       setView: 'general/setView'
     }),
-    async fetchData (view) {
+    async fetchData () {
+      const view = this.view
       switch (view) {
         case 'GA' : await this.getGeneralApplicationList(); break
         case 'LDN' : await this.getLargeApplicationList(); break
       }
+      this.setLoadingStatus({ type: 'loading', status: false })
+      this.setLoadingStatus({ type: 'refresh', status: false })
     },
     async filterApplied (filter) {
       if (!this.refresh) {
         await this.setLoadingStatus({ type: 'refresh', status: true })
         if (filter && filter.id === 'view') { await this.setView(filter.value) }
-        await this.fetchData(this.view)
-        await this.setLoadingStatus({ type: 'refresh', status: false })
+        await this.fetchData()
       }
     }
   }
@@ -274,6 +267,11 @@ export default {
       transition: 100ms ease-in;
       opacity: 0.2;
       pointer-events: none;
+    }
+  }
+  &.single-page-results {
+    .content {
+      justify-content: flex-end;
     }
   }
   .content {

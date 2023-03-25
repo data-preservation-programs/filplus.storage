@@ -19,63 +19,97 @@ import CloneDeep from 'lodash/cloneDeep'
  * @param {*} route
  * @param refresh upon registration, don't refresh value (pass through default). On refresh, get value from query.
  */
-const getFilterIndexesFromQuery = (route, refresh, filterKey, options, defaultSelection, isSingleOption) => {
-  let query = route.query[filterKey]
-  if (!query) {
-    // If it's an initial registration (not a refresh) OR if it's a refresh together
-    // with a single-option field AND there's more than 1 option, then pass back
-    // the default value if one is set (re: not -1)
-    if (!refresh || (refresh && isSingleOption && options.length > 1)) {
-      return defaultSelection === -1 ? [] : [defaultSelection]
+const getFilterIndexesFromQuery = (route, refresh, filterKey, options, defaultSelection, isSingleSelection, isSingleOption) => {
+  return new Promise((resolve) => {
+    let query = route.query[filterKey]
+    if (!query) {
+      // If it's an initial registration (not a refresh) OR if it's a refresh together
+      // with a single-option then pass back the default value if one is set (re: not -1)
+      if (!refresh || (refresh && isSingleSelection)) {
+        return resolve(defaultSelection === -1 ? [] : [defaultSelection])
+      }
+      return resolve([])
     }
-    return []
-  }
-  query = isSingleOption ? [query] : query.split(',')
-  const selected = []
-  query.forEach((item) => {
-    const index = options.findIndex(option => item === `${option.value}`)
-    if (index !== -1) {
-      selected.push(index)
-    }
+    query = isSingleSelection ? [query] : query.split(',')
+    const selected = []
+    query.forEach((item) => {
+      if (isSingleOption) {
+        if (item === `${options[0].value[1]}`) { // value[0] = unselected, value [1] = selected
+          selected.push(0)
+        }
+      } else {
+        const index = options.findIndex(option => item === `${option.value}`)
+        if (index !== -1) {
+          selected.push(index)
+        }
+      }
+    })
+    resolve(selected)
   })
-  return selected
 }
 
 // ========================================= convertSelectedIndexesToQueryString
-const convertSelectedIndexesToQueryString = (selected, options) => {
-  const len = selected.length
-  let query = ''
-  if (len > 0) {
-    for (let i = 0; i < len; i++) {
-      const value = options[selected[i]].value
-      query += i === 0 ? value : `,${value}`
+const convertSelectedIndexesToQueryString = (selected, options, isSingleOption) => {
+  return new Promise((resolve) => {
+    const len = selected.length
+    if (isSingleOption) {
+      const value = options[0].value
+      return resolve(len === 0 ? value[0] : value[1]) // value[0] = unselected, value [1] = selected
     }
-  }
-  return query !== '' ? query : undefined
+    let query = ''
+    if (len > 0) {
+      for (let i = 0; i < len; i++) {
+        const value = options[selected[i]].value
+        query += i === 0 ? value : `,${value}`
+      }
+    }
+    resolve(query !== '' ? query : undefined)
+  })
+}
+
+// =================================================================== runChecks
+const runChecks = (filterKey, options, isSingleSelection, isSingleOption) => {
+  return new Promise((resolve) => {
+    const prefix = `\n\n\tFilter: ${filterKey}\n\t`
+    const suffix = '\n\n'
+    if (isSingleSelection && isSingleOption) {
+      const value = options[0].value
+      if (!Array.isArray(value)) {
+        return reject(`${prefix}An isSingleSelection filter that subsequently only has 1 option (it is effectively a toggle) must have a value key that is an array with exactly two strings (used for toggling). Example: value: ['open','closed']${suffix}`)
+      } else if (value.length !== 2) {
+        return reject(`${prefix}An isSingleSelection filter\'s value key must be an array with exactly 2 strings (used for toggling). Example: value: ['open','closed']${suffix}`)
+      }
+    }
+    resolve()
+  })
 }
 
 // ////////////////////////////////////////////////////////////// [Class] Filter
 // -----------------------------------------------------------------------------
-const Filter = (app, store, route, filterKey) => {
+const Filter = (app, store, filterKey) => {
+  const route = app.router.history.current
   let filterer = store.getters['search/filters'].find(filterer => filterer.filterKey === filterKey)
   return {
     // ================================================================ register
-    async register (filterKey, options, defaultSelection, isSingleOption, action) {
+    async register (options, defaultSelection, isSingleSelection, action) {
       if (!filterer) {
+        const isSingleOption = options.length === 1
+        await runChecks(filterKey, options, isSingleSelection, isSingleOption)
         let selected = []
         switch (action) {
           // case 'emit' : selected = this.filterValue; break
           // case 'store' : selected = this.$store.getters[this.storeGetter]; break
-          case 'query' : selected = getFilterIndexesFromQuery(route, false, filterKey, options, defaultSelection, isSingleOption); break
+          case 'query' : selected = await getFilterIndexesFromQuery(route, false, filterKey, options, defaultSelection, isSingleSelection, isSingleOption); break
         }
-        this.set({
+        await this.set({
           filterKey,
           options,
+          isSingleSelection,
           isSingleOption,
           action,
           defaultSelection,
           selected, // list of indexes
-          queued: this.convert(action, selected, options),
+          queued: await this.convert(action, selected, options, isSingleOption),
           originalSelected: selected // lock in the original selection upon registration
         })
       }
@@ -118,7 +152,7 @@ const Filter = (app, store, route, filterKey) => {
 
     // ============================================================= updateQuery
     async updateQuery (filterKey, value) {
-      const query = CloneDeep(app.router.history.current.query)
+      const query = CloneDeep(route.query)
       query[filterKey] = value
       // need to pass location.hash in to retain the current url hash
       app.router.push({ query, hash: location.hash })
@@ -131,12 +165,12 @@ const Filter = (app, store, route, filterKey) => {
     },
 
     // ================================================================= convert
-    convert (action, selected, options) {
+    async convert (action, selected, options, isSingleOption) {
       let converted
       switch (action) {
         // case 'emit' : payload.instance.$emit(value); break
         // case 'store' : await store.dispatch(storeAction, value); break
-        case 'query' : converted = convertSelectedIndexesToQueryString(selected, options || filterer.options); break
+        case 'query' : converted = await convertSelectedIndexesToQueryString(selected, options || filterer.options, isSingleOption); break
       }
       return converted
     },
@@ -147,20 +181,20 @@ const Filter = (app, store, route, filterKey) => {
       let selected = CloneDeep(filterer.selected)
       const index = term.index
       const existing = selected.findIndex(option => option === index) // incoming index is already selected (if not -1)
-      const isSingleOption = filterer.isSingleOption
-      if (isSingleOption) {
+      const isSingleSelection = filterer.isSingleSelection
+      if (isSingleSelection) {
         selected = index === -1 ? [] : [index]
       } else {
         existing === -1 ? selected.push(index) : selected.splice(existing, 1)
       }
       await this.set({
         selected,
-        queued: this.convert(filterer.action, selected)
+        queued: await this.convert(filterer.action, selected, undefined, filterer.isSingleOption)
       })
       if (process.client) {
         window.$nuxt.$emit('updateFormField', {
           id: filterKey,
-          value: isSingleOption ? selected[0] : selected
+          value: isSingleSelection ? selected[0] : selected
         })
       }
       if (term.live) {
@@ -180,7 +214,15 @@ const Filter = (app, store, route, filterKey) => {
     // ================================================================= refresh
     async refresh (route) {
       await this.set({
-        selected: getFilterIndexesFromQuery(route, true, filterKey, filterer.options, filterer.defaultSelection, filterer.isSingleOption)
+        selected: await getFilterIndexesFromQuery(
+          route,
+          true,
+          filterKey,
+          filterer.options,
+          filterer.defaultSelection,
+          filterer.isSingleSelection,
+          filterer.isSingleOption
+        )
       })
     },
 
@@ -200,6 +242,6 @@ const Filter = (app, store, route, filterKey) => {
 
 // ////////////////////////////////////////////////////////////////////// Export
 // -----------------------------------------------------------------------------
-export default function ({ app, store, route }, inject) {
-  inject('filter', (filterKey) => Filter(app, store, route, filterKey))
+export default function ({ app, store }, inject) {
+  inject('filter', (filterKey) => Filter(app, store, filterKey))
 }
