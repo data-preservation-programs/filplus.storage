@@ -1,12 +1,13 @@
 <template>
   <Filterer
-    v-slot="{ applyFilter, originalSelected }"
+    v-slot="{ filterLoaded, applyFilter, originalSelected }"
     filter-key="limit"
-    :is-single-option="true"
+    :is-single-selection="true"
     :default-selection="0"
     :options="options"
     v-on="$listeners">
     <FieldContainer
+      v-if="filterLoaded"
       field-key="limit"
       :scaffold="{
         type: 'select',
@@ -15,7 +16,7 @@
         options,
         defaultValue: originalSelected,
         updateGroupId: 'limit',
-        isSingleOption: true
+        isSingleSelection: true
       }"
       @updateValue="initializeFilter($event, applyFilter)" />
   </Filterer>
@@ -46,7 +47,7 @@ export default {
     async initializeFilter (index, applyFilter) {
       await applyFilter({ index, live: false })
       await this.$filter('page').for({ index: 0, live: false })
-      await this.$applyMultipleFiltersToQuery({ filters: ['page', 'limit'] })
+      await this.$applyMultipleFiltersToQuery({ filters: ['page', 'limit', 'view'] })
     }
   }
 }

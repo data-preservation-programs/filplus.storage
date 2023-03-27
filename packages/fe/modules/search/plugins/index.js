@@ -120,11 +120,11 @@ const ExportSearchAndFiltersFromQuery = async (app, paramsToCompile) => {
     const key = filterKey || searchKey || queryKey
     const compileGroup = paramToCompile.group
     const defaultOverride = paramToCompile.default
-    const filterer = await app.$filter(filterKey).get()
+    const filter = await app.$filter(filterKey).get()
     const searcher = await app.$search(searchKey).get()
     let value
-    if (filterer) {
-      value = await app.$filter(filterKey).convert('query', filterer.selected)
+    if (filter) {
+      value = await app.$filter(filterKey).convert('query', filter.selected, filter.options, filter.isSingleOption)
     } else if (searcher) {
       value = searcher.value
     }
