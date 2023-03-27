@@ -142,6 +142,7 @@ const actions = {
   },
   // /////////////////////////////////////////////////////// setHubspotOptInData
   setHubspotOptInData ({ commit, getters }, account) {
+    if (!account) { return getters.application }
     const application = CloneDeep(getters.application)
     const optedIn = account.hubspotOptIn
     if (!optedIn && account.githubEmail) {
