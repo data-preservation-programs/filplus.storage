@@ -213,16 +213,18 @@ const Filter = (app, store, filterKey) => {
 
     // ================================================================= refresh
     async refresh (route) {
+      const selected = await getFilterIndexesFromQuery(
+        route,
+        true,
+        filterKey,
+        filterer.options,
+        filterer.defaultSelection,
+        filterer.isSingleSelection,
+        filterer.isSingleOption
+      )
       await this.set({
-        selected: await getFilterIndexesFromQuery(
-          route,
-          true,
-          filterKey,
-          filterer.options,
-          filterer.defaultSelection,
-          filterer.isSingleSelection,
-          filterer.isSingleOption
-        )
+        queued: await this.convert(filterer.action, selected, undefined, filterer.isSingleOption),
+        selected
       })
     },
 

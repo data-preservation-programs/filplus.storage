@@ -120,7 +120,6 @@ const actions = {
         { filterKey: 'view' },
         { queryKey: 'user' }
       ])
-      console.log(params)
       const response = await this.$axiosAuth.get('/get-application-list', { params })
       const payload = response.data.payload
       const applicationList = payload.results
