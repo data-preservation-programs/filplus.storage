@@ -95,7 +95,7 @@ export default {
   async fetch ({ app, store }) {
     await store.dispatch('general/getBaseData', { key: 'notaries', data: NotariesPageData })
     await store.dispatch('general/getCachedFile', 'notaries-list.json')
-    const application = await store.dispatch('general/setHubspotOptInData', store.getters['account/account'])
+    const application = await store.dispatch('account/setHubspotOptInData', store.getters['account/account'])
     await app.$form('filplus_application').register(application)
   },
 

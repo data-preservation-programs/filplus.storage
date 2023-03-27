@@ -38,13 +38,13 @@ const getValue = (app, scaffold, form, formId, resetTo, groupIndex) => {
   const type = scaffold.type
   const defaultValue = scaffold.defaultValue
   const options = scaffold.options
-  const isSingleOption = scaffold.isSingleOption
+  const isSingleSelection = scaffold.isSingleSelection
   let value = form ? form.scaffold[scaffold.modelKey] : undefined // First grab the value found in the form
   if (type === 'array') {
     value.map(entry => (Object.assign(entry, { groupId: Uuid.v4() })))
   }
   if (!scaffold.hasOwnProperty('parentModelKey') && value !== undefined && value !== null && value !== '' && formId) {
-    if (isSingleOption) { return value === true ? 0 : -1 } // convert truthy value to index
+    if (isSingleSelection) { return value === true ? 0 : -1 } // convert truthy value to index
     return value
   }
   // If this is just a reset to the nullState, then grab and return the null state
@@ -60,7 +60,7 @@ const getValue = (app, scaffold, form, formId, resetTo, groupIndex) => {
     value = defaultValue
     // defaultValue can be an array of indexes, a single index Number, an array of labels or a single label String
     if (dualValueFields.includes(type)) {
-      if (isSingleOption && Array.isArray(defaultValue)) { // if single option and an array of index Number(s) or String(s), grab the first item
+      if (isSingleSelection && Array.isArray(defaultValue)) { // if single option and an array of index Number(s) or String(s), grab the first item
         value = defaultValue[0]
       }
       // extract index of label if String or array of Strings

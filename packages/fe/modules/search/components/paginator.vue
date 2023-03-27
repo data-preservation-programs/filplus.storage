@@ -1,12 +1,12 @@
 <template>
   <Filterer
-    v-slot="{ applyFilter }"
+    v-slot="{ filterLoaded, applyFilter }"
     filter-key="page"
-    :is-single-option="true"
+    :is-single-selection="true"
     :default-selection="getIndex(page)"
     :options="pages"
     v-on="$listeners">
-    <div class="paginator">
+    <div v-if="filterLoaded" class="paginator">
 
       <slot name="before" />
 

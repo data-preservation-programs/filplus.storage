@@ -89,7 +89,7 @@ export default {
   },
 
   async fetch ({ store, redirect }) {
-    const application = await store.getters['general/githubIssue']
+    const application = await store.getters['account/githubIssue']
     if (!application) { return redirect('/apply') }
     await store.dispatch('general/getBaseData', { key: 'apply-success', data: ApplySucessPageData })
   },
@@ -101,8 +101,8 @@ export default {
   computed: {
     ...mapGetters({
       siteContent: 'general/siteContent',
-      githubIssue: 'general/githubIssue',
-      account: 'account/account'
+      githubIssue: 'account/githubIssue',
+      account: 'auth/account'
     }),
     generalPageData () {
       return this.siteContent.general
@@ -153,7 +153,7 @@ export default {
 
   methods: {
     ...mapActions({
-      setGithubIssue: 'general/setGithubIssue'
+      setGithubIssue: 'account/setGithubIssue'
     }),
     accordionToggleStateChanged (toggleState) {
       if (toggleState.open === toggleState.total) {
