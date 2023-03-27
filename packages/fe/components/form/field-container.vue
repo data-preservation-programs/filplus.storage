@@ -21,8 +21,7 @@
       :field="field"
       :field-key="fieldKey"
       @updateValue="updateValue"
-      v-on="$listeners">
-    </component>
+      v-on="$listeners" />
 
     <slot />
 

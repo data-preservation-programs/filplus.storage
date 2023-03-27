@@ -33,11 +33,6 @@
           </div>
 
           <FieldContainer
-            :scaffold="formScaffold.unique_application_name"
-            field-key="unique_application_name"
-            form-id="filplus_application" />
-
-          <FieldContainer
             :scaffold="formScaffold.organization_name"
             field-key="organization_name"
             form-id="filplus_application" />
