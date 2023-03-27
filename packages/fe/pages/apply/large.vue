@@ -364,10 +364,7 @@ export default {
     },
     headingTooltip () {
       const tooltip = this.hero.heading_tooltip
-      if (tooltip && tooltip !== '') {
-        return tooltip
-      }
-      return false
+      return tooltip && tooltip !== '' ? tooltip : false
     },
     backButton () {
       return this.pageData.back_button

@@ -124,22 +124,30 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@keyframes grow {
+  0% { transform: scale(0.5); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
 // ///////////////////////////////////////////////////////////////////// General
 .field-container {
   &:hover,
   &:focus-within {
     .tooltip {
-      display: block;
-      &:hover {
-        cursor: pointer;
-        &:before {
-          display: block;
-          transform: translate(0, -50%) rotate(-90deg);
-        }
-        &:after {
-          display: block;
-          transform: translate(0, -50%);
-        }
+      &:before,
+      &:after,
+      .icon {
+        transition: 150ms ease-in;
+        opacity: 1;
+      }
+      &:before {
+        transform: translate(0, -50%) rotate(-90deg);
+      }
+      &:after {
+        transform: translate(0, -50%);
+      }
+      .icon {
+        transform: scale(1);
       }
     }
   }
@@ -153,13 +161,6 @@ export default {
 ::v-deep .field {
   position: relative;
   font-weight: 500;
-  &.focused,
-  &:not(.empty) {
-    // background-color: teal;
-  }
-  &:hover,
-  &.focused {
-  }
 }
 
 ::v-deep .description {
@@ -171,7 +172,6 @@ export default {
 // ///////////////////////////////////////////////////////////////////// Tooltip
 .tooltip {
   &[data-tooltip] {
-    display: none;
     height: toRem(25);
     width: toRem(25);
     &:before {
@@ -193,6 +193,11 @@ export default {
       transform: translate(0.5rem, -50%);
       background-color: $dodgerBlue;
     }
+  }
+  .icon {
+    transform: scale(0);
+    opacity: 0;
+    transition: 100ms ease-out;
   }
 }
 
