@@ -161,7 +161,7 @@ export default {
     if (!notary) { return redirect('/apply/general/notaries') }
     const notaryFieldId = 'notary|filplus_application'
     const notaryField = app.$field(notaryFieldId).get()
-    await app.$form('filplus_application').register(store.getters['general/application'])
+    await app.$form('filplus_application').register(store.getters['account/application'])
     if (!notaryField) {
       await app.$field(notaryFieldId).register(
         'filplus_application',
@@ -183,7 +183,7 @@ export default {
     ...mapGetters({
       siteContent: 'general/siteContent',
       savedFormExists: 'form/savedFormExists',
-      account: 'account/account'
+      account: 'auth/account'
     }),
     generalPageData () {
       return this.siteContent.general
@@ -232,7 +232,7 @@ export default {
   methods: {
     ...mapActions({
       validateForm: 'form/validateForm',
-      submitGeneralApplication: 'general/submitGeneralApplication',
+      submitApplication: 'account/submitApplication',
       restoreSavedForm: 'form/restoreSavedForm'
     }),
     async submitForm () {
@@ -256,13 +256,13 @@ export default {
           })
           this.$router.push('/apply/large')
         } else {
-          const incoming = await this.$form('filplus_application').validate()
-          if (!incoming) {
+          const application = await this.$form('filplus_application').validate()
+          if (!application) {
             const firstInvalidField = document.querySelector('.error')
             this.$button('ga-submit-button').set({ loading: false })
             this.$scrollToElement(firstInvalidField, 250, -200)
           } else {
-            await this.submitGeneralApplication(incoming)
+            await this.submitApplication({ application, type: 'GA' })
             this.$router.push('/apply/success')
           }
         }

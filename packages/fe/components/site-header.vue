@@ -179,7 +179,7 @@ export default {
   computed: {
     ...mapGetters({
       siteContent: 'general/siteContent',
-      account: 'account/account'
+      account: 'auth/account'
     }),
     navWidth () {
       if (this.breakpoint !== 'default') {

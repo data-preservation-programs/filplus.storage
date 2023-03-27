@@ -129,10 +129,10 @@ export default {
   },
 
   async fetch ({ app, store, redirect, route }) {
-    const accountExists = await store.getters['account/account']
+    const accountExists = await store.getters['auth/account']
     if (!accountExists) { return redirect('/apply') }
     await store.dispatch('general/getBaseData', { key: 'applications', data: ApplicationsPageData })
-    await store.dispatch('general/setLoadingStatus', { type: 'loading', status: true })
+    await store.dispatch('account/setLoadingStatus', { type: 'loading', status: true })
   },
 
   head () {
@@ -142,12 +142,12 @@ export default {
   computed: {
     ...mapGetters({
       siteContent: 'general/siteContent',
-      applicationList: 'general/applicationList',
-      loading: 'general/loading',
-      refresh: 'general/refresh',
-      metadata: 'general/metadata',
-      account: 'account/account',
-      view: 'general/view'
+      applicationList: 'account/applicationList',
+      loading: 'account/loading',
+      refresh: 'account/refresh',
+      metadata: 'account/metadata',
+      account: 'auth/account',
+      view: 'account/view'
     }),
     pageData () {
       return this.siteContent[this.tag].page_content
@@ -174,13 +174,13 @@ export default {
     await this.setView(query.view || this.view)
     await this.fetchData()
     if (!this.applicationList) {
-      await this.setView('GA')
+      await this.setView('ga')
       this.$router.replace({
         path: this.$route.path,
         query: {
           ...query,
           state: 'open',
-          view: 'GA'
+          view: 'ga'
         }
       }).catch(() => {})
     }
@@ -195,17 +195,12 @@ export default {
 
   methods: {
     ...mapActions({
-      getGeneralApplicationList: 'general/getGeneralApplicationList',
-      getLargeApplicationList: 'general/getLargeApplicationList',
-      setLoadingStatus: 'general/setLoadingStatus',
-      setView: 'general/setView'
+      getApplicationList: 'account/getApplicationList',
+      setLoadingStatus: 'account/setLoadingStatus',
+      setView: 'account/setView'
     }),
     async fetchData () {
-      const view = this.view
-      switch (view) {
-        case 'GA' : await this.getGeneralApplicationList(); break
-        case 'LDN' : await this.getLargeApplicationList(); break
-      }
+      await this.getApplicationList(this.view)
       this.setLoadingStatus({ type: 'loading', status: false })
       this.setLoadingStatus({ type: 'refresh', status: false })
     },

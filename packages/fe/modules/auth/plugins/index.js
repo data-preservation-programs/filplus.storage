@@ -7,7 +7,6 @@
 // ///////////////////////////////////////////////////////// Imports & Variables
 // -----------------------------------------------------------------------------
 import AuthStore from '@/modules/auth/store/auth'
-import AccountStore from '@/modules/auth/store/account'
 
 // This resolves to .nuxt/middleware.js
 import NuxtMiddleware from '../middleware'
@@ -20,9 +19,6 @@ const registerStore = (app, next) => {
     app.store.registerModule('auth', Object.assign({
       namespaced: true
     }, AuthStore))
-    app.store.registerModule('account', Object.assign({
-      namespaced: true
-    }, AccountStore))
     next()
   })
   if (next) { return next() }
@@ -47,7 +43,7 @@ const listenToLogin = (app, store, $config) => {
         const data = e.data
         if ((e.origin !== $config.frontendUrl) || !data || e.source.name !== 'login-popup') { return }
         if (typeof data === 'object' && data.session) {
-          await store.dispatch('account/getAccount', data.session.userId)
+          await store.dispatch('auth/getAccount', data.session.userId)
           app.$button('login-button').set({ loading: false })
           app.$toaster.add(data.toast)
         }
