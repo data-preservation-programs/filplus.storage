@@ -3,9 +3,13 @@
     v-bind="$props"
     :class="['button-x', `theme__${theme}`]"
     v-on="$listeners">
-    <div class="button-content">
+    <div slot-scope="{ loading }" class="inner-content">
 
-      <slot />
+      <div :class="['button-content', { hide: loading }]">
+        <slot />
+      </div>
+
+      <LoaderTripleDot :class="{ show: loading }" />
 
     </div>
   </Button>
@@ -14,13 +18,15 @@
 <script>
 // ===================================================================== Imports
 import Button from '@/modules/button/components/button'
+import LoaderTripleDot from '@/components/spinners/triple-dot'
 
 // ====================================================================== Export
 export default {
   name: 'ButtonX',
 
   components: {
-    Button
+    Button,
+    LoaderTripleDot
   },
 
   props: {
@@ -39,6 +45,11 @@ export default {
       required: false,
       default: false
     },
+    loader: {
+      type: [String, Boolean],
+      required: false,
+      default: false
+    },
     disabled: {
       type: Boolean,
       required: false,
@@ -49,7 +60,7 @@ export default {
       required: false,
       default: false
     },
-    theme: {
+    theme: { // 'clear', 'pink' or 'green'
       type: String,
       required: false,
       default: 'clear'
@@ -76,7 +87,27 @@ export default {
   }
   &[disabled] {
     box-shadow: none;
+    opacity: 0.5;
     cursor: no-drop;
+  }
+}
+
+.triple-dot-loader,
+.button-content {
+  width: 100%;
+  height: 100%;
+}
+
+.triple-dot-loader {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  &.show {
+    opacity: 1;
+  }
+  :deep(.dot) {
+    background-color: $titanWhite;
   }
 }
 
@@ -84,12 +115,15 @@ export default {
   font-size: toRem(20);
   font-weight: 500;
   transition: 150ms ease-out;
+  &.hide {
+    opacity: 0;
+  }
 }
 
 // ////////////////////////////////////////////////////////////////////// Themes
 .theme__pink {
-display: inline-block;
   @include h5;
+  display: inline-block;
   font-weight: 500;
   color: $mandysPink;
   .button-content {

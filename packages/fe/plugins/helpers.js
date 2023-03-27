@@ -452,8 +452,8 @@ const ReactDatasizeRangeToUnit = (ctx, transformField, transformSourceField, arg
 // /////////////////////////////////////////////////////// HandleFormRedirection
 const HandleFormRedirection = (app, store, bytes, bottom, top) => {
   if (bytes < bottom || bytes > top) {
-    store.dispatch('button/removeLoader', 'ga-submit-button')
-    store.dispatch('button/removeLoader', 'lda-submit-button')
+    this.$button('ga-submit-button').set({ loading: false })
+    this.$button('lda-submit-button').set({ loading: false })
   }
   if (bytes < bottom) {
     window.open(
@@ -507,6 +507,21 @@ const HighlightApplyForm = (app, store) => {
   }, 2250)
 }
 
+// ////////////////////////////////////////////////////////////// IsRouteCurrent
+const IsRouteCurrent = (route, href) => {
+  return route.fullPath === href
+}
+
+// ///////////////////////////////////////////////////////////////// ParseNumber
+const ParseNumber = (number, returnOriginal = false) => {
+  return new Promise((resolve) => {
+    if (!number || number === '') { resolve(undefined) }
+    const parsed = parseInt(number)
+    if (!isNaN(parsed)) { resolve(parsed) }
+    resolve(returnOriginal ? number : undefined)
+  })
+}
+
 // ////////////////////////////////////////////////////////////////////// Export
 // -----------------------------------------------------------------------------
 export default ({ $config, app, store }, inject) => {
@@ -541,4 +556,6 @@ export default ({ $config, app, store }, inject) => {
   inject('reactDatasizeRangeToUnit', ReactDatasizeRangeToUnit)
   inject('handleFormRedirection', (bytes, bottom, top) => HandleFormRedirection(app, store, bytes, bottom, top))
   inject('highlightApplyForm', () => HighlightApplyForm(app, store))
+  inject('isRouteCurrent', IsRouteCurrent)
+  inject('parseNumber', ParseNumber)
 }
