@@ -68,6 +68,7 @@ export default {
   &:not([disabled]) {
     &:hover {
       color: $aztec;
+      transform: scale(1.05);
       :deep(path) {
         transition: 150ms ease-in;
         fill: $aztec;

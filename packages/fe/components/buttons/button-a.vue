@@ -85,6 +85,9 @@ export default {
   white-space: nowrap;
   cursor: pointer;
   &:not([disabled]) {
+    &:hover {
+      transform: scale(1.05);
+    }
     &:focus-visible {
       @include focusBoxShadow;
     }
@@ -128,11 +131,6 @@ export default {
 .theme__green {
   color: $toledo;
   background-color: $greenYellow;
-  &:not([disabled]) {
-    &:hover {
-      background-color: $lima;
-    }
-  }
 }
 
 .theme__blue {
