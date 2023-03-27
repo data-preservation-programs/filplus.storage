@@ -92,38 +92,38 @@ export default {
 </script>
 
 <style lang="scss" module>
-.hasTooltip {
-  background: salmon;
-  .highlight {
-    .tooltip {
-      &[data-tooltip] {
-        &:before {
-          display: none;
-          top: 50%;
-          left: calc(100% + 4px);
-          transform: translate(0.5rem, -50%) rotate(-90deg);
-          border-bottom-width: 0.5rem;
-          border-bottom-color: $dodgerBlue;
-        }
-        &:after {
-          display: none;
-          color: $titanWhite;
-          white-space: break-spaces;
-          padding: 2rem;
-          top: 50%;
-          left: calc(100% + 1rem);
-          width: 26rem;
-          font-size: 1rem;
-          line-height: leading(27, 16);
-          border-radius: 1rem;
-          transform: translate(0.5rem, -50%);
-          background-color: $dodgerBlue;
-          z-index: 1;
-        }
-      }
-    }
-  }
-}
+// .hasTooltip {
+//   background: salmon;
+//   .highlight {
+//     .tooltip {
+//       &[data-tooltip] {
+//         &:before {
+//           display: none;
+//           top: 50%;
+//           left: calc(100% + 4px);
+//           transform: translate(0.5rem, -50%) rotate(-90deg);
+//           border-bottom-width: 0.5rem;
+//           border-bottom-color: $dodgerBlue;
+//         }
+//         &:after {
+//           display: none;
+//           color: $titanWhite;
+//           white-space: break-spaces;
+//           padding: 2rem;
+//           top: 50%;
+//           left: calc(100% + 1rem);
+//           width: 26rem;
+//           font-size: 1rem;
+//           line-height: leading(27, 16);
+//           border-radius: 1rem;
+//           transform: translate(0.5rem, -50%);
+//           background-color: $dodgerBlue;
+//           z-index: 1;
+//         }
+//       }
+//     }
+//   }
+// }
 
 </style>
 
@@ -175,43 +175,33 @@ export default {
     .tooltip {
       display: inline-block;
       margin: 0 0.5rem;
-      content: url(icons/question-mark.svg);
+      background-image: url(icons/question-mark.svg);
+      height: toRem(25);
+      width: toRem(25);
       // these are the same styles that's in the <style module> above
-      // &[data-tooltip] {
-      //   &:before {
-      //     display: none;
-      //     top: 50%;
-      //     left: calc(100% + 4px);
-      //     transform: translate(0.5rem, -50%) rotate(-90deg);
-      //     border-bottom-width: 0.5rem;
-      //     border-bottom-color: $dodgerBlue;
-      //   }
-      //   &:after {
-      //     display: none;
-      //     color: $titanWhite;
-      //     white-space: break-spaces;
-      //     padding: 2rem;
-      //     top: 50%;
-      //     left: calc(100% + 1rem);
-      //     width: 26rem;
-      //     font-size: 1rem;
-      //     line-height: leading(27, 16);
-      //     border-radius: 1rem;
-      //     transform: translate(0.5rem, -50%);
-      //     background-color: $dodgerBlue;
-      //     z-index: 1;
-      //   }
-      //   &:hover {
-      //     &:before {
-      //       display: block;
-      //       transform: translate(0, -50%) rotate(-90deg);
-      //     }
-      //     &:after {
-      //       display: block;
-      //       transform: translate(0, -50%);
-      //     }
-      //   }
-      // }
+      &[data-tooltip] {
+        &:before {
+          top: calc(-100% - 0.25rem);
+          transform: translate(-50%, 0.5rem) rotate(180deg);
+          border-bottom-width: 0.5rem;
+          border-bottom-color: $dodgerBlue;
+        }
+        &:after {
+          color: $titanWhite;
+          top: calc(-100% - 0.25rem);
+          transform: translate(-50%, - 1rem);
+          background-color: $dodgerBlue;
+          z-index: 1;
+        }
+        &:hover {
+          &:before {
+          transform: translate(-50%, 1rem) rotate(180deg);
+          }
+          &:after {
+            transform: translate(-50%, -0.5rem);
+          }
+        }
+      }
     }
   }
 }
