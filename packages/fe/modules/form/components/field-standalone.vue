@@ -1,13 +1,11 @@
 <template>
   <FieldConditional
-    v-slot="{ displayField }"
     :scaffold="scaffold"
     :parent-field="field"
     :id-suffix="idSuffix"
     :root-html-tag="rootHtmlTag">
 
     <slot
-      v-if="displayField"
       :field="field"
       :type="type"
       :update-value="updateValue"

@@ -165,7 +165,7 @@ export default {
     if (!notary) { return redirect('/apply/general/notaries') }
     const notaryFieldId = 'notary|filplus_application'
     const notaryField = app.$field(notaryFieldId).get()
-    const application = await store.dispatch('account/setHubspotOptInData', store.getters['account/account'])
+    const application = await store.dispatch('account/setHubspotOptInData', store.getters['auth/account'])
     await app.$form('filplus_application').register(application)
     if (!notaryField) {
       await app.$field(notaryFieldId).register(
@@ -268,7 +268,6 @@ export default {
             this.$scrollToElement(firstInvalidField, 250, -200)
           } else {
             await this.submitApplication({ application, type: 'GA' })
-            this.$router.push('/apply/success')
           }
         }
       }

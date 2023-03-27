@@ -38,6 +38,16 @@ const UserSchema = new Schema({
     required: false,
     default: false
   },
+  hubspotOptInFirstName: {
+    type: String,
+    required: false,
+    default: null
+  },
+  hubspotOptInLastName: {
+    type: String,
+    required: false,
+    default: null
+  },
   hubspotOptInEmail: {
     type: String,
     required: false,

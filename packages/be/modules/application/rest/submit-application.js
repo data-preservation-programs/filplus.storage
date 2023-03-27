@@ -1,5 +1,7 @@
 console.log('💡 [endpoint] /submit-application')
 
+/*eslint-disable*/
+
 // ///////////////////////////////////////////////////////////////////// Imports
 // -----------------------------------------------------------------------------
 const Axios = require('axios')
@@ -75,14 +77,18 @@ MC.app.post('/submit-application', async (req, res) => {
     }
     const hubspotOptIn = application.hubspot_opt_in
     const hubspotOptInEmail = application.hubspot_opt_in_email
-    if (!user.hubspotOptIn && hubspotOptIn && hubspotOptInEmail !== '') {
-      await SubmitHubspotContact(user, hubspotOptInEmail)
+    const hubspotOptInFirstName = application.hubspot_opt_in_first_name
+    const hubspotOptInLastName = application.hubspot_opt_in_last_name
+    if (!user.hubspotOptIn && hubspotOptIn) {
+      await SubmitHubspotContact(res, user, hubspotOptInEmail, hubspotOptInFirstName, hubspotOptInLastName)
     }
     const githubIssue = await submitApplication(type, template, application, user.githubToken)
     SendData(res, 200, 'Application submitted succesfully', githubIssue)
   } catch (e) {
     console.log('============================= [Endpoint: /submit-application]')
-    console.log(e.response)
-    SendData(res, 403, 'Something went wrong. Try again.')
+    if (e.code !== 422) {
+      console.log(e)
+    }
+    SendData(res, e.code || 403, e.message || 'Something went wrong. Try again.')
   }
 })

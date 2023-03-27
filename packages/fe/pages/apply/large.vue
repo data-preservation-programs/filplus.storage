@@ -334,7 +334,7 @@ export default {
   async fetch ({ app, store }) {
     await store.dispatch('general/getBaseData', { key: 'apply-large', data: ApplyLargePageData })
     await store.dispatch('general/getNetworkStorageCapacity')
-    const application = await store.dispatch('account/setHubspotOptInData', store.getters['account/account'])
+    const application = await store.dispatch('account/setHubspotOptInData', store.getters['auth/account'])
     await app.$form('filplus_application').register(application)
   },
 
@@ -429,8 +429,10 @@ export default {
             this.$button('lda-submit-button').set({ loading: false })
             this.$scrollToElement(firstInvalidField, 250, -200)
           } else {
-            await this.submitApplication({ application, type: 'lda' })
-            this.$router.push('/apply/success')
+            const success = await this.submitApplication({ application, type: 'lda' })
+            if (success) {
+              this.$router.push('/apply/success')
+            }
           }
         }
       }

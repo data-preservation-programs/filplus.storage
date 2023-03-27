@@ -55,8 +55,10 @@ try {
 //   try {
 //     const user = await MC.model.User.findOne({ githubUsername: 'timelytree' })
 //     console.log(user)
-//     // user.hubspotOptIn = undefined
+//     // user.hubspotOptIn = false
 //     // user.hubspotOptInEmail = undefined
+//     // user.hubspotOptInFirstName = undefined
+//     // user.hubspotOptInLastName = undefined
 //     // await user.save()
 //     // console.log(saved)
 //   } catch (e) {
@@ -87,3 +89,17 @@ try {
 //   //   console.log(e)
 //   // }
 // }; users()
+
+// //////////////////////////////////////////////////////// lookupHubspotContact
+// const Axios = require('axios')
+// const lookupHubspotContact = async () => {
+//   try {
+//     const id = '3049751'
+//     const options = { headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${process.env.HUBSPOT_TOKEN}` } }
+//     const response = await Axios.get(`https://api.hubapi.com/crm/v3/objects/contacts/${id}`, options)
+//     console.log(response)
+//   } catch (e) {
+//     console.log('============================ [Function: lookupHubspotContact]')
+//     console.log(e)
+//   }
+// }; lookupHubspotContact()

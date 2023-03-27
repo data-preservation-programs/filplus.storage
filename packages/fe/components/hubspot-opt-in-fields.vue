@@ -17,6 +17,19 @@
       form-id="filplus_application"
       class="checkbox" />
 
+    <div class="row">
+      <FieldContainer
+        :scaffold="formScaffold.hubspot_opt_in_first_name"
+        :force-disabled="optedIn"
+        field-key="hubspot_opt_in_first_name"
+        form-id="filplus_application" />
+      <FieldContainer
+        :scaffold="formScaffold.hubspot_opt_in_last_name"
+        :force-disabled="optedIn"
+        field-key="hubspot_opt_in_last_name"
+        form-id="filplus_application" />
+    </div>
+
     <FieldContainer
       :scaffold="formScaffold.hubspot_opt_in_email"
       :force-disabled="optedIn"
@@ -43,7 +56,7 @@ export default {
   computed: {
     ...mapGetters({
       siteContent: 'general/siteContent',
-      account: 'account/account'
+      account: 'auth/account'
     }),
     content () {
       return this.siteContent.general.hubspot
@@ -75,6 +88,17 @@ export default {
           display: none;
         }
       }
+    }
+  }
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  .field-container {
+    flex: 1;
+    &:first-child {
+      margin-right: 2rem;
     }
   }
 }

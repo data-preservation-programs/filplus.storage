@@ -112,11 +112,61 @@
         "modelKey": "hubspot_opt_in",
         "label": "Get Help",
         "description": "Would you like for someone from the client growth team to get in touch, to help with onboarding your data?",
-        "isSingleOption": true,
+        "isSingleSelection": true,
         "options": [
           { "label": "Yes" }
         ],
         "defaultValue": ""
+      },
+      "hubspot_opt_in_first_name": {
+        "type": "input",
+        "inputType": "text",
+        "modelKey": "hubspot_opt_in_first_name",
+        "label": "First Name",
+        "placeholder": "First Name",
+        "required": true,
+        "pre": "[^\\u0000-\\u00ff]",
+        "autocomplete": "none",
+        "chars": {
+          "min": 2,
+          "max": 1000
+        },
+        "validationMessage": {
+          "required": "This field is required",
+          "chars": "Input must be between 2 and 35 characters"
+        },
+        "defaultValue": "",
+        "conditions": [
+          {
+            "fieldKey": "hubspot_opt_in",
+            "value": 0
+          }
+        ]
+      },
+      "hubspot_opt_in_last_name": {
+        "type": "input",
+        "inputType": "text",
+        "modelKey": "hubspot_opt_in_last_name",
+        "label": "Last Name",
+        "placeholder": "Last Name",
+        "required": true,
+        "pre": "[^\\u0000-\\u00ff]",
+        "autocomplete": "none",
+        "chars": {
+          "min": 2,
+          "max": 1000
+        },
+        "validationMessage": {
+          "required": "This field is required",
+          "chars": "Input must be between 2 and 35 characters"
+        },
+        "defaultValue": "",
+        "conditions": [
+          {
+            "fieldKey": "hubspot_opt_in",
+            "value": 0
+          }
+        ]
       },
       "hubspot_opt_in_email": {
         "type": "input",
