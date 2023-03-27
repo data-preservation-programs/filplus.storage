@@ -287,14 +287,14 @@ export default {
   }
 }
 
-.field-container {
+:deep(.field-container) {
   display: flex;
   align-items: center;
-  :deep(.label),
-  :deep(.field-label) {
+  .label,
+  .field-label {
     @include p2;
   }
-  :deep(.select) {
+  .select {
     border: none;
     .text {
       @include p2;

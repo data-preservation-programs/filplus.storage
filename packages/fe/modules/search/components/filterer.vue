@@ -1,3 +1,17 @@
+<template>
+  <div v-if="loaded" class="filter">
+
+    <slot
+      :apply-filter="applyFilter"
+      :original-selected="originalSelected"
+      :selected="selected"
+      :is-selected="isSelected"
+      :clear-filters="clearFilters"
+      :empty="empty" />
+
+  </div>
+</template>
+
 <script>
 // ====================================================================== Export
 export default {
@@ -111,18 +125,6 @@ export default {
     clearFilters () {
       this.$filter(this.filterKey).clear()
     }
-  },
-
-  render () {
-    return this.$scopedSlots.default({
-      filterLoaded: this.loaded,
-      applyFilter: this.applyFilter,
-      originalSelected: this.originalSelected,
-      selected: this.selected,
-      isSelected: this.isSelected,
-      clearFilters: this.clearFilters,
-      empty: this.empty
-    })
   }
 }
 </script>

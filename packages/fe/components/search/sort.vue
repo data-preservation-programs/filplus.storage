@@ -1,13 +1,12 @@
 <template>
   <Filterer
-    v-slot="{ filterLoaded, applyFilter, originalSelected }"
+    v-slot="{ applyFilter, originalSelected }"
     filter-key="sort"
     :is-single-selection="true"
     :default-selection="0"
     :options="options"
     v-on="$listeners">
     <FieldContainer
-      v-if="filterLoaded"
       field-key="sort"
       :scaffold="{
         type: 'select',
