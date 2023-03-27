@@ -1,3 +1,7 @@
+// ///////////////////////////////////////////////////////// Imports & Variables
+// -----------------------------------------------------------------------------
+import CloneDeep from 'lodash/cloneDeep'
+
 // /////////////////////////////////////////////////////////////////////// State
 // ---------------------- https://vuex.vuejs.org/guide/modules.html#module-reuse
 const state = () => ({
@@ -45,6 +49,10 @@ const state = () => ({
     ga_region: null,
     public_availability_radio: null,
     public_availability_textarea: null,
+    hubspot_opt_in: null,
+    hubspot_opt_in_email: null,
+    hubspot_opt_in_first_name: null,
+    hubspot_opt_in_last_name: null,
     confirm_follow_fil_guideline: null
   },
   applyFormHighlighted: false,
@@ -76,6 +84,7 @@ const actions = {
         params: { type: tag }
       })
       await dispatch('setGithubIssue', response.data.payload)
+      await this.dispatch('auth/getAccount', this.getters['auth/account']._id)
       this.$button(`${tag}-submit-button`).set({ loading: false })
       this.$toaster.add({
         type: 'toast',
@@ -83,16 +92,17 @@ const actions = {
         message: 'Application submitted successfully'
       })
       this.$gtm.push({ event: `success_${tag}` })
+      this.$router.push('/apply/success')
     } catch (e) {
       console.log('================= [Store Action: account/submitApplication]')
       console.log(e)
+      console.log(e.response)
       this.$button(`${tag}-submit-button`).set({ loading: false })
       this.$toaster.add({
         type: 'toast',
         category: 'error',
-        message: 'Something went wrong. Please refresh the page and try again.'
+        message: e.response.data.message || 'Something went wrong. Please refresh the page and try again.'
       })
-      return false
     }
   },
   // //////////////////////////////////////////////////////////// setGithubIssue
@@ -135,6 +145,22 @@ const actions = {
   // /////////////////////////////////////////////////////////////////// setView
   setView ({ commit }, view) {
     commit('SET_VIEW', view)
+  },
+  // /////////////////////////////////////////////////////// setHubspotOptInData
+  setHubspotOptInData ({ commit, getters }, account) {
+    if (!account) { return getters.application }
+    const application = CloneDeep(getters.application)
+    const optedIn = account.hubspotOptIn
+    if (!optedIn && account.githubEmail) {
+      application.hubspot_opt_in_email = account.githubEmail
+    } else if (optedIn) {
+      application.hubspot_opt_in = optedIn
+      application.hubspot_opt_in_first_name = account.hubspotOptInFirstName
+      application.hubspot_opt_in_last_name = account.hubspotOptInLastName
+      application.hubspot_opt_in_email = account.hubspotOptInEmail
+    }
+    commit('SET_APPLICATION', application)
+    return application
   }
 }
 

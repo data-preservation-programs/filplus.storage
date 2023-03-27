@@ -6,8 +6,8 @@ const Axios = require('axios')
 const MC = require('@Root/config')
 
 const repos = {
-  'ga': ['filecoin-project/filecoin-plus-client-onboarding', 'data-preservation-programs/filecoin-plus-client-onboarding'],
-  'lda': ['filecoin-project/filecoin-plus-large-datasets', 'data-preservation-programs/filecoin-plus-large-datasets']
+  ga: ['filecoin-project/filecoin-plus-client-onboarding', 'data-preservation-programs/filecoin-plus-client-onboarding'],
+  lda: ['filecoin-project/filecoin-plus-large-datasets', 'data-preservation-programs/filecoin-plus-large-datasets']
 }
 
 // ////////////////////////////////////////////////////////////////////// Export

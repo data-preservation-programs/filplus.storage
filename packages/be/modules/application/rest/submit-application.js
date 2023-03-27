@@ -1,15 +1,18 @@
 console.log('💡 [endpoint] /submit-application')
 
+/*eslint-disable*/
+
 // ///////////////////////////////////////////////////////////////////// Imports
 // -----------------------------------------------------------------------------
-const { SendData, GetFileFromDisk } = require('@Module_Utilities')
 const Axios = require('axios')
+const { SendData, GetFileFromDisk } = require('@Module_Utilities')
+const SubmitHubspotContact = require('@Module_Application/logic/submit-hubspot-contact')
 
 const MC = require('@Root/config')
 
 const repos = {
-  'ga': ['filecoin-project/filecoin-plus-client-onboarding', 'data-preservation-programs/filecoin-plus-client-onboarding'],
-  'lda': ['filecoin-project/filecoin-plus-large-datasets', 'data-preservation-programs/filecoin-plus-large-datasets']
+  ga: ['filecoin-project/filecoin-plus-client-onboarding', 'data-preservation-programs/filecoin-plus-client-onboarding'],
+  lda: ['filecoin-project/filecoin-plus-large-datasets', 'data-preservation-programs/filecoin-plus-large-datasets']
 }
 
 // /////////////////////////////////////////////////////////////////// Functions
@@ -72,11 +75,20 @@ MC.app.post('/submit-application', async (req, res) => {
       console.log(application)
       console.log(template)
     }
+    const hubspotOptIn = application.hubspot_opt_in
+    const hubspotOptInEmail = application.hubspot_opt_in_email
+    const hubspotOptInFirstName = application.hubspot_opt_in_first_name
+    const hubspotOptInLastName = application.hubspot_opt_in_last_name
+    if (!user.hubspotOptIn && hubspotOptIn) {
+      await SubmitHubspotContact(res, user, hubspotOptInEmail, hubspotOptInFirstName, hubspotOptInLastName)
+    }
     const githubIssue = await submitApplication(type, template, application, user.githubToken)
     SendData(res, 200, 'Application submitted succesfully', githubIssue)
   } catch (e) {
     console.log('============================= [Endpoint: /submit-application]')
-    console.log(e.response)
-    SendData(res, 403, 'Something went wrong. Try again.')
+    if (e.code !== 422) {
+      console.log(e)
+    }
+    SendData(res, e.code || 403, e.message || 'Something went wrong. Try again.')
   }
 })

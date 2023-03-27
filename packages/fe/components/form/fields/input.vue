@@ -64,6 +64,11 @@ export default {
     field: {
       type: Object,
       required: true
+    },
+    forceDisabled: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
 
@@ -97,7 +102,7 @@ export default {
       return this.scaffold.required
     },
     disabled () {
-      return this.scaffold.disabled
+      return this.forceDisabled || this.scaffold.disabled
     },
     pre () {
       return this.scaffold.pre
