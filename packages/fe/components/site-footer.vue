@@ -340,10 +340,13 @@ export default {
   position: relative;
   width: 100%;
   height: 100%;
+  :deep(.chevron-long){
+    transition: 150ms ease-in;
+  }
   &:hover {
-    .footer-cta-card.corner-position__top-right {
+    :deep(.chevron-long) {
       transition: 150ms ease-in;
-      transform: scale(1.05);
+      transform: translateX(1rem) rotate(-45deg);
     }
   }
   @include medium {
