@@ -1,12 +1,13 @@
 <template>
   <Filterer
-    v-slot="{ applyFilter, originalSelected }"
+    v-slot="{ filterLoaded, applyFilter, originalSelected }"
     filter-key="view"
-    :is-single-option="true"
+    :is-single-selection="true"
     :default-selection="1"
     :options="options"
     v-on="$listeners">
     <FieldContainer
+      v-if="filterLoaded"
       field-key="view"
       :scaffold="{
         type: 'radio',
@@ -15,7 +16,7 @@
         options,
         defaultValue: originalSelected,
         updateGroupId: 'view',
-        isSingleOption: true
+        isSingleSelection: true
       }"
       @updateValue="initializeFilter($event, applyFilter)" />
   </Filterer>

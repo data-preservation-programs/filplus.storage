@@ -330,7 +330,7 @@ export default {
   async fetch ({ app, store }) {
     await store.dispatch('general/getBaseData', { key: 'apply-large', data: ApplyLargePageData })
     await store.dispatch('general/getNetworkStorageCapacity')
-    await app.$form('filplus_application').register(store.getters['general/application'])
+    await app.$form('filplus_application').register(store.getters['account/application'])
   },
 
   head () {
@@ -342,7 +342,7 @@ export default {
       siteContent: 'general/siteContent',
       networkStorageCapacity: 'general/networkStorageCapacity',
       savedFormExists: 'form/savedFormExists',
-      account: 'account/account'
+      account: 'auth/account'
     }),
     generalPageData () {
       return this.siteContent.general
@@ -394,7 +394,7 @@ export default {
   methods: {
     ...mapActions({
       validateForm: 'form/validateForm',
-      submitLargeApplication: 'general/submitLargeApplication',
+      submitApplication: 'account/submitApplication',
       restoreSavedForm: 'form/restoreSavedForm'
     }),
     async submitForm () {
@@ -418,14 +418,13 @@ export default {
           })
           this.$router.push('/apply/general/notaries')
         } else {
-          const incoming = await this.$form('filplus_application').validate()
-          console.log(incoming)
-          if (!incoming) {
+          const application = await this.$form('filplus_application').validate()
+          if (!application) {
             const firstInvalidField = document.querySelector('.error')
             this.$button('lda-submit-button').set({ loading: false })
             this.$scrollToElement(firstInvalidField, 250, -200)
           } else {
-            await this.submitLargeApplication(incoming)
+            await this.submitApplication({ application, type: 'lda' })
             this.$router.push('/apply/success')
           }
         }

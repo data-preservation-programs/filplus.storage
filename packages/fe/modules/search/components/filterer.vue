@@ -21,9 +21,8 @@ export default {
       type: Number,
       required: true
     },
-    // for options with boolean or single-select value
-    // ie. checkboxes or select
-    isSingleOption: {
+    // Depict whether or not to select only 1 item at a time (effectively a toggle)
+    isSingleSelection: {
       type: Boolean,
       required: false,
       default: false
@@ -45,6 +44,22 @@ export default {
     // }
   },
 
+  data () {
+    return {
+      loaded: false
+    }
+  },
+
+  async fetch () {
+    await this.$filter(this.filterKey).register(
+      this.options,
+      this.defaultSelection,
+      this.isSingleSelection,
+      this.action
+    )
+    this.loaded = true
+  },
+
   computed: {
     filter () {
       return this.$filter(this.filterKey).get()
@@ -59,18 +74,6 @@ export default {
     },
     empty () {
       return this.selected.length === 0
-    }
-  },
-
-  async created () {
-    if (!this.filter) {
-      await this.$filter(this.filterKey).register(
-        this.filterKey,
-        this.options,
-        this.defaultSelection,
-        this.isSingleOption,
-        this.action
-      )
     }
   },
 
@@ -91,11 +94,11 @@ export default {
       await this.$filter(id).for({
         instance: this,
         index: payload.index,
-        live: payload.live
+        live
       })
       let value
       if (this.action === 'query') {
-        value = this.$filter(id).convert('query', this.filter.selected, this.filter.options)
+        value = await this.$filter(id).convert('query', this.filter.selected, this.filter.options, this.filter.isSingleOption)
       }
       this.$emit('filterApplied', {
         live,
@@ -112,6 +115,7 @@ export default {
 
   render () {
     return this.$scopedSlots.default({
+      filterLoaded: this.loaded,
       applyFilter: this.applyFilter,
       originalSelected: this.originalSelected,
       selected: this.selected,

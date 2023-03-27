@@ -178,7 +178,7 @@ export default {
     ...mapGetters({
       siteContent: 'general/siteContent',
       staticFiles: 'general/staticFiles',
-      application: 'general/application'
+      application: 'account/application'
     }),
     pageData () {
       return this.siteContent.notaries.page_content
