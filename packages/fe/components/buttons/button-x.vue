@@ -67,7 +67,7 @@ export default {
     &:hover {
       .button-content {
         transition: 150ms ease-in;
-        text-decoration: underline;
+        text-decoration: none;
       }
     }
     &:focus-visible {
@@ -118,7 +118,6 @@ display: inline-block;
   }
   &:hover {
     color: $greenYellow;
-    text-decoration: underline;
   }
 }
 </style>
