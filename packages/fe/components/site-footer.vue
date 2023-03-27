@@ -346,7 +346,7 @@ export default {
   &:hover {
     :deep(.chevron-long) {
       transition: 150ms ease-in;
-      transform: translateX(1rem) rotate(-45deg);
+      transform: translateX(1rem);
     }
   }
   @include medium {
