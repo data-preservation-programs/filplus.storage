@@ -308,6 +308,11 @@ export default {
   &:last-child {
     border-bottom: none;
   }
+  &:hover {
+    .button-content {
+      transform: scale(1.05);
+    }
+  }
   @include medium {
     width: calc(100% + 100vw * 0.041665);
   }
