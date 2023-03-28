@@ -487,10 +487,7 @@ export default {
     margin-top: toRem(38);
   }
   :deep(a) {
-    color: $greenYellow;
-    &:hover {
-      text-decoration: underline;
-    }
+    @include linkUnderline;
   }
 }
 

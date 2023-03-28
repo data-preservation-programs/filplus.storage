@@ -248,10 +248,7 @@ $padding: 2.25rem;
     line-height: leading(25, 14);
   }
   :deep(a) {
-    color: $greenYellow;
-    &:hover {
-      text-decoration: underline;
-    }
+    @include linkUnderline;
   }
 }
 </style>
