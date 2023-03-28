@@ -56,6 +56,7 @@ try {
 //     const user = await MC.model.User.findOne({ githubUsername: 'timelytree' })
 //     console.log(user)
 //     // user.hubspotOptIn = false
+//     // user.hubspotOptInContactId = undefined
 //     // user.hubspotOptInEmail = undefined
 //     // user.hubspotOptInFirstName = undefined
 //     // user.hubspotOptInLastName = undefined

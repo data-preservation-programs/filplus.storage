@@ -74,7 +74,7 @@ MC.app.post('/submit-application', async (req, res) => {
       console.log(template)
     }
     const hubspotOptIn = application.hubspot_opt_in
-    if (!user.hubspotOptIn && hubspotOptIn) {
+    if ((!user.hubspotOptIn && hubspotOptIn) || user.hubspotOptInContactId) {
       await SubmitHubspotContact(res, user, {
         email: application.hubspot_opt_in_email,
         firstname: application.hubspot_opt_in_first_name,
