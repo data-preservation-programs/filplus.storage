@@ -136,12 +136,6 @@ export default {
 .theme__blue {
   color: $toledo;
   background-color: $perano;
-  &:not([disabled]) {
-    &:hover {
-      color: $titanWhite;
-      background-color: $dodgerBlue;
-    }
-  }
 }
 
 .theme__green-outline {
