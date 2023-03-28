@@ -38,6 +38,11 @@ const UserSchema = new Schema({
     required: false,
     default: false
   },
+  hubspotOptInContactId: {
+    type: String,
+    required: false,
+    default: null
+  },
   hubspotOptInFirstName: {
     type: String,
     required: false,
@@ -49,6 +54,26 @@ const UserSchema = new Schema({
     default: null
   },
   hubspotOptInEmail: {
+    type: String,
+    required: false,
+    default: null
+  },
+  hubspotOptInApplicationCompanyName: {
+    type: String,
+    required: false,
+    default: null
+  },
+  hubspotOptInApplicationRegion: {
+    type: String,
+    required: false,
+    default: null
+  },
+  hubspotOptInApplicationDatacapRequested: {
+    type: String,
+    required: false,
+    default: null
+  },
+  hubspotOptInApplicationWalletAddress: {
     type: String,
     required: false,
     default: null

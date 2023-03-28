@@ -56,9 +56,14 @@ try {
 //     const user = await MC.model.User.findOne({ githubUsername: 'timelytree' })
 //     console.log(user)
 //     // user.hubspotOptIn = false
+//     // user.hubspotOptInContactId = undefined
 //     // user.hubspotOptInEmail = undefined
 //     // user.hubspotOptInFirstName = undefined
 //     // user.hubspotOptInLastName = undefined
+//     // user.hubspotOptInApplicationCompanyName = undefined
+//     // user.hubspotOptInApplicationRegion = undefined
+//     // user.hubspotOptInApplicationDatacapRequested = undefined
+//     // user.hubspotOptInApplicationWalletAddress = undefined
 //     // await user.save()
 //     // console.log(saved)
 //   } catch (e) {
