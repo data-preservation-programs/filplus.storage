@@ -176,6 +176,14 @@ $borderWidth: 2px;
       }
     }
   }
+  &:active {
+    .thumb {
+      &::before,
+      &::after {
+        height: 1rem;
+      }
+    }
+  }
   &.disabled {
     cursor: no-drop;
     border-bottom-color: rgba(246, 245, 255, 0.25);
