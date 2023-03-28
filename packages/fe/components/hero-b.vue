@@ -10,6 +10,7 @@
 
             <div v-if="label" class="label" v-html="label" />
 
+            <!-- the module style applied here isn't working with scss, only the topmost defined style -->
             <h1 class="heading h3" v-html="heading" />
 
             <div v-if="subtext" class="subtext" v-html="subtext" />
@@ -44,6 +45,8 @@
 import ButtonX from '@/components/buttons/button-x'
 import Chevron from '@/components/icons/chevron'
 
+// import IconQuestionMark from '@/components/icons/question-mark'
+
 // ====================================================================== Export
 export default {
   name: 'HeroB',
@@ -51,6 +54,7 @@ export default {
   components: {
     ButtonX,
     Chevron
+    // IconQuestionMark
   },
 
   props: {
@@ -67,6 +71,11 @@ export default {
     heading: {
       type: String,
       required: true
+    },
+    tooltip: {
+      type: [String, Boolean],
+      required: false,
+      default: false
     },
     subtext: {
       type: [String, Boolean],
@@ -126,7 +135,43 @@ export default {
     font-size: toRem(24);
   }
   .highlight {
+    display: inline-block;
     color: $greenYellow;
+    .tooltip {
+      display: inline-block;
+      margin: 0 0.5rem;
+      background-image: url(icons/question-mark.svg);
+      height: toRem(25);
+      width: toRem(25);
+      &[data-tooltip] {
+        &:before {
+          top: 50%;
+          left: calc(100% + 5px);
+          transform: translate(0.5rem, -50%) rotate(-90deg);
+          border-bottom-width: 0.5rem;
+          border-bottom-color: $dodgerBlue;
+        }
+        &:after {
+          top: 50%;
+          left: calc(100% + 1rem);
+          transform: translate(0.5rem, -50%);
+          z-index: 1;
+          color: $titanWhite;
+          background-color: $dodgerBlue;
+          white-space: break-spaces;
+          padding: 1rem;
+          width: 9rem;
+        }
+        &:hover {
+          &:before {
+            transform: translate(0, -50%) rotate(-90deg);
+          }
+          &:after {
+            transform: translate(0, -50%);
+          }
+        }
+      }
+    }
   }
 }
 

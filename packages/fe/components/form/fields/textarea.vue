@@ -5,7 +5,7 @@
       {{ value }}
     </div>
 
-    <div v-else class="textarea-container">
+    <div class="textarea-container">
       <textarea
         :value="value"
         :placeholder="placeholder"
@@ -16,6 +16,7 @@
       <div v-if="typeof chars === 'number'" class="char-validation">
         {{ chars }}
       </div>
+
     </div>
 
   </div>

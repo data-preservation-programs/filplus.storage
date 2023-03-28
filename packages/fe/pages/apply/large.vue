@@ -5,6 +5,7 @@
     <HeroB
       :label="hero.label"
       :heading="heroHeading"
+      :tooltip="headingTooltip"
       :subtext="hero.subtext"
       :hero-button="backButton" />
 
@@ -359,7 +360,11 @@ export default {
       return this.pageData.hero
     },
     heroHeading () {
-      return this.hero.heading.replace('|data|', this.networkStorageCapacity)
+      return this.hero.heading.replace('|data|', this.networkStorageCapacity).replace('|data-tooltip|', `data-tooltip="${this.headingTooltip}"`)
+    },
+    headingTooltip () {
+      const tooltip = this.hero.heading_tooltip
+      return tooltip && tooltip !== '' ? tooltip : false
     },
     backButton () {
       return this.pageData.back_button

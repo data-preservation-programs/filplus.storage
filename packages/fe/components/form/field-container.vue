@@ -6,7 +6,12 @@
     v-on="$listeners">
 
     <label v-if="scaffold.label" :for="fieldKey" class="field-label">
-      {{ scaffold.label }}
+      <span class="text">
+        {{ scaffold.label }}
+      </span>
+      <div v-if="tooltip" class="tooltip" :data-tooltip="tooltip">
+        <IconQuestionMark />
+      </div>
     </label>
 
     <div v-if="scaffold.description" class="description">
@@ -17,7 +22,6 @@
       :is="type"
       :field="field"
       :field-key="fieldKey"
-      :data-tooltip="tooltip"
       :force-disabled="forceDisabled"
       @updateValue="updateValue"
       @toggleFocused="toggleFocused"
@@ -44,6 +48,8 @@ import FieldSelect from '@/components/form/fields/select'
 import FieldTypeahead from '@/components/form/fields/typeahead'
 import FieldChiclet from '@/components/form/fields/chiclet'
 
+import IconQuestionMark from '@/components/icons/question-mark'
+
 // ====================================================================== Export
 export default {
   name: 'FieldContainer',
@@ -57,7 +63,8 @@ export default {
     FieldRadio,
     FieldSelect,
     FieldTypeahead,
-    FieldChiclet
+    FieldChiclet,
+    IconQuestionMark
   },
 
   props: {
@@ -132,8 +139,33 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@keyframes grow {
+  0% { transform: scale(0.5); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
 // ///////////////////////////////////////////////////////////////////// General
 .field-container {
+  &:hover,
+  &:focus-within {
+    .tooltip {
+      &:before,
+      &:after,
+      .icon {
+        transition: 150ms ease-in;
+        opacity: 1;
+      }
+      &:before {
+        transform: translate(0, -50%) rotate(-90deg);
+      }
+      &:after {
+        transform: translate(0, -50%);
+      }
+      .icon {
+        transform: scale(1);
+      }
+    }
+  }
   &.disabled {
     .field-label {
       cursor: default;
@@ -141,9 +173,11 @@ export default {
   }
   &.focused {
     .field-label {
-      transition: 150ms ease-in;
-      color: rgba($aquaSqueeze, 0.7);
-      transform: scale(0.9);
+      .text {
+        transition: 150ms ease-in;
+        color: rgba($aquaSqueeze, 0.7);
+        transform: scale(0.9);
+      }
     }
   }
 }
@@ -151,17 +185,6 @@ export default {
 ::v-deep .field {
   position: relative;
   font-weight: 500;
-  &:hover,
-  &.focused {
-    &[data-tooltip] {
-      &:before {
-        transform: translate(0, -50%) rotate(-90deg);
-      }
-      &:after {
-        transform: translate(0, -50%);
-      }
-    }
-  }
 }
 
 ::v-deep .description {
@@ -170,39 +193,49 @@ export default {
   margin-bottom: 2.25rem;
 }
 
-[data-tooltip] {
-  &:before {
-    top: calc(50% + 0.475rem);
-    left: calc(100% + 4px);
-    transform: translate(0.5rem, -50%) rotate(-90deg);
-    border-bottom-width: 0.5rem;
+// ///////////////////////////////////////////////////////////////////// Tooltip
+.tooltip {
+  &[data-tooltip] {
+    height: toRem(25);
+    width: toRem(25);
+    &:before {
+      top: 50%;
+      left: calc(100% + 4px);
+      transform: translate(0.5rem, -50%) rotate(-90deg);
+      border-bottom-width: 0.5rem;
+      border-bottom-color: $dodgerBlue;
+    }
+    &:after {
+      white-space: break-spaces;
+      padding: 2rem;
+      top: 50%;
+      left: calc(100% + 1rem);
+      width: 26rem;
+      font-size: 1rem;
+      line-height: leading(27, 16);
+      border-radius: 1rem;
+      transform: translate(0.5rem, -50%);
+      background-color: $dodgerBlue;
+    }
   }
-  &:after {
-    white-space: break-spaces;
-    padding: 2rem;
-    top: 50%;
-    left: calc(100% + 1rem);
-    width: 26rem;
-    font-size: 1rem;
-    line-height: leading(27, 16);
-    border-radius: 1rem;
-    transform: translate(0.5rem, -50%);
+  .icon {
+    transform: scale(0);
+    opacity: 0;
+    transition: 100ms ease-out;
   }
 }
 
 // /////////////////////////////////////////////////////////////////////// Label
 .field-label {
-  display: inline-block;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   font-size: toRem(20);
   font-weight: 500;
-  transform-origin: left;
   cursor: pointer;
-  transition: 150ms ease-out;
-  a {
-    color: darkorange;
-    &:hover {
-      text-decoration: underline;
-    }
+  .text {
+    transform-origin: left;
+    transition: 150ms ease-out;
   }
 }
 
