@@ -97,6 +97,14 @@ export default {
     }
   },
 
+  watch: {
+    pages (options) {
+      this.$filter('page').set({
+        options
+      })
+    }
+  },
+
   methods: {
     getIndex (page) {
       return this.pages.findIndex(item => item.value === page)
