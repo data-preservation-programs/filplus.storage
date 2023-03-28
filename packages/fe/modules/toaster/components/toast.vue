@@ -1,5 +1,5 @@
 <template>
-  <div :class="['toast', category]">
+  <div :class="['toast', category, unpopping ? 'unpopping' : '']">
 
     <div class="panel-top">
 
@@ -53,6 +53,12 @@ export default {
     }
   },
 
+  data: function () {
+    return {
+      unpopping: false
+    }
+  },
+
   computed: {
     id () {
       return this.toast.id
@@ -75,10 +81,15 @@ export default {
   },
 
   mounted () {
+    const unpopTimeout = this.timeout - 250
     const timeout = setTimeout(() => {
       this.$toaster.remove(this.id)
       clearTimeout(timeout)
     }, this.timeout)
+    const unpop = setTimeout(() => {
+      this.unpopping = true
+      clearTimeout(unpop)
+    }, unpopTimeout)
   }
 }
 </script>
@@ -90,6 +101,8 @@ $toastError: red;
 
 // ///////////////////////////////////////////////////////////////////// General
 .toast {
+  position: relative;
+  animation: poppingToast 250ms ease-in-out forwards;
   @include shadow1;
   width: 30rem;
   overflow: hidden;
@@ -98,6 +111,9 @@ $toastError: red;
   }
   &:not(:last-child) {
     margin-bottom: 1rem;
+  }
+  &.unpopping {
+    animation: unpoppingToast 250ms ease-in-out forwards;
   }
 }
 
@@ -140,4 +156,16 @@ $toastError: red;
     margin-bottom: 0.5rem;
   }
 }
+
+// ////////////////////////////////////////////////////////////////// Animations
+@keyframes poppingToast {
+  from { top: -6rem; }
+  to { top: 0; }
+}
+
+@keyframes unpoppingToast {
+  from { top: 0; }
+  to { top: -6rem; }
+}
+
 </style>
