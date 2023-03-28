@@ -110,6 +110,7 @@ export default {
     },
     dropdownToggled (state) {
       this.dropdownOpen = state
+      this.$emit('toggleFocused', state)
     },
     optionSelected (value) {
       this.selectedOption = value

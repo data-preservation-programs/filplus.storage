@@ -2,7 +2,7 @@
   <Filterer
     v-slot="{ applyFilter, originalSelected }"
     filter-key="sort"
-    :is-single-option="true"
+    :is-single-selection="true"
     :default-selection="0"
     :options="options"
     v-on="$listeners">
@@ -15,7 +15,7 @@
         options,
         defaultValue: originalSelected,
         updateGroupId: 'sort',
-        isSingleOption: true
+        isSingleSelection: true
       }"
       @updateValue="initializeFilter($event, applyFilter)" />
   </Filterer>
@@ -46,7 +46,7 @@ export default {
     async initializeFilter (index, applyFilter) {
       await applyFilter({ index, live: false })
       await this.$filter('page').for({ index: 0, live: false })
-      await this.$applyMultipleFiltersToQuery({ filters: ['page', 'sort'] })
+      await this.$applyMultipleFiltersToQuery({ filters: ['page', 'sort', 'view'] })
     }
   }
 }
