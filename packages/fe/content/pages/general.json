@@ -30,7 +30,7 @@
       },
       {
         "type": "a",
-        "href": "https://docs.filecoin.io/store/filecoin-plus",
+        "href": "https://docs.filecoin.io/basics/how-storage-works/filecoin-plus/",
         "label": "Documentation",
         "target": "_blank"
       }
@@ -51,7 +51,7 @@
     "links": [
       {
         "type": "a",
-        "href": "https://docs.filecoin.io/store/filecoin-plus",
+        "href": "https://docs.filecoin.io/basics/how-storage-works/filecoin-plus/",
         "label": "Read the Docs",
         "target": "_blank"
       },
