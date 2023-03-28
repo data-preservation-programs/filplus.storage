@@ -92,7 +92,7 @@ const actions = {
         message: 'Application submitted successfully'
       })
       this.$gtm.push({ event: `success_${tag}` })
-      this.$router.push('/apply/success')
+      // this.$router.push('/apply/success')
     } catch (e) {
       console.log('================= [Store Action: account/submitApplication]')
       console.log(e)

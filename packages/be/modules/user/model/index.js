@@ -53,6 +53,26 @@ const UserSchema = new Schema({
     required: false,
     default: null
   },
+  hubspotOptInApplicationCompanyName: {
+    type: String,
+    required: false,
+    default: null
+  },
+  hubspotOptInApplicationRegion: {
+    type: String,
+    required: false,
+    default: null
+  },
+  hubspotOptInApplicationDatacapRequested: {
+    type: String,
+    required: false,
+    default: null
+  },
+  hubspotOptInApplicationWalletAddress: {
+    type: String,
+    required: false,
+    default: null
+  },
   disabled: {
     type: Boolean,
     required: false
