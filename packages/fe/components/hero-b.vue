@@ -11,7 +11,7 @@
             <div v-if="label" class="label" v-html="label" />
 
             <!-- the module style applied here isn't working with scss, only the topmost defined style -->
-            <h1 :class="['heading h3', $style.hasTooltip]" v-html="heading" />
+            <h1 class="heading h3" v-html="heading" />
 
             <div v-if="subtext" class="subtext" v-html="subtext" />
 
@@ -91,42 +91,6 @@ export default {
 }
 </script>
 
-<style lang="scss" module>
-// .hasTooltip {
-//   background: salmon;
-//   .highlight {
-//     .tooltip {
-//       &[data-tooltip] {
-//         &:before {
-//           display: none;
-//           top: 50%;
-//           left: calc(100% + 4px);
-//           transform: translate(0.5rem, -50%) rotate(-90deg);
-//           border-bottom-width: 0.5rem;
-//           border-bottom-color: $dodgerBlue;
-//         }
-//         &:after {
-//           display: none;
-//           color: $titanWhite;
-//           white-space: break-spaces;
-//           padding: 2rem;
-//           top: 50%;
-//           left: calc(100% + 1rem);
-//           width: 26rem;
-//           font-size: 1rem;
-//           line-height: leading(27, 16);
-//           border-radius: 1rem;
-//           transform: translate(0.5rem, -50%);
-//           background-color: $dodgerBlue;
-//           z-index: 1;
-//         }
-//       }
-//     }
-//   }
-// }
-
-</style>
-
 <style lang="scss" scoped>
 // ///////////////////////////////////////////////////////////////////// General
 #hero {
@@ -178,7 +142,6 @@ export default {
       background-image: url(icons/question-mark.svg);
       height: toRem(25);
       width: toRem(25);
-      // these are the same styles that's in the <style module> above
       &[data-tooltip] {
         &:before {
           top: calc(-100% - 0.25rem);
