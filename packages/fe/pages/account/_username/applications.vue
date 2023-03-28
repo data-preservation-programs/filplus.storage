@@ -290,6 +290,12 @@ export default {
 :deep(.field-container) {
   display: flex;
   align-items: center;
+  &.focused {
+    .field-label {
+      color: $aquaSqueeze;
+      transform: scale(1);
+    }
+  }
   .label,
   .field-label {
     @include p2;
@@ -327,9 +333,6 @@ export default {
         }
       }
     }
-  }
-  :deep(.checker) {
-    border-radius: 50%;
   }
 }
 

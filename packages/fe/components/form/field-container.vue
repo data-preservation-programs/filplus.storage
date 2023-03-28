@@ -2,7 +2,7 @@
   <FieldStandalone
     v-slot="{ updateValue, field, type, validationMessage }"
     v-bind="$props"
-    :class="['field-container', { disabled }]"
+    :class="['field-container', { disabled, focused }]"
     v-on="$listeners">
 
     <label v-if="scaffold.label" :for="fieldKey" class="field-label">
@@ -20,6 +20,7 @@
       :data-tooltip="tooltip"
       :force-disabled="forceDisabled"
       @updateValue="updateValue"
+      @toggleFocused="toggleFocused"
       v-on="$listeners" />
 
     <slot />
@@ -106,6 +107,12 @@ export default {
     }
   },
 
+  data () {
+    return {
+      focused: false
+    }
+  },
+
   computed: {
     tooltip () {
       const tooltip = this.scaffold.tooltip
@@ -113,6 +120,12 @@ export default {
     },
     disabled () {
       return this.forceDisabled || this.scaffold.disabled
+    }
+  },
+
+  methods: {
+    toggleFocused (focused) {
+      this.focused = focused
     }
   }
 }
@@ -126,15 +139,18 @@ export default {
       cursor: default;
     }
   }
+  &.focused {
+    .field-label {
+      transition: 150ms ease-in;
+      color: rgba($aquaSqueeze, 0.7);
+      transform: scale(0.9);
+    }
+  }
 }
 
 ::v-deep .field {
   position: relative;
   font-weight: 500;
-  &.focused,
-  &:not(.empty) {
-    // background-color: teal;
-  }
   &:hover,
   &.focused {
     &[data-tooltip] {
@@ -175,24 +191,13 @@ export default {
 }
 
 // /////////////////////////////////////////////////////////////////////// Label
-.field-container {
-  &:focus-within {
-    .field-label {
-      color: rgba($aquaSqueeze, 0.7);
-    }
-  }
-  &:has(.dropdown-open) { // not fully supported across browsers
-    .field-label {
-      color: rgba($aquaSqueeze, 0.7);
-    }
-  }
-}
-
 .field-label {
-  display: block;
+  display: inline-block;
   font-size: toRem(20);
   font-weight: 500;
+  transform-origin: left;
   cursor: pointer;
+  transition: 150ms ease-out;
   a {
     color: darkorange;
     &:hover {

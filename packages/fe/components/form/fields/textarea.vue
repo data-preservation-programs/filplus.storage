@@ -10,8 +10,8 @@
         :value="value"
         :placeholder="placeholder"
         :class="['textarea', state]"
-        @focus="focused = true"
-        @blur="focused = false"
+        @focus="toggleFocused(true)"
+        @blur="toggleFocused(false)"
         @input="$emit('updateValue', $event.target.value)"></textarea>
       <div v-if="typeof chars === 'number'" class="char-validation">
         {{ chars }}
@@ -95,6 +95,13 @@ export default {
     value (value) {
       preValidate(this, value, this.pre)
     }
+  },
+
+  methods: {
+    toggleFocused (focused) {
+      this.focused = focused
+      this.$emit('toggleFocused', focused)
+    }
   }
 }
 </script>
@@ -108,9 +115,6 @@ export default {
     .textarea {
       border-color: $titanWhite;
     }
-  }
-  &:not(.empty) {
-
   }
 }
 
@@ -131,16 +135,6 @@ export default {
     font-weight: 400;
     font-style: italic;
     opacity: 1;
-  }
-  &:focus {
-    color: $aquaSqueeze;
-    font-size: toRem(20);
-    font-style: normal;
-    @include placeholder {
-      color: $aquaSqueeze;
-      font-size: toRem(20);
-      font-style: normal;
-    }
   }
   &.caution {
     border-color: $mandysPink;

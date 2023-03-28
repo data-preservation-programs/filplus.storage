@@ -10,11 +10,6 @@
         'no-results': noOptionsMatchSearch
       }]">
 
-    <label v-if="label" :for="fieldKey" class="label floating">
-      <span class="text">{{ label }}</span>
-      <sup v-if="required" class="required">*</sup>
-    </label>
-
     <div v-if="disabled" :class="['input', { disabled }]">
       {{ value }}
     </div>
@@ -32,7 +27,7 @@
         @keydown="$emit('handleKeydown', $event)"
         @focus="focusAndClickHandler"
         @click="focusAndClickHandler"
-        @blur="focused = false"
+        @blur="toggleFocused(false)"
         @input="$emit('updateValue', $event.target.value)"
         v-on="$listeners" />
       <div v-if="typeof chars === 'number'" class="char-validation">
@@ -210,9 +205,13 @@ export default {
   methods: {
     focusAndClickHandler () {
       if (!this.dropdownOpen) {
-        this.focused = true
+        this.toggleFocused(true)
         this.openDropdown()
       }
+    },
+    toggleFocused (focused) {
+      this.focused = focused
+      this.$emit('toggleFocused', focused)
     },
     dropdownToggled (state) {
       this.dropdownOpen = state
@@ -327,7 +326,7 @@ $height: 2.5rem;
 :deep(div.select-container) {
   display: none;
   position: absolute;
-  top: calc(100% - 6px);
+  top: 0;
   left: 0;
   width: 100%;
   z-index: 5;
