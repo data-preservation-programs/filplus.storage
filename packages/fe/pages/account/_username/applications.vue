@@ -220,7 +220,7 @@ export default {
 .page-applications {
   position: relative;margin-top: -$siteHeaderHeight;
   padding-top: $siteHeaderHeight * 2;
-  overflow: hidden;
+  overflow: clip;
   z-index: 25;
 }
 

@@ -11,6 +11,7 @@
 
         <AccordionSection
           v-for="(entry, index) in entries"
+          v-slot="{ id }"
           :key="index"
           :class="`application-${entry.state}`"
           :active="active">
@@ -48,7 +49,9 @@
           <AccordionContent>
             <div class="accordion-content-wrapper">
               <div class="application-body markdown-user-input" v-html="parseApplicationMarkdown(entry.body)" />
-              <ButtonX class="close-accordion-button">
+              <ButtonX
+                class="close-accordion-button"
+                @clicked="toggleAccordionClosed(id)">
                 <IconCloseAccordion />
               </ButtonX>
             </div>
@@ -163,9 +166,11 @@ export default {
     },
     expandAllAccordionSections () {
       this.$refs.accordion.$emit('expand-all')
+    },
+    toggleAccordionClosed (id) {
+      this.$refs.accordion.$emit('toggle', id)
     }
   }
-
 }
 </script>
 
@@ -242,10 +247,11 @@ export default {
 }
 
 .close-accordion-button {
-  display: none;
-  height: fit-content;
   position:sticky;
-  // top: 50%;
+  width: toRem(28);
+  height: toRem(28);
+  top: 7.5rem;
+  margin-bottom: 1.5rem;
 }
 
 .accordion-content {

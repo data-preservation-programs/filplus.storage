@@ -69,7 +69,7 @@ const convertSelectedIndexesToQueryString = (selected, options, isSingleOption) 
 
 // =================================================================== runChecks
 const runChecks = (filterKey, options, isSingleSelection, isSingleOption) => {
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     const prefix = `\n\n\tFilter: ${filterKey}\n\t`
     const suffix = '\n\n'
     if (isSingleSelection && isSingleOption) {
