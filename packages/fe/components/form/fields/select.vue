@@ -154,6 +154,10 @@ $height: 4rem;
     .select {
       border-bottom-color: transparent;
     }
+    .dropdown {
+      transform-origin: top center;
+      scale: 1 1;
+    }
   }
   .select {
     border-bottom: 2px solid $titanWhite;
@@ -165,6 +169,9 @@ $height: 4rem;
     }
   }
   .dropdown {
+    transform-origin: top center;
+    scale: 1 0;
+    transition: scale 150ms ease-out;
     max-height: $height * 5.5;
     background-color: $aztec;
     border: 2px solid $titanWhite;
