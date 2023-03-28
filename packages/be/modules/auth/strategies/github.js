@@ -38,7 +38,7 @@ const getUserProfileFromGithub = async (token) => {
       githubAvatarUrl: data.avatar_url,
       githubHtmlUrl: data.html_url,
       githubToken: token,
-      email: data.email
+      githubEmail: data.email
     }
   } catch (e) {
     console.log('======================== [Function: getUserProfileFromGithub]')
@@ -99,12 +99,12 @@ module.exports = async (req, tempToken) => {
     const token = await getAccessToken(req, tempToken)
     // Get user profile & emails from Github
     const githubProfile = await getUserProfileFromGithub(token)
-    if (typeof githubProfile.email === 'object') {
-      const email = await getEmails(token)
-      if (email) { githubProfile.email = email }
+    if (githubProfile.githubEmail === null || typeof githubProfile.githubEmail === 'object') {
+      const githubEmail = await getEmails(token)
+      if (githubEmail) { githubProfile.githubEmail = githubEmail }
     }
     // Find existing user
-    let user = await FindUser({ $or: [{ githubUsername: githubProfile.githubUsername }, { email: githubProfile.email }] })
+    let user = await FindUser({ $or: [{ githubUsername: githubProfile.githubUsername }, { githubEmail: githubProfile.githubEmail }] })
     // If no user exists in db, create new user, else update user (with githubToken)
     if (!user) {
       user = await createNewUser(githubProfile, token)

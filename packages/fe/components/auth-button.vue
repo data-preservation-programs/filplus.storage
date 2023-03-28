@@ -85,7 +85,7 @@ export default {
 
   computed: {
     ...mapGetters({
-      account: 'account/account'
+      account: 'auth/account'
     }),
     applicationHistoryButton () {
       return {

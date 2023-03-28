@@ -1,7 +1,7 @@
 <template>
-  <component :is="rootHtmlTag">
+  <component :is="rootHtmlTag" v-if="displayField">
 
-    <slot :display-field="displayField" />
+    <slot />
 
   </component>
 </template>

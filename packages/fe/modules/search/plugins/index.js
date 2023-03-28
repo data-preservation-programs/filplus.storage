@@ -120,21 +120,21 @@ const ExportSearchAndFiltersFromQuery = async (app, paramsToCompile) => {
     const key = filterKey || searchKey || queryKey
     const compileGroup = paramToCompile.group
     const defaultOverride = paramToCompile.default
-    const filterer = await app.$filter(filterKey).get()
+    const filter = await app.$filter(filterKey).get()
     const searcher = await app.$search(searchKey).get()
+    // First try to grab the value from the registered filter/search entity itself
     let value
-    if (filterer) {
-      value = await app.$filter(filterKey).convert('query', filterer.selected)
+    if (filter) {
+      value = await app.$filter(filterKey).convert('query', filter.selected, filter.options, filter.isSingleOption)
     } else if (searcher) {
       value = searcher.value
     }
+    // Otherwise, try to grab the value from the query and lastly pass through a
+    // default if one is set
     value = await app.$parseNumber(
-      process.server ? value || query[key] || defaultOverride : value || defaultOverride,
+      value || query[key] || defaultOverride,
       true
     )
-    if (queryKey) {
-      value = await app.$parseNumber(query[key], true)
-    }
     if (value !== undefined) { // don't compile filters that don't exist
       if (!compileGroup) { // compile as a string, (ex: page: '1')
         params[key] = value

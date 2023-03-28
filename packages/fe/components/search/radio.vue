@@ -2,7 +2,7 @@
   <Filterer
     v-slot="{ applyFilter, originalSelected }"
     filter-key="view"
-    :is-single-option="true"
+    :is-single-selection="true"
     :default-selection="1"
     :options="options"
     v-on="$listeners">
@@ -15,7 +15,7 @@
         options,
         defaultValue: originalSelected,
         updateGroupId: 'view',
-        isSingleOption: true
+        isSingleSelection: true
       }"
       @updateValue="initializeFilter($event, applyFilter)" />
   </Filterer>
