@@ -135,6 +135,7 @@ export default {
     font-size: toRem(24);
   }
   .highlight {
+    display: inline-block;
     color: $greenYellow;
     .tooltip {
       display: inline-block;
