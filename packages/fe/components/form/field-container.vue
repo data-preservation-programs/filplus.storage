@@ -2,7 +2,7 @@
   <FieldStandalone
     v-slot="{ updateValue, field, type, validationMessage }"
     v-bind="$props"
-    :class="['field-container', { disabled }]"
+    :class="['field-container', { disabled, focused }]"
     v-on="$listeners">
 
     <label v-if="scaffold.label" :for="fieldKey" class="field-label">
@@ -22,6 +22,7 @@
       :field-key="fieldKey"
       :force-disabled="forceDisabled"
       @updateValue="updateValue"
+      @toggleFocused="toggleFocused"
       v-on="$listeners" />
 
     <slot />
@@ -111,6 +112,12 @@ export default {
     }
   },
 
+  data () {
+    return {
+      focused: false
+    }
+  },
+
   computed: {
     tooltip () {
       const tooltip = this.scaffold.tooltip
@@ -118,6 +125,12 @@ export default {
     },
     disabled () {
       return this.forceDisabled || this.scaffold.disabled
+    }
+  },
+
+  methods: {
+    toggleFocused (focused) {
+      this.focused = focused
     }
   }
 }
@@ -154,6 +167,13 @@ export default {
   &.disabled {
     .field-label {
       cursor: default;
+    }
+  }
+  &.focused {
+    .field-label {
+      transition: 150ms ease-in;
+      color: rgba($aquaSqueeze, 0.7);
+      transform: scale(0.9);
     }
   }
 }
@@ -208,7 +228,9 @@ export default {
   justify-content: space-between;
   font-size: toRem(20);
   font-weight: 500;
+  transform-origin: left;
   cursor: pointer;
+  transition: 150ms ease-out;
   a {
     color: darkorange;
     &:hover {

@@ -17,8 +17,8 @@
         :max="max"
         :autocomplete="autocomplete"
         :class="['input', state]"
-        @focus="focusHandler"
-        @blur="focused = false"
+        @focus="toggleFocused(true)"
+        @blur="toggleFocused(false)"
         @input="$emit('updateValue', $event.target.value)" />
       <div v-if="typeof chars === 'number'" class="char-validation">
         {{ chars }}
@@ -164,9 +164,12 @@ export default {
   },
 
   methods: {
-    focusHandler () {
-      this.focused = true
-      this.openDropdown()
+    toggleFocused (focused) {
+      this.focused = focused
+      if (focused) {
+        this.openDropdown()
+      }
+      this.$emit('toggleFocused', focused)
     },
     openDropdown () {
       this.dropdownOpen = true
@@ -217,9 +220,15 @@ $height: 4rem;
     font-size: toRem(18);
     font-weight: 400;
     font-style: italic;
+    opacity: 1;
+    transition: 150ms ease-out;
   }
   &:focus {
-    border-width: 4px;
+    font-size: toRem(20);
+    @include placeholder {
+      transition: 150ms ease-in;
+      font-size: toRem(20);
+    }
   }
   &::-webkit-inner-spin-button,
   &::-webkit-outer-spin-button {

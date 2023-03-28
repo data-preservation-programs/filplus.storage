@@ -17,6 +17,8 @@
           :name="`checkbox__${id}`"
           type="checkbox"
           class="checkbox"
+          @focus="toggleFocused(true)"
+          @blur="toggleFocused(false)"
           @input="updateValue(index)" />
         <div class="checker">
           <IconCheckmark />
@@ -56,6 +58,12 @@ export default {
     }
   },
 
+  data () {
+    return {
+      focused: false
+    }
+  },
+
   computed: {
     scaffold () {
       return this.field.scaffold
@@ -84,6 +92,10 @@ export default {
   },
 
   methods: {
+    toggleFocused (focused) {
+      this.focused = focused
+      this.$emit('toggleFocused', focused)
+    },
     updateValue (index) {
       let value = index
       if (this.value === index) { value = -1 }

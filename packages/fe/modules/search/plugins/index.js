@@ -122,19 +122,19 @@ const ExportSearchAndFiltersFromQuery = async (app, paramsToCompile) => {
     const defaultOverride = paramToCompile.default
     const filter = await app.$filter(filterKey).get()
     const searcher = await app.$search(searchKey).get()
+    // First try to grab the value from the registered filter/search entity itself
     let value
     if (filter) {
       value = await app.$filter(filterKey).convert('query', filter.selected, filter.options, filter.isSingleOption)
     } else if (searcher) {
       value = searcher.value
     }
+    // Otherwise, try to grab the value from the query and lastly pass through a
+    // default if one is set
     value = await app.$parseNumber(
-      process.server ? value || query[key] || defaultOverride : value || defaultOverride,
+      value || query[key] || defaultOverride,
       true
     )
-    if (queryKey) {
-      value = await app.$parseNumber(query[key], true)
-    }
     if (value !== undefined) { // don't compile filters that don't exist
       if (!compileGroup) { // compile as a string, (ex: page: '1')
         params[key] = value

@@ -1,7 +1,5 @@
 console.log('💡 [endpoint] /submit-application')
 
-/*eslint-disable*/
-
 // ///////////////////////////////////////////////////////////////////// Imports
 // -----------------------------------------------------------------------------
 const Axios = require('axios')
@@ -76,11 +74,16 @@ MC.app.post('/submit-application', async (req, res) => {
       console.log(template)
     }
     const hubspotOptIn = application.hubspot_opt_in
-    const hubspotOptInEmail = application.hubspot_opt_in_email
-    const hubspotOptInFirstName = application.hubspot_opt_in_first_name
-    const hubspotOptInLastName = application.hubspot_opt_in_last_name
-    if (!user.hubspotOptIn && hubspotOptIn) {
-      await SubmitHubspotContact(res, user, hubspotOptInEmail, hubspotOptInFirstName, hubspotOptInLastName)
+    if ((!user.hubspotOptIn && hubspotOptIn) || user.hubspotOptInContactId) {
+      await SubmitHubspotContact(res, user, {
+        email: application.hubspot_opt_in_email,
+        firstname: application.hubspot_opt_in_first_name,
+        lastname: application.hubspot_opt_in_last_name,
+        company: application.organization_name,
+        ...(application.ga_region && { fil__application_region: application.ga_region }), // fil__application_region: application.ga_region || application.data_owner_region,
+        fil__application_datacap_requested: `${application.total_datacap_size} ${application.total_datacap_size_unit}`,
+        filecoin_wallet_address: application.filecoin_address
+      })
     }
     const githubIssue = await submitApplication(type, template, application, user.githubToken)
     SendData(res, 200, 'Application submitted succesfully', githubIssue)

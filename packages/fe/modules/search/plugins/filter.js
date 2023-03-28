@@ -69,7 +69,7 @@ const convertSelectedIndexesToQueryString = (selected, options, isSingleOption) 
 
 // =================================================================== runChecks
 const runChecks = (filterKey, options, isSingleSelection, isSingleOption) => {
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     const prefix = `\n\n\tFilter: ${filterKey}\n\t`
     const suffix = '\n\n'
     if (isSingleSelection && isSingleOption) {
@@ -213,16 +213,18 @@ const Filter = (app, store, filterKey) => {
 
     // ================================================================= refresh
     async refresh (route) {
+      const selected = await getFilterIndexesFromQuery(
+        route,
+        true,
+        filterKey,
+        filterer.options,
+        filterer.defaultSelection,
+        filterer.isSingleSelection,
+        filterer.isSingleOption
+      )
       await this.set({
-        selected: await getFilterIndexesFromQuery(
-          route,
-          true,
-          filterKey,
-          filterer.options,
-          filterer.defaultSelection,
-          filterer.isSingleSelection,
-          filterer.isSingleOption
-        )
+        queued: await this.convert(filterer.action, selected, undefined, filterer.isSingleOption),
+        selected
       })
     },
 

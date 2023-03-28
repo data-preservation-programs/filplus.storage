@@ -1,51 +1,49 @@
 <template>
   <Filterer
-    v-slot="{ filterLoaded, applyFilter }"
+    v-slot="{ applyFilter }"
     filter-key="page"
     :is-single-selection="true"
     :default-selection="getIndex(page)"
     :options="pages"
     v-on="$listeners">
-    <div v-if="filterLoaded" class="paginator">
 
-      <slot name="before" />
+    <slot name="before" />
 
-      <template v-if="page !== 1">
-        <slot
-          name="first"
-          :increment-page="applyFilter"
-          :get-index="getIndex" />
-        <slot
-          name="prev"
-          :increment-page="applyFilter"
-          :get-index="getIndex" />
-        <slot name="breaker-left" />
-      </template>
+    <template v-if="page !== 1">
+      <slot
+        name="first"
+        :increment-page="applyFilter"
+        :get-index="getIndex" />
+      <slot
+        name="prev"
+        :increment-page="applyFilter"
+        :get-index="getIndex" />
+      <slot name="breaker-left" />
+    </template>
 
-      <template v-for="pageButton in pages">
-        <slot
-          v-if="pageButton.display"
-          name="button"
-          :button="pageButton"
-          :increment-page="applyFilter"
-          :get-index="getIndex" />
-      </template>
+    <template v-for="pageButton in pages">
+      <slot
+        v-if="pageButton.display"
+        name="button"
+        :button="pageButton"
+        :increment-page="applyFilter"
+        :get-index="getIndex" />
+    </template>
 
-      <template v-if="page !== totalPages">
-        <slot name="breaker-right" />
-        <slot
-          name="next"
-          :increment-page="applyFilter"
-          :get-index="getIndex" />
-        <slot
-          name="last"
-          :increment-page="applyFilter"
-          :get-index="getIndex" />
-      </template>
+    <template v-if="page !== totalPages">
+      <slot name="breaker-right" />
+      <slot
+        name="next"
+        :increment-page="applyFilter"
+        :get-index="getIndex" />
+      <slot
+        name="last"
+        :increment-page="applyFilter"
+        :get-index="getIndex" />
+    </template>
 
-      <slot name="after" />
+    <slot name="after" />
 
-    </div>
   </Filterer>
 </template>
 
@@ -96,6 +94,14 @@ export default {
         })
       }
       return compiled
+    }
+  },
+
+  watch: {
+    pages (options) {
+      this.$filter('page').set({
+        options
+      })
     }
   },
 
