@@ -144,24 +144,29 @@ export default {
       width: toRem(25);
       &[data-tooltip] {
         &:before {
-          top: calc(-100% - 0.25rem);
-          transform: translate(-50%, 0.5rem) rotate(180deg);
+          top: 50%;
+          left: calc(100% + 5px);
+          transform: translate(0.5rem, -50%) rotate(-90deg);
           border-bottom-width: 0.5rem;
           border-bottom-color: $dodgerBlue;
         }
         &:after {
-          color: $titanWhite;
-          top: calc(-100% - 0.25rem);
-          transform: translate(-50%, - 1rem);
-          background-color: $dodgerBlue;
+          top: 50%;
+          left: calc(100% + 1rem);
+          transform: translate(0.5rem, -50%);
           z-index: 1;
+          color: $titanWhite;
+          background-color: $dodgerBlue;
+          white-space: break-spaces;
+          padding: 1rem;
+          width: 9rem;
         }
         &:hover {
           &:before {
-          transform: translate(-50%, 1rem) rotate(180deg);
+            transform: translate(0, -50%) rotate(-90deg);
           }
           &:after {
-            transform: translate(-50%, -0.5rem);
+            transform: translate(0, -50%);
           }
         }
       }
