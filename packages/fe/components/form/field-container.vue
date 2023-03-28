@@ -6,7 +6,9 @@
     v-on="$listeners">
 
     <label v-if="scaffold.label" :for="fieldKey" class="field-label">
-      {{ scaffold.label }}
+      <span class="text">
+        {{ scaffold.label }}
+      </span>
       <div v-if="tooltip" class="tooltip" :data-tooltip="tooltip">
         <IconQuestionMark />
       </div>
@@ -171,9 +173,11 @@ export default {
   }
   &.focused {
     .field-label {
-      transition: 150ms ease-in;
-      color: rgba($aquaSqueeze, 0.7);
-      transform: scale(0.9);
+      .text {
+        transition: 150ms ease-in;
+        color: rgba($aquaSqueeze, 0.7);
+        transform: scale(0.9);
+      }
     }
   }
 }
@@ -228,14 +232,10 @@ export default {
   justify-content: space-between;
   font-size: toRem(20);
   font-weight: 500;
-  transform-origin: left;
   cursor: pointer;
-  transition: 150ms ease-out;
-  a {
-    color: darkorange;
-    &:hover {
-      text-decoration: underline;
-    }
+  .text {
+    transform-origin: left;
+    transition: 150ms ease-out;
   }
 }
 
