@@ -256,6 +256,9 @@ $cardRadius: 1.875rem;
   @include mini {
     padding-bottom: toRem(106);
   }
+  .heading {
+    @include h1;
+  }
   .bubble {
     margin-top: 1.5rem;
     white-space: nowrap;

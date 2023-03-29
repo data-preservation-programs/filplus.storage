@@ -161,6 +161,7 @@ export default {
   display: flex;
   align-items: center;
   line-height: 1.1;
+  @include h2;
   &.direction__vertical {
     flex-direction: column;
     text-align: center;
