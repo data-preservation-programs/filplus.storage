@@ -33,11 +33,6 @@
         "href": "https://docs.filecoin.io/basics/how-storage-works/filecoin-plus/",
         "label": "Documentation",
         "target": "_blank"
-      },
-      {
-        "type": "nuxt-link",
-        "href": "/wysiwyg-test",
-        "label": "WYSIWYG Test"
       }
     ],
     "cta": {
