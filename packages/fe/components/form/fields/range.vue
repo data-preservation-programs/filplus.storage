@@ -166,7 +166,7 @@ $borderWidth: 2px;
     width: calc(100% - #{$trackHeight} + #{math.div($thumbWidth, 1)});
     height: $borderWidth;
     background-color: $titanWhite;
-    transition: 150ms ease-out;
+    transition: all 150ms ease;
   }
   &:hover {
     .thumb {
@@ -178,8 +178,10 @@ $borderWidth: 2px;
   }
   &:active {
     .thumb {
+      background-color: $mandysPink;
       &::before,
       &::after {
+        background-color: $mandysPink;
         height: 1rem;
       }
     }
@@ -198,6 +200,7 @@ $borderWidth: 2px;
   width: $thumbWidth;
   height: $trackHeight;
   background-color: $titanWhite;
+  transition: all 150ms linear;
   &:before,
   &:after {
     content: '';
