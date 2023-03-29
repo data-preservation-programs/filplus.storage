@@ -11,7 +11,7 @@
   },
   "page_content": {
     "heading": "Congratulations, you've sucessfully applied for <span>|data|</span> of DataCap",
-    "application_subtitle": "<span class=highlight>Issue #<span>|issue_number|</span></span> opened <span>|time_ago|</span> by <span>|user|</span>",
+    "application_subtitle": "<span class=highlight>Issue #<span>|issue_number|</span></span> opened <span>|time_ago|</span>",
     "github_issue_button_text": "View Issue on Github",
     "new_application_button_text": "New Application",
     "expand_application_text": "Read issue description or&nbsp;",
