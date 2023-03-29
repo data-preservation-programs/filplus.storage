@@ -309,6 +309,13 @@ export default {
   }
 }
 
+.filter-checkbox,
+.filter-radio {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
 .filter-checkbox {
   :deep(.label) {
     font-weight: 500;

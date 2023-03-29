@@ -12,7 +12,7 @@ const repos = {
 
 // ////////////////////////////////////////////////////////////////////// Export
 // -----------------------------------------------------------------------------
-module.exports = async (view, user, page = 1, state = 'all', limit = 10) => {
+module.exports = async (view, user, page = 1, state = 'all', limit = 10, sort = 'created') => {
   try {
     const repo = MC.serverFlag === 'production' ? repos[view][0] : repos[view][1]
     const options = {
@@ -21,7 +21,9 @@ module.exports = async (view, user, page = 1, state = 'all', limit = 10) => {
         creator: user.githubUsername,
         ...(state && { state }),
         ...(page && { page }),
-        ...(limit && { per_page: limit })
+        ...(limit && { per_page: limit }),
+        sort,
+        direction: sort.created === 1 ? 'asc' : 'desc'
       }
     }
     const response = await Axios.get(`https://api.github.com/repos/${repo}/issues`, options)

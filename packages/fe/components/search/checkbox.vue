@@ -3,7 +3,7 @@
     v-slot="{ applyFilter, originalSelected }"
     filter-key="state"
     :is-single-selection="true"
-    :default-selection="0"
+    :default-selection="-1"
     :options="options"
     v-on="$listeners">
     <FieldContainer
