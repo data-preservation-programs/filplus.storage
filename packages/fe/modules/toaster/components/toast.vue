@@ -1,5 +1,5 @@
 <template>
-  <div :class="['toast', category, unpopping ? 'unpopping' : '']">
+  <div :class="['toast', category, { unpopping } ]">
 
     <div class="panel-top">
 

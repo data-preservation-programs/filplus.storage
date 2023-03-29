@@ -101,6 +101,7 @@ button {
 }
 
 @mixin linkUnderline {
+  cursor: pointer;
   color: $greenYellow;
   text-decoration: none;
   box-sizing: border-box;
@@ -114,15 +115,22 @@ button {
   animation: link-effect-in 250ms both linear;
   &:hover {
     animation: link-effect-out 250ms both linear;
-    cursor: pointer;
   }
 }
 
- @keyframes link-effect-out {
- from { background-size: 0 1px; }
- to { background-size: 100% 1px; }
+@keyframes link-effect-out {
+  from {
+  background-size: 0 1px;
+  }
+  to {
+    background-size: 100% 1px;
+  }
 }
- @keyframes link-effect-in {
- from { background-size: 100% 1px; }
- to { background-size: 0 1px; }
+@keyframes link-effect-in {
+  from {
+  background-size: 100% 1px;
+  }
+  to {
+    background-size: 0 1px;
+  }
 }
