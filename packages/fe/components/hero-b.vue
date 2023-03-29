@@ -95,9 +95,10 @@ export default {
 // ///////////////////////////////////////////////////////////////////// General
 #hero {
   position: relative;
+  min-height: calc(40.625rem + #{$siteHeaderHeight});
   margin-top: -$siteHeaderHeight;
-  padding-top: $siteHeaderHeight * 2;
-  // border-bottom: 2px solid $nandor;
+  padding-top: $siteHeaderHeight * 1.5;
+  padding-bottom: $siteHeaderHeight / 2;
   overflow: hidden;
   z-index: 25;
 }
@@ -113,7 +114,6 @@ export default {
   justify-content: center;
   align-items: flex-start;
   padding-top: 9.375rem;
-  padding-bottom: 14rem;
 }
 
 .label {

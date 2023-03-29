@@ -110,7 +110,7 @@ export default {
 // ///////////////////////////////////////////////////////////////////// General
 #hero {
   position: relative;
-  height: calc(61.625rem + #{$siteHeaderHeight});
+  height: calc(40.625rem + #{$siteHeaderHeight});
   margin-top: -$siteHeaderHeight;
   padding-top: $siteHeaderHeight * 2;
   z-index: 25;
@@ -129,7 +129,6 @@ export default {
   flex-direction: column;
   justify-content: center;
   height: 100%;
-  padding-bottom: $siteHeaderHeight;
   @include large {
     padding-top: 5rem;
   }
