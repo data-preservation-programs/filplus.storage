@@ -6,8 +6,8 @@
       ref="selectNative"
       :aria-labelledby="ariaLabelledby"
       class="select native"
-      @focus="focused = true"
-      @blur="focused = false"
+      @focus="toggleFocused(true)"
+      @blur="toggleFocused(false)"
       @change="selectOption($event.target.value)">
       <option disabled="disabled" :selected="selectedOption === -1" value="-1">
         <slot name="option-native-default-text" />
@@ -23,7 +23,7 @@
 
     <!-- =================================================== [Select] Custom -->
     <div
-      v-click-outside="closeDropdown"
+      v-click-outside="clickOutside"
       :aria-hidden="dropdownOpen ? 'false' : 'true'"
       class="select custom"
       @click="toggleDropdown">
@@ -45,6 +45,7 @@
           <slot
             name="option-custom"
             :option="option"
+            :index="index"
             :highlighted="isCurrentlyHighlighted(index)"
             :selected="isCurrentlySelected(index)" />
         </div>
@@ -73,6 +74,15 @@ export default {
       type: [Number, String],
       required: false,
       default: -1
+    },
+    /**
+     * Define whether or not to handle v-click-outside in this component. Example:
+     * the typeahead field handles this instead.
+     */
+    handleClickOutside: {
+      type: Boolean,
+      required: false,
+      default: true
     }
   },
 
@@ -90,6 +100,9 @@ export default {
   watch: {
     dropdownOpen (state) {
       this.$emit('dropdownToggled', state)
+    },
+    currentOptionHighlighted (index) {
+      this.$emit('optionHighlighted', index)
     }
   },
 
@@ -103,13 +116,25 @@ export default {
   },
 
   methods: {
+    toggleFocused (focused) {
+      this.focused = focused
+      this.$emit('toggleFocused', focused)
+    },
     toggleDropdown () {
       this.dropdownOpen = !this.dropdownOpen
+    },
+    openDropdown () {
+      this.dropdownOpen = true
     },
     closeDropdown () {
       this.dropdownOpen = false
       if (this.selectedOption === -1) {
         this.currentOptionHighlighted = -1
+      }
+    },
+    clickOutside () {
+      if (this.handleClickOutside) {
+        this.closeDropdown()
       }
     },
     toggleOptionHighlighted (action, index) {
@@ -134,10 +159,9 @@ export default {
         const keyCode = e.keyCode
         const code = e.keyCode
         const key = e.key
-        // TODO: key and code should not both be strings, this is a bug!
-        const down = keyCode === 40 || key === 'ArrowDown' || code === 'ArrowDown'
-        const up = keyCode === 38 || key === 'ArrowUp' || code === 'ArrowUp'
-        const submit = keyCode === 32 || key === ' ' || code === 'Space' || keyCode === 13 || key === 'Enter' || code === 'Enter'
+        const down = keyCode === 40 || code === 40 || key === 'ArrowDown'
+        const up = keyCode === 38 || code === 38 || key === 'ArrowUp'
+        const submit = keyCode === 13 || code === 13 || key === 'Enter'
         if (down || up || submit) {
           e.preventDefault()
         }
@@ -195,8 +219,12 @@ export default {
 @media (hover: hover) {
   .select {
     &.native {
-      &:focus + .custom {
-        display: none;
+      opacity: 0;
+      &:focus {
+        opacity: 1;
+        + .custom {
+          display: none;
+        }
       }
     }
     &.custom {

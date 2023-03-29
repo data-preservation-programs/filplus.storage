@@ -1,25 +1,31 @@
 <template>
-  <div :class="['field field-checkbox', state]">
+  <div :class="['field field-checkbox', state, { disabled }]">
 
     <div
       v-for="(option, index) in options"
       :key="index"
-      class="checkbox-wrapper">
+      :class="['checkbox-wrapper', { disabled }]">
 
       <div class="checkbox-container">
+        <div v-if="disabled" :class="['checkbox', { disabled }]">
+          {{ value }}
+        </div>
         <input
-          :id="`checkbox-${id}-${index}`"
+          v-else
+          :id="`checkbox__${id}__${index}`"
           :checked="value === index"
-          :name="`checkbox-${id}`"
+          :name="`checkbox__${id}`"
           type="checkbox"
           class="checkbox"
+          @focus="toggleFocused(true)"
+          @blur="toggleFocused(false)"
           @input="updateValue(index)" />
         <div class="checker">
           <IconCheckmark />
         </div>
       </div>
 
-      <label :for="`checkbox-${id}-${index}`" class="label">
+      <label :for="`checkbox__${id}__${index}`" class="label">
         {{ option.label }}
       </label>
 
@@ -44,6 +50,17 @@ export default {
     field: {
       type: Object,
       required: true
+    },
+    forceDisabled: {
+      type: Boolean,
+      required: false,
+      default: false
+    }
+  },
+
+  data () {
+    return {
+      focused: false
     }
   },
 
@@ -68,10 +85,17 @@ export default {
     },
     required () {
       return this.scaffold.required
+    },
+    disabled () {
+      return this.forceDisabled || this.scaffold.disabled
     }
   },
 
   methods: {
+    toggleFocused (focused) {
+      this.focused = focused
+      this.$emit('toggleFocused', focused)
+    },
     updateValue (index) {
       let value = index
       if (this.value === index) { value = -1 }
@@ -105,6 +129,20 @@ $dimension: 1.625rem;
   display: flex;
   flex-direction: row;
   align-items: center;
+  &:not(.disabled) {
+    .checkbox-wrapper,
+    .checkbox,
+    .label {
+      cursor: pointer;
+    }
+  }
+  &.disabled {
+    .checkbox-wrapper,
+    .checkbox,
+    .label {
+      cursor: no-drop;
+    }
+  }
   &.error {
     .checkbox + .checker {
       border-color: $flamingo;
@@ -116,8 +154,7 @@ $dimension: 1.625rem;
   display: flex;
   flex-direction: row;
   align-items: center;
-  cursor: pointer;
-  &:hover {
+  &:hover:not(.disabled) {
     .checker {
       transition: 150ms ease-in;
       transform: scale(1.1);
@@ -138,9 +175,8 @@ $dimension: 1.625rem;
   width: $dimension;
   height: $dimension;
   opacity: 0;
-  cursor: pointer;
   z-index: 10;
-  &:checked {
+  &:checked, &.disabled {
     + .checker {
       animation: shrink-bounce 150ms cubic-bezier(0.4, 0, 0.23, 1);
       border-color: $nandor;
@@ -183,7 +219,6 @@ $dimension: 1.625rem;
 
 .label {
   font-weight: 400;
-  cursor: pointer;
   padding-left: 1rem;
 }
 </style>

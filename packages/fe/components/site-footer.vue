@@ -55,7 +55,7 @@
                   :key="`footer-card-${variant}`"
                   :variant="variant"
                   corner-position="top-right"
-                  icon="chevron"
+                  icon="chevron-long"
                   :class="['footer-cta-card', `${variant}-variant`]">
                   <template v-if="videoCta">
 

@@ -23,7 +23,7 @@
       <div
         :class="['icon', icon]">
         <Arrow v-if="icon === 'arrow'" />
-        <Chevron v-if="icon === 'chevron'" />
+        <ChevronLong v-if="icon === 'chevron-long'" />
       </div>
     </ButtonX>
 
@@ -39,7 +39,7 @@
 import ButtonX from '@/components/buttons/button-x'
 
 import Arrow from '@/components/icons/arrow'
-import Chevron from '@/components/icons/chevron'
+import ChevronLong from '@/components/icons/chevron-long'
 
 // ====================================================================== Export
 export default {
@@ -48,7 +48,7 @@ export default {
   components: {
     ButtonX,
     Arrow,
-    Chevron
+    ChevronLong
   },
 
   props: {
@@ -73,7 +73,7 @@ export default {
       required: false,
       default: '',
       validator (val) {
-        return ['arrow', 'chevron'].includes(val)
+        return ['arrow', 'chevron-long'].includes(val)
       }
     },
     iconText: {

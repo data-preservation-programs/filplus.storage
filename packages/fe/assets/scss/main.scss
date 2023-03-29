@@ -359,7 +359,7 @@ span.error {
   &:hover {
     &:before,
     &:after {
-      transition: 250ms ease-in;
+      transition: 150ms ease-in;
       transform: translate(-50%, 0);
       opacity: 1;
     }
@@ -371,7 +371,7 @@ span.error {
     transform: translate(-50%, 0.5rem);
     pointer-events: none;
     opacity: 0;
-    transition: 250ms ease-out;
+    transition: 150ms ease-out;
   }
   &:before {
     content: '';
@@ -514,7 +514,7 @@ span.error {
   100% { transform: scale(1); }
 }
 
-.markdown {
+.markdown, .markdown-user-input {
   h1, h2, h3, p, ul, ol, pre {
     + h2, + h3 {
       margin-top: 3.75rem;
@@ -605,7 +605,9 @@ span.error {
     &::selection { background: $titanWhite; color: $aztec; }
   }
   ul, ol {
-    margin-bottom: 2rem;
+    &:not(:last-child) {
+      margin-bottom: 2rem;
+    }
     li {
       margin-bottom: 1rem;
     }
@@ -676,6 +678,59 @@ span.error {
       position: relative;
       padding-left: 2.25rem;
       margin-left: -2.25rem;
+    }
+  }
+}
+
+// ///////////////////////////////////////////////////////// User Input Markdown
+.markdown-user-input {
+  h1, h2, h3, p, ul, ol, pre {
+    + h2, + h3 {
+      margin-top: unset;
+    }
+  }
+  h1, h2, h3, h4, h5, h6 {
+    margin-bottom: toRem(5);
+    + ul, + ol {
+      margin-top: toRem(12);
+    }
+  }
+  h1,
+  h2 {
+    font-size: toRem(16);
+    line-height: leading(25, 16);
+    font-weight: 500;
+  }
+  h1 {
+    letter-spacing: 1px;
+  }
+  h3 {
+    font-size: toRem(16);
+    line-height: leading(25, 16);
+    font-weight: 500;
+  }
+  p {
+    font-size: toRem(16);
+    line-height: leading(25, 16);
+    font-weight: 400;
+    &:not(:last-child) {
+      margin-bottom: toRem(30);
+    }
+  }
+  a {
+    font-size: toRem(18);
+    line-height: leading(30, 18);
+    color: $mandysPink;
+    padding-bottom: .25rem;
+    &:hover {
+      border-bottom: 2px solid $nandor;
+      transition: none;
+    }
+  }
+  ul {
+    li {
+      font-size: toRem(18);
+      line-height: leading(30, 18);
     }
   }
 }

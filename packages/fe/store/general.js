@@ -5,53 +5,13 @@ import CloneDeep from 'lodash/cloneDeep'
 import GeneralSiteData from '@/content/pages/general.json'
 
 // /////////////////////////////////////////////////////////////////////// State
-// -----------------------------------------------------------------------------
+// ---------------------- https://vuex.vuejs.org/guide/modules.html#module-reuse
 const state = () => ({
   siteContent: {},
   staticFiles: {},
   clipboard: false,
-  application: {
-    organization_name: '',
-    data_owner_region: '',
-    data_owner_industry: '',
-    organization_website: '',
-    organization_social_media_handle: '',
-    organization_social_media_handle_type: '',
-    total_datacap_size: 0,
-    total_datacap_size_unit: '',
-    weekly_data_size: 0,
-    weekly_data_size_unit: '',
-    filecoin_address: '',
-    custom_multisig: '',
-    identifier: '',
-    about: '',
-    source_of_data_select: '',
-    ecosystem_associates_textarea: '',
-    nature_of_data: '',
-    source_of_data_radio: '',
-    source_of_data_textarea: '',
-    data_preparation_plan_select: '',
-    data_preparation_plan_textarea: '',
-    data_sample: '',
-    frequency_of_retrieval: '',
-    duration_of_storage: '',
-    geographic_distribution: '',
-    sending_data: '',
-    storage_provider_selection_plan_select: '',
-    storage_provider_selection_plan_input: '',
-    storage_provider_selection_plan_textarea: '',
-    replication_plan_select: '',
-    replication_plan_textarea: '',
-    notary: '',
-    ga_region: '',
-    public_availability_radio: '',
-    public_availability_textarea: '',
-    confirm_follow_fil_guideline: '',
-    github_handle: ''
-  },
   networkStorageCapacity: false,
-  applyFormHighlighted: false,
-  githubIssueLink: false
+  applyFormHighlighted: false
 })
 
 // ///////////////////////////////////////////////////////////////////// Getters
@@ -60,10 +20,8 @@ const getters = {
   siteContent: state => state.siteContent,
   staticFiles: state => state.staticFiles,
   clipboard: state => state.clipboard,
-  application: state => state.application,
   networkStorageCapacity: state => state.networkStorageCapacity,
-  applyFormHighlighted: state => state.applyFormHighlighted,
-  githubIssueLink: state => state.githubIssueLink
+  applyFormHighlighted: state => state.applyFormHighlighted
 }
 
 // ///////////////////////////////////////////////////////////////////// Actions
@@ -140,59 +98,9 @@ const actions = {
       console.log(e)
     }
   },
-  // ////////////////////////////////////////////////// submitGeneralApplication
-  async submitGeneralApplication ({ commit, dispatch }, application) {
-    try {
-      const response = await this.$axiosAuth.post('/submit-general-application', application)
-      dispatch('setGithubIssueLink', response.data.payload)
-      this.dispatch('button/removeLoader', 'ga-submit-button')
-      this.$toaster.add({
-        type: 'toast',
-        category: 'success',
-        message: 'General Application submitted successfully'
-      })
-    } catch (e) {
-      console.log('========== [Store Action: general/submitGeneralApplication]')
-      console.log(e)
-      this.dispatch('button/removeLoader', 'ga-submit-button')
-      this.$toaster.add({
-        type: 'toast',
-        category: 'error',
-        message: 'Something went wrong. Please refresh the page and try again.'
-      })
-      return false
-    }
-  },
-  // //////////////////////////////////////////////////// submitLargeApplication
-  async submitLargeApplication ({ commit, dispatch }, application) {
-    try {
-      const response = await this.$axiosAuth.post('/submit-large-application', application)
-      dispatch('setGithubIssueLink', response.data.payload)
-      this.dispatch('button/removeLoader', 'lda-submit-button')
-      this.$toaster.add({
-        type: 'toast',
-        category: 'success',
-        message: 'Large Dataset Application submitted successfully'
-      })
-    } catch (e) {
-      console.log('============ [Store Action: general/submitLargeApplication]')
-      console.log(e)
-      this.dispatch('button/removeLoader', 'lda-submit-button')
-      this.$toaster.add({
-        type: 'toast',
-        category: 'error',
-        message: 'Something went wrong. Please refresh the page and try again.'
-      })
-      return false
-    }
-  },
   // ///////////////////////////////////////////// setApplyFormHighlightedStatus
   setApplyFormHighlightedStatus ({ commit }, status) {
     commit('SET_APPLY_FORM_HIGHLIGHTED_STATUS', status)
-  },
-  // //////////////////////////////////////////////////////// setGithubIssueLink
-  setGithubIssueLink ({ commit }, link) {
-    commit('SET_GITHUB_ISSUE_LINK', link)
   }
 }
 
@@ -211,14 +119,8 @@ const mutations = {
   SET_NETWORK_STORAGE_CAPACITY (state, capacity) {
     state.networkStorageCapacity = capacity
   },
-  SET_APPLICATION (state, application) {
-    state.application = application
-  },
   SET_APPLY_FORM_HIGHLIGHTED_STATUS (state, status) {
     state.applyFormHighlighted = status
-  },
-  SET_GITHUB_ISSUE_LINK (state, link) {
-    state.githubIssueLink = link
   }
 }
 

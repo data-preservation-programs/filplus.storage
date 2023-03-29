@@ -90,7 +90,7 @@ export default {
     }
   },
 
-  async fetch ({ store }) {
+  async fetch ({ app, store }) {
     await store.dispatch('general/getBaseData', { key: 'faq', data: FaqPageData })
   },
 

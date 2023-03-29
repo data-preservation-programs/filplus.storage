@@ -1,9 +1,11 @@
-console.log('💿 [model] sl3_users')
+console.log('💿 [model] fp_users')
 
 // ///////////////////////////////////////////////////////////////////// Imports
 // -----------------------------------------------------------------------------
 const Mongoose = require('mongoose')
 const Schema = Mongoose.Schema
+const MongooseLeanGetter = require('mongoose-lean-getters')
+const { Encrypt, Decrypt } = require('@Logic/cipher')
 
 // ////////////////////////////////////////////////////////////////////// Schema
 // -----------------------------------------------------------------------------
@@ -21,102 +23,92 @@ const UserSchema = new Schema({
     type: String,
     required: false
   },
+  githubEmail: {
+    type: String,
+    required: false,
+    default: null
+  },
   email: {
     type: String,
-    required: allowEmptyStringsOnly,
-    default: ''
+    required: false,
+    default: null
   },
-  registered: {
+  hubspotOptIn: {
     type: Boolean,
-    required: true,
+    required: false,
     default: false
   },
-  firstName: {
-    type: String,
-    required: allowEmptyStringIfNotRegistered,
-    default: ''
-  },
-  lastName: {
-    type: String,
-    required: allowEmptyStringIfNotRegistered,
-    default: ''
-  },
-  twitterHandle: {
+  hubspotOptInContactId: {
     type: String,
     required: false,
-    default: ''
+    default: null
   },
-  slackHandle: {
+  hubspotOptInFirstName: {
     type: String,
-    required: allowEmptyStringIfNotRegistered,
-    default: ''
-  },
-  country: {
-    type: String,
-    required: allowEmptyStringIfNotRegistered,
-    default: ''
-  },
-  checkboxReadTheRules: {
-    type: Boolean,
-    required: true,
-    default: false
-  },
-  checkboxReadCodeOfConduct: {
-    type: Boolean,
-    required: true,
-    default: false
-  },
-  additionalIdentifiers: {
-    type: [{
-      type: Schema.Types.Mixed,
-      required: true
-    }],
     required: false,
-    default: []
+    default: null
   },
-  isAdmin: {
-    type: Boolean,
-    required: false
-  },
-  contactSlackHandle: {
+  hubspotOptInLastName: {
     type: String,
-    required: false
+    required: false,
+    default: null
   },
-  contactEmail: {
+  hubspotOptInEmail: {
     type: String,
-    required: false
+    required: false,
+    default: null
   },
-  contactCheckboxAgreeToMakePublic: {
-    type: Boolean,
-    required: true,
-    default: false
+  hubspotOptInApplicationCompanyName: {
+    type: String,
+    required: false,
+    default: null
+  },
+  hubspotOptInApplicationRegion: {
+    type: String,
+    required: false,
+    default: null
+  },
+  hubspotOptInApplicationDatacapRequested: {
+    type: String,
+    required: false,
+    default: null
+  },
+  hubspotOptInApplicationWalletAddress: {
+    type: String,
+    required: false,
+    default: null
   },
   disabled: {
     type: Boolean,
     required: false
+  },
+  githubToken: {
+    type: String,
+    set: Encrypt,
+    get: Decrypt,
+    required: true
   }
 }, {
   timestamps: true,
-  minimize: false
+  minimize: false,
+  toObject: { getters: true, setters: true },
+  toJSON: { getters: true, setters: true },
+  runSettersOnQuery: true
 })
+
+// ///////////////////////////////////////////////////////////////////// Plugins
+// -----------------------------------------------------------------------------
+UserSchema.plugin(MongooseLeanGetter)
 
 // ////////////////////////////////////////////////////////////// Before Actions
 // -----------------------------------------------------------------------------
 UserSchema.pre('validate', function (next) {
-  if (typeof this.email === 'object') { this.email = '' }
+  if (this.githubEmail === '') { this.githubEmail = null }
+  if (this.email === '') { this.email = null }
+  if (this.hubspotOptInEmail === '') { this.hubspotOptInEmail = null }
   next()
 })
 
-// /////////////////////////////////////////////////////////////////// Functions
-// -----------------------------------------------------------------------------
-function allowEmptyStringsOnly () {
-  return typeof this.email !== 'string'
-}
-
-function allowEmptyStringIfNotRegistered () {
-  return this.registered
-}
-
 // ////////////////////////////////////////////////////////////////////// Export
 // -----------------------------------------------------------------------------
-module.exports = Mongoose.model('sl3_users', UserSchema)
+module.exports = Mongoose.model('fp_users', UserSchema)

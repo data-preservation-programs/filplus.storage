@@ -27,7 +27,7 @@ export default {
   publicRuntimeConfig: {
     frontendUrl: env === 'development' ? `${baseUrls[env]}:${frontendPort}` : baseUrls[env],
     backendUrl: env === 'development' ? `${baseUrls[env]}:${backendPort}` : `${baseUrls[env]}/api`,
-    githubOAuthLink: `https://github.com/login/oauth/authorize?client_id=${process.env.GITHUB_OAUTH_CLIENT_ID}&scope=user:email`,
+    githubOAuthLink: `https://github.com/login/oauth/authorize?client_id=${process.env.GITHUB_OAUTH_CLIENT_ID}&scope=user:email,public_repo`,
     serverFlag: env,
     seo: {
       siteName: 'Fil+'
@@ -89,15 +89,16 @@ export default {
   // /////////////////////////////////////////////////////////// Nuxt.js Modules
   // ---------------------------------------------------------------------------
   modules: [
-    '@nuxtjs/style-resources', // Doc: https://github.com/nuxt-community/style-resources-module/
-    '@nuxtjs/axios', // Doc: https://axios.nuxtjs.org/usage
-    'nuxt-socket-io', // Doc: https://nuxt-socket-io.netlify.app/
+    '@nuxtjs/style-resources', // https://github.com/nuxt-community/style-resources-module/
+    '@nuxtjs/axios', // https://axios.nuxtjs.org/
+    'nuxt-socket-io', // https://nuxt-socket-io.netlify.app/
+    '@nuxtjs/gtm', // https://github.com/nuxt-community/gtm-module#nuxtjsgtm
     '~/modules/https',
     '~/modules/toaster',
     // '~/modules/slider',
     // '~/modules/alert',
     '~/modules/auth',
-    // '~/modules/search',
+    '~/modules/search',
     '~/modules/form',
     '~/modules/button',
     '~/modules/ls'
@@ -118,29 +119,35 @@ export default {
     timezone: true,
     defaultTimezone: 'UTC'
   },
+  // ////////////////////////////////////////////////////////////// [Module] GTM
+  // ------------------------- Doc: https://github.com/nuxt-community/gtm-module
+  gtm: {
+    enabled: env === 'production', // disable in all but production
+    // Currently hardcoded, can be added as an environment variable instead
+    id: 'GTM-N7WMPKK',
+    pageTracking: true
+  },
   // ///////////////////////////////////////////////////////////// [Module] Auth
   // ---------------------------------------------------------------------------
   auth: {
+    redirectUnauthenticated: '/apply',
     redirectAfterLogin: {
       unregistered: {
-        path: '/account/:key',
+        path: '/apply',
         key: 'githubUsername'
       },
       registered: {
-        path: '/account/:key/datasets/claimed',
+        path: '/apply',
         key: 'githubUsername'
       }
     },
-    redirectAfterLogout: '/'
+    redirectAfterLogout: {
+      path: '/apply',
+      match: [
+        '/account'
+      ]
+    }
   },
-  // ////////////////////////////////////////////////////////// [Module] Account
-  // ---------------------------------------------------------------------------
-  // account: {
-  //   redirectAfterRegistering: {
-  //     path: '/account/:key/datasets/all',
-  //     key: 'githubUsername'
-  //   }
-  // },
   // /////////////////////////////////////////////////////////////// [Module] ls
   // ---------------------------------------------------------------------------
   ls: {

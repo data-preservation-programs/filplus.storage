@@ -5,7 +5,9 @@
     <HeroB
       :label="hero.label"
       :heading="heroHeading"
-      :subtext="hero.subtext" />
+      :tooltip="headingTooltip"
+      :subtext="hero.subtext"
+      :hero-button="backButton" />
 
     <!-- ============================== [Application] Background Information -->
     <div id="application-top">
@@ -17,7 +19,7 @@
         :thick="true"
         class="section-bg-top-border" />
 
-      <div class="grid">
+      <div class="grid zindex-descend-12">
         <div class="col-6_md-8_sm-10_ti-12" data-push-left="off-1_ti-0">
 
           <div class="form-heading-1">
@@ -109,6 +111,11 @@
           <FieldContainer
             :scaffold="formScaffold.custom_multisig"
             field-key="custom_multisig"
+            form-id="filplus_application" />
+
+          <FieldContainer
+            :scaffold="formScaffold.application_data_type"
+            field-key="application_data_type"
             form-id="filplus_application" />
 
           <FieldContainer
@@ -244,33 +251,33 @@
             field-key="replication_plan_textarea"
             form-id="filplus_application" />
 
+          <HubspotOptInFields />
+
           <FieldContainer
             :scaffold="formScaffold.confirm_follow_fil_guideline"
             field-key="confirm_follow_fil_guideline"
             form-id="filplus_application" />
 
-          <FieldContainer
-            :scaffold="formScaffold.github_handle"
-            field-key="github_handle"
-            form-id="filplus_application" />
-
           <div class="buttons">
-            <ButtonA
-              class="submit-button"
-              loader="lda-submit-button"
-              @clicked="submitForm">
-              {{ submitButtonText }}
-            </ButtonA>
-            <ButtonA
-              v-if="githubIssueLink"
-              class="github-issue-link-button"
-              theme="blue"
-              tag="a"
-              target="_blank"
-              :to="githubIssueLink">
-              <GithubIcon />
-              {{ githubIssueLinkText }}
-            </ButtonA>
+            <div v-if="account">
+              <ButtonA
+                class="submit-button"
+                loader="lda-submit-button"
+                @clicked="submitForm">
+                {{ submitButtonText }}
+              </ButtonA>
+            </div>
+
+            <AuthButton v-else />
+
+            <ButtonX
+              :to="backButton.href"
+              :tag="backButton.type"
+              :theme="backButton.theme">
+              <Chevron />
+              {{ backButton.label }}
+            </ButtonX>
+
           </div>
         </div>
       </div>
@@ -290,10 +297,12 @@ import { mapGetters, mapActions } from 'vuex'
 import HeroB from '@/components/hero-b'
 import FieldContainer from '@/components/form/field-container'
 import ButtonA from '@/components/buttons/button-a'
+import ButtonX from '@/components/buttons/button-x'
+import HubspotOptInFields from '@/components/hubspot-opt-in-fields'
 import Overlay from '@/components/overlay'
 import Squigglie from '@/components/squigglie'
-
-import GithubIcon from '@/components/icons/github'
+import AuthButton from '@/components/auth-button'
+import Chevron from '@/components/icons/chevron'
 
 import ApplyLargePageData from '@/content/pages/apply-large.json'
 
@@ -305,9 +314,16 @@ export default {
     HeroB,
     FieldContainer,
     ButtonA,
+    ButtonX,
+    HubspotOptInFields,
     Overlay,
     Squigglie,
-    GithubIcon
+    AuthButton,
+    Chevron
+  },
+
+  meta: {
+    authenticate: true
   },
 
   data () {
@@ -319,7 +335,8 @@ export default {
   async fetch ({ app, store }) {
     await store.dispatch('general/getBaseData', { key: 'apply-large', data: ApplyLargePageData })
     await store.dispatch('general/getNetworkStorageCapacity')
-    await app.$form('filplus_application').register(store.getters['general/application'])
+    const application = await store.dispatch('account/setHubspotOptInData', store.getters['auth/account'])
+    await app.$form('filplus_application').register(application)
   },
 
   head () {
@@ -331,7 +348,7 @@ export default {
       siteContent: 'general/siteContent',
       networkStorageCapacity: 'general/networkStorageCapacity',
       savedFormExists: 'form/savedFormExists',
-      githubIssueLink: 'general/githubIssueLink'
+      account: 'auth/account'
     }),
     generalPageData () {
       return this.siteContent.general
@@ -343,7 +360,14 @@ export default {
       return this.pageData.hero
     },
     heroHeading () {
-      return this.hero.heading.replace('|data|', this.networkStorageCapacity)
+      return this.hero.heading.replace('|data|', this.networkStorageCapacity).replace('|data-tooltip|', `data-tooltip="${this.headingTooltip}"`)
+    },
+    headingTooltip () {
+      const tooltip = this.hero.heading_tooltip
+      return tooltip && tooltip !== '' ? tooltip : false
+    },
+    backButton () {
+      return this.pageData.back_button
     },
     form () {
       return this.pageData.form
@@ -377,17 +401,11 @@ export default {
     }
   },
 
-  beforeDestroy () {
-    this.setGithubIssueLink(false)
-  },
-
   methods: {
     ...mapActions({
       validateForm: 'form/validateForm',
-      submitLargeApplication: 'general/submitLargeApplication',
-      restoreSavedForm: 'form/restoreSavedForm',
-      removeLoader: 'button/removeLoader',
-      setGithubIssueLink: 'general/setGithubIssueLink'
+      submitApplication: 'account/submitApplication',
+      restoreSavedForm: 'form/restoreSavedForm'
     }),
     async submitForm () {
       const bottom = this.submitThresholdBottom
@@ -401,22 +419,25 @@ export default {
         const inputFieldElement = document.querySelector('#total_datacap_size_input')
         this.$scrollToElement(inputFieldElement, 250, -200)
       } else if (pass) {
-        if (bytes >= middle && bytes <= top) {
-          this.removeLoader('lda-submit-button')
+        if (bytes < middle) {
+          this.$button('lda-submit-button').set({ loading: false })
           this.$toaster.add({
             type: 'toast',
             category: 'error',
-            message: 'Please fill out the Large Dataset Application for your requested amount'
+            message: 'Please fill out the General Application for your requested amount (< 100 TiB)'
           })
-          this.$router.push('/apply/large')
+          this.$router.push('/apply/general/notaries')
         } else {
-          const incoming = await this.$form('filplus_application').validate()
-          if (!incoming) {
+          const application = await this.$form('filplus_application').validate()
+          if (!application) {
             const firstInvalidField = document.querySelector('.error')
-            this.removeLoader('lda-submit-button')
+            this.$button('lda-submit-button').set({ loading: false })
             this.$scrollToElement(firstInvalidField, 250, -200)
           } else {
-            this.submitLargeApplication(incoming)
+            const success = await this.submitApplication({ application, type: 'lda' })
+            if (success) {
+              this.$router.push('/apply/success')
+            }
           }
         }
       }
@@ -451,10 +472,8 @@ export default {
   display: flex;
   flex-direction: row;
   align-items: center;
-  .button-a {
-    &:not(:last-child) {
-      margin-right: 1rem;
-    }
+  .button-x {
+    margin-left: 3.125rem;
   }
 }
 
@@ -485,6 +504,12 @@ export default {
 .zindex-descend-col {
   [class~=col], [class*=col-], [class*=col_] {
     @include descendingZindex(2);
+  }
+}
+
+.zindex-descend-5 {
+  .field-container {
+    @include descendingZindex(5);
   }
 }
 

@@ -48,3 +48,63 @@ try {
 } catch (e) {
   console.log(e)
 }
+
+// /////////////////////////////////////////////////////////////////////////////
+// -----------------------------------------------------------------------------
+// const users = async () => {
+//   try {
+//     const user = await MC.model.User.findOne({ githubUsername: 'timelytree' })
+//     console.log(user)
+//     // user.hubspotOptIn = false
+//     // user.hubspotOptInContactId = undefined
+//     // user.hubspotOptInEmail = undefined
+//     // user.hubspotOptInFirstName = undefined
+//     // user.hubspotOptInLastName = undefined
+//     // user.hubspotOptInApplicationCompanyName = undefined
+//     // user.hubspotOptInApplicationRegion = undefined
+//     // user.hubspotOptInApplicationDatacapRequested = undefined
+//     // user.hubspotOptInApplicationWalletAddress = undefined
+//     // await user.save()
+//     // console.log(saved)
+//   } catch (e) {
+//     console.log(e)
+//   }
+//
+//   // try {
+//   //   const user = await MC.model.User.deleteOne({ githubUsername: 'timelytree' })
+//   //   console.log(user)
+//   // } catch (e) {
+//   //   console.log(e)
+//   // }
+//
+//   // try {
+//   //   const users = await MC.model.User.find()
+//   //   const len = users.length
+//   //   for (let i = 0; i < len; i++) {
+//   //     const user = users[i]
+//   //     // const beforeEmail = `${user.email}`
+//   //     console.log(user)
+//   //     // user.githubEmail = user.email === '' ? null : user.email
+//   //     // user.email = null
+//   //     // const saved = await user.save()
+//   //     // console.log(saved)
+//   //     // console.log(`Before: ${beforeEmail} | After: ${saved.githubEmail}`)
+//   //   }
+//   // } catch (e) {
+//   //   console.log(e)
+//   // }
+// }; users()
+
+// //////////////////////////////////////////////////////// lookupHubspotContact
+// const Axios = require('axios')
+// const lookupHubspotContact = async () => {
+//   try {
+//     const id = '3049751'
+//     const options = { headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${process.env.HUBSPOT_TOKEN}` } }
+//     const response = await Axios.get(`https://api.hubapi.com/crm/v3/objects/contacts/${id}`, options)
+//     console.log(response)
+//   } catch (e) {
+//     console.log('============================ [Function: lookupHubspotContact]')
+//     console.log(e)
+//   }
+// }; lookupHubspotContact()

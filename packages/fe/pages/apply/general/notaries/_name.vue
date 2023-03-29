@@ -4,7 +4,8 @@
     <!-- ============================================================== Hero -->
     <HeroB
       :label="hero.label"
-      :heading="hero.heading" />
+      :heading="heroHeading"
+      :hero-button="backButton" />
 
     <!-- ======================================================= Application -->
     <div id="application">
@@ -85,30 +86,28 @@
             field-key="filecoin_address"
             form-id="filplus_application" />
 
-          <FieldContainer
-            :scaffold="formScaffold.github_handle"
-            field-key="github_handle"
-            form-id="filplus_application" />
+          <HubspotOptInFields />
 
           <div class="buttons">
-            <ButtonA
-              class="submit-button"
-              loader="ga-submit-button"
-              @clicked="submitForm">
-              {{ submitButtonText }}
-            </ButtonA>
-            <ButtonA
-              v-if="githubIssueLink"
-              class="github-issue-link-button"
-              theme="blue"
-              tag="a"
-              target="_blank"
-              :to="githubIssueLink">
-              <GithubIcon />
-              {{ githubIssueLinkText }}
-            </ButtonA>
-          </div>
+            <div v-if="account">
+              <ButtonA
+                class="submit-button"
+                loader="ga-submit-button"
+                @clicked="submitForm">
+                {{ submitButtonText }}
+              </ButtonA>
+            </div>
 
+            <AuthButton v-else />
+
+            <ButtonX
+              :to="backButton.href"
+              :tag="backButton.type"
+              :theme="backButton.theme">
+              <Chevron />
+              {{ backButton.label }}
+            </ButtonX>
+          </div>
         </div>
       </div>
 
@@ -127,12 +126,15 @@ import { mapGetters, mapActions } from 'vuex'
 import HeroB from '@/components/hero-b'
 import FieldContainer from '@/components/form/field-container'
 import ButtonA from '@/components/buttons/button-a'
+import ButtonX from '@/components/buttons/button-x'
+import HubspotOptInFields from '@/components/hubspot-opt-in-fields'
 import Overlay from '@/components/overlay'
 import Squigglie from '@/components/squigglie'
-
-import GithubIcon from '@/components/icons/github'
+import AuthButton from '@/components/auth-button'
+import Chevron from '@/components/icons/chevron'
 
 import ApplyGeneralPageData from '@/content/pages/apply-general.json'
+import NotariesPageData from '@/content/pages/notaries.json'
 
 // ====================================================================== Export
 export default {
@@ -142,9 +144,12 @@ export default {
     HeroB,
     FieldContainer,
     ButtonA,
+    ButtonX,
+    HubspotOptInFields,
     Overlay,
     Squigglie,
-    GithubIcon
+    AuthButton,
+    Chevron
   },
 
   data () {
@@ -157,10 +162,22 @@ export default {
     const name = params.name
     const notariesList = await store.dispatch('general/getCachedFile', 'notaries-list.json')
     const notary = notariesList.find(notary => notary.name === name || notary.organization === name)
-    const notaryField = app.$field('notary|filplus_application').get()
-    if (!notary || !notaryField) { return redirect('/apply/general/notaries') }
+    if (!notary) { return redirect('/apply/general/notaries') }
+    const notaryFieldId = 'notary|filplus_application'
+    const notaryField = app.$field(notaryFieldId).get()
+    const application = await store.dispatch('account/setHubspotOptInData', store.getters['auth/account'])
+    await app.$form('filplus_application').register(application)
+    if (!notaryField) {
+      await app.$field(notaryFieldId).register(
+        'filplus_application',
+        false,
+        'notary',
+        NotariesPageData.page_content.form.scaffold.notary,
+        'nullState'
+      )
+      await app.$field(notaryFieldId).updateValue(name)
+    }
     await store.dispatch('general/getBaseData', { key: 'apply-general', data: ApplyGeneralPageData })
-    await app.$form('filplus_application').register(store.getters['general/application'])
   },
 
   head () {
@@ -171,7 +188,7 @@ export default {
     ...mapGetters({
       siteContent: 'general/siteContent',
       savedFormExists: 'form/savedFormExists',
-      githubIssueLink: 'general/githubIssueLink'
+      account: 'auth/account'
     }),
     generalPageData () {
       return this.siteContent.general
@@ -181,6 +198,12 @@ export default {
     },
     hero () {
       return this.pageData.hero
+    },
+    heroHeading () {
+      return this.hero.heading.replace('|notary|', this.$route.params.name)
+    },
+    backButton () {
+      return this.pageData.back_button
     },
     form () {
       return this.pageData.form
@@ -211,17 +234,11 @@ export default {
     }
   },
 
-  beforeDestroy () {
-    this.setGithubIssueLink(false)
-  },
-
   methods: {
     ...mapActions({
       validateForm: 'form/validateForm',
-      submitGeneralApplication: 'general/submitGeneralApplication',
-      restoreSavedForm: 'form/restoreSavedForm',
-      removeLoader: 'button/removeLoader',
-      setGithubIssueLink: 'general/setGithubIssueLink'
+      submitApplication: 'account/submitApplication',
+      restoreSavedForm: 'form/restoreSavedForm'
     }),
     async submitForm () {
       const bottom = this.submitThresholdBottom
@@ -236,21 +253,21 @@ export default {
         this.$scrollToElement(inputFieldElement, 250, -200)
       } else if (pass) {
         if (bytes >= middle && bytes <= top) {
-          this.removeLoader('ga-submit-button')
+          this.$button('ga-submit-button').set({ loading: false })
           this.$toaster.add({
             type: 'toast',
             category: 'error',
-            message: 'Please fill out the Large Dataset Application for your requested amount'
+            message: 'Please fill out the Large Dataset Application for your requested amount (> 100 TiB)'
           })
           this.$router.push('/apply/large')
         } else {
-          const incoming = await this.$form('filplus_application').validate()
-          if (!incoming) {
+          const application = await this.$form('filplus_application').validate()
+          if (!application) {
             const firstInvalidField = document.querySelector('.error')
-            this.removeLoader('ga-submit-button')
+            this.$button('ga-submit-button').set({ loading: false })
             this.$scrollToElement(firstInvalidField, 250, -200)
           } else {
-            this.submitGeneralApplication(incoming)
+            await this.submitApplication({ application, type: 'GA' })
           }
         }
       }
@@ -264,6 +281,13 @@ export default {
 .page-apply-general {
   position: relative;
   overflow: hidden;
+}
+
+:deep(#hero) {
+  .highlight {
+    display: block;
+    margin-top: 0.5rem;
+  }
 }
 
 #application {
@@ -311,10 +335,8 @@ export default {
   display: flex;
   flex-direction: row;
   align-items: center;
-  .button-a {
-    &:not(:last-child) {
-      margin-right: 1rem;
-    }
+  .button-x {
+    margin-left: 3.125rem;
   }
 }
 

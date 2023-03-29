@@ -12,7 +12,14 @@
   "page_content": {
     "hero": {
       "label": "General Application",
-      "heading": "Fill out an application to send to your selected Notary."
+      "heading": "Send an application for DataCap to the notary you selected<br /><span class='highlight'>|notary|</span>"
+    },
+    "back_button": {
+      "type": "nuxt-link",
+      "href": "/apply/general/notaries",
+      "label": "Select a different notary",
+      "theme": "pink",
+      "icon": "chevron"
     },
     "form": {
       "heading": "General DataCap Notary Review Request",
@@ -179,26 +186,6 @@
           "label": "Filecoin Address",
           "placeholder": "f...",
           "tooltip": "Provide your Filecoin wallet address, which will usually begin with f1 or f3 for addresses on the mainnet",
-          "required": true,
-          "pre": "[^\\u0000-\\u00ff]",
-          "autocomplete": "none",
-          "chars": {
-            "min": 2,
-            "max": 1000
-          },
-          "validationMessage": {
-            "required": "This field is required",
-            "chars": "Input must be between 2 and 35 characters"
-          },
-          "defaultValue": ""
-        },
-        "github_handle": {
-          "type": "input",
-          "inputType": "text",
-          "modelKey": "github_handle",
-          "label": "Github Handle",
-          "placeholder": "@mygithub",
-          "tooltip": "Provide your github handle.",
           "required": true,
           "pre": "[^\\u0000-\\u00ff]",
           "autocomplete": "none",

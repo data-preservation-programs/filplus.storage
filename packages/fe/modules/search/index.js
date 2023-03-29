@@ -16,6 +16,15 @@ const FilterPlugin = Path.resolve(__dirname, 'plugins/filter.js')
 
 // /////////////////////////////////////////////////////////////////// Functions
 // -----------------------------------------------------------------------------
+// ////////////////////////////////////////////////////////// registerMiddleware
+const registerMiddleware = (instance, next) => {
+  return new Promise((next) => {
+    // The functionality of the middleware below is imported in IndexPlugin
+    instance.options.router.middleware.push('filter')
+    next()
+  })
+}
+
 // ////////////////////////////////////////////////////////////// registerPlugin
 const registerPlugin = (instance, next) => {
   return new Promise((next) => {
@@ -39,5 +48,6 @@ const registerPlugin = (instance, next) => {
 // ////////////////////////////////////////////////////////////////////// Export
 // -----------------------------------------------------------------------------
 export default async function () {
+  await registerMiddleware(this)
   await registerPlugin(this)
 }

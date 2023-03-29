@@ -452,20 +452,22 @@ const ReactDatasizeRangeToUnit = (ctx, transformField, transformSourceField, arg
 // /////////////////////////////////////////////////////// HandleFormRedirection
 const HandleFormRedirection = (app, store, bytes, bottom, top) => {
   if (bytes < bottom || bytes > top) {
-    store.dispatch('button/removeLoader', 'ga-submit-button')
-    store.dispatch('button/removeLoader', 'lda-submit-button')
+    this.$button('ga-submit-button').set({ loading: false })
+    this.$button('lda-submit-button').set({ loading: false })
   }
   if (bytes < bottom) {
     window.open(
       'https://verify.glif.io/',
       '_blank'
     )
+    this.$gtm.push({ event: 'redirect_glif' })
   } else if (bytes > top) {
     app.$toaster.add({
       type: 'toast',
       category: 'error',
       message: 'Please select a value up to 5 PiB'
     })
+    this.$gtm.push({ event: 'attempted_over_5PB' })
   } else {
     return true
   }
@@ -505,6 +507,21 @@ const HighlightApplyForm = (app, store) => {
   }, 2250)
 }
 
+// ////////////////////////////////////////////////////////////// IsRouteCurrent
+const IsRouteCurrent = (route, href) => {
+  return route.fullPath === href
+}
+
+// ///////////////////////////////////////////////////////////////// ParseNumber
+const ParseNumber = (number, returnOriginal = false) => {
+  return new Promise((resolve) => {
+    if (!number || number === '') { resolve(undefined) }
+    const parsed = parseInt(number)
+    if (!isNaN(parsed)) { resolve(parsed) }
+    resolve(returnOriginal ? number : undefined)
+  })
+}
+
 // ////////////////////////////////////////////////////////////////////// Export
 // -----------------------------------------------------------------------------
 export default ({ $config, app, store }, inject) => {
@@ -539,4 +556,6 @@ export default ({ $config, app, store }, inject) => {
   inject('reactDatasizeRangeToUnit', ReactDatasizeRangeToUnit)
   inject('handleFormRedirection', (bytes, bottom, top) => HandleFormRedirection(app, store, bytes, bottom, top))
   inject('highlightApplyForm', () => HighlightApplyForm(app, store))
+  inject('isRouteCurrent', IsRouteCurrent)
+  inject('parseNumber', ParseNumber)
 }
