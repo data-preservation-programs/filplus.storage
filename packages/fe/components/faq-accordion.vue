@@ -4,7 +4,11 @@
     <ButtonX
       class="expand-all-button"
       @clicked="expandAllAccordionSections">
-      {{ toggleButtonText }}
+      <div :class="['icon', entireAccordionExpanded ? 'icon-minus' : 'icon-plus' ]">
+        <IconPlus v-if="entireAccordionExpanded" />
+        <IconMinus v-else />
+      </div>
+      <div class="text" v-html="toggleButtonText" />
     </ButtonX>
 
     <div class="accordion-wrapper">
@@ -61,6 +65,8 @@ import AccordionSection from '@/components/accordion/accordion-section'
 import Squigglie from '@/components/squigglie'
 
 import IconChevron from '@/components/icons/chevron'
+import IconMinus from '@/components/icons/plus'
+import IconPlus from '@/components/icons/minus'
 
 // ====================================================================== Export
 export default {
@@ -73,6 +79,8 @@ export default {
     AccordionContent,
     AccordionSection,
     IconChevron,
+    IconMinus,
+    IconPlus,
     Squigglie
   },
 
@@ -138,6 +146,21 @@ $padding: 2.25rem;
 
 .expand-all-button {
   margin-bottom: 1.5rem;
+  :deep(.button-content) {
+    display: flex;
+    align-items: center;
+  }
+  .icon {
+    height: toRem(16);
+    width: toRem(16);
+    margin-right: 0.5rem;
+    :deep(svg) {
+      display: block;
+    }
+  }
+  &:hover {
+    transform: scale(1.05);
+  }
   :deep(.button) {
     font-size: toRem(18);
   }
@@ -159,6 +182,12 @@ $padding: 2.25rem;
       transition: 150ms ease-out;
       transform: rotate(-180deg);
     }
+    &:hover {
+      .icon-chevron {
+        transition: 150ms ease-out;
+        transform: rotate(-180deg) scale(1.15);
+      }
+    }
   }
   &:last-child {
     .accordion-content {
@@ -173,9 +202,14 @@ $padding: 2.25rem;
   padding: $padding 0;
   cursor: pointer;
   &:hover {
-    .question {
-      text-decoration: underline;
-    }
+      .text {
+        transition: 150ms ease-out;
+        transform: scale(1.05) translateX(2%);
+      }
+      .icon-chevron {
+        transition: 150ms ease-out;
+        transform: scale(1.15);
+      }
   }
 }
 
@@ -190,7 +224,11 @@ $padding: 2.25rem;
     font-size: toRem(16);
     line-height: leading(35, 16);
   }
+  .icon-chevron {
+    transition: 150ms ease-in;
+  }
   .text {
+    transition: 150ms ease-in;
     padding-right: 1rem;
   }
 }
@@ -214,10 +252,7 @@ $padding: 2.25rem;
     line-height: leading(25, 14);
   }
   :deep(a) {
-    color: $greenYellow;
-    &:hover {
-      text-decoration: underline;
-    }
+    @include linkUnderline;
   }
 }
 </style>

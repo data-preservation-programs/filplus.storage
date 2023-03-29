@@ -379,7 +379,6 @@ $height: 2.5rem;
   }
   span {
     font-weight: 700;
-    text-decoration: underline;
   }
 }
 </style>

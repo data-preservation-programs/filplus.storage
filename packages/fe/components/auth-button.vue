@@ -107,6 +107,7 @@ export default {
   &:not([disabled]) {
     &:hover {
       color: $aztec;
+      transform: scale(1.05);
       :deep(path) {
         transition: 150ms ease-in;
         fill: $aztec;
@@ -221,6 +222,17 @@ export default {
 
 .options {
   padding: 0 toRem(12) 0.25rem toRem(12);
+}
+
+:deep(.auth-link.button-x) {
+  .inner-content {
+    transition: 150ms ease-in;
+  }
+  &:hover {
+    .inner-content {
+      color: $greenYellow;
+    }
+  }
 }
 
 :deep(.button-logout.button-x) {
