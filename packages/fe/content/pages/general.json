@@ -111,7 +111,7 @@
         "type": "checkbox",
         "modelKey": "hubspot_opt_in",
         "label": "Get Help",
-        "description": "Would you like for someone from the client growth team to get in touch, to help with onboarding your data?",
+        "description": "Would you like for someone from our client success team to get in touch, to help with onboarding your data?",
         "isSingleSelection": true,
         "options": [
           { "label": "Yes" }
