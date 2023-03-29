@@ -198,8 +198,5 @@ export default {
   background-repeat: no-repeat;
   background-position: bottom right;
   z-index: 5;
-  @include xlarge {
-    background-size: auto 100%;
-  }
 }
 </style>
