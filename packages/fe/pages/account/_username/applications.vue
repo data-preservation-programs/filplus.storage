@@ -300,7 +300,7 @@ export default {
   .field-label {
     @include p2;
   }
-  .select {
+  .select-container .select {
     border: none;
     .text {
       @include p2;
