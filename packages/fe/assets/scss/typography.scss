@@ -112,3 +112,38 @@ button {
   font-weight: 500;
   color: $mandysPink;
 }
+
+@mixin linkUnderline {
+  cursor: pointer;
+  color: $greenYellow;
+  text-decoration: none;
+  box-sizing: border-box;
+  background-image:
+  linear-gradient(0deg, $greenYellow, $greenYellow);
+  background-size: 0 1px;
+  background-position: 0 95%;
+  transition: all 150ms ease-in;
+  padding: 0 0 3px;
+  background-repeat: no-repeat;
+  animation: link-effect-in 150ms both linear;
+  &:hover {
+    animation: link-effect-out 150ms both linear;
+  }
+}
+
+@keyframes link-effect-out {
+  from {
+  background-size: 0 1px;
+  }
+  to {
+    background-size: 100% 1px;
+  }
+}
+@keyframes link-effect-in {
+  from {
+  background-size: 100% 1px;
+  }
+  to {
+    background-size: 0 1px;
+  }
+}

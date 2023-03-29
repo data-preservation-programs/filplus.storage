@@ -290,9 +290,6 @@ $height: 4rem;
   &.selected {
     background-color: rgba(white, 0.1);
   }
-  &:hover {
-    text-decoration: underline;
-  }
 }
 
 .none-found-placeholder {

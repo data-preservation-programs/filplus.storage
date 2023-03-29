@@ -300,13 +300,20 @@ export default {
   .field-label {
     @include p2;
   }
-  .select {
+  .select-container .select {
     border: none;
     .text {
       @include p2;
       font-weight: 400;
     }
   }
+}
+
+.filter-checkbox,
+.filter-radio {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .filter-checkbox {
