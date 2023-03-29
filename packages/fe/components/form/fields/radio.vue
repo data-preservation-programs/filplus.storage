@@ -13,6 +13,8 @@
           :name="`radio-${id}`"
           type="radio"
           class="radio"
+          @focus="toggleFocused(true)"
+          @blur="toggleFocused(false)"
           @input="$emit('updateValue', index)" />
         <div class="checker">
           <div class="dot" />
@@ -40,6 +42,12 @@ export default {
     }
   },
 
+  data () {
+    return {
+      focused: false
+    }
+  },
+
   computed: {
     scaffold () {
       return this.field.scaffold
@@ -61,6 +69,13 @@ export default {
     },
     required () {
       return this.scaffold.required
+    }
+  },
+
+  methods: {
+    toggleFocused (focused) {
+      this.focused = focused
+      this.$emit('toggleFocused', focused)
     }
   }
 }
@@ -140,9 +155,9 @@ $dimension: 1.625rem;
     + .checker {
       animation: shrink-bounce 150ms cubic-bezier(0.4, 0, 0.23, 1);
       border-color: $nandor;
-      background-color: $aztec;
-      .icon-checkmark {
-        animation: checkbox-check 75ms 200ms cubic-bezier(0.4, 0, 0.23, 1) forwards;
+      background-color: $racingGreen;
+      .dot {
+        display: block;
       }
     }
   }
@@ -164,8 +179,8 @@ $dimension: 1.625rem;
   width: $dimension;
   height: $dimension;
   border: 2px solid $nandor;
-  border-radius: 0.625rem;
-  background-color: $aztec;
+  border-radius: 50%;
+  background-color: $racingGreen;
   pointer-events: none;
   z-index: 5;
   transition: border-color 150ms, background-color 150ms, transform 150ms ease-out;

@@ -17,8 +17,8 @@
         :max="max"
         :autocomplete="autocomplete"
         :class="['input', state]"
-        @focus="focusHandler"
-        @blur="focused = false"
+        @focus="toggleFocused(true)"
+        @blur="toggleFocused(false)"
         @input="$emit('updateValue', $event.target.value)" />
       <div v-if="typeof chars === 'number'" class="char-validation">
         {{ chars }}
@@ -64,6 +64,11 @@ export default {
     field: {
       type: Object,
       required: true
+    },
+    forceDisabled: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
 
@@ -97,7 +102,7 @@ export default {
       return this.scaffold.required
     },
     disabled () {
-      return this.scaffold.disabled
+      return this.forceDisabled || this.scaffold.disabled
     },
     pre () {
       return this.scaffold.pre
@@ -159,9 +164,12 @@ export default {
   },
 
   methods: {
-    focusHandler () {
-      this.focused = true
-      this.openDropdown()
+    toggleFocused (focused) {
+      this.focused = focused
+      if (focused) {
+        this.openDropdown()
+      }
+      this.$emit('toggleFocused', focused)
     },
     openDropdown () {
       this.dropdownOpen = true
@@ -212,9 +220,15 @@ $height: 4rem;
     font-size: toRem(18);
     font-weight: 400;
     font-style: italic;
+    opacity: 1;
+    transition: 150ms ease-out;
   }
   &:focus {
-    border-width: 4px;
+    font-size: toRem(20);
+    @include placeholder {
+      transition: 150ms ease-in;
+      font-size: toRem(20);
+    }
   }
   &::-webkit-inner-spin-button,
   &::-webkit-outer-spin-button {
@@ -275,9 +289,6 @@ $height: 4rem;
   &:hover,
   &.selected {
     background-color: rgba(white, 0.1);
-  }
-  &:hover {
-    text-decoration: underline;
   }
 }
 

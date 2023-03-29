@@ -4,11 +4,16 @@ import Config from '@/nuxt.config'
 
 // /////////////////////////////////////////////////////////////////////// State
 // ---------------------- https://vuex.vuejs.org/guide/modules.html#module-reuse
-const state = () => ({})
+const state = () => ({
+  account: false
+})
 
 // ///////////////////////////////////////////////////////////////////// Getters
 // -----------------------------------------------------------------------------
-const getters = {}
+const getters = {
+  account: state => state.account,
+  accountIsAdmin: state => state.account ? state.account.isAdmin : false
+}
 
 // ///////////////////////////////////////////////////////////////////// Actions
 // -----------------------------------------------------------------------------
@@ -83,13 +88,41 @@ const actions = {
         message: data.message
       })
     }
-    this.dispatch('account/setAccount', false)
+    this.dispatch('auth/setAccount', false)
+  },
+  // //////////////////////////////////////////////////////////////// getAccount
+  async getAccount ({ commit, dispatch }, userId) {
+    try {
+      const response = await this.$axiosAuth.get('/get-user', {
+        params: {
+          ...(userId && { userId })
+        }
+      })
+      const account = response.data.payload
+      if (!account) {
+        dispatch('setAccount', false)
+        return false
+      }
+      dispatch('setAccount', account)
+      return account
+    } catch (e) {
+      console.log('=========================== [Store Action: auth/getAccount]')
+      dispatch('setAccount', false)
+    }
+  },
+  // //////////////////////////////////////////////////////////////// setAccount
+  setAccount ({ commit }, account) {
+    commit('SET_ACCOUNT', account)
   }
 }
 
 // /////////////////////////////////////////////////////////////////// Mutations
 // -----------------------------------------------------------------------------
-const mutations = {}
+const mutations = {
+  SET_ACCOUNT (state, account) {
+    state.account = account
+  }
+}
 
 // ////////////////////////////////////////////////////////////////////// Export
 // -----------------------------------------------------------------------------

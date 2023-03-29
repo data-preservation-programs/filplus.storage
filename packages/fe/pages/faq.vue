@@ -137,8 +137,14 @@ export default {
   @include mini {
     padding-bottom: 7rem;
   }
+  .heading {
+    align-items: flex-start;
+    br {
+      display: none;
+    }
+  }
   .bubble {
-    margin-top: 2.75rem;
+    margin-top: 0;
     @include small {
       margin-top: 1.5rem;
     }

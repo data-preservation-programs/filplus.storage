@@ -110,7 +110,7 @@ export default {
 // ///////////////////////////////////////////////////////////////////// General
 #hero {
   position: relative;
-  height: calc(61.625rem + #{$siteHeaderHeight});
+  height: calc(40.625rem + #{$siteHeaderHeight});
   margin-top: -$siteHeaderHeight;
   padding-top: $siteHeaderHeight * 2;
   z-index: 25;
@@ -129,7 +129,6 @@ export default {
   flex-direction: column;
   justify-content: center;
   height: 100%;
-  padding-bottom: $siteHeaderHeight;
   @include large {
     padding-top: 5rem;
   }
@@ -162,6 +161,7 @@ export default {
   display: flex;
   align-items: center;
   line-height: 1.1;
+  @include h2;
   &.direction__vertical {
     flex-direction: column;
     text-align: center;
@@ -198,8 +198,5 @@ export default {
   background-repeat: no-repeat;
   background-position: bottom right;
   z-index: 5;
-  @include xlarge {
-    background-size: auto 100%;
-  }
 }
 </style>

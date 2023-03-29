@@ -1,7 +1,7 @@
 <template>
   <div :class="['accordion-section', { open }]">
 
-    <slot />
+    <slot :id="id" />
 
   </div>
 </template>

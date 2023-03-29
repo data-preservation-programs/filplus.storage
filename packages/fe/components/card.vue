@@ -170,6 +170,10 @@ $cardRadiusTiny: 0.9375rem;
   position: absolute;
   z-index: 20;
   &:hover {
+    .icon-text {
+      transition: 150ms ease-in;
+      transform: scale(1.05);
+    }
     .icon.arrow {
       transition: 150ms ease-in;
       transform: rotate(45deg);
