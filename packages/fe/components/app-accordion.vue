@@ -139,7 +139,7 @@ export default {
   methods: {
     constructApplicationSubtitle (application) {
       const issueNumber = application.number
-      const status = application.state === 'open' ? 'opened' : application.state_reason === 'completed' ? 'approved' : 'rejected'
+      const status = application.state === 'open' ? 'opened' : application.state_reason === 'completed' ? 'Closed as completed' : 'Closed as not planned'
       const timeAgo = status === 'opened' ? this.$timeago(new Date(application.created_at)) : this.$timeago(new Date(application.closed_at))
       return this.applicationSubtitle.replace('|issue_number|', issueNumber).replace('|status|', status).replace('|time_ago|', timeAgo)
     },
