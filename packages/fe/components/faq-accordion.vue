@@ -4,7 +4,7 @@
     <ButtonX
       class="expand-all-button"
       @clicked="expandAllAccordionSections">
-      <div :class="['icon', entireAccordionExpanded ? 'icon-plus' : 'icon-minus' ]">
+      <div :class="['icon', entireAccordionExpanded ? 'icon-minus' : 'icon-plus' ]">
         <IconPlus v-if="entireAccordionExpanded" />
         <IconMinus v-else />
       </div>
@@ -148,11 +148,15 @@ $padding: 2.25rem;
   margin-bottom: 1.5rem;
   :deep(.button-content) {
     display: flex;
+    align-items: center;
   }
   .icon {
     height: toRem(16);
     width: toRem(16);
     margin-right: 0.5rem;
+    :deep(svg) {
+      display: block;
+    }
   }
   &:hover {
     transform: scale(1.05);
