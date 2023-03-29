@@ -4,7 +4,6 @@ console.log('💡 [endpoint] /get-application-list')
 // -----------------------------------------------------------------------------
 const { SendData, ParseNumber, ParseQuerySort } = require('@Module_Utilities')
 const GetApplicationList = require('@Module_Application/logic/get-application-list')
-const SortApplications = require('@Module_Application/logic/sort-applications')
 const GetUser = require('@Module_Application/logic/get-user')
 
 const MC = require('@Root/config')
@@ -22,7 +21,6 @@ MC.app.get('/get-application-list', async (req, res) => {
     const limit = await ParseNumber(query.limit)
     const applicationList = await GetApplicationList(view, user, page, state, limit, sort)
     const results = applicationList.results
-    await SortApplications(results, sort)
     SendData(res, 200, 'Submitted application retrieved succesfully', {
       metadata: {
         page,
