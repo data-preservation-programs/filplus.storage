@@ -224,6 +224,18 @@ export default {
   padding: 0 toRem(12) 0.25rem toRem(12);
 }
 
+:deep(.auth-link.button-x) {
+  .inner-content {
+    transition: scale 150ms ease-in;
+    scale: 1;
+  }
+  &:hover {
+    .inner-content {
+      scale: 1.05;
+    }
+  }
+}
+
 :deep(.button-logout.button-x) {
   .inner-content {
     display: flex;
