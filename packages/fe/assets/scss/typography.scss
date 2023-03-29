@@ -109,12 +109,12 @@ button {
   linear-gradient(0deg, $greenYellow, $greenYellow);
   background-size: 0 1px;
   background-position: 0 95%;
-  transition: all 250ms ease-in;
+  transition: all 150ms ease-in;
   padding: 0 0 3px;
   background-repeat: no-repeat;
-  animation: link-effect-in 250ms both linear;
+  animation: link-effect-in 150ms both linear;
   &:hover {
-    animation: link-effect-out 250ms both linear;
+    animation: link-effect-out 150ms both linear;
   }
 }
 

@@ -200,7 +200,7 @@ $padding: 2.25rem;
   &:hover {
       .text {
         transition: 150ms ease-out;
-        font-size: toRem(25);
+        transform: scale(1.05) translateX(2%);
       }
       .icon-chevron {
         transition: 150ms ease-out;
