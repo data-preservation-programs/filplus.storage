@@ -226,12 +226,11 @@ export default {
 
 :deep(.auth-link.button-x) {
   .inner-content {
-    transition: scale 150ms ease-in;
-    scale: 1;
+    transition: 150ms ease-in;
   }
   &:hover {
     .inner-content {
-      scale: 1.05;
+      color: $greenYellow;
     }
   }
 }
