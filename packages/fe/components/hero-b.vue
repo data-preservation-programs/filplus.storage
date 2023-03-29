@@ -5,7 +5,7 @@
     <div class="content">
       <div class="grid-center">
 
-        <div :class="contentCols" data-push-left="off-1_mi-0">
+        <div class="col-7_mi-9" data-push-left="off-1_mi-0">
           <div class="panel-left">
 
             <div v-if="label" class="label" v-html="label" />
@@ -28,7 +28,7 @@
           </div>
         </div>
 
-        <div class="col-4_sm-3_mi-2" data-push-left="off-1">
+        <div class="col-4_sm-3_mi-2">
           <div class="panel-right">
             <div class="warp-image-double" />
           </div>
@@ -58,11 +58,6 @@ export default {
   },
 
   props: {
-    contentCols: {
-      type: String,
-      required: false,
-      default: 'col-6_sm-7_mi-9'
-    },
     label: {
       type: [String, Boolean],
       required: false,
@@ -95,9 +90,10 @@ export default {
 // ///////////////////////////////////////////////////////////////////// General
 #hero {
   position: relative;
+  min-height: calc(40.625rem + #{$siteHeaderHeight});
   margin-top: -$siteHeaderHeight;
-  padding-top: $siteHeaderHeight * 2;
-  // border-bottom: 2px solid $nandor;
+  padding-top: $siteHeaderHeight * 1.5;
+  padding-bottom: math.div($siteHeaderHeight, 2);
   overflow: hidden;
   z-index: 25;
 }
@@ -113,7 +109,6 @@ export default {
   justify-content: center;
   align-items: flex-start;
   padding-top: 9.375rem;
-  padding-bottom: 14rem;
 }
 
 .label {
