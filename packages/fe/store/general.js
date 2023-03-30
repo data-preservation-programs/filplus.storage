@@ -9,50 +9,9 @@ import GeneralSiteData from '@/content/pages/general.json'
 const state = () => ({
   siteContent: {},
   staticFiles: {},
-  generalApplicationList: {},
-  largeApplicationList: {},
   clipboard: false,
-  application: {
-    organization_name: null,
-    data_owner_region: null,
-    data_owner_industry: null,
-    organization_website: null,
-    organization_social_media_handle: null,
-    organization_social_media_handle_type: null,
-    total_datacap_size: null,
-    total_datacap_size_unit: null,
-    weekly_data_size: null,
-    weekly_data_size_unit: null,
-    filecoin_address: null,
-    custom_multisig: null,
-    identifier: null,
-    about: null,
-    source_of_data_select: null,
-    ecosystem_associates_textarea: null,
-    nature_of_data: null,
-    source_of_data_radio: null,
-    source_of_data_textarea: null,
-    data_preparation_plan_select: null,
-    data_preparation_plan_textarea: null,
-    data_sample: null,
-    frequency_of_retrieval: null,
-    duration_of_storage: null,
-    geographic_distribution: null,
-    sending_data: null,
-    storage_provider_selection_plan_select: null,
-    storage_provider_selection_plan_input: null,
-    storage_provider_selection_plan_textarea: null,
-    replication_plan_select: null,
-    replication_plan_textarea: null,
-    notary: null,
-    ga_region: null,
-    public_availability_radio: null,
-    public_availability_textarea: null,
-    confirm_follow_fil_guideline: null
-  },
   networkStorageCapacity: false,
-  applyFormHighlighted: false,
-  githubIssue: false
+  applyFormHighlighted: false
 })
 
 // ///////////////////////////////////////////////////////////////////// Getters
@@ -61,12 +20,8 @@ const getters = {
   siteContent: state => state.siteContent,
   staticFiles: state => state.staticFiles,
   clipboard: state => state.clipboard,
-  application: state => state.application,
   networkStorageCapacity: state => state.networkStorageCapacity,
-  applyFormHighlighted: state => state.applyFormHighlighted,
-  githubIssue: state => state.githubIssue,
-  generalApplicationList: state => state.generalApplicationList,
-  largeApplicationList: state => state.largeApplicationList
+  applyFormHighlighted: state => state.applyFormHighlighted
 }
 
 // ///////////////////////////////////////////////////////////////////// Actions
@@ -143,99 +98,9 @@ const actions = {
       console.log(e)
     }
   },
-  // ////////////////////////////////////////////////// submitGeneralApplication
-  async submitGeneralApplication ({ commit, dispatch }, application) {
-    try {
-      this.$gtm.push({ event: 'submission_ga' })
-      const response = await this.$axiosAuth.post('/submit-general-application', application)
-      await dispatch('setGithubIssue', response.data.payload)
-      this.dispatch('button/removeLoader', 'ga-submit-button')
-      this.$toaster.add({
-        type: 'toast',
-        category: 'success',
-        message: 'General Application submitted successfully'
-      })
-      this.$gtm.push({ event: 'success_ga' })
-    } catch (e) {
-      console.log('========== [Store Action: general/submitGeneralApplication]')
-      console.log(e)
-      this.dispatch('button/removeLoader', 'ga-submit-button')
-      this.$toaster.add({
-        type: 'toast',
-        category: 'error',
-        message: 'Something went wrong. Please refresh the page and try again.'
-      })
-      return false
-    }
-  },
-  // //////////////////////////////////////////////////// submitLargeApplication
-  async submitLargeApplication ({ commit, dispatch }, application) {
-    try {
-      this.$gtm.push({ event: 'submission_lda' })
-      const response = await this.$axiosAuth.post('/submit-large-application', application)
-      await dispatch('setGithubIssue', response.data.payload)
-      this.dispatch('button/removeLoader', 'lda-submit-button')
-      this.$toaster.add({
-        type: 'toast',
-        category: 'success',
-        message: 'Large Dataset Application submitted successfully'
-      })
-      this.$gtm.push({ event: 'success_lda' })
-    } catch (e) {
-      console.log('============ [Store Action: general/submitLargeApplication]')
-      console.log(e)
-      this.dispatch('button/removeLoader', 'lda-submit-button')
-      this.$toaster.add({
-        type: 'toast',
-        category: 'error',
-        message: 'Something went wrong. Please refresh the page and try again.'
-      })
-      return false
-    }
-  },
   // ///////////////////////////////////////////// setApplyFormHighlightedStatus
   setApplyFormHighlightedStatus ({ commit }, status) {
     commit('SET_APPLY_FORM_HIGHLIGHTED_STATUS', status)
-  },
-  // //////////////////////////////////////////////////////////// setGithubIssue
-  setGithubIssue ({ commit }, issue) {
-    commit('SET_GITHUB_ISSUE', issue)
-  },
-  // ///////////////////////////////////////////////// setGeneralApplicationList
-  setGeneralApplicationList ({ commit }, applications) {
-    commit('SET_GENERAL_APPLICATION_LIST', applications)
-  },
-  // ///////////////////////////////////////////////// getGeneralApplicationList
-  async getGeneralApplicationList ({ commit, dispatch }) {
-    try {
-      const response = await this.$axiosAuth.get('/get-general-application-list')
-      const applications = response.data.payload
-      dispatch('setGeneralApplicationList', applications)
-      return applications
-    } catch (e) {
-      console.log('=== [Store Action: general/getGeneralApplicationList]')
-      console.log(e)
-      dispatch('setGeneralApplicationList', { application: false })
-      return false
-    }
-  },
-  // /////////////////////////////////////////////////// setLargeApplicationList
-  setLargeApplicationList ({ commit }, applications) {
-    commit('SET_LARGE_APPLICATION_LIST', applications)
-  },
-  // /////////////////////////////////////////////////// getLargeApplicationList
-  async getLargeApplicationList ({ commit, dispatch }) {
-    try {
-      const response = await this.$axiosAuth.get('/get-large-application-list')
-      const applications = response.data.payload
-      dispatch('setLargeApplicationList', applications)
-      return applications
-    } catch (e) {
-      console.log('=== [Store Action: general/getLargeApplicationList]')
-      console.log(e)
-      dispatch('setLargeApplicationList', { application: false })
-      return false
-    }
   }
 }
 
@@ -254,20 +119,8 @@ const mutations = {
   SET_NETWORK_STORAGE_CAPACITY (state, capacity) {
     state.networkStorageCapacity = capacity
   },
-  SET_APPLICATION (state, application) {
-    state.application = application
-  },
   SET_APPLY_FORM_HIGHLIGHTED_STATUS (state, status) {
     state.applyFormHighlighted = status
-  },
-  SET_GITHUB_ISSUE (state, issue) {
-    state.githubIssue = issue
-  },
-  SET_GENERAL_APPLICATION_LIST (state, applications) {
-    state.generalApplicationList = applications
-  },
-  SET_LARGE_APPLICATION_LIST (state, applications) {
-    state.largeApplicationList = applications
   }
 }
 

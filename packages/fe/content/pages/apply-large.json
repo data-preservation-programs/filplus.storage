@@ -12,7 +12,8 @@
   "page_content": {
     "hero": {
       "label": "Large Dataset Application",
-      "heading": "With a storage capacity of <span class='highlight'>|data|</span> that’s growing every day, the Filecoin network is uniquely suited for storing large datasets.",
+      "heading": "With a storage capacity of <span class='highlight'>|data|<div class='tooltip' |data-tooltip|></div></span> that’s growing every day, the Filecoin network is uniquely suited for storing large datasets.",
+      "heading_tooltip": "This value is dynamically updated and shows the total storage power of the Filecoin Network at this time.",
       "subtext": "Apply for DataCap below."
     },
     "back_button": {

@@ -98,7 +98,7 @@ export default {
     // '~/modules/slider',
     // '~/modules/alert',
     '~/modules/auth',
-    // '~/modules/search',
+    '~/modules/search',
     '~/modules/form',
     '~/modules/button',
     '~/modules/ls'
@@ -124,7 +124,7 @@ export default {
   gtm: {
     enabled: env === 'production', // disable in all but production
     // Currently hardcoded, can be added as an environment variable instead
-    id: 'GTM-N7WMPKK',
+    id: 'GTM-MNFJ3D4',
     pageTracking: true
   },
   // ///////////////////////////////////////////////////////////// [Module] Auth
@@ -140,8 +140,13 @@ export default {
         path: '/apply',
         key: 'githubUsername'
       }
+    },
+    redirectAfterLogout: {
+      path: '/apply',
+      match: [
+        '/account'
+      ]
     }
-    // redirectAfterLogout: '/apply'
   },
   // /////////////////////////////////////////////////////////////// [Module] ls
   // ---------------------------------------------------------------------------

@@ -1,0 +1,41 @@
+{
+  "seo": {
+    "title": "Application History - Filecoin Plus",
+    "description": "Application history with Filecoin Plus."
+  },
+  "og": {
+    "site_name": "Application History - Filecoin Plus",
+    "url": "",
+    "type": "website",
+    "image": "/open-graph-image.png"
+  },
+  "page_content": {
+    "heading": "Hi <span>|username|</span>, find your DataCap application history below",
+    "application_subtitle": "<span class=highlight>Issue #<span>|issue_number|</span></span> <span>|status|</span> <span>|time_ago|</span>",
+    "new_application_button_text": "New Application",
+    "github_issue_button_text": "View Issue on Github",
+    "expand_application_text": "Read issue description or&nbsp;",
+    "view_on_github_text": "view issue on Github",
+    "loading_text": "Loading application list",
+    "no_results_text": "No applications found",
+    "filters": {
+      "state": [{
+        "label": "View only open applications",
+        "value": ["all", "open"]
+      }],
+      "view_application_type": [
+        { "label": "GA", "value": "ga" },
+        { "label": "LDN", "value": "lda" }
+      ],
+      "sort": [
+        { "label": "Newest First ↑", "value": "created,-1" },
+        { "label": "Oldest First ↓", "value": "created,1" }
+      ],
+      "limit": [
+        { "label": 10, "value": 10 },
+        { "label": 20, "value": 20 },
+        { "label": 30, "value": 30 }
+      ]
+    }
+  }
+}

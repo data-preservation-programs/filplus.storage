@@ -46,7 +46,7 @@
               :tag="backButton.type"
               :theme="backButton.theme">
               <Chevron />
-              {{ backButton.label }}
+              <div class="text" v-html="backButton.label" />
             </ButtonX>
           </div>
         </div>
@@ -95,7 +95,8 @@ export default {
   async fetch ({ app, store }) {
     await store.dispatch('general/getBaseData', { key: 'notaries', data: NotariesPageData })
     await store.dispatch('general/getCachedFile', 'notaries-list.json')
-    await app.$form('filplus_application').register(store.getters['general/application'])
+    const application = await store.dispatch('account/setHubspotOptInData', store.getters['auth/account'])
+    await app.$form('filplus_application').register(application)
   },
 
   head () {

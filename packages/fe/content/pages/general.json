@@ -103,6 +103,99 @@
     "submit_threshold_middle": 109951162777600,
     "submit_threshold_top": 5629499534213120
   },
+  "hubspot": {
+    "opted_in_heading": "Get Help",
+    "opted_in_description": "You are already opted in. In order to opt out, please contact...",
+    "opt_in_fields": {
+      "hubspot_opt_in": {
+        "type": "checkbox",
+        "modelKey": "hubspot_opt_in",
+        "label": "Get Help",
+        "description": "Would you like for someone from our client success team to get in touch, to help with onboarding your data?",
+        "isSingleSelection": true,
+        "options": [
+          { "label": "Yes" }
+        ],
+        "defaultValue": ""
+      },
+      "hubspot_opt_in_first_name": {
+        "type": "input",
+        "inputType": "text",
+        "modelKey": "hubspot_opt_in_first_name",
+        "label": "First Name",
+        "placeholder": "First Name",
+        "required": true,
+        "pre": "[^\\u0000-\\u00ff]",
+        "autocomplete": "none",
+        "chars": {
+          "min": 2,
+          "max": 1000
+        },
+        "validationMessage": {
+          "required": "This field is required",
+          "chars": "Input must be between 2 and 35 characters"
+        },
+        "defaultValue": "",
+        "conditions": [
+          {
+            "fieldKey": "hubspot_opt_in",
+            "value": 0
+          }
+        ]
+      },
+      "hubspot_opt_in_last_name": {
+        "type": "input",
+        "inputType": "text",
+        "modelKey": "hubspot_opt_in_last_name",
+        "label": "Last Name",
+        "placeholder": "Last Name",
+        "required": true,
+        "pre": "[^\\u0000-\\u00ff]",
+        "autocomplete": "none",
+        "chars": {
+          "min": 2,
+          "max": 1000
+        },
+        "validationMessage": {
+          "required": "This field is required",
+          "chars": "Input must be between 2 and 35 characters"
+        },
+        "defaultValue": "",
+        "conditions": [
+          {
+            "fieldKey": "hubspot_opt_in",
+            "value": 0
+          }
+        ]
+      },
+      "hubspot_opt_in_email": {
+        "type": "input",
+        "inputType": "email",
+        "modelKey": "hubspot_opt_in_email",
+        "label": "Email",
+        "placeholder": "Email",
+        "required": true,
+        "pattern": ".+@.+\\.[a-zA-Z]{1,10}",
+        "pre": "[^\\u0000-\\u00ff]",
+        "autocomplete": "none",
+        "chars": {
+          "min": 2,
+          "max": 100
+        },
+        "validationMessage": {
+          "required": "This field is required",
+          "pattern": "Please enter a valid email",
+          "chars": "Input must be between 2 and 100 characters"
+        },
+        "conditions": [
+          {
+            "fieldKey": "hubspot_opt_in",
+            "value": 0
+          }
+        ]
+      }
+    }
+  },
   "404_error_message": "<span class='bubble right'>404</span>",
   "404_hero_button": {
     "type": "nuxt-link",

@@ -1,13 +1,11 @@
 <template>
   <FieldConditional
-    v-slot="{ displayField }"
     :scaffold="scaffold"
     :parent-field="field"
     :id-suffix="idSuffix"
     :root-html-tag="rootHtmlTag">
 
     <slot
-      v-if="displayField"
       :field="field"
       :type="type"
       :update-value="updateValue"
@@ -156,23 +154,23 @@ export default {
       */
     this.$nuxt.$on('resetFormFields', (payload) => {
       /**
-       * resetGroupId: All fields with the same scaffold.resetGroupId will be reset when the
-       * 'resetFormFields' global emitter (in search/plugins/index.js) is triggered
-       *
-       * resetTo: If the field is reset, should it rest to its default value or
-       * completely wiped back to its null state?
-       */
+        * resetGroupId: All fields with the same scaffold.resetGroupId will be reset when the
+        * 'resetFormFields' global emitter (in search/plugins/index.js) is triggered
+        *
+        * resetTo: If the field is reset, should it rest to its default value or
+        * completely wiped back to its null state?
+        */
       if (this.scaffold.resetGroupId === payload.id) {
         this.$field(this.id).reset(payload.resetTo || this.scaffold.resetTo)
       }
     })
     /**
-     * This event is emitted in @/modules/search/components/searcher in the
-     * '$route' watcher
-     * @param {object} payload contains id and value keys
-     *  @param {string} payload.id If the field.vue prop (updateGroupId) matches this ID, then its value will be updated
-     *  @param {string} payload.value
-     */
+      * This event is emitted in @/modules/search/components/searcher and
+      * @/modules/search/components/filterer in the '$route' watcher
+      * @param {object} payload contains id and value keys
+      *  @param {string} payload.id If the field.vue prop (updateGroupId) matches this ID, then its value will be updated
+      *  @param {string} payload.value
+      */
     this.$nuxt.$on('updateFormField', (payload) => {
       const value = payload.value
       if (this.scaffold.updateGroupId === payload.id && this.value !== value) {

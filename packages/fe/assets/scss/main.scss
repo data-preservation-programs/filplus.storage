@@ -359,7 +359,7 @@ span.error {
   &:hover {
     &:before,
     &:after {
-      transition: 250ms ease-in;
+      transition: 150ms ease-in;
       transform: translate(-50%, 0);
       opacity: 1;
     }
@@ -371,7 +371,7 @@ span.error {
     transform: translate(-50%, 0.5rem);
     pointer-events: none;
     opacity: 0;
-    transition: 250ms ease-out;
+    transition: 150ms ease-out;
   }
   &:before {
     content: '';
@@ -605,7 +605,9 @@ span.error {
     &::selection { background: $titanWhite; color: $aztec; }
   }
   ul, ol {
-    margin-bottom: 2rem;
+    &:not(:last-child) {
+      margin-bottom: 2rem;
+    }
     li {
       margin-bottom: 1rem;
     }

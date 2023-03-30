@@ -86,6 +86,8 @@
             field-key="filecoin_address"
             form-id="filplus_application" />
 
+          <HubspotOptInFields />
+
           <div class="buttons">
             <div v-if="account">
               <ButtonA
@@ -103,7 +105,7 @@
               :tag="backButton.type"
               :theme="backButton.theme">
               <Chevron />
-              {{ backButton.label }}
+              <div class="text" v-html="backButton.label" />
             </ButtonX>
           </div>
         </div>
@@ -125,6 +127,7 @@ import HeroB from '@/components/hero-b'
 import FieldContainer from '@/components/form/field-container'
 import ButtonA from '@/components/buttons/button-a'
 import ButtonX from '@/components/buttons/button-x'
+import HubspotOptInFields from '@/components/hubspot-opt-in-fields'
 import Overlay from '@/components/overlay'
 import Squigglie from '@/components/squigglie'
 import AuthButton from '@/components/auth-button'
@@ -142,6 +145,7 @@ export default {
     FieldContainer,
     ButtonA,
     ButtonX,
+    HubspotOptInFields,
     Overlay,
     Squigglie,
     AuthButton,
@@ -161,7 +165,8 @@ export default {
     if (!notary) { return redirect('/apply/general/notaries') }
     const notaryFieldId = 'notary|filplus_application'
     const notaryField = app.$field(notaryFieldId).get()
-    await app.$form('filplus_application').register(store.getters['general/application'])
+    const application = await store.dispatch('account/setHubspotOptInData', store.getters['auth/account'])
+    await app.$form('filplus_application').register(application)
     if (!notaryField) {
       await app.$field(notaryFieldId).register(
         'filplus_application',
@@ -183,7 +188,7 @@ export default {
     ...mapGetters({
       siteContent: 'general/siteContent',
       savedFormExists: 'form/savedFormExists',
-      account: 'account/account'
+      account: 'auth/account'
     }),
     generalPageData () {
       return this.siteContent.general
@@ -232,9 +237,8 @@ export default {
   methods: {
     ...mapActions({
       validateForm: 'form/validateForm',
-      submitGeneralApplication: 'general/submitGeneralApplication',
-      restoreSavedForm: 'form/restoreSavedForm',
-      removeLoader: 'button/removeLoader'
+      submitApplication: 'account/submitApplication',
+      restoreSavedForm: 'form/restoreSavedForm'
     }),
     async submitForm () {
       const bottom = this.submitThresholdBottom
@@ -249,7 +253,7 @@ export default {
         this.$scrollToElement(inputFieldElement, 250, -200)
       } else if (pass) {
         if (bytes >= middle && bytes <= top) {
-          this.removeLoader('ga-submit-button')
+          this.$button('ga-submit-button').set({ loading: false })
           this.$toaster.add({
             type: 'toast',
             category: 'error',
@@ -257,14 +261,13 @@ export default {
           })
           this.$router.push('/apply/large')
         } else {
-          const incoming = await this.$form('filplus_application').validate()
-          if (!incoming) {
+          const application = await this.$form('filplus_application').validate()
+          if (!application) {
             const firstInvalidField = document.querySelector('.error')
-            this.removeLoader('ga-submit-button')
+            this.$button('ga-submit-button').set({ loading: false })
             this.$scrollToElement(firstInvalidField, 250, -200)
           } else {
-            await this.submitGeneralApplication(incoming)
-            this.$router.push('/apply/success')
+            await this.submitApplication({ application, type: 'GA' })
           }
         }
       }

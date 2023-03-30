@@ -8,9 +8,9 @@ import Config from '@/nuxt.config'
 const authenticate = async (store, redirect, guarded, redirectUnauthenticated) => {
   try {
     const authenticated = await store.dispatch('auth/authenticate', guarded)
-    const account = store.getters['account/account']
+    const account = store.getters['auth/account']
     if (authenticated && authenticated.userId && !account) {
-      await store.dispatch('account/getAccount', authenticated.userId)
+      await store.dispatch('auth/getAccount', authenticated.userId)
     }
     return authenticated
   } catch (e) {
