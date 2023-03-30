@@ -8,6 +8,7 @@
     <label v-if="scaffold.label" :for="fieldKey" class="field-label">
       <span class="text">
         {{ scaffold.label }}
+        <sup v-if="required" class="required">*</sup>
       </span>
       <div v-if="tooltip" class="tooltip" :data-tooltip="tooltip">
         <IconQuestionMark />
@@ -125,6 +126,9 @@ export default {
       const tooltip = this.scaffold.tooltip
       return tooltip && tooltip !== '' ? tooltip : false
     },
+    required () {
+      return this.scaffold.required || false
+    },
     disabled () {
       return this.forceDisabled || this.scaffold.disabled
     }
@@ -236,6 +240,9 @@ export default {
   .text {
     transform-origin: left;
     transition: 150ms ease-out;
+  }
+  .required {
+    color: $flamingo;
   }
 }
 
