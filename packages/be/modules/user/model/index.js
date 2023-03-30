@@ -23,10 +23,60 @@ const UserSchema = new Schema({
     type: String,
     required: false
   },
+  githubEmail: {
+    type: String,
+    required: false,
+    default: null
+  },
   email: {
     type: String,
-    required: allowEmptyStringsOnly,
-    default: ''
+    required: false,
+    default: null
+  },
+  hubspotOptIn: {
+    type: Boolean,
+    required: false,
+    default: false
+  },
+  hubspotOptInContactId: {
+    type: String,
+    required: false,
+    default: null
+  },
+  hubspotOptInFirstName: {
+    type: String,
+    required: false,
+    default: null
+  },
+  hubspotOptInLastName: {
+    type: String,
+    required: false,
+    default: null
+  },
+  hubspotOptInEmail: {
+    type: String,
+    required: false,
+    default: null
+  },
+  hubspotOptInApplicationCompanyName: {
+    type: String,
+    required: false,
+    default: null
+  },
+  hubspotOptInApplicationRegion: {
+    type: String,
+    required: false,
+    default: null
+  },
+  hubspotOptInApplicationDatacapRequested: {
+    type: String,
+    required: false,
+    default: null
+  },
+  hubspotOptInApplicationWalletAddress: {
+    type: String,
+    required: false,
+    default: null
   },
   disabled: {
     type: Boolean,
@@ -53,15 +103,11 @@ UserSchema.plugin(MongooseLeanGetter)
 // ////////////////////////////////////////////////////////////// Before Actions
 // -----------------------------------------------------------------------------
 UserSchema.pre('validate', function (next) {
-  if (typeof this.email === 'object') { this.email = '' }
+  if (this.githubEmail === '') { this.githubEmail = null }
+  if (this.email === '') { this.email = null }
+  if (this.hubspotOptInEmail === '') { this.hubspotOptInEmail = null }
   next()
 })
-
-// /////////////////////////////////////////////////////////////////// Functions
-// -----------------------------------------------------------------------------
-function allowEmptyStringsOnly () {
-  return typeof this.email !== 'string'
-}
 
 // ////////////////////////////////////////////////////////////////////// Export
 // -----------------------------------------------------------------------------

@@ -6,8 +6,8 @@
       ref="selectNative"
       :aria-labelledby="ariaLabelledby"
       class="select native"
-      @focus="focused = true"
-      @blur="focused = false"
+      @focus="toggleFocused(true)"
+      @blur="toggleFocused(false)"
       @change="selectOption($event.target.value)">
       <option disabled="disabled" :selected="selectedOption === -1" value="-1">
         <slot name="option-native-default-text" />
@@ -116,6 +116,10 @@ export default {
   },
 
   methods: {
+    toggleFocused (focused) {
+      this.focused = focused
+      this.$emit('toggleFocused', focused)
+    },
     toggleDropdown () {
       this.dropdownOpen = !this.dropdownOpen
     },

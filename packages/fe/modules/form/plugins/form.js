@@ -61,8 +61,8 @@ const extractModel = async (scaffold, fields) => {
               if (!value) { throw new Error(`baseValue key missing from ${field.fieldKey} field scaffold`) }
             }
           } else if (type === 'radio' || type === 'checkbox') {
-            const isSingleOption = fieldScaffold.isSingleOption
-            if (isSingleOption) {
+            const isSingleSelection = fieldScaffold.isSingleSelection
+            if (isSingleSelection) {
               value = value === -1 ? false : true
             }
           }

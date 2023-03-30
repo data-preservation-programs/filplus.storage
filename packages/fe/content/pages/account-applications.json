@@ -21,15 +21,15 @@
     "filters": {
       "state": [{
         "label": "View only open applications",
-        "value": "open"
+        "value": ["all", "open"]
       }],
       "view_application_type": [
-        { "label": "GA", "value": "GA" },
-        { "label": "LDN", "value": "LDN" }
+        { "label": "GA", "value": "ga" },
+        { "label": "LDN", "value": "lda" }
       ],
       "sort": [
-        { "label": "Newest to oldest", "value": "newest_first" },
-        { "label": "Open status", "value": "open_first" }
+        { "label": "Newest First ↑", "value": "created,-1" },
+        { "label": "Oldest First ↓", "value": "created,1" }
       ],
       "limit": [
         { "label": 10, "value": 10 },

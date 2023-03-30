@@ -13,6 +13,8 @@
           :name="`radio-${id}`"
           type="radio"
           class="radio"
+          @focus="toggleFocused(true)"
+          @blur="toggleFocused(false)"
           @input="$emit('updateValue', index)" />
         <div class="checker">
           <div class="dot" />
@@ -40,6 +42,12 @@ export default {
     }
   },
 
+  data () {
+    return {
+      focused: false
+    }
+  },
+
   computed: {
     scaffold () {
       return this.field.scaffold
@@ -61,6 +69,13 @@ export default {
     },
     required () {
       return this.scaffold.required
+    }
+  },
+
+  methods: {
+    toggleFocused (focused) {
+      this.focused = focused
+      this.$emit('toggleFocused', focused)
     }
   }
 }
@@ -164,7 +179,7 @@ $dimension: 1.625rem;
   width: $dimension;
   height: $dimension;
   border: 2px solid $nandor;
-  border-radius: 0.625rem;
+  border-radius: 50%;
   background-color: $racingGreen;
   pointer-events: none;
   z-index: 5;

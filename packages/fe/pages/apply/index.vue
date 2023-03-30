@@ -128,7 +128,8 @@ export default {
   async fetch ({ app, store }) {
     await store.dispatch('general/getBaseData', { key: 'apply', data: ApplyPageData })
     await store.dispatch('general/getBaseData', { key: 'faq', data: FaqPageData })
-    await app.$form('filplus_application').register(store.getters['general/application'])
+    const application = await store.dispatch('account/setHubspotOptInData', store.getters['auth/account'])
+    await app.$form('filplus_application').register(application)
   },
 
   head () {
@@ -247,15 +248,16 @@ $cardRadius: 1.875rem;
 }
 
 // //////////////////////////////////////////////////////////////////////// Hero
-::v-deep #hero {
+::v-deep #hero.hero-a {
+  height: calc(61.625rem + #{$siteHeaderHeight});
   @include large {
     padding-bottom: toRem(144);
   }
   @include mini {
     padding-bottom: toRem(106);
   }
-  .hero-content {
-    padding-bottom: 0;
+  .heading {
+    @include h1;
   }
   .bubble {
     margin-top: 1.5rem;

@@ -18,15 +18,15 @@
       },
       {
         "question": "What is Filecoin Plus?",
-        "answer": "A social layer mechanism that incentivizes all participants to make Filecoin more useful. Fil+ is a community governed program, where community members can make decisions to help increase the usefulness of the Filecoin Network and help onboard useful data. Read more on the Filecoin Plus docs <a target='_blank' alt='Filecoin Plus docs' href='https://docs.filecoin.io/store/filecoin-plus/'>here</a>."
+        "answer": "A social layer mechanism that incentivizes all participants to make Filecoin more useful. Fil+ is a community governed program, where community members can make decisions to help increase the usefulness of the Filecoin Network and help onboard useful data. Read more on the Filecoin Plus docs <a target='_blank' alt='Filecoin Plus docs' href='https://docs.filecoin.io/basics/how-storage-works/filecoin-plus/'>here</a>."
       },
       {
         "question": "How does Filecoin Plus work?",
-        "answer": "Root key-holders, notaries, data owners and storage providers, interact through the allocation and spending of DataCap. Notaries apply through community governance and work with the root key holders to get a grant of DataCap, which they can then allocate out to data owners. Those data owners are then able to deploy DataCap to the Storage Providers through verified deals. Read more on the Filecoin Plus docs <a target='_blank' alt='Filecoin Plus docs' href='https://docs.filecoin.io/store/filecoin-plus/'>here</a>."
+        "answer": "Root key-holders, notaries, data owners and storage providers, interact through the allocation and spending of DataCap. Notaries apply through community governance and work with the root key holders to get a grant of DataCap, which they can then allocate out to data owners. Those data owners are then able to deploy DataCap to the Storage Providers through verified deals. Read more on the Filecoin Plus docs <a target='_blank' alt='Filecoin Plus docs' href='https://docs.filecoin.io/basics/how-storage-works/filecoin-plus/'>here</a>."
       },
       {
         "question": "What is DataCap?",
-        "answer": "The resource within the Filecoin Network that goes from notaries to trustworthy data owners. Data owners can use DataCap to make storage deals, which are labeled on chain as verified deals that result in a 10x boost to the storage provider’s quality-adjusted power for the storage space offered in that deal, which increases their block reward share in the network. Read more on the Filecoin Plus docs <a target='_blank' alt='Filecoin Plus docs' href='https://docs.filecoin.io/store/filecoin-plus/'>here</a>."
+        "answer": "The resource within the Filecoin Network that goes from notaries to trustworthy data owners. Data owners can use DataCap to make storage deals, which are labeled on chain as verified deals that result in a 10x boost to the storage provider’s quality-adjusted power for the storage space offered in that deal, which increases their block reward share in the network. Read more on the Filecoin Plus docs <a target='_blank' alt='Filecoin Plus docs' href='https://docs.filecoin.io/basics/how-storage-works/filecoin-plus/'>here</a>."
       },
       {
         "question": "Where is the data stored?",

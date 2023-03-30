@@ -11,6 +11,7 @@
 
         <AccordionSection
           v-for="(entry, index) in entries"
+          v-slot="{ id }"
           :key="index"
           :class="`application-${entry.state}`"
           :active="active">
@@ -40,7 +41,7 @@
                 tag="a"
                 target="_blank"
                 theme="green">
-                {{ viewOnGithubText }}
+                <div class="text" v-html="viewOnGithubText" />
               </ButtonX>
             </span>
           </AccordionHeader>
@@ -48,7 +49,9 @@
           <AccordionContent>
             <div class="accordion-content-wrapper">
               <div class="application-body markdown-user-input" v-html="parseApplicationMarkdown(entry.body)" />
-              <ButtonX class="close-accordion-button">
+              <ButtonX
+                class="close-accordion-button"
+                @clicked="toggleAccordionClosed(id)">
                 <IconCloseAccordion />
               </ButtonX>
             </div>
@@ -136,7 +139,7 @@ export default {
   methods: {
     constructApplicationSubtitle (application) {
       const issueNumber = application.number
-      const status = application.state === 'open' ? 'opened' : application.state_reason === 'completed' ? 'approved' : 'rejected'
+      const status = application.state === 'open' ? 'opened' : application.state_reason === 'completed' ? 'Closed as completed' : 'Closed as not planned'
       const timeAgo = status === 'opened' ? this.$timeago(new Date(application.created_at)) : this.$timeago(new Date(application.closed_at))
       return this.applicationSubtitle.replace('|issue_number|', issueNumber).replace('|status|', status).replace('|time_ago|', timeAgo)
     },
@@ -163,9 +166,11 @@ export default {
     },
     expandAllAccordionSections () {
       this.$refs.accordion.$emit('expand-all')
+    },
+    toggleAccordionClosed (id) {
+      this.$refs.accordion.$emit('toggle', id)
     }
   }
-
 }
 </script>
 
@@ -205,16 +210,24 @@ export default {
 
 .header-title-wrapper {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
 }
 
 .header-title {
+  padding-right: 2rem;
   letter-spacing: 0;
 }
 
 .application-icon {
+  width: toRem(18);
+  height: toRem(18);
+  margin-top: toRem(6);
   margin-right: 1.25rem;
   margin-left: -2.5rem;
+}
+
+.application-type {
+  white-space: nowrap;
 }
 
 .header-subtitle {
@@ -242,10 +255,11 @@ export default {
 }
 
 .close-accordion-button {
-  display: none;
-  height: fit-content;
   position:sticky;
-  // top: 50%;
+  width: toRem(28);
+  height: toRem(28);
+  top: 7.5rem;
+  margin-bottom: 1.5rem;
 }
 
 .accordion-content {
