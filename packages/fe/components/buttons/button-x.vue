@@ -112,8 +112,10 @@ export default {
 }
 
 .button-content {
-  font-size: toRem(20);
-  font-weight: 500;
+   :deep(.text) {
+    font-size: toRem(20);
+    font-weight: 500;
+  }
   transition: 150ms ease-out;
   &.hide {
     opacity: 0;
@@ -122,13 +124,14 @@ export default {
 
 // ////////////////////////////////////////////////////////////////////// Themes
 .theme__pink {
-  @include h5;
   display: inline-block;
-  font-weight: 500;
   color: $mandysPink;
   .button-content {
     display: flex;
     align-items: center;
+  }
+  :deep(.text) {
+    @include h5;
   }
   :deep(.icon-chevron) {
     transform: rotate(90deg);
@@ -147,7 +150,7 @@ export default {
 
 .theme__green {
   color: $greenYellow;
-  .button-content {
+  :deep(.text) {
     @include p2;
   }
   &:hover {

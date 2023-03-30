@@ -300,6 +300,7 @@ export default {
   padding: toRem(38) toRem(40);
   width: 100%;
   border-bottom: 3px solid $nandor;
+  font-weight: 500;
   :deep(.button) {
     @include mini {
       font-size: toRem(18);

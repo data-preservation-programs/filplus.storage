@@ -17,7 +17,7 @@
     </div>
 
     <ButtonX @clicked="$emit('clicked', $event)">
-      <div v-if="iconText" class="icon-text">
+      <div v-if="iconText" class="icon-text text">
         {{ iconText }}
       </div>
       <div

@@ -41,7 +41,7 @@
                 tag="a"
                 target="_blank"
                 theme="green">
-                {{ viewOnGithubText }}
+                <div class="text" v-html="viewOnGithubText" />
               </ButtonX>
             </span>
           </AccordionHeader>
@@ -139,7 +139,7 @@ export default {
   methods: {
     constructApplicationSubtitle (application) {
       const issueNumber = application.number
-      const status = application.state === 'open' ? 'opened' : application.state_reason === 'completed' ? 'approved' : 'rejected'
+      const status = application.state === 'open' ? 'opened' : application.state_reason === 'completed' ? 'Closed as completed' : 'Closed as not planned'
       const timeAgo = status === 'opened' ? this.$timeago(new Date(application.created_at)) : this.$timeago(new Date(application.closed_at))
       return this.applicationSubtitle.replace('|issue_number|', issueNumber).replace('|status|', status).replace('|time_ago|', timeAgo)
     },
@@ -210,16 +210,24 @@ export default {
 
 .header-title-wrapper {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
 }
 
 .header-title {
+  padding-right: 2rem;
   letter-spacing: 0;
 }
 
 .application-icon {
+  width: toRem(18);
+  height: toRem(18);
+  margin-top: toRem(6);
   margin-right: 1.25rem;
   margin-left: -2.5rem;
+}
+
+.application-type {
+  white-space: nowrap;
 }
 
 .header-subtitle {
