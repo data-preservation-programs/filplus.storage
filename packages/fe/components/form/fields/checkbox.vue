@@ -207,7 +207,7 @@ $dimension: 1.625rem;
   border-radius: 0.625rem;
   background-color: $racingGreen;
   pointer-events: none;
-  z-index: 5;
+  z-index: 1;
   transition: border-color 150ms, background-color 150ms, transform 150ms ease-out;
 }
 
