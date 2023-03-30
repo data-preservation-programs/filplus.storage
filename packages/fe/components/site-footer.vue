@@ -476,12 +476,12 @@ export default {
   padding-left: 1rem;
   font-size: 1rem;
   font-weight: 400;
-  line-height: leading(30, 16);
+  line-height: leading(24, 16);
   color: $juniper;
   text-align: right;
   @include large {
     font-size: 0.875rem;
-    line-height: leading(20, 14);
+    line-height: leading(18, 14);
   }
   @include mini {
     padding: 0 1rem;
