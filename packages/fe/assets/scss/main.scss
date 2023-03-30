@@ -697,12 +697,7 @@ span.error {
   }
   h1,
   h2 {
-    font-size: toRem(16);
-    line-height: leading(25, 16);
-    font-weight: 500;
-  }
-  h1 {
-    letter-spacing: 1px;
+    @include h5;
   }
   h3 {
     font-size: toRem(16);
@@ -714,7 +709,7 @@ span.error {
     line-height: leading(25, 16);
     font-weight: 400;
     &:not(:last-child) {
-      margin-bottom: toRem(30);
+      margin-bottom: toRem(20);
     }
   }
   a {
@@ -727,10 +722,15 @@ span.error {
       transition: none;
     }
   }
-  ul {
-    li {
-      font-size: toRem(18);
-      line-height: leading(30, 18);
-    }
+  ol,
+  ul > li {
+    font-size: toRem(16);
+    line-height: leading(25, 16);
+  }
+  blockquote {
+    border-left: 3px solid $nandor;
+    margin-left: toRem(26);
+    padding-left: toRem(16);
+    margin-right: toRem(45);
   }
 }

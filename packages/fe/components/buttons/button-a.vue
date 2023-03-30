@@ -129,12 +129,12 @@ export default {
 
 // ////////////////////////////////////////////////////////////////////// Themes
 .theme__green {
-  color: $toledo;
+  color: $aztec;
   background-color: $greenYellow;
 }
 
 .theme__blue {
-  color: $toledo;
+  color: $aztec;
   background-color: $perano;
 }
 
