@@ -1,5 +1,6 @@
 <template>
   <FieldConditional
+    v-if="loaded"
     :scaffold="scaffold"
     :parent-field="field"
     :id-suffix="idSuffix"
@@ -83,8 +84,20 @@ export default {
     const id = formId ? `${fieldKey}|${idSuffix}` : fieldKey
     return {
       id,
-      idSuffix
+      idSuffix,
+      loaded: false
     }
+  },
+
+  async fetch () {
+    if (!this.field) {
+      await this.$field(this.id).register(this.formId, this.groupIndex, this.fieldKey, this.scaffold, this.resetTo)
+    } else {
+      if (this.field.includeInFormSubmission) {
+        await this.$field(this.id).update({ validate: true })
+      }
+    }
+    this.loaded = true
   },
 
   computed: {
@@ -131,16 +144,6 @@ export default {
     value (value) {
       if (this.validateOnEntry) {
         this.$field(this.id).validate()
-      }
-    }
-  },
-
-  async created () {
-    if (!this.field) {
-      await this.$field(this.id).register(this.formId, this.groupIndex, this.fieldKey, this.scaffold, this.resetTo)
-    } else {
-      if (this.field.includeInFormSubmission) {
-        await this.$field(this.id).update({ validate: true })
       }
     }
   },
