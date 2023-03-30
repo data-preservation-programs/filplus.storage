@@ -210,16 +210,24 @@ export default {
 
 .header-title-wrapper {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
 }
 
 .header-title {
+  padding-right: 2rem;
   letter-spacing: 0;
 }
 
 .application-icon {
+  width: toRem(18);
+  height: toRem(18);
+  margin-top: toRem(6);
   margin-right: 1.25rem;
   margin-left: -2.5rem;
+}
+
+.application-type {
+  white-space: nowrap;
 }
 
 .header-subtitle {
