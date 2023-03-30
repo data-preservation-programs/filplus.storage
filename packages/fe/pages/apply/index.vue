@@ -248,7 +248,7 @@ $cardRadius: 1.875rem;
 }
 
 // //////////////////////////////////////////////////////////////////////// Hero
-::v-deep #hero {
+::v-deep #hero.hero-a {
   height: calc(61.625rem + #{$siteHeaderHeight});
   @include large {
     padding-bottom: toRem(144);
