@@ -284,6 +284,11 @@ $cardRadius: 1.875rem;
   .faq-top-border {
     top: -3px;
   }
+  .panel-right {
+    ::v-deep .warped-grid-container {
+      transform: translateY(-3px);
+    }
+  }
 }
 
 .section-accordion {
