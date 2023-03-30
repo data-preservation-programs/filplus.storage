@@ -198,5 +198,6 @@ $dimension: 1.625rem;
   font-weight: 400;
   cursor: pointer;
   padding-left: 1rem;
+  line-height: leading(26, 18);
 }
 </style>
