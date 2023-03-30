@@ -18,7 +18,7 @@
               :tag="heroButton.type">
               <Chevron
                 v-if="heroButton.icon === 'chevron'" />
-              {{ heroButton.label }}
+              <div class="text" v-html="heroButton.label" />
             </ButtonX>
 
           </div>

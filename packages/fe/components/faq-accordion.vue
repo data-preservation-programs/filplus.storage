@@ -161,7 +161,7 @@ $padding: 2.25rem;
   &:hover {
     transform: scale(1.05);
   }
-  :deep(.button) {
+  :deep(.text) {
     font-size: toRem(18);
   }
 }

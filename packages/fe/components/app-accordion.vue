@@ -41,7 +41,7 @@
                 tag="a"
                 target="_blank"
                 theme="green">
-                {{ viewOnGithubText }}
+                <div class="text" v-html="viewOnGithubText" />
               </ButtonX>
             </span>
           </AccordionHeader>

@@ -17,7 +17,7 @@
     </div>
 
     <ButtonX @clicked="$emit('clicked', $event)">
-      <div v-if="iconText" class="icon-text">
+      <div v-if="iconText" class="icon-text text">
         {{ iconText }}
       </div>
       <div
@@ -208,14 +208,14 @@ $cardRadiusTiny: 0.9375rem;
   }
   &.arrow {
     :deep(path) {
-      fill: $temptress;
+      fill: $aztec;
     }
   }
-  &.chevron {
+  &.chevron-long {
     border: none;
     :deep(path) {
       fill: none;
-      stroke: $temptress;
+      stroke: $titanWhite;
       transform: translateX(1px);
     }
   }
