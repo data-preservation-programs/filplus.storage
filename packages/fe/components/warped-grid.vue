@@ -1,95 +1,22 @@
 <template>
-  <div class="svg-wrapper">
-    <svg
-      v-for="grid in grids"
-      :key="grid"
-      ref="grids"
-      width="1109"
-      height="1109"
-      viewBox="0 0 1109 1109"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      :class="['warped-grid', grid]">
-      <rect
-        x="1.5"
-        y="1.5"
-        width="1106"
-        height="1106"
-        stroke="#4D655F"
-        stroke-width="3" />
-      <path d="M37 2V1107.5" stroke="#4D655F" />
-      <path d="M71.5 2V1107.5" stroke="#4D655F" />
-      <path d="M106 2V1107.5" stroke="#4D655F" />
-      <path d="M140.5 2V1107.5" stroke="#4D655F" />
-      <path d="M175 2V1107.5" stroke="#4D655F" />
-      <path d="M209.5 2V1107.5" stroke="#4D655F" />
-      <path d="M244 2V1107.5" stroke="#4D655F" />
-      <path d="M278.5 2V1107.5" stroke="#4D655F" />
-      <path d="M313 2V1107.5" stroke="#4D655F" />
-      <path d="M347.5 2V1107.5" stroke="#4D655F" />
-      <path d="M382 2V1107.5" stroke="#4D655F" />
-      <path d="M416.5 2V1107.5" stroke="#4D655F" />
-      <path d="M451 2V1107.5" stroke="#4D655F" />
-      <path d="M485.5 2V1107.5" stroke="#4D655F" />
-      <path d="M520 2V1107.5" stroke="#4D655F" />
-      <path d="M554.5 2V1107.5" stroke="#4D655F" />
-      <path d="M589 2V1107.5" stroke="#4D655F" />
-      <path d="M623.5 2V1107.5" stroke="#4D655F" />
-      <path d="M658 2V1107.5" stroke="#4D655F" />
-      <path d="M692.5 2V1107.5" stroke="#4D655F" />
-      <path d="M727 2V1107.5" stroke="#4D655F" />
-      <path d="M761.5 2V1107.5" stroke="#4D655F" />
-      <path d="M796 2V1107.5" stroke="#4D655F" />
-      <path d="M830.5 2V1107.5" stroke="#4D655F" />
-      <path d="M865 2V1107.5" stroke="#4D655F" />
-      <path d="M899.5 2V1107.5" stroke="#4D655F" />
-      <path d="M934 2V1107.5" stroke="#4D655F" />
-      <path d="M968.5 2V1107.5" stroke="#4D655F" />
-      <path d="M1003 2V1107.5" stroke="#4D655F" />
-      <path d="M1037.5 2V1107.5" stroke="#4D655F" />
-      <path d="M1072 2V1107.5" stroke="#4D655F" />
-      <path d="M2 1072H1107.5" stroke="#4D655F" />
-      <path d="M2 1037.5H1107.5" stroke="#4D655F" />
-      <path d="M2 1003L1107.5 1003" stroke="#4D655F" />
-      <path d="M2 968.5L1107.5 968.5" stroke="#4D655F" />
-      <path d="M2 934L1107.5 934" stroke="#4D655F" />
-      <path d="M2 899.5L1107.5 899.5" stroke="#4D655F" />
-      <path d="M2 865L1107.5 865" stroke="#4D655F" />
-      <path d="M2 830.5L1107.5 830.5" stroke="#4D655F" />
-      <path d="M2 796L1107.5 796" stroke="#4D655F" />
-      <path d="M2 761.5L1107.5 761.5" stroke="#4D655F" />
-      <path d="M2 727L1107.5 727" stroke="#4D655F" />
-      <path d="M2 692.5L1107.5 692.5" stroke="#4D655F" />
-      <path d="M2 658L1107.5 658" stroke="#4D655F" />
-      <path d="M2 623.5L1107.5 623.5" stroke="#4D655F" />
-      <path d="M2 589L1107.5 589" stroke="#4D655F" />
-      <path d="M2 554.5L1107.5 554.5" stroke="#4D655F" />
-      <path d="M2 520L1107.5 520" stroke="#4D655F" />
-      <path d="M2 485.5L1107.5 485.5" stroke="#4D655F" />
-      <path d="M2 451L1107.5 451" stroke="#4D655F" />
-      <path d="M2 416.5L1107.5 416.5" stroke="#4D655F" />
-      <path d="M2 382L1107.5 382" stroke="#4D655F" />
-      <path d="M2 347.5L1107.5 347.5" stroke="#4D655F" />
-      <path d="M2 313L1107.5 313" stroke="#4D655F" />
-      <path d="M2 278.5L1107.5 278.5" stroke="#4D655F" />
-      <path d="M2 244L1107.5 244" stroke="#4D655F" />
-      <path d="M2 209.5L1107.5 209.5" stroke="#4D655F" />
-      <path d="M2 175L1107.5 175" stroke="#4D655F" />
-      <path d="M2 140.5L1107.5 140.5" stroke="#4D655F" />
-      <path d="M2 106L1107.5 106" stroke="#4D655F" />
-      <path d="M2 71.5L1107.5 71.5" stroke="#4D655F" />
-      <path d="M2 37L1107.5 37" stroke="#4D655F" />
-    </svg>
+  <div class="warped-grid-container">
+    <canvas
+      ref="canvas"
+      :width="canvasWidth"
+      :height="canvasHeight">
+    </canvas>
   </div>
 </template>
 
 <script>
-// ====================================================================== Import
-import Warp from 'warpjs'
-
 // =================================================================== Functions
-const gaussianSmoothStep = (x, y, d) => {
-  const r = d / 2
+const initCanvas = (instance, next) => {
+  const canvas = instance.$refs.canvas
+  instance.ctx = canvas.getContext('2d')
+  return next()
+}
+
+const gaussianSmoothStep = (x, y, r) => {
   const slope = r * 0.5
   const u = x - r
   const v = y - r
@@ -101,51 +28,134 @@ const gaussianSmoothStep = (x, y, d) => {
   return z * scalar
 }
 
+const renderGridOnCanvas = (instance, frame) => {
+  const ctx = instance.ctx
+  const params = instance.params
+  const speed = params.speed
+  const vertical = params.verticalLines
+  const horizontal = params.horizontalLines
+  const unit = params.cellWidth + params.lineWidth
+  const width = unit * (vertical + 1)
+  const height = unit * (horizontal + 1)
+
+  ctx.clearRect(0, 0, width, height)
+  
+  const sv = vertical * params.resolution
+  const sh = horizontal * params.resolution
+  const hw = width / 2
+  const z = frame * speed * Math.PI
+
+  ctx.lineWidth = params.lineWidth
+  ctx.strokeStyle = '#4D655F'
+
+  for (let i = 1; i <= vertical; i++) {
+    ctx.beginPath()
+    const x = i * unit
+    ctx.moveTo(
+      x - (gaussianSmoothStep(x, 0, hw) * Math.cos(z)),
+      0 - (gaussianSmoothStep(x, 0, hw) * Math.cos(z + speed * Math.sin(z)))
+    )
+    for (let j = 1; j <= sh; j++) {
+      const y = (j / sh) * height
+      ctx.lineTo(
+        x - (gaussianSmoothStep(x, y, hw) * Math.cos(z)),
+        y - (gaussianSmoothStep(x, y, hw) * Math.cos(z + speed * Math.sin(z)))
+      )
+    }
+    ctx.stroke()
+  }
+
+  for (let i = 1; i <= horizontal; i++) {
+    ctx.beginPath()
+    const y = i * unit
+    ctx.moveTo(
+      0 - (gaussianSmoothStep(0, y, hw) * Math.cos(z)),
+      y - (gaussianSmoothStep(0, y, hw) * Math.cos(z + speed * Math.sin(z)))
+    )
+    for (let j = 1; j <= sv; j++) {
+      const x = (j / sv) * width
+      ctx.lineTo(
+        x - (gaussianSmoothStep(x, y, hw) * Math.cos(z)),
+        y - (gaussianSmoothStep(x, y, hw) * Math.cos(z + speed * Math.sin(z)))
+      )
+    }
+    ctx.stroke()
+  }
+}
+
 // ====================================================================== Export
 export default {
   name: 'WarpedGrid',
 
+  props: {
+    animationActive: {
+      type: Boolean,
+      required: false,
+      default: true
+    }
+  },
+
   data () {
     return {
-      grids: ['gridBefore', 'gridAfter']
+      ctx: false,
+      frame: 0,
+      frameId: false,
+      params: {
+        verticalLines: 32,
+        horizontalLines: 32,
+        cellWidth: 33,
+        lineWidth: 1,
+        resolution: 4,
+        speed: 0.0005
+      }
+    }
+  },
+
+  computed: {
+    canvasWidth () {
+      const params = this.params
+      return (params.verticalLines * (params.cellWidth + params.lineWidth)) + params.cellWidth
+    },
+    canvasHeight () {
+      const params = this.params
+      return (params.horizontalLines * (params.cellWidth + params.lineWidth)) + params.cellWidth
     }
   },
 
   mounted () {
     this.$nextTick(() => {
-      if (this.$refs.grids) {
-        this.$refs.grids.forEach((svg) => {
-          const width = svg.clientWidth || 1109
-          const warp = new Warp(svg)
-          warp.interpolate(4)
-          warp.transform(([x, y]) => [
-            x - gaussianSmoothStep(x, y, width),
-            y - gaussianSmoothStep(x, y, width)
-          ])
-        })
-      }
+      initCanvas(this, () => {
+        renderGridOnCanvas(this, 0)
+        this.animate()
+      })
     })
+  },
+
+  beforeDestroy () {
+    if (this.frameId) { cancelAnimationFrame(this.frameId) }
+  },
+
+  methods: {
+    animate () {
+      this.frameId = requestAnimationFrame(this.animate)
+      if (!this.animationActive) {
+        return
+      }
+      if (this.frame % 2 === 0) {
+        renderGridOnCanvas(this, this.frame)
+      }
+      this.frame++
+    }
   }
 }
 </script>
 
 <style lang="scss" scoped>
 // ///////////////////////////////////////////////////////////////////// General
-.svg-wrapper {
-  position: absolute;
-  top: 0;
-  left: 0;
-  overflow: hidden;
-  width: toRem(1110);
-  height: 100rem;
-}
-
-.warped-grid {
-  &.gridBefore {
-    transform: translateY(-3px);
-  }
-  &.gridAfter {
-    transform: translateY(-16px) scale(-1);
+.warped-grid-container {
+  canvas {
+    box-sizing: content-box;
+    border: solid 3px #4D655F;
   }
 }
 </style>
