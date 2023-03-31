@@ -46,6 +46,7 @@ import FieldRange from '@/components/form/fields/range'
 import FieldCheckbox from '@/components/form/fields/checkbox'
 import FieldRadio from '@/components/form/fields/radio'
 import FieldSelect from '@/components/form/fields/select'
+import FieldWysiwyg from '@/components/form/fields/wysiwyg'
 import FieldTypeahead from '@/components/form/fields/typeahead'
 import FieldChiclet from '@/components/form/fields/chiclet'
 
@@ -63,6 +64,7 @@ export default {
     FieldCheckbox,
     FieldRadio,
     FieldSelect,
+    FieldWysiwyg,
     FieldTypeahead,
     FieldChiclet,
     IconQuestionMark

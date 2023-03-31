@@ -106,6 +106,7 @@ export default {
         case 'select' : component = 'FieldSelect'; break
         case 'typeahead' : component = 'FieldTypeahead'; break
         case 'chiclet' : component = 'FieldChiclet'; break
+        case 'wysiwyg' : component = 'FieldWysiwyg'; break
       }
       return component
     },
