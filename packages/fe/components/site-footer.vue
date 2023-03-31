@@ -420,9 +420,6 @@ export default {
   }
   :deep(.icon) {
     background-color: #0047FF;
-    path {
-      stroke: white;
-    }
   }
   &.small-variant {
     @include mini {

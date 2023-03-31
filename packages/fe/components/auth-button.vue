@@ -148,7 +148,7 @@ export default {
     .dropdown-backdrop {
       border-radius: toRem(18);
       border-color: $greenYellow;
-      background-color: $racingGreen;
+      background-color: $aztec;
     }
   }
   .dropdown-backdrop {
