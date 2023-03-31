@@ -61,7 +61,7 @@ export default {
       scroll: false,
       gridHeight: 1121,
       grids: false,
-      activeGrids: []
+      activeGrids: [0]
     }
   },
 

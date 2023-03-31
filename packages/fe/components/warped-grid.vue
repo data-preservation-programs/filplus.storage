@@ -37,30 +37,31 @@ const renderGridOnCanvas = (instance, frame) => {
   const unit = params.cellWidth + params.lineWidth
   const width = unit * (vertical + 1)
   const height = unit * (horizontal + 1)
-
-  ctx.clearRect(0, 0, width, height)
-  
+  // calculation constants
   const sv = vertical * params.resolution
   const sh = horizontal * params.resolution
   const hw = width / 2
   const z = frame * speed * Math.PI
+  const dv = 1 // displacement direction (x)
+  const du = 1 // displacement direction (y)
+  const dx = dv * Math.cos(z) * 100 // displacement magnitude (x)
+  const dy = du * Math.cos(z + speed * Math.sin(z)) * 100 // displacement magnitude (y)
+  const bv = 1 // buldge direction (x)
+  const bu = 1 // buldge direction (y)
 
+  ctx.clearRect(0, 0, width, height)
   ctx.lineWidth = params.lineWidth
   ctx.strokeStyle = '#4D655F'
 
   for (let i = 1; i <= vertical; i++) {
     ctx.beginPath()
     const x = i * unit
-    ctx.moveTo(
-      x - (gaussianSmoothStep(x, 0, hw) * Math.cos(z)),
-      0 - (gaussianSmoothStep(x, 0, hw) * Math.cos(z + speed * Math.sin(z)))
-    )
+    let g = gaussianSmoothStep(x + dx, 0 + dy, hw)
+    ctx.moveTo(x - g * bv, 0 - g * bu)
     for (let j = 1; j <= sh; j++) {
       const y = (j / sh) * height
-      ctx.lineTo(
-        x - (gaussianSmoothStep(x, y, hw) * Math.cos(z)),
-        y - (gaussianSmoothStep(x, y, hw) * Math.cos(z + speed * Math.sin(z)))
-      )
+      g = gaussianSmoothStep(x + dx, y + dy, hw)
+      ctx.lineTo(x - g * bv, y - g * bu)
     }
     ctx.stroke()
   }
@@ -68,16 +69,12 @@ const renderGridOnCanvas = (instance, frame) => {
   for (let i = 1; i <= horizontal; i++) {
     ctx.beginPath()
     const y = i * unit
-    ctx.moveTo(
-      0 - (gaussianSmoothStep(0, y, hw) * Math.cos(z)),
-      y - (gaussianSmoothStep(0, y, hw) * Math.cos(z + speed * Math.sin(z)))
-    )
+    let g = gaussianSmoothStep(0 + dx, y + dy, hw)
+    ctx.moveTo(0 - g * bv, y - g * bu)
     for (let j = 1; j <= sv; j++) {
       const x = (j / sv) * width
-      ctx.lineTo(
-        x - (gaussianSmoothStep(x, y, hw) * Math.cos(z)),
-        y - (gaussianSmoothStep(x, y, hw) * Math.cos(z + speed * Math.sin(z)))
-      )
+      g = gaussianSmoothStep(x + dx, y + dy, hw)
+      ctx.lineTo(x - g * bv, y - g * bu)
     }
     ctx.stroke()
   }
@@ -106,7 +103,7 @@ export default {
         cellWidth: 33,
         lineWidth: 1,
         resolution: 4,
-        speed: 0.0005
+        speed: 0.0015
       }
     }
   },
