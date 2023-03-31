@@ -77,7 +77,7 @@
 
         <div class="col-4_lg-3_sm-2_mi-1">
           <div class="panel-right">
-            <WarpedGrid />
+            <WarpedGridColumn />
           </div>
         </div>
 
@@ -101,7 +101,7 @@ import Card from '@/components/card'
 import FieldContainer from '@/components/form/field-container'
 import Overlay from '@/components/overlay'
 import Squigglie from '@/components/squigglie'
-import WarpedGrid from '@/components/warped-grid'
+import WarpedGridColumn from '@/components/warped-grid-column'
 
 import ApplyPageData from '@/content/pages/apply.json'
 import FaqPageData from '@/content/pages/faq.json'
@@ -118,7 +118,7 @@ export default {
     Card,
     Overlay,
     Squigglie,
-    WarpedGrid
+    WarpedGridColumn
   },
 
   data () {
@@ -285,7 +285,7 @@ $cardRadius: 1.875rem;
     top: -3px;
   }
   .panel-right {
-    ::v-deep .warped-grid-container {
+    ::v-deep .warped-grid-column {
       transform: translateY(-3px);
     }
   }

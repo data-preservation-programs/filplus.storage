@@ -87,9 +87,16 @@ const renderGridOnCanvas = (instance, frame) => {
 export default {
   name: 'WarpedGrid',
 
+  props: {
+    animationActive: {
+      type: Boolean,
+      required: false,
+      default: true
+    }
+  },
+
   data () {
     return {
-      colors: ['white', 'pink', 'purple', 'orange', 'green'],
       ctx: false,
       frame: 0,
       frameId: false,
@@ -118,18 +125,26 @@ export default {
   mounted () {
     this.$nextTick(() => {
       initCanvas(this, () => {
+        renderGridOnCanvas(this, 0)
         this.animate()
       })
     })
   },
 
+  beforeDestroy () {
+    if (this.frameId) { cancelAnimationFrame(this.frameId) }
+  },
+
   methods: {
     animate () {
+      this.frameId = requestAnimationFrame(this.animate)
+      if (!this.animationActive) {
+        return
+      }
       if (this.frame % 2 === 0) {
         renderGridOnCanvas(this, this.frame)
       }
       this.frame++
-      this.frameId = requestAnimationFrame(this.animate)
     }
   }
 }
