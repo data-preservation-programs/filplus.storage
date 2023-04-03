@@ -32,7 +32,20 @@
               </div>
               <p class="application-type p2" v-html="entry.type" />
             </div>
-            <h3 class="header-subtitle p1" v-html="constructApplicationSubtitle(entry)" />
+            <h3 class="header-subtitle p1">
+              <span v-html="constructApplicationSubtitle(entry)" />
+              <AutoUpdate
+                v-slot="{ updateProps }"
+                :key="`${index}-${autoupdate}`"
+                tag="span"
+                :refresh="1000"
+                :update-props="{
+                  time: entry.state === 'open' ? entry.created_at : entry.closed_at
+                }"
+                @nextUpdate="updateTimeAgo">
+                <span class="timeago" v-html="$timeago(new Date(updateProps.time))" />
+              </AutoUpdate>
+            </h3>
             <span class="expand-application-text p2">
               <IconChevron />
               <span v-html="expandApplicationText" />
@@ -87,6 +100,7 @@ import Accordion from '@/components/accordion/accordion'
 import AccordionSection from '@/components/accordion/accordion-section'
 import AccordionHeader from '@/components/accordion/accordion-header'
 import AccordionContent from '@/components/accordion/accordion-content'
+import AutoUpdate from '@/components/autoupdate'
 import ButtonX from '@/components/buttons/button-x'
 import Squigglie from '@/components/squigglie'
 
@@ -104,6 +118,7 @@ export default {
     AccordionSection,
     AccordionHeader,
     AccordionContent,
+    AutoUpdate,
     ButtonX,
     Squigglie
   },
@@ -129,7 +144,8 @@ export default {
 
   data () {
     return {
-      renderer: false
+      renderer: false,
+      autoupdate: 0
     }
   },
 
@@ -140,8 +156,10 @@ export default {
     constructApplicationSubtitle (application) {
       const issueNumber = application.number
       const status = application.state === 'open' ? 'opened' : application.state_reason === 'completed' ? 'Closed as completed' : 'Closed as not planned'
-      const timeAgo = status === 'opened' ? this.$timeago(new Date(application.created_at)) : this.$timeago(new Date(application.closed_at))
-      return this.applicationSubtitle.replace('|issue_number|', issueNumber).replace('|status|', status).replace('|time_ago|', timeAgo)
+      return this.applicationSubtitle.replace('|issue_number|', issueNumber).replace('|status|', status)
+    },
+    updateTimeAgo () {
+      this.autoupdate = this.autoupdate + 1
     },
     parseApplicationMarkdown (applicationBody) {
       return Kramed(applicationBody, { renderer: this.renderer })
