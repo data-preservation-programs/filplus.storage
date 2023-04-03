@@ -18,7 +18,7 @@
       <input
         :id="fieldKey"
         v-click-outside="closeDropdown"
-        type="input"
+        :type="inputType"
         :name="fieldKey"
         :placeholder="placeholder"
         :value="value"
@@ -148,6 +148,9 @@ export default {
     },
     placeholder () {
       return this.scaffold.placeholder || 'Enter a value...'
+    },
+    inputType () {
+      return this.scaffold.inputType || 'text'
     },
     autocomplete () {
       return this.scaffold.autocomplete
