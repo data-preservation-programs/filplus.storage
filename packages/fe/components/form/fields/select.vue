@@ -9,6 +9,10 @@
       @optionSelected="optionSelected"
       v-on="$listeners">
 
+      <template #option-native-default-text>
+        {{ label }}
+      </template>
+
       <template #option-native-text="{ option }">
         {{ getOptionDescription(option) ? `${option.label}, ${getOptionDescription(option)}` : option.label }}
       </template>
@@ -152,9 +156,6 @@ $height: 4rem;
 
 ::v-deep .select-container {
   &.dropdown-open {
-    .select {
-      border-bottom-color: transparent;
-    }
     .dropdown {
       transform-origin: top center;
       scale: 1 1;

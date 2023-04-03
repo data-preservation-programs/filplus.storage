@@ -23,12 +23,12 @@
         :placeholder="placeholder"
         :value="value"
         :autocomplete="autocomplete"
-        :class="['input', state]"
-        @keydown="$emit('handleKeydown', $event)"
-        @focus="focusAndClickHandler"
-        @click="focusAndClickHandler"
-        @blur="toggleFocused(false)"
-        @input="$emit('updateValue', $event.target.value)"
+        :class="['input typehead-input', state]"
+        @focus="openDropdown"
+        @blur="closeDropdown"
+        @keydown="handleKeydown"
+        @click="openDropdown"
+        @input="handleInput"
         v-on="$listeners" />
       <div v-if="typeof chars === 'number'" class="char-validation">
         {{ chars }}
@@ -37,13 +37,17 @@
 
     <Select
       ref="dropdown"
-      :options="options"
+      :options="filteredOptions"
       :aria-labelledby="modelKey || fieldKey"
-      :selected-option="selectedOption"
       :handle-click-outside="false"
+      :maintain-index-state="false"
       @dropdownToggled="dropdownToggled"
       @optionSelected="optionSelected"
       @optionHighlighted="optionHighlighted">
+
+      <template #option-native-default-text>
+        Select an option
+      </template>
 
       <template #option-native-text="{ option }">
         {{ option[optionDisplayKey] }}
@@ -51,7 +55,7 @@
 
       <template #option-custom="{ option, highlighted, selected }">
         <div
-          :class="['option', { highlighted, selected, display: optionIncludedInSearch(option) }]"
+          :class="['option', { highlighted, selected }]"
           v-html="highlightText(option)" />
       </template>
     </Select>
@@ -125,8 +129,7 @@ export default {
     return {
       focused: false,
       dropdownOpen: false,
-      selectedOption: -1,
-      noOptionsMatchSearch: false
+      indexedOptions: [] // hardcode the unfiltered index order
     }
   },
 
@@ -180,6 +183,22 @@ export default {
     options () {
       return this.scaffold.options
     },
+    filteredOptions () {
+      const options = this.indexedOptions
+      const len = options.length
+      const compiled = []
+      for (let i = 0; i < len; i++) {
+        const option = options[i]
+        const value = option[this.optionDisplayKey]
+        if (value.toLowerCase().includes(this.value.toLowerCase())) {
+          compiled.push(option)
+        }
+      }
+      return compiled
+    },
+    noOptionsMatchSearch () {
+      return this.filteredOptions.length === 0
+    },
     optionDisplayKey () {
       return this.scaffold.optionDisplayKey
     },
@@ -194,8 +213,16 @@ export default {
   watch: {
     value (value) {
       preValidate(this, value, this.pre)
-      this.checkIfNoResultsMatchSearch()
     }
+  },
+
+  created () {
+    const options = this.options.slice()
+    const len = options.length
+    for (let i = 0; i < len; i++) {
+      options[i].index = i
+    }
+    this.indexedOptions = options
   },
 
   mounted () {
@@ -203,55 +230,48 @@ export default {
   },
 
   methods: {
-    focusAndClickHandler () {
-      if (!this.dropdownOpen) {
-        this.toggleFocused(true)
-        this.openDropdown()
-      }
-    },
-    toggleFocused (focused) {
-      this.focused = focused
-      this.$emit('toggleFocused', focused)
-    },
     dropdownToggled (state) {
+      const dropdown = this.$refs.dropdown
+      if (this.dropdown._uid !== dropdown._uid) {
+        this.dropdown = dropdown
+      }
       this.dropdownOpen = state
     },
     openDropdown () {
       this.dropdown.openDropdown()
+      this.emitToggleFocused(true)
     },
     closeDropdown () {
       this.dropdown.closeDropdown()
+      this.emitToggleFocused(false)
+    },
+    emitToggleFocused (status) {
+      this.focused = status
+      this.$emit('toggleFocused', status)
+    },
+    handleInput (e) {
+      if (!this.dropdownOpen) {
+        this.openDropdown()
+      }
+      this.$emit('updateValue', e.target.value)
+    },
+    handleKeydown (e) {
+      this.dropdown.handleKeyboardNavigation(e)
     },
     optionHighlighted (index) {
       this.highlightedOption = index
     },
     optionSelected (index) {
       if (index !== -1) {
-        this.selectedOption = index
         this.$emit('optionSelected', this.options[index][this.optionReturnKey])
         this.$emit('updateValue', this.options[index][this.optionReturnKey])
       }
-    },
-    optionIncludedInSearch (option) {
-      const value = option[this.optionDisplayKey]
-      return value.toLowerCase().includes(this.value.toLowerCase())
     },
     highlightText (option) {
       const inputValue = this.value
       const optionValue = option[this.optionDisplayKey]
       if (inputValue === '') { return optionValue }
       return optionValue.replace(this.valueMatchRegExp, '<span class="highlight">$1</span>')
-    },
-    checkIfNoResultsMatchSearch () {
-      const options = this.options
-      const len = options.length
-      let noOptionsMatch = true
-      for (let i = 0; i < len; i++) {
-        if (this.optionIncludedInSearch(options[i])) {
-          noOptionsMatch = false
-        }
-      }
-      this.noOptionsMatchSearch = noOptionsMatch
     }
   }
 }
@@ -264,18 +284,17 @@ $height: 2.5rem;
 .field-typeahead {
   height: $height;
   &.dropdown-open {
-    &:not(.no-results) {
-      .input {
-        border-color: transparent;
+    @media (hover: hover) {
+      &:not(.no-results) {
+        .input {
+          border-color: transparent;
+        }
       }
-    }
-    &.no-results {
-      :deep(div.select-container) {
-        display: none;
+      &.no-results {
+        :deep(div.select-container) {
+          display: none;
+        }
       }
-    }
-    :deep(div.select-container) {
-      display: block;
     }
   }
 }
@@ -332,9 +351,16 @@ $height: 2.5rem;
   z-index: 5;
 }
 
-:deep(select.select) {
-  &.native {
-    height: 0;
+:deep(div.select-container) {
+  @media (hover: hover) {
+    &.dropdown-open {
+      display: block;
+      select.select {
+        &.native {
+          display: none;
+        }
+      }
+    }
   }
 }
 
@@ -373,9 +399,6 @@ $height: 2.5rem;
   &.highlighted {
     transition: 150ms ease-in;
     background-color: rgba(white, 0.1);
-  }
-  &:not(.display) {
-    display: none;
   }
   span {
     font-weight: 700;
