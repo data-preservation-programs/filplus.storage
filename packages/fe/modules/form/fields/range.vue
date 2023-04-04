@@ -43,7 +43,7 @@
 <script>
 // ====================================================================== Export
 export default {
-  name: 'FieldRange',
+  name: 'FormFieldRange',
 
   props: {
     field: {

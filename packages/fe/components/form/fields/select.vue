@@ -46,7 +46,7 @@
 
 <script>
 // ===================================================================== Imports
-import Select from '@/modules/form/components/select'
+import Select from '@/modules/form/fields/select'
 
 import IconChevron from '@/components/icons/chevron'
 

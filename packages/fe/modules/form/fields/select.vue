@@ -69,7 +69,7 @@
 <script>
 // ====================================================================== Export
 export default {
-  name: 'Select',
+  name: 'FormFieldSelect',
 
   props: {
     options: {
@@ -237,9 +237,6 @@ export default {
   position: relative;
   width: 100%;
   height: 100%;
-  &:focus {
-    border: 2px solid green !important;
-  }
   &:after {
     content: '▾';
     display: flex;
@@ -268,9 +265,6 @@ export default {
     &:focus-visible {
       outline: none;
     }
-    &:focus {
-      border: 2px solid blue !important;
-    }
   }
   &.custom {
     display: none;
@@ -279,9 +273,6 @@ export default {
     left: 0;
     cursor: pointer;
     z-index: 5;
-    &:focus {
-      border: 2px solid red !important;
-    }
   }
 }
 

@@ -1,6 +1,6 @@
 <template>
   <FieldConditional
-    v-if="loaded"
+    v-if="field"
     :scaffold="scaffold"
     :parent-field="field"
     :id-suffix="idSuffix"
@@ -84,8 +84,7 @@ export default {
     const id = formId ? `${fieldKey}|${idSuffix}` : fieldKey
     return {
       id,
-      idSuffix,
-      loaded: false
+      idSuffix
     }
   },
 
@@ -97,7 +96,6 @@ export default {
         await this.$field(this.id).update({ validate: true })
       }
     }
-    this.loaded = true
   },
 
   computed: {

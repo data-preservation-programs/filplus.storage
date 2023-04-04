@@ -48,7 +48,7 @@
 
 <script>
 // ===================================================================== Imports
-import Range from '@/modules/form/components/range'
+import Range from '@/modules/form/fields/range'
 
 // ====================================================================== Export
 export default {
