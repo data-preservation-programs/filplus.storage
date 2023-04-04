@@ -42,7 +42,7 @@
             field-key="data_owner_region"
             form-id="filplus_application" />
 
-          <!-- <FieldContainer
+          <FieldContainer
             :scaffold="formScaffold.data_owner_industry"
             field-key="data_owner_industry"
             form-id="filplus_application" />
@@ -50,12 +50,12 @@
           <FieldContainer
             :scaffold="formScaffold.organization_website"
             field-key="organization_website"
-            form-id="filplus_application" /> -->
+            form-id="filplus_application" />
 
         </div>
       </div>
 
-      <!-- <div class="grid zindex-descend-col">
+      <div class="grid zindex-descend-col">
         <div class="col-6_md-6_ti-7" data-push-left="off-1_ti-0">
           <FieldContainer
             :scaffold="formScaffold.organization_social_media_handle"
@@ -68,15 +68,15 @@
             field-key="organization_social_media_handle_type"
             form-id="filplus_application" />
         </div>
-      </div> -->
+      </div>
 
       <div class="grid zindex-descend-col">
-        <!-- <div class="col-6_md-6_ti-7" data-push-left="off-1_ti-0">
+        <div class="col-6_md-6_ti-7" data-push-left="off-1_ti-0">
           <FieldContainer
             :scaffold="formScaffold.total_datacap_size_input"
             field-key="total_datacap_size_input"
             form-id="filplus_application" />
-        </div> -->
+        </div>
         <div class="col-2_md-3_ti-4" data-push-left="off-1">
           <FieldContainer
             :scaffold="formScaffold.total_datacap_size_unit"
@@ -85,7 +85,7 @@
         </div>
       </div>
 
-      <!-- <div class="grid zindex-descend-col">
+      <div class="grid zindex-descend-col">
         <div class="col-6_md-6_ti-7" data-push-left="off-1_ti-0">
           <FieldContainer
             :scaffold="formScaffold.weekly_data_size"
@@ -124,12 +124,12 @@
             form-id="filplus_application" />
 
         </div>
-      </div> -->
+      </div>
 
     </div>
 
     <!-- ================================================ [Application] Full -->
-    <!-- <div id="application-bottom">
+    <div id="application-bottom">
 
       <Squigglie
         :percent-left="90"
@@ -282,7 +282,7 @@
         </div>
       </div>
 
-    </div> -->
+    </div>
 
     <!-- ========================================================== Overlays -->
     <Overlay type="noise" />
@@ -297,12 +297,12 @@ import { mapGetters, mapActions } from 'vuex'
 import HeroB from '@/components/hero-b'
 import FieldContainer from '@/components/form/field-container'
 import ButtonA from '@/components/buttons/button-a'
-// import ButtonX from '@/components/buttons/button-x'
-// import HubspotOptInFields from '@/components/hubspot-opt-in-fields'
+import ButtonX from '@/components/buttons/button-x'
+import HubspotOptInFields from '@/components/hubspot-opt-in-fields'
 import Overlay from '@/components/overlay'
 import Squigglie from '@/components/squigglie'
-// import AuthButton from '@/components/auth-button'
-// import Chevron from '@/components/icons/chevron'
+import AuthButton from '@/components/auth-button'
+import Chevron from '@/components/icons/chevron'
 
 import ApplyLargePageData from '@/content/pages/apply-large.json'
 
@@ -314,12 +314,12 @@ export default {
     HeroB,
     FieldContainer,
     ButtonA,
-    // ButtonX,
-    // HubspotOptInFields,
+    ButtonX,
+    HubspotOptInFields,
     Overlay,
-    Squigglie
-    // AuthButton,
-    // Chevron
+    Squigglie,
+    AuthButton,
+    Chevron
   },
 
   meta: {
