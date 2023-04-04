@@ -180,7 +180,7 @@ $dimension: 1.625rem;
     + .checker {
       animation: shrink-bounce 150ms cubic-bezier(0.4, 0, 0.23, 1);
       border-color: $nandor;
-      background-color: $racingGreen;
+      background-color: $aztec;
       .icon-checkmark {
         animation: checkbox-check 75ms 200ms cubic-bezier(0.4, 0, 0.23, 1) forwards;
       }
@@ -205,7 +205,7 @@ $dimension: 1.625rem;
   height: $dimension;
   border: 2px solid $nandor;
   border-radius: 0.625rem;
-  background-color: $racingGreen;
+  background-color: $aztec;
   pointer-events: none;
   z-index: 5;
   transition: border-color 150ms, background-color 150ms, transform 150ms ease-out;

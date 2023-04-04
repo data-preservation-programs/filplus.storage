@@ -105,7 +105,7 @@
               :tag="backButton.type"
               :theme="backButton.theme">
               <Chevron />
-              {{ backButton.label }}
+              <div class="text" v-html="backButton.label" />
             </ButtonX>
           </div>
         </div>

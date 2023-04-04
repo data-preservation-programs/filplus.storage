@@ -78,7 +78,7 @@ export default {
     &:hover {
       .button-content {
         transition: 150ms ease-in;
-        text-decoration: underline;
+        text-decoration: none;
       }
     }
     &:focus-visible {
@@ -112,8 +112,10 @@ export default {
 }
 
 .button-content {
-  font-size: toRem(20);
-  font-weight: 500;
+   :deep(.text) {
+    font-size: toRem(20);
+    font-weight: 500;
+  }
   transition: 150ms ease-out;
   &.hide {
     opacity: 0;
@@ -122,13 +124,14 @@ export default {
 
 // ////////////////////////////////////////////////////////////////////// Themes
 .theme__pink {
-  @include h5;
   display: inline-block;
-  font-weight: 500;
   color: $mandysPink;
   .button-content {
     display: flex;
     align-items: center;
+  }
+  :deep(.text) {
+    @include h5;
   }
   :deep(.icon-chevron) {
     transform: rotate(90deg);
@@ -147,12 +150,30 @@ export default {
 
 .theme__green {
   color: $greenYellow;
-  .button-content {
+  :deep(.text) {
     @include p2;
   }
   &:hover {
     color: $greenYellow;
-    text-decoration: underline;
+  }
+}
+
+.theme__mineral-green {
+  background-color: rgba($mineralGreen, 0.5);
+  border-radius: toRem(3);
+  .button-content{
+    @include p3;
+    line-height: 1.8;
+    font-weight: 500;
+    padding: 0 toRem(13);
+  }
+  &:not([disabled]) {
+    &:hover {
+      background-color: rgba($mineralGreen, 1);
+      :deep(.button-content) {
+        text-decoration: none;
+      }
+    }
   }
 }
 </style>
