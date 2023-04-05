@@ -11,6 +11,8 @@
         :placeholder="placeholder"
         :autocomplete="autocomplete"
         class="textarea"
+        @focus="toggleFocused(true)"
+        @blur="toggleFocused(false)"
         @input="$emit('updateValue', $event.target.value)"></textarea>
     </div>
 
@@ -74,6 +76,12 @@ export default {
   watch: {
     value (value) {
       preValidate(this, value, this.pre)
+    }
+  },
+
+  methods: {
+    toggleFocused (focused) {
+      this.$emit('toggleFocused', focused)
     }
   }
 }

@@ -16,6 +16,8 @@
         :max="max"
         :autocomplete="autocomplete"
         class="input"
+        @focus="toggleFocused(true)"
+        @blur="toggleFocused(false)"
         @input="$emit('updateValue', $event.target.value)" />
     </div>
 
@@ -92,6 +94,12 @@ export default {
   watch: {
     value (value) {
       preValidate(this, value, this.pre)
+    }
+  },
+
+  methods: {
+    toggleFocused (focused) {
+      this.$emit('toggleFocused', focused)
     }
   }
 }

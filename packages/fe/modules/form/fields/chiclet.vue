@@ -16,6 +16,8 @@
         :max="max"
         :autocomplete="autocomplete"
         class="input"
+        @focus="toggleFocused(true)"
+        @blur="toggleFocused(false)"
         @keydown="handleKeyboardNavigation" />
     </div>
 
@@ -132,6 +134,9 @@ export default {
       })
       this.$emit('updateValue', chiclets.concat(compiled))
       this.inputValue = ''
+    },
+    toggleFocused (focused) {
+      this.$emit('toggleFocused', focused)
     }
   }
 }

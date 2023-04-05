@@ -3,7 +3,6 @@
     :class="[
       'field field-typeahead',
       state, {
-        focused,
         'dropdown-open': dropdownOpen,
         'first-option-highlighted': firstOptionHighlighted,
         'no-results': noOptionsMatchSearch,
@@ -133,7 +132,6 @@ export default {
 
   data () {
     return {
-      focused: false,
       dropdownOpen: false,
       highlightedOption: -1,
       indexedOptions: [] // hardcode the unfiltered index order
@@ -243,9 +241,8 @@ export default {
       this.dropdown.closeDropdown()
       this.emitToggleFocused(false)
     },
-    emitToggleFocused (status) {
-      this.focused = status
-      this.$emit('toggleFocused', status)
+    emitToggleFocused (focused) {
+      this.$emit('toggleFocused', focused)
     },
     handleInput (e) {
       if (!this.dropdownOpen) {

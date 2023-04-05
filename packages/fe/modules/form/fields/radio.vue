@@ -48,12 +48,6 @@ export default {
     }
   },
 
-  data () {
-    return {
-      focused: false
-    }
-  },
-
   computed: {
     scaffold () {
       return this.field.scaffold
@@ -77,7 +71,6 @@ export default {
 
   methods: {
     toggleFocused (focused) {
-      this.focused = focused
       this.$emit('toggleFocused', focused)
     }
   }

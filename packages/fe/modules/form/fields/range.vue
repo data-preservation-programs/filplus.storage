@@ -1,5 +1,5 @@
 <template>
-  <div :class="['range-container', state, { focused }]">
+  <div :class="['range-container', state]">
 
     <div class="range-track">
       <div
@@ -27,8 +27,8 @@
         :class="['range', state]"
         :disabled="disabled"
         type="range"
-        @focus="focused = true"
-        @blur="focused = false"
+        @focus="toggleFocused(true)"
+        @blur="toggleFocused(false)"
         @input="updateValue($event.target.value)" />
     </div>
 
@@ -60,7 +60,6 @@ export default {
     const self = this
     return {
       position: self.field.min,
-      focused: false,
       thumbDimensions: {
         x: 0,
         y: 0
@@ -178,6 +177,9 @@ export default {
     },
     updateValue (value) {
       this.$emit('updateValue', this.logarithmic ? this.transform(value) : value)
+    },
+    toggleFocused (focused) {
+      this.$emit('toggleFocused', focused)
     },
     getPosition (value) {
       if (!this.logarithmic) { return value }

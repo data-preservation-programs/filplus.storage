@@ -1,5 +1,5 @@
 <template>
-  <div :class="['field field-range', state, { focused }]">
+  <div :class="['field field-range', state]">
 
     <label v-if="label" :for="name" class="label floating">
       <span class="text">{{ label }}</span>
@@ -71,7 +71,6 @@ export default {
 
   data () {
     return {
-      focused: false,
       numTicks: 0
     }
   },
