@@ -178,7 +178,6 @@ export default {
       return this.scaffold.options
     },
     state () {
-      console.log(this.field.state)
       return this.field.state
     },
     valueMatchRegExp () {
