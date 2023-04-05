@@ -1,22 +1,17 @@
 <template>
-  <div :class="['field field-input', state, { empty, disabled }]">
+  <div :class="['field field-textarea', state, { empty, disabled }]">
 
-    <div v-if="disabled" class="input">
+    <div v-if="disabled" class="textarea">
       {{ value }}
     </div>
 
-    <div v-else class="input-container">
-      <input
-        :id="fieldKey"
-        :type="inputType"
-        :name="fieldKey"
-        :placeholder="placeholder"
+    <div class="textarea-container">
+      <textarea
         :value="value"
-        :min="min"
-        :max="max"
+        :placeholder="placeholder"
         :autocomplete="autocomplete"
-        class="input"
-        @input="$emit('updateValue', $event.target.value)" />
+        class="textarea"
+        @input="$emit('updateValue', $event.target.value)"></textarea>
     </div>
 
   </div>
@@ -35,7 +30,7 @@ const preValidate = (instance, value, pre) => {
 
 // ====================================================================== Export
 export default {
-  name: 'FormFieldInput',
+  name: 'FormFieldTextarea',
 
   props: {
     field: {
@@ -53,12 +48,6 @@ export default {
     scaffold () {
       return this.field.scaffold
     },
-    inputType () {
-      return this.scaffold.inputType || 'text'
-    },
-    fieldKey () {
-      return this.field.fieldKey
-    },
     placeholder () {
       return this.scaffold.placeholder || 'Enter a value...'
     },
@@ -74,18 +63,11 @@ export default {
     value () {
       return this.field.value
     },
-    min () {
-      return this.scaffold.min
-    },
-    max () {
-      return this.scaffold.max
-    },
-    empty () {
-      const value = this.value
-      return !value || value === ''
-    },
     state () {
       return this.field.state
+    },
+    empty () {
+      return this.value === ''
     }
   },
 
@@ -99,19 +81,9 @@ export default {
 
 <style lang="scss" scoped>
 // ///////////////////////////////////////////////////////////////////// General
-.input-container,
-.input {
+.textarea-container,
+.textarea {
   width: 100%;
   height: 100%;
-}
-
-.input {
-  appearance: none;
-  -moz-appearance: textfield;
-  &::-webkit-inner-spin-button,
-  &::-webkit-outer-spin-button {
-    margin: 0;
-    appearance: none;
-  }
 }
 </style>
