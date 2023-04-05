@@ -69,7 +69,7 @@ const preValidate = (value, pre) => {
 
 // ====================================================================== Export
 export default {
-  name: 'FieldInput',
+  name: 'FieldChiclet',
 
   components: {
     ButtonX,
