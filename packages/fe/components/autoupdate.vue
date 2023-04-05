@@ -31,7 +31,7 @@ export default {
 
   created () {
     if (this.refresh) {
-      setInterval(this.autoupdate, this.refresh)
+      setInterval(this.updateComponent, this.refresh)
     }
   },
 
