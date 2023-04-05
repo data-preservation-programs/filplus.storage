@@ -38,26 +38,6 @@
             form-id="filplus_application" />
 
           <FieldContainer
-            :scaffold="{
-              type: 'chiclet',
-              modelKey: 'bucket',
-              label: 'Bucket',
-              placeholder: 'Bucket',
-              required: true,
-              pre: '[^\\u0000-\\u00ff]',
-              autocomplete: 'none',
-              chars: {
-                'min': 10
-              },
-              validationMessage: {
-                required: 'This field is required',
-                chars: 'Input must be at least 10 characters'
-              }
-            }"
-            field-key="bucket"
-            form-id="filplus_application" />
-
-          <FieldContainer
             :scaffold="formScaffold.data_owner_region"
             field-key="data_owner_region"
             form-id="filplus_application" />

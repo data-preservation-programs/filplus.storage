@@ -14,7 +14,6 @@ const state = () => ({
     totalPages: 1
   },
   application: {
-    bucket: ['foo', 'bar'],
     organization_name: null,
     data_owner_region: null,
     data_owner_industry: null,
