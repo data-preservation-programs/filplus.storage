@@ -1,27 +1,29 @@
 <template>
   <div
     :class="[
-      'typeahead-container', {
+      'field field-typeahead',
+      state, {
         focused,
         'dropdown-open': dropdownOpen,
         'first-option-highlighted': firstOptionHighlighted,
         'no-results': noOptionsMatchSearch,
-        empty
+        empty,
+        disabled
       }]">
 
-    <div v-if="inputDisabled" :class="['input', { disabled: inputDisabled }]">
-      {{ inputValue }}
+    <div v-if="disabled" :class="input">
+      {{ value }}
     </div>
 
     <div v-else class="input-container">
       <input
-        :id="inputId"
+        :id="fieldKey"
         v-click-outside="closeDropdown"
         :type="inputType"
-        :name="inputId"
-        :placeholder="inputPlaceholder"
-        :value="inputValue"
-        :autocomplete="inputAutocomplete"
+        :name="fieldKey"
+        :placeholder="placeholder"
+        :value="value"
+        :autocomplete="autocomplete"
         class="input typehead-input"
         @focus="openDropdown"
         @blur="closeDropdown"
@@ -118,49 +120,14 @@ export default {
   },
 
   props: {
-    inputType: {
-      type: String,
-      required: false,
-      default: 'text'
+    field: {
+      type: Object,
+      required: true
     },
-    inputPlaceholder: {
-      type: String,
-      required: false,
-      default: 'Enter a value...'
-    },
-    inputAutocomplete: {
-      type: String,
-      required: false,
-      default: 'off'
-    },
-    inputDisabled: {
+    forceDisabled: {
       type: Boolean,
       required: false,
       default: false
-    },
-    inputId: {
-      type: String,
-      required: true
-    },
-    inputValue: {
-      type: String,
-      required: true
-    },
-    options: {
-      type: Array,
-      required: true
-    },
-    optionDisplayKey: {
-      type: String,
-      required: true
-    },
-    optionReturnKey: {
-      type: String,
-      required: true
-    },
-    ariaLabelledBy: {
-      type: String,
-      required: true
     }
   },
 
@@ -174,11 +141,51 @@ export default {
   },
 
   computed: {
+    scaffold () {
+      return this.field.scaffold
+    },
+    modelKey () {
+      return this.scaffold.modelKey
+    },
+    fieldKey () {
+      return this.field.fieldKey
+    },
+    inputType () {
+      return this.scaffold.inputType
+    },
+    placeholder () {
+      return this.scaffold.placeholder
+    },
+    autocomplete () {
+      return this.scaffold.autocomplete
+    },
+    disabled () {
+      return this.forceDisabled || this.scaffold.disabled
+    },
+    value () {
+      return this.field.value
+    },
+    optionDisplayKey () {
+      return this.scaffold.optionDisplayKey
+    },
+    optionReturnKey () {
+      return this.scaffold.optionReturnKey
+    },
+    ariaLabelledBy () {
+      return this.modelKey || this.fieldKey
+    },
+    options () {
+      return this.scaffold.options
+    },
+    state () {
+      console.log(this.field.state)
+      return this.field.state
+    },
     valueMatchRegExp () {
-      return new RegExp(`(${this.inputValue})`, 'ig')
+      return new RegExp(`(${this.value})`, 'ig')
     },
     empty () {
-      const value = this.inputValue
+      const value = this.value
       return value === undefined || value === ''
     },
     filteredOptions () {
@@ -188,7 +195,7 @@ export default {
       for (let i = 0; i < len; i++) {
         const option = options[i]
         const value = option[this.optionDisplayKey]
-        if (value.toLowerCase().includes(this.inputValue.toLowerCase())) {
+        if (value.toLowerCase().includes(this.value.toLowerCase())) {
           compiled.push(option)
         }
       }
@@ -203,7 +210,7 @@ export default {
   },
 
   watch: {
-    inputValue (value) {
+    value (value) {
       preValidate(this, value, this.pre)
     }
   },
@@ -222,12 +229,12 @@ export default {
   },
 
   methods: {
-    dropdownToggled (state) {
+    dropdownToggled (status) {
       const dropdown = this.$refs.dropdown
       if (this.dropdown._uid !== dropdown._uid) {
         this.dropdown = dropdown
       }
-      this.dropdownOpen = state
+      this.dropdownOpen = status
     },
     openDropdown () {
       this.dropdown.openDropdown()
@@ -260,9 +267,9 @@ export default {
       }
     },
     highlightText (option) {
-      const inputValue = this.inputValue
+      const value = this.value
       const optionValue = option[this.optionDisplayKey]
-      if (inputValue === '') { return optionValue }
+      if (value === '') { return optionValue }
       return optionValue.replace(this.valueMatchRegExp, '<span class="highlight">$1</span>')
     }
   }
@@ -271,7 +278,7 @@ export default {
 
 <style lang="scss" scoped>
 // ///////////////////////////////////////////////////////////////////// General
-.typeahead-container {
+.field-typeahead {
   &.dropdown-open {
     @media (hover: hover) {
       &.no-results {

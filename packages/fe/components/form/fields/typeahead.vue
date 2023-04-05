@@ -1,16 +1,7 @@
 <template>
   <Typeahead
-    :input-type="scaffold.inputType"
-    :input-placeholder="scaffold.placeholder"
-    :input-autocomplete="scaffold.autocomplete"
-    :input-id="field.fieldKey"
-    :input-disabled="scaffold.disabled"
-    :input-value="field.value"
-    :option-display-key="scaffold.optionDisplayKey"
-    :option-return-key="scaffold.optionReturnKey"
-    :options="options"
-    :aria-labelled-by="modelKey || fieldKey"
-    :class="['field field-typeahead', state]"
+    :field="field"
+    :force-disabled="forceDisabled"
     v-on="$listeners">
 
     <template #option-native-default-text>
@@ -42,24 +33,11 @@ export default {
     field: {
       type: Object,
       required: true
-    }
-  },
-
-  computed: {
-    scaffold () {
-      return this.field.scaffold
     },
-    modelKey () {
-      return this.scaffold.modelKey
-    },
-    fieldKey () {
-      return this.field.fieldKey
-    },
-    options () {
-      return this.scaffold.options
-    },
-    state () {
-      return this.field.state
+    forceDisabled: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   }
 }
@@ -69,7 +47,7 @@ export default {
 $height: 2.5rem;
 
 // ///////////////////////////////////////////////////////////////////// General
-.field-typeahead.typeahead-container {
+.field-typeahead {
   height: $height;
   &.dropdown-open {
     @media (hover: hover) {
@@ -78,6 +56,22 @@ $height: 2.5rem;
           border-color: transparent;
         }
       }
+    }
+  }
+  &.caution {
+    :deep(.input) {
+      border-color: $mandysPink;
+    }
+  }
+  &.error {
+    :deep(.input) {
+      border-color: $flamingo;
+    }
+  }
+  &.disabled {
+    cursor: no-drop;
+    :deep(.input) {
+      border-bottom-color: rgba(246, 245, 255, 0.25);
     }
   }
 }
@@ -104,16 +98,6 @@ $height: 2.5rem;
   }
   &:focus {
     font-size: toRem(20);
-  }
-  &.caution {
-    border-color: $mandysPink;
-  }
-  &.error {
-    border-color: $flamingo;
-  }
-  &.disabled {
-    cursor: no-drop;
-    border-bottom-color: rgba(246, 245, 255, 0.25);
   }
 }
 
