@@ -322,10 +322,6 @@ export default {
     Chevron
   },
 
-  meta: {
-    authenticate: true
-  },
-
   data () {
     return {
       tag: 'apply-large'
