@@ -122,9 +122,9 @@ export default {
     Spinner
   },
 
-  // meta: {
-  //   guarded: true
-  // },
+  meta: {
+    guarded: true
+  },
 
   data () {
     return {
@@ -133,9 +133,6 @@ export default {
   },
 
   async fetch ({ app, store, redirect, route }) {
-    const accountExists = await store.getters['auth/account']
-    if (!accountExists) { return redirect('/apply') }
-    // console.log('FETCH')
     await store.dispatch('general/getBaseData', { key: 'applications', data: ApplicationsPageData })
     await store.dispatch('account/setLoadingStatus', { type: 'loading', status: true })
   },
