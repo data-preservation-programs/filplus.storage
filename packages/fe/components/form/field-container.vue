@@ -129,7 +129,7 @@ export default {
       return tooltip && tooltip !== '' ? tooltip : false
     },
     required () {
-      return this.scaffold.required || false
+      return this.scaffold.required
     },
     disabled () {
       return this.forceDisabled || this.scaffold.disabled
