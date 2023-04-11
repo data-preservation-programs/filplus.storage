@@ -220,5 +220,6 @@ $dimension: 1.625rem;
 .label {
   font-weight: 400;
   padding-left: 1rem;
+  line-height: leading(26, 18);
 }
 </style>
