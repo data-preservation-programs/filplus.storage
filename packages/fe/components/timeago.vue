@@ -29,7 +29,7 @@ export default {
 
   methods: {
     /*
-     * If now < 1 mins from this.date, then update every second; else update every minute
+     * If now < 1 mins from this.date, then poll every second; else poll every minute
      */
     setInterval () {
       const oneMinute = 60 * 1000
@@ -54,10 +54,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-// /////////////////////////////////////////////////////////////////// Accordion
-.timeago {
-
-}
-</style>
