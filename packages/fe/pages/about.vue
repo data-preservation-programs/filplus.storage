@@ -43,6 +43,8 @@
             </Card>
           </div>
 
+          <Infographic />
+
         </div>
 
         <div class="col-4_lg-3_sm-2_mi-1">
@@ -69,6 +71,7 @@ import MarkdownParser from '@/components/markdown-parser'
 import Overlay from '@/components/overlay'
 import Squigglie from '@/components/squigglie'
 import Card from '@/components/card'
+import Infographic from '@/components/infographic'
 
 import AboutPageData from '@/content/pages/about.json'
 import AboutContent from '@/content/markdown/about.md'
@@ -82,7 +85,8 @@ export default {
     MarkdownParser,
     Overlay,
     Squigglie,
-    Card
+    Card,
+    Infographic
   },
 
   data () {
