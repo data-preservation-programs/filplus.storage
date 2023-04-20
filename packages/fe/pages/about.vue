@@ -188,6 +188,7 @@ export default {
 
 .cta-card-wrapper {
   cursor: pointer;
+  padding-bottom: 5rem;
 }
 
 .apply-cta-card.corner-position__top-right {
