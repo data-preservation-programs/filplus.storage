@@ -96,21 +96,21 @@
           <image
             x="734.573"
             y="92.583"
-            width="51"
-            height="51"
+            width="45"
+            height="45"
             href="../assets/images/infographic/small-coin.png" />
           <image
             x="759.681"
             y="58"
-            width="50"
-            height="50"
+            width="45"
+            height="45"
             transform="rotate(18.2891 769.681 118)"
             href="../assets/images/infographic/small-coin.png" />
           <image
             x="747.572"
             y="107.719"
-            width="51"
-            height="50"
+            width="45"
+            height="45"
             transform="rotate(-38.2219 696.572 156.719)"
             href="../assets/images/infographic/small-coin.png" />
         </g>
@@ -158,122 +158,123 @@
           <image
             x="734.573"
             y="214.963"
-            width="51"
-            height="51"
+            width="45"
+            height="45"
             href="../assets/images/infographic/small-coin.png"
             class="small-coin" />
           <image
             x="770.078"
             y="148.645"
-            width="50"
-            height="50"
+            width="45"
+            height="45"
             transform="rotate(-26.33 770.078 148.645)"
             href="../assets/images/infographic/small-coin.png"
             class="small-coin" />
           <image
             x="774.466"
             y="87.4828"
-            width="51"
-            height="50"
+            width="45"
+            height="45"
             transform="rotate(14.1649 774.466 87.4828)"
             href="../assets/images/infographic/small-coin.png"
             class="small-coin" />
           <image
             x="807"
             y="168"
-            width="51"
-            height="50"
+            width="45"
+            height="45"
             href="../assets/images/infographic/small-coin.png"
             class="small-coin" />
           <image
             x="729.573"
             y="164.963"
-            width="51"
-            height="50"
+            width="45"
+            height="45"
             href="../assets/images/infographic/small-coin.png"
             class="small-coin" />
           <image
             x="742.573"
             y="130.963"
-            width="51"
-            height="51"
+            width="45"
+            height="45"
             href="../assets/images/infographic/small-coin.png"
             class="small-coin" />
           <image
             x="685.423"
             y="163.423"
-            width="51"
-            height="50"
+            width="45"
+            height="45"
             transform="rotate(-16.8415 685.423 163.423)"
             href="../assets/images/infographic/small-coin.png"
             class="small-coin" />
           <image
             x="700.569"
             y="130.756"
-            width="51"
-            height="50"
+            width="45"
+            height="45"
             transform="rotate(-29.492 700.569 130.756)"
             href="../assets/images/infographic/small-coin.png"
             class="small-coin" />
           <image
             x="644"
             y="139.788"
-            width="51"
-            height="50"
+            width="45"
+            height="45"
             transform="rotate(-15.6857 644 139.788)"
             href="../assets/images/infographic/small-coin.png"
             class="small-coin" />
           <image
             x="782.476"
             y="243.812"
-            width="51"
-            height="50"
+            width="45"
+            height="45"
             transform="rotate(-49.0083 782.476 243.812)"
             href="../assets/images/infographic/small-coin.png"
             class="small-coin" />
           <image
             x="803"
             y="108"
-            width="51"
-            height="50"
+            width="45"
+            height="45"
             href="../assets/images/infographic/small-coin.png"
             class="small-coin" />
           <image
             x="709.735"
             y="81.716"
-            width="50"
-            height="50"
+            width="45"
+            height="45"
             transform="rotate(-28.1525 709.735 81.716)"
             href="../assets/images/infographic/small-coin.png"
             class="small-coin" />
           <image
             x="675"
             y="216.005"
-            width="50"
-            height="50"
+            width="45"
+            height="45"
             transform="rotate(-5.29554 675 216.005)"
             href="../assets/images/infographic/small-coin.png"
             class="small-coin" />
           <image
             x="679.573"
             y="92.9629"
-            width="50"
-            height="50"
+            width="45"
+            height="45"
             href="../assets/images/infographic/small-coin.png"
             class="small-coin" />
           <image
             x="769.681"
             y="173.38"
-            width="50"
-            height="50"
+            width="45"
+            height="45"
             transform="rotate(18.2891 769.681 173.38)"
             href="../assets/images/infographic/small-coin.png"
             class="small-coin" />
           <image
             x="696.572"
             y="212.099"
-            width="51"
-            height="50"
+            width="45"
+            height="45"
+            z-index="10"
             transform="rotate(-38.2219 696.572 212.099)"
             href="../assets/images/infographic/small-coin.png"
             class="small-coin" />
