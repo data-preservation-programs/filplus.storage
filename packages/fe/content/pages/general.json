@@ -14,7 +14,7 @@
     "header": [
       {
         "type": "a",
-        "href": "https://filplus.d.interplanetary.one/notaries?showInactive=true",
+        "href": "https://notaries.datacapstats.io/",
         "label": "Notaries",
         "target": "_blank"
       },
