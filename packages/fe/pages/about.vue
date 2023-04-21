@@ -188,7 +188,6 @@ export default {
 
 .cta-card-wrapper {
   cursor: pointer;
-  padding-bottom: 5rem;
 }
 
 .apply-cta-card.corner-position__top-right {
@@ -221,6 +220,10 @@ export default {
   :deep(.content) {
     padding: toRem(37) 2rem 1.875rem toRem(43) !important;
   }
+}
+
+.infographic-container {
+  padding: 5rem 5rem 5rem 0;
 }
 
 // ////////////////////////////////////////////////////////////////// Warp Image
