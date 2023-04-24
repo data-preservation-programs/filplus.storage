@@ -57,6 +57,23 @@ const processTemplate = async (type, application) => {
   }
 }
 
+// ////////////////////////////////////////////////////////////////// labelIssue
+const labelIssue = async (type, issueNumber) => {
+  try {
+    const repo = MC.serverFlag === 'production' ? repos[type][0] : repos[type][1]
+    const body = {
+      labels: ['source:filplus.storage']
+    }
+    const options = { headers: { Accept: 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28', Authorization: `Bearer ${process.env.GITHUB__PERSONAL_ACCESS_TOKEN__DATA_PROGRAMS}` } }
+    const response = await Axios.post(`https://api.github.com/repos/${repo}/issues/${issueNumber}/labels`, body, options)
+    console.log('labelIssue ', response)
+    return response.data
+  } catch (e) {
+    console.log('====================================== [Function: labelIssue]')
+    throw e
+  }
+}
+
 // //////////////////////////////////////////////////////////////////// Endpoint
 // -----------------------------------------------------------------------------
 MC.app.post('/submit-application', async (req, res) => {
@@ -86,6 +103,7 @@ MC.app.post('/submit-application', async (req, res) => {
       })
     }
     const githubIssue = await submitApplication(type, template, application, user.githubToken)
+    await labelIssue(type, githubIssue.number)
     SendData(res, 200, 'Application submitted succesfully', githubIssue)
   } catch (e) {
     console.log('============================= [Endpoint: /submit-application]')
