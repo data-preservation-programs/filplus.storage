@@ -19,11 +19,13 @@
         class="section-top-border" />
 
       <div class="grid-spaceBetween">
-
+        
         <div class="col-7_lg-8_sm-9_mi-10" data-push-left="off-1_mi-0">
-
+          
           <MarkdownParser :markdown="markdown" />
-
+          
+          <Infographic />
+          
           <div
             v-if="ctaCard"
             class="cta-card-wrapper"
@@ -42,9 +44,6 @@
               </div>
             </Card>
           </div>
-
-          <Infographic />
-
         </div>
 
         <div class="col-4_lg-3_sm-2_mi-1">
@@ -176,7 +175,7 @@ export default {
 }
 
 .markdown {
-  padding: 5rem 0;
+  padding: 5rem 0 3rem;
   padding-right: 5rem;
   @include small {
     padding-right: 3rem;
@@ -223,7 +222,7 @@ export default {
 }
 
 .infographic-container {
-  padding: 5rem 5rem 5rem 0;
+  padding: 0.5rem 2rem 0.5rem 0.5rem;
 }
 
 // ////////////////////////////////////////////////////////////////// Warp Image
