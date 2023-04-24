@@ -14,7 +14,7 @@
 
 <script>
 // ===================================================================== Imports
-import { mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 import SiteHeader from '@/components/site-header'
 import SiteFooter from '@/components/site-footer'
@@ -37,6 +37,22 @@ export default {
     }
   },
 
+  computed: {
+    ...mapGetters({
+      account: 'auth/account'
+    })
+  },
+
+  watch: {
+    async account (accountAfter, accountBefore) {
+      if (accountAfter.hasOwnProperty('_id') && !accountBefore.hasOwnProperty('_id')) {
+        await this.$connectWebsocket(this, () => {
+          this.joinUserWebsocketRoom(accountAfter)
+        })
+      }
+    }
+  },
+
   async created () {
     await this.$store.dispatch('general/getBaseData', 'general')
   },
@@ -54,6 +70,9 @@ export default {
     })
     // Initialize global connections
     await this.$connectWebsocket(this, () => {
+      if (this.account) {
+        this.joinUserWebsocketRoom(this.account)
+      }
       this.socket.emit('join-room', 'global')
       this.socket.on('cron|app-version-changed|payload', (message) => {
         this.$toaster.add({
@@ -62,6 +81,11 @@ export default {
           message,
           timeout: 9999999999
         })
+      })
+      this.socket.on('module|kyc-updated|payload', (account) => {
+        if (this.account) {
+          this.setAccount(account)
+        }
       })
       this.socket.on('disconnect', async () => {
         this.networkErrorToastId = await this.$toaster.add({
@@ -91,8 +115,12 @@ export default {
 
   methods: {
     ...mapActions({
-      setSavedFormExistsStatus: 'form/setSavedFormExistsStatus'
-    })
+      setSavedFormExistsStatus: 'form/setSavedFormExistsStatus',
+      setAccount: 'auth/setAccount'
+    }),
+    joinUserWebsocketRoom (account) { // every user joins their own room upon logging in
+      this.socket.emit('join-room', account._id)
+    }
   }
 }
 </script>

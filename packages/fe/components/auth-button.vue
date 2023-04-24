@@ -20,7 +20,7 @@
           <div class="panel-left">
             <img :src="account.githubAvatarUrl" class="avatar" />
             <span class="username">
-              {{ account.githubUsername }}
+              {{ githubUsername }}
             </span>
           </div>
           <IconChevron />
@@ -34,16 +34,22 @@
             :to="applicationHistoryButton.href"
             :selected="$isRouteCurrent($route, applicationHistoryButton.href)"
             :tag="applicationHistoryButton.type"
-            :target="applicationHistoryButton.target"
             class="auth-link">
-            <div class="auth-link-text" v-html="applicationHistoryButton.label" />
+            <div class="link-text" v-html="applicationHistoryButton.label" />
+          </ButtonX>
+          <ButtonX
+            :to="kycTogggleGetVerifiedButton.href"
+            :tag="kycTogggleGetVerifiedButton.type"
+            :target="kycTogggleGetVerifiedButton.target"
+            class="kyc-link">
+            <div class="link-text" v-html="kycTogggleGetVerifiedButton.label" />
           </ButtonX>
           <Logout v-slot="{ logout }">
             <ButtonX
               class="auth-link button-logout"
               loader="logout-button"
               @clicked="logout">
-              <div class="auth-link-text">
+              <div class="link-text">
                 Logout
               </div>
             </ButtonX>
@@ -87,11 +93,22 @@ export default {
     ...mapGetters({
       account: 'auth/account'
     }),
+    githubUsername () {
+      return this.account.githubUsername
+    },
     applicationHistoryButton () {
       return {
         type: 'nuxt-link',
-        href: `/account/${this.account.githubUsername}/applications`,
+        href: `/account/${this.githubUsername}/applications`,
         label: 'Application History Page'
+      }
+    },
+    kycTogggleGetVerifiedButton () {
+      return {
+        type: 'a',
+        href: `${this.$config.togggleLink}?token=${this.githubUsername}`, // togggleLink can be found in nuxt.config.js
+        target: '_blank',
+        label: 'Get Verified'
       }
     }
   }
@@ -224,7 +241,8 @@ export default {
   padding: 0 toRem(12) 0.25rem toRem(12);
 }
 
-:deep(.auth-link.button-x) {
+:deep(.auth-link.button-x),
+:deep(.kyc-link.button-x) {
   .inner-content {
     transition: 150ms ease-in;
   }
@@ -259,7 +277,7 @@ export default {
   }
 }
 
-.auth-link-text {
+.link-text {
   font-size: 1rem;
   line-height: leading(35, 18);
 }

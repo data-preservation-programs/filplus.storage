@@ -391,6 +391,7 @@ const ConnectWebsocket = config => (instance, next) => {
     })
   }
   return new Promise((resolve) => {
+    if (instance.socket) { return resolve() }
     instance.socket = instance.$nuxtSocket(config.socketOptions)
     disconnect(resolve)
     connect(resolve)
