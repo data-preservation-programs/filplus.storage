@@ -66,7 +66,6 @@ const labelIssue = async (type, issueNumber) => {
     }
     const options = { headers: { Accept: 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28', Authorization: `Bearer ${process.env.GITHUB__PERSONAL_ACCESS_TOKEN__DATA_PROGRAMS}` } }
     const response = await Axios.post(`https://api.github.com/repos/${repo}/issues/${issueNumber}/labels`, body, options)
-    console.log('labelIssue ', response)
     return response.data
   } catch (e) {
     console.log('====================================== [Function: labelIssue]')
