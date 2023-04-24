@@ -11,13 +11,20 @@
 
             <h1 class="heading h3" v-html="pageHeading" />
 
-            <ButtonA
-              to="/apply"
-              tag="nuxt-link"
-              class="new-application-button"
-              theme="green">
-              {{ pageData.new_application_button_text }}
-            </ButtonA>
+            <div class="buttons">
+              <ButtonA
+                to="/apply"
+                tag="nuxt-link"
+                class="new-application-button"
+                theme="green">
+                {{ pageData.new_application_button_text }}
+              </ButtonA>
+              <KycButton
+                :button-content="kycButton"
+                tooltip-align="right"
+                theme="full"
+                class="kyc-button" />
+            </div>
 
             <div :class="['toolbar top', { loading: refresh }]">
               <Spinner />
@@ -94,6 +101,7 @@ import { mapActions, mapGetters } from 'vuex'
 
 import AppAccordion from '@/components/app-accordion'
 import ButtonA from '@/components/buttons/button-a'
+import KycButton from '@/components/kyc-button'
 import Checkbox from '@/components/search/checkbox'
 import Radio from '@/components/search/radio'
 import Sort from '@/components/search/sort'
@@ -112,6 +120,7 @@ export default {
   components: {
     AppAccordion,
     ButtonA,
+    KycButton,
     Checkbox,
     Radio,
     Sort,
@@ -135,7 +144,6 @@ export default {
   async fetch ({ app, store, redirect, route }) {
     const accountExists = await store.getters['auth/account']
     if (!accountExists) { return redirect('/apply') }
-    // console.log('FETCH')
     await store.dispatch('general/getBaseData', { key: 'applications', data: ApplicationsPageData })
     await store.dispatch('account/setLoadingStatus', { type: 'loading', status: true })
   },
@@ -156,6 +164,9 @@ export default {
     }),
     pageData () {
       return this.siteContent[this.tag].page_content
+    },
+    kycButton () {
+      return this.pageData.kyc_button
     },
     filters () {
       return this.pageData.filters
@@ -251,8 +262,16 @@ export default {
   }
 }
 
-.new-application-button {
+.buttons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   margin-bottom: 4rem;
+  .button-a {
+    &:not(:last-child) {
+      margin-right: 1rem;
+    }
+  }
 }
 
 .toolbar {

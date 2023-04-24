@@ -35,10 +35,21 @@
         "target": "_blank"
       }
     ],
+    "kyc_button": {
+      "unverified": {
+        "text": "Get Verified"
+      },
+      "kyc-verifying": {
+        "text": "Verifying..."
+      },
+      "kyc-success": {
+        "text": "Verified User"
+      }
+    },
     "cta": {
-     "href": "/",
-     "label": "Apply Now"
-   },
+      "href": "/",
+      "label": "Apply Now"
+    },
     "footer": [
       {
         "type": "nuxt-link",

@@ -205,7 +205,7 @@ export default {
       left: calc(100% + 4px);
       transform: translate(0.5rem, -50%) rotate(-90deg);
       border-bottom-width: 0.5rem;
-      border-bottom-color: $dodgerBlue;
+      border-bottom-color: $blueRibbon;
     }
     &:after {
       white-space: break-spaces;
@@ -217,7 +217,7 @@ export default {
       line-height: leading(27, 16);
       border-radius: 1rem;
       transform: translate(0.5rem, -50%);
-      background-color: $dodgerBlue;
+      background-color: $blueRibbon;
     }
   }
   .icon {

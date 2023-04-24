@@ -51,54 +51,47 @@ try {
 
 // /////////////////////////////////////////////////////////////////////////////
 // -----------------------------------------------------------------------------
-// const users = async () => {
-//   try {
-//     // const users = await MC.model.User.findOne({ githubUsername: '' })
-//     // const users = await MC.model.User.findById('')
-//     // const users = await MC.model.User.find().sort({ createdAt: 1 })
-//     console.log(users)
-//     console.log(users.length)
-//     // user.hubspotOptIn = false
-//     // user.hubspotOptInContactId = undefined
-//     // user.hubspotOptInEmail = undefined
-//     // user.hubspotOptInFirstName = undefined
-//     // user.hubspotOptInLastName = undefined
-//     // user.hubspotOptInApplicationCompanyName = undefined
-//     // user.hubspotOptInApplicationRegion = undefined
-//     // user.hubspotOptInApplicationDatacapRequested = undefined
-//     // user.hubspotOptInApplicationWalletAddress = undefined
-//     // await user.save()
-//     // console.log(saved)
-//   } catch (e) {
-//     console.log(e)
-//   }
-//
-//   // try {
-//   //   const user = await MC.model.User.deleteOne({ githubUsername: 'timelytree' })
-//   //   console.log(user)
-//   // } catch (e) {
-//   //   console.log(e)
-//   // }
-//
-//   // try {
-//   //   const users = await MC.model.User.find()
-//   //   const len = users.length
-//   //   for (let i = 0; i < len; i++) {
-//   //     const user = users[i]
-//   //     // const beforeEmail = `${user.email}`
-//   //     // user.id = undefined
-//   //     // console.log(`${user.githubUsername}|${user.id}`)
-//   //     // console.log(user)
-//   //     // user.githubEmail = user.email === '' ? null : user.email
-//   //     // user.email = null
-//   //     // const saved = await user.save()
-//   //     // console.log(saved.id)
-//   //     // console.log(`Before: ${beforeEmail} | After: ${saved.githubEmail}`)
-//   //   }
-//   // } catch (e) {
-//   //   console.log(e)
-//   // }
-// }; users()
+const users = async () => {
+  try {
+    // const users = await MC.model.User.findOne({ githubUsername: 'timelytree' })
+    // const users = await MC.model.User.findById('')
+    // const users = await MC.model.User.find().sort({ createdAt: 1 })
+    // console.log(users)
+    // console.log(users.length)
+    // users.kyc = undefined
+    // user.hubspotOptInApplicationWalletAddress = undefined
+    // await users.save()
+    // console.log(saved)
+  } catch (e) {
+    console.log(e)
+  }
+
+  // try {
+  //   const user = await MC.model.User.deleteOne({ githubUsername: '' })
+  //   console.log(user)
+  // } catch (e) {
+  //   console.log(e)
+  // }
+
+  // try {
+  //   const users = await MC.model.User.find()
+  //   const len = users.length
+  //   for (let i = 0; i < len; i++) {
+  //     const user = users[i]
+  //     // const beforeEmail = `${user.email}`
+  //     // user.id = undefined
+  //     // console.log(`${user.githubUsername}|${user.id}`)
+  //     // console.log(user)
+  //     // user.githubEmail = user.email === '' ? null : user.email
+  //     // user.email = null
+  //     // const saved = await user.save()
+  //     // console.log(saved.id)
+  //     // console.log(`Before: ${beforeEmail} | After: ${saved.githubEmail}`)
+  //   }
+  // } catch (e) {
+  //   console.log(e)
+  // }
+}; users()
 
 // //////////////////////////////////////////////////////// lookupHubspotContact
 // const Axios = require('axios')
