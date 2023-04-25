@@ -320,6 +320,10 @@ export default {
 <style lang="scss" scoped>
 // ///////////////////////////////////////////////////////////////////// General
 .infographic-container {
+  border: toRem(35) solid;
+  border-image: url(../assets/images/infographic-border.svg) 30;
+  width: 100%;
+  padding: toRem(30);
   &.with-fil-plus{
     .animating-content {
       transform: translateY(0);
@@ -369,6 +373,11 @@ export default {
   fill: white;
   font-size: toRem(20);
   font-weight: 500;
+}
+// ////////////////////////////////////////////////////////////////////// Border
+.border {
+  position: absolute;
+  width: 100%;
 }
 
 // ////////////////////////////////////////////////////////////////////// Toggle
