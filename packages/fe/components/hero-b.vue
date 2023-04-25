@@ -30,7 +30,7 @@
 
         <div class="col-4_sm-3_mi-2">
           <div class="panel-right">
-            <div class="warp-image-double" />
+            <WarpedGridColumn />
           </div>
         </div>
 
@@ -46,6 +46,7 @@ import ButtonX from '@/components/buttons/button-x'
 import Chevron from '@/components/icons/chevron'
 
 // import IconQuestionMark from '@/components/icons/question-mark'
+import WarpedGridColumn from '@/components/warped-grid-column'
 
 // ====================================================================== Export
 export default {
@@ -53,7 +54,8 @@ export default {
 
   components: {
     ButtonX,
-    Chevron
+    Chevron,
+    WarpedGridColumn
     // IconQuestionMark
   },
 
@@ -189,20 +191,6 @@ export default {
   height: 100%;
   @include small {
     top: -3.25rem;
-  }
-}
-
-.warp-image-double {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 45rem;
-  height: 500rem;
-  background-image: url('~assets/images/warp-image-double.png');
-  background-position: top left;
-  background-size: 45rem;
-  @include tiny {
-    width: calc(100% + 100vw * 0.041665 + 2rem);
   }
 }
 </style>

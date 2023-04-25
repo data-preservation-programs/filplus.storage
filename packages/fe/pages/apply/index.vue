@@ -375,17 +375,6 @@ $cardRadius: 1.875rem;
   height: 100%;
 }
 
-.warp-image-double {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 69rem;
-  height: 500rem;
-  background-image: url('~assets/images/warp-image-double.png');
-  background-position: top left;
-  background-size: 69rem;
-}
-
 // //////////////////////////////////////////////////////////////////////// Form
 .form-heading {
   margin-bottom: 2.5rem;

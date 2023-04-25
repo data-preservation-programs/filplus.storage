@@ -48,7 +48,7 @@
 
         <div class="col-4_lg-3_sm-2_mi-1">
           <div class="panel-right">
-            <div class="warp-image-double" />
+            <WarpedGridColumn />
           </div>
         </div>
 
@@ -71,6 +71,7 @@ import Overlay from '@/components/overlay'
 import Squigglie from '@/components/squigglie'
 import Card from '@/components/card'
 import Infographic from '@/components/infographic'
+import WarpedGridColumn from '@/components/warped-grid-column'
 
 import AboutPageData from '@/content/pages/about.json'
 import AboutContent from '@/content/markdown/about.md'
@@ -85,7 +86,8 @@ export default {
     Overlay,
     Squigglie,
     Card,
-    Infographic
+    Infographic,
+    WarpedGridColumn
   },
 
   data () {
@@ -165,7 +167,6 @@ export default {
 // //////////////////////////////////////////////////////////////////////// Body
 #section-content {
   position: relative;
-  padding-bottom: 7.3125rem;
   border-top: 3px solid transparent;
   z-index: 10;
 }
@@ -187,6 +188,7 @@ export default {
 
 .cta-card-wrapper {
   cursor: pointer;
+  margin-bottom: 7.3125rem;
 }
 
 .apply-cta-card.corner-position__top-right {
@@ -229,16 +231,5 @@ export default {
 .panel-right {
   position: relative;
   height: 100%;
-}
-
-.warp-image-double {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 69rem;
-  height: 500rem;
-  background-image: url('~assets/images/warp-image-double.png');
-  background-position: top left;
-  background-size: 69rem;
 }
 </style>

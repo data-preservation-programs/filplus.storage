@@ -46,7 +46,7 @@
         <!-- ==================================================== warp image -->
         <div class="col-2_mi-1">
           <div class="panel-right">
-            <div class="warp-image-double" />
+            <WarpedGridColumn />
           </div>
         </div>
 
@@ -68,6 +68,7 @@ import GithubIcon from '@/components/icons/github'
 import ButtonA from '@/components/buttons/button-a'
 import AppAccordion from '@/components/app-accordion'
 import Overlay from '@/components/overlay'
+import WarpedGridColumn from '@/components/warped-grid-column'
 
 import ApplySucessPageData from '@/content/pages/apply-success.json'
 
@@ -79,7 +80,8 @@ export default {
     GithubIcon,
     ButtonA,
     AppAccordion,
-    Overlay
+    Overlay,
+    WarpedGridColumn
   },
 
   data () {
@@ -235,24 +237,6 @@ export default {
 // ////////////////////////////////////////////////////////////////// Warp Image
 .panel-right {
   position: relative;
-  top: -2.6875rem;
   height: 100%;
-  @include small {
-    top: -3.25rem;
-  }
-}
-
-.warp-image-double {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 18rem;
-  height: 500rem;
-  background-image: url('~assets/images/warp-image-double.png');
-  background-position: top left;
-  background-size: 40.5rem;
-  @include tiny {
-    width: calc(100% + 100vw * 0.041665 + 2rem);
-  }
 }
 </style>

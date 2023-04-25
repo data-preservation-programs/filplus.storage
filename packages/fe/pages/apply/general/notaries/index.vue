@@ -22,7 +22,7 @@
 
         <div class="col-1">
           <div class="panel-left">
-            <div class="warp-image-double" />
+            <WarpedGridColumn />
           </div>
         </div>
 
@@ -70,6 +70,7 @@ import NotariesTable from '@/components/notaries-table'
 import Squigglie from '@/components/squigglie'
 import ButtonX from '@/components/buttons/button-x'
 import Chevron from '@/components/icons/chevron'
+import WarpedGridColumn from '@/components/warped-grid-column'
 
 import NotariesPageData from '@/content/pages/notaries.json'
 
@@ -83,7 +84,8 @@ export default {
     Overlay,
     Squigglie,
     ButtonX,
-    Chevron
+    Chevron,
+    WarpedGridColumn
   },
 
   data () {
@@ -187,17 +189,6 @@ export default {
 .panel-left {
   position: relative;
   height: calc(100% + 1.125rem);
-}
-
-.warp-image-double {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 69rem;
-  height: calc(100% + 3px);
-  background-image: url('~assets/images/warp-image-double.png');
-  background-position: top right;
-  background-size: 69rem;
 }
 
 // /////////////////////////////////////////////////////////////////////// Table

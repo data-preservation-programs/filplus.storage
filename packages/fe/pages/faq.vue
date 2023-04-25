@@ -47,7 +47,7 @@
 
         <div class="col-4_lg-3_sm-2_mi-1">
           <div class="panel-right">
-            <div class="warp-image-double" />
+            <WarpedGridColumn />
           </div>
         </div>
 
@@ -69,6 +69,7 @@ import FaqAccordion from '@/components/faq-accordion'
 import Overlay from '@/components/overlay'
 import Squigglie from '@/components/squigglie'
 import Card from '@/components/card'
+import WarpedGridColumn from '@/components/warped-grid-column'
 
 import FaqPageData from '@/content/pages/faq.json'
 
@@ -81,7 +82,8 @@ export default {
     FaqAccordion,
     Overlay,
     Squigglie,
-    Card
+    Card,
+    WarpedGridColumn
   },
 
   data () {
@@ -159,7 +161,6 @@ export default {
 // ///////////////////////////////////////////////////////////////////////// FAQ
 #section-faq {
   position: relative;
-  padding-bottom: 4.125rem;
   border-top: 3px solid transparent;
   z-index: 25;
 }
@@ -188,6 +189,7 @@ export default {
 
 .cta-card-wrapper {
   cursor: pointer;
+  padding-bottom: 4.125rem;
 }
 
 .apply-cta-card.corner-position__top-right {
@@ -228,14 +230,4 @@ export default {
   height: 100%;
 }
 
-.warp-image-double {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 69rem;
-  height: 500rem;
-  background-image: url('~assets/images/warp-image-double.png');
-  background-position: top left;
-  background-size: 69rem;
-}
 </style>
