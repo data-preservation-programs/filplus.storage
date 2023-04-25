@@ -1,6 +1,5 @@
 <template>
   <div :class="['infographic-container', { 'with-fil-plus': withFilPlus }]">
-    <!-- <div class="inner-content"> -->
     <div class="title-wrapper">
       <h2 class="title">
         With Fil+
@@ -292,7 +291,280 @@
       </text>
 
     </svg>
-    <!-- </div> -->
+
+    <svg
+      viewBox="0 0 317 344"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      class="infographic mobile">
+      <g class="animating-content">
+        <image
+          x="217"
+          y="179.205"
+          width="79"
+          height="78"
+          href="../assets/images/infographic/storage-provider.png"
+          class="storage-provider" />
+        <image
+          x="4"
+          y="170.205"
+          width="83"
+          height="83"
+          href="../assets/images/infographic/data-client.png"
+          class="data-client" />
+        <text class="text">
+          <tspan x="126.879" y="243.451">
+            stores data
+          </tspan>
+        </text>
+        </text>
+        <text class="text">
+          <tspan x="14.1753" y="291.775">
+            Someone who
+          </tspan><tspan x="2.49854" y="308.775">
+            wants to store data
+          </tspan><tspan x="23.0752" y="325.775">
+            on Filecoin
+          </tspan>
+        </text>
+        <text class="image-label">
+          <tspan x="15.6641" y="272.1">
+            Data Client
+          </tspan>
+        </text>
+        <text class="image-label">
+          <tspan x="187.486" y="273.1">
+            Storage Provider (SP)
+          </tspan>
+        </text>
+        <text class="text">
+          <tspan x="192.56" y="293.775">
+            Someone in the Filecoin
+          </tspan><tspan x="208.662" y="310.775">
+            network providing
+          </tspan><tspan x="217.336" y="327.775">
+            storage space
+          </tspan>
+        </text>
+        <image
+          x="249"
+          y="172"
+          width="14"
+          height="13"
+          href="../assets/images/infographic/down-arrow.png"
+          class="down-arrow" />
+        <image
+          x="105"
+          y="218.205"
+          width="96"
+          height="15"
+          href="../assets/images/infographic/right-arrow.png"
+          class="right-arrow" />
+      </g>
+      <text class="text">
+        <tspan x="9" y="12.57">
+          Toggle back to see how
+        </tspan><tspan x="9" y="29.57">
+          storage works with Filecoin
+        </tspan><tspan x="9" y="46.57">
+          Plus
+        </tspan>
+      </text>
+      <text class="text">
+        <tspan x="196.924" y="56.57">
+          SP gets rewards from
+        </tspan><tspan x="213.284" y="73.57">
+          the network for
+        </tspan><tspan x="203.079" y="90.57">
+          successful storage
+        </tspan>
+      </text>
+      <g class="with-fil-plus-content">
+        <image
+          x="15"
+          y="105"
+          width="86"
+          height="31"
+          href="../assets/images/infographic/down-right-arrow.png"
+          class="down-right-arrow" />
+        <image
+          x="101"
+          y="83"
+          width="96"
+          height="69"
+          href="../assets/images/infographic/big-coin.png"
+          class="big-coin" />
+        <text class="text">
+          <tspan x="57" y="90.7">
+            approves &#10;
+          </tspan><tspan x="57" y="102.7">
+            DataCap
+          </tspan>
+        </text>
+        <text class="text">
+          <tspan x="33" y="135.7">
+            Requests&#10;
+          </tspan><tspan x="33" y="147.7">
+            DataCap
+          </tspan>
+        </text>
+        <text class="image-label">
+          <tspan x="128.143" y="168.81">
+            Notary
+          </tspan>
+        </text>
+        <g class="small-coins">
+          <image
+            x="246.087"
+            y="149.905"
+            width="15.2523"
+            height="15.2523"
+            href="../assets/images/infographic/small-coin.png"
+            class="small-coin" />
+          <image
+            x="256.705"
+            y="130.071"
+            width="14.9533"
+            height="14.9533"
+            transform="rotate(-26.33 256.705 130.071)"
+            href="../assets/images/infographic/small-coin.png"
+            class="small-coin" />
+          <image
+            x="258.018"
+            y="111.78"
+            width="15.2523"
+            height="14.9533"
+            transform="rotate(14.1649 258.018 111.78)"
+            href="../assets/images/infographic/small-coin.png"
+            class="small-coin" />
+          <image
+            x="267.747"
+            y="135.86"
+            width="15.2523"
+            height="14.9533"
+            href="../assets/images/infographic/small-coin.png"
+            class="small-coin" />
+          <image
+            x="244.593"
+            y="134.951"
+            width="15.2523"
+            height="14.9533"
+            href="../assets/images/infographic/small-coin.png"
+            class="small-coin" />
+          <image
+            x="248.479"
+            y="124.783"
+            width="15.2523"
+            height="15.2523"
+            href="../assets/images/infographic/small-coin.png"
+            class="small-coin" />
+          <image
+            x="231.389"
+            y="134.491"
+            width="15.2523"
+            height="14.9533"
+            transform="rotate(-16.8415 231.389 134.491)"
+            href="../assets/images/infographic/small-coin.png"
+            class="small-coin" />
+          <image
+            x="235.919"
+            y="124.721"
+            width="15.2523"
+            height="14.9533"
+            transform="rotate(-29.492 235.919 124.721)"
+            href="../assets/images/infographic/small-coin.png"
+            class="small-coin" />
+          <image
+            x="219"
+            y="127.423"
+            width="15.2523"
+            height="14.9533"
+            transform="rotate(-15.6857 219 127.423)"
+            href="../assets/images/infographic/small-coin.png"
+            class="small-coin" />
+          <image
+            x="260.413"
+            y="158.532"
+            width="15.2523"
+            height="14.9533"
+            transform="rotate(-49.0083 260.413 158.532)"
+            href="../assets/images/infographic/small-coin.png"
+            class="small-coin" />
+          <image
+            x="266.551"
+            y="117.916"
+            width="15.2523"
+            height="14.9533"
+            href="../assets/images/infographic/small-coin.png"
+            class="small-coin" />
+          <image
+            x="238.66"
+            y="110.055"
+            width="14.9533"
+            height="14.9533"
+            transform="rotate(-28.1525 238.66 110.055)"
+            href="../assets/images/infographic/small-coin.png"
+            class="small-coin" />
+          <image
+            x="228.271"
+            y="150.216"
+            width="14.9533"
+            height="14.9533"
+            transform="rotate(-5.29554 228.271 150.216)"
+            href="../assets/images/infographic/small-coin.png"
+            class="small-coin" />
+          <image
+            x="229.639"
+            y="113.419"
+            width="14.9533"
+            height="14.9533"
+            href="../assets/images/infographic/small-coin.png"
+            class="small-coin" />
+          <image
+            x="256.587"
+            y="137.469"
+            width="14.9533"
+            height="14.9533"
+            transform="rotate(18.2891 256.587 137.469)"
+            href="../assets/images/infographic/small-coin.png"
+            class="small-coin" />
+          <image
+            x="234.723"
+            y="149.048"
+            width="15.2523"
+            height="14.9533"
+            transform="rotate(-38.2219 234.723 149.048)"
+            href="../assets/images/infographic/small-coin.png"
+            class="small-coin" />
+        </g>
+      </g>
+      <g class="small-coins without-fil-plus-content">
+        <image
+          x="245.133"
+          y="115.83"
+          width="15.925"
+          height="15.925"
+          href="../assets/images/infographic/small-coin.png"
+          class="small-coin" />
+        <image
+          x="255.094"
+          y="96.8457"
+          width="15.6128"
+          height="15.6128"
+          transform="rotate(18.2891 255.094 92.8457)"
+          href="../assets/images/infographic/small-coin.png"
+          class="small-coin" />
+        <image
+          x="278.215"
+          y="100.79"
+          width="15.5842"
+          height="15.4635"
+          transform="rotate(90 260.215 89.79)"
+          href="../assets/images/infographic/small-coin.png"
+          class="small-coin" />
+      </g>
+    </svg>
+
   </div>
 </template>
 
@@ -303,12 +575,6 @@ export default {
   data () {
     return {
       withFilPlus: true
-    }
-  },
-
-  computed: {
-    title () {
-      return this.withFilPlus ? 'With Filecoin Plus' : 'Without Filecoin Plus'
     }
   },
 
@@ -346,9 +612,25 @@ export default {
   }
 }
 
+.infographic.browser {
+  @include small {
+    display: none;
+  }
+}
+
+.infographic.mobile {
+  display: none;
+  @include small {
+    display: block;
+  }
+}
+
 .animating-content {
   transform: translateY(-7rem);
   transition: transform 250ms ease-in;
+  @include small {
+    transform: translateY(-2rem);
+  }
 }
 
 .with-fil-plus-content {
@@ -370,18 +652,27 @@ export default {
 .title {
   font-size: toRem(35);
   font-weight: 500;
+  @include small {
+    font-size: toRem(14);
+  }
 }
 
 .text {
   fill: white;
   font-size: toRem(16);
   font-style: italic;
+  @include small {
+    font-size: toRem(10);
+  }
 }
 
 .image-label {
   fill: white;
   font-size: toRem(20);
   font-weight: 500;
+  @include small {
+    font-size: toRem(13);
+  }
 }
 // ////////////////////////////////////////////////////////////////////// Border
 .border {
