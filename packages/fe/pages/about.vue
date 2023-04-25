@@ -19,11 +19,13 @@
         class="section-top-border" />
 
       <div class="grid-spaceBetween">
-
+        
         <div class="col-7_lg-8_sm-9_mi-10" data-push-left="off-1_mi-0">
-
+          
           <MarkdownParser :markdown="markdown" />
-
+          
+          <Infographic />
+          
           <div
             v-if="ctaCard"
             class="cta-card-wrapper"
@@ -42,7 +44,6 @@
               </div>
             </Card>
           </div>
-
         </div>
 
         <div class="col-4_lg-3_sm-2_mi-1">
@@ -69,6 +70,7 @@ import MarkdownParser from '@/components/markdown-parser'
 import Overlay from '@/components/overlay'
 import Squigglie from '@/components/squigglie'
 import Card from '@/components/card'
+import Infographic from '@/components/infographic'
 
 import AboutPageData from '@/content/pages/about.json'
 import AboutContent from '@/content/markdown/about.md'
@@ -82,7 +84,8 @@ export default {
     MarkdownParser,
     Overlay,
     Squigglie,
-    Card
+    Card,
+    Infographic
   },
 
   data () {
@@ -172,7 +175,7 @@ export default {
 }
 
 .markdown {
-  padding: 5rem 0;
+  padding: 5rem 0 3rem;
   padding-right: 5rem;
   @include small {
     padding-right: 3rem;
@@ -216,6 +219,10 @@ export default {
   :deep(.content) {
     padding: toRem(37) 2rem 1.875rem toRem(43) !important;
   }
+}
+
+.infographic-container {
+  padding: 0.5rem 2rem 0.5rem 0.5rem;
 }
 
 // ////////////////////////////////////////////////////////////////// Warp Image

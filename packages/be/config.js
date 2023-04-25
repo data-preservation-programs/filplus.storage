@@ -36,9 +36,14 @@ module.exports = {
   ),
   // ============================================================= Server Config
   port: backendPort,
+  baseUrls,
   frontendUrl: env === 'development' ? `${baseUrls[env]}:${frontendPort}` : baseUrls[env],
   backendUrl: env === 'development' ? `${baseUrls[env]}:${backendPort}` : `${baseUrls[env]}/api`,
   websocketUrl: env === 'development' ? `${baseUrls[env]}:${backendPort}` : baseUrls[env],
+  repos: {
+    ga: ['filecoin-project/filecoin-plus-client-onboarding', 'data-preservation-programs/filecoin-plus-client-onboarding'],
+    lda: ['filecoin-project/filecoin-plus-large-datasets', 'data-preservation-programs/filecoin-plus-large-datasets']
+  },
   // ==================================================================== Server
   server: false,
   serverFlag: env,

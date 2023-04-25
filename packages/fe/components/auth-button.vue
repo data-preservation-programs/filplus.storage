@@ -106,8 +106,8 @@ export default {
     applicationHistoryButton () {
       return {
         type: 'nuxt-link',
-        href: `/account/${this.githubUsername}/applications`,
-        label: 'Application History Page'
+        href: `/account/${this.account.githubUsername}/applications`,
+        label: 'Application History'
       }
     },
     kycTogggleGetVerifiedButton () {
