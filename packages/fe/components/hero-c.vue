@@ -10,6 +10,8 @@
 
             <Infographic />
 
+            <DatacapTextSpinner />
+
           </div>
         </div>
       </div>
@@ -27,6 +29,7 @@
 // ===================================================================== Imports
 import Overlay from '@/components/overlay'
 import Infographic from '@/components/infographic'
+import DatacapTextSpinner from '@/components/spinners/datacap-text'
 
 // ====================================================================== Export
 export default {
@@ -34,7 +37,8 @@ export default {
 
   components: {
     Overlay,
-    Infographic
+    Infographic,
+    DatacapTextSpinner
   },
 
   props: {
@@ -83,6 +87,7 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  position: relative;
 }
 
 ::v-deep .heading {
@@ -101,7 +106,13 @@ export default {
   }
 }
 
-// //////////////////////////////////////////////////////////// Image + Overlays
+// ///////////////////////////////////////////////////////////////////// Spinner
+.datacap-spinner {
+  right: toRem(-65);
+  bottom: toRem(-65);
+}
+
+// //////////////////////////////////////////////////////////////////// Overlays
 .overlay.type__noise {
   opacity: 0.9;
   z-index: 15;

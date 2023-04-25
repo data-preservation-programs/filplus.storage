@@ -2,11 +2,7 @@
   <div :class="`page page-${tag} container`">
 
     <!-- ============================================================== Hero -->
-    <HeroC
-      :heading="heading"
-      heading-cols="col-12"
-      content-direction="horizontal"
-      background-image="block-backsplash.jpg" />
+    <HeroC :heading="heading" />
 
     <!-- =============================================================== FAQ -->
     <div id="section-content">
