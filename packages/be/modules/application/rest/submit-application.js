@@ -57,8 +57,8 @@ const processTemplate = async (type, application) => {
   }
 }
 
-// ////////////////////////////////////////////////////////////////// labelIssue
-const labelIssue = async (type, issueNumber) => {
+// ///////////////////////////////////////////////////////////// addLabelToIssue
+const addLabelToIssue = async (type, issueNumber) => {
   try {
     const repo = MC.serverFlag === 'production' ? repos[type][0] : repos[type][1]
     const body = {
@@ -68,7 +68,7 @@ const labelIssue = async (type, issueNumber) => {
     const response = await Axios.post(`https://api.github.com/repos/${repo}/issues/${issueNumber}/labels`, body, options)
     return response.data
   } catch (e) {
-    console.log('====================================== [Function: labelIssue]')
+    console.log('================================= [Function: addLabelToIssue]')
     throw e
   }
 }
@@ -102,7 +102,7 @@ MC.app.post('/submit-application', async (req, res) => {
       })
     }
     const githubIssue = await submitApplication(type, template, application, user.githubToken)
-    await labelIssue(type, githubIssue.number)
+    await addLabelToIssue(type, githubIssue.number)
     SendData(res, 200, 'Application submitted succesfully', githubIssue)
   } catch (e) {
     console.log('============================= [Endpoint: /submit-application]')
