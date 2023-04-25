@@ -2,6 +2,9 @@
   <div :class="['infographic-container', { 'with-fil-plus': withFilPlus }]">
     <!-- <div class="inner-content"> -->
     <div class="title-wrapper">
+      <h2 class="title">
+        With Fil+
+      </h2>
       <button
         :class="['infographic-toggle', { 'with-fil-plus': withFilPlus }]"
         type="button"
@@ -10,7 +13,7 @@
       </button>
 
       <h2 class="title">
-        {{ title }}
+        Without Fil+
       </h2>
 
     </div>
@@ -19,7 +22,7 @@
       viewBox="0 0 905 655"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      class="infographic">
+      class="infographic browser">
       <g class="animating-content">
         <image
           x="655"
@@ -394,17 +397,13 @@ export default {
   width: toRem(80);
   height: toRem(40);
   border-radius: toRem(70);
-  margin-right: toRem(25);
+  margin: 0 toRem(15);
   background-color: $mineralGreen;
-  border: 2px solid $axolotl;
+  border: 2px solid $greenYellow;
   transition: all 250ms ease-in;
   &.with-fil-plus {
-    border-color: $greenYellow;
     .toggle-switch {
-      transform: translateX(2.5rem);
-      background-color: $greenYellow;
-      border-color: $greenYellow;
-      box-shadow: inset -3px -4px 4px #CCFD7C, inset 3px 4px 4px #9AD933;
+      transform: translateX(0);
     }
   }
 }
@@ -414,10 +413,11 @@ export default {
   width: toRem(27);
   height: toRem(27);
   border-radius: 50%;
-  background-color: $axolotl;
-  border: 3px solid $axolotl;
+  background-color: $greenYellow;
+  border: 3px solid $greenYellow;
   margin: 0 toRem(5);
-  box-shadow: inset -3px -4px 4px #557355, inset 3px 4px 4px rgba(0, 0, 0, 0.25);
+  transform: translateX(2.5rem);
+  box-shadow: inset -3px -4px 4px #CCFD7C, inset 3px 4px 4px #9AD933;
   transition: all 250ms ease-in;
 }
 
