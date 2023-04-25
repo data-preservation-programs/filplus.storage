@@ -42,7 +42,8 @@ const processTemplate = async (type, application) => {
     let template = await GetFileFromDisk(`${MC.staticRoot}/${type}-template.md`)
     template = template.toString()
     Object.keys(application).forEach((key) => {
-      const value = application[key] || ''
+      const regexp = /(?<=\s|^)@(?=[\w]+)/g
+      const value = (application[key] || '').replace(regexp, '[at]')
       if (key === 'organization_website') {
         template = template.replaceAll(key, value)
       } else {
