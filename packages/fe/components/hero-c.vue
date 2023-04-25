@@ -59,27 +59,17 @@ export default {
   padding-top: calc($siteHeaderHeight * 2 + 6rem);
   padding-bottom: 9rem;
   z-index: 25;
-  @include large {
-    height: unset;
+  @include small {
+    padding-top: $siteHeaderHeight * 2;
+  }
+  @include mini {
+    padding-bottom: 0;
   }
 }
 
 [class~=grid], [class*=grid-], [class*=grid_] {
   position: relative;
   z-index: 20;
-}
-
-.hero-content {
-  height: 100%;
-  @include large {
-    padding-top: 5rem;
-  }
-  @include small {
-    height: unset;
-  }
-  @include mini {
-    padding-top: 3rem;
-  }
 }
 
 .inner-content {
@@ -110,6 +100,9 @@ export default {
 .datacap-spinner {
   right: toRem(-65);
   bottom: toRem(-65);
+  @include small {
+    display: none;
+  }
 }
 
 // //////////////////////////////////////////////////////////////////// Overlays

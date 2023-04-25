@@ -56,10 +56,6 @@ export default {
 .datacap-spinner {
   position: absolute;
   width: toRem(130);
-  @include mini {
-    right: unset;
-    left: calc(50% + 1rem);
-  }
 }
 
 .circle-text {

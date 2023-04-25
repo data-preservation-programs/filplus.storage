@@ -4,7 +4,7 @@
     <!-- ============================================================== Hero -->
     <HeroC :heading="heading" />
 
-    <!-- =============================================================== FAQ -->
+    <!-- =========================================================== Content -->
     <div id="section-content">
 
       <Squigglie
@@ -17,8 +17,6 @@
       <div class="grid-spaceBetween">
 
         <div class="col-7_lg-8_sm-9_mi-10" data-push-left="off-1_mi-0">
-
-          <MarkdownParser :markdown="markdown" />
 
         </div>
 
@@ -42,12 +40,10 @@
 import { mapGetters } from 'vuex'
 
 import HeroC from '@/components/hero-c'
-import MarkdownParser from '@/components/markdown-parser'
 import Overlay from '@/components/overlay'
 import Squigglie from '@/components/squigglie'
 
 import Home1PageData from '@/content/pages/home-1.json'
-import AboutContent from '@/content/markdown/about.md'
 
 // ====================================================================== Export
 export default {
@@ -55,7 +51,6 @@ export default {
 
   components: {
     HeroC,
-    MarkdownParser,
     Overlay,
     Squigglie
   },
@@ -83,9 +78,6 @@ export default {
     },
     heading () {
       return this.pageData.heading
-    },
-    markdown () {
-      return AboutContent
     }
   }
 }
@@ -104,19 +96,8 @@ export default {
 
 // //////////////////////////////////////////////////////////////////////// Hero
 ::v-deep #hero {
-  .heading {
-    @include medium {
-      flex-direction: column;
-    }
-  }
   .overlay.type__opaque {
     background-color: rgba(15, 31, 26, 0.9);
-  }
-}
-
-:deep(.hero-content) {
-  @include mini {
-    padding-bottom: 7rem;
   }
 }
 

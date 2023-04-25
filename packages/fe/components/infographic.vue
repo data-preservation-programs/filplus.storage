@@ -597,8 +597,8 @@ export default {
   width: 100%;
   transition: all 250ms ease-in;
   padding: toRem(30);
-  &.with-fil-plus{
-    height: toRem(860);
+  &.with-fil-plus {
+    height: toRem(850);
     transition: all 250ms ease-in;
     .animating-content {
       transform: translateY(0);
@@ -609,6 +609,23 @@ export default {
     .without-fil-plus-content {
       opacity: 0;
     }
+  }
+  @include large {
+    height: toRem(604);
+    &.with-fil-plus {
+      height: toRem(706);
+    }
+  }
+  @include medium {
+    padding: toRem(20);
+    height: toRem(508);
+    &.with-fil-plus {
+      height: toRem(594);
+    }
+  }
+  @include small {
+    border: none;
+    padding: 0;
   }
 }
 
@@ -647,12 +664,23 @@ export default {
 .title-wrapper {
   display: flex;
   align-items: center;
+  @include small {
+    margin-left: 1rem;
+    padding-bottom: .5rem;
+  }
+  @include mini {
+    margin-left: 0.5rem;
+  }
 }
 
 .title {
+  white-space: nowrap;
   font-size: toRem(35);
   font-weight: 500;
-  @include small {
+  @include mini {
+    font-size: toRem(18);
+  }
+  @include tiny {
     font-size: toRem(14);
   }
 }
@@ -697,6 +725,10 @@ export default {
       transform: translateX(0);
     }
   }
+  @include mini {
+    width: toRem(30);
+    height: toRem(15);
+  }
 }
 
 .toggle-switch {
@@ -710,6 +742,12 @@ export default {
   transform: translateX(2.5rem);
   box-shadow: inset -3px -4px 4px #CCFD7C, inset 3px 4px 4px #9AD933;
   transition: all 250ms ease-in;
+  @include mini {
+    width: toRem(10);
+    height: toRem(10);
+    margin: 0 toRem(2);
+    transform: translateX(.75rem);
+  }
 }
 
 </style>
