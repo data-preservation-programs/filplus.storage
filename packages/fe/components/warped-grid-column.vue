@@ -4,11 +4,11 @@
     class="warped-grid-column">
     <WarpedGrid
       v-for="(grid, i) in grids"
-      :key="`warped-grid-canvas-${i}`"
       ref="canvases"
+      :key="`warped-grid-canvas-${i}`"
       :animation-active="activeGrids.includes(i)"
-      class="warp-animation"
-      :style="{ top: `${i * gridHeight}px` }" />
+      :style="{ top: `${i * gridHeight}px` }"
+      class="warp-animation" />
   </div>
 </template>
 

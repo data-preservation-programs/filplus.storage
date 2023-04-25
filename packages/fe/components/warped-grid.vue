@@ -161,12 +161,12 @@ export default {
     interactionDamping: { // values above 1.0 produce divergence
       type: Number,
       required: false,
-      default: 0.97
+      default: 0.99
     },
     interactionIntensity: {
       type: Number,
       required: false,
-      default: 75
+      default: 100
     },
     gridColor: {
       type: String,
