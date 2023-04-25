@@ -1,5 +1,6 @@
 <template>
   <div :class="['infographic-container', { 'with-fil-plus': withFilPlus }]">
+    <!-- <div class="inner-content"> -->
     <div class="title-wrapper">
       <button
         :class="['infographic-toggle', { 'with-fil-plus': withFilPlus }]"
@@ -134,7 +135,7 @@
         </text>
         <text class="text">
           <tspan x="624.547" y="18.045">
-            SP gets significantly more reward from the network
+            SP gets significantly more reward from
           </tspan>
           <tspan x="639.242" y="42.045">
             the network for successful storage
@@ -288,7 +289,7 @@
       </text>
 
     </svg>
-
+    <!-- </div> -->
   </div>
 </template>
 
@@ -320,11 +321,16 @@ export default {
 <style lang="scss" scoped>
 // ///////////////////////////////////////////////////////////////////// General
 .infographic-container {
+  position: relative;
   border: toRem(35) solid;
   border-image: url(../assets/images/infographic-border.svg) 30;
+  height: toRem(732);
   width: 100%;
+  transition: all 250ms ease-in;
   padding: toRem(30);
   &.with-fil-plus{
+    height: toRem(860);
+    transition: all 250ms ease-in;
     .animating-content {
       transform: translateY(0);
     }
