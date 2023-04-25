@@ -14,7 +14,7 @@
     "header": [
       {
         "type": "a",
-        "href": "https://filplus.d.interplanetary.one/notaries?showInactive=true",
+        "href": "https://notaries.datacapstats.io/",
         "label": "Notaries",
         "target": "_blank"
       },
@@ -104,17 +104,17 @@
     "submit_threshold_top": 5629499534213120
   },
   "hubspot": {
-    "opted_in_heading": "Get Help",
-    "opted_in_description": "You are already opted in. In order to opt out, please contact...",
+    "opted_in_heading": "Get Help Onboarding Your Data",
+    "opted_in_description": "You are already opted in. In order to opt out, please get in touch with the client success team member that you've been in touch with.",
     "opt_in_fields": {
       "hubspot_opt_in": {
         "type": "checkbox",
         "modelKey": "hubspot_opt_in",
-        "label": "Get Help",
-        "description": "Would you like for someone from our client success team to get in touch, to help with onboarding your data?",
+        "label": "Help Onboarding?",
+        "description": "Would you like someone from our client success team to get in touch to help with onboarding your data?",
         "isSingleSelection": true,
         "options": [
-          { "label": "Yes" }
+          { "label": "Yes, I'm okay with sharing my contact info with the client success team" }
         ],
         "defaultValue": ""
       },
