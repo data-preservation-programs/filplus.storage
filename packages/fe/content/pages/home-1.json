@@ -1,0 +1,20 @@
+{
+  "seo": {
+    "title": "Home1 — Filecoin Plus",
+    "description": "Filecoin Plus"
+  },
+  "og": {
+    "site_name": "Home1 — Filecoin Plus",
+    "url": "",
+    "type": "website",
+    "image": "/open-graph-image.png"
+  },
+  "page_content": {
+    "heading": "Fil+ scales utilization of the Filecoin network to store humanity’s information.",
+    "cta_card": {
+      "title": "Do you have data to store?",
+      "description": "The Fil+ program provides a network block reward subsidy. <i>Apply today</i> to get started.",
+      "link": "https://example.com"
+    }
+  }
+}
