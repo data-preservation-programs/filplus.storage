@@ -1,8 +1,14 @@
-/**
- *
- * ⏱️️ [Cron | every 1 minute] KycGithubBot
- *
- */
+/*
+
+⏱️️ [Cron | every 5 minutes] KycGithubBot
+
+- Get users in db
+- For all users that have fully passed KYC (kyc.event === 'kyc-success')
+  - Fetch all of their currently open issues
+    - If label does not exist, add label 'kyc verified'
+    - If comment does not exist, add a comment with badge
+
+*/
 
 // ///////////////////////////////////////////////////// Imports + general setup
 // -----------------------------------------------------------------------------
@@ -83,7 +89,7 @@ const addLabelToIssues = async (issues, type) => {
         const repo = MC.serverFlag === 'production' ? repos[type][0] : repos[type][1]
         const body = { labels: [label] }
         const options = { headers: { Accept: 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28', Authorization: `Bearer ${token}` } }
-        const response = await Axios.post(`https://api.github.com/repos/${repo}/issues/${issue.number}/labels`, body, options)
+        await Axios.post(`https://api.github.com/repos/${repo}/issues/${issue.number}/labels`, body, options)
         countUpdated++
       }
     }
@@ -109,6 +115,7 @@ const addCommentToIssues = async (issues, type, userToken) => {
       const comments = await Axios.get(issue.comments_url, options)
       const found = comments.data.find(comment => comment.body.includes(commentToAdd))
       if (!found) {
+        options.headers.Authorization = `Bearer ${dataProgramsToken}`
         const body = {
           body: `<img width="32" alt="KYC" Verified src="${badgeImgUrl}"/>\n\n${commentToAdd}`
         }
@@ -125,13 +132,6 @@ const addCommentToIssues = async (issues, type, userToken) => {
 
 // ////////////////////////////////////////////////////////////////// Initialize
 // -----------------------------------------------------------------------------
-/*
-- Get users
-- For all users that have fully passed KYC ->
-- Fetch all of their currently open issues
-  - Add a comment with badge (☑️ This user’s identity has has been verified through filplus.storage)
-  - Add label 'kyc verified'
-*/
 MC.app.on('mongoose-connected', async () => {
   console.log('🤖 KYC bot engaged')
   try {
@@ -142,13 +142,12 @@ MC.app.on('mongoose-connected', async () => {
       const userToken = Decrypt(user.githubToken)
       await getCurrentlyOpenIssues(user, 'ga', userToken)
       await getCurrentlyOpenIssues(user, 'lda', userToken)
-      console.log(`${user.githubUsername} | ga: ${user.ga.length} | lda: ${user.lda.length}`)
+      console.log(`${user.githubUsername} | lda: ${user.lda.length} | ga: ${user.ga.length}`)
       await addLabelToIssues(user.lda, 'lda')
       await addLabelToIssues(user.ga, 'ga')
       await addCommentToIssues(user.lda, 'lda', userToken)
       await addCommentToIssues(user.ga, 'ga', userToken)
     }
-    // console.log(users[0].ga[0])
   } catch (e) {
     console.log('========================================== [🚀: KycGithubBot]')
     console.log(e)
