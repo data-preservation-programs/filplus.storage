@@ -93,9 +93,15 @@
           "icon": "slack",
           "url": "https://filecoinproject.slack.com/archives/C01DLAPKDGX",
           "target": "_blank"
+        },
+        {
+          "type": "a",
+          "icon": "medium",
+          "url": "https://medium.com/filecoin-plus",
+          "target": "_blank"
         }
       ],
-      "text": "The Filecoin+ program applies <a href='https://fil.org/policy/' alt='Filecoin Foundation Privacy Policy' target='_blank'>the Filecoin Foundation privacy policies</a>. Your participation in Filecoin+<br />serves as your acknowledgement and acceptance of these policies."
+      "text": "The Filecoin+ program applies <a href='https://fil.org/policy/' alt='Filecoin Foundation Privacy Policy' target='_blank'>the Filecoin Foundation privacy policies</a>. Your participation in Filecoin+<br /> serves as your acknowledgement and acceptance of these policies."
     }
   },
   "forms": {
