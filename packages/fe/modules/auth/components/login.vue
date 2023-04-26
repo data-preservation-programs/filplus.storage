@@ -1,15 +1,9 @@
 <script>
-// ===================================================================== Imports
-import { mapActions } from 'vuex'
-
 // ====================================================================== Export
 export default {
   name: 'Login',
 
   methods: {
-    ...mapActions({
-      getAccount: 'auth/getAccount'
-    }),
     loginWith (strategy) {
       let oauthService
       switch (strategy) {
