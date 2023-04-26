@@ -1,6 +1,12 @@
 <template>
   <section id="roadmap">
 
+    <Squigglie
+      :percent-left="90"
+      orientation="down"
+      color="nandor"
+      :thick="true" />
+
     <!-- ============================================================= Intro -->
     <section class="intro">
       <div class="grid">
@@ -129,15 +135,17 @@
 import { mapGetters } from 'vuex'
 import CloneDeep from 'lodash/cloneDeep'
 
+import Squigglie from '@/components/squigglie'
 import ButtonX from '@/components/buttons/button-x'
 
 import IconLinkExternal from '@/components/icons/link-external'
 
 // ====================================================================== Export
 export default {
-  name: 'Home3Page',
+  name: 'Roadmap',
 
   components: {
+    Squigglie,
     ButtonX,
     IconLinkExternal
   },

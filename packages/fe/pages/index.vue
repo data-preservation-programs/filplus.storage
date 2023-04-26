@@ -8,8 +8,7 @@
         :percent-left="6"
         orientation="down"
         color="nandor"
-        :thick="true"
-        class="faq-top-border" />
+        :thick="true" />
 
       <div class="grid">
         <div
@@ -35,19 +34,17 @@
         :percent-left="90"
         orientation="up"
         color="nandor"
-        :thick="true"
-        class="faq-top-border" />
+        :thick="true" />
 
       <div class="grid">
         <div
           v-for="(card, i) in graphics"
           :key="`graphic-card-${i}`"
-          class="col-4_sm-12"
-          data-push-left="off-0_sm-0"
-          :data-col-id="`card-${i}`">
+          :class="`col-4_sm-12 graphic-card-${i}`"
+          data-push-left="off-0_sm-0">
           <div class="graphic-card">
 
-            <div class="graphic">
+            <div class="graphic-wrapper">
               <img :src="card.image" />
             </div>
 
@@ -68,11 +65,18 @@
 
     <!-- ====================================================== Program Info -->
     <section id="section-program-info" class="section">
+
+      <Squigglie
+        :percent-left="90"
+        orientation="down"
+        color="nandor"
+        :thick="true" />
+
       <div class="grid-noGutter">
 
         <div class="col-4_lg-3">
           <div class="panel-left">
-            <div class="textural-image"></div>
+            <img :src="programImage" class="textural-image" />
           </div>
         </div>
 
@@ -92,8 +96,7 @@
                   :percent-left="i === 1 ? 90 : 10"
                   :orientation="i === 1 ? 'up' : 'down'"
                   color="nandor"
-                  :thick="true"
-                  class="faq-top-border" />
+                  :thick="true" />
 
                 <div
                   class="entry"
@@ -106,6 +109,7 @@
         </div>
 
       </div>
+
     </section>
 
     <!-- =========================================================== Roadmap -->
@@ -118,8 +122,7 @@
         :percent-left="90"
         orientation="down"
         color="nandor"
-        :thick="true"
-        class="faq-top-border" />
+        :thick="true" />
 
       <div class="grid-noGutter">
 
@@ -133,50 +136,11 @@
           class="col-8_sm-12"
           data-push-left="off-1_sm-0">
           <div class="card-container">
-
             <div
               class="form-cta-heading"
               v-html="subfooterCtaHeading">
             </div>
-
-            <Card
-              id="apply-form-card"
-              :icon-text="submitButtonText"
-              :class="{ highlighted: applyFormHighlighted }"
-              corner-position="bottom-right"
-              icon="arrow"
-              @clicked="submitForm">
-              <template v-if="formScaffold">
-
-                <div class="form-heading">
-                  {{ formHeading }}
-                </div>
-
-                <form class="form">
-
-                  <FieldContainer
-                    :scaffold="formScaffold.total_datacap_size_range"
-                    field-key="total_datacap_size_range"
-                    form-id="filplus_application"
-                    class="range-field" />
-
-                  <div class="row">
-                    <FieldContainer
-                      :scaffold="formScaffold.total_datacap_size_input"
-                      field-key="total_datacap_size_input"
-                      form-id="filplus_application"
-                      class="input-field" />
-                    <FieldContainer
-                      :scaffold="formScaffold.total_datacap_size_unit"
-                      field-key="total_datacap_size_unit"
-                      form-id="filplus_application"
-                      class="select-field" />
-                  </div>
-
-                </form>
-
-              </template>
-            </Card>
+            <ApplyFormCard id="apply-form-card" />
           </div>
         </div>
 
@@ -192,12 +156,11 @@
 
 <script>
 // ===================================================================== Imports
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters } from 'vuex'
 
 import Roadmap from '@/components/page-index/roadmap'
+import ApplyFormCard from '@/components/apply-form-card'
 import Squigglie from '@/components/squigglie'
-import Card from '@/components/card'
-import FieldContainer from '@/components/form/field-container'
 import Overlay from '@/components/overlay'
 
 import IndexPageData from '@/content/pages/index.json'
@@ -209,9 +172,8 @@ export default {
 
   components: {
     Roadmap,
+    ApplyFormCard,
     Squigglie,
-    Card,
-    FieldContainer,
     Overlay
   },
 
@@ -234,12 +196,8 @@ export default {
 
   computed: {
     ...mapGetters({
-      siteContent: 'general/siteContent',
-      applyFormHighlighted: 'general/applyFormHighlighted'
+      siteContent: 'general/siteContent'
     }),
-    generalPageData () {
-      return this.siteContent.general
-    },
     pageData () {
       return this.siteContent[this.tag].page_content
     },
@@ -252,65 +210,14 @@ export default {
     programHeading () {
       return this.pageData.section_program.heading
     },
+    programImage () {
+      return this.pageData.section_program.image
+    },
     program () {
       return this.pageData.section_program.entries
     },
     subfooterCtaHeading () {
       return this.pageData.section_subfooter_slider.heading
-    },
-    form () {
-      return this.siteContent.apply.page_content.form
-    },
-    formScaffold () {
-      return this.form.scaffold
-    },
-    formHeading () {
-      return this.form.heading
-    },
-    submitButtonText () {
-      return this.form.submit_button_text
-    },
-    submitThresholdBottom () {
-      return this.generalPageData.forms.submit_threshold_bottom
-    },
-    submitThresholdMiddle () {
-      return this.generalPageData.forms.submit_threshold_middle
-    },
-    submitThresholdTop () {
-      return this.generalPageData.forms.submit_threshold_top
-    }
-  },
-
-  mounted () {
-    this.$nextTick(() => {
-      const highlightForm = this.$route.query.highlight_form
-      if (highlightForm) {
-        this.$highlightApplyForm()
-      }
-    })
-  },
-
-  methods: {
-    ...mapActions({
-      validateForm: 'form/validateForm'
-    }),
-    async submitForm (e) {
-      e.preventDefault()
-      const bottom = this.submitThresholdBottom
-      const middle = this.submitThresholdMiddle
-      const top = this.submitThresholdTop
-      const rangeField = this.$field('total_datacap_size_range|filplus_application').get()
-      const bytes = rangeField.value
-      const pass = await this.$handleFormRedirection(bytes, bottom, top)
-      if (pass) {
-        if (bytes >= bottom && bytes < middle) {
-          this.$gtm.push({ event: 'redirect_notary_selection' })
-          this.$router.push('/apply/general/notaries')
-        } else if (bytes >= middle && bytes <= top) {
-          this.$gtm.push({ event: 'redirect_lda' })
-          this.$router.push('/apply/large')
-        }
-      }
     }
   }
 }
@@ -369,88 +276,77 @@ section {
 }
 
 // //////////////////////////////////////////////////////////// Section Graphics
-#section-graphics {
-  div[data-col-id="card-1"] {
-    border-left: solid 3px $nandor;
-    border-right: solid 3px $nandor;
-    @include small {
-      border: none;
+.graphic-card-0 {
+  img {
+    width: toRem(145);
+  }
+}
+
+.graphic-card-1 {
+  position: relative;
+  border-left: solid 3px $nandor;
+  border-right: solid 3px $nandor;
+  @include small {
+    border: 0;
+    &:before,
+    &:after {
+      content: '';
+      position: absolute;
+      left: calc(-4.1665% - 3px);
+      width: calc(100% + 4.1665% * 2 + 6px);
+      height: 3px;
+      background-color: $nandor;
     }
-    .graphic {
-      transform: scale(1.2);
-      @include small {
-        transform: scale(1.1);
-      }
+    &:before {
+      top: 0;
+    }
+    &:after {
+      bottom: 0;
     }
   }
-  div[data-col-id="card-0"],
-  div[data-col-id="card-1"],
-  div[data-col-id="card-2"] {
-    position: relative;
-    @include small {
-      &:not(:last-child) {
-        border-bottom: solid 3px $nandor;
-        &:before,
-        &:after {
-          content: '';
-          position: absolute;
-          bottom: -3px;
-          border-bottom: solid 3px $nandor;
-          width: 4.1665vw;
-        }
-        &:before {
-          left: -4.1665vw;
-        }
-        &:after {
-          left: 100%;
-        }
-      }
+  img {
+    width: toRem(215);
+    @include medium {
+      width: toRem(160);
     }
   }
 }
-.graphic-row {
-  display: flex;
-  justify-content: space-between;
+
+.graphic-card-2 {
+  img {
+    width: toRem(145);
+  }
 }
 
 .graphic-card,
-.text-content {
+.graphic-wrapper {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  align-items: center;
 }
 
 .graphic-card {
-  padding: 3.75rem 2.75rem;
-  align-items: center;
+  height: 100%;
+  padding: toRem(90) toRem(35) toRem(55) toRem(35);
+}
+
+.graphic-wrapper {
+  flex: 1;
+  justify-content: center;
+  margin-bottom: toRem(90);
   @include small {
-    padding: 2.25rem 1.5rem;
-  }
-  .graphic {
-    height: toRem(160);
-    width: toRem(160);
-    display: flex;
-    justify-content: center;
-    margin-top: 3rem;
-    margin-bottom: 4.75rem;
-    @include medium {
-      margin: 1.5rem 0;
-    }
-    img {
-      width: 100%;
-      height: 100%;
-    }
+    margin-bottom: toRem(40);
   }
 }
 
 .text-content {
-  height: toRem(134);
   .title,
   .description {
     text-align: center;
   }
   .title {
     @include h3;
+    margin-bottom: toRem(32);
   }
   .description {
     font-size: toRem(21);
@@ -458,7 +354,6 @@ section {
     letter-spacing: 0.02em;
   }
   @include medium {
-    height: unset;
     .title {
       font-size: 1.5rem;
       margin-bottom: 1rem;
@@ -471,7 +366,6 @@ section {
 
 // //////////////////////////////////////////////////////// Section Program Info
 #section-program-info {
-  border-top: solid 3px $nandor;
   .inner-wrapper {
     padding-top: toRem(82);
     padding-bottom: 3rem;
@@ -559,21 +453,31 @@ section {
   position: absolute;
   top: 0;
   right: 0;
-  width: toRem(651);
   height: 100%;
-  background-image: url('/images/textural-splash.jpg');
-  background-position: top right;
-  background-size: cover;
   border-left: solid 3px $nandor;
 }
 
 // //////////////////////////////////////////////////// Section Subfooter Slider
+#section-subfooter-slider {
+  overflow: hidden;
+}
+
 .card-container {
   padding-top: toRem(122);
   padding-bottom: toRem(168);
   @include small {
     padding-top: toRem(50);
     padding-bottom: toRem(38);
+  }
+}
+
+.form-cta-heading {
+  @include h3;
+  margin-bottom: toRem(45);
+  padding-left: toRem(54);
+  @include small {
+    @include h4;
+    margin-bottom: 1.5rem;
   }
 }
 
@@ -594,57 +498,15 @@ section {
   background-size: 69rem;
 }
 
-.form-cta-heading {
-  @include h3;
-  margin-bottom: toRem(45);
-  padding-left: toRem(54);
-  @include small {
-    @include h4;
-    margin-bottom: 1.5rem;
+#apply-form-card {
+  :deep(.panel) {
+    &:before,
+    &:after {
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+    svg path {
+      fill-opacity: 0.1;
+    }
   }
-}
-
-.form-heading {
-  margin-bottom: 2.5rem;
-  font-size: toRem(24);
-  line-height: leading(35, 24);
-  font-weight: 500;
-  @include mini {
-    font-size: toRem(18);
-  }
-}
-
-.field-container {
-  :deep(.field-label) {
-    display: none;
-  }
-}
-
-.range-field {
-  margin-bottom: 2.5rem;
-}
-
-.row {
-  display: flex;
-  flex-direction: row;
-}
-
-.input-field {
-  position: relative;
-  width: 6.25rem;
-  margin-right: 1.125rem;
-  &:after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: calc(100% + 0.4375rem);
-    width: 0.25rem;
-    height: 2px;
-    background-color: $titanWhite;
-  }
-}
-
-.select-field {
-  width: 3.75rem;
 }
 </style>

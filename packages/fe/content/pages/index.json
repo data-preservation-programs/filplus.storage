@@ -35,6 +35,7 @@
     },
     "section_program": {
       "heading": "Program Scope",
+      "image": "/images/textural-splash.jpg",
       "entries": [
         "Fil+ is designed for <i>all</i> client actors with quality data who engage in distributed onboarding.",
         "Client actors can be either data owners or preparers (including SPs), who either provide some form of KYC (and KYB) information to earn social trust or prove long term commitment (i.e., collateral in a trustless notary)",
