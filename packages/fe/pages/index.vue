@@ -373,6 +373,11 @@ section {
 
 // //////////////////////////////////////////////////////// Section Program Info
 #section-program-info {
+  [class~="col"], [class*="col-"], [class*="col_"] {
+    &:first-child {
+      z-index: 10;
+    }
+  }
   .inner-wrapper {
     padding-top: toRem(82);
     padding-bottom: 3rem;
@@ -396,6 +401,10 @@ section {
         font-size: 1.5rem;
         padding: 0.5rem 2rem 0.5rem 3rem;
         margin-bottom: 0;
+      }
+      @include tiny {
+        margin-left: -1.5rem;
+        z-index: -1;
       }
     }
     .program {

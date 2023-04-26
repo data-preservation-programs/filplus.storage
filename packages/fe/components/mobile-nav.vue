@@ -8,7 +8,10 @@
         tag="button"
         @clicked="toggleModal">
         <div :class="['nav-detail', { active: modal }]">
-          <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <div class="hamburger">
+            <div class="hamburger-icon" />
+          </div>
+          <!-- <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
               stroke="white"
               stroke-width="2"
@@ -17,7 +20,7 @@
               stroke="white"
               stroke-width="2"
               class="bottom-line" />
-          </svg>
+          </svg> -->
         </div>
       </Button>
     </div>
@@ -220,33 +223,48 @@ export default {
     width: 0.25rem;
     left: calc(-1.25rem + 1px);
   }
-  .top-line,
-  .bottom-line {
-    transition: all 200ms ease;
-  }
-  .top-line {
-    d:path('M 15 5 L 1 5')
-  }
-  .bottom-line {
-    d:path('M 15 15 L 1 15')
-  }
-  svg {
-    transition: all 200ms ease;
-    transform: none;
-  }
   &.active {
-    svg {
-      transform: translateX(-5px);
-    }
-    .top-line {
-      d:path('M 20 1 L 1 20')
-    }
-    .bottom-line {
-      d:path('M 20 20 L 1 1')
-    }
     &:before,
     &:after {
       width: 0;
+    }
+    .hamburger-icon {
+      transition: 150ms ease-in;
+      &:before {
+        transform: rotateZ(45deg) translate(4px, 4px);
+      }
+      &:after {
+        transform: rotateZ(-45deg) translate(3px, -4px);
+      }
+    }
+  }
+}
+
+.hamburger {
+  width: 20px;
+  height: 18px;
+  position: relative;
+  .hamburger-icon {
+    position: absolute;
+    height: 2px;
+    width: 20px;
+    top: 10px;
+    &:before,
+    &:after {
+      content: '';
+      position: absolute;
+      left: 0;
+      background-color: white;
+      width: 100%;
+      transition: 150ms ease-out;
+    }
+    &:before {
+      top: -6px;
+      height: 2px;
+    }
+    &:after {
+      top: 4px;
+      height: 2px;
     }
   }
 }
