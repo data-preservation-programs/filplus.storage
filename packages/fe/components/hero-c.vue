@@ -3,7 +3,7 @@
 
     <div class="hero-content">
       <div class="grid-center">
-        <div class="col-10">
+        <div class="col-10_sm-12">
           <div class="inner-content">
 
             <h1 class="heading" v-html="heading" />
@@ -17,17 +17,11 @@
       </div>
     </div>
 
-    <!-- ========================================================== Overlays -->
-    <Overlay type="noise" />
-
-    <Overlay type="opaque" />
-
   </div>
 </template>
 
 <script>
 // ===================================================================== Imports
-import Overlay from '@/components/overlay'
 import Infographic from '@/components/infographic'
 import DatacapTextSpinner from '@/components/spinners/datacap-text'
 
@@ -36,7 +30,6 @@ export default {
   name: 'HeroC',
 
   components: {
-    Overlay,
     Infographic,
     DatacapTextSpinner
   },
@@ -47,7 +40,6 @@ export default {
       required: true
     }
   }
-
 }
 </script>
 
@@ -56,14 +48,15 @@ export default {
 #hero {
   position: relative;
   margin-top: -$siteHeaderHeight;
-  padding-top: calc($siteHeaderHeight * 2 + 6rem);
+  padding-top: $siteHeaderHeight * 1.5;
   padding-bottom: 9rem;
   z-index: 25;
   @include small {
-    padding-top: $siteHeaderHeight * 2;
+    padding-top: $siteHeaderHeight * 1.25;
+    padding-bottom: 5rem;
   }
   @include mini {
-    padding-bottom: 0;
+    padding-bottom: 3rem;
   }
 }
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="datacap-spinner">
+  <div class="datacap-spinner" @click="$emit('clicked')">
     <svg
       class="circle-text"
       viewBox="0 0 130 130"
@@ -53,6 +53,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+// ///////////////////////////////////////////////////////////////////// General
 .datacap-spinner {
   position: absolute;
   width: toRem(130);

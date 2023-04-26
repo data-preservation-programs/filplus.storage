@@ -1,6 +1,9 @@
 <template>
   <div :class="`page page-${tag} container`">
 
+    <!-- ============================================================== Hero -->
+    <HeroC :heading="heading" />
+
     <!-- ================================================== Section Overview -->
     <section id="section-overview" class="section">
 
@@ -158,6 +161,7 @@
 // ===================================================================== Imports
 import { mapGetters } from 'vuex'
 
+import HeroC from '@/components/hero-c'
 import Roadmap from '@/components/page-index/roadmap'
 import ApplyFormCard from '@/components/apply-form-card'
 import Squigglie from '@/components/squigglie'
@@ -171,6 +175,7 @@ export default {
   name: 'IndexPage',
 
   components: {
+    HeroC,
     Roadmap,
     ApplyFormCard,
     Squigglie,
@@ -200,6 +205,9 @@ export default {
     }),
     pageData () {
       return this.siteContent[this.tag].page_content
+    },
+    heading () {
+      return this.pageData.heading
     },
     overview () {
       return this.pageData.section_overview
@@ -240,7 +248,6 @@ section {
 
 // //////////////////////////////////////////////////////////// Section Overview
 #section-overview {
-  margin-top: 10rem;
   padding: 4rem 0;
   .inner-wrapper {
     padding: 0 5rem;

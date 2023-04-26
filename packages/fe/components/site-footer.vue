@@ -14,7 +14,7 @@
         <div class="col-3_md-5_mi-12">
           <div class="logo-cta">
             <Logo class="site-logo" />
-            <DatacapTextSpinner />
+            <DatacapTextSpinner @clicked="$highlightApplyForm" />
           </div>
         </div>
 
