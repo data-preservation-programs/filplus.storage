@@ -10,6 +10,38 @@
     "image": "/open-graph-image.png"
   },
   "page_content": {
+    "section_overview": {
+      "heading": "Current Program Goals",
+      "subheading": "To incentivize data onboarding across use cases with community governed trust mechanisms."
+    },
+    "section_graphics": {
+      "cards": [
+        {
+          "image": "/images/infographic-gear.png",
+          "title": "Quality",
+          "description": "95% of new DataCap is allocated to quality data & use cases"
+        },
+        {
+          "image": "/images/infographic-replay.png",
+          "title": "Transparency",
+          "description": "Public visibility into all key initiatives and goals"
+        },
+        {
+          "image": "/images/infographic-coin.png",
+          "title": "Enablement",
+          "description": "100% of valid types of clients have a path to getting DataCap"
+        }
+      ]
+    },
+    "section_program": {
+      "heading": "Program Scope",
+      "entries": [
+        "Fil+ is designed for <i>all</i> client actors with quality data who engage in distributed onboarding.",
+        "Client actors can be either data owners or preparers (including SPs), who either provide some form of KYC (and KYB) information to earn social trust or prove long term commitment (i.e., collateral in a trustless notary)",
+        "<span>Quality data is all content that meets local regulatory requirements and</span><ul><li>the data owner wants to see on the network, including private/encrypted data or is open and retrievable,</li><li>demonstrates proof of concept</li><li> utility of the network, such as efforts to improve onboarding</li></ul>",
+        "Distributed onboarding is generally defined as: multiple physical locations and multiple storage provider entities to serve client requirements"
+      ]
+    },
     "roadmap_heading": "<span class='bubble right'>Fil+ Roadmap</span>",
     "roadmap_subheading": "Guiding program quality, transparency and enablement",
     "roadmap": [
@@ -133,6 +165,9 @@
           "target": "_blank"
         }
       ]
+    },
+    "section_subfooter_slider": {
+      "heading": "Ready to store?<br>Quickstart your application for DataCap"
     }
   }
 }
