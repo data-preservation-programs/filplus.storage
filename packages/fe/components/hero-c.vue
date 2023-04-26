@@ -75,9 +75,6 @@ export default {
 .inner-content {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  position: relative;
 }
 
 ::v-deep .heading {

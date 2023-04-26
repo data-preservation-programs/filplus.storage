@@ -593,12 +593,12 @@ export default {
   position: relative;
   border: toRem(35) solid;
   border-image: url(../assets/images/infographic-border.svg) 30;
-  height: toRem(732);
+  height: max(toRem(480), vw(755px));
   width: 100%;
   transition: all 250ms ease-in;
   padding: toRem(30);
   &.with-fil-plus {
-    height: toRem(850);
+    height: max(toRem(565), vw(890px));
     transition: all 250ms ease-in;
     .animating-content {
       transform: translateY(0);
@@ -610,22 +610,13 @@ export default {
       opacity: 0;
     }
   }
-  @include large {
-    height: toRem(604);
-    &.with-fil-plus {
-      height: toRem(706);
-    }
-  }
-  @include medium {
-    padding: toRem(20);
-    height: toRem(508);
-    &.with-fil-plus {
-      height: toRem(594);
-    }
-  }
   @include small {
+    height: auto;
     border: none;
     padding: 0;
+    &.with-fil-plus {
+      height: auto;
+    }
   }
 }
 
