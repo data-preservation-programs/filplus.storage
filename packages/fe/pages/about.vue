@@ -221,7 +221,24 @@ export default {
 }
 
 .infographic-container {
-  padding: 0.5rem 2rem 0.5rem 0.5rem;
+  margin: 0 5rem 3rem 0;
+  :deep(.infographic-wrapper) {
+    height: clamp(toRem(345), vw(500px), toRem(500));
+    &.with-fil-plus {
+      height: clamp(toRem(390), vw(600px), toRem(594));
+    }
+    .title {
+      font-size: toRem(23);
+    }
+  }
+  @include small {
+    :deep(.infographic-wrapper) {
+      height: auto;
+      &.with-fil-plus {
+        height: auto;
+      }
+    }
+  }
 }
 
 // ////////////////////////////////////////////////////////////////// Warp Image
