@@ -1,5 +1,5 @@
 <template>
-  <div :class="`page page-${tag} container`">
+  <div :class="`page page-${tag}`">
 
     <!-- ============================================================== Hero -->
     <HeroA
@@ -19,13 +19,13 @@
         class="section-top-border" />
 
       <div class="grid-spaceBetween">
-        
+
         <div class="col-7_lg-8_sm-9_mi-10" data-push-left="off-1_mi-0">
-          
+
           <MarkdownParser :markdown="markdown" />
-          
+
           <Infographic />
-          
+
           <div
             v-if="ctaCard"
             class="cta-card-wrapper"
@@ -125,7 +125,6 @@ export default {
 <style lang="scss" scoped>
 // ///////////////////////////////////////////////////////////////////// General
 .page-about {
-  position: relative;
   overflow: hidden;
 }
 
