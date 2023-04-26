@@ -596,7 +596,7 @@ export default {
   height: max(toRem(480), vw(755px));
   width: 100%;
   transition: all 250ms ease-in;
-  padding: toRem(30);
+  padding: min(toRem(30), 2vw);
   &.with-fil-plus {
     height: max(toRem(565), vw(890px));
     transition: all 250ms ease-in;
@@ -609,6 +609,9 @@ export default {
     .without-fil-plus-content {
       opacity: 0;
     }
+  }
+  @include large {
+  border-image-slice: 36;
   }
   @include small {
     height: auto;
