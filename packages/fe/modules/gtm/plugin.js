@@ -4,6 +4,7 @@ const _layer = '<%= options.layer %>'
 const _id = '<%= options.id %>'
 
 function gtmClient(ctx, initialized) {
+  let debounceWindow
   return {
     init(id = _id) {
       if (initialized[id] || !window._gtm_inject) {
@@ -17,8 +18,14 @@ function gtmClient(ctx, initialized) {
       if (!window[_layer]) {
         window[_layer] = []
       }
-      window[_layer].push(obj)
-      log('push', obj)
+      // Use debounce to prevent multiple calls in quick succession
+      if (debounceWindow) {
+        clearTimeout(debounceWindow)
+      }
+      debounceWindow = setTimeout(() => {
+        window[_layer].push(obj)
+        log('push', obj)
+      }, 500) // Debounce delay as timeout
     }
   }
 }
