@@ -8,8 +8,6 @@
       :thick="true"
       class="footer-top-border" />
 
-    <Overlay type="noise" />
-
     <section class="section-footer">
       <div class="grid-noGutter-equalHeight">
 
@@ -123,7 +121,6 @@
 // ===================================================================== Imports
 import { mapGetters } from 'vuex'
 
-import Overlay from '@/components/overlay'
 import Logo from '@/components/logo'
 import CircleText from '@/components/icons/circle-text'
 import Arrow from '@/components/icons/arrow'
@@ -138,7 +135,6 @@ export default {
   name: 'SiteFooter',
 
   components: {
-    Overlay,
     Logo,
     CircleText,
     Arrow,
@@ -147,7 +143,6 @@ export default {
     GithubIcon,
     SlackIcon,
     Squigglie
-    // ButtonD
   },
 
   computed: {
