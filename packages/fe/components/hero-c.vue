@@ -95,8 +95,13 @@ export default {
 
 // ///////////////////////////////////////////////////////////////////// Spinner
 .datacap-spinner {
-  right: toRem(-65);
+  right: toRem(65);
   bottom: toRem(-65);
+  @include medium {
+    width: toRem(100);
+    right: toRem(50);
+    bottom: toRem(-50);
+  }
   @include small {
     display: none;
   }
