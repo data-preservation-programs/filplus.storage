@@ -269,12 +269,27 @@ export default {
   left: 0;
   width: 100%;
   height: $siteHeaderHeight;
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0.6) 28.86%, transparent 100%);
   z-index: 1000;
   transition: background-color 150ms ease-out, height 150ms ease-out;
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 125%;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.8) 20%, transparent 100%);
+    pointer-events: none;
+    z-index: -1;
+    transition: 150ms ease-out;
+  }
   &.mini {
     transition: background-color 150ms ease-in, height 150ms ease-in;
     height: $siteHeaderHeightMini;
+    &:before {
+      transition: 150ms ease-in;
+      height: 150%;
+    }
     @include mini {
       height: $siteHeaderHeight;
     }
