@@ -60,8 +60,8 @@
         "tag": "Transparency",
         "date": "2023.04",
         "events": [
-          { "tag": "in-progress", "text": "Public roadmap shared, key deliverables shared on landing page" },
-          { "tag": "in-progress", "text": "Updated DataCap tracking on datacapstats.io, client explorer" },
+          { "tag": "shipped", "text": "Public roadmap shared, key deliverables shared on landing page" },
+          { "tag": "shipped", "text": "Updated DataCap tracking on <a href='https://datacapstats.io/' target='_blank'>datacapstats.io</a>, client explorer" },
           { "tag": "shipped", "text": "Medium publication for Fil+ with internal team process for frequent updates" }
         ]
       },
@@ -69,15 +69,15 @@
         "tag": "Enablement",
         "date": "2023.04",
         "events": [
-          { "tag": "in-progress", "text": "<a href='https://filplus.storage'>Filplus.storage</a> v2 - client application tracking, improved UX, metrics" },
-          { "tag": "in-progress", "text": "Amet ipsum dolor" }
+          { "tag": "in-progress", "text": "<a href='/'>filplus.storage</a> v2 - client application tracking, improved UX, metrics" },
+          { "tag": "in-progress", "text": "Increase LDN application max from 5PiB to 15PiB+" }
         ]
       },
       {
         "tag": "Quality",
         "date": "2023.05",
         "events": [
-          { "tag": "upcoming", "text": "Notary due diligence tracking for accountability & efficiency, data shared in leaderboard" },
+          { "tag": "upcoming", "text": "Notary due diligence tracking for accountability & efficiency" },
           { "tag": "upcoming", "text": "Deliver notary capability to remove DataCap from client addresses" },
           { "tag": "upcoming", "text": "KYC/KYB integrations in client onboarding LDN flow" }
         ]

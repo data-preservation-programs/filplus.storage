@@ -475,6 +475,9 @@ export default {
     font-size: toRem(14);
     line-height: leading(21, 14);
   }
+  :deep(a) {
+    @include linkUnderline;
+  }
 }
 
 // ////////////////////////////////////////////////////////////////////// Footer
