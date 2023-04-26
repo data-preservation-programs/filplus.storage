@@ -1,8 +1,8 @@
 <template>
-  <div :class="`page page-${tag} container`">
+  <section id="roadmap">
 
     <!-- ============================================================= Intro -->
-    <section id="intro">
+    <section class="intro">
       <div class="grid">
         <div class="col">
 
@@ -15,7 +15,7 @@
     </section>
 
     <!-- =========================================================== Roadmap -->
-    <section id="roadmap">
+    <section class="roadmap">
       <div
         v-for="(month, key, monthIndex) in compiledRoadmap"
         :key="key"
@@ -121,10 +121,7 @@
       </div>
     </section>
 
-    <!-- ========================================================== Overlays -->
-    <Overlay type="noise" />
-
-  </div>
+  </section>
 </template>
 
 <script>
@@ -133,11 +130,8 @@ import { mapGetters } from 'vuex'
 import CloneDeep from 'lodash/cloneDeep'
 
 import ButtonX from '@/components/buttons/button-x'
-import Overlay from '@/components/overlay'
 
 import IconLinkExternal from '@/components/icons/link-external'
-
-import Home3PageData from '@/content/pages/home-3.json'
 
 // ====================================================================== Export
 export default {
@@ -145,24 +139,14 @@ export default {
 
   components: {
     ButtonX,
-    Overlay,
     IconLinkExternal
   },
 
   data () {
     return {
-      tag: 'home-3',
       compiledRoadmap: {},
       monthCount: 0
     }
-  },
-
-  async fetch ({ app, store }) {
-    await store.dispatch('general/getBaseData', { key: 'home-3', data: Home3PageData })
-  },
-
-  head () {
-    return this.$compileSeo(this.$getSeo(this.tag))
   },
 
   computed: {
@@ -170,7 +154,7 @@ export default {
       siteContent: 'general/siteContent'
     }),
     pageData () {
-      return this.siteContent[this.tag].page_content
+      return this.siteContent.index.page_content
     },
     roadmap () {
       return this.pageData.roadmap
@@ -235,22 +219,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-// ///////////////////////////////////////////////////////////////////// General
-.page-home-3 {
-  padding-top: $siteHeaderHeight;
-}
-
-section {
-  position: relative;
-  z-index: 10;
-}
-
-.overlay.type__noise {
-  z-index: 5;
-}
-
 // /////////////////////////////////////////////////////////////////////// Intro
-#intro {
+.intro {
   padding-top: 9rem;
 }
 
@@ -276,7 +246,7 @@ section {
 }
 
 // ///////////////////////////////////////////////////////////////////// Roadmap
-#roadmap {
+.roadmap {
   padding-top: 12rem;
 }
 
