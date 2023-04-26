@@ -708,12 +708,11 @@ export default {
 .infographic-toggle {
   display: flex;
   align-items: center;
-  opacity: 0.6;
   width: toRem(80);
   height: toRem(40);
   border-radius: toRem(70);
   margin: 0 toRem(15);
-  background-color: $mineralGreen;
+  background-color: rgba(59, 86, 79, 0.6);
   border: 2px solid $greenYellow;
   transition: all 250ms ease-in;
   &.with-fil-plus {
