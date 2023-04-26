@@ -38,9 +38,12 @@
       "entries": [
         "Fil+ is designed for <i>all</i> client actors with quality data who engage in distributed onboarding.",
         "Client actors can be either data owners or preparers (including SPs), who either provide some form of KYC (and KYB) information to earn social trust or prove long term commitment (i.e., collateral in a trustless notary)",
-        "Quality data is all content that meets local regulatory requirements and<ul><li>the data owner wants to see on the network, including private/encrypted data or is open and retrievable,</li><li>demonstrates proof of concept</li><li> utility of the network, such as efforts to improve onboarding</li></ul>",
+        "<span>Quality data is all content that meets local regulatory requirements and</span><ul><li>the data owner wants to see on the network, including private/encrypted data or is open and retrievable,</li><li>demonstrates proof of concept</li><li> utility of the network, such as efforts to improve onboarding</li></ul>",
         "Distributed onboarding is generally defined as: multiple physical locations and multiple storage provider entities to serve client requirements"
       ]
+    },
+    "section_subfooter_slider": {
+      "heading": "Ready to store?<br>Quickstart your application for DataCap"
     }
   }
 }
