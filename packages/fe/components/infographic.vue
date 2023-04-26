@@ -743,5 +743,4 @@ export default {
     transform: translateX(toRem(32));
   }
 }
-
 </style>

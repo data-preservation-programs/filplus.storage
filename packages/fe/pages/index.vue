@@ -512,6 +512,7 @@ section {
       background-color: rgba(15, 31, 26, 0.4);
     }
     svg path {
+      fill: $aztec;
       fill-opacity: 0.4;
     }
   }
