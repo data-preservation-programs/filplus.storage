@@ -70,10 +70,7 @@
           anchor="bottom"
           color="nandor" />
 
-        <div class="cta-wrapper">
-          <CircleText class="cta-spinner" />
-          <Arrow class="cta-arrow" />
-        </div>
+        <DatacapTextSpinner />
 
       </div>
     </NavModal>
@@ -89,8 +86,7 @@ import ButtonA from '@/components/buttons/button-a'
 import ButtonX from '@/components/buttons/button-x'
 import NavModal from '@/components/nav-modal'
 import Squigglie from '@/components/squigglie'
-import CircleText from '@/components/icons/circle-text'
-import Arrow from '@/components/icons/arrow'
+import DatacapTextSpinner from '@/components/spinners/datacap-text'
 
 // ====================================================================== Export
 export default {
@@ -103,8 +99,7 @@ export default {
     ButtonX,
     NavModal,
     Squigglie,
-    CircleText,
-    Arrow
+    DatacapTextSpinner
   },
 
   props: {
@@ -311,32 +306,10 @@ export default {
   }
 }
 
-.cta-wrapper {
-  position: absolute;
+.datacap-spinner {
   top: calc(100% + 52px);
   right: toRem(40);
   width: toRem(130);
 }
 
-.cta-spinner {
-  position: relative;
-  width: 100%;
-  animation: spinning 15s infinite linear reverse;
-}
-
-.cta-arrow {
-  position: absolute;
-  top: calc(50% - 4px);
-  left: calc(50% + 1px);
-  transform: translate(-50%, -50%);
-}
-
-@keyframes spinning {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
 </style>

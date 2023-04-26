@@ -14,12 +14,7 @@
         <div class="col-3_md-5_mi-12">
           <div class="logo-cta">
             <Logo class="site-logo" />
-            <div
-              class="cta-wrapper"
-              @click="$highlightApplyForm">
-              <CircleText class="cta-spinner" />
-              <Arrow class="cta-arrow" />
-            </div>
+            <DatacapTextSpinner />
           </div>
         </div>
 
@@ -122,8 +117,7 @@
 import { mapGetters } from 'vuex'
 
 import Logo from '@/components/logo'
-import CircleText from '@/components/icons/circle-text'
-import Arrow from '@/components/icons/arrow'
+import DatacapTextSpinner from '@/components/spinners/datacap-text'
 import ButtonX from '@/components/buttons/button-x'
 import Card from '@/components/card'
 import GithubIcon from '@/components/icons/github'
@@ -136,8 +130,7 @@ export default {
 
   components: {
     Logo,
-    CircleText,
-    Arrow,
+    DatacapTextSpinner,
     ButtonX,
     Card,
     GithubIcon,
@@ -234,8 +227,7 @@ export default {
   }
 }
 
-.cta-wrapper {
-  position: absolute;
+.datacap-spinner {
   width: 39%;
   right: 1rem;
   top: calc(50% + 1rem);
@@ -244,31 +236,6 @@ export default {
     width: toRem(130);
     right: unset;
     left: calc(50% + 1rem);
-  }
-}
-
-.cta-spinner {
-  position: relative;
-  width: 100%;
-  animation: spinning 15s infinite linear reverse;
-  &:hover {
-    animation-play-state: paused;
-  }
-}
-
-.cta-arrow {
-  position: absolute;
-  top: calc(50% - 4px);
-  left: calc(50% + 1px);
-  transform: translate(-50%, -50%);
-}
-
-@keyframes spinning {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
   }
 }
 

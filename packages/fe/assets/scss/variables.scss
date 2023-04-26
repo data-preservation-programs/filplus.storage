@@ -121,6 +121,11 @@ $breakpoint_UltraLarge: 140.625rem; // 2250px
   @return math.div($value, 16) + rem;
 }
 
+// $base-vw is your $xlarge breakpoint
+@function vw($px-vw, $base-vw: 1440px) {
+  @return math.div($px-vw * 100vw, $base-vw);
+}
+
 // --------------------------------------------------------------------- General
 @mixin descendingZindex($n) {
   @for $i from 1 through $n {
