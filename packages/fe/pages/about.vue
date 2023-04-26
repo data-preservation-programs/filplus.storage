@@ -231,7 +231,19 @@ export default {
       font-size: toRem(23);
     }
   }
+
+  :deep(.infographic-toggle) {
+    width: toRem(70);
+    height: toRem(35);
+  }
+  :deep(.toggle-switch) {
+    width: toRem(23);
+    height: toRem(23);
+    transform: translateX(toRem(35));
+  }
+
   @include small {
+    margin-right: 3rem;
     :deep(.infographic-wrapper) {
       height: auto;
       &.with-fil-plus {
@@ -239,8 +251,32 @@ export default {
       }
     }
   }
+  @include mini {
+    :deep(.infographic-wrapper) {
+      .title {
+        font-size: clamp(toRem(14), 16px + 1vw , toRem(17));
+      }
+      .infographic-toggle {
+        width: toRem(60);
+        height: toRem(30);
+      }
+      .toggle-switch {
+        width: toRem(20);
+        height: toRem(20);
+        margin: 0 toRem(2);
+        transform: translateX(toRem(30));
+      }
+    }
+  }
+  @include tiny {
+    margin-right: 0;
+    :deep(.infographic-wrapper) {
+      .title {
+        font-size: toRem(14);
+      }
+    }
+  }
 }
-
 // ////////////////////////////////////////////////////////////////// Warp Image
 .panel-right {
   position: relative;

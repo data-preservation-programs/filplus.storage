@@ -735,7 +735,7 @@ export default {
   background-color: $greenYellow;
   border: 3px solid $greenYellow;
   margin: 0 toRem(5);
-  transform: translateX(2.5rem);
+  transform: translateX(toRem(40));
   box-shadow: inset -3px -4px 4px #CCFD7C, inset 3px 4px 4px #9AD933;
   transition: all 250ms ease-in;
   @include mini {
