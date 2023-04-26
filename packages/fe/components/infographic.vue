@@ -594,14 +594,11 @@ export default {
   border: toRem(35) solid;
   border-image: url(../assets/images/infographic-border.svg) 30;
   height: clamp(toRem(480), vw(755px), toRem(755));
-  // height: max(toRem(480), vw(755px));
   width: 100%;
   transition: all 250ms ease-in;
   padding: min(toRem(30), 2vw);
-  // padding-bottom: clamp(toRem(32), vw(875px), toRem(35));
   &.with-fil-plus {
     height: clamp(toRem(565), vw(900px), toRem(850));
-    // height: max(toRem(565), vw(890px));
     transition: all 250ms ease-in;
     .animating-content {
       transform: translateY(0);
