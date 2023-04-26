@@ -720,8 +720,8 @@ export default {
     }
   }
   @include mini {
-    width: toRem(40);
-    height: toRem(20);
+    width: toRem(60);
+    height: toRem(30);
   }
 }
 
@@ -737,10 +737,10 @@ export default {
   box-shadow: inset -3px -4px 4px #CCFD7C, inset 3px 4px 4px #9AD933;
   transition: all 250ms ease-in;
   @include mini {
-    width: toRem(13);
-    height: toRem(13);
+    width: toRem(20);
+    height: toRem(20);
     margin: 0 toRem(2);
-    transform: translateX(1.2rem);
+    transform: translateX(toRem(32));
   }
 }
 
