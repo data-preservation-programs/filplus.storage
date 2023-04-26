@@ -509,10 +509,10 @@ section {
   :deep(.panel) {
     &:before,
     &:after {
-      background-color: rgba(0, 0, 0, 0.1);
+      background-color: rgba(15, 31, 26, 0.4);
     }
     svg path {
-      fill-opacity: 0.1;
+      fill-opacity: 0.4;
     }
   }
 }
