@@ -88,7 +88,13 @@
             v-if="footerContent"
             class="copyright-content">
 
-            <LogoDataPrograms class="logo-data-programs" />
+            <ButtonX
+              :to="dataProgramsLogoButton.to"
+              :tag="dataProgramsLogoButton.tag"
+              :target="dataProgramsLogoButton.target"
+              class="link-data-programs-logo">
+              <LogoDataPrograms class="logo-data-programs" />
+            </ButtonX>
 
             <div class="secondary-links">
               <ButtonX
@@ -150,6 +156,9 @@ export default {
     }),
     footerContent () {
       return this.siteContent.general ? this.siteContent.general.footer : false
+    },
+    dataProgramsLogoButton () {
+      return this.footerContent.data_programs_logo_button
     },
     primaryLinks () {
       if (this.footerContent) { return this.footerContent.links }
@@ -451,6 +460,14 @@ export default {
 .secondary-links {
   display: flex;
   align-items: center;
+}
+
+.link-data-programs-logo {
+  transition: 150ms ease-out;
+  &:hover {
+    transition: 150ms ease-in;
+    transform: scale(1.05);
+  }
 }
 
 .secondary-link {

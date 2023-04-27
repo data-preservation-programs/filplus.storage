@@ -48,6 +48,11 @@
     ]
   },
   "footer": {
+    "data_programs_logo_button": {
+      "tag": "a",
+      "to": "https://github.com/data-preservation-programs",
+      "target": "_blank"
+    },
     "links": [
       {
         "type": "a",
