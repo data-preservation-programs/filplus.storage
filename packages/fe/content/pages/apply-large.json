@@ -731,7 +731,7 @@
         "confirm_follow_fil_guideline": {
           "type": "checkbox",
           "modelKey": "confirm_follow_fil_guideline",
-          "label": "Have your read and do you agree to the Fil+ guidelines?",
+          "label": "Have you read and do you agree to the Fil+ guidelines?",
           "required": true,
           "output": "option",
           "validationMessage": {

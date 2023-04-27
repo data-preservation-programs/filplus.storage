@@ -91,7 +91,7 @@ export default {
       return {
         type: 'nuxt-link',
         href: `/account/${this.account.githubUsername}/applications`,
-        label: 'Application History Page'
+        label: 'Application History'
       }
     }
   }
