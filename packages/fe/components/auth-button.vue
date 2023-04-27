@@ -20,7 +20,8 @@
           <div class="panel-left">
             <img :src="account.githubAvatarUrl" class="avatar" />
             <span class="username">
-              {{ account.githubUsername }}
+              <!-- {{ account.githubUsername }} -->
+              {{ username }}
             </span>
           </div>
           <IconChevron />
@@ -93,6 +94,9 @@ export default {
         href: `/account/${this.account.githubUsername}/applications`,
         label: 'Application History'
       }
+    },
+    username () {
+      return this.account.githubUsername + 'nnnnnnnnnnnnnnnnn'
     }
   }
 }
@@ -194,6 +198,7 @@ export default {
   display: flex;
   flex-direction: row;
   align-items: center;
+  margin-right: 1rem;
 }
 
 .avatar {
@@ -205,10 +210,9 @@ export default {
 }
 
 .username {
-  line-height: 1;
+  line-height: 1.2;
   font-weight: 500;
   color: $greenYellow;
-  margin-right: 1.5rem;
 }
 
 .icon-chevron {
