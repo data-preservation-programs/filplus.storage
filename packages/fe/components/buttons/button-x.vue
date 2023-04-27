@@ -73,7 +73,6 @@ export default {
 // ///////////////////////////////////////////////////////////////////// General
 .button {
   white-space: nowrap;
-  cursor: pointer;
   &:not([disabled]) {
     &:hover {
       .button-content {
@@ -88,6 +87,14 @@ export default {
   &[disabled] {
     box-shadow: none;
     opacity: 0.5;
+    cursor: no-drop;
+  }
+}
+
+a.button,
+button.button, {
+  cursor: pointer;
+  &[disabled] {
     cursor: no-drop;
   }
 }

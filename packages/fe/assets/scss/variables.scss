@@ -22,6 +22,7 @@ $gray800: #424242;
 $gray900: #212121;
 
 $aztec: #0F1F1A; // rgba(15, 31, 26, 1)
+$aztecGradientStop: #08130F; // rgba(8, 9, 15, 1)
 $titanWhite: #F6F5FF; // rgba(246, 245, 255, 1)
 $nandor: #4D655F; // rgba(77, 101, 95, 1)
 $greenYellow: #B7F651; // rgba(183, 246, 81, 1)
@@ -118,6 +119,11 @@ $breakpoint_UltraLarge: 140.625rem; // 2250px
 // ---------------------------------------------------------------- Calculations
 @function toRem($value) {
   @return math.div($value, 16) + rem;
+}
+
+// $base-vw is your $xlarge breakpoint
+@function vw($px-vw, $base-vw: 1440px) {
+  @return math.div($px-vw * 100vw, $base-vw);
 }
 
 // --------------------------------------------------------------------- General
