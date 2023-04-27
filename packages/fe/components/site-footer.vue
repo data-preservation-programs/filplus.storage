@@ -88,6 +88,14 @@
             v-if="footerContent"
             class="copyright-content">
 
+            <ButtonX
+              :to="dataProgramsLogoButton.to"
+              :tag="dataProgramsLogoButton.tag"
+              :target="dataProgramsLogoButton.target"
+              class="link-data-programs-logo">
+              <LogoDataPrograms class="logo-data-programs" />
+            </ButtonX>
+
             <div class="secondary-links">
               <ButtonX
                 v-for="(item, j) in secondaryLinks"
@@ -117,11 +125,13 @@
 import { mapGetters } from 'vuex'
 
 import Logo from '@/components/logo'
+import LogoDataPrograms from '@/components/logo-data-programs'
 import DatacapTextSpinner from '@/components/spinners/datacap-text'
 import ButtonX from '@/components/buttons/button-x'
 import Card from '@/components/card'
 import GithubIcon from '@/components/icons/github'
 import SlackIcon from '@/components/icons/slack'
+import MediumIcon from '@/components/icons/medium'
 import Squigglie from '@/components/squigglie'
 
 // ====================================================================== Export
@@ -130,11 +140,13 @@ export default {
 
   components: {
     Logo,
+    LogoDataPrograms,
     DatacapTextSpinner,
     ButtonX,
     Card,
     GithubIcon,
     SlackIcon,
+    MediumIcon,
     Squigglie
   },
 
@@ -144,6 +156,9 @@ export default {
     }),
     footerContent () {
       return this.siteContent.general ? this.siteContent.general.footer : false
+    },
+    dataProgramsLogoButton () {
+      return this.footerContent.data_programs_logo_button
     },
     primaryLinks () {
       if (this.footerContent) { return this.footerContent.links }
@@ -172,6 +187,7 @@ export default {
       switch (type) {
         case 'github': icon = 'GithubIcon'; break
         case 'slack': icon = 'SlackIcon'; break
+        case 'medium': icon = 'MediumIcon'; break
         default: icon = 'div'
       }
       return icon
@@ -422,32 +438,22 @@ export default {
   justify-content: space-between;
   align-items: center;
   height: toRem(80);
-  @include mini {
+  @include medium {
     height: unset;
     flex-direction: column;
-    margin-top: toRem(45);
-    margin-bottom: toRem(68);
     align-items: flex-start;
+    margin-top: toRem(45);
+    margin-bottom: 4.1665vw;
+    :deep(br) {
+      display: none;
+    }
   }
 }
 
-.copyright-text {
-  padding-left: 1rem;
-  font-size: 1rem;
-  font-weight: 400;
-  line-height: leading(24, 16);
-  color: $juniper;
-  text-align: right;
-  @include large {
-    font-size: 0.875rem;
-    line-height: leading(18, 14);
-  }
-  @include mini {
-    padding: 0 1rem;
-    margin-top: toRem(38);
-  }
-  :deep(a) {
-    @include linkUnderline;
+.logo-data-programs {
+  width: toRem(162);
+  @include medium {
+    margin-bottom: 2rem;
   }
 }
 
@@ -456,9 +462,16 @@ export default {
   align-items: center;
 }
 
+.link-data-programs-logo {
+  transition: 150ms ease-out;
+  &:hover {
+    transition: 150ms ease-in;
+    transform: scale(1.05);
+  }
+}
+
 .secondary-link {
   padding: 0;
-  height: 1.875rem;
   border-bottom: none;
   transition: 150ms ease-out;
   &:hover {
@@ -468,13 +481,33 @@ export default {
   &:not(:last-child) {
     margin-right: 1.5625rem;
   }
-  @include mini {
-    padding: 0 1rem;
-  }
 }
 
 .icon-slack,
 .icon-github {
+  display: block;
   width: 1.875rem;
+}
+
+.icon-medium {
+  display: block;
+  width: toRem(44);
+}
+
+.copyright-text {
+  padding-left: 1rem;
+  font-size: toRem(14);
+  font-weight: 400;
+  line-height: leading(24, 15);
+  color: $juniper;
+  text-align: right;
+  @include medium {
+    margin-top: 2rem;
+    padding-left: 0;
+    text-align: left;
+  }
+  :deep(a) {
+    @include linkUnderline;
+  }
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div :class="`page page-${tag} container`">
+  <div :class="`page page-${tag}`">
 
     <!-- ============================================================== Hero -->
     <HeroA
@@ -194,16 +194,11 @@ $cardRadius: 1.875rem;
 
 // ///////////////////////////////////////////////////////////////////// General
 .page-apply {
-  position: relative;
   overflow: hidden;
 }
 
 .overlay.type__noise {
   z-index: 5;
-}
-
-.container {
-  position: relative;
 }
 
 // //////////////////////////////////////////////////////////////////////// Hero

@@ -57,6 +57,7 @@ export default {
 .datacap-spinner {
   position: absolute;
   width: toRem(130);
+  cursor: pointer;
 }
 
 .circle-text {
@@ -73,6 +74,7 @@ export default {
   top: calc(50% - 4px);
   left: calc(50% + 1px);
   transform: translate(-50%, -50%);
+  pointer-events: none;
 }
 
 @keyframes spinning {

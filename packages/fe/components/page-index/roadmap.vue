@@ -202,7 +202,8 @@ export default {
       for (let i = 0; i < lenI; i++) {
         const entry = roadmap[i]
         const date = entry.date
-        const parsedDate = this.$moment(new Date(date))
+        const parsedDate = this.$moment(date)
+        console.log(parsedDate)
         entry.date = {
           original: date,
           quarter: `Q${parsedDate.format('Q YYYY')}`
@@ -239,6 +240,9 @@ export default {
   @include small {
     font-size: toRem(35);
     line-height: leading(40, 35);
+  }
+  @include tiny {
+    font-size: toRem(30);
   }
 }
 
@@ -474,6 +478,9 @@ export default {
   @include small {
     font-size: toRem(14);
     line-height: leading(21, 14);
+  }
+  :deep(a) {
+    @include linkUnderline;
   }
 }
 

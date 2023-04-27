@@ -78,10 +78,6 @@ const UserSchema = new Schema({
     required: false,
     default: null
   },
-  disabled: {
-    type: Boolean,
-    required: false
-  },
   githubToken: {
     type: String,
     set: Encrypt,

@@ -10,7 +10,7 @@
 
             <Infographic />
 
-            <DatacapTextSpinner />
+            <DatacapTextSpinner @clicked="$highlightApplyForm" />
 
           </div>
         </div>
