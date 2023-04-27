@@ -16,19 +16,19 @@ The frontend is a collection SSR pages, built with Vue/Nuxt. Data is connected v
 
 For local development, or for initialization using a CI, use the following build commands. The backend and frontend packages should run concurrently. For local development, you'll want two shell sessions.
 
-*Install*
+**Install**
 
 ```bash
 npm ci
 ```
 
-*Build Backend*
+**Build Backend**
 
 ```bash
 npm run dev-be
 ```
 
-*Build Frontend*
+**Build Frontend**
 
 ```bash
 npm run dev-fe
