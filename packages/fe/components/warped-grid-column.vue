@@ -7,6 +7,7 @@
       ref="canvases"
       :key="`warped-grid-canvas-${i}`"
       :animation-active="activeGrids.includes(i)"
+      v-bind="params"
       :style="{ top: `${i * gridHeight}px` }"
       class="warp-animation" />
   </div>
@@ -54,6 +55,14 @@ export default {
 
   components: {
     WarpedGrid
+  },
+
+  props: {
+    params: {
+      type: Object,
+      required: false,
+      default: () => ({})
+    }
   },
 
   data () {

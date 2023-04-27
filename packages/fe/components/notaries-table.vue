@@ -25,13 +25,13 @@
         root-html-tag="tbody"
         class="table-body">
         <tr
-          v-for="notary in filteredNotaries"
-          :key="notary.sp_id"
+          v-for="(notary, i) in filteredNotaries"
+          :key="`${notary.sp_id}-${i}`"
           class="row row-body">
 
           <td
-            v-for="cell in columns"
-            :key="cell.slug"
+            v-for="(cell, j) in columns"
+            :key="`${cell.slug}-${j}`"
             :class="['cell cell-body', cell.slug]">
             <div :class="['cell-inner-wrapper', `cell-${cell.slug}`]">
 
@@ -50,14 +50,14 @@
                   </div>
                   <div class="github-handles">
                     <ButtonX
-                      v-for="(handle, index) in notary.github_user"
-                      :key="handle"
+                      v-for="(handle, k) in notary.github_user"
+                      :key="`${handle}-${k}`"
                       :to="`https://github.com/${handle}`"
                       :data-tooltip="`https://github.com/${handle}`"
                       tag="a"
                       target="_blank"
                       class="github-handle">
-                      {{ handle }}<template v-if="index !== notary.github_user.length - 1">,</template>
+                      {{ handle }}<template v-if="k !== notary.github_user.length - 1">,</template>
                     </ButtonX>
                   </div>
                 </div>
@@ -88,8 +88,8 @@
                   </ButtonX>
                   <template v-if="notary.email.length > 0">
                     <ButtonX
-                      v-for="email in notary.email"
-                      :key="email"
+                      v-for="(email, l) in notary.email"
+                      :key="`${email}-${l}`"
                       :to="`mailto:${email}`"
                       :data-tooltip="`mailto:${email}`"
                       tag="a"

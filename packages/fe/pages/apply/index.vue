@@ -375,6 +375,10 @@ $cardRadius: 1.875rem;
   height: 100%;
 }
 
+::v-deep .warped-grid-column {
+  border-right: solid 3px $nandor;
+}
+
 // //////////////////////////////////////////////////////////////////////// Form
 .form-heading {
   margin-bottom: 2.5rem;

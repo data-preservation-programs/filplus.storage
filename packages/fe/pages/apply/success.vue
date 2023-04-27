@@ -239,4 +239,9 @@ export default {
   position: relative;
   height: 100%;
 }
+
+::v-deep .warped-grid-column {
+  overflow: visible;
+}
+
 </style>
