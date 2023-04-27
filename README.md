@@ -34,6 +34,13 @@ npm run dev-be
 npm run dev-fe
 ```
 
+## Stack
+
+- Requires nodeJS and has been tested on node 16
+- Uses a Vue framework, [nuxtJS 2](https://nuxtjs.org/)
+- Styles are written in SCSS, and are concatenated and tree-shaken during compile-time
+- Content management is supported by `.json` files in `content/pages`, the content is abstracted to these files, but there's no conventional content management system
+
 
 ## Setup
 
@@ -74,3 +81,40 @@ Now, navigate to your project directory, wherever the repo was cloned to, for ex
 cp -v ~/.ssh/localhost_cert.pem ~/.ssh/localhost_key.pem .
 ```
 
+## Updating dependencies
+
+Please use `npm ci` in place of `npm i` when not explicitly upgrading depdendencies. `npm ci` will only install versions of packages provided in the lockfile, leading to more stability. 
+
+Always regression test the site if upgrading packages, as they may contain breaking changes.
+
+
+## Commit Messages
+
+Commit messages should use the [Conventional Commit](https://www.conventionalcommits.org/en/v1.0.0/) format. `commitlint` has been installed to validate this usage. This means that all commits should be prefixed appropriately with a tag denoting the kind of code being committed.
+
+- `feat:` A feature, or part of a feature
+- `fix:` A bug fix
+- `style:` A visual or stylistic change only
+- `chore:` An operational task, such as routine maintenance, version control related operations, dependencies, etc.
+- `refactor:` A change to the way the code is implemented, without materially changing the feature
+- `perf:` A change that is made primarily to improve performance
+- `test:` Any changes required to run a specific test or try out a behavior for the purposes of testing
+- `cleanup:` Markup and syntactic cleanup that doesn't affect the code output
+- `docs:` Documentation-related changes
+- `content:` Changes to the project's content, such as copy or media
+
+
+## Style guide
+
+1. All file names will be in `kebab-case`
+2. All component names on import will be `PascalCase`
+3. The grid used is a flexbox style system called [Gridlex](https://gridlex.devlint.fr/), its documentation is also available as a [readme in this repo](packages/site/assets/scss/grid/README.md)
+4. Color name variables in `SCSS` are obtained from [this resource](https://chir.ag/projects/name-that-color/)
+
+
+## Linting
+
+_To be updated_
+
+- ~~`npm run lint` runs `eslint` on all `.js` and `.vue` files~~
+- ~~Linting runs automatically as a pre-commit hook~~
