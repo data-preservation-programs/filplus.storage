@@ -269,12 +269,27 @@ export default {
   left: 0;
   width: 100%;
   height: $siteHeaderHeight;
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0.6) 28.86%, transparent 100%);
   z-index: 1000;
   transition: background-color 150ms ease-out, height 150ms ease-out;
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 125%;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.8) 20%, transparent 100%);
+    pointer-events: none;
+    z-index: -1;
+    transition: 150ms ease-out;
+  }
   &.mini {
     transition: background-color 150ms ease-in, height 150ms ease-in;
     height: $siteHeaderHeightMini;
+    &:before {
+      transition: 150ms ease-in;
+      height: 150%;
+    }
     @include mini {
       height: $siteHeaderHeight;
     }
@@ -310,20 +325,28 @@ export default {
   justify-content: center;
   height: toRem(82);
   width: toRem(828);
-  &:before {
+  &:before,
+  &:after {
     content: '';
     position: absolute;
-    right: var(--right-squiggle-offset);
-    top: 1px;
-    transform: translateX(calc(100% - 0.5rem));
-    width: 129px;
-    height: calc(100% - 4px);
-    border-bottom: solid 2px white;
-    background-repeat: no-repeat;
-    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg width='129' height='24' viewBox='0 0 129 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M 0 1.0005 H -0.826 C 2.212 0.7544 8.396 0.2395 12.5 1.0005 C 24.944 3.3076 25.346 20.7652 38 21.0005 C 50.963 21.2415 51.745 3.3262 64.5 1.0005 C 68.789 0.2185 75.256 0.7542 77.187 0.9423 C 77.563 0.9789 77.939 1.0005 78.317 1.0005 H 129' stroke='white' stroke-width='2'/%3e%3c/svg%3e ");
-    @include large {
-      display: none;
+    left: calc(100% - toRem(30));
+    height: 2px;
+    width: calc((100vw - #{$containerWidth}) / 2 + toRem(30));
+    background-color: white;
+    @include customMinMQ(90rem) {
+      left: calc(100% - toRem(56));
+      width: calc((100vw - #{$containerWidth}) / 2 + toRem(56));
     }
+    @include containerMaxMQ {
+      left: calc(100% - toRem(26));
+      width: calc((100vw - #{$containerWidth}) / 2 + toRem(26) + (100vw * 0.041665));
+    }
+  }
+  &:before {
+    top: 1px;
+  }
+  &:after {
+    bottom: 1px;
   }
   .squiggle-container {
     width: var(--squiggle-container-length);

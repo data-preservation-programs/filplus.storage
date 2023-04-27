@@ -7,6 +7,8 @@ import Config from '@/nuxt.config'
 // //////////////////////////////////////////////////////////////// authenticate
 const authenticate = async (store, redirect, guarded, redirectUnauthenticated) => {
   try {
+    // console.log('================================================ authenticate')
+    // console.log(guarded)
     const authenticated = await store.dispatch('auth/authenticate', guarded)
     const account = store.getters['auth/account']
     if (authenticated && authenticated.userId && !account) {
@@ -23,6 +25,7 @@ const authenticate = async (store, redirect, guarded, redirectUnauthenticated) =
       category: code && message ? 'success' : 'error',
       message: message || 'Something went wrong, please try again'
     }
+    // console.log(guarded)
     if (guarded) {
       redirect({ path: redirectUnauthenticated, query: { toast: JSON.stringify(toast) } })
     }
@@ -39,5 +42,6 @@ const HandleUnauthorized = async (store, route, redirect) => {
 // ///////////////////////////////////////////////////////////////////// Exports
 // -----------------------------------------------------------------------------
 export default async ({ store, route, redirect }) => {
+  if (route.path.includes('login')) { return } // no need to authenticate on /login/success page
   await HandleUnauthorized(store, route, redirect)
 }
