@@ -20,8 +20,7 @@
           <div class="panel-left">
             <img :src="account.githubAvatarUrl" class="avatar" />
             <span class="username">
-              <!-- {{ account.githubUsername }} -->
-              {{ username }}
+              {{ account.githubUsername }}
             </span>
           </div>
           <IconChevron />
@@ -94,10 +93,14 @@ export default {
         href: `/account/${this.account.githubUsername}/applications`,
         label: 'Application History'
       }
-    },
-    username () {
-      return this.account.githubUsername + 'nnnnnnnnnnnnnnnnn'
     }
+  },
+
+  mounted () {
+    this.$store.dispatch('auth/setAccount', {
+      ...this.account,
+      githubUsername: `${this.account.githubUsername}ausnsetuxiouicrgd`
+    })
   }
 }
 </script>
