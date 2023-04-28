@@ -298,7 +298,7 @@ export default {
 .cta-button-list {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-evenly;
   width: 100%;
   padding: 1.875rem 2rem;
 }
