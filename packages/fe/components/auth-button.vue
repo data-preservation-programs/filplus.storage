@@ -94,13 +94,6 @@ export default {
         label: 'Application History'
       }
     }
-  },
-
-  mounted () {
-    this.$store.dispatch('auth/setAccount', {
-      ...this.account,
-      githubUsername: `${this.account.githubUsername}ausnsetuxiouicrgd`
-    })
   }
 }
 </script>
