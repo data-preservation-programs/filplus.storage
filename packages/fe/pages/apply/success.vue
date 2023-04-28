@@ -1,5 +1,5 @@
 <template>
-  <div :class="`page page-${tag} container`">
+  <div :class="`page page-${tag}`">
 
     <div id="section-success">
 
@@ -171,7 +171,7 @@ export default {
 <style lang="scss" scoped>
 // ///////////////////////////////////////////////////////////////////// General
 .page-apply-success {
-  position: relative;margin-top: -$siteHeaderHeight;
+  margin-top: -$siteHeaderHeight;
   padding-top: $siteHeaderHeight * 2;
   overflow: hidden;
   z-index: 25;

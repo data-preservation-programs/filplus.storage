@@ -1,5 +1,5 @@
 <template>
-  <div :class="`page page-${tag} container`">
+  <div :class="`page page-${tag}`">
 
     <!-- ============================================================== Hero -->
     <HeroB
@@ -279,7 +279,6 @@ export default {
 <style lang="scss" scoped>
 // ///////////////////////////////////////////////////////////////////// General
 .page-apply-general {
-  position: relative;
   overflow: hidden;
 }
 

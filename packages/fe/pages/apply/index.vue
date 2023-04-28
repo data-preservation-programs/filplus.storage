@@ -1,51 +1,12 @@
 <template>
-  <div :class="`page page-${tag} container`">
+  <div :class="`page page-${tag}`">
 
     <!-- ============================================================== Hero -->
     <HeroA
       :heading="heading"
       heading-cols="col-12_mi-10_ti-12"
       content-cols="col-8_sm-10_mi-12">
-      <div class="card-container">
-        <Card
-          id="apply-form-card"
-          :icon-text="submitButtonText"
-          :class="{ highlighted: applyFormHighlighted }"
-          corner-position="bottom-right"
-          icon="arrow"
-          @clicked="submitForm">
-          <template v-if="formScaffold">
-
-            <div class="form-heading">
-              {{ formHeading }}
-            </div>
-
-            <form class="form">
-
-              <FieldContainer
-                :scaffold="formScaffold.total_datacap_size_range"
-                field-key="total_datacap_size_range"
-                form-id="filplus_application"
-                class="range-field" />
-
-              <div class="row">
-                <FieldContainer
-                  :scaffold="formScaffold.total_datacap_size_input"
-                  field-key="total_datacap_size_input"
-                  form-id="filplus_application"
-                  class="input-field" />
-                <FieldContainer
-                  :scaffold="formScaffold.total_datacap_size_unit"
-                  field-key="total_datacap_size_unit"
-                  form-id="filplus_application"
-                  class="select-field" />
-              </div>
-
-            </form>
-
-          </template>
-        </Card>
-      </div>
+      <ApplyFormCard id="apply-form-card" />
     </HeroA>
 
     <!-- =============================================================== FAQ -->
@@ -97,8 +58,7 @@ import { mapGetters, mapActions } from 'vuex'
 import HeroA from '@/components/hero-a'
 import FaqAccordion from '@/components/faq-accordion'
 import ButtonA from '@/components/buttons/button-a'
-import Card from '@/components/card'
-import FieldContainer from '@/components/form/field-container'
+import ApplyFormCard from '@/components/apply-form-card'
 import Overlay from '@/components/overlay'
 import Squigglie from '@/components/squigglie'
 import WarpedGridColumn from '@/components/warped-grid-column'
@@ -113,9 +73,8 @@ export default {
   components: {
     HeroA,
     FaqAccordion,
-    FieldContainer,
+    ApplyFormCard,
     ButtonA,
-    Card,
     Overlay,
     Squigglie,
     WarpedGridColumn
@@ -237,16 +196,11 @@ $cardRadius: 1.875rem;
 
 // ///////////////////////////////////////////////////////////////////// General
 .page-apply {
-  position: relative;
   overflow: hidden;
 }
 
 .overlay.type__noise {
   z-index: 5;
-}
-
-.container {
-  position: relative;
 }
 
 // //////////////////////////////////////////////////////////////////////// Hero
@@ -331,7 +285,7 @@ $cardRadius: 1.875rem;
 }
 
 // //////////////////////////////////////////////////////////////////////// Card
-.card-container {
+#apply-form-card {
   margin-top: 4.8125rem;
   @include mini {
     margin-top: 2rem;

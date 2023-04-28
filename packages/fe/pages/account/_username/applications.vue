@@ -1,5 +1,5 @@
 <template>
-  <div :class="`page page-${tag} container`">
+  <div :class="`page page-${tag}`">
 
     <div id="section-applications">
 
@@ -124,6 +124,10 @@ export default {
     WarpedGridColumn
   },
 
+  // meta: {
+  //   guarded: true
+  // },
+
   data () {
     return {
       tag: 'applications'
@@ -133,6 +137,7 @@ export default {
   async fetch ({ app, store, redirect, route }) {
     const accountExists = await store.getters['auth/account']
     if (!accountExists) { return redirect('/apply') }
+    // console.log('FETCH')
     await store.dispatch('general/getBaseData', { key: 'applications', data: ApplicationsPageData })
     await store.dispatch('account/setLoadingStatus', { type: 'loading', status: true })
   },
@@ -220,7 +225,7 @@ export default {
 <style lang="scss" scoped>
 // ///////////////////////////////////////////////////////////////////// General
 .page-applications {
-  position: relative;margin-top: -$siteHeaderHeight;
+  margin-top: -$siteHeaderHeight;
   padding-top: $siteHeaderHeight * 2;
   overflow: clip;
   z-index: 25;

@@ -43,7 +43,7 @@ const processTemplate = async (type, application) => {
     template = template.toString()
     Object.keys(application).forEach((key) => {
       const regexp = /(?<=\s|^)@(?=[\w]+)/g
-      const value = (application[key] || '').replace(regexp, '[at]')
+      const value = (`${application[key]}` || '').replace(regexp, '[at]')
       if (key === 'organization_website') {
         template = template.replaceAll(key, value)
       } else {

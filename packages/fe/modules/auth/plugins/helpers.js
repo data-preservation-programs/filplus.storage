@@ -74,15 +74,11 @@ const CreateAxiosAuthTransport = (req, res, baseURL) => {
         })
         axios.defaults.headers.common.cookie = cookie
         // If the res already has a Set-Cookie header it should be merged
-        if (res.getHeader('Set-Cookie')) {
-          const newCookies = mergeSetCookies(
-            res.getHeader('Set-Cookie'),
-            setCookies
-          )
-          res.setHeader('Set-Cookie', newCookies)
-        } else {
-          res.setHeader('Set-Cookie', setCookies)
-        }
+        const existingCookies = res.getHeader('Set-Cookie')
+        res.setHeader('Set-Cookie', existingCookies ? mergeSetCookies(
+          existingCookies,
+          setCookies
+        ) : setCookies)
       }
       return response
     }

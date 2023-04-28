@@ -1,5 +1,5 @@
 <template>
-  <div :class="`page page-${tag} container`">
+  <div :class="`page page-${tag}`">
 
     <!-- ============================================================== Hero -->
     <HeroB
@@ -322,10 +322,6 @@ export default {
     Chevron
   },
 
-  meta: {
-    authenticate: true
-  },
-
   data () {
     return {
       tag: 'apply-large'
@@ -449,7 +445,6 @@ export default {
 <style lang="scss" scoped>
 // ///////////////////////////////////////////////////////////////////// General
 .page-apply-large {
-  position: relative;
   overflow: hidden;
 }
 
