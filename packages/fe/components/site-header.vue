@@ -424,7 +424,7 @@ export default {
   }
   .button {
     @include large {
-      padding: 0.625rem 1rem;
+      padding: 0.625rem 0;
     }
   }
 }
