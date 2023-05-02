@@ -69,7 +69,7 @@
         "tag": "Enablement",
         "date": "2023-04",
         "events": [
-          { "tag": "in-progress", "text": "<a href='/'>filplus.storage</a> v2 - client application tracking, improved UX, metrics" },
+          { "tag": "shipped", "text": "<a href='/'>filplus.storage</a> v2 - client application tracking, improved UX, metrics" },
           { "tag": "in-progress", "text": "Increase LDN application max from 5PiB to 15PiB+" }
         ]
       },
