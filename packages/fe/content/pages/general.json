@@ -13,15 +13,14 @@
     "home_link": "/apply",
     "header": [
       {
-        "type": "a",
-        "href": "https://notaries.datacapstats.io/",
-        "label": "Notaries",
-        "target": "_blank"
-      },
-      {
         "type": "nuxt-link",
         "href": "/about",
         "label": "About"
+      },
+      {
+        "type": "nuxt-link",
+        "href": "/#roadmap",
+        "label": "Roadmap"
       },
       {
         "type": "nuxt-link",
