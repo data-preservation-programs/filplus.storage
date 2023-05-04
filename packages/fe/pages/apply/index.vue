@@ -53,7 +53,7 @@
 
 <script>
 // ===================================================================== Imports
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters } from 'vuex'
 
 import HeroA from '@/components/hero-a'
 import FaqAccordion from '@/components/faq-accordion'
@@ -150,39 +150,6 @@ export default {
     },
     faqList () {
       return this.faqPageData.faq.slice(0, 4)
-    }
-  },
-
-  mounted () {
-    this.$nextTick(() => {
-      const highlightForm = this.$route.query.highlight_form
-      if (highlightForm) {
-        this.$highlightApplyForm()
-      }
-    })
-  },
-
-  methods: {
-    ...mapActions({
-      validateForm: 'form/validateForm'
-    }),
-    async submitForm (e) {
-      e.preventDefault()
-      const bottom = this.submitThresholdBottom
-      const middle = this.submitThresholdMiddle
-      const top = this.submitThresholdTop
-      const rangeField = this.$field('total_datacap_size_range|filplus_application').get()
-      const bytes = rangeField.value
-      const pass = await this.$handleFormRedirection(bytes, bottom, top)
-      if (pass) {
-        if (bytes >= bottom && bytes < middle) {
-          this.$gtm.push({ event: 'redirect_notary_selection' })
-          this.$router.push('/apply/general/notaries')
-        } else if (bytes >= middle && bytes <= top) {
-          this.$gtm.push({ event: 'redirect_lda' })
-          this.$router.push('/apply/large')
-        }
-      }
     }
   }
 }

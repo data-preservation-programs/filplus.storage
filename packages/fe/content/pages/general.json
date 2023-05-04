@@ -109,13 +109,12 @@
     }
   },
   "forms": {
-    "submit_threshold_32gib": 34359738368,
-    "submit_threshold_100tib": 109951162777600,
-    "submit_threshold_5pib": 5629499534213120,
-    "submit_threshold_15pib": 16888498602639360,
-    "submit_threshold_bottom": 34359738368,
-    "submit_threshold_middle": 109951162777600,
-    "submit_threshold_top": 5629499534213120,
+    "thresholds": {
+      "gib_32": 34359738368,
+      "tib_100": 109951162777600,
+      "pib_5": 5629499534213120,
+      "pib_15": 16888498602639360
+    },
     "tooltip_greater_than_15pib_text": "If you want to apply for more than 15 PiB, please enter the value manually in the input field below"
   },
   "hubspot": {

@@ -76,28 +76,28 @@ const getters = {
 // -----------------------------------------------------------------------------
 const actions = {
   async submitApplication ({ commit, dispatch }, payload) {
-    const tag = payload.type === 'GA' ? 'ga' : 'lda'
+    const type = payload.type
     try {
       const application = payload.application
-      this.$gtm.push({ event: `submission_${tag}` })
+      this.$gtm.push({ event: `submission_${type}` })
       const response = await this.$axiosAuth.post('/submit-application', application, {
-        params: { type: tag }
+        params: { type }
       })
       await dispatch('setGithubIssue', response.data.payload)
       await this.dispatch('auth/getAccount', this.getters['auth/account']._id)
-      this.$button(`${tag}-submit-button`).set({ loading: false })
+      this.$button(`${type}-submit-button`).set({ loading: false })
       this.$toaster.add({
         type: 'toast',
         category: 'success',
         message: 'Application submitted successfully'
       })
-      this.$gtm.push({ event: `success_${tag}` })
+      this.$gtm.push({ event: `success_${type}` })
       this.$router.push('/apply/success')
     } catch (e) {
       console.log('================= [Store Action: account/submitApplication]')
       console.log(e)
       console.log(e.response)
-      this.$button(`${tag}-submit-button`).set({ loading: false })
+      this.$button(`${type}-submit-button`).set({ loading: false })
       this.$toaster.add({
         type: 'toast',
         category: 'error',

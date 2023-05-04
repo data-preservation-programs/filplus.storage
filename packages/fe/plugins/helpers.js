@@ -450,25 +450,53 @@ const ReactDatasizeRangeToUnit = (ctx, transformField, transformSourceField, arg
 }
 
 // /////////////////////////////////////////////////////// HandleFormRedirection
-const HandleFormRedirection = (app, store, bytes, bottom, top) => {
-  if (bytes < bottom || bytes > top) {
-    app.$button('ga-submit-button').set({ loading: false })
-    app.$button('lda-submit-button').set({ loading: false })
-  }
-  if (bytes < bottom) {
+const HandleFormRedirection = (app, store, bytes, stage, thresholds) => {
+  const gib32 = thresholds.gib_32
+  const tib100 = thresholds.tib_100
+  // ---------------------------------------- redirect tiny applications offsite
+  if (bytes < gib32) {
     window.open(
       'https://verify.glif.io/',
       '_blank'
     )
     app.$gtm.push({ event: 'redirect_glif' })
-  } else if (bytes > top) {
-    app.$toaster.add({
-      type: 'toast',
-      category: 'error',
-      message: 'Please select a value up to 5 PiB'
-    })
-    app.$gtm.push({ event: 'attempted_over_5PB' })
-  } else {
+    return false
+  }
+  // --------------------------------------------- stage: 'apply' | range slider
+  if (stage === 'apply') {
+    if (bytes >= gib32 && bytes < tib100) {
+      app.$gtm.push({ event: 'redirect_notary_selection' })
+      app.router.push('/apply/general/notaries')
+    } else if (bytes >= tib100) {
+      app.$gtm.push({ event: 'redirect_lda' })
+      app.router.push('/apply/large')
+    }
+    return true
+  // --------------------------------------------------------------- stage: 'ga'
+  } else if (stage === 'ga') {
+    if (bytes >= tib100) {
+      app.$toaster.add({
+        type: 'toast',
+        category: 'error',
+        message: 'Please fill out the Large Dataset Application for your requested amount (>= 100 TiB)'
+      })
+      app.$gtm.push({ event: 'redirect_lda' })
+      app.router.push('/apply/large')
+      return false
+    }
+    return true
+  // -------------------------------------------------------------- stage: 'lda'
+  } else if (stage === 'lda') {
+    if (bytes >= gib32 && bytes < tib100) {
+      app.$toaster.add({
+        type: 'toast',
+        category: 'error',
+        message: 'Please fill out the General Application for your requested amount (< 100 TiB)'
+      })
+      app.$gtm.push({ event: 'redirect_notary_selection' })
+      app.router.push('/apply/general/notaries')
+      return false
+    }
     return true
   }
   return false

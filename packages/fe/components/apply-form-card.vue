@@ -40,7 +40,7 @@
 
 <script>
 // ===================================================================== Imports
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters } from 'vuex'
 
 import Card from '@/components/card'
 import FieldContainer from '@/components/form/field-container'
@@ -83,17 +83,11 @@ export default {
     formsData () {
       return this.generalPageData.forms
     },
-    submitThresholdBottom () {
-      return this.formsData.submit_threshold_bottom
-    },
-    submitThresholdMiddle () {
-      return this.formsData.submit_threshold_middle
-    },
-    submitThresholdTop () {
-      return this.formsData.submit_threshold_top
+    formsThresholds () {
+      return this.formsData.thresholds
     },
     submitThreshold15pib () {
-      return this.formsData.submit_threshold_15pib
+      return this.formsThresholds.pib_15
     },
     tooltipText () {
       return this.formsData.tooltip_greater_than_15pib_text
@@ -115,33 +109,16 @@ export default {
 
   mounted () {
     this.$nextTick(() => {
-      const highlightForm = this.$route.query.highlight_form
-      if (highlightForm) {
+      if (this.$route.query.highlight_form) {
         this.$highlightApplyForm()
       }
     })
   },
 
   methods: {
-    ...mapActions({
-      validateForm: 'form/validateForm'
-    }),
     async submitForm (e) {
       e.preventDefault()
-      const bottom = this.submitThresholdBottom
-      const middle = this.submitThresholdMiddle
-      const top = this.submitThresholdTop
-      const bytes = this.rangeField.value
-      const pass = await this.$handleFormRedirection(bytes, bottom, top)
-      if (pass) {
-        if (bytes >= bottom && bytes < middle) {
-          this.$gtm.push({ event: 'redirect_notary_selection' })
-          this.$router.push('/apply/general/notaries')
-        } else if (bytes >= middle && bytes <= top) {
-          this.$gtm.push({ event: 'redirect_lda' })
-          this.$router.push('/apply/large')
-        }
-      }
+      await this.$handleFormRedirection(this.rangeField.value, 'apply', this.formsThresholds)
     }
   }
 }

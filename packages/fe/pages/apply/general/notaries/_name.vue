@@ -66,6 +66,7 @@
       <div class="grid z-index-50">
         <div class="col-6_md-6_ti-7 z-index-100" data-push-left="off-1_ti-0">
           <FieldContainer
+            ref="totalDatacapSizeInput"
             :scaffold="formScaffold.total_datacap_size_input"
             field-key="total_datacap_size_input"
             form-id="filplus_application" />
@@ -223,14 +224,11 @@ export default {
     githubIssueLinkText () {
       return this.form.github_issue_link_text
     },
-    submitThresholdBottom () {
-      return this.generalPageData.forms.submit_threshold_bottom
+    formsData () {
+      return this.generalPageData.forms
     },
-    submitThresholdMiddle () {
-      return this.generalPageData.forms.submit_threshold_middle
-    },
-    submitThresholdTop () {
-      return this.generalPageData.forms.submit_threshold_top
+    formsThresholds () {
+      return this.formsData.thresholds
     }
   },
 
@@ -241,36 +239,20 @@ export default {
       restoreSavedForm: 'form/restoreSavedForm'
     }),
     async submitForm () {
-      const bottom = this.submitThresholdBottom
-      const middle = this.submitThresholdMiddle
-      const top = this.submitThresholdTop
       const inputField = this.$field('total_datacap_size_input|filplus_application').get()
       const unitField = this.$field('total_datacap_size_unit|filplus_application').get()
       const bytes = this.$convertSizeToBytes(inputField.value, unitField.scaffold.options[unitField.value].label)
-      const pass = await this.$handleFormRedirection(bytes, bottom, top)
-      if (!pass && bytes > top) {
-        const inputFieldElement = document.querySelector('#total_datacap_size_input')
-        this.$scrollToElement(inputFieldElement, 250, -200)
-      } else if (pass) {
-        if (bytes >= middle && bytes <= top) {
-          this.$button('ga-submit-button').set({ loading: false })
-          this.$toaster.add({
-            type: 'toast',
-            category: 'error',
-            message: 'Please fill out the Large Dataset Application for your requested amount (> 100 TiB)'
-          })
-          this.$router.push('/apply/large')
+      const pass = await this.$handleFormRedirection(bytes, 'ga', this.formsThresholds)
+      if (pass) {
+        const application = await this.$form('filplus_application').validate()
+        if (!application) {
+          const firstInvalidField = document.querySelector('.error')
+          this.$scrollToElement(firstInvalidField, 250, -200)
         } else {
-          const application = await this.$form('filplus_application').validate()
-          if (!application) {
-            const firstInvalidField = document.querySelector('.error')
-            this.$button('ga-submit-button').set({ loading: false })
-            this.$scrollToElement(firstInvalidField, 250, -200)
-          } else {
-            await this.submitApplication({ application, type: 'GA' })
-          }
+          await this.submitApplication({ application, type: 'ga' })
         }
       }
+      this.$button('ga-submit-button').set({ loading: false })
     }
   }
 }

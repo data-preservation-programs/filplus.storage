@@ -386,14 +386,11 @@ export default {
     githubIssueLinkText () {
       return this.form.github_issue_link_text
     },
-    submitThresholdBottom () {
-      return this.generalPageData.forms.submit_threshold_bottom
+    formsData () {
+      return this.generalPageData.forms
     },
-    submitThresholdMiddle () {
-      return this.generalPageData.forms.submit_threshold_middle
-    },
-    submitThresholdTop () {
-      return this.generalPageData.forms.submit_threshold_top
+    formsThresholds () {
+      return this.formsData.thresholds
     }
   },
 
@@ -404,39 +401,20 @@ export default {
       restoreSavedForm: 'form/restoreSavedForm'
     }),
     async submitForm () {
-      const bottom = this.submitThresholdBottom
-      const middle = this.submitThresholdMiddle
-      const top = this.submitThresholdTop
       const inputField = this.$field('total_datacap_size_input|filplus_application').get()
       const unitField = this.$field('total_datacap_size_unit|filplus_application').get()
       const bytes = this.$convertSizeToBytes(inputField.value, unitField.scaffold.options[unitField.value].label)
-      const pass = await this.$handleFormRedirection(bytes, bottom, top)
-      if (!pass && bytes > top) {
-        const inputFieldElement = document.querySelector('#total_datacap_size_input')
-        this.$scrollToElement(inputFieldElement, 250, -200)
-      } else if (pass) {
-        if (bytes < middle) {
-          this.$button('lda-submit-button').set({ loading: false })
-          this.$toaster.add({
-            type: 'toast',
-            category: 'error',
-            message: 'Please fill out the General Application for your requested amount (< 100 TiB)'
-          })
-          this.$router.push('/apply/general/notaries')
+      const pass = await this.$handleFormRedirection(bytes, 'lda', this.formsThresholds)
+      if (pass) {
+        const application = await this.$form('filplus_application').validate()
+        if (!application) {
+          const firstInvalidField = document.querySelector('.error')
+          this.$scrollToElement(firstInvalidField, 250, -200)
         } else {
-          const application = await this.$form('filplus_application').validate()
-          if (!application) {
-            const firstInvalidField = document.querySelector('.error')
-            this.$button('lda-submit-button').set({ loading: false })
-            this.$scrollToElement(firstInvalidField, 250, -200)
-          } else {
-            const success = await this.submitApplication({ application, type: 'lda' })
-            if (success) {
-              this.$router.push('/apply/success')
-            }
-          }
+          await this.submitApplication({ application, type: 'lda' })
         }
       }
+      this.$button('lda-submit-button').set({ loading: false })
     }
   }
 }
