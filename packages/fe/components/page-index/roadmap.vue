@@ -203,7 +203,6 @@ export default {
         const entry = roadmap[i]
         const date = entry.date
         const parsedDate = this.$moment(date)
-        console.log(parsedDate)
         entry.date = {
           original: date,
           quarter: `Q${parsedDate.format('Q YYYY')}`

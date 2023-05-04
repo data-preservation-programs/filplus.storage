@@ -250,7 +250,6 @@ export default {
   cursor: grab;
   &:active {
     cursor: grabbing;
-    background-color: $mandysPink;
   }
 }
 
