@@ -452,22 +452,22 @@ const ReactDatasizeRangeToUnit = (ctx, transformField, transformSourceField, arg
 // /////////////////////////////////////////////////////// HandleFormRedirection
 const HandleFormRedirection = (app, store, bytes, bottom, top) => {
   if (bytes < bottom || bytes > top) {
-    this.$button('ga-submit-button').set({ loading: false })
-    this.$button('lda-submit-button').set({ loading: false })
+    app.$button('ga-submit-button').set({ loading: false })
+    app.$button('lda-submit-button').set({ loading: false })
   }
   if (bytes < bottom) {
     window.open(
       'https://verify.glif.io/',
       '_blank'
     )
-    this.$gtm.push({ event: 'redirect_glif' })
+    app.$gtm.push({ event: 'redirect_glif' })
   } else if (bytes > top) {
     app.$toaster.add({
       type: 'toast',
       category: 'error',
       message: 'Please select a value up to 5 PiB'
     })
-    this.$gtm.push({ event: 'attempted_over_5PB' })
+    app.$gtm.push({ event: 'attempted_over_5PB' })
   } else {
     return true
   }
