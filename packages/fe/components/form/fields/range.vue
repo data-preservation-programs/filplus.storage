@@ -29,14 +29,17 @@
 
       <template #tick-list="{ getPosition, getTick }">
         <div class="positions">
-          <div class="position start" :style="{ left: `${getTick(getPosition(34359738368)) }%` }">
+          <div class="position gib-32" :style="{ left: `${getTick(getPosition(34359738368)) }%` }">
             32 GiB
           </div>
-          <div class="position middle" :style="{ left: `${getTick(getPosition(109951162777600)) }%` }">
+          <div class="position tib-100" :style="{ left: `${getTick(getPosition(109951162777600)) }%` }">
             100 TiB
           </div>
-          <div class="position end" :style="{ left: `${getTick(getPosition(5629499534213120)) }%` }">
+          <div class="position pib-5" :style="{ left: `${getTick(getPosition(5629499534213120)) }%` }">
             5 PiB
+          </div>
+          <div class="position pib-15" :style="{ left: `${getTick(getPosition(16888498602639360)) }%` }">
+            15 PiB
           </div>
         </div>
       </template>
@@ -260,10 +263,10 @@ $borderWidth: 2px;
   top: 0;
   font-size: toRem(14);
   white-space: nowrap;
-  &.middle {
+  &:not(.gib-32) {
     transform: translateX(-50%);
   }
-  &.end {
+  &.pib-15 {
     transform: translateX(-100%);
   }
 }
