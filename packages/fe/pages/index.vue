@@ -131,7 +131,7 @@
 
         <div class="col-3_sm-hidden">
           <div class="panel-left">
-            <div class="warp-image-double" />
+            <WarpedGridColumn />
           </div>
         </div>
 
@@ -166,6 +166,7 @@ import Roadmap from '@/components/page-index/roadmap'
 import ApplyFormCard from '@/components/apply-form-card'
 import Squigglie from '@/components/squigglie'
 import Overlay from '@/components/overlay'
+import WarpedGridColumn from '@/components/warped-grid-column'
 
 import IndexPageData from '@/content/pages/index.json'
 import ApplyPageData from '@/content/pages/apply.json'
@@ -179,7 +180,8 @@ export default {
     Roadmap,
     ApplyFormCard,
     Squigglie,
-    Overlay
+    Overlay,
+    WarpedGridColumn
   },
 
   data () {
@@ -463,6 +465,7 @@ section {
 .panel-left {
   position: relative;
   height: 100%;
+  transform: translateY(3px);
 }
 
 .textural-image {
@@ -476,6 +479,12 @@ section {
 // //////////////////////////////////////////////////// Section Subfooter Slider
 #section-subfooter-slider {
   overflow: hidden;
+  ::v-deep .warped-grid-column {
+    border-right: solid 3px $nandor;
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
 }
 
 .card-container {
@@ -495,23 +504,6 @@ section {
     @include h4;
     margin-bottom: 1.5rem;
   }
-}
-
-.panel-left {
-  position: relative;
-  height: 100%;
-  transform: translateY(3px);
-}
-
-.warp-image-double {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 69rem;
-  height: 500rem;
-  background-image: url('~assets/images/warp-image-double.png');
-  background-position: top left;
-  background-size: 69rem;
 }
 
 #apply-form-card {
