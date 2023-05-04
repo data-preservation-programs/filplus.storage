@@ -46,7 +46,7 @@
       },
       {
         "question": "Where can I see the active Notaries?",
-        "answer": "The <a target='_blank' alt='Notary leaderboard' href='https://notaries.datacapstats.io/'> tracks active Fil+ Notaries, including their average time-to-DataCap granted, how many DataCap applications they have approved, where they are based, and their activity in the Fil+ ecosystem."
+        "answer": "The <a target='_blank' href='https://notaries.datacapstats.io/'>Notary leaderboard</a> tracks active Fil+ Notaries, including their average time-to-DataCap granted, how many DataCap applications they have approved, where they are based, and their activity in the Fil+ ecosystem."
       },
       {
         "question": "How can I get in contact with Storage Providers?",
