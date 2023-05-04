@@ -11,16 +11,6 @@
           <div class="hamburger">
             <div class="hamburger-icon" />
           </div>
-          <!-- <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path
-              stroke="white"
-              stroke-width="2"
-              class="top-line" />
-            <path
-              stroke="white"
-              stroke-width="2"
-              class="bottom-line" />
-          </svg> -->
         </div>
       </Button>
     </div>
@@ -205,6 +195,7 @@ export default {
 .nav-detail {
   position: relative;
   display: flex;
+  z-index: 10;
   &:before,
   &:after {
     content: '';
@@ -298,7 +289,7 @@ export default {
 .cta-button-list {
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: space-between;
   width: 100%;
   padding: 1.875rem 2rem;
   z-index: 100000;
@@ -330,5 +321,4 @@ export default {
   right: toRem(40);
   width: toRem(130);
 }
-
 </style>

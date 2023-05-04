@@ -409,15 +409,12 @@ export default {
 }
 
 :deep(.auth-button) {
-  .panel-left {
-    max-width: 10vw;
+  @include medium {
+    margin-right: 0.5rem;
   }
-    @include medium {
-      margin-right: .5rem;
-      .panel-left {
-        max-width: 40vw;
-      }
-    }
+  .panel-left {
+    max-width: 100vw;
+  }
   .username {
     overflow: hidden;
     text-overflow: ellipsis;
