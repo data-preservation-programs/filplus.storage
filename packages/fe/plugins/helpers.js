@@ -463,7 +463,7 @@ const HandleFormRedirection = (app, store, bytes, stage, thresholds) => {
     return false
   }
   // --------------------------------------------- stage: 'apply' | range slider
-  if (stage === 'apply') {
+  if (stage === 'stage-apply') {
     if (bytes >= gib32 && bytes < tib100) {
       app.$gtm.push({ event: 'redirect_notary_selection' })
       app.router.push('/apply/general/notaries')
@@ -473,7 +473,7 @@ const HandleFormRedirection = (app, store, bytes, stage, thresholds) => {
     }
     return true
   // --------------------------------------------------------------- stage: 'ga'
-  } else if (stage === 'ga') {
+  } else if (stage === 'stage-ga') {
     if (bytes >= tib100) {
       app.$toaster.add({
         type: 'toast',
@@ -486,14 +486,14 @@ const HandleFormRedirection = (app, store, bytes, stage, thresholds) => {
     }
     return true
   // -------------------------------------------------------------- stage: 'lda'
-  } else if (stage === 'lda') {
+  } else if (stage === 'stage-lda') {
     if (bytes >= gib32 && bytes < tib100) {
       app.$toaster.add({
         type: 'toast',
         category: 'error',
         message: 'Please fill out the General Application for your requested amount (< 100 TiB)'
       })
-      app.$gtm.push({ event: 'redirect_notary_selection' })
+      app.$gtm.push({ event: 'redirect_ga' })
       app.router.push('/apply/general/notaries')
       return false
     }

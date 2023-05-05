@@ -76,28 +76,58 @@ const getters = {
 // -----------------------------------------------------------------------------
 const actions = {
   async submitApplication ({ commit, dispatch }, payload) {
-    const type = payload.type
+    const application = payload.application
+    const bytes = payload.bytes
+    const thresholds = payload.thresholds
+    const gib32 = thresholds.gib_32
+    const tib100 = thresholds.tib_100
+    const pib5 = thresholds.pib_5
+    const pib15 = thresholds.pib_15
+    const requestedAmount = `${application.total_datacap_size} ${application.total_datacap_size_unit}`
+    let stage
+    const labels = ['source:filplus.storage']
+    const assignees = []
+    const comments = []
+    if (bytes >= gib32 && bytes < tib100) {
+      stage = 'stage-ga'
+      labels.push('state:Verifying')
+    } else if (bytes >= tib100 && bytes <= pib5) {
+      stage = 'stage-lda'
+    } else if (bytes > pib5 && bytes <= pib15) {
+      stage = 'stage-vlda'
+      labels.push('very large application')
+      comments.push(`This application requests a total of ${requestedAmount}, so it’s labeled \`very large application\``)
+    } else if (bytes > pib15) {
+      stage = 'stage-efilplus'
+      labels.push('efil+')
+      assignees.push('kevzak')
+      comments.push(`This application requests a total of ${requestedAmount}, so it’s labeled \`efil+\``)
+    }
     try {
-      const application = payload.application
-      this.$gtm.push({ event: `submission_${type}` })
-      const response = await this.$axiosAuth.post('/submit-application', application, {
-        params: { type }
+      this.$gtm.push({ event: `submission_${stage}` })
+      const response = await this.$axiosAuth.post('/submit-application', {
+        application,
+        labels,
+        assignees,
+        comments
+      }, {
+        params: { stage }
       })
       await dispatch('setGithubIssue', response.data.payload)
       await this.dispatch('auth/getAccount', this.getters['auth/account']._id)
-      this.$button(`${type}-submit-button`).set({ loading: false })
+      this.$button('application-submit-button').set({ loading: false })
       this.$toaster.add({
         type: 'toast',
         category: 'success',
         message: 'Application submitted successfully'
       })
-      this.$gtm.push({ event: `success_${type}` })
+      this.$gtm.push({ event: `success_${stage}` })
       this.$router.push('/apply/success')
     } catch (e) {
       console.log('================= [Store Action: account/submitApplication]')
       console.log(e)
       console.log(e.response)
-      this.$button(`${type}-submit-button`).set({ loading: false })
+      this.$button('application-submit-button').set({ loading: false })
       this.$toaster.add({
         type: 'toast',
         category: 'error',

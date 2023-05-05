@@ -93,7 +93,7 @@
             <div v-if="account">
               <ButtonA
                 class="submit-button"
-                loader="ga-submit-button"
+                loader="application-submit-button"
                 @clicked="submitForm">
                 {{ submitButtonText }}
               </ButtonA>
@@ -242,17 +242,18 @@ export default {
       const inputField = this.$field('total_datacap_size_input|filplus_application').get()
       const unitField = this.$field('total_datacap_size_unit|filplus_application').get()
       const bytes = this.$convertSizeToBytes(inputField.value, unitField.scaffold.options[unitField.value].label)
-      const pass = await this.$handleFormRedirection(bytes, 'ga', this.formsThresholds)
+      const thresholds = this.formsThresholds
+      const pass = await this.$handleFormRedirection(bytes, 'stage-ga', thresholds)
       if (pass) {
         const application = await this.$form('filplus_application').validate()
         if (!application) {
           const firstInvalidField = document.querySelector('.error')
           this.$scrollToElement(firstInvalidField, 250, -200)
         } else {
-          await this.submitApplication({ application, type: 'ga' })
+          await this.submitApplication({ application, bytes, thresholds })
         }
       }
-      this.$button('ga-submit-button').set({ loading: false })
+      this.$button('application-submit-button').set({ loading: false })
     }
   }
 }

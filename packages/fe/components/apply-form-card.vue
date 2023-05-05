@@ -118,7 +118,7 @@ export default {
   methods: {
     async submitForm (e) {
       e.preventDefault()
-      await this.$handleFormRedirection(this.rangeField.value, 'apply', this.formsThresholds)
+      await this.$handleFormRedirection(this.rangeField.value, 'stage-apply', this.formsThresholds)
     }
   }
 }
