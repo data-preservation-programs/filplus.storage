@@ -1,11 +1,6 @@
 <template>
   <div :class="['field field-range', state, { focused }]">
 
-    <label v-if="label" :for="name" class="label floating">
-      <span class="text">{{ label }}</span>
-      <sup v-if="required" class="required">*</sup>
-    </label>
-
     <Range
       ref="range"
       :field="field"
@@ -27,20 +22,16 @@
         </div>
       </template>
 
-      <template #tick-list="{ getPosition, getTick }">
+      <template #tick-list="{ getPosition, getTick, updateValue }">
         <div class="positions">
-          <div class="position gib-32" :style="{ left: `${getTick(getPosition(34359738368)) }%` }">
-            32 GiB
-          </div>
-          <div class="position tib-100" :style="{ left: `${getTick(getPosition(109951162777600)) }%` }">
-            100 TiB
-          </div>
-          <div class="position pib-5" :style="{ left: `${getTick(getPosition(5629499534213120)) }%` }">
-            5 PiB
-          </div>
-          <div class="position pib-15" :style="{ left: `${getTick(getPosition(16888498602639360)) }%` }">
-            15 PiB
-          </div>
+          <ButtonX
+            v-for="label in labels"
+            :key="label.slug"
+            :class="`position ${label.slug}`"
+            :style="{ left: `${getTick(getPosition(label.value))}%` }"
+            @clicked="selectPosition($event, label.value, updateValue)">
+            {{ label.text }}
+          </ButtonX>
         </div>
       </template>
 
@@ -52,13 +43,15 @@
 <script>
 // ===================================================================== Imports
 import Range from '@/modules/form/components/range'
+import ButtonX from '@/components/buttons/button-x'
 
 // ====================================================================== Export
 export default {
   name: 'FieldRange',
 
   components: {
-    Range
+    Range,
+    ButtonX
   },
 
   props: {
@@ -75,7 +68,13 @@ export default {
   data () {
     return {
       focused: false,
-      numTicks: 0
+      numTicks: 0,
+      labels: [
+        { slug: 'gib-32', text: '32 GiB', value: 34359738368 },
+        { slug: 'tib-100', text: '100 TiB', value: 109951162777600 },
+        { slug: 'pib-5', text: '5 PiB', value: 5629499534213120 },
+        { slug: 'pib-15', text: '15 PiB', value: 16888498602639360 }
+      ]
     }
   },
 
@@ -86,14 +85,8 @@ export default {
     name () {
       return this.scaffold.name
     },
-    label () {
-      return this.scaffold.label
-    },
     placeholder () {
       return this.scaffold.placeholder || 'Enter a value...'
-    },
-    required () {
-      return this.scaffold.required
     },
     disabled () {
       return this.scaffold.disabled
@@ -119,6 +112,13 @@ export default {
     this.$nextTick(() => {
       this.numTicks = Math.ceil(this.$refs.range.$el.clientWidth / 3)
     })
+  },
+
+  methods: {
+    selectPosition (e, value, updateValue) {
+      e.preventDefault()
+      updateValue(value, true) // true === do not apply transformation, just funnel the exact value
+    }
   }
 }
 </script>
@@ -258,27 +258,65 @@ $borderWidth: 2px;
   margin-top: 0.5rem;
 }
 
-.position {
+:deep(.position) {
   position: absolute;
   top: 0;
-  font-size: toRem(14);
-  white-space: nowrap;
+  margin-top: 0.375rem;
+  transition: 150ms ease-out;
+  &:hover {
+    transition: 150ms ease-in;
+    transform: scale(1.1);
+    &:before {
+      transition: 150ms ease-in;
+      opacity: 1;
+    }
+  }
+  &:before {
+    content: '';
+    position: absolute;
+    top: toRem(-3);
+    left: toRem(-3);
+    width: calc(100% + toRem(3 * 2));
+    height: calc(100% + toRem(3 * 2));
+    background-color: rgba(246, 245, 255, 0.2);
+    border-radius: toRem(3);
+    opacity: 0;
+    transition: 150ms ease-out;
+  }
   &:not(.gib-32) {
     transform: translateX(-50%);
+    &:hover {
+      transform: translateX(-50%) scale(1.1);
+    }
   }
   &.pib-15 {
-    transform: translateX(-100%);
-    &:after {
-      content: '+';
-      position: absolute;
-      top: 50%;
-      left: calc(100% + toRem(1));
-      transform: translateY(-50%) scale(0.5);
-      padding-bottom: toRem(3);
-      opacity: 0;
-      pointer-events: none;
-      transition: 150ms ease-out;
+    transform: translateX(calc(-100% + toRem(9))); // remove width of '+' icon
+    &:hover {
+      transform: translateX(calc(-100% + toRem(9))) scale(1.1); // remove width of '+' icon
     }
+    &:before {
+      width: calc(100% + toRem(3 * 2) - toRem(9)); // remove width of '+' icon
+    }
+    .button-content {
+      &:after {
+        content: '+';
+        position: relative;
+        top: toRem(-1);
+        font-size: 90%;
+        font-weight: 500;
+        transform: scale(0.5);
+        opacity: 0;
+        transition: 150ms ease-out;
+      }
+    }
+  }
+  .button-content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: toRem(14);
+    white-space: nowrap;
+    line-height: 1;
   }
 }
 </style>

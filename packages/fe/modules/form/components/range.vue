@@ -35,7 +35,8 @@
     <slot
       name="tick-list"
       :get-position="getPosition"
-      :get-tick="getTick" />
+      :get-tick="getTick"
+      :update-value="updateValue" />
 
   </div>
 </template>
@@ -176,8 +177,9 @@ export default {
         }
       ]
     },
-    updateValue (value) {
-      this.$emit('updateValue', this.logarithmic ? this.transform(value) : value)
+    updateValue (incoming, withoutTransformation) {
+      const value = this.logarithmic && !withoutTransformation ? this.transform(incoming) : incoming
+      this.$emit('updateValue', value)
     },
     getPosition (value) {
       if (!this.logarithmic) { return value }

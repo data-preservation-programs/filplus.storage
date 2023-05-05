@@ -153,10 +153,12 @@ export default {
   margin-bottom: 2.5rem;
   &.max-value-selected {
     .position.pib-15 {
-      &:after {
-        transition: 150ms ease-in;
-        transform: translateY(-50%) scale(1);
-        opacity: 1;
+      .button-content {
+        &:after {
+          transition: 150ms ease-in;
+          transform: scale(1);
+          opacity: 1;
+        }
       }
     }
   }
