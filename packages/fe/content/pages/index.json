@@ -53,7 +53,7 @@
         "events": [
           { "tag": "in-progress", "text": "Public potential data abuse dashboard / tracking % of quality onboarded data" },
           { "tag": "shipped", "text": "Public dispute tracker" },
-          { "tag": "in-progress", "text": "Dispute Resolution Framework v2" }
+          { "tag": "shipped", "text": "Dispute Resolution Framework v2" }
         ]
       },
       {
@@ -70,7 +70,7 @@
         "date": "2023-04",
         "events": [
           { "tag": "shipped", "text": "<a href='/'>filplus.storage</a> v2 - client application tracking, improved UX, metrics" },
-          { "tag": "in-progress", "text": "Increase LDN application max from 5PiB to 15PiB+" }
+          { "tag": "shipped", "text": "Proposal to increase LDN application max from 5PiB to 15PiB+" }
         ]
       },
       {
