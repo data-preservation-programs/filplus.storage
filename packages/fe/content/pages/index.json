@@ -70,7 +70,7 @@
         "date": "2023-04",
         "events": [
           { "tag": "shipped", "text": "<a href='/'>filplus.storage</a> v2 - client application tracking, improved UX, metrics" },
-          { "tag": "shipped", "text": "Proposal to increase LDN application max from 5PiB to 15PiB+" }
+          { "tag": "shipped", "text": "Proposal to remove LDN application max" }
         ]
       },
       {
