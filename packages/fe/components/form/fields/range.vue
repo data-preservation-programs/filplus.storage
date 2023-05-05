@@ -268,6 +268,17 @@ $borderWidth: 2px;
   }
   &.pib-15 {
     transform: translateX(-100%);
+    &:after {
+      content: '+';
+      position: absolute;
+      top: 50%;
+      left: calc(100% + toRem(1));
+      transform: translateY(-50%) scale(0.5);
+      padding-bottom: toRem(3);
+      opacity: 0;
+      pointer-events: none;
+      transition: 150ms ease-out;
+    }
   }
 }
 </style>

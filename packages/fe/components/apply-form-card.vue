@@ -17,9 +17,9 @@
           :scaffold="formScaffold.total_datacap_size_range"
           field-key="total_datacap_size_range"
           form-id="filplus_application"
-          class="range-field" />
+          :class="['range-field', { 'max-value-selected': maxValueSelected }]" />
 
-        <div :class="['row', { 'tooltip-visible': displayTooltip }]" :data-tooltip="tooltipText">
+        <div :class="['row', { 'tooltip-visible': maxValueSelected }]" :data-tooltip="tooltipText">
           <FieldContainer
             :scaffold="formScaffold.total_datacap_size_input"
             field-key="total_datacap_size_input"
@@ -56,7 +56,7 @@ export default {
 
   data () {
     return {
-      displayTooltip: false
+      maxValueSelected: false
     }
   },
 
@@ -99,10 +99,10 @@ export default {
 
   watch: {
     rangeField (after) {
-      if (after.value >= this.submitThreshold15pib && !this.displayTooltip) {
-        this.displayTooltip = true
-      } else if (after.value < this.submitThreshold15pib && this.displayTooltip) {
-        this.displayTooltip = false
+      if (after.value >= this.submitThreshold15pib && !this.maxValueSelected) {
+        this.maxValueSelected = true
+      } else if (after.value < this.submitThreshold15pib && this.maxValueSelected) {
+        this.maxValueSelected = false
       }
     }
   },
@@ -148,9 +148,18 @@ export default {
   }
 }
 
-.range-field {
+:deep(.range-field) {
   width: 100%;
   margin-bottom: 2.5rem;
+  &.max-value-selected {
+    .position.pib-15 {
+      &:after {
+        transition: 150ms ease-in;
+        transform: translateY(-50%) scale(1);
+        opacity: 1;
+      }
+    }
+  }
 }
 
 .row {
