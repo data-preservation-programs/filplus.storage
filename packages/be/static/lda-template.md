@@ -31,9 +31,6 @@ application_data_type
 ### Custom multisig
 custom_multisig
 
-### Identifier
-identifier
-
 ### Share a brief history of your project and organization
 about
 
