@@ -27,7 +27,6 @@ const state = () => ({
     weekly_data_size_unit: null,
     filecoin_address: null,
     custom_multisig: null,
-    identifier: null,
     about: null,
     source_of_data_select: null,
     ecosystem_associates_textarea: null,

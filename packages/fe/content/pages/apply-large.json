@@ -61,6 +61,7 @@
           },
           "options": [
             { "label": "Dataset Owner" },
+            { "label": "Data Preparer" },
             { "label": "Storage provider filling out application on behalf of the data owner" },
             { "label": "Data onramp entity that provides data onboarding services to multiple clients" },
             { "label": "Other" }
@@ -316,26 +317,6 @@
           "defaultValue": "",
           "baseValue": "No"
         },
-        "identifier": {
-          "type": "input",
-          "inputType": "text",
-          "modelKey": "identifier",
-          "label": "Identifier",
-          "description": "If needed, the Filecoin team will fill up this field later on. You can skip this field.",
-          "placeholder": "f...",
-          "tooltip": "",
-          "pre": "[^\\u0000-\\u00ff]",
-          "autocomplete": "none",
-          "chars": {
-            "min": 2,
-            "max": 1000
-          },
-          "validationMessage": {
-            "required": "This field is required",
-            "chars": "Input must be between 2 and 35 characters"
-          },
-          "defaultValue": ""
-        },
         "about": {
           "type": "textarea",
           "modelKey": "about",
@@ -468,8 +449,13 @@
             "required": "This field is required"
           },
           "options": [
+            { "label": "None" },
             { "label": "IPFS" },
             { "label": "lotus" },
+            { "label": "venus" },
+            { "label": "singularity" },
+            { "label": "graphsplit" },
+            { "label": "I don't know yet" },
             { "label": "others/custom tool" }
           ],
           "defaultValue": ""
@@ -485,7 +471,7 @@
           "conditions": [
             {
               "fieldKey": "data_preparation_plan_select",
-              "value": 2
+              "value": 7
             }
           ],
           "chars": {
@@ -571,7 +557,9 @@
             { "label": "Daily" },
             { "label": "Weekly" },
             { "label": "Monthly" },
-            { "label": "Yearly" }
+            { "label": "Yearly" },
+            { "label": "Sporadic" },
+            { "label": "Never" }
           ],
           "defaultValue": ""
         },
@@ -613,8 +601,7 @@
             { "label": "South America" },
             { "label": "Europe" },
             { "label": "Australia (continent)" },
-            { "label": "Antarctica" },
-            { "label": "None" }
+            { "label": "Antarctica" }
           ],
           "defaultValue": ""
         },
@@ -634,6 +621,7 @@
             { "label": "IPFS" },
             { "label": "Shipping hard drives" },
             { "label": "Lotus built-in data transfer" },
+            { "label": "Venus built-in data transfer" },
             { "label": "I don't know yet" },
             { "label": "Others" }
           ],
@@ -712,8 +700,10 @@
             "required": "This field is required"
           },
           "options": [
+            { "label": "None" },
             { "label": "Boost client" },
             { "label": "Lotus client" },
+            { "label": "Droplet client" },
             { "label": "Bidbot" },
             { "label": "Singularity" },
             { "label": "I don't know yet" },
@@ -732,7 +722,7 @@
           "conditions": [
             {
               "fieldKey": "replication_plan_select",
-              "value": 5
+              "value": 7
             }
           ],
           "chars": {
