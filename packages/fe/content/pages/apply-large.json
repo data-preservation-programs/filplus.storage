@@ -50,6 +50,23 @@
           },
           "defaultValue": ""
         },
+        "your_role": {
+          "type": "select",
+          "modelKey": "your_role",
+          "label": "What is your role related to the dataset?",
+          "required": true,
+          "output": "option",
+          "validationMessage": {
+            "required": "This field is required"
+          },
+          "options": [
+            { "label": "Dataset Owner" },
+            { "label": "Storage provider filling out application on behalf of the data owner" },
+            { "label": "Data onramp entity that provides data onboarding services to multiple clients" },
+            { "label": "Other" }
+          ],
+          "defaultValue": ""
+        },
         "data_owner_region": {
           "type": "typeahead",
           "inputType": "text",
@@ -287,8 +304,8 @@
         "custom_multisig": {
           "type": "checkbox",
           "modelKey": "custom_multisig",
-          "label": "Custom multisig",
-          "description": "Check this box if this client should use a specific multisig (for the Fil+ governance team)",
+          "label": "Use custom Multisig",
+          "description": "Check this box off if you have explicitly been asked to by the governance team",
           "output": "option",
           "validationMessage": {
             "required": "This field is required"
@@ -635,7 +652,7 @@
           "options": [
             { "label": "Slack" },
             { "label": "Filmine" },
-            { "label": "Big data exchange" },
+            { "label": "Big Data Exchange" },
             { "label": "Partners" },
             { "label": "I don't know yet" },
             { "label": "Other" }

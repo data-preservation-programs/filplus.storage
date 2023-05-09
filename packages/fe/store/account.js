@@ -15,6 +15,7 @@ const state = () => ({
   },
   application: {
     organization_name: null,
+    your_role: null,
     data_owner_region: null,
     data_owner_industry: null,
     organization_website: null,
