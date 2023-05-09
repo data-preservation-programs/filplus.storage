@@ -1,6 +1,9 @@
 ### Data Owner Name
 organization_name
 
+### What is your role related to the dataset
+your_role
+
 ### Data Owner Country/Region
 data_owner_region
 

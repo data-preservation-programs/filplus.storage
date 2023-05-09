@@ -38,6 +38,11 @@
             form-id="filplus_application" />
 
           <FieldContainer
+            :scaffold="formScaffold.your_role"
+            field-key="your_role"
+            form-id="filplus_application" />
+
+          <FieldContainer
             :scaffold="formScaffold.data_owner_region"
             field-key="data_owner_region"
             form-id="filplus_application" />
