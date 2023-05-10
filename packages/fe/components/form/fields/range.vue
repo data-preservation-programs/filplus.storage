@@ -155,7 +155,7 @@ $borderWidth: 2px;
 }
 
 // /////////////////////////////////////////////////////////////////////// Track
-::v-deep .range-track {
+:deep(div.range-track) {
   position: relative;
   left: calc(#{math.div(-$trackHeight, 2)} + #{math.div($thumbWidth, 2)});
   height: $trackHeight;
