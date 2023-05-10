@@ -74,7 +74,7 @@
         <!-- ==================================================== Warp image -->
         <div class="col-2_mi-1">
           <div class="panel-right">
-            <div class="warp-image-double" />
+            <WarpedGridColumn />
           </div>
         </div>
 
@@ -102,6 +102,7 @@ import Limit from '@/components/search/limit'
 import Overlay from '@/components/overlay'
 import Spinner from '@/components/spinners/material-circle'
 import LoaderTripleDot from '@/components/spinners/triple-dot'
+import WarpedGridColumn from '@/components/warped-grid-column'
 
 import ApplicationsPageData from '@/content/pages/account-applications.json'
 
@@ -119,7 +120,8 @@ export default {
     Limit,
     Overlay,
     LoaderTripleDot,
-    Spinner
+    Spinner,
+    WarpedGridColumn
   },
 
   meta: {
@@ -231,13 +233,13 @@ export default {
 // //////////////////////////////////////////////////////////////// Applications
 #section-applications {
   position: relative;
-  padding-bottom: 4.125rem;
   border-top: 3px solid transparent;
   z-index: 25;
 }
 
 .panel-left {
   padding-top: 9.375rem;
+  padding-bottom: 4.125rem;
 }
 
 ::v-deep .heading {
@@ -446,24 +448,7 @@ export default {
 // ////////////////////////////////////////////////////////////////// Warp Image
 .panel-right {
   position: relative;
-  top: -2.6875rem;
   height: 100%;
-  @include small {
-    top: -3.25rem;
-  }
 }
 
-.warp-image-double {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 18rem;
-  height: 500rem;
-  background-image: url('~assets/images/warp-image-double.png');
-  background-position: top left;
-  background-size: 40.5rem;
-  @include tiny {
-    width: calc(100% + 100vw * 0.041665 + 2rem);
-  }
-}
 </style>

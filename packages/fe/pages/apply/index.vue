@@ -38,7 +38,7 @@
 
         <div class="col-4_lg-3_sm-2_mi-1">
           <div class="panel-right">
-            <div class="warp-image-double" />
+            <WarpedGridColumn />
           </div>
         </div>
 
@@ -61,6 +61,7 @@ import ButtonA from '@/components/buttons/button-a'
 import ApplyFormCard from '@/components/apply-form-card'
 import Overlay from '@/components/overlay'
 import Squigglie from '@/components/squigglie'
+import WarpedGridColumn from '@/components/warped-grid-column'
 
 import ApplyPageData from '@/content/pages/apply.json'
 import FaqPageData from '@/content/pages/faq.json'
@@ -75,7 +76,8 @@ export default {
     ApplyFormCard,
     ButtonA,
     Overlay,
-    Squigglie
+    Squigglie,
+    WarpedGridColumn
   },
 
   data () {
@@ -204,6 +206,11 @@ $cardRadius: 1.875rem;
   .faq-top-border {
     top: -3px;
   }
+  .panel-right {
+    ::v-deep .warped-grid-column {
+      transform: translateY(-3px);
+    }
+  }
 }
 
 .section-accordion {
@@ -289,15 +296,8 @@ $cardRadius: 1.875rem;
   height: 100%;
 }
 
-.warp-image-double {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 69rem;
-  height: 500rem;
-  background-image: url('~assets/images/warp-image-double.png');
-  background-position: top left;
-  background-size: 69rem;
+::v-deep .warped-grid-column {
+  border-right: solid 3px $nandor;
 }
 
 // //////////////////////////////////////////////////////////////////////// Form

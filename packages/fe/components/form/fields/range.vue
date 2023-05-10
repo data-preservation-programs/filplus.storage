@@ -196,6 +196,24 @@ $borderWidth: 2px;
 }
 
 // /////////////////////////////////////////////////////////////////////// Thumb
+@mixin thumb {
+  &:active {
+    background-color: $mandysPink;
+  }
+}
+
+:deep(.range) {
+  &::-webkit-slider-thumb {
+    @include thumb;
+  }
+  &::-moz-range-thumb {
+    @include thumb;
+  }
+  &::-ms-thumb {
+    @include thumb;
+  }
+}
+
 .thumb {
   position: relative;
   left: calc(#{math.div($trackHeight, 2)} - #{math.div($thumbWidth, 2)});
