@@ -187,10 +187,12 @@ export default {
       }).catch(() => {})
     }
     this.$nuxt.$on('filtersApplied', (payload) => {
-      const filters = payload.filters
-      const viewFilter = filters.find(filter => filter.id === 'view')
-      if (!this.refresh) {
-        this.filterApplied(viewFilter)
+      if (this.account) {
+        const filters = payload.filters
+        const viewFilter = filters.find(filter => filter.id === 'view')
+        if (!this.refresh) {
+          this.filterApplied(viewFilter)
+        }
       }
     })
   },
