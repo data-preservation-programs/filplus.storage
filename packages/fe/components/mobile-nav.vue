@@ -8,16 +8,9 @@
         tag="button"
         @clicked="toggleModal">
         <div :class="['nav-detail', { active: modal }]">
-          <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path
-              stroke="white"
-              stroke-width="2"
-              class="top-line" />
-            <path
-              stroke="white"
-              stroke-width="2"
-              class="bottom-line" />
-          </svg>
+          <div class="hamburger">
+            <div class="hamburger-icon" />
+          </div>
         </div>
       </Button>
     </div>
@@ -70,10 +63,7 @@
           anchor="bottom"
           color="nandor" />
 
-        <div class="cta-wrapper">
-          <CircleText class="cta-spinner" />
-          <Arrow class="cta-arrow" />
-        </div>
+        <DatacapTextSpinner />
 
       </div>
     </NavModal>
@@ -89,8 +79,7 @@ import ButtonA from '@/components/buttons/button-a'
 import ButtonX from '@/components/buttons/button-x'
 import NavModal from '@/components/nav-modal'
 import Squigglie from '@/components/squigglie'
-import CircleText from '@/components/icons/circle-text'
-import Arrow from '@/components/icons/arrow'
+import DatacapTextSpinner from '@/components/spinners/datacap-text'
 
 // ====================================================================== Export
 export default {
@@ -103,8 +92,7 @@ export default {
     ButtonX,
     NavModal,
     Squigglie,
-    CircleText,
-    Arrow
+    DatacapTextSpinner
   },
 
   props: {
@@ -186,7 +174,7 @@ export default {
   justify-content: flex-end;
 }
 
-:deep(.button) {
+:deep(.site-mobile-nav-link) {
   position: relative;
   padding: 0.125rem 0.125rem 0.125rem 1.5rem;
   z-index: 10000;
@@ -207,6 +195,7 @@ export default {
 .nav-detail {
   position: relative;
   display: flex;
+  z-index: 10;
   &:before,
   &:after {
     content: '';
@@ -225,33 +214,48 @@ export default {
     width: 0.25rem;
     left: calc(-1.25rem + 1px);
   }
-  .top-line,
-  .bottom-line {
-    transition: all 200ms ease;
-  }
-  .top-line {
-    d:path('M 15 5 L 1 5')
-  }
-  .bottom-line {
-    d:path('M 15 15 L 1 15')
-  }
-  svg {
-    transition: all 200ms ease;
-    transform: none;
-  }
   &.active {
-    svg {
-      transform: translateX(-5px);
-    }
-    .top-line {
-      d:path('M 20 1 L 1 20')
-    }
-    .bottom-line {
-      d:path('M 20 20 L 1 1')
-    }
     &:before,
     &:after {
       width: 0;
+    }
+    .hamburger-icon {
+      transition: 150ms ease-in;
+      &:before {
+        transform: rotateZ(45deg) translate(4px, 4px);
+      }
+      &:after {
+        transform: rotateZ(-45deg) translate(3px, -4px);
+      }
+    }
+  }
+}
+
+.hamburger {
+  width: 20px;
+  height: 18px;
+  position: relative;
+  .hamburger-icon {
+    position: absolute;
+    height: 2px;
+    width: 20px;
+    top: 10px;
+    &:before,
+    &:after {
+      content: '';
+      position: absolute;
+      left: 0;
+      background-color: white;
+      width: 100%;
+      transition: 150ms ease-out;
+    }
+    &:before {
+      top: -6px;
+      height: 2px;
+    }
+    &:after {
+      top: 4px;
+      height: 2px;
     }
   }
 }
@@ -288,6 +292,7 @@ export default {
   justify-content: space-between;
   width: 100%;
   padding: 1.875rem 2rem;
+  z-index: 100000;
 }
 
 .auth-button {
@@ -311,32 +316,9 @@ export default {
   }
 }
 
-.cta-wrapper {
-  position: absolute;
+.datacap-spinner {
   top: calc(100% + 52px);
   right: toRem(40);
   width: toRem(130);
-}
-
-.cta-spinner {
-  position: relative;
-  width: 100%;
-  animation: spinning 15s infinite linear reverse;
-}
-
-.cta-arrow {
-  position: absolute;
-  top: calc(50% - 4px);
-  left: calc(50% + 1px);
-  transform: translate(-50%, -50%);
-}
-
-@keyframes spinning {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
 }
 </style>

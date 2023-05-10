@@ -216,6 +216,7 @@ export default {
       const id = name !== '' ? name : organization
       updateValue(id)
       this.$gtm.push({ event: 'selected_notary' })
+      this.$gtm.push({ event: 'redirect_ga' })
       this.$router.push(`/apply/general/notaries/${id}`)
     }
   }

@@ -269,7 +269,7 @@ export default {
 }
 
 .close-accordion-button {
-  position:sticky;
+  position: sticky;
   width: toRem(28);
   height: toRem(28);
   top: 7.5rem;

@@ -22,18 +22,23 @@ $gray800: #424242;
 $gray900: #212121;
 
 $aztec: #0F1F1A; // rgba(15, 31, 26, 1)
+$aztecGradientStop: #08130F; // rgba(8, 9, 15, 1)
 $titanWhite: #F6F5FF; // rgba(246, 245, 255, 1)
 $nandor: #4D655F; // rgba(77, 101, 95, 1)
 $greenYellow: #B7F651; // rgba(183, 246, 81, 1)
 $perano: #B9D8F3; // rgba(185, 216, 243, 1)
 $dodgerBlue: #1890FC; // rgba(24, 144, 252, 1)
+$blueRibbon: #0047FF; // rgba(0, 71, 255, 1)
 $mandysPink: #F4C9B2; // rgba(244, 201, 178, 1)
 $flamingo: #E96731; // rgba(233, 103, 49, 1)
 $aquaSqueeze: #EAF6F6; // rgba(234, 246, 246, 1)
 $racingGreen: #101A17; // rgba(16, 26, 23, 1)
 $lima: #8ED31C; // rgba(142, 211, 28, 1)
 $mineralGreen: #3B564F; // rgba(59, 86, 79, 1)
+$axolotl: #4B674B; // rgba(75, 103, 75, 1)
 $juniper: #75938B; // rgba(117, 147, 139, 1)
+$driftwood: #AA894C; // rgba(170, 137, 76, 1)
+$laser: #C9AD70; // rgba(201, 173, 112, 1)
 
 $replace1: #D9D9D9;
 $replace2: #C6C6C6;
@@ -117,6 +122,11 @@ $breakpoint_UltraLarge: 140.625rem; // 2250px
 // ---------------------------------------------------------------- Calculations
 @function toRem($value) {
   @return math.div($value, 16) + rem;
+}
+
+// $base-vw is your $xlarge breakpoint
+@function vw($px-vw, $base-vw: 1440px) {
+  @return math.div($px-vw * 100vw, $base-vw);
 }
 
 // --------------------------------------------------------------------- General
