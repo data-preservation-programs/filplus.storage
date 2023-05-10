@@ -71,6 +71,24 @@
           },
           "defaultValue": ""
         },
+        "your_role": {
+          "type": "select",
+          "modelKey": "your_role",
+          "label": "What is your role related to the dataset?",
+          "required": true,
+          "output": "option",
+          "validationMessage": {
+            "required": "This field is required"
+          },
+          "options": [
+            { "label": "Dataset Owner" },
+            { "label": "Data Preparer" },
+            { "label": "Storage provider filling out application on behalf of the data owner" },
+            { "label": "Data onramp entity that provides data onboarding services to multiple clients" },
+            { "label": "Other" }
+          ],
+          "defaultValue": ""
+        },
         "data_owner_region": {
           "type": "typeahead",
           "inputType": "text",
@@ -308,8 +326,8 @@
         "custom_multisig": {
           "type": "checkbox",
           "modelKey": "custom_multisig",
-          "label": "Custom multisig",
-          "description": "Check this box if this client should use a specific multisig (for the Fil+ governance team)",
+          "label": "Use custom Multisig",
+          "description": "Check this box off if you have explicitly been asked to by the governance team",
           "output": "option",
           "validationMessage": {
             "required": "This field is required"
@@ -319,26 +337,6 @@
           ],
           "defaultValue": "",
           "baseValue": "No"
-        },
-        "identifier": {
-          "type": "input",
-          "inputType": "text",
-          "modelKey": "identifier",
-          "label": "Identifier",
-          "description": "If needed, the Filecoin team will fill up this field later on. You can skip this field.",
-          "placeholder": "f...",
-          "tooltip": "",
-          "pre": "[^\\u0000-\\u00ff]",
-          "autocomplete": "none",
-          "chars": {
-            "min": 2,
-            "max": 1000
-          },
-          "validationMessage": {
-            "required": "This field is required",
-            "chars": "Input must be between 2 and 35 characters"
-          },
-          "defaultValue": ""
         },
         "about": {
           "type": "textarea",
@@ -472,8 +470,13 @@
             "required": "This field is required"
           },
           "options": [
+            { "label": "None" },
             { "label": "IPFS" },
             { "label": "lotus" },
+            { "label": "venus" },
+            { "label": "singularity" },
+            { "label": "graphsplit" },
+            { "label": "I don't know yet" },
             { "label": "others/custom tool" }
           ],
           "defaultValue": ""
@@ -489,7 +492,7 @@
           "conditions": [
             {
               "fieldKey": "data_preparation_plan_select",
-              "value": 2
+              "value": 7
             }
           ],
           "chars": {
@@ -575,7 +578,9 @@
             { "label": "Daily" },
             { "label": "Weekly" },
             { "label": "Monthly" },
-            { "label": "Yearly" }
+            { "label": "Yearly" },
+            { "label": "Sporadic" },
+            { "label": "Never" }
           ],
           "defaultValue": ""
         },
@@ -617,8 +622,7 @@
             { "label": "South America" },
             { "label": "Europe" },
             { "label": "Australia (continent)" },
-            { "label": "Antarctica" },
-            { "label": "None" }
+            { "label": "Antarctica" }
           ],
           "defaultValue": ""
         },
@@ -638,6 +642,7 @@
             { "label": "IPFS" },
             { "label": "Shipping hard drives" },
             { "label": "Lotus built-in data transfer" },
+            { "label": "Venus built-in data transfer" },
             { "label": "I don't know yet" },
             { "label": "Others" }
           ],
@@ -656,7 +661,7 @@
           "options": [
             { "label": "Slack" },
             { "label": "Filmine" },
-            { "label": "Big data exchange" },
+            { "label": "Big Data Exchange" },
             { "label": "Partners" },
             { "label": "I don't know yet" },
             { "label": "Other" }
@@ -716,8 +721,10 @@
             "required": "This field is required"
           },
           "options": [
+            { "label": "None" },
             { "label": "Boost client" },
             { "label": "Lotus client" },
+            { "label": "Droplet client" },
             { "label": "Bidbot" },
             { "label": "Singularity" },
             { "label": "I don't know yet" },
@@ -736,7 +743,7 @@
           "conditions": [
             {
               "fieldKey": "replication_plan_select",
-              "value": 5
+              "value": 7
             }
           ],
           "chars": {

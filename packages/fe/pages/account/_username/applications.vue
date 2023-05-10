@@ -1,5 +1,5 @@
 <template>
-  <div :class="`page page-${tag} container`">
+  <div :class="`page page-${tag}`">
 
     <div id="section-applications">
 
@@ -234,7 +234,7 @@ export default {
 <style lang="scss" scoped>
 // ///////////////////////////////////////////////////////////////////// General
 .page-applications {
-  position: relative;margin-top: -$siteHeaderHeight;
+  margin-top: -$siteHeaderHeight;
   padding-top: $siteHeaderHeight * 2;
   overflow: clip;
   z-index: 25;

@@ -108,6 +108,7 @@ body {
   line-height: 1.2;
   letter-spacing: 0px;
   background-color: $aztec;
+  background: repeating-radial-gradient(farthest-corner at 0% 0%, $aztec, $aztecGradientStop, $aztec 420px);
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   scroll-behavior: smooth;

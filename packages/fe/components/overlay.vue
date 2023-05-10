@@ -36,6 +36,6 @@ export default {
 .type__noise {
   background-image: url('~assets/images/noise-pattern.png');
   background-size: 6.25rem;
-  opacity: 0.5;
+  opacity: 0.75;
 }
 </style>

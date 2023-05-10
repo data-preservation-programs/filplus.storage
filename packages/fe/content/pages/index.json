@@ -1,0 +1,175 @@
+{
+  "seo": {
+    "title": "Filecoin Plus",
+    "description": "Apply for DataCap with Filecoin Plus, a social layer mechanism that incentivizes all participants to make Filecoin more useful."
+  },
+  "og": {
+    "site_name": "Filecoin Plus",
+    "url": "",
+    "type": "website",
+    "image": "/open-graph-image.png"
+  },
+  "page_content": {
+    "heading": "Fil+ scales utilization of the Filecoin network to store humanity’s information.",
+    "section_overview": {
+      "heading": "Current Program Goals",
+      "subheading": "To incentivize data onboarding across use cases with community governed trust mechanisms."
+    },
+    "section_graphics": {
+      "cards": [
+        {
+          "image": "/images/infographic-gear.png",
+          "title": "Quality",
+          "description": "95% of new DataCap is allocated to quality data & use cases"
+        },
+        {
+          "image": "/images/infographic-replay.png",
+          "title": "Transparency",
+          "description": "Public visibility into all key initiatives and goals"
+        },
+        {
+          "image": "/images/infographic-coin.png",
+          "title": "Enablement",
+          "description": "100% of valid types of clients have a path to getting DataCap"
+        }
+      ]
+    },
+    "section_program": {
+      "heading": "Program Scope",
+      "image": "/images/textural-splash.jpg",
+      "entries": [
+        "Fil+ is designed for <i>all</i> client actors with quality data who engage in distributed onboarding.",
+        "Client actors can be either data owners or preparers (including SPs), who either provide some form of KYC (and KYB) information to earn social trust or prove long term commitment (i.e., collateral in a trustless notary)",
+        "<span>Quality data is all content that meets local regulatory requirements and</span><ul><li>the data owner wants to see on the network, including private/encrypted data</li><li>or is open and retrievable</li><li>or demonstrates proof of concept or utility of the network, such as efforts to improve onboarding</li></ul>",
+        "Distributed onboarding is generally defined as: multiple physical locations and multiple storage provider entities to serve client requirements"
+      ]
+    },
+    "roadmap_heading": "<span class='bubble right'>Fil+ Roadmap</span>",
+    "roadmap_subheading": "Guiding program quality, transparency and enablement",
+    "roadmap": [
+      {
+        "tag": "Quality",
+        "date": "2023-04",
+        "events": [
+          { "tag": "in-progress", "text": "Public potential data abuse dashboard / tracking % of quality onboarded data" },
+          { "tag": "shipped", "text": "Public dispute tracker" },
+          { "tag": "shipped", "text": "Dispute Resolution Framework v2" }
+        ]
+      },
+      {
+        "tag": "Transparency",
+        "date": "2023-04",
+        "events": [
+          { "tag": "shipped", "text": "Public roadmap shared, key deliverables shared on landing page" },
+          { "tag": "shipped", "text": "Updated DataCap tracking on <a href='https://datacapstats.io/' target='_blank'>datacapstats.io</a>, client explorer" },
+          { "tag": "shipped", "text": "Medium publication for Fil+ with internal team process for frequent updates" }
+        ]
+      },
+      {
+        "tag": "Enablement",
+        "date": "2023-04",
+        "events": [
+          { "tag": "shipped", "text": "<a href='/'>filplus.storage</a> v2 - client application tracking, improved UX, metrics" },
+          { "tag": "shipped", "text": "Proposal to remove LDN application max" }
+        ]
+      },
+      {
+        "tag": "Quality",
+        "date": "2023-05",
+        "events": [
+          { "tag": "in-progress", "text": "Notary due diligence tracking for accountability & efficiency" },
+          { "tag": "in-progress", "text": "Deliver notary capability to remove DataCap from client addresses" },
+          { "tag": "in-progress", "text": "KYC/KYB integrations in client onboarding LDN flow" }
+        ]
+      },
+      {
+        "tag": "Transparency",
+        "date": "2023-05",
+        "events": [
+          { "tag": "in-progress", "text": "Public dashboard on notary tooling reliability" },
+          { "tag": "in-progress", "text": "Public dashboard on client applications" },
+          { "tag": "upcoming", "text": "Notary leaderboard to include Notary due diligence actions" }
+        ]
+      },
+      {
+        "tag": "Enablement",
+        "date": "2023-05",
+        "events": [
+          { "tag": "upcoming", "text": "Improvements to increase the reliability of onboarding bots and apps for notaries & clients" }
+        ]
+      },
+      {
+        "tag": "Quality",
+        "date": "2023-06",
+        "events": [
+          { "tag": "in-progress", "text": "Bots testing retrievals on open data" },
+          { "tag": "upcoming", "text": "New automated abuse explorers to easily spot abuse" },
+          { "tag": "upcoming", "text": "Automated dispute escalation of bad notary behavior based on the diligence tracker" }
+        ]
+      },
+      {
+        "tag": "Transparency",
+        "date": "2023-06",
+        "events": [
+          { "tag": "upcoming", "text": "Public retrieval dashboards" },
+          { "tag": "upcoming", "text": "Fil+ Day" }
+        ]
+      },
+      {
+        "tag": "Enablement",
+        "date": "2023-06",
+        "events": [
+          { "tag": "upcoming", "text": "Improvements to E-Fil+ process (deeper KYB, higher standard, enable quicker subsequent allocations)" },
+          { "tag": "in-progress", "text": "Changes to LDN processes to better map to observed client use-case types and needs" },
+          { "tag": "upcoming", "text": "Lock in design for a potential trustless notary" },
+          { "tag": "upcoming", "text": "Kick-off discussions on longer-term efforts around incentives" }
+        ]
+      }
+    ],
+    "roadmap_tag_map": {
+      "in-progress": "In Progress",
+      "shipped": "Shipped",
+      "upcoming": "Upcoming"
+    },
+    "roadmap_quarter_map": {
+      "2023-04": {
+        "text": "<strong>April 2023</strong> - Visibility, Transparency, Alignment",
+        "link": "https://filplus.storage",
+        "tag": "div",
+        "target": "_blank"
+      },
+      "2023-05": {
+        "text": "<strong>May 2023</strong> - Process and tool evolution",
+        "link": "https://filplus.storage",
+        "tag": "div",
+        "target": "_blank"
+      },
+      "2023-06": {
+        "text": "<strong>June 2023</strong> - Minimizing abuse",
+        "link": "https://filplus.storage",
+        "tag": "div",
+        "target": "_blank"
+      }
+    },
+    "roadmap_footer": {
+      "heading": "Additional Links",
+      "links": [
+        {
+          "text": "Detailed Roadmap",
+          "link": "https://hub.fil.org/fil-plus-roadmap",
+          "tag": "a",
+          "target": "_blank"
+        },
+        {
+          "text": "Medium Publication",
+          "link": "https://medium.com/filecoin-plus",
+          "tag": "a",
+          "target": "_blank"
+        }
+      ]
+    },
+    "section_subfooter_slider": {
+      "heading": "Ready to store?<br>Quickstart your application for DataCap"
+    }
+  }
+}

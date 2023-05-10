@@ -13,15 +13,14 @@
     "home_link": "/apply",
     "header": [
       {
-        "type": "a",
-        "href": "https://notaries.datacapstats.io/",
-        "label": "Notaries",
-        "target": "_blank"
-      },
-      {
         "type": "nuxt-link",
         "href": "/about",
         "label": "About"
+      },
+      {
+        "type": "nuxt-link",
+        "href": "/#roadmap",
+        "label": "Roadmap"
       },
       {
         "type": "nuxt-link",
@@ -59,6 +58,11 @@
     ]
   },
   "footer": {
+    "data_programs_logo_button": {
+      "tag": "a",
+      "to": "https://github.com/data-preservation-programs",
+      "target": "_blank"
+    },
     "links": [
       {
         "type": "a",
@@ -104,15 +108,25 @@
           "icon": "slack",
           "url": "https://filecoinproject.slack.com/archives/C01DLAPKDGX",
           "target": "_blank"
+        },
+        {
+          "type": "a",
+          "icon": "medium",
+          "url": "https://medium.com/filecoin-plus",
+          "target": "_blank"
         }
       ],
-      "text": "The Filecoin+ program applies <a href='https://fil.org/policy/' alt='Filecoin Foundation Privacy Policy' target='_blank'>the Filecoin Foundation privacy policies</a>. Your participation in Filecoin+<br />serves as your acknowledgement and acceptance of these policies."
+      "text": "The Filecoin+ program applies <a href='https://fil.org/policy/' alt='Filecoin Foundation Privacy Policy' target='_blank'>the Filecoin Foundation privacy policies</a>. Your participation in Filecoin+<br /> serves as your acknowledgement and acceptance of these policies."
     }
   },
   "forms": {
-    "submit_threshold_bottom": 34359738368,
-    "submit_threshold_middle": 109951162777600,
-    "submit_threshold_top": 5629499534213120
+    "thresholds": {
+      "gib_32": 34359738368,
+      "tib_100": 109951162777600,
+      "pib_5": 5629499534213120,
+      "pib_15": 16888498602639360
+    },
+    "tooltip_greater_than_15pib_text": "You can use this field to enter a custom value that's more than 15 PiB. Please account all the DataCap you will need for your project."
   },
   "hubspot": {
     "opted_in_heading": "Get Help Onboarding Your Data",

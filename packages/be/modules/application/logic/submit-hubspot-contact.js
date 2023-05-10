@@ -15,7 +15,7 @@ const submitContact = async (payload) => {
     const response = await Axios.post('https://api.hubapi.com/crm/v3/objects/contacts', {
       properties: Object.assign(payload, {
         hubspot_owner_id: MC.serverFlag !== 'production' ? process.env.HUBSPOT_OWNER_ID__Development : process.env.HUBSPOT_OWNER_ID__Production,
-        ...(MC.serverFlag !== 'production' && { hs_lead_status: 'Disqualified' })
+        ...(MC.serverFlag !== 'production' && { hs_lead_status: 'Development' })
       })
     }, options)
     return response.data
