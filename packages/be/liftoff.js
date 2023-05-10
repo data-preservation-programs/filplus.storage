@@ -53,11 +53,11 @@ try {
 // -----------------------------------------------------------------------------
 // const users = async () => {
 //   try {
-//     // const users = await MC.model.User.findOne({ githubUsername: '' })
+//     const user = await MC.model.User.findOne({ githubUsername: 'timelytree' })
 //     // const users = await MC.model.User.findById('')
 //     // const users = await MC.model.User.find().sort({ createdAt: 1 })
-//     console.log(users)
-//     console.log(users.length)
+//     // console.log(users)
+//     // console.log(users.length)
 //     // user.hubspotOptIn = false
 //     // user.hubspotOptInContactId = undefined
 //     // user.hubspotOptInEmail = undefined
