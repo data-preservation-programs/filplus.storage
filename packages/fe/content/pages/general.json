@@ -38,10 +38,10 @@
       "unverified": {
         "text": "Get Verified"
       },
-      "kyc-verifying": {
+      "verifying": {
         "text": "Verifying..."
       },
-      "kyc-success": {
+      "success": {
         "text": "Verified User"
       }
     },

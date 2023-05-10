@@ -58,6 +58,7 @@ try {
 //     // const users = await MC.model.User.find().sort({ createdAt: 1 })
 //     // console.log(users)
 //     // console.log(users.length)
+//     // user.kyc = null
 //     // user.hubspotOptIn = false
 //     // user.hubspotOptInContactId = undefined
 //     // user.hubspotOptInEmail = undefined

@@ -265,7 +265,7 @@ export default {
 
 :deep(.kyc-link.tooltip) {
   .kyc-button {
-    &.kyc-success {
+    &.success {
       cursor: no-drop;
       .inner-content {
         color: $greenYellow;

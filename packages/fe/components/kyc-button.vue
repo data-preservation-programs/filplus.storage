@@ -12,10 +12,10 @@
 
         <div class="icon">
           <IconKycVerifying
-            v-if="status === 'kyc-verifying'"
+            v-if="status === 'verifying'"
             class="icon-kyc-verifying" />
           <IconKycSuccess
-            v-if="status === 'kyc-success'"
+            v-if="status === 'success'"
             class="icon-kyc-success" />
         </div>
 
@@ -81,21 +81,21 @@ export default {
     ...mapGetters({
       account: 'auth/account'
     }),
-    status () { // 'unverified', 'kyc-verifying', 'kyc-failure', 'kyc-success'
+    status () { // 'unverified', 'verifying', 'failure', 'success'
       const kyc = this.account.kyc
       if (!kyc) { return 'unverified' }
       return kyc.event
     },
     hideButton () {
-      return this.theme === 'bare' && this.status === 'kyc-failure'
+      return this.theme === 'bare' && this.status === 'failure'
     },
     showExternalLinkIcon () {
       const status = this.status
-      return status === 'unverified' || status === 'kyc-verifying'
+      return status === 'unverified' || status === 'verifying'
     },
     kycButtonType () {
       const status = this.status
-      return status === 'kyc-success' || status === 'kyc-failure' ? 'div' : 'a'
+      return status === 'success' || status === 'failure' ? 'div' : 'a'
     },
     kycButton () {
       return this.buttonContent[this.status]
@@ -169,24 +169,24 @@ export default {
   &:hover {
     transform: scale(1.05);
   }
-  &:not(.kyc-success) {
+  &:not(.success) {
     color: $greenYellow;
   }
   &.unverified,
-  &.kyc-failure {
+  &.failure {
     padding: 3px toRem(17);
   }
-  &.kyc-verifying {
-    font-style: italic;
-  }
-  &.kyc-success,
-  &.kyc-failure {
+  &.success,
+  &.failure {
     cursor: no-drop;
     &:hover {
       transform: none;
     }
   }
-  &.kyc-failure {
+  &.verifying {
+    font-style: italic;
+  }
+  &.failure {
     background-color: $aztec;
     border-color: $nandor;
     color: $nandor;

@@ -3,7 +3,7 @@
 ⏱️️ [Cron | every 5 minutes] KycGithubBot
 
 - Get users in db
-- For all users that have fully passed KYC (kyc.event === 'kyc-success')
+- For all users that have fully passed KYC (kyc.event === 'success')
   - Fetch all of their currently open issues
     - If label does not exist, add label 'kyc verified'
     - If comment does not exist, add a comment with badge
@@ -135,7 +135,7 @@ const addCommentToIssues = async (issues, type, userToken) => {
 MC.app.on('mongoose-connected', async () => {
   console.log('🤖 KYC bot engaged')
   try {
-    const users = await MC.model.User.find({ 'kyc.event': 'kyc-success' }).select('githubUsername githubToken').lean()
+    const users = await MC.model.User.find({ 'kyc.event': 'success' }).select('githubUsername githubToken').lean()
     const len = users.length
     for (let i = 0; i < len; i++) {
       const user = users[i]
