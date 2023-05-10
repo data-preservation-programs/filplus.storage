@@ -5,7 +5,7 @@
 
     <template #tooltip-trigger>
       <ButtonX
-        :to="$config.togggleLink"
+        :to="togggleLink"
         :class="['kyc-button', status, `theme__${theme}`]"
         :tag="kycButtonType"
         target="_blank">
@@ -103,14 +103,17 @@ export default {
     text () {
       return this.kycButton.text
     },
+    togggleLink () {
+      return `${this.$config.togggleLink}?identifier=${this.account.githubUsername}`
+    },
     tooltip () {
       const status = this.status
       let tooltip = this.kycButton.tooltip
       if (!tooltip) { return false }
       switch (status) {
-        case 'unverified' : tooltip = tooltip.replace('|link|', `<a href="${this.$config.togggleLink}" target="_blank">Start KYC</a>.`); break
-        case 'kyc-verifying' : tooltip = tooltip.replace('|link|', `<a href="${this.$config.togggleLink}" target="_blank">Check Status</a>.`); break
-        case 'kyc-failure' : tooltip = tooltip.replace('|link|', `<a href="${this.$config.togggleLink}" target="_blank">reach out</a>`); break
+        case 'unverified' : tooltip = tooltip.replace('|link|', `<a href="${this.togggleLink}" target="_blank">Start KYC</a>.`); break
+        case 'verifying' : tooltip = tooltip.replace('|link|', `<a href="${this.togggleLink}" target="_blank">Check Status</a>.`); break
+        case 'failure' : tooltip = tooltip.replace('|link|', `<a href="${this.togggleLink}" target="_blank">reach out</a>`); break
       }
       return tooltip
     }
@@ -120,6 +123,10 @@ export default {
 
 <style lang="scss" scoped>
 // ///////////////////////////////////////////////////////////////////// General
+.kyc-button {
+  display: inline-block;
+}
+
 :deep(.button-content) {
   display: flex;
   flex-direction: row;
