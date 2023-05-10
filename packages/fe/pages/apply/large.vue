@@ -443,12 +443,14 @@ export default {
 #application-bottom {
   position: relative;
   padding: 8.75rem 0;
-  z-index: 10;
 }
 
 #application-top {
-  position: relative;
-  padding: 8.75rem 0;
+  z-index: 10;
+}
+
+#application-bottom {
+  z-index: 5;
 }
 
 .buttons {
