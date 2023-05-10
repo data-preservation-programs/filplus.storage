@@ -27,6 +27,13 @@ const RunStartupChecks = (checks) => {
   })
 }
 
+// /////////////////////////////////////////////////////////////////////// Error
+const ThrowError = (code, message) => {
+  const err = new Error(message)
+  err.code = code
+  return err
+}
+
 // //////////////////////////////////////////////////////////////////// SendData
 const SendData = (res, code, message, payload) => {
   res.status(code)
@@ -303,6 +310,7 @@ const IsNumber = (n) => {
 // -----------------------------------------------------------------------------
 module.exports = {
   RunStartupChecks,
+  ThrowError,
   SendData,
   Slugify,
   FormatBytes,

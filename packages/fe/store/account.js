@@ -147,7 +147,7 @@ const actions = {
         { filterKey: 'limit' },
         { filterKey: 'sort' },
         { filterKey: 'state' },
-        { filterKey: 'view' },
+        { filterKey: 'view', default: getters.view },
         { queryKey: 'user' }
       ])
       const response = await this.$axiosAuth.get('/get-application-list', { params })
