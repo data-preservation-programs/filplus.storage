@@ -1,5 +1,5 @@
 <template>
-  <div :class="['field field-range', state, { focused }]">
+  <div :class="['field field-range', state]">
 
     <Range
       ref="range"
@@ -42,7 +42,7 @@
 
 <script>
 // ===================================================================== Imports
-import Range from '@/modules/form/components/range'
+import Range from '@/modules/form/fields/range'
 import ButtonX from '@/components/buttons/button-x'
 
 // ====================================================================== Export

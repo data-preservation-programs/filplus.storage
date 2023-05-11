@@ -1,5 +1,6 @@
 <template>
   <FieldConditional
+    v-if="field"
     :scaffold="scaffold"
     :parent-field="field"
     :id-suffix="idSuffix"
@@ -87,6 +88,16 @@ export default {
     }
   },
 
+  async fetch () {
+    if (!this.field) {
+      await this.$field(this.id).register(this.formId, this.groupIndex, this.fieldKey, this.scaffold)
+    } else {
+      if (this.field.includeInFormSubmission) {
+        await this.$field(this.id).update({ validate: true })
+      }
+    }
+  },
+
   computed: {
     field () {
       return this.$field(this.id).get()
@@ -131,16 +142,6 @@ export default {
     value (value) {
       if (this.validateOnEntry) {
         this.$field(this.id).validate()
-      }
-    }
-  },
-
-  async created () {
-    if (!this.field) {
-      await this.$field(this.id).register(this.formId, this.groupIndex, this.fieldKey, this.scaffold, this.resetTo)
-    } else {
-      if (this.field.includeInFormSubmission) {
-        await this.$field(this.id).update({ validate: true })
       }
     }
   },

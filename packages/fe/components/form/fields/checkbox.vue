@@ -1,41 +1,28 @@
 <template>
-  <div :class="['field field-checkbox', state, { disabled }]">
+  <Checkbox
+    :field="field"
+    :force-disabled="forceDisabled"
+    v-on="$listeners">
 
-    <div
-      v-for="(option, index) in options"
-      :key="index"
-      :class="['checkbox-wrapper', { disabled }]">
-
-      <div class="checkbox-container">
-        <div v-if="disabled" :class="['checkbox', { disabled }]">
-          {{ value }}
-        </div>
-        <input
-          v-else
-          :id="`checkbox__${id}__${index}`"
-          :checked="value === index"
-          :name="`checkbox__${id}`"
-          type="checkbox"
-          class="checkbox"
-          @focus="toggleFocused(true)"
-          @blur="toggleFocused(false)"
-          @input="updateValue(index)" />
-        <div class="checker">
-          <IconCheckmark />
-        </div>
+    <template #checkbox-extra>
+      <div class="checker">
+        <IconCheckmark />
       </div>
+    </template>
 
-      <label :for="`checkbox__${id}__${index}`" class="label">
-        {{ option.label }}
+    <template #label="{ id, label }">
+      <label :for="id" class="label">
+        {{ label }}
       </label>
+    </template>
 
-    </div>
-
-  </div>
+  </Checkbox>
 </template>
 
 <script>
 // ===================================================================== Imports
+import Checkbox from '@/modules/form/fields/checkbox'
+
 import IconCheckmark from '@/components/icons/checkmark'
 
 // ====================================================================== Export
@@ -43,6 +30,7 @@ export default {
   name: 'FieldCheckbox',
 
   components: {
+    Checkbox,
     IconCheckmark
   },
 
@@ -55,51 +43,6 @@ export default {
       type: Boolean,
       required: false,
       default: false
-    }
-  },
-
-  data () {
-    return {
-      focused: false
-    }
-  },
-
-  computed: {
-    scaffold () {
-      return this.field.scaffold
-    },
-    state () {
-      return this.field.state
-    },
-    id () {
-      return this.field.id
-    },
-    value () {
-      return this.field.value
-    },
-    options () {
-      return this.scaffold.options
-    },
-    label () {
-      return this.scaffold.label
-    },
-    required () {
-      return this.scaffold.required
-    },
-    disabled () {
-      return this.forceDisabled || this.scaffold.disabled
-    }
-  },
-
-  methods: {
-    toggleFocused (focused) {
-      this.focused = focused
-      this.$emit('toggleFocused', focused)
-    },
-    updateValue (index) {
-      let value = index
-      if (this.value === index) { value = -1 }
-      this.$emit('updateValue', value)
     }
   }
 }
@@ -130,8 +73,8 @@ $dimension: 1.625rem;
   flex-direction: row;
   align-items: center;
   &:not(.disabled) {
-    .checkbox-wrapper,
-    .checkbox,
+    :deep(.checkbox-wrapper),
+    :deep(.checkbox),
     .label {
       cursor: pointer;
     }
@@ -150,7 +93,7 @@ $dimension: 1.625rem;
   }
 }
 
-.checkbox-wrapper {
+:deep(.checkbox-wrapper) {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -165,11 +108,11 @@ $dimension: 1.625rem;
   }
 }
 
-.checkbox-container {
+:deep(.checkbox-container) {
   position: relative;
 }
 
-.checkbox {
+:deep(.checkbox) {
   display: flex;
   position: relative;
   width: $dimension;

@@ -1,78 +1,50 @@
 <template>
-  <div :class="['field field-chiclet', state, { focused, empty }]">
+  <Chiclet
+    :field="field"
+    :force-disabled="forceDisabled"
+    v-on="$listeners">
 
-    <label v-if="label" :for="fieldKey" class="label floating">
-      <span class="text">{{ label }}</span>
-      <sup v-if="required" class="required">*</sup>
-    </label>
+    <template #chiclets="{ chiclets, disabled, chicletsExist, removeChiclet, clearAllChiclets }">
 
-    <div v-if="disabled" :class="['input', { disabled }]">
-      {{ value }}
-    </div>
-
-    <div v-if="!disabled" class="input-container">
-      <input
-        :id="fieldKey"
-        v-model="inputValue"
-        type="text"
-        :name="fieldKey"
-        :placeholder="placeholder"
-        :min="min"
-        :max="max"
-        :autocomplete="autocomplete"
-        :class="['input', state]"
-        @focus="focusHandler"
-        @blur="focused = false"
-        @keydown="handleKeyboardNavigation" />
-      <div v-if="typeof chars === 'number'" class="char-validation">
-        {{ chars }}
-      </div>
-    </div>
-
-    <div class="chiclet-list">
-      <ButtonX
-        v-if="!disabled && chiclets.length > 0"
+      <ButtonB
+        v-if="chicletsExist"
         format="mini"
-        class="clear-all-button"
+        class="clear-all-button button"
         @clicked="clearAllChiclets">
         <IconClose />
         <span>Clear All</span>
-      </ButtonX>
-      <ButtonX
+      </ButtonB>
+
+      <ButtonB
         v-for="chiclet in chiclets"
         :key="chiclet"
         :disabled="disabled"
         format="mini"
-        class="chiclet"
+        class="chiclet button"
         @clicked="removeChiclet(chiclet)">
         <IconClose />
         <span>{{ chiclet }}</span>
-      </ButtonX>
-    </div>
+      </ButtonB>
 
-  </div>
+    </template>
+
+  </Chiclet>
 </template>
 
 <script>
 // ===================================================================== Imports
-import ButtonX from '@/components/buttons/button-x'
+import Chiclet from '@/modules/form/fields/chiclet'
+import ButtonB from '@/components/buttons/button-b'
 
 import IconClose from '@/components/icons/close-thick'
 
-// =================================================================== Functions
-const preValidate = (value, pre) => {
-  if (typeof pre !== 'string') { return value }
-  const regex = new RegExp(pre)
-  // check if value contains restricted characters and parse them out
-  return regex.test(value) ? value.replace(regex, '') : value
-}
-
 // ====================================================================== Export
 export default {
-  name: 'FieldInput',
+  name: 'FieldChiclet',
 
   components: {
-    ButtonX,
+    Chiclet,
+    ButtonB,
     IconClose
   },
 
@@ -80,98 +52,11 @@ export default {
     field: {
       type: Object,
       required: true
-    }
-  },
-
-  data () {
-    return {
-      inputValue: '',
-      focused: false,
-      dropdownOpen: false
-    }
-  },
-
-  computed: {
-    scaffold () {
-      return this.field.scaffold
     },
-    fieldKey () {
-      return this.field.fieldKey
-    },
-    label () {
-      return this.scaffold.label
-    },
-    placeholder () {
-      return this.scaffold.placeholder || 'Enter a value...'
-    },
-    autocomplete () {
-      return this.scaffold.autocomplete
-    },
-    required () {
-      return this.scaffold.required
-    },
-    disabled () {
-      return this.scaffold.disabled
-    },
-    pre () {
-      return this.scaffold.pre
-    },
-    chars () {
-      return this.scaffold.chars
-    },
-    chiclets () {
-      return this.field.value
-    },
-    min () {
-      return this.scaffold.min
-    },
-    max () {
-      return this.scaffold.max
-    },
-    empty () {
-      const value = this.inputValue
-      return value === undefined || value === null || value === '' || !this.disabled
-    },
-    state () {
-      return this.field.state
-    }
-  },
-
-  methods: {
-    focusHandler () {
-      this.focused = true
-    },
-    clearAllChiclets () {
-      this.$emit('updateValue', [])
-    },
-    removeChiclet (incoming) {
-      const chiclets = this.chiclets.slice()
-      const index = chiclets.findIndex(chiclet => chiclet === incoming)
-      chiclets.splice(index, 1)
-      this.$emit('updateValue', chiclets)
-    },
-    handleKeyboardNavigation (e) {
-      const keyCode = e.keyCode
-      const code = e.keyCode
-      const key = e.key
-      const enter = keyCode === 13 || code === 13 || key === 'Enter'
-      if (enter) {
-        this.submitChiclets()
-      }
-    },
-    submitChiclets () {
-      const chiclets = this.chiclets
-      const inputValue = this.inputValue.split(',')
-      if (inputValue === '') { return }
-      const compiled = []
-      inputValue.forEach((input) => {
-        const processed = preValidate(input.trim(), this.pre)
-        if (processed !== '' && !chiclets.includes(processed)) {
-          compiled.push(processed)
-        }
-      })
-      this.$emit('updateValue', chiclets.concat(compiled))
-      this.inputValue = ''
+    forceDisabled: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   }
 }
@@ -181,66 +66,68 @@ export default {
 $height: 2.5rem;
 
 // ///////////////////////////////////////////////////////////////////// General
-.input-container,
-.input {
+.field-chiclet {
   height: $height;
+  &.caution {
+    :deep(.input) {
+      border-color: $mandysPink;
+    }
+  }
+  &.error {
+    :deep(.input) {
+      border-color: $flamingo;
+    }
+  }
+  &.disabled {
+    cursor: no-drop;
+    :deep(.input) {
+      border-bottom: 0;
+      margin-bottom: -1rem;
+      border-bottom-color: rgba(246, 245, 255, 0.25);
+    }
+  }
 }
 
-.input {
+:deep(.input) {
   display: flex;
   flex-direction: row;
   align-items: center;
-  width: 100%;
-  border-bottom: 2px solid tomato;
+  border-bottom: 2px solid $titanWhite;
   appearance: none;
   transition: 150ms ease-in-out;
   @include placeholder {
     opacity: 0;
   }
-  &::-webkit-inner-spin-button,
-  &::-webkit-outer-spin-button {
-    margin: 0;
-    appearance: none;
-  }
-  &.caution {
-    border-color: darkorange;
-  }
-  &.error {
-    border-color: red;
-  }
-  &.disabled {
-    cursor: no-drop;
-    border-bottom: 0;
-    margin-bottom: -1rem;
-  }
 }
 
 // //////////////////////////////////////////////////////////////////// Chiclets
-.chiclet-list {
+:deep(.toolbar) {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   margin-top: 1rem;
 }
 
+:deep(.button) {
+  &:not([disabled]) {
+    &:hover {
+      transition: 150ms ease-in;
+      color: $aztec;
+      .svg-icon path {
+        transition: 150ms ease-in;
+        fill: $aztec;
+      }
+    }
+  }
+}
+
 .clear-all-button {
   margin-bottom: 0.5rem;
   margin-right: 0.5rem;
-  &.format__mini {
-    padding: 0.125rem 0.5rem;
-  }
 }
 
 :deep(.chiclet) {
   margin-bottom: 0.5rem;
-  &:not([disabled]) {
-    &:hover {
-      .svg-icon path {
-        transition: 150ms ease-in;
-        fill: teal;
-      }
-    }
-  }
   &:not(:last-child) {
     margin-right: 0.5rem;
   }
@@ -252,7 +139,7 @@ $height: 2.5rem;
     margin-right: 0.25rem;
     path {
       transition: 150ms ease-out;
-      fill: tomato;
+      fill: $greenYellow;
     }
   }
 }

@@ -12,28 +12,30 @@ import { uuid as Uuid } from 'vue-uuid'
 // /////////////////////////////////////////////////////////////////// Functions
 // -----------------------------------------------------------------------------
 // ====================================================== getArrayFormFieldValue
-const getArrayFormFieldValue = (form, scaffold, groupIndex) => {
+const getArrayFormFieldValue = async (form, scaffold, groupIndex) => {
   const entry = form.scaffold[scaffold.parentModelKey][groupIndex]
-  if (!entry) { return getNullStateValue(scaffold.type) }
+  if (!entry) { return await getNullStateValue(scaffold.type) }
   return entry[scaffold.modelKey]
 }
 
 // =========================================================== getNullStateValue
 const getNullStateValue = (type) => {
-  let value
-  switch (type) {
-    case 'checkbox' : value = -1; break
-    case 'radio' : value = -1; break
-    case 'select' : value = -1; break
-    case 'range' : value = scaffold.min; break
-    case 'array' : value = []; break
-    default : value = ''; break
-  }
-  return value
+  return new Promise((resolve) => {
+    let value
+    switch (type) {
+      case 'checkbox' : value = -1; break
+      case 'radio' : value = -1; break
+      case 'select' : value = -1; break
+      case 'range' : value = scaffold.min; break
+      case 'array' : value = []; break
+      default : value = ''; break
+    }
+    resolve(value)
+  })
 }
 
 // ==================================================================== getValue
-const getValue = (app, scaffold, form, formId, resetTo, groupIndex) => {
+const getValue = async (app, scaffold, form, formId, resetTo, groupIndex) => {
   const dualValueFields = ['select', 'radio', 'checkbox'] // fields that can contain both a String and an Index (number) as the value/defaultValue
   const type = scaffold.type
   const defaultValue = scaffold.defaultValue
@@ -49,11 +51,11 @@ const getValue = (app, scaffold, form, formId, resetTo, groupIndex) => {
   }
   // If this is just a reset to the nullState, then grab and return the null state
   if (resetTo && resetTo !== '' && resetTo === 'nullState') {
-    return getNullStateValue(type)
+    return await getNullStateValue(type)
   }
   // If the field is part of an array, grab the internal array form field value
   if (scaffold.hasOwnProperty('parentModelKey')) {
-    value = getArrayFormFieldValue(form, scaffold, groupIndex)
+    value = await getArrayFormFieldValue(form, scaffold, groupIndex)
   }
   // If a default value is set in the field scaffold, grab that instead (both for regular getValue calls as well as if it's a reset)
   if (scaffold.hasOwnProperty('defaultValue') && defaultValue !== '') {
@@ -71,7 +73,7 @@ const getValue = (app, scaffold, form, formId, resetTo, groupIndex) => {
     }
   // Otherwise set a null state default value, except for array field values
   } else if (!scaffold.hasOwnProperty('parentModelKey')) {
-    value = getNullStateValue(type)
+    value = await getNullStateValue(type)
   }
   return value
 }
@@ -219,10 +221,10 @@ const Field = (app, store, id) => {
   return {
 
     // ================================================================ register
-    async register (formId, groupIndex, fieldKey, scaffold, resetTo) {
+    async register (formId, groupIndex, fieldKey, scaffold) {
       if (!field) {
-        const form = app.$form(formId).get()
-        const value = getValue(app, scaffold, form, formId, false, groupIndex)
+        const form = await app.$form(formId).get()
+        const value = await getValue(app, scaffold, form, formId, false, groupIndex)
         await store.dispatch('form/setField', {
           id,
           fieldKey,
@@ -234,7 +236,7 @@ const Field = (app, store, id) => {
           state: 'valid',
           validate: true,
           validation: false,
-          resetTo,
+          resetTo: scaffold.resetTo,
           scaffold
         })
       }
@@ -299,8 +301,8 @@ const Field = (app, store, id) => {
     },
 
     // =================================================================== reset
-    reset (resetTo) {
-      const value = getValue(app, scaffold, form, formId, resetTo)
+    async reset (resetTo) {
+      const value = await getValue(app, scaffold, form, formId, resetTo)
       this.update({
         value,
         originalValue: value,
