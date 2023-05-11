@@ -1,5 +1,5 @@
 <template>
-  <div :class="`page page-${tag} container`">
+  <div :class="`page page-${tag}`">
 
     <!-- ============================================================== Hero -->
     <HeroB
@@ -19,7 +19,7 @@
         :thick="true"
         class="section-bg-top-border" />
 
-      <div class="grid zindex-descend-12">
+      <div class="grid">
         <div class="col-6_md-8_sm-10_ti-12" data-push-left="off-1_ti-0">
 
           <div class="form-heading-1">
@@ -55,7 +55,7 @@
         </div>
       </div>
 
-      <div class="grid zindex-descend-col">
+      <div class="grid">
         <div class="col-6_md-6_ti-7" data-push-left="off-1_ti-0">
           <FieldContainer
             :scaffold="formScaffold.organization_social_media_handle"
@@ -70,7 +70,7 @@
         </div>
       </div>
 
-      <div class="grid zindex-descend-col">
+      <div class="grid">
         <div class="col-6_md-6_ti-7" data-push-left="off-1_ti-0">
           <FieldContainer
             :scaffold="formScaffold.total_datacap_size_input"
@@ -85,7 +85,7 @@
         </div>
       </div>
 
-      <div class="grid zindex-descend-col">
+      <div class="grid">
         <div class="col-6_md-6_ti-7" data-push-left="off-1_ti-0">
           <FieldContainer
             :scaffold="formScaffold.weekly_data_size"
@@ -138,7 +138,7 @@
         color="nandor"
         class="section-app-top-border" />
 
-      <div class="grid zindex-descend-12">
+      <div class="grid">
         <div class="col-6_md-8_sm-10_ti-12" data-push-left="off-1_ti-0">
 
           <div class="form-heading-2">
@@ -203,7 +203,7 @@
         </div>
       </div>
 
-      <div class="grid zindex-descend-10">
+      <div class="grid">
         <div class="col-6_md-8_sm-10_ti-12" data-push-left="off-1_ti-0">
 
           <FieldContainer
@@ -262,7 +262,7 @@
             <div v-if="account">
               <ButtonA
                 class="submit-button"
-                loader="lda-submit-button"
+                loader="application-submit-button"
                 @clicked="submitForm">
                 {{ submitButtonText }}
               </ButtonA>
@@ -320,10 +320,6 @@ export default {
     Squigglie,
     AuthButton,
     Chevron
-  },
-
-  meta: {
-    authenticate: true
   },
 
   data () {
@@ -390,14 +386,11 @@ export default {
     githubIssueLinkText () {
       return this.form.github_issue_link_text
     },
-    submitThresholdBottom () {
-      return this.generalPageData.forms.submit_threshold_bottom
+    formsData () {
+      return this.generalPageData.forms
     },
-    submitThresholdMiddle () {
-      return this.generalPageData.forms.submit_threshold_middle
-    },
-    submitThresholdTop () {
-      return this.generalPageData.forms.submit_threshold_top
+    formsThresholds () {
+      return this.formsData.thresholds
     }
   },
 
@@ -408,39 +401,21 @@ export default {
       restoreSavedForm: 'form/restoreSavedForm'
     }),
     async submitForm () {
-      const bottom = this.submitThresholdBottom
-      const middle = this.submitThresholdMiddle
-      const top = this.submitThresholdTop
       const inputField = this.$field('total_datacap_size_input|filplus_application').get()
       const unitField = this.$field('total_datacap_size_unit|filplus_application').get()
       const bytes = this.$convertSizeToBytes(inputField.value, unitField.scaffold.options[unitField.value].label)
-      const pass = await this.$handleFormRedirection(bytes, bottom, top)
-      if (!pass && bytes > top) {
-        const inputFieldElement = document.querySelector('#total_datacap_size_input')
-        this.$scrollToElement(inputFieldElement, 250, -200)
-      } else if (pass) {
-        if (bytes < middle) {
-          this.$button('lda-submit-button').set({ loading: false })
-          this.$toaster.add({
-            type: 'toast',
-            category: 'error',
-            message: 'Please fill out the General Application for your requested amount (< 100 TiB)'
-          })
-          this.$router.push('/apply/general/notaries')
+      const thresholds = this.formsThresholds
+      const pass = await this.$handleFormRedirection(bytes, 'stage-lda', thresholds)
+      if (pass) {
+        const application = await this.$form('filplus_application').validate()
+        if (!application) {
+          const firstInvalidField = document.querySelector('.error')
+          this.$scrollToElement(firstInvalidField, 250, -200)
         } else {
-          const application = await this.$form('filplus_application').validate()
-          if (!application) {
-            const firstInvalidField = document.querySelector('.error')
-            this.$button('lda-submit-button').set({ loading: false })
-            this.$scrollToElement(firstInvalidField, 250, -200)
-          } else {
-            const success = await this.submitApplication({ application, type: 'lda' })
-            if (success) {
-              this.$router.push('/apply/success')
-            }
-          }
+          await this.submitApplication({ application, bytes, thresholds })
         }
       }
+      this.$button('application-submit-button').set({ loading: false })
     }
   }
 }
@@ -449,8 +424,19 @@ export default {
 <style lang="scss" scoped>
 // ///////////////////////////////////////////////////////////////////// General
 .page-apply-large {
-  position: relative;
   overflow: hidden;
+}
+
+[class~=grid], [class*=grid-], [class*=grid_] {
+  @include descendingZindex(100);
+}
+
+[class~=col], [class*=col-], [class*=col_] {
+  @include descendingZindex(100);
+}
+
+.field-container {
+  @include descendingZindex(100);
 }
 
 #application-top,
@@ -463,9 +449,6 @@ export default {
 #application-top {
   position: relative;
   padding: 8.75rem 0;
-  [class~=grid], [class*=grid-], [class*=grid_] {
-    @include descendingZindex(5);
-  }
 }
 
 .buttons {
@@ -499,30 +482,6 @@ export default {
 .section-bg-top-border,
 .section-app-top-border {
   top: -3px;
-}
-
-.zindex-descend-col {
-  [class~=col], [class*=col-], [class*=col_] {
-    @include descendingZindex(2);
-  }
-}
-
-.zindex-descend-5 {
-  .field-container {
-    @include descendingZindex(5);
-  }
-}
-
-.zindex-descend-12 {
-  .field-container {
-    @include descendingZindex(12);
-  }
-}
-
-.zindex-descend-10 {
-  .field-container {
-    @include descendingZindex(10);
-  }
 }
 
 #application-bottom {

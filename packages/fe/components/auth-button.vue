@@ -91,7 +91,7 @@ export default {
       return {
         type: 'nuxt-link',
         href: `/account/${this.account.githubUsername}/applications`,
-        label: 'Application History Page'
+        label: 'Application History'
       }
     }
   }
@@ -194,6 +194,7 @@ export default {
   display: flex;
   flex-direction: row;
   align-items: center;
+  margin-right: 1rem;
 }
 
 .avatar {
@@ -205,10 +206,9 @@ export default {
 }
 
 .username {
-  line-height: 1;
+  line-height: 1.2;
   font-weight: 500;
   color: $greenYellow;
-  margin-right: 1.5rem;
 }
 
 .icon-chevron {

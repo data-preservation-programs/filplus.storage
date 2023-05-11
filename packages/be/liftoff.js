@@ -54,7 +54,10 @@ try {
 // const users = async () => {
 //   try {
 //     const user = await MC.model.User.findOne({ githubUsername: 'timelytree' })
-//     console.log(user)
+//     // const users = await MC.model.User.findById('')
+//     // const users = await MC.model.User.find().sort({ createdAt: 1 })
+//     // console.log(users)
+//     // console.log(users.length)
 //     // user.hubspotOptIn = false
 //     // user.hubspotOptInContactId = undefined
 //     // user.hubspotOptInEmail = undefined
@@ -83,11 +86,13 @@ try {
 //   //   for (let i = 0; i < len; i++) {
 //   //     const user = users[i]
 //   //     // const beforeEmail = `${user.email}`
-//   //     console.log(user)
+//   //     // user.id = undefined
+//   //     // console.log(`${user.githubUsername}|${user.id}`)
+//   //     // console.log(user)
 //   //     // user.githubEmail = user.email === '' ? null : user.email
 //   //     // user.email = null
 //   //     // const saved = await user.save()
-//   //     // console.log(saved)
+//   //     // console.log(saved.id)
 //   //     // console.log(`Before: ${beforeEmail} | After: ${saved.githubEmail}`)
 //   //   }
 //   // } catch (e) {
@@ -99,7 +104,7 @@ try {
 // const Axios = require('axios')
 // const lookupHubspotContact = async () => {
 //   try {
-//     const id = '3049751'
+//     const id = ''
 //     const options = { headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${process.env.HUBSPOT_TOKEN}` } }
 //     const response = await Axios.get(`https://api.hubapi.com/crm/v3/objects/contacts/${id}`, options)
 //     console.log(response)

@@ -20,16 +20,10 @@ const getters = {
 const actions = {
   // ////////////////////////////////////////////////////////////// authenticate
   async authenticate ({ commit }, guarded) {
-    try {
-      const response = await this.$axiosAuth.get('/authenticate', {
-        params: { guarded }
-      })
-      const identifier = response.data.payload
-      if (identifier) { return identifier }
-      return false
-    } catch (e) {
-      return false
-    }
+    const response = await this.$axiosAuth.get('/authenticate', {
+      params: { guarded }
+    })
+    return response.data.payload
   },
   // ///////////////////////////////////////////////////////////////////// login
   async login ({ commit }, payload) {

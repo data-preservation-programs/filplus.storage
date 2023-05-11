@@ -104,7 +104,7 @@ module.exports = async (req, tempToken) => {
       if (githubEmail) { githubProfile.githubEmail = githubEmail }
     }
     // Find existing user
-    let user = await FindUser({ $or: [{ githubUsername: githubProfile.githubUsername }, { githubEmail: githubProfile.githubEmail }] })
+    let user = await FindUser({ githubUsername: githubProfile.githubUsername })
     // If no user exists in db, create new user, else update user (with githubToken)
     if (!user) {
       user = await createNewUser(githubProfile, token)

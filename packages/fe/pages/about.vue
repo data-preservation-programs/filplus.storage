@@ -1,5 +1,5 @@
 <template>
-  <div :class="`page page-${tag} container`">
+  <div :class="`page page-${tag}`">
 
     <!-- ============================================================== Hero -->
     <HeroA
@@ -24,6 +24,8 @@
 
           <MarkdownParser :markdown="markdown" />
 
+          <Infographic />
+
           <div
             v-if="ctaCard"
             class="cta-card-wrapper"
@@ -42,7 +44,6 @@
               </div>
             </Card>
           </div>
-
         </div>
 
         <div class="col-4_lg-3_sm-2_mi-1">
@@ -69,6 +70,7 @@ import MarkdownParser from '@/components/markdown-parser'
 import Overlay from '@/components/overlay'
 import Squigglie from '@/components/squigglie'
 import Card from '@/components/card'
+import Infographic from '@/components/infographic'
 
 import AboutPageData from '@/content/pages/about.json'
 import AboutContent from '@/content/markdown/about.md'
@@ -82,7 +84,8 @@ export default {
     MarkdownParser,
     Overlay,
     Squigglie,
-    Card
+    Card,
+    Infographic
   },
 
   data () {
@@ -122,7 +125,6 @@ export default {
 <style lang="scss" scoped>
 // ///////////////////////////////////////////////////////////////////// General
 .page-about {
-  position: relative;
   overflow: hidden;
 }
 
@@ -172,7 +174,7 @@ export default {
 }
 
 .markdown {
-  padding: 5rem 0;
+  padding: 5rem 0 3rem;
   padding-right: 5rem;
   @include small {
     padding-right: 3rem;
@@ -218,6 +220,63 @@ export default {
   }
 }
 
+.infographic-container {
+  margin: 0 5rem 3rem 0;
+  :deep(.infographic-wrapper) {
+    height: clamp(toRem(345), vw(500px), toRem(500));
+    &.with-fil-plus {
+      height: clamp(toRem(390), vw(600px), toRem(594));
+    }
+    .title {
+      font-size: toRem(23);
+    }
+  }
+
+  :deep(.infographic-toggle) {
+    width: toRem(70);
+    height: toRem(35);
+  }
+  :deep(.toggle-switch) {
+    width: toRem(23);
+    height: toRem(23);
+    transform: translateX(toRem(35));
+  }
+
+  @include small {
+    margin-right: 3rem;
+    :deep(.infographic-wrapper) {
+      height: auto;
+      &.with-fil-plus {
+        height: auto;
+      }
+    }
+  }
+  @include mini {
+    :deep(.infographic-wrapper) {
+      .title {
+        font-size: clamp(toRem(14), 16px + 1vw , toRem(17));
+      }
+      .infographic-toggle {
+        width: toRem(60);
+        height: toRem(30);
+      }
+      .toggle-switch {
+        width: toRem(20);
+        height: toRem(20);
+        margin: 0 toRem(2);
+        transform: translateX(toRem(30));
+      }
+    }
+  }
+  @include tiny {
+    margin-right: 0;
+    :deep(.infographic-wrapper) {
+      .title {
+        font-size: toRem(14);
+      }
+    }
+  }
+}
 // ////////////////////////////////////////////////////////////////// Warp Image
 .panel-right {
   position: relative;

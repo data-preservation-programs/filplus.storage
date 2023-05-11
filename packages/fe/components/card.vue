@@ -8,7 +8,7 @@
         fill="none"
         xmlns="http://www.w3.org/2000/svg">
         <path
-          d="M -1 94 C 62 94 18 94 91 94 V 94 C 91 78 78 65 62 65 L 59 65 C 42 65 28 51 28 34 L 28 32 L 28 30 C 28 14 15 1 -1 1 Z"
+          :d="cornerPath"
           fill="black"
           fill-opacity="0.4"
           stroke="#F6F5FF"
@@ -94,6 +94,15 @@ export default {
         return this.variant === 'small' ? '0 0 69 69' : '0 0 46 46'
       }
       return '0 0 92 92'
+    },
+    cornerPath () {
+      if (this.variant === 'small') {
+        return 'M -0.75 70.5 C 46.5 70.5 13.5 70.5 68.25 70.5 V 70.5 C 68.25 58.5 58.5 48.75 46.5 48.75 L 44.25 48.75 C 31.5 48.75 21 38.25 21 25.5 L 21 24 L 21 22.5 C 21 10.5 11.25 0.75 -0.75 0.75 Z'
+      }
+      if (this.variant === 'tiny') {
+        return 'M -0.5 47 C 31 47 9 47 45.5 47 V 47 C 45.5 39 39 32.5 31 32.5 L 29.5 32.5 C 21 32.5 14 25.5 14 17 L 14 16 L 14 15 C 14 7 7.5 0.5 -0.5 0.5 Z'
+      }
+      return 'M -1 94 C 62 94 18 94 91 94 V 94 C 91 78 78 65 62 65 L 59 65 C 42 65 28 51 28 34 L 28 32 L 28 30 C 28 14 15 1 -1 1 Z'
     }
   }
 }
@@ -327,7 +336,6 @@ $cardRadiusTiny: 0.9375rem;
         width: $squigglySizingSmall;
         height: $squigglySizingSmall;
         path {
-          d:path('M -0.75 70.5 C 46.5 70.5 13.5 70.5 68.25 70.5 V 70.5 C 68.25 58.5 58.5 48.75 46.5 48.75 L 44.25 48.75 C 31.5 48.75 21 38.25 21 25.5 L 21 24 L 21 22.5 C 21 10.5 11.25 0.75 -0.75 0.75 Z');
           stroke-width: 1px;
         }
       }
@@ -358,7 +366,6 @@ $cardRadiusTiny: 0.9375rem;
         width: $squigglySizingTiny;
         height: $squigglySizingTiny;
         path {
-          d:path('M -0.5 47 C 31 47 9 47 45.5 47 V 47 C 45.5 39 39 32.5 31 32.5 L 29.5 32.5 C 21 32.5 14 25.5 14 17 L 14 16 L 14 15 C 14 7 7.5 0.5 -0.5 0.5 Z');
           stroke-width: 1px;
         }
       }

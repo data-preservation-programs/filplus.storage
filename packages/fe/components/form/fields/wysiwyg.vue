@@ -24,7 +24,7 @@
 
 <script>
 // ===================================================================== Imports
-import Wysiwyg from '@/modules/form/fields/wysiwyg'
+import Wysiwyg from '@/modules/form/components/wysiwyg'
 
 // ====================================================================== Export
 export default {

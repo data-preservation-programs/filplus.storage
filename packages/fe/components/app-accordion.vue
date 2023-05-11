@@ -10,9 +10,9 @@
         @toggleStateChanged="accordionToggleStateChanged">
 
         <AccordionSection
-          v-for="(entry, index) in entries"
+          v-for="entry in entries"
           v-slot="{ id }"
-          :key="index"
+          :key="entry.id"
           :class="`application-${entry.state}`"
           :active="active">
 
@@ -32,7 +32,11 @@
               </div>
               <p class="application-type p2" v-html="entry.type" />
             </div>
-            <h3 class="header-subtitle p1" v-html="constructApplicationSubtitle(entry)" />
+            <Timeago
+              v-slot="{ convertedDate }"
+              :date="getDate(entry)">
+              <h3 class="header-subtitle p1" v-html="generateSubtitle(entry, convertedDate)" />
+            </Timeago>
             <span class="expand-application-text p2">
               <IconChevron />
               <span v-html="expandApplicationText" />
@@ -87,6 +91,7 @@ import Accordion from '@/components/accordion/accordion'
 import AccordionSection from '@/components/accordion/accordion-section'
 import AccordionHeader from '@/components/accordion/accordion-header'
 import AccordionContent from '@/components/accordion/accordion-content'
+import Timeago from '@/components/timeago'
 import ButtonX from '@/components/buttons/button-x'
 import Squigglie from '@/components/squigglie'
 
@@ -104,6 +109,7 @@ export default {
     AccordionSection,
     AccordionHeader,
     AccordionContent,
+    Timeago,
     ButtonX,
     Squigglie
   },
@@ -133,15 +139,23 @@ export default {
     }
   },
 
-  computed: {
-  },
-
   methods: {
-    constructApplicationSubtitle (application) {
+    getDate (application) {
+      const status = this.getStatus(application)
+      return new Date(status === 'opened' ? application.created_at : application.closed_at)
+    },
+    getStatus (application) {
+      const open = application.state === 'open'
+      let status = 'opened'
+      if (!open) {
+        status = application.state_reason === 'completed' ? 'Closed as completed' : 'Closed as not planned'
+      }
+      return status
+    },
+    generateSubtitle (application, timeago) {
       const issueNumber = application.number
-      const status = application.state === 'open' ? 'opened' : application.state_reason === 'completed' ? 'Closed as completed' : 'Closed as not planned'
-      const timeAgo = status === 'opened' ? this.$timeago(new Date(application.created_at)) : this.$timeago(new Date(application.closed_at))
-      return this.applicationSubtitle.replace('|issue_number|', issueNumber).replace('|status|', status).replace('|time_ago|', timeAgo)
+      const status = this.getStatus(application)
+      return this.applicationSubtitle.replace('|issue_number|', issueNumber).replace('|status|', status).replace('|time_ago|', timeago)
     },
     parseApplicationMarkdown (applicationBody) {
       return Kramed(applicationBody, { renderer: this.renderer })
@@ -255,7 +269,7 @@ export default {
 }
 
 .close-accordion-button {
-  position:sticky;
+  position: sticky;
   width: toRem(28);
   height: toRem(28);
   top: 7.5rem;

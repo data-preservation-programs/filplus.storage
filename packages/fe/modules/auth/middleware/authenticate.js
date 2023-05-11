@@ -5,7 +5,10 @@ import Config from '@/nuxt.config'
 // /////////////////////////////////////////////////////////////////// Functions
 // -----------------------------------------------------------------------------
 // //////////////////////////////////////////////////////////////// authenticate
-const authenticate = async (store, redirect, guarded, redirectUnauthenticated) => {
+const authenticate = async (store, from, route, redirect, guarded, redirectUnauthenticated) => {
+  if (process.client && from && from.path === route.path) {
+    return
+  }
   try {
     const authenticated = await store.dispatch('auth/authenticate', guarded)
     const account = store.getters['auth/account']
@@ -30,14 +33,15 @@ const authenticate = async (store, redirect, guarded, redirectUnauthenticated) =
 }
 
 // ////////////////////////////////////////////////////////// handleUnauthorized
-const HandleUnauthorized = async (store, route, redirect) => {
-  const meta = route.meta.find(obj => obj.hasOwnProperty('authenticate'))
-  const guarded = (meta && meta.authenticate) || false
-  await authenticate(store, redirect, guarded, Config.auth.redirectUnauthenticated)
+const HandleUnauthorized = async (store, from, route, redirect) => {
+  const meta = route.meta.find(obj => obj.hasOwnProperty('guarded'))
+  const guarded = (meta && meta.guarded) || false
+  await authenticate(store, from, route, redirect, guarded, Config.auth.redirectUnauthenticated)
 }
 
 // ///////////////////////////////////////////////////////////////////// Exports
 // -----------------------------------------------------------------------------
-export default async ({ store, route, redirect }) => {
-  await HandleUnauthorized(store, route, redirect)
+export default async ({ store, from, route, redirect }) => {
+  if (route.path.includes('login')) { return } // no need to authenticate on /login/success page
+  await HandleUnauthorized(store, from, route, redirect)
 }

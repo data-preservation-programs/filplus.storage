@@ -150,7 +150,7 @@ $dimension: 1.625rem;
   border-radius: 0.625rem;
   background-color: $aztec;
   pointer-events: none;
-  z-index: 5;
+  z-index: 1;
   transition: border-color 150ms, background-color 150ms, transform 150ms ease-out;
 }
 
@@ -163,5 +163,6 @@ $dimension: 1.625rem;
 .label {
   font-weight: 400;
   padding-left: 1rem;
+  line-height: leading(26, 18);
 }
 </style>
