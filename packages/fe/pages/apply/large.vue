@@ -38,6 +38,11 @@
             form-id="filplus_application" />
 
           <FieldContainer
+            :scaffold="formScaffold.your_role"
+            field-key="your_role"
+            form-id="filplus_application" />
+
+          <FieldContainer
             :scaffold="formScaffold.data_owner_region"
             field-key="data_owner_region"
             form-id="filplus_application" />
@@ -116,11 +121,6 @@
           <FieldContainer
             :scaffold="formScaffold.application_data_type"
             field-key="application_data_type"
-            form-id="filplus_application" />
-
-          <FieldContainer
-            :scaffold="formScaffold.identifier"
-            field-key="identifier"
             form-id="filplus_application" />
 
         </div>
@@ -443,12 +443,14 @@ export default {
 #application-bottom {
   position: relative;
   padding: 8.75rem 0;
-  z-index: 10;
 }
 
 #application-top {
-  position: relative;
-  padding: 8.75rem 0;
+  z-index: 10;
+}
+
+#application-bottom {
+  z-index: 5;
 }
 
 .buttons {

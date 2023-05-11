@@ -15,6 +15,7 @@ const state = () => ({
   },
   application: {
     organization_name: null,
+    your_role: null,
     data_owner_region: null,
     data_owner_industry: null,
     organization_website: null,
@@ -26,7 +27,6 @@ const state = () => ({
     weekly_data_size_unit: null,
     filecoin_address: null,
     custom_multisig: null,
-    identifier: null,
     about: null,
     source_of_data_select: null,
     ecosystem_associates_textarea: null,

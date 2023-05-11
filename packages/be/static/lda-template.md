@@ -1,6 +1,9 @@
 ### Data Owner Name
 organization_name
 
+### What is your role related to the dataset
+your_role
+
 ### Data Owner Country/Region
 data_owner_region
 
@@ -27,9 +30,6 @@ application_data_type
 
 ### Custom multisig
 custom_multisig
-
-### Identifier
-identifier
 
 ### Share a brief history of your project and organization
 about
