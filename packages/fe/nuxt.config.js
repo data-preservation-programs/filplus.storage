@@ -9,8 +9,8 @@ const baseUrls = {
 }
 
 const toggleUrls = {
-  development: `https://stg-kyc.togggle.io/#/${process.env.TOGGGLE_COMPANY_ID}`,
-  stable: `https://stg-kyc.togggle.io/#/${process.env.TOGGGLE_COMPANY_ID}`,
+  development: 'https://dev1-kyc.togggle.io/#/filecoin/kyc',
+  stable: 'https://dev1-kyc.togggle.io/#/filecoin/kyc',
   production: ''
 }
 
