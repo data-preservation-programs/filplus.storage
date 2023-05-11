@@ -90,7 +90,7 @@ export default {
 
   async fetch () {
     if (!this.field) {
-      await this.$field(this.id).register(this.formId, this.groupIndex, this.fieldKey, this.scaffold, this.resetTo)
+      await this.$field(this.id).register(this.formId, this.groupIndex, this.fieldKey, this.scaffold)
     } else {
       if (this.field.includeInFormSubmission) {
         await this.$field(this.id).update({ validate: true })

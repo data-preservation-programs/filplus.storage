@@ -221,7 +221,7 @@ const Field = (app, store, id) => {
   return {
 
     // ================================================================ register
-    async register (formId, groupIndex, fieldKey, scaffold, resetTo) {
+    async register (formId, groupIndex, fieldKey, scaffold) {
       if (!field) {
         const form = await app.$form(formId).get()
         const value = await getValue(app, scaffold, form, formId, false, groupIndex)
@@ -236,7 +236,7 @@ const Field = (app, store, id) => {
           state: 'valid',
           validate: true,
           validation: false,
-          resetTo,
+          resetTo: scaffold.resetTo,
           scaffold
         })
       }
