@@ -99,6 +99,9 @@ $height: 2.5rem;
   &:focus {
     font-size: toRem(20);
   }
+  &:focus-visible {
+    @include focusBoxShadow;
+  }
 }
 
 // //////////////////////////////////////////////////////////////////// Dropdown
