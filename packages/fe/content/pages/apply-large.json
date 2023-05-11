@@ -693,6 +693,7 @@
           "type": "select",
           "modelKey": "replication_plan_select",
           "label": "Replication plan",
+          "placeholder": "Data onboarding tool",
           "description": "How will you be distributing deals across different storage providers?",
           "required": true,
           "output": "option",

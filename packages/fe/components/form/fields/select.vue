@@ -10,7 +10,7 @@
       v-on="$listeners">
 
       <template #option-native-default-text>
-        {{ label }}
+        {{ placeholder }}
       </template>
 
       <template #option-native-text="{ option }">
@@ -89,6 +89,9 @@ export default {
     options () {
       return this.scaffold.options
     },
+    placeholder () {
+      return this.scaffold.placeholder
+    },
     value () {
       return this.field.value
     },
@@ -109,7 +112,7 @@ export default {
       return false
     },
     getSelectedOptionLabel (selection) {
-      if (selection === -1) { return this.label }
+      if (selection === -1) { return this.placeholder }
       return this.options[selection].label
     },
     dropdownToggled (state) {
