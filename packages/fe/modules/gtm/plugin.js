@@ -4,7 +4,14 @@ const _layer = '<%= options.layer %>'
 const _id = '<%= options.id %>'
 
 function gtmClient(ctx, initialized) {
-  let debounceWindow
+  let debounceTimer
+  const debounceDelay = 500 // Default debounce delay
+  
+  // Allowlist of events with low debounce time
+  // see https://support.google.com/analytics/answer/9234069?hl=en
+  const eventAllowList = [
+    "click", "file_download", "first_visit", "form_start", "form_submit", "page_view", "screen_view", "scroll", "session_start", "user_engagement", "video_complete", "video_progress", "video_start", "view_search_results"
+  ] 
   return {
     init(id = _id) {
       if (initialized[id] || !window._gtm_inject) {
@@ -18,14 +25,17 @@ function gtmClient(ctx, initialized) {
       if (!window[_layer]) {
         window[_layer] = []
       }
-      // Use debounce to prevent multiple calls in quick succession
-      if (debounceWindow) {
-        clearTimeout(debounceWindow)
+      const eventString = obj.event || ""
+
+      // Use a different debounce delay for allow-listed events
+      const delay = eventAllowList.includes(eventString) ? 50 : debounceDelay
+      if (debounceTimer) {
+        clearTimeout(debounceTimer)
       }
-      debounceWindow = setTimeout(() => {
+      debounceTimer = setTimeout(() => {
         window[_layer].push(obj)
         log('push', obj)
-      }, 500) // Debounce delay as timeout
+      }, delay)
     }
   }
 }
