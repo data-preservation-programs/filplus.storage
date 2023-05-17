@@ -233,9 +233,8 @@
           "modelKey": "weekly_data_size",
           "label": "Weekly allocation of DataCap",
           "placeholder": "32",
-          "tooltip": "How much of the DataCap you're requesting will you need on a weekly basis?",
+          "tooltip": "How much of the DataCap you're requesting will you need on a weekly basis? Must be at least 1 TiB.",
           "min": 1,
-          "max": 5242880,
           "required": true,
           "pre": "[^\\u0000-\\u00ff]",
           "transform": {
@@ -247,9 +246,9 @@
           "autocomplete": "none",
           "validationMessage": {
             "required": "This field is required",
-            "minmax": "Number must be between 1 and 5242880"
+            "minmax": "Number must be 1 or more"
           },
-          "defaultValue": ""
+          "defaultValue": 1
         },
         "weekly_data_size_unit": {
           "type": "select",
@@ -261,11 +260,10 @@
             "required": "This field is required"
           },
           "options": [
-            { "label": "GiB" },
             { "label": "TiB" },
             { "label": "PiB" }
           ],
-          "defaultValue": "",
+          "defaultValue": "TiB",
           "isSingleOption": true
         },
         "filecoin_address": {
