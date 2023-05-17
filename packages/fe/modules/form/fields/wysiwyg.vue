@@ -137,7 +137,7 @@ import IconChevron from '@/components/icons/chevron'
 
 // ====================================================================== Export
 export default {
-  name: 'Wysiwyg',
+  name: 'FormFieldWysiwyg',
 
   components: {
     EditorContent,

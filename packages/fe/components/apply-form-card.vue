@@ -11,6 +11,10 @@
         {{ formHeading }}
       </div>
 
+      <div class="form-subheading">
+        {{ formSubheading }}
+      </div>
+
       <form class="form">
 
         <FieldContainer
@@ -77,6 +81,9 @@ export default {
     formHeading () {
       return this.form.heading
     },
+    formSubheading () {
+      return this.form.subheading
+    },
     submitButtonText () {
       return this.form.submit_button_text
     },
@@ -119,6 +126,7 @@ export default {
     async submitForm (e) {
       e.preventDefault()
       await this.$handleFormRedirection(this.rangeField.value, 'stage-apply', this.formsThresholds)
+      await this.$form('filplus_application').validate()
     }
   }
 }
@@ -127,13 +135,19 @@ export default {
 <style lang="scss" scoped>
 // ///////////////////////////////////////////////////////////////////// General
 .form-heading {
-  margin-bottom: 2.5rem;
   font-size: toRem(24);
   line-height: leading(35, 24);
   font-weight: 500;
   @include mini {
     font-size: toRem(18);
   }
+}
+
+.form-subheading {
+  margin-top: 0.5rem;
+  margin-bottom: 2.5rem;
+  font-size: 1rem;
+  font-weight: 500;
 }
 
 .form {

@@ -49,7 +49,6 @@ const state = () => ({
     ga_region: null,
     public_availability_radio: null,
     public_availability_textarea: null,
-    hubspot_opt_in: null,
     hubspot_opt_in_email: null,
     hubspot_opt_in_first_name: null,
     hubspot_opt_in_last_name: null,
@@ -79,16 +78,16 @@ const actions = {
     const application = payload.application
     const bytes = payload.bytes
     const thresholds = payload.thresholds
-    const gib32 = thresholds.gib_32
+    const tib1 = thresholds.tib_1
     const tib100 = thresholds.tib_100
     const pib5 = thresholds.pib_5
     const pib15 = thresholds.pib_15
     const requestedAmount = `${application.total_datacap_size} ${application.total_datacap_size_unit}`
     let stage
-    const labels = ['source:filplus.storage']
+    let labels = ['source:filplus.storage']
     const assignees = []
     const comments = []
-    if (bytes >= gib32 && bytes < tib100) {
+    if (bytes >= tib1 && bytes < tib100) {
       stage = 'stage-ga'
       labels.push('state:Verifying')
     } else if (bytes >= tib100 && bytes <= pib5) {
@@ -99,7 +98,7 @@ const actions = {
       comments.push(`This application requests a total of ${requestedAmount}, so it’s labeled \`very large application\``)
     } else if (bytes > pib15) {
       stage = 'stage-efilplus'
-      labels.push('efil+')
+      labels = labels.concat(['very large application', 'efil+'])
       assignees.push('kevzak')
       comments.push(`This application requests a total of ${requestedAmount}, so it’s labeled \`efil+\``)
     }
@@ -147,7 +146,7 @@ const actions = {
         { filterKey: 'limit' },
         { filterKey: 'sort' },
         { filterKey: 'state' },
-        { filterKey: 'view' },
+        { filterKey: 'view', default: getters.view },
         { queryKey: 'user' }
       ])
       const response = await this.$axiosAuth.get('/get-application-list', { params })
@@ -184,7 +183,6 @@ const actions = {
     if (!optedIn && account.githubEmail) {
       application.hubspot_opt_in_email = account.githubEmail
     } else if (optedIn) {
-      application.hubspot_opt_in = optedIn
       application.hubspot_opt_in_first_name = account.hubspotOptInFirstName
       application.hubspot_opt_in_last_name = account.hubspotOptInLastName
       application.hubspot_opt_in_email = account.hubspotOptInEmail
