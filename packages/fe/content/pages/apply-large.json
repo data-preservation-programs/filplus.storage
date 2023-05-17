@@ -201,7 +201,7 @@
             "required": "This field is required",
             "minmax": "Number must be between 1 and 5242880"
           },
-          "defaultValue": 32
+          "defaultValue": 100
         },
         "total_datacap_size_unit": {
           "type": "select",
@@ -224,7 +224,7 @@
             { "label": "TiB" },
             { "label": "PiB" }
           ],
-          "defaultValue": "GiB",
+          "defaultValue": "TiB",
           "isSingleOption": true
         },
         "weekly_data_size": {
