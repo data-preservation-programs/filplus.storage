@@ -123,7 +123,7 @@ div.field-select {
       transition: 150ms ease-in;
       transform: rotate(-180deg);
     }
-    :deep(.dropdown) {
+    :deep(div.dropdown) {
       transform-origin: top center;
       scale: 1 1;
     }
@@ -138,7 +138,7 @@ div.field-select {
   }
 }
 
-:deep(.select) {
+:deep(div.select) {
   transition: 150ms ease-out;
   &.native {
     &:focus-visible {
@@ -147,7 +147,7 @@ div.field-select {
   }
 }
 
-:deep(.dropdown) {
+:deep(div.dropdown) {
   transform-origin: top center;
   scale: 1 0;
   transition: scale 150ms ease-out;
@@ -204,7 +204,7 @@ div.field-select {
   flex-direction: row;
   align-items: center;
   z-index: 10;
-  :deep(.icon-checkmark) {
+  :deep(svg.icon-checkmark) {
     width: toRem(12);
     margin-right: 0.5rem;
     path {
