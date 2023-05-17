@@ -108,7 +108,7 @@ export default {
 $height: 4rem;
 
 // ///////////////////////////////////////////////////////////////////// General
-.field-select {
+div.field-select {
   height: $height;
   border-bottom: 2px solid $titanWhite;
   transition: border-color 150ms ease-out;
