@@ -66,7 +66,8 @@
             { "label": "Data onramp entity that provides data onboarding services to multiple clients" },
             { "label": "Other" }
           ],
-          "defaultValue": ""
+          "defaultValue": "",
+          "isSingleOption": true
         },
         "data_owner_region": {
           "type": "typeahead",
@@ -114,7 +115,8 @@
             { "label": "Transport Services" },
             { "label": "Other" }
           ],
-          "defaultValue": ""
+          "defaultValue": "",
+          "isSingleOption": true
         },
         "organization_website": {
           "type": "input",
@@ -222,7 +224,8 @@
             { "label": "TiB" },
             { "label": "PiB" }
           ],
-          "defaultValue": "GiB"
+          "defaultValue": "GiB",
+          "isSingleOption": true
         },
         "weekly_data_size": {
           "type": "input",
@@ -262,7 +265,8 @@
             { "label": "TiB" },
             { "label": "PiB" }
           ],
-          "defaultValue": ""
+          "defaultValue": "",
+          "isSingleOption": true
         },
         "filecoin_address": {
           "type": "input",
@@ -300,7 +304,8 @@
             { "label": "Private Commercial/Enterprise" },
             { "label": "Private Non-Profit / Social impact" }
           ],
-          "defaultValue": ""
+          "defaultValue": "",
+          "isSingleOption": true
         },
         "custom_multisig": {
           "type": "checkbox",
@@ -412,7 +417,8 @@
             { "label": "My own storage infra" },
             { "label": "Other" }
           ],
-          "defaultValue": ""
+          "defaultValue": "",
+          "isSingleOption": true
         },
         "source_of_data_textarea": {
           "type": "textarea",
@@ -458,7 +464,8 @@
             { "label": "I don't know yet" },
             { "label": "others/custom tool" }
           ],
-          "defaultValue": ""
+          "defaultValue": "",
+          "isSingleOption": true
         },
         "data_preparation_plan_textarea": {
           "type": "textarea",
@@ -482,7 +489,8 @@
             "required": "This field is required",
             "chars": "Input must be between 2 and 35 characters"
           },
-          "defaultValue": ""
+          "defaultValue": "",
+          "isSingleOption": true
         },
         "data_sample": {
           "type": "textarea",
@@ -561,7 +569,8 @@
             { "label": "Sporadic" },
             { "label": "Never" }
           ],
-          "defaultValue": ""
+          "defaultValue": "",
+          "isSingleOption": true
         },
         "duration_of_storage": {
           "type": "select",
@@ -581,7 +590,8 @@
             { "label": "More than 3 years" },
             { "label": "Permanently" }
           ],
-          "defaultValue": ""
+          "defaultValue": "",
+          "isSingleOption": true
         },
         "geographic_distribution": {
           "type": "select",
@@ -625,7 +635,8 @@
             { "label": "I don't know yet" },
             { "label": "Others" }
           ],
-          "defaultValue": ""
+          "defaultValue": "",
+          "isSingleOption": true
         },
         "storage_provider_selection_plan_select": {
           "type": "select",
@@ -645,7 +656,8 @@
             { "label": "I don't know yet" },
             { "label": "Other" }
           ],
-          "defaultValue": ""
+          "defaultValue": "",
+          "isSingleOption": true
         },
         "storage_provider_selection_plan_input": {
           "type": "input",
@@ -710,7 +722,8 @@
             { "label": "I don't know yet" },
             { "label": "Others/custom tool" }
           ],
-          "defaultValue": ""
+          "defaultValue": "",
+          "isSingleOption": true
         },
         "replication_plan_textarea": {
           "type": "textarea",

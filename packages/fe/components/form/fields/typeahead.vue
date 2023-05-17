@@ -44,7 +44,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$height: 2.5rem;
+$height: 4rem;
 
 // ///////////////////////////////////////////////////////////////////// General
 .field-typeahead {
@@ -89,7 +89,12 @@ $height: 2.5rem;
   appearance: none;
   transition: 150ms ease-in-out;
   @include placeholder {
-    opacity: 0;
+    color: rgba($aquaSqueeze, 0.7);
+    font-size: toRem(18);
+    font-weight: 400;
+    font-style: italic;
+    opacity: 1;
+    transition: 150ms ease-out;
   }
   &::-webkit-inner-spin-button,
   &::-webkit-outer-spin-button {
@@ -124,12 +129,10 @@ $height: 2.5rem;
 :deep(div.option) {
   padding: 0.5rem 0.75rem;
   transition: 150ms ease-out;
-  &.highlighted {
-    transition: 150ms ease-in;
+  &:hover,
+  &.highlighted,
+  &.selected {
     background-color: rgba(white, 0.1);
-  }
-  .highlight {
-    font-weight: 700;
   }
 }
 </style>

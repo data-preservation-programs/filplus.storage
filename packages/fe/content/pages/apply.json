@@ -107,7 +107,8 @@
             { "label": "TiB" },
             { "label": "PiB" }
           ],
-          "defaultValue": "GiB"
+          "defaultValue": "GiB",
+          "isSingleOption": true
         }
       }
     },

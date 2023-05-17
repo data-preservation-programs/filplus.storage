@@ -89,7 +89,8 @@
             { "label": "Greater China" },
             { "label": "None" }
           ],
-          "defaultValue": ""
+          "defaultValue": "",
+          "isSingleOption": true
         },
         "organization_social_media_handle": {
           "type": "input",
@@ -177,7 +178,8 @@
             { "label": "TiB" },
             { "label": "PiB" }
           ],
-          "defaultValue": "GiB"
+          "defaultValue": "GiB",
+          "isSingleOption": true
         },
         "filecoin_address": {
           "type": "input",

@@ -421,7 +421,7 @@ const FormatDatacapSize = (ctx, transformField, transformSourceField, args) => {
     const options = store.getters['general/siteContent'].apply.page_content.form.scaffold.total_datacap_size_unit.options
     const unitField = ctx.$field(`${args.unit_from_field}|filplus_application`).get()
     const valueField = ctx.$field(`${args.value_from_field}|filplus_application`).get()
-    if (!unitField || !valueField || unitField.value === -1) { return value }
+    if (!unitField || !valueField || unitField.value.length === 0) { return value }
     if (valueField) { value = valueField.value }
     const unit = options[unitField.value].label
     return ConvertSizeToBytes(value, unit)
@@ -433,7 +433,7 @@ const ReactDatasizeUnitToRange = (ctx, transformField, transformSourceField, arg
   const size = transformSourceField.value
   const options = ctx.store.getters['general/siteContent'].apply.page_content.form.scaffold.total_datacap_size_unit.options
   const unit = FormatBytes(size, 'array').unit
-  return options.findIndex(option => option.label === unit)
+  return [options.findIndex(option => option.label === unit)]
 }
 
 // //////////////////////////////////////////////////// ReactDatasizeRangeToUnit
@@ -443,7 +443,7 @@ const ReactDatasizeRangeToUnit = (ctx, transformField, transformSourceField, arg
   const store = ctx.store
   const options = store.getters['general/siteContent'].apply.page_content.form.scaffold.total_datacap_size_unit.options
   const inputField = ctx.$field(`${args.value_from_field}|filplus_application`).get()
-  if (unitValue === -1) { return originalValue }
+  if (unitValue.length === 0) { return originalValue }
   const unit = options[unitValue].label
   const size = inputField.value
   return ConvertSizeToBytes(size, unit)
