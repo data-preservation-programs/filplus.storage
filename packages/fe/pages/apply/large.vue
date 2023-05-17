@@ -37,6 +37,8 @@
             field-key="organization_name"
             form-id="filplus_application" />
 
+          <HubspotOptInFields />
+
           <FieldContainer
             :scaffold="formScaffold.your_role"
             field-key="your_role"
@@ -250,8 +252,6 @@
             :scaffold="formScaffold.replication_plan_textarea"
             field-key="replication_plan_textarea"
             form-id="filplus_application" />
-
-          <HubspotOptInFields />
 
           <FieldContainer
             :scaffold="formScaffold.confirm_follow_fil_guideline"
