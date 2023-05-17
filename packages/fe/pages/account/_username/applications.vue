@@ -354,7 +354,7 @@ export default {
     border-radius: toRem(10);
     padding: 0 toRem(15);
     width: toRem(195);
-    height: unset;
+    height: toRem(34);
     .icon-chevron {
       color: $nandor;
     }
