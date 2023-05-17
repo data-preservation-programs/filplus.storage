@@ -15,6 +15,7 @@ const state = () => ({
   },
   application: {
     organization_name: null,
+    your_role: null,
     data_owner_region: null,
     data_owner_industry: null,
     organization_website: null,
@@ -26,7 +27,6 @@ const state = () => ({
     weekly_data_size_unit: null,
     filecoin_address: null,
     custom_multisig: null,
-    identifier: null,
     about: null,
     source_of_data_select: null,
     ecosystem_associates_textarea: null,
@@ -79,16 +79,16 @@ const actions = {
     const application = payload.application
     const bytes = payload.bytes
     const thresholds = payload.thresholds
-    const gib32 = thresholds.gib_32
+    const tib1 = thresholds.tib_1
     const tib100 = thresholds.tib_100
     const pib5 = thresholds.pib_5
     const pib15 = thresholds.pib_15
     const requestedAmount = `${application.total_datacap_size} ${application.total_datacap_size_unit}`
     let stage
-    const labels = ['source:filplus.storage']
+    let labels = ['source:filplus.storage']
     const assignees = []
     const comments = []
-    if (bytes >= gib32 && bytes < tib100) {
+    if (bytes >= tib1 && bytes < tib100) {
       stage = 'stage-ga'
       labels.push('state:Verifying')
     } else if (bytes >= tib100 && bytes <= pib5) {
@@ -99,7 +99,7 @@ const actions = {
       comments.push(`This application requests a total of ${requestedAmount}, so it’s labeled \`very large application\``)
     } else if (bytes > pib15) {
       stage = 'stage-efilplus'
-      labels.push('efil+')
+      labels = labels.concat(['very large application', 'efil+'])
       assignees.push('kevzak')
       comments.push(`This application requests a total of ${requestedAmount}, so it’s labeled \`efil+\``)
     }

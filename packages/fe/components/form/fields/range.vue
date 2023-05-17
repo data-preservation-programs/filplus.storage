@@ -70,7 +70,7 @@ export default {
       focused: false,
       numTicks: 0,
       labels: [
-        { slug: 'gib-32', text: '32 GiB', value: 34359738368 },
+        { slug: 'tib-1', text: '1 TiB', value: 1099511627776 },
         { slug: 'tib-100', text: '100 TiB', value: 109951162777600 },
         { slug: 'pib-5', text: '5 PiB', value: 5629499534213120 },
         { slug: 'pib-15', text: '15 PiB', value: 16888498602639360 }
@@ -155,7 +155,7 @@ $borderWidth: 2px;
 }
 
 // /////////////////////////////////////////////////////////////////////// Track
-::v-deep .range-track {
+:deep(div.range-track) {
   position: relative;
   left: calc(#{math.div(-$trackHeight, 2)} + #{math.div($thumbWidth, 2)});
   height: $trackHeight;

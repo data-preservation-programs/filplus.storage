@@ -50,6 +50,25 @@
           },
           "defaultValue": ""
         },
+        "your_role": {
+          "type": "select",
+          "modelKey": "your_role",
+          "label": "What is your role related to the dataset?",
+          "required": true,
+          "output": "option",
+          "validationMessage": {
+            "required": "This field is required"
+          },
+          "options": [
+            { "label": "Dataset Owner" },
+            { "label": "Data Preparer" },
+            { "label": "Storage provider filling out application on behalf of the data owner" },
+            { "label": "Data onramp entity that provides data onboarding services to multiple clients" },
+            { "label": "Other" }
+          ],
+          "defaultValue": "",
+          "isSingleOption": true
+        },
         "data_owner_region": {
           "type": "typeahead",
           "inputType": "text",
@@ -96,7 +115,8 @@
             { "label": "Transport Services" },
             { "label": "Other" }
           ],
-          "defaultValue": ""
+          "defaultValue": "",
+          "isSingleOption": true
         },
         "organization_website": {
           "type": "input",
@@ -181,7 +201,7 @@
             "required": "This field is required",
             "minmax": "Number must be between 1 and 5242880"
           },
-          "defaultValue": 32
+          "defaultValue": 100
         },
         "total_datacap_size_unit": {
           "type": "select",
@@ -204,7 +224,8 @@
             { "label": "TiB" },
             { "label": "PiB" }
           ],
-          "defaultValue": "GiB"
+          "defaultValue": "TiB",
+          "isSingleOption": true
         },
         "weekly_data_size": {
           "type": "input",
@@ -212,9 +233,8 @@
           "modelKey": "weekly_data_size",
           "label": "Weekly allocation of DataCap",
           "placeholder": "32",
-          "tooltip": "How much of the DataCap you're requesting will you need on a weekly basis?",
+          "tooltip": "How much of the DataCap you're requesting will you need on a weekly basis? Must be at least 1 TiB.",
           "min": 1,
-          "max": 5242880,
           "required": true,
           "pre": "[^\\u0000-\\u00ff]",
           "transform": {
@@ -226,9 +246,9 @@
           "autocomplete": "none",
           "validationMessage": {
             "required": "This field is required",
-            "minmax": "Number must be between 1 and 5242880"
+            "minmax": "Number must be 1 or more"
           },
-          "defaultValue": ""
+          "defaultValue": 1
         },
         "weekly_data_size_unit": {
           "type": "select",
@@ -240,11 +260,11 @@
             "required": "This field is required"
           },
           "options": [
-            { "label": "GiB" },
             { "label": "TiB" },
             { "label": "PiB" }
           ],
-          "defaultValue": ""
+          "defaultValue": "TiB",
+          "isSingleOption": true
         },
         "filecoin_address": {
           "type": "input",
@@ -282,13 +302,14 @@
             { "label": "Private Commercial/Enterprise" },
             { "label": "Private Non-Profit / Social impact" }
           ],
-          "defaultValue": ""
+          "defaultValue": "",
+          "isSingleOption": true
         },
         "custom_multisig": {
           "type": "checkbox",
           "modelKey": "custom_multisig",
-          "label": "Custom multisig",
-          "description": "Check this box if this client should use a specific multisig (for the Fil+ governance team)",
+          "label": "Use custom Multisig",
+          "description": "Check this box off if you have explicitly been asked to by the governance team",
           "output": "option",
           "validationMessage": {
             "required": "This field is required"
@@ -297,27 +318,8 @@
             { "label": "Use Custom Multisig" }
           ],
           "defaultValue": "",
-          "baseValue": "No"
-        },
-        "identifier": {
-          "type": "input",
-          "inputType": "text",
-          "modelKey": "identifier",
-          "label": "Identifier",
-          "description": "If needed, the Filecoin team will fill up this field later on. You can skip this field.",
-          "placeholder": "f...",
-          "tooltip": "",
-          "pre": "[^\\u0000-\\u00ff]",
-          "autocomplete": "none",
-          "chars": {
-            "min": 2,
-            "max": 1000
-          },
-          "validationMessage": {
-            "required": "This field is required",
-            "chars": "Input must be between 2 and 35 characters"
-          },
-          "defaultValue": ""
+          "baseValue": "No",
+          "isSingleOption": true
         },
         "about": {
           "type": "textarea",
@@ -414,7 +416,8 @@
             { "label": "My own storage infra" },
             { "label": "Other" }
           ],
-          "defaultValue": ""
+          "defaultValue": "",
+          "isSingleOption": true
         },
         "source_of_data_textarea": {
           "type": "textarea",
@@ -451,11 +454,17 @@
             "required": "This field is required"
           },
           "options": [
+            { "label": "None" },
             { "label": "IPFS" },
             { "label": "lotus" },
+            { "label": "venus" },
+            { "label": "singularity" },
+            { "label": "graphsplit" },
+            { "label": "I don't know yet" },
             { "label": "others/custom tool" }
           ],
-          "defaultValue": ""
+          "defaultValue": "",
+          "isSingleOption": true
         },
         "data_preparation_plan_textarea": {
           "type": "textarea",
@@ -468,7 +477,7 @@
           "conditions": [
             {
               "fieldKey": "data_preparation_plan_select",
-              "value": 2
+              "value": 7
             }
           ],
           "chars": {
@@ -479,7 +488,8 @@
             "required": "This field is required",
             "chars": "Input must be between 2 and 35 characters"
           },
-          "defaultValue": ""
+          "defaultValue": "",
+          "isSingleOption": true
         },
         "data_sample": {
           "type": "textarea",
@@ -554,9 +564,12 @@
             { "label": "Daily" },
             { "label": "Weekly" },
             { "label": "Monthly" },
-            { "label": "Yearly" }
+            { "label": "Yearly" },
+            { "label": "Sporadic" },
+            { "label": "Never" }
           ],
-          "defaultValue": ""
+          "defaultValue": "",
+          "isSingleOption": true
         },
         "duration_of_storage": {
           "type": "select",
@@ -576,7 +589,8 @@
             { "label": "More than 3 years" },
             { "label": "Permanently" }
           ],
-          "defaultValue": ""
+          "defaultValue": "",
+          "isSingleOption": true
         },
         "geographic_distribution": {
           "type": "select",
@@ -596,8 +610,7 @@
             { "label": "South America" },
             { "label": "Europe" },
             { "label": "Australia (continent)" },
-            { "label": "Antarctica" },
-            { "label": "None" }
+            { "label": "Antarctica" }
           ],
           "defaultValue": ""
         },
@@ -617,10 +630,12 @@
             { "label": "IPFS" },
             { "label": "Shipping hard drives" },
             { "label": "Lotus built-in data transfer" },
+            { "label": "Venus built-in data transfer" },
             { "label": "I don't know yet" },
             { "label": "Others" }
           ],
-          "defaultValue": ""
+          "defaultValue": "",
+          "isSingleOption": true
         },
         "storage_provider_selection_plan_select": {
           "type": "select",
@@ -635,12 +650,13 @@
           "options": [
             { "label": "Slack" },
             { "label": "Filmine" },
-            { "label": "Big data exchange" },
+            { "label": "Big Data Exchange" },
             { "label": "Partners" },
             { "label": "I don't know yet" },
             { "label": "Other" }
           ],
-          "defaultValue": ""
+          "defaultValue": "",
+          "isSingleOption": true
         },
         "storage_provider_selection_plan_input": {
           "type": "input",
@@ -688,6 +704,7 @@
           "type": "select",
           "modelKey": "replication_plan_select",
           "label": "Replication plan",
+          "placeholder": "Data onboarding tool",
           "description": "How will you be distributing deals across different storage providers?",
           "required": true,
           "output": "option",
@@ -695,14 +712,17 @@
             "required": "This field is required"
           },
           "options": [
+            { "label": "None" },
             { "label": "Boost client" },
             { "label": "Lotus client" },
+            { "label": "Droplet client" },
             { "label": "Bidbot" },
             { "label": "Singularity" },
             { "label": "I don't know yet" },
             { "label": "Others/custom tool" }
           ],
-          "defaultValue": ""
+          "defaultValue": "",
+          "isSingleOption": true
         },
         "replication_plan_textarea": {
           "type": "textarea",
@@ -715,7 +735,7 @@
           "conditions": [
             {
               "fieldKey": "replication_plan_select",
-              "value": 5
+              "value": 7
             }
           ],
           "chars": {

@@ -3,21 +3,30 @@
 <template>
   <div
     tabindex="-1"
-    :class="['select-container', { focused, 'dropdown-open': dropdownOpen }]"
-    @blur="toggleFocused(false)"
+    :class="['select-container', state, {
+      'select-container-focused': selectContainerFocused,
+      'select-native-focused': selectNativeFocused,
+      'dropdown-open': dropdownOpen
+    }]"
+    @focus="handleFocusBlur('focus', 'select-container')"
+    @blur="handleFocusBlur('blur', 'select-container')"
     @keydown="handleKeyboardNavigation($event)">
 
     <!-- =================================================== [Select] Native -->
     <select
       ref="selectNative"
       :aria-labelledby="ariaLabelledby"
+      :multiple="!isSingleOption"
       class="select native"
       tabindex="0"
-      @focus="toggleFocused(true)"
-      @blur="toggleFocused(false)"
-      @change="selectOption($event.target.value)">
-      <option disabled="disabled" :selected="selectedOption === -1" value="-1">
-        <slot name="option-native-default-text" />
+      @focus="handleFocusBlur('focus', 'select-native')"
+      @blur="handleFocusBlur('blur', 'select-native')"
+      @change="selectOption('native', $event)">
+      <option disabled="disabled" :selected="empty" value="-1">
+        <slot
+          name="option-native-default-text"
+          :placeholder="placeholder"
+          :label="label" />
       </option>
       <option
         v-for="(option, index) in options"
@@ -30,15 +39,18 @@
 
     <!-- =================================================== [Select] Custom -->
     <div
-      v-click-outside="clickOutside"
       :aria-hidden="dropdownOpen ? 'false' : 'true'"
-      class="select custom"
-      @click="toggleDropdown">
+      class="select custom">
 
-      <div class="selection-window-wrapper">
+      <div
+        class="selection-window-wrapper"
+        @click="toggleDropdown">
         <slot
           name="selection-window"
-          :selected="selectedOption" />
+          :selected="selectedOptions"
+          :placeholder="placeholder"
+          :label="label"
+          :empty="empty" />
       </div>
 
       <div
@@ -51,7 +63,7 @@
           class="option-wrapper"
           @mouseenter="toggleOptionHighlighted('enter', option.index || index)"
           @mouseleave="toggleOptionHighlighted('leave')"
-          @click="selectOption(option.index || index)">
+          @click="selectOption('custom', option.index || index)">
           <slot
             name="option-custom"
             :option="option"
@@ -72,18 +84,17 @@ export default {
   name: 'FormFieldSelect',
 
   props: {
+    field: {
+      type: Object,
+      required: true
+    },
+    /**
+     * Options need to be passed in explicitly since the options coming in from
+     * the Typeahead are pre-processed
+     */
     options: {
       type: Array,
       required: true
-    },
-    ariaLabelledby: {
-      type: String,
-      required: true
-    },
-    selectedOption: {
-      type: [Number, String],
-      required: false,
-      default: -1
     },
     /**
      * Define whether or not to maintain selection based on index. In the case of
@@ -108,12 +119,49 @@ export default {
   },
 
   data () {
-    const selectedOption = this.selectedOption
     return {
-      focused: false,
+      selectContainerFocused: false,
+      selectNativeFocused: false,
       dropdownOpen: false,
       autoScrollDropdown: false,
-      currentOptionHighlighted: selectedOption
+      currentOptionsHighlighted: []
+    }
+  },
+
+  computed: {
+    scaffold () {
+      return this.field.scaffold
+    },
+    modelKey () {
+      return this.scaffold.modelKey
+    },
+    fieldKey () {
+      return this.field.fieldKey
+    },
+    ariaLabelledby () {
+      return this.modelKey || this.fieldKey
+    },
+    label () {
+      return this.scaffold.label
+    },
+    placeholder () {
+      return this.scaffold.placeholder
+    },
+    isSingleOption () {
+      return this.scaffold.isSingleOption || false
+    },
+    selectedOptions () {
+      const value = this.field.value
+      return typeof value === 'string' ? [] : value // typeahead values are strings
+    },
+    required () {
+      return this.field.required
+    },
+    state () {
+      return this.field.state
+    },
+    empty () {
+      return this.selectedOptions.length === 0
     }
   },
 
@@ -121,7 +169,7 @@ export default {
     dropdownOpen (state) {
       this.$emit('dropdownToggled', state)
     },
-    currentOptionHighlighted (index) {
+    currentOptionsHighlighted (index) {
       this.$emit('optionHighlighted', index)
       const container = this.$refs.dropdown
       let option = this.$refs[`option-${this.ariaLabelledby}-${index}`]
@@ -132,7 +180,14 @@ export default {
           this.autoScrollDropdown = false
         }
       }
+    },
+    empty (status) {
+      this.$emit('toggleEmpty', status)
     }
+  },
+
+  created () {
+    this.currentOptionsHighlighted = this.selectedOptions
   },
 
   beforeDestroy () {
@@ -140,62 +195,78 @@ export default {
   },
 
   methods: {
-    toggleFocused (focused) {
-      focused ? this.openDropdown() : this.closeDropdown()
-      this.focused = focused
-      this.$emit('toggleFocused', focused)
-    },
     toggleDropdown () {
-      this.currentOptionHighlighted = this.dropdownOpen ? -1 : this.selectedOption
-      this.dropdownOpen = !this.dropdownOpen
+      this.dropdownOpen ? this.closeDropdown() : this.openDropdown()
     },
     openDropdown () {
-      if (!this.dropdownOpen) {
-        this.currentOptionHighlighted = this.selectedOption
-        this.dropdownOpen = true
-      }
+      this.currentOptionsHighlighted = this.selectedOptions
+      this.dropdownOpen = true
     },
     closeDropdown () {
-      if (this.dropdownOpen) {
-        this.currentOptionHighlighted = -1
-        this.dropdownOpen = false
-      }
+      this.currentOptionsHighlighted = []
+      this.dropdownOpen = false
     },
-    clickOutside () {
-      if (this.handleClickOutside) {
+    handleFocusBlur (type, element) {
+      const focused = type === 'focus'
+      this[element === 'select-container' ? 'selectContainerFocused' : 'selectNativeFocused'] = focused
+      this.$emit('toggleFocused', focused)
+      if (this.handleClickOutside && type === 'blur') {
         this.closeDropdown()
       }
     },
     toggleOptionHighlighted (action, index) {
-      this.currentOptionHighlighted = action === 'leave' ? -1 : index
+      if (this.isSingleOption) {
+        this.currentOptionsHighlighted = action === 'leave' ? [] : [index]
+      }
     },
     isCurrentlyHighlighted (index) {
-      return this.currentOptionHighlighted === index
+      return this.currentOptionsHighlighted.includes(index)
     },
     isCurrentlySelected (index) {
-      return this.selectedOption === index
+      return this.selectedOptions.includes(index)
     },
-    selectOption (index) {
-      const value = parseInt(index)
-      this.$refs.selectNative.value = value
-      this.$emit('optionSelected', value)
+    selectOption (type, incoming) {
+      const isSingleOption = this.isSingleOption
+      const selectedIndex = parseInt(typeof incoming === 'number' ? incoming : incoming.target.value)
+      let selected = isSingleOption ? [selectedIndex] : this.selectedOptions.slice()
+      if (isSingleOption) {
+        this.closeDropdown()
+      } else {
+        if (type === 'custom') {
+          const found = selected.findIndex(index => index === selectedIndex)
+          found === -1 ? selected.push(selectedIndex) : selected.splice(found, 1)
+        } else if (type === 'native') {
+          selected = Array.from(incoming.target.selectedOptions).map(option => (parseInt(option.value)))
+        }
+      }
+      this.currentOptionsHighlighted = selected
+      this.$emit('updateValue', selected)
     },
     handleKeyboardNavigation (e) {
       const classList = Array.from(e.srcElement.classList)
       if (!classList.includes('select-container') && !classList.includes('typehead-input')) { return }
-      if (!this.dropdownOpen) {
-        this.openDropdown()
-      }
       this.autoScrollDropdown = true
-      let selection = this.currentOptionHighlighted
       const keyCode = e.keyCode
       const code = e.keyCode
       const key = e.key
+      const esc = keyCode === 27 || code === 'Escape' || key === 'Escape'
       const down = keyCode === 40 || code === 40 || key === 'ArrowDown'
       const up = keyCode === 38 || code === 38 || key === 'ArrowUp'
       const submit = keyCode === 13 || code === 13 || key === 'Enter'
-      if (!down && !up && !submit) { return }
-      if (!this.focused && this.dropdownOpen) { e.preventDefault() }
+      if (!esc && !down && !up && !submit) { return }
+      if (esc) { this.closeDropdown(); return }
+      const isSingleOption = this.isSingleOption
+      const currentHighlighted = this.currentOptionsHighlighted
+      let selection = currentHighlighted
+      if (isSingleOption) {
+        selection = selection[0]
+        if (selection === 0) {
+          selection = 0
+        } else if (selection === undefined) {
+          selection = -1
+        }
+      }
+      if (!this.selectContainerFocused && this.dropdownOpen) { e.preventDefault() }
       const options = this.options
       const len = options.length
       if (!this.maintainIndexState) {
@@ -215,15 +286,21 @@ export default {
           selection = next
         }
       } else {
-        if (up && selection > 0) {
-          selection--
-        } else if (down && selection < len - 1) {
-          selection++
+        if (isSingleOption) {
+          if (up && selection === -1) {
+            selection = len - 1
+          } else if (up && selection > 0) {
+            selection--
+          } else if (down && selection < len - 1) {
+            selection++
+          }
+        } else {
+          // TODO: implement keyboard navigation for multi-select
         }
       }
-      this.currentOptionHighlighted = selection
+      this.currentOptionsHighlighted = isSingleOption ? [selection] : selection
       if (submit) {
-        this.selectOption(selection)
+        this.selectOption('custom', selection)
         this.closeDropdown()
       }
     }
@@ -281,16 +358,19 @@ export default {
     &:after {
       display: none;
     }
-    &.focused {
+    &.select-native-focused {
       &:after {
+        content: 'press ↓ key';
         display: flex;
+        font-size: toRem(14);
       }
     }
   }
   .select {
     &.native {
+      opacity: 0;
       &:focus {
-        display: block;
+        opacity: 1;
         + .custom {
           display: none;
         }

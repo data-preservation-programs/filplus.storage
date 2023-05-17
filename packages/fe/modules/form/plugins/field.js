@@ -25,7 +25,7 @@ const getNullStateValue = (type) => {
     switch (type) {
       case 'checkbox' : value = -1; break
       case 'radio' : value = -1; break
-      case 'select' : value = -1; break
+      case 'select' : value = []; break
       case 'range' : value = scaffold.min; break
       case 'array' : value = []; break
       default : value = ''; break
@@ -36,7 +36,7 @@ const getNullStateValue = (type) => {
 
 // ==================================================================== getValue
 const getValue = async (app, scaffold, form, formId, resetTo, groupIndex) => {
-  const dualValueFields = ['select', 'radio', 'checkbox'] // fields that can contain both a String and an Index (number) as the value/defaultValue
+  const dualValueFields = ['select', 'radio', 'checkbox'] // fields that can contain both a String and a Number (index) as the value/defaultValue
   const type = scaffold.type
   const defaultValue = scaffold.defaultValue
   const options = scaffold.options
@@ -62,14 +62,19 @@ const getValue = async (app, scaffold, form, formId, resetTo, groupIndex) => {
     value = defaultValue
     // defaultValue can be an array of indexes, a single index Number, an array of labels or a single label String
     if (dualValueFields.includes(type)) {
-      if (isSingleSelection && Array.isArray(defaultValue)) { // if single option and an array of index Number(s) or String(s), grab the first item
-        value = defaultValue[0]
+      if (!Array.isArray(defaultValue)) { // if defaultValue is not an array, turn it into one
+        value = [defaultValue]
       }
-      // extract index of label if String or array of Strings
-      const found = options.findIndex(option => option.label === value)
-      if (found !== -1) {
-        value = found
-      }
+      const compiled = []
+      value.forEach((entry) => { // convert labels to indexes so final output ex: [2, 3, 7]
+        const found = options.findIndex(option => option.label === entry)
+        if (found !== -1 && !compiled.includes(found)) {
+          compiled.push(found)
+        } else if (typeof entry === 'number' && options[entry] && !compiled.includes(entry)) {
+          compiled.push(entry)
+        }
+      })
+      value = compiled
     }
   // Otherwise set a null state default value, except for array field values
   } else if (!scaffold.hasOwnProperty('parentModelKey')) {

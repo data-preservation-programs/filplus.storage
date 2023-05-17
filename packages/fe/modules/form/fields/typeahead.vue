@@ -1,14 +1,12 @@
 <template>
   <div
-    :class="[
-      'field field-typeahead',
-      state, {
-        'dropdown-open': dropdownOpen,
-        'first-option-highlighted': firstOptionHighlighted,
-        'no-results': noOptionsMatchSearch,
-        empty,
-        disabled
-      }]">
+    :class="['field field-typeahead', state, {
+      'dropdown-open': dropdownOpen,
+      'first-option-highlighted': firstOptionHighlighted,
+      'no-results': noOptionsMatchSearch,
+      empty,
+      disabled
+    }]">
 
     <div v-if="disabled" :class="input">
       {{ value }}
@@ -17,7 +15,6 @@
     <div v-else class="input-container">
       <input
         :id="fieldKey"
-        v-click-outside="closeDropdown"
         :type="inputType"
         :name="fieldKey"
         :placeholder="placeholder"
@@ -25,7 +22,7 @@
         :autocomplete="autocomplete"
         class="input typehead-input"
         @focus="openDropdown"
-        @blur="closeDropdown"
+        @blur="handleBlur"
         @keydown="handleKeydown"
         @click="openDropdown"
         @input="handleInput"
@@ -34,12 +31,13 @@
 
     <Select
       ref="dropdown"
+      :field="selectField"
       :options="filteredOptions"
       :aria-labelledby="ariaLabelledBy"
       :handle-click-outside="false"
       :maintain-index-state="false"
       @dropdownToggled="dropdownToggled"
-      @optionSelected="optionSelected"
+      @updateValue="optionSelected"
       @optionHighlighted="optionHighlighted">
 
       <template #option-native-default-text>
@@ -131,10 +129,19 @@ export default {
   },
 
   data () {
+    const id = this.$uuid.v4()
     return {
       dropdownOpen: false,
       highlightedOption: -1,
-      indexedOptions: [] // hardcode the unfiltered index order
+      indexedOptions: [], // hardcode the unfiltered index order
+      selectField: {
+        value: [],
+        scaffold: {
+          type: 'select',
+          fieldKey: id,
+          isSingleOption: true
+        }
+      }
     }
   },
 
@@ -237,9 +244,16 @@ export default {
       this.dropdown.openDropdown()
       this.emitToggleFocused(true)
     },
-    closeDropdown () {
+    closeDropdown (e) {
       this.dropdown.closeDropdown()
       this.emitToggleFocused(false)
+    },
+    handleBlur (e) {
+      const relatedTarget = e.relatedTarget
+      if (!relatedTarget) { this.closeDropdown(); return }
+      const classList = Array.from(relatedTarget.classList)
+      if (classList.includes('select-container')) { return }
+      this.closeDropdown()
     },
     emitToggleFocused (focused) {
       this.$emit('toggleFocused', focused)
@@ -256,10 +270,9 @@ export default {
     optionHighlighted (index) {
       this.highlightedOption = index
     },
-    optionSelected (index) {
-      if (index !== -1) {
-        this.$emit('optionSelected', this.options[index][this.optionReturnKey])
-        this.$emit('updateValue', this.options[index][this.optionReturnKey])
+    optionSelected (options) {
+      if (options.length !== 0) {
+        this.$emit('updateValue', this.options[options[0]][this.optionReturnKey])
       }
     },
     highlightText (option) {

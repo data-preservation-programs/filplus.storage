@@ -89,7 +89,8 @@
             { "label": "Greater China" },
             { "label": "None" }
           ],
-          "defaultValue": ""
+          "defaultValue": "",
+          "isSingleOption": true
         },
         "organization_social_media_handle": {
           "type": "input",
@@ -154,7 +155,7 @@
             "required": "This field is required",
             "minmax": "Number must be between 1 and 5242880"
           },
-          "defaultValue": 32
+          "defaultValue": 1
         },
         "total_datacap_size_unit": {
           "type": "select",
@@ -177,7 +178,8 @@
             { "label": "TiB" },
             { "label": "PiB" }
           ],
-          "defaultValue": "GiB"
+          "defaultValue": "TiB",
+          "isSingleOption": true
         },
         "filecoin_address": {
           "type": "input",
