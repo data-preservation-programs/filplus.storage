@@ -85,7 +85,7 @@ const actions = {
     const pib15 = thresholds.pib_15
     const requestedAmount = `${application.total_datacap_size} ${application.total_datacap_size_unit}`
     let stage
-    const labels = ['source:filplus.storage']
+    let labels = ['source:filplus.storage']
     const assignees = []
     const comments = []
     if (bytes >= gib32 && bytes < tib100) {
@@ -99,7 +99,7 @@ const actions = {
       comments.push(`This application requests a total of ${requestedAmount}, so it’s labeled \`very large application\``)
     } else if (bytes > pib15) {
       stage = 'stage-efilplus'
-      labels.push('efil+')
+      labels = labels.concat(['very large application', 'efil+'])
       assignees.push('kevzak')
       comments.push(`This application requests a total of ${requestedAmount}, so it’s labeled \`efil+\``)
     }
