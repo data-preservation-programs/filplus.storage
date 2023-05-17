@@ -17,6 +17,7 @@
     },
     "form": {
       "heading": "How much data are you bringing to the Filecoin network?",
+      "subheading": "This value should represent the total size of the dataset, mutliplied by the number of replicas",
       "submit_button_text": "Next",
       "scaffold": {
         "total_datacap_size_range": {
