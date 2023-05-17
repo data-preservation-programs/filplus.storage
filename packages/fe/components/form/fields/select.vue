@@ -33,6 +33,9 @@
     <template #option-custom="{ option, highlighted, selected }">
       <div :class="['option', { highlighted, selected }]">
         <div class="label">
+          <template v-if="multi && selected">
+            <IconCheckmark />
+          </template>
           {{ option.label }}
         </div>
         <div v-if="getOptionDescription(option)" class="description">
@@ -49,6 +52,7 @@
 import Select from '@/modules/form/fields/select'
 
 import IconChevron from '@/components/icons/chevron'
+import IconCheckmark from '@/components/icons/checkmark'
 
 // ====================================================================== Export
 export default {
@@ -56,7 +60,8 @@ export default {
 
   components: {
     Select,
-    IconChevron
+    IconChevron,
+    IconCheckmark
   },
 
   props: {
@@ -77,6 +82,9 @@ export default {
     },
     options () {
       return this.scaffold.options
+    },
+    multi () {
+      return !this.scaffold.isSingleOption
     }
   },
 
@@ -149,10 +157,6 @@ $height: 4rem;
   border-radius: 0.3125rem;
 }
 
-.label {
-  z-index: 10;
-}
-
 .selection-window {
   display: flex;
   flex-direction: row;
@@ -192,6 +196,20 @@ $height: 4rem;
   &.highlighted,
   &.selected {
     background-color: rgba(white, 0.1);
+  }
+}
+
+.label {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  z-index: 10;
+  :deep(.icon-checkmark) {
+    width: toRem(12);
+    margin-right: 0.5rem;
+    path {
+      stroke: $titanWhite;
+    }
   }
 }
 </style>
