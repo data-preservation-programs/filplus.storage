@@ -320,7 +320,8 @@
             { "label": "Use Custom Multisig" }
           ],
           "defaultValue": "",
-          "baseValue": "No"
+          "baseValue": "No",
+          "isSingleOption": true
         },
         "about": {
           "type": "textarea",
