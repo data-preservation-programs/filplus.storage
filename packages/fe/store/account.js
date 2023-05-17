@@ -49,7 +49,6 @@ const state = () => ({
     ga_region: null,
     public_availability_radio: null,
     public_availability_textarea: null,
-    hubspot_opt_in: null,
     hubspot_opt_in_email: null,
     hubspot_opt_in_first_name: null,
     hubspot_opt_in_last_name: null,
@@ -184,7 +183,6 @@ const actions = {
     if (!optedIn && account.githubEmail) {
       application.hubspot_opt_in_email = account.githubEmail
     } else if (optedIn) {
-      application.hubspot_opt_in = optedIn
       application.hubspot_opt_in_first_name = account.hubspotOptInFirstName
       application.hubspot_opt_in_last_name = account.hubspotOptInLastName
       application.hubspot_opt_in_email = account.hubspotOptInEmail

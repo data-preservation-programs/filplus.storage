@@ -40,6 +40,16 @@ const processTemplate = async (type, application) => {
   }
 }
 
+// ///////////////////////////////////////////////// checkIfUserOptedInToHubspot
+const checkIfUserOptedInToHubspot = (application) => {
+  const firstName = application.hubspot_opt_in_first_name
+  const lastName = application.hubspot_opt_in_last_name
+  const email = application.hubspot_opt_in_email
+  if (!firstName || !lastName || !email) { return false }
+  if (firstName === '' || lastName === '' || email === '') { return false }
+  return true
+}
+
 // /////////////////////////////////////////////////////////// submitApplication
 const submitApplication = async (type, stage, template, application, repo, options) => {
   try {
@@ -95,8 +105,8 @@ MC.app.post('/submit-application', async (req, res) => {
       console.log(template)
     }
     // ------------------------------------------- submit/update Hubspot contact
-    const hubspotOptIn = application.hubspot_opt_in
-    if ((!user.hubspotOptIn && hubspotOptIn) || user.hubspotOptInContactId) {
+    const userOptedIn = checkIfUserOptedInToHubspot(application)
+    if ((!user.hubspotOptIn && userOptedIn) || user.hubspotOptInContactId) {
       await SubmitHubspotContact(res, user, {
         email: application.hubspot_opt_in_email,
         firstname: application.hubspot_opt_in_first_name,

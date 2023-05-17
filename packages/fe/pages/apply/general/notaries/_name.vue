@@ -35,6 +35,8 @@
             field-key="organization_name"
             form-id="filplus_application" />
 
+          <HubspotOptInFields />
+
           <FieldContainer
             :scaffold="formScaffold.organization_website"
             field-key="organization_website"
@@ -86,8 +88,6 @@
             :scaffold="formScaffold.filecoin_address"
             field-key="filecoin_address"
             form-id="filplus_application" />
-
-          <HubspotOptInFields />
 
           <div class="buttons">
             <div v-if="account">
