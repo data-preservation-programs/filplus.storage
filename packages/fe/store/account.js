@@ -79,7 +79,7 @@ const actions = {
     const application = payload.application
     const bytes = payload.bytes
     const thresholds = payload.thresholds
-    const gib32 = thresholds.gib_32
+    const tib1 = thresholds.tib_1
     const tib100 = thresholds.tib_100
     const pib5 = thresholds.pib_5
     const pib15 = thresholds.pib_15
@@ -88,7 +88,7 @@ const actions = {
     let labels = ['source:filplus.storage']
     const assignees = []
     const comments = []
-    if (bytes >= gib32 && bytes < tib100) {
+    if (bytes >= tib1 && bytes < tib100) {
       stage = 'stage-ga'
       labels.push('state:Verifying')
     } else if (bytes >= tib100 && bytes <= pib5) {

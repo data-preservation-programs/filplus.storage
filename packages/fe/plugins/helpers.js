@@ -451,10 +451,10 @@ const ReactDatasizeRangeToUnit = (ctx, transformField, transformSourceField, arg
 
 // /////////////////////////////////////////////////////// HandleFormRedirection
 const HandleFormRedirection = (app, store, bytes, stage, thresholds) => {
-  const gib32 = thresholds.gib_32
+  const tib1 = thresholds.tib_1
   const tib100 = thresholds.tib_100
   // ---------------------------------------- redirect tiny applications offsite
-  if (bytes < gib32) {
+  if (bytes < tib1) {
     window.open(
       'https://verify.glif.io/',
       '_blank'
@@ -464,7 +464,7 @@ const HandleFormRedirection = (app, store, bytes, stage, thresholds) => {
   }
   // --------------------------------------------- stage: 'apply' | range slider
   if (stage === 'stage-apply') {
-    if (bytes >= gib32 && bytes < tib100) {
+    if (bytes >= tib1 && bytes < tib100) {
       app.$gtm.push({ event: 'redirect_notary_selection' })
       app.router.push('/apply/general/notaries')
     } else if (bytes >= tib100) {
@@ -487,7 +487,7 @@ const HandleFormRedirection = (app, store, bytes, stage, thresholds) => {
     return true
   // -------------------------------------------------------------- stage: 'lda'
   } else if (stage === 'stage-lda') {
-    if (bytes >= gib32 && bytes < tib100) {
+    if (bytes >= tib1 && bytes < tib100) {
       app.$toaster.add({
         type: 'toast',
         category: 'error',
