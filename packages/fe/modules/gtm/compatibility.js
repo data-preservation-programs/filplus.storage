@@ -2,7 +2,8 @@ const chalk = require('chalk')
 const semver = require('semver')
 
 function requireNuxtVersion (nuxt, version) {
-  const pkgName = require('../package.json').name
+  // const pkgName = require('../package.json').name
+  const pkgName = 'gtm'
   const currentVersion = semver.coerce(nuxt.constructor.version)
   const requiredVersion = semver.coerce(version)
 

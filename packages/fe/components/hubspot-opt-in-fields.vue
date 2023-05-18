@@ -1,21 +1,11 @@
 <template>
   <div :class="['hubspot-opt-in-fields', { 'opted-in': optedIn }]">
 
-    <template v-if="optedIn">
-      <div class="heading">
-        {{ heading }}
-      </div>
-      <div class="message">
-        {{ description }}
-      </div>
-    </template>
+    <div class="heading">
+      {{ heading }}
+    </div>
 
-    <FieldContainer
-      :scaffold="formScaffold.hubspot_opt_in"
-      :force-disabled="optedIn"
-      field-key="hubspot_opt_in"
-      form-id="filplus_application"
-      class="checkbox" />
+    <div class="message" v-html="description" />
 
     <div class="row">
       <FieldContainer
@@ -68,7 +58,9 @@ export default {
       return this.content.opted_in_heading
     },
     description () {
-      return this.content.opted_in_description
+      const optedIn = this.optedIn
+      const description = this.content.description
+      return optedIn ? description.optedIn : description.notOptedIn
     },
     optedIn () {
       return this.account.hubspotOptIn
@@ -80,6 +72,10 @@ export default {
 <style lang="scss" scoped>
 // ///////////////////////////////////////////////////////////////////// General
 .hubspot-opt-in-fields {
+  background-color: rgba($nandor, 0.2);
+  padding: 1.5rem 2rem;
+  border-radius: 1rem;
+  margin-bottom: 3.5rem;
   &.opted-in {
     :deep(.field-container) {
       opacity: 0.5;
@@ -114,6 +110,9 @@ export default {
 }
 
 .field-container {
-  margin-bottom: 3.5rem;
+  margin-bottom: 0.75rem;
+  &:not(:last-child) {
+    margin-bottom: 3.5rem;
+  }
 }
 </style>

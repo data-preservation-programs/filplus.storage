@@ -1,50 +1,58 @@
 <template>
-  <div :class="['field field-select', state, { empty, 'dropdown-open': dropdownOpen }]">
+  <Select
+    :field="field"
+    :force-disabled="forceDisabled"
+    :options="options"
+    class="field field-select"
+    v-on="$listeners">
 
-    <Select
-      :options="options"
-      :aria-labelledby="modelKey || fieldKey"
-      :selected-option="value"
-      @dropdownToggled="dropdownToggled"
-      @optionSelected="optionSelected"
-      v-on="$listeners">
+    <template #option-native-default-text="{ placeholder, label }">
+      {{ placeholder || label }}
+    </template>
 
-      <template #option-native-text="{ option }">
-        {{ getOptionDescription(option) ? `${option.label}, ${getOptionDescription(option)}` : option.label }}
-      </template>
+    <template #option-native-text="{ option }">
+      {{ getOptionDescription(option) ? `${option.label}, ${getOptionDescription(option)}` : option.label }}
+    </template>
 
-      <template #selection-window="{ selected }">
-        <div class="selection-window">
-          <div v-if="!empty" class="text">
-            {{ getSelectedOptionLabel(selected) }}
-          </div>
-          <div class="icon-container">
-            <IconChevron />
-          </div>
+    <template #selection-window="{ selected, placeholder, label, empty }">
+      <div class="selection-window">
+        <div class="text">
+          <template v-if="!empty">
+            {{ getSelectedOptionLabels(selected) }}
+          </template>
+          <template v-else>
+            {{ placeholder || label }}
+          </template>
         </div>
-      </template>
-
-      <template #option-custom="{ option, highlighted, selected }">
-        <div :class="['option', { highlighted, selected }]">
-          <div class="label">
-            {{ option.label }}
-          </div>
-          <div v-if="getOptionDescription(option)" class="description">
-            {{ getOptionDescription(option) }}
-          </div>
+        <div class="icon-container">
+          <IconChevron />
         </div>
-      </template>
+      </div>
+    </template>
 
-    </Select>
+    <template #option-custom="{ option, highlighted, selected }">
+      <div :class="['option', { highlighted, selected }]">
+        <div class="label">
+          <template v-if="multi && selected">
+            <IconCheckmark />
+          </template>
+          {{ option.label }}
+        </div>
+        <div v-if="getOptionDescription(option)" class="description">
+          {{ getOptionDescription(option) }}
+        </div>
+      </div>
+    </template>
 
-  </div>
+  </Select>
 </template>
 
 <script>
 // ===================================================================== Imports
-import Select from '@/modules/form/components/select'
+import Select from '@/modules/form/fields/select'
 
 import IconChevron from '@/components/icons/chevron'
+import IconCheckmark from '@/components/icons/checkmark'
 
 // ====================================================================== Export
 export default {
@@ -52,20 +60,19 @@ export default {
 
   components: {
     Select,
-    IconChevron
+    IconChevron,
+    IconCheckmark
   },
 
   props: {
     field: {
       type: Object,
       required: true
-    }
-  },
-
-  data () {
-    return {
-      dropdownOpen: false,
-      selectedOption: false
+    },
+    forceDisabled: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
 
@@ -73,29 +80,14 @@ export default {
     scaffold () {
       return this.field.scaffold
     },
-    modelKey () {
-      return this.scaffold.modelKey
-    },
-    fieldKey () {
-      return this.field.fieldKey
-    },
-    label () {
-      return this.scaffold.label
-    },
     options () {
       return this.scaffold.options
     },
-    value () {
-      return this.field.value
+    multi () {
+      return !this.scaffold.isSingleOption
     },
-    required () {
-      return this.field.required
-    },
-    state () {
-      return this.field.state
-    },
-    empty () {
-      return this.selectedOption === -1
+    isSingleSelection () {
+      return this.scaffold.isSingleSelection
     }
   },
 
@@ -104,17 +96,21 @@ export default {
       if (option && option.description !== '') { return option.description }
       return false
     },
-    getSelectedOptionLabel (selection) {
-      if (selection === -1) { return this.label }
-      return this.options[selection].label
-    },
-    dropdownToggled (state) {
-      this.dropdownOpen = state
-      this.$emit('toggleFocused', state)
-    },
-    optionSelected (value) {
-      this.selectedOption = value
-      this.$emit('updateValue', value)
+    getSelectedOptionLabels (selection) {
+      const isSingleSelection = this.isSingleSelection
+      if (isSingleSelection) {
+        if (selection === -1) { return this.placeholder }
+        const option = this.options[selection]
+        if (option) {
+          return option.label
+        }
+      } else {
+        if (selection.length === 0) { return this.placeholder }
+        const selections = selection.map((index) => {
+          return this.options[index].label
+        })
+        return selections.join(', ')
+      }
     }
   }
 }
@@ -124,8 +120,10 @@ export default {
 $height: 4rem;
 
 // ///////////////////////////////////////////////////////////////////// General
-.field-select {
+div.field-select {
   height: $height;
+  border-bottom: 2px solid $titanWhite;
+  transition: border-color 150ms ease-out;
   &:hover {
     .icon-container {
       transition: 150ms ease-in;
@@ -137,51 +135,38 @@ $height: 4rem;
       transition: 150ms ease-in;
       transform: rotate(-180deg);
     }
-  }
-  &.caution {
-    ::v-deep .select {
-      border-color: $mandysPink;
-    }
-  }
-  &.error {
-    ::v-deep .select {
-      border-color: $flamingo;
-    }
-  }
-}
-
-::v-deep .select-container {
-  &.dropdown-open {
-    .select {
-      border-bottom-color: transparent;
-    }
-    .dropdown {
+    :deep(div.dropdown) {
       transform-origin: top center;
       scale: 1 1;
     }
   }
-  .select {
-    border-bottom: 2px solid $titanWhite;
-    transition: 150ms ease-out;
-    &.native {
-      &:focus-visible {
-        @include focusBoxShadow;
-      }
-    }
+  &.caution {
+    transition: border-color 150ms ease-in;
+    border-color: $mandysPink;
   }
-  .dropdown {
-    transform-origin: top center;
-    scale: 1 0;
-    transition: scale 150ms ease-out;
-    max-height: $height * 5.5;
-    background-color: $aztec;
-    border: 2px solid $titanWhite;
-    border-radius: 0.3125rem;
+  &.error {
+    transition: border-color 150ms ease-in;
+    border-color: $flamingo;
   }
 }
 
-.label {
-  z-index: 10;
+:deep(select.select) {
+  transition: 150ms ease-out;
+  &.native {
+    &:focus-visible {
+      @include focusBoxShadow;
+    }
+  }
+}
+
+:deep(div.dropdown) {
+  transform-origin: top center;
+  scale: 1 0;
+  transition: scale 150ms ease-out;
+  max-height: $height * 5.5;
+  background-color: $aztec;
+  border: 2px solid $titanWhite;
+  border-radius: 0.3125rem;
 }
 
 .selection-window {
@@ -223,6 +208,20 @@ $height: 4rem;
   &.highlighted,
   &.selected {
     background-color: rgba(white, 0.1);
+  }
+}
+
+.label {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  z-index: 10;
+  :deep(svg.icon-checkmark) {
+    width: toRem(12);
+    margin-right: 0.5rem;
+    path {
+      stroke: $titanWhite;
+    }
   }
 }
 </style>

@@ -15,7 +15,8 @@
         options,
         defaultValue: originalSelected,
         updateGroupId: 'limit',
-        isSingleSelection: true
+        isSingleSelection: true,
+        isSingleOption: true
       }"
       @updateValue="initializeFilter($event, applyFilter)" />
   </Filterer>

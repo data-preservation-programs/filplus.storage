@@ -122,9 +122,9 @@ export default {
     Spinner
   },
 
-  // meta: {
-  //   guarded: true
-  // },
+  meta: {
+    guarded: true
+  },
 
   data () {
     return {
@@ -133,9 +133,6 @@ export default {
   },
 
   async fetch ({ app, store, redirect, route }) {
-    const accountExists = await store.getters['auth/account']
-    if (!accountExists) { return redirect('/apply') }
-    // console.log('FETCH')
     await store.dispatch('general/getBaseData', { key: 'applications', data: ApplicationsPageData })
     await store.dispatch('account/setLoadingStatus', { type: 'loading', status: true })
   },
@@ -190,10 +187,12 @@ export default {
       }).catch(() => {})
     }
     this.$nuxt.$on('filtersApplied', (payload) => {
-      const filters = payload.filters
-      const viewFilter = filters.find(filter => filter.id === 'view')
-      if (!this.refresh) {
-        this.filterApplied(viewFilter)
+      if (this.account) {
+        const filters = payload.filters
+        const viewFilter = filters.find(filter => filter.id === 'view')
+        if (!this.refresh) {
+          this.filterApplied(viewFilter)
+        }
       }
     })
   },
@@ -355,7 +354,7 @@ export default {
     border-radius: toRem(10);
     padding: 0 toRem(15);
     width: toRem(195);
-    height: unset;
+    height: toRem(34);
     .icon-chevron {
       color: $nandor;
     }

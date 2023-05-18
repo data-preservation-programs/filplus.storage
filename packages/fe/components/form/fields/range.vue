@@ -1,5 +1,5 @@
 <template>
-  <div :class="['field field-range', state, { focused }]">
+  <div :class="['field field-range', state]">
 
     <Range
       ref="range"
@@ -42,7 +42,7 @@
 
 <script>
 // ===================================================================== Imports
-import Range from '@/modules/form/components/range'
+import Range from '@/modules/form/fields/range'
 import ButtonX from '@/components/buttons/button-x'
 
 // ====================================================================== Export
@@ -70,7 +70,7 @@ export default {
       focused: false,
       numTicks: 0,
       labels: [
-        { slug: 'gib-32', text: '32 GiB', value: 34359738368 },
+        { slug: 'tib-1', text: '1 TiB', value: 1099511627776 },
         { slug: 'tib-100', text: '100 TiB', value: 109951162777600 },
         { slug: 'pib-5', text: '5 PiB', value: 5629499534213120 },
         { slug: 'pib-15', text: '15 PiB', value: 16888498602639360 }

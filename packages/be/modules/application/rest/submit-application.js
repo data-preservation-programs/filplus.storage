@@ -22,7 +22,10 @@ const processTemplate = async (type, application) => {
     template = template.toString()
     Object.keys(application).forEach((key) => {
       const regexp = /(?<=\s|^)@(?=[\w]+)/g
-      const value = (`${application[key]}` || '').replace(regexp, '[at]')
+      let value = application[key] || 'n/a'
+      if (value) {
+        value = (`${value}` || '').replace(regexp, '[at]')
+      }
       if (key === 'organization_website') {
         template = template.replaceAll(key, value)
       } else {
@@ -35,6 +38,16 @@ const processTemplate = async (type, application) => {
     console.log(e)
     throw e
   }
+}
+
+// ///////////////////////////////////////////////// checkIfUserOptedInToHubspot
+const checkIfUserOptedInToHubspot = (application) => {
+  const firstName = application.hubspot_opt_in_first_name
+  const lastName = application.hubspot_opt_in_last_name
+  const email = application.hubspot_opt_in_email
+  if (!firstName || !lastName || !email) { return false }
+  if (firstName === '' || lastName === '' || email === '') { return false }
+  return true
 }
 
 // /////////////////////////////////////////////////////////// submitApplication
@@ -92,8 +105,8 @@ MC.app.post('/submit-application', async (req, res) => {
       console.log(template)
     }
     // ------------------------------------------- submit/update Hubspot contact
-    const hubspotOptIn = application.hubspot_opt_in
-    if ((!user.hubspotOptIn && hubspotOptIn) || user.hubspotOptInContactId) {
+    const userOptedIn = checkIfUserOptedInToHubspot(application)
+    if ((!user.hubspotOptIn && userOptedIn) || user.hubspotOptInContactId) {
       await SubmitHubspotContact(res, user, {
         email: application.hubspot_opt_in_email,
         firstname: application.hubspot_opt_in_first_name,

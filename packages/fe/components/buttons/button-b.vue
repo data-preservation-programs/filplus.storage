@@ -135,4 +135,15 @@ export default {
     }
   }
 }
+
+// ///////////////////////////////////////////////////////////////////// Formats
+.format__mini {
+  padding: toRem(5) toRem(8);
+  .inner-content {
+    line-height: 1;
+  }
+  .button-content {
+    font-size: 0.75rem;
+  }
+}
 </style>

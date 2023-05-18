@@ -53,7 +53,7 @@ try {
 // -----------------------------------------------------------------------------
 // const users = async () => {
 //   try {
-//     const user = await MC.model.User.findOne({ githubUsername: 'timelytree' })
+//     // const user = await MC.model.User.findOne({ githubUsername: 'timelytree' })
 //     // const users = await MC.model.User.findById('')
 //     // const users = await MC.model.User.find().sort({ createdAt: 1 })
 //     // console.log(users)
@@ -67,7 +67,7 @@ try {
 //     // user.hubspotOptInApplicationRegion = undefined
 //     // user.hubspotOptInApplicationDatacapRequested = undefined
 //     // user.hubspotOptInApplicationWalletAddress = undefined
-//     // await user.save()
+//     // const saved = await user.save()
 //     // console.log(saved)
 //   } catch (e) {
 //     console.log(e)

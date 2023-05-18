@@ -1,81 +1,45 @@
 <template>
-  <div :class="['field field-radio', state]">
+  <Radio
+    :field="field"
+    :force-disabled="forceDisabled"
+    v-on="$listeners">
 
-    <div
-      v-for="(option, index) in options"
-      :key="index"
-      class="radio-wrapper">
-
-      <div class="radio-container">
-        <input
-          :id="`radio-${id}-${index}`"
-          :checked="value === index"
-          :name="`radio-${id}`"
-          type="radio"
-          class="radio"
-          @focus="toggleFocused(true)"
-          @blur="toggleFocused(false)"
-          @input="$emit('updateValue', index)" />
-        <div class="checker">
-          <div class="dot" />
-        </div>
+    <template #radio-extra>
+      <div class="checker">
+        <div class="dot" />
       </div>
+    </template>
 
-      <label :for="`radio-${id}-${index}`" class="label">
-        {{ option.label }}
+    <template #label="{ id, label }">
+      <label :for="id" class="label">
+        {{ label }}
       </label>
+    </template>
 
-    </div>
-
-  </div>
+  </Radio>
 </template>
 
 <script>
+// ===================================================================== Imports
+import Radio from '@/modules/form/fields/radio'
+
 // ====================================================================== Export
 export default {
   name: 'FieldRadio',
+
+  components: {
+    Radio
+  },
 
   props: {
     field: {
       type: Object,
       required: true
-    }
-  },
-
-  data () {
-    return {
-      focused: false
-    }
-  },
-
-  computed: {
-    scaffold () {
-      return this.field.scaffold
     },
-    state () {
-      return this.field.state
-    },
-    id () {
-      return this.field.id
-    },
-    value () {
-      return this.field.value
-    },
-    options () {
-      return this.scaffold.options
-    },
-    label () {
-      return this.scaffold.label
-    },
-    required () {
-      return this.scaffold.required
-    }
-  },
-
-  methods: {
-    toggleFocused (focused) {
-      this.focused = focused
-      this.$emit('toggleFocused', focused)
+    forceDisabled: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   }
 }
@@ -90,23 +54,13 @@ $dimension: 1.625rem;
   100% { transform: scale(1); }
 }
 
-@keyframes checkbox-check {
-  0% {
-    transform: scale(0.5);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
 // ///////////////////////////////////////////////////////////////////// General
 .field-radio {
   display: flex;
   flex-direction: row;
   align-items: center;
   &.caution {
-    .radio {
+    :deep(.radio) {
       &:checked {
         + .checker {
           border-color: $mandysPink;
@@ -115,7 +69,7 @@ $dimension: 1.625rem;
     }
   }
   &.error {
-    .radio {
+    :deep(.radio) {
       + .checker {
         border-color: $flamingo;
       }
@@ -123,7 +77,7 @@ $dimension: 1.625rem;
   }
 }
 
-.radio-wrapper {
+:deep(.radio-wrapper) {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -139,11 +93,11 @@ $dimension: 1.625rem;
   }
 }
 
-.radio-container {
+:deep(.radio-container) {
   position: relative;
 }
 
-.radio {
+:deep(.radio) {
   display: flex;
   position: relative;
   width: $dimension;

@@ -66,7 +66,8 @@
             { "label": "Data onramp entity that provides data onboarding services to multiple clients" },
             { "label": "Other" }
           ],
-          "defaultValue": ""
+          "defaultValue": "",
+          "isSingleOption": true
         },
         "data_owner_region": {
           "type": "typeahead",
@@ -114,7 +115,8 @@
             { "label": "Transport Services" },
             { "label": "Other" }
           ],
-          "defaultValue": ""
+          "defaultValue": "",
+          "isSingleOption": true
         },
         "organization_website": {
           "type": "input",
@@ -180,7 +182,7 @@
           "inputType": "number",
           "modelKey": "total_datacap_size",
           "label": "Total Datacap being requested",
-          "placeholder": "32",
+          "placeholder": "100",
           "min": 1,
           "max": 5242880,
           "required": true,
@@ -198,8 +200,7 @@
           "validationMessage": {
             "required": "This field is required",
             "minmax": "Number must be between 1 and 5242880"
-          },
-          "defaultValue": 32
+          }
         },
         "total_datacap_size_unit": {
           "type": "select",
@@ -222,35 +223,28 @@
             { "label": "TiB" },
             { "label": "PiB" }
           ],
-          "defaultValue": "GiB"
+          "defaultValue": "TiB",
+          "isSingleOption": true
         },
-        "weekly_data_size": {
+        "total_size_of_single_dataset_one_copy": {
           "type": "input",
           "inputType": "number",
-          "modelKey": "weekly_data_size",
-          "label": "Weekly allocation of DataCap",
-          "placeholder": "32",
-          "tooltip": "How much of the DataCap you're requesting will you need on a weekly basis?",
+          "modelKey": "total_size_of_single_dataset_one_copy",
+          "label": "Expected size of single dataset (one copy)",
+          "placeholder": "100",
           "min": 1,
           "max": 5242880,
           "required": true,
           "pre": "[^\\u0000-\\u00ff]",
-          "transform": {
-            "func": "$formatDatacapSize",
-            "args": {
-              "action": "human"
-            }
-          },
-          "autocomplete": "none",
+          "autocomplete": "off",
           "validationMessage": {
             "required": "This field is required",
             "minmax": "Number must be between 1 and 5242880"
-          },
-          "defaultValue": ""
+          }
         },
-        "weekly_data_size_unit": {
+        "total_size_of_single_dataset_one_copy_unit": {
           "type": "select",
-          "modelKey": "weekly_data_size_unit",
+          "modelKey": "total_size_of_single_dataset_one_copy_unit",
           "label": "Unit",
           "required": true,
           "output": "option",
@@ -262,7 +256,71 @@
             { "label": "TiB" },
             { "label": "PiB" }
           ],
-          "defaultValue": ""
+          "defaultValue": "TiB",
+          "isSingleOption": true
+        },
+        "number_of_replicas": {
+          "type": "select",
+          "modelKey": "number_of_replicas",
+          "label": "№ replicas",
+          "tooltip": "How many replicas are you planning to store?",
+          "required": true,
+          "output": "option",
+          "validationMessage": {
+            "required": "This field is required"
+          },
+          "options": [
+            { "label": "1" },
+            { "label": "2" },
+            { "label": "3" },
+            { "label": "4" },
+            { "label": "5" },
+            { "label": "6" },
+            { "label": "7" },
+            { "label": "8" },
+            { "label": "9" },
+            { "label": "10" }
+          ],
+          "defaultValue": "1",
+          "isSingleOption": true
+        },
+        "weekly_data_size": {
+          "type": "input",
+          "inputType": "number",
+          "modelKey": "weekly_data_size",
+          "label": "Weekly allocation of DataCap",
+          "placeholder": "1",
+          "tooltip": "How much of the DataCap you're requesting will you need on a weekly basis? Must be at least 1 TiB.",
+          "min": 1,
+          "required": true,
+          "pre": "[^\\u0000-\\u00ff]",
+          "transform": {
+            "func": "$formatDatacapSize",
+            "args": {
+              "action": "human"
+            }
+          },
+          "autocomplete": "none",
+          "validationMessage": {
+            "required": "This field is required",
+            "minmax": "Number must be 1 or more"
+          }
+        },
+        "weekly_data_size_unit": {
+          "type": "select",
+          "modelKey": "weekly_data_size_unit",
+          "label": "Unit",
+          "required": true,
+          "output": "option",
+          "validationMessage": {
+            "required": "This field is required"
+          },
+          "options": [
+            { "label": "TiB" },
+            { "label": "PiB" }
+          ],
+          "defaultValue": "TiB",
+          "isSingleOption": true
         },
         "filecoin_address": {
           "type": "input",
@@ -300,7 +358,8 @@
             { "label": "Private Commercial/Enterprise" },
             { "label": "Private Non-Profit / Social impact" }
           ],
-          "defaultValue": ""
+          "defaultValue": "",
+          "isSingleOption": true
         },
         "custom_multisig": {
           "type": "checkbox",
@@ -315,7 +374,8 @@
             { "label": "Use Custom Multisig" }
           ],
           "defaultValue": "",
-          "baseValue": "No"
+          "baseValue": "No",
+          "isSingleOption": true
         },
         "about": {
           "type": "textarea",
@@ -412,7 +472,8 @@
             { "label": "My own storage infra" },
             { "label": "Other" }
           ],
-          "defaultValue": ""
+          "defaultValue": "",
+          "isSingleOption": true
         },
         "source_of_data_textarea": {
           "type": "textarea",
@@ -458,7 +519,8 @@
             { "label": "I don't know yet" },
             { "label": "others/custom tool" }
           ],
-          "defaultValue": ""
+          "defaultValue": "",
+          "isSingleOption": true
         },
         "data_preparation_plan_textarea": {
           "type": "textarea",
@@ -482,7 +544,8 @@
             "required": "This field is required",
             "chars": "Input must be between 2 and 35 characters"
           },
-          "defaultValue": ""
+          "defaultValue": "",
+          "isSingleOption": true
         },
         "data_sample": {
           "type": "textarea",
@@ -561,7 +624,8 @@
             { "label": "Sporadic" },
             { "label": "Never" }
           ],
-          "defaultValue": ""
+          "defaultValue": "",
+          "isSingleOption": true
         },
         "duration_of_storage": {
           "type": "select",
@@ -581,7 +645,8 @@
             { "label": "More than 3 years" },
             { "label": "Permanently" }
           ],
-          "defaultValue": ""
+          "defaultValue": "",
+          "isSingleOption": true
         },
         "geographic_distribution": {
           "type": "select",
@@ -625,7 +690,8 @@
             { "label": "I don't know yet" },
             { "label": "Others" }
           ],
-          "defaultValue": ""
+          "defaultValue": "",
+          "isSingleOption": true
         },
         "storage_provider_selection_plan_select": {
           "type": "select",
@@ -645,7 +711,8 @@
             { "label": "I don't know yet" },
             { "label": "Other" }
           ],
-          "defaultValue": ""
+          "defaultValue": "",
+          "isSingleOption": true
         },
         "storage_provider_selection_plan_input": {
           "type": "input",
@@ -693,6 +760,7 @@
           "type": "select",
           "modelKey": "replication_plan_select",
           "label": "Replication plan",
+          "placeholder": "Data onboarding tool",
           "description": "How will you be distributing deals across different storage providers?",
           "required": true,
           "output": "option",
@@ -709,7 +777,8 @@
             { "label": "I don't know yet" },
             { "label": "Others/custom tool" }
           ],
-          "defaultValue": ""
+          "defaultValue": "",
+          "isSingleOption": true
         },
         "replication_plan_textarea": {
           "type": "textarea",

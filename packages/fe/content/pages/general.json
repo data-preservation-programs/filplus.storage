@@ -110,7 +110,7 @@
   },
   "forms": {
     "thresholds": {
-      "gib_32": 34359738368,
+      "tib_1": 1099511627776,
       "tib_100": 109951162777600,
       "pib_5": 5629499534213120,
       "pib_15": 16888498602639360
@@ -119,26 +119,17 @@
   },
   "hubspot": {
     "opted_in_heading": "Get Help Onboarding Your Data",
-    "opted_in_description": "You are already opted in. In order to opt out, please get in touch with the client success team member that you've been in touch with.",
+    "description": {
+      "notOptedIn": "Please share the following information if you would like additional support with the onboarding process and/or share product feedback with the client growth team. <strong>All 3 fields must be filled out</strong> to opt in.",
+      "optedIn": "In order to opt out, please get in touch with the client success team member that you've been in touch with."
+    },
     "opt_in_fields": {
-      "hubspot_opt_in": {
-        "type": "checkbox",
-        "modelKey": "hubspot_opt_in",
-        "label": "Help Onboarding?",
-        "description": "Would you like someone from our client success team to get in touch to help with onboarding your data?",
-        "isSingleSelection": true,
-        "options": [
-          { "label": "Yes, I'm okay with sharing my contact info with the client success team" }
-        ],
-        "defaultValue": ""
-      },
       "hubspot_opt_in_first_name": {
         "type": "input",
         "inputType": "text",
         "modelKey": "hubspot_opt_in_first_name",
         "label": "First Name",
         "placeholder": "First Name",
-        "required": true,
         "pre": "[^\\u0000-\\u00ff]",
         "autocomplete": "none",
         "chars": {
@@ -149,13 +140,7 @@
           "required": "This field is required",
           "chars": "Input must be between 2 and 35 characters"
         },
-        "defaultValue": "",
-        "conditions": [
-          {
-            "fieldKey": "hubspot_opt_in",
-            "value": 0
-          }
-        ]
+        "defaultValue": ""
       },
       "hubspot_opt_in_last_name": {
         "type": "input",
@@ -163,7 +148,6 @@
         "modelKey": "hubspot_opt_in_last_name",
         "label": "Last Name",
         "placeholder": "Last Name",
-        "required": true,
         "pre": "[^\\u0000-\\u00ff]",
         "autocomplete": "none",
         "chars": {
@@ -174,13 +158,7 @@
           "required": "This field is required",
           "chars": "Input must be between 2 and 35 characters"
         },
-        "defaultValue": "",
-        "conditions": [
-          {
-            "fieldKey": "hubspot_opt_in",
-            "value": 0
-          }
-        ]
+        "defaultValue": ""
       },
       "hubspot_opt_in_email": {
         "type": "input",
@@ -188,7 +166,6 @@
         "modelKey": "hubspot_opt_in_email",
         "label": "Email",
         "placeholder": "Email",
-        "required": true,
         "pattern": ".+@.+\\.[a-zA-Z]{1,10}",
         "pre": "[^\\u0000-\\u00ff]",
         "autocomplete": "none",
@@ -200,13 +177,7 @@
           "required": "This field is required",
           "pattern": "Please enter a valid email",
           "chars": "Input must be between 2 and 100 characters"
-        },
-        "conditions": [
-          {
-            "fieldKey": "hubspot_opt_in",
-            "value": 0
-          }
-        ]
+        }
       }
     }
   },

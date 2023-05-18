@@ -2,7 +2,7 @@ console.log('💡 [endpoint] /authenticate')
 
 // ///////////////////////////////////////////////////////////////////// Imports
 // -----------------------------------------------------------------------------
-const { SendData } = require('@Module_Utilities')
+const { SendData, ThrowError } = require('@Module_Utilities')
 
 const MC = require('@Root/config')
 
@@ -13,10 +13,9 @@ MC.app.get('/authenticate', (req, res) => {
   const guarded = req.query.guarded === 'true'
   try {
     if (identifier) { return SendData(res, 200, 'Authenticated', identifier) }
-    SendData(res, guarded ? 403 : 200, 'You are not logged in', false)
+    if (guarded) { throw ThrowError(403, 'You are not logged in') }
+    SendData(res, 200, 'Thou shall pass')
   } catch (e) {
-    console.log('=================================== [Endpoint: /authenticate]')
-    console.log(e)
-    SendData(res, 422, 'Something went wrong, please try logging in again')
+    SendData(res, e.code || 422, e.message || 'Something went wrong, please try logging in again')
   }
 })
