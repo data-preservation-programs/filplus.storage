@@ -2,7 +2,7 @@
   <component
     :is="tag"
     :to="tag === 'nuxt-link' ? to : false"
-    :href="tag === 'a' ? to : false"
+    :href="tag === 'a' || tag === 'nuxt-link' ? to : false"
     :disabled="disabled || loading"
     :target="target"
     :class="['button', { selected }]"

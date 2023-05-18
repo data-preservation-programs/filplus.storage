@@ -17,6 +17,7 @@
     },
     "form": {
       "heading": "How much data are you bringing to the Filecoin network?",
+      "subheading": "This value should represent the total size of the dataset, mutliplied by the number of replicas",
       "submit_button_text": "Next",
       "scaffold": {
         "total_datacap_size_range": {
@@ -41,10 +42,10 @@
             }
           },
           "autocomplete": "off",
-          "min": 34359738368,
+          "min": 1099511627776,
           "max": 16888498602639360,
           "intervals": [
-            34359738368,
+            1099511627776,
             68719476736,
             137438953472,
             1099511627776,
@@ -58,7 +59,7 @@
           "validationMessage": {
             "required": "This field is required"
           },
-          "defaultValue": 34359738368
+          "defaultValue": 1099511627776
         },
         "total_datacap_size_input": {
           "type": "input",
@@ -84,7 +85,7 @@
             "required": "This field is required",
             "minmax": "Number must be between 1 and 5242880"
           },
-          "defaultValue": 32
+          "defaultValue": 1
         },
         "total_datacap_size_unit": {
           "type": "select",
@@ -107,7 +108,8 @@
             { "label": "TiB" },
             { "label": "PiB" }
           ],
-          "defaultValue": "GiB"
+          "defaultValue": "TiB",
+          "isSingleOption": true
         }
       }
     },

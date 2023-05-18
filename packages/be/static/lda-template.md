@@ -19,6 +19,12 @@ organization_social_media_handle (organization_social_media_handle_type)
 ### Total amount of DataCap being requested
 total_datacap_size total_datacap_size_unit
 
+### Expected size of single dataset (one copy)
+total_size_of_single_dataset_one_copy total_size_of_single_dataset_one_copy_unit
+
+### Number of replicas to store
+number_of_replicas
+
 ### Weekly allocation of DataCap requested
 weekly_data_size weekly_data_size_unit
 

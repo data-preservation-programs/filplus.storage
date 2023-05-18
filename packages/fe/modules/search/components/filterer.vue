@@ -79,12 +79,10 @@ export default {
       return this.$filter(this.filterKey).get()
     },
     selected () {
-      const filter = this.filter
-      return filter ? filter.selected : []
+      return this.filter.selected
     },
     originalSelected () {
-      const filter = this.filter
-      return filter ? filter.originalSelected : []
+      return this.filter.originalSelected
     },
     empty () {
       return this.selected.length === 0

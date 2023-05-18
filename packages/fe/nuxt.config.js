@@ -99,7 +99,6 @@ export default {
     '@nuxtjs/style-resources', // https://github.com/nuxt-community/style-resources-module/
     '@nuxtjs/axios', // https://axios.nuxtjs.org/
     'nuxt-socket-io', // https://nuxt-socket-io.netlify.app/
-    '@nuxtjs/gtm', // https://github.com/nuxt-community/gtm-module#nuxtjsgtm
     '~/modules/https',
     '~/modules/toaster',
     // '~/modules/slider',
@@ -108,7 +107,8 @@ export default {
     '~/modules/search',
     '~/modules/form',
     '~/modules/button',
-    '~/modules/ls'
+    '~/modules/ls',
+    '~/modules/gtm/module.js'
   ],
   // /////////////////////////////////// Plugins to load before mounting the App
   // ---------------------------------------------------------------------------
