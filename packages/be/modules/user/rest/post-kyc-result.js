@@ -13,12 +13,14 @@ const MC = require('@Root/config')
 MC.app.post('/post-kyc-result', async (req, res) => {
   try {
     const kyc = req.body
-    const githubUsername = kyc.data.token
+    console.log(kyc)
+    const githubUsername = kyc.data.identifier
+    console.log(githubUsername)
     const user = await FindUser({ githubUsername })
-    const saved = await UpdateUser({ _id: user._id, kyc })
-    if (!saved) {
+    if (!user) {
       return SendData(res, 403, 'Could not find user associated with token', { token: githubUsername })
     }
+    const saved = await UpdateUser({ _id: user._id, kyc })
     MC.socket.io.to(`${saved._id}`).emit('module|kyc-updated|payload', saved)
     SendData(res, 200, 'KYC result recorded successfully', saved)
   } catch (e) {
