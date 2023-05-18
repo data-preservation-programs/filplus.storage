@@ -233,7 +233,7 @@
           "label": "Expected size of single dataset (one copy)",
           "placeholder": "100",
           "min": 1,
-          "max": 10,
+          "max": 5242880,
           "required": true,
           "pre": "[^\\u0000-\\u00ff]",
           "autocomplete": "off",
