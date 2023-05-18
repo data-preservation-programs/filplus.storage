@@ -76,8 +76,5 @@ $height: 4rem;
       font-size: toRem(20);
     }
   }
-  &:focus-visible {
-    @include focusBoxShadow;
-  }
 }
 </style>

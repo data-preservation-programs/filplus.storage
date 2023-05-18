@@ -138,7 +138,7 @@ div.field-select {
   }
 }
 
-:deep(div.select) {
+:deep(select.select) {
   transition: 150ms ease-out;
   &.native {
     &:focus-visible {

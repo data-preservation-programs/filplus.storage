@@ -70,8 +70,5 @@ export default {
   &:focus {
     border-color: $titanWhite;
   }
-  &:focus-visible {
-    @include focusBoxShadow;
-  }
 }
 </style>
