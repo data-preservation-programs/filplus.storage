@@ -95,6 +95,27 @@
       <div class="grid">
         <div class="col-6_md-6_ti-7" data-push-left="off-1_ti-0">
           <FieldContainer
+            :scaffold="formScaffold.total_size_of_single_dataset_one_copy"
+            field-key="total_size_of_single_dataset_one_copy"
+            form-id="filplus_application" />
+        </div>
+        <div class="col-2_md-3_ti-4" data-push-left="off-1">
+          <FieldContainer
+            :scaffold="formScaffold.total_size_of_single_dataset_one_copy_unit"
+            field-key="total_size_of_single_dataset_one_copy_unit"
+            form-id="filplus_application" />
+        </div>
+        <div class="col-6_md-6_ti-7" data-push-left="off-1_ti-0">
+          <FieldContainer
+            :scaffold="formScaffold.number_of_replicas"
+            field-key="number_of_replicas"
+            form-id="filplus_application" />
+        </div>
+      </div>
+
+      <div class="grid">
+        <div class="col-6_md-6_ti-7" data-push-left="off-1_ti-0">
+          <FieldContainer
             :scaffold="formScaffold.weekly_data_size"
             field-key="weekly_data_size"
             form-id="filplus_application" />

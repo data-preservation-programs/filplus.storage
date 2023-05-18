@@ -111,8 +111,6 @@ export default {
         })
         return selections.join(', ')
       }
-      // if ((isSingleSelection && selection === -1) || selection.length === 0) { return this.placehol }
-      // if (selection.length === 0) { return this.placeholder }
     }
   }
 }

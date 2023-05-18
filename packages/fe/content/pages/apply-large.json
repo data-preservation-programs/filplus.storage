@@ -182,7 +182,7 @@
           "inputType": "number",
           "modelKey": "total_datacap_size",
           "label": "Total Datacap being requested",
-          "placeholder": "32",
+          "placeholder": "100",
           "min": 1,
           "max": 5242880,
           "required": true,
@@ -200,8 +200,7 @@
           "validationMessage": {
             "required": "This field is required",
             "minmax": "Number must be between 1 and 5242880"
-          },
-          "defaultValue": 100
+          }
         },
         "total_datacap_size_unit": {
           "type": "select",
@@ -227,12 +226,70 @@
           "defaultValue": "TiB",
           "isSingleOption": true
         },
+        "total_size_of_single_dataset_one_copy": {
+          "type": "input",
+          "inputType": "number",
+          "modelKey": "total_size_of_single_dataset_one_copy",
+          "label": "Expected size of single dataset (one copy)",
+          "placeholder": "100",
+          "min": 1,
+          "max": 10,
+          "required": true,
+          "pre": "[^\\u0000-\\u00ff]",
+          "autocomplete": "off",
+          "validationMessage": {
+            "required": "This field is required",
+            "minmax": "Number must be between 1 and 5242880"
+          }
+        },
+        "total_size_of_single_dataset_one_copy_unit": {
+          "type": "select",
+          "modelKey": "total_size_of_single_dataset_one_copy_unit",
+          "label": "Unit",
+          "required": true,
+          "output": "option",
+          "validationMessage": {
+            "required": "This field is required"
+          },
+          "options": [
+            { "label": "GiB" },
+            { "label": "TiB" },
+            { "label": "PiB" }
+          ],
+          "defaultValue": "TiB",
+          "isSingleOption": true
+        },
+        "number_of_replicas": {
+          "type": "select",
+          "modelKey": "number_of_replicas",
+          "label": "№ replicas",
+          "tooltip": "How many replicas are you planning to store?",
+          "required": true,
+          "output": "option",
+          "validationMessage": {
+            "required": "This field is required"
+          },
+          "options": [
+            { "label": "1" },
+            { "label": "2" },
+            { "label": "3" },
+            { "label": "4" },
+            { "label": "5" },
+            { "label": "6" },
+            { "label": "7" },
+            { "label": "8" },
+            { "label": "9" },
+            { "label": "10" }
+          ],
+          "defaultValue": "1",
+          "isSingleOption": true
+        },
         "weekly_data_size": {
           "type": "input",
           "inputType": "number",
           "modelKey": "weekly_data_size",
           "label": "Weekly allocation of DataCap",
-          "placeholder": "32",
+          "placeholder": "1",
           "tooltip": "How much of the DataCap you're requesting will you need on a weekly basis? Must be at least 1 TiB.",
           "min": 1,
           "required": true,
@@ -247,8 +304,7 @@
           "validationMessage": {
             "required": "This field is required",
             "minmax": "Number must be 1 or more"
-          },
-          "defaultValue": 1
+          }
         },
         "weekly_data_size_unit": {
           "type": "select",
