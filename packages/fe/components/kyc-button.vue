@@ -1,3 +1,4 @@
+
 <template>
   <Tooltip
     v-if="!hideButton"
@@ -104,7 +105,7 @@ export default {
       return this.kycButton.text
     },
     togggleLink () {
-      return `${this.$config.togggleLink}?identifier=${this.account.githubUsername}`
+      return `${this.$config.togggleLink}&identifier=${this.account.githubUsername}`
     },
     tooltip () {
       const status = this.status
