@@ -150,6 +150,9 @@ export default {
     isSingleOption () {
       return this.scaffold.isSingleOption || false
     },
+    isSingleSelection () {
+      return this.scaffold.isSingleSelection || false
+    },
     selectedOptions () {
       const value = this.field.value
       return typeof value === 'string' ? [] : value // typeahead values are strings
@@ -161,7 +164,7 @@ export default {
       return this.field.state
     },
     empty () {
-      return this.selectedOptions.length === 0
+      return this.isSingleSelection ? this.selectedOptions === -1 : this.selectedOptions.length === 0
     }
   },
 
@@ -187,7 +190,7 @@ export default {
   },
 
   created () {
-    this.currentOptionsHighlighted = this.selectedOptions
+    this.currentOptionsHighlighted = this.isSingleSelection ? this.selectedOptions[0] : this.selectedOptions
   },
 
   beforeDestroy () {
@@ -220,10 +223,10 @@ export default {
       }
     },
     isCurrentlyHighlighted (index) {
-      return this.currentOptionsHighlighted.includes(index)
+      return this.isSingleSelection ? this.currentOptionsHighlighted === index : this.currentOptionsHighlighted.includes(index)
     },
     isCurrentlySelected (index) {
-      return this.selectedOptions.includes(index)
+      return this.isSingleSelection ? this.selectedOptions === index : this.selectedOptions.includes(index)
     },
     selectOption (type, incoming) {
       const isSingleOption = this.isSingleOption

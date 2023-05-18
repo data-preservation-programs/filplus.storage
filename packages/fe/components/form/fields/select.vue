@@ -85,6 +85,9 @@ export default {
     },
     multi () {
       return !this.scaffold.isSingleOption
+    },
+    isSingleSelection () {
+      return this.scaffold.isSingleSelection
     }
   },
 
@@ -94,11 +97,22 @@ export default {
       return false
     },
     getSelectedOptionLabels (selection) {
-      if (selection.length === 0) { return this.placeholder }
-      const selections = selection.map((index) => {
-        return this.options[index].label
-      })
-      return selections.join(', ')
+      const isSingleSelection = this.isSingleSelection
+      if (isSingleSelection) {
+        if (selection === -1) { return this.placeholder }
+        const option = this.options[selection]
+        if (option) {
+          return option.label
+        }
+      } else {
+        if (selection.length === 0) { return this.placeholder }
+        const selections = selection.map((index) => {
+          return this.options[index].label
+        })
+        return selections.join(', ')
+      }
+      // if ((isSingleSelection && selection === -1) || selection.length === 0) { return this.placehol }
+      // if (selection.length === 0) { return this.placeholder }
     }
   }
 }
