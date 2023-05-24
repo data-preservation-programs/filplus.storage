@@ -13,6 +13,10 @@ const state = () => ({
     limit: 10,
     totalPages: 1
   },
+  openCount: {
+    ldn: false, // cannot be 'lda'
+    ga: false
+  },
   application: {
     organization_name: null,
     your_role: null,
@@ -71,7 +75,8 @@ const getters = {
   loading: state => state.loading,
   refresh: state => state.refresh,
   metadata: state => state.metadata,
-  view: state => state.view
+  view: state => state.view,
+  openCount: state => state.openCount
 }
 
 // ///////////////////////////////////////////////////////////////////// Actions
@@ -149,8 +154,7 @@ const actions = {
         { filterKey: 'limit' },
         { filterKey: 'sort' },
         { filterKey: 'state' },
-        { filterKey: 'view', default: getters.view },
-        { queryKey: 'user' }
+        { filterKey: 'view', default: getters.view }
       ])
       const response = await this.$axiosAuth.get('/get-application-list', { params })
       const payload = response.data.payload
@@ -164,6 +168,18 @@ const actions = {
       console.log(e)
       dispatch('setLoadingStatus', { type: 'loading', status: false })
       return false
+    }
+  },
+  // /////////////////////////////////////////////////// getOpenApplicationCount
+  async getOpenApplicationCount ({ commit, getters, dispatch }, view) {
+    try {
+      const response = await this.$axiosAuth.get('/get-open-application-count', {
+        params: { view }
+      })
+      commit('SET_OPEN_APPLICATION_COUNT', { view, count: response.data.payload })
+    } catch (e) {
+      console.log('=========== [Store Action: account/getOpenApplicationCount]')
+      console.log(e)
     }
   },
   // //////////////////////////////////////////////////////// setApplicationList
@@ -217,6 +233,9 @@ const mutations = {
   },
   SET_VIEW (state, view) {
     state.view = view
+  },
+  SET_OPEN_APPLICATION_COUNT (state, payload) {
+    state.openCount[payload.view === 'lda' ? 'ldn' : 'ga'] = payload.count
   }
 }
 
