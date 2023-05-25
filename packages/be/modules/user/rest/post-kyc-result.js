@@ -14,6 +14,9 @@ MC.app.post('/post-kyc-result', async (req, res) => {
   try {
     const kyc = req.body
     const githubUsername = kyc.data.identifier
+    if (!githubUsername || githubUsername === '') {
+      return SendData(res, 422, '<identifier> param is missing')
+    }
     const user = await FindUser({ githubUsername })
     if (MC.serverEnv === 'stable') {
       console.log(`====================== /post-kyc-result | ${githubUsername}`)
