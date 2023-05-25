@@ -59,7 +59,8 @@ export default {
       return this.field.id
     },
     value () {
-      return this.field.value
+      const value = this.field.value
+      return Array.isArray(value) ? value[0] : value
     },
     options () {
       return this.scaffold.options
