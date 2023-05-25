@@ -70,7 +70,7 @@ module.exports = async (res, user, payload) => {
     } else { // otherwise, update the existing contact
       await updateContact(hubspotOptInContactId, {
         company: payload.company,
-        ...(payload.fil__application_region && { fil__application_region: payload.fil__application_region }), // fil__application_region: payload.fil__application_region,
+        fil__application_region: payload.fil__application_region,
         fil__application_datacap_requested: payload.fil__application_datacap_requested,
         filecoin_wallet_address: payload.filecoin_wallet_address
       })
