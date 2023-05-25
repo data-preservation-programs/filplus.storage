@@ -463,6 +463,9 @@ span.error {
       width: calc(100% + 1rem);
     }
   }
+  &.shift {
+    display: inline-block;
+  }
   &.right {
     &:before {
       right: calc(-1.25rem - 2px);
@@ -475,6 +478,9 @@ span.error {
       @include mini {
         right: calc(-1rem - 1.5px);
       }
+    }
+    &.shift {
+      left: -1rem;
     }
   }
   &.left {
@@ -489,6 +495,9 @@ span.error {
       @include mini {
         left: calc(-1rem - 1.5px);
       }
+    }
+    &.shift {
+      right: -1rem;
     }
   }
 }
