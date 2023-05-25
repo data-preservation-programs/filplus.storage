@@ -7,6 +7,7 @@ const FindUser = require('@Module_User/logic/find-user')
 const UpdateUser = require('@Module_User/logic/update-user')
 
 const MC = require('@Root/config')
+const serverEnv = MC.serverEnv
 
 // //////////////////////////////////////////////////////////////////// Endpoint
 // -----------------------------------------------------------------------------
@@ -17,8 +18,12 @@ MC.app.post('/post-kyc-result', async (req, res) => {
     if (!githubUsername || githubUsername === '') {
       return SendData(res, 422, '<identifier> param is missing')
     }
+    const env = kyc.data.environment
+    if (!env || env === '') {
+      kyc.data.environment = serverEnv
+    }
     const user = await FindUser({ githubUsername })
-    if (MC.serverEnv === 'stable') {
+    if (serverEnv === 'stable') {
       console.log(`====================== /post-kyc-result | ${githubUsername}`)
       console.log(kyc)
       console.log(user)
