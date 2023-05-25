@@ -24,7 +24,7 @@ MC.app.post('/post-kyc-result', async (req, res) => {
     }
     const user = await FindUser({ githubUsername })
     if (serverEnv === 'stable') {
-      console.log(`====================== /post-kyc-result | ${githubUsername}`)
+      console.log(`============= /post-kyc-result | ${githubUsername} | ${env}`)
       console.log(kyc)
       console.log(user)
     }
