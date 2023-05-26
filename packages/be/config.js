@@ -34,6 +34,10 @@ module.exports = {
     __dirname,
     env === 'development' ? '../../../' : '../../../../'
   ),
+  repos: {
+    ga: ['filecoin-project/filecoin-plus-client-onboarding', 'data-preservation-programs/filecoin-plus-client-onboarding'],
+    lda: ['filecoin-project/filecoin-plus-large-datasets', 'data-preservation-programs/filecoin-plus-large-datasets']
+  },
   // ============================================================= Server Config
   port: backendPort,
   frontendUrl: env === 'development' ? `${baseUrls[env]}:${frontendPort}` : baseUrls[env],

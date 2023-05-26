@@ -5,16 +5,11 @@ const Axios = require('axios')
 
 const MC = require('@Root/config')
 
-const repos = {
-  ga: ['filecoin-project/filecoin-plus-client-onboarding', 'data-preservation-programs/filecoin-plus-client-onboarding'],
-  lda: ['filecoin-project/filecoin-plus-large-datasets', 'data-preservation-programs/filecoin-plus-large-datasets']
-}
-
 // ////////////////////////////////////////////////////////////////////// Export
 // -----------------------------------------------------------------------------
 module.exports = async (view, user, page = 1, state = 'all', limit = 10, sort = 'created') => {
   try {
-    const repo = MC.serverFlag === 'production' ? repos[view][0] : repos[view][1]
+    const repo = MC.serverFlag === 'production' ? MC.repos[view][0] : MC.repos[view][1]
     const options = {
       headers: { Accept: 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28', Authorization: `Bearer ${user.githubToken}` },
       params: {

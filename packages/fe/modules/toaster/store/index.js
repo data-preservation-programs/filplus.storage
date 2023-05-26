@@ -27,7 +27,7 @@ const actions = {
     payload.id = uuid.v4()
     await commit('ADD_MESSAGE', payload)
     if (len >= display) {
-      this.dispatch('general/removeMessage', messages[len - display].id)
+      this.dispatch('toaster/removeMessage', messages[len - display].id)
     }
     return payload.id
   },
