@@ -44,7 +44,7 @@
         "Distributed onboarding is generally defined as: multiple physical locations and multiple storage provider entities to serve client requirements"
       ]
     },
-    "roadmap_heading": "<span class='bubble right'>Fil+ Roadmap</span>",
+    "roadmap_heading": "<span class='bubble right shift'>Fil+ Roadmap</span>",
     "roadmap_subheading": "Guiding program quality, transparency and enablement",
     "roadmap": [
       {
@@ -133,19 +133,19 @@
     },
     "roadmap_quarter_map": {
       "2023-04": {
-        "text": "<strong>April 2023</strong> - Visibility, Transparency, Alignment",
+        "text": "<strong>April 2023 Focus</strong> - Visibility, Transparency, Alignment",
         "link": "https://filplus.storage",
         "tag": "div",
         "target": "_blank"
       },
       "2023-05": {
-        "text": "<strong>May 2023</strong> - Process and tool evolution",
+        "text": "<strong>May 2023 Focus</strong> - Process and tool evolution",
         "link": "https://filplus.storage",
         "tag": "div",
         "target": "_blank"
       },
       "2023-06": {
-        "text": "<strong>June 2023</strong> - Minimizing abuse",
+        "text": "<strong>June 2023 Focus</strong> - Minimizing abuse",
         "link": "https://filplus.storage",
         "tag": "div",
         "target": "_blank"

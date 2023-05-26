@@ -26,7 +26,7 @@
                   class="filter-checkbox"
                   :options="filters.state"
                   @filterApplied="filterApplied" />
-                <Radio
+                <ViewToggler
                   class="filter-radio"
                   :options="filters.view_application_type" />
                 <Sort
@@ -95,7 +95,7 @@ import { mapActions, mapGetters } from 'vuex'
 import AppAccordion from '@/components/app-accordion'
 import ButtonA from '@/components/buttons/button-a'
 import Checkbox from '@/components/search/checkbox'
-import Radio from '@/components/search/radio'
+import ViewToggler from '@/components/page-application-history/view-toggler'
 import Sort from '@/components/search/sort'
 import PaginationControls from '@/components/search/pagination-controls'
 import Limit from '@/components/search/limit'
@@ -113,7 +113,7 @@ export default {
     AppAccordion,
     ButtonA,
     Checkbox,
-    Radio,
+    ViewToggler,
     Sort,
     PaginationControls,
     Limit,
@@ -186,6 +186,8 @@ export default {
         }
       }).catch(() => {})
     }
+    this.getOpenApplicationCount('lda')
+    this.getOpenApplicationCount('ga')
     this.$nuxt.$on('filtersApplied', (payload) => {
       if (this.account) {
         const filters = payload.filters
@@ -200,6 +202,7 @@ export default {
   methods: {
     ...mapActions({
       getApplicationList: 'account/getApplicationList',
+      getOpenApplicationCount: 'account/getOpenApplicationCount',
       setLoadingStatus: 'account/setLoadingStatus',
       setView: 'account/setView'
     }),
