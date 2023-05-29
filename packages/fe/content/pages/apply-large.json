@@ -123,6 +123,7 @@
           "tooltip": "Provide the full URL of your group or organization's website",
           "required": true,
           "pre": "[^\\u0000-\\u00ff]",
+          "pattern": "https?:\/\/",
           "autocomplete": "none",
           "chars": {
             "min": 2,
