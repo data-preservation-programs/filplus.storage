@@ -1,5 +1,5 @@
 <template>
-  <div :class="['hubspot-opt-in-fields', { 'opted-in': optedIn }]">
+  <div :class="['hubspot-opt-in-fields', { 'logged-out': !account, 'opted-in': optedIn }]">
 
     <div class="heading">
       {{ heading }}
@@ -7,32 +7,39 @@
 
     <div class="message" v-html="description" />
 
-    <div class="row">
-      <FieldContainer
-        :scaffold="formScaffold.hubspot_opt_in_first_name"
-        :force-disabled="optedIn"
-        field-key="hubspot_opt_in_first_name"
-        form-id="filplus_application" />
-      <FieldContainer
-        :scaffold="formScaffold.hubspot_opt_in_last_name"
-        :force-disabled="optedIn"
-        field-key="hubspot_opt_in_last_name"
-        form-id="filplus_application" />
-    </div>
+    <AuthButton v-if="!account" />
 
-    <FieldContainer
-      :scaffold="formScaffold.hubspot_opt_in_email"
-      :force-disabled="optedIn"
-      field-key="hubspot_opt_in_email"
-      form-id="filplus_application" />
+    <div v-else class="form">
+
+      <div class="row">
+        <FieldContainer
+          :scaffold="formScaffold.hubspot_opt_in_first_name"
+          :force-disabled="optedIn"
+          field-key="hubspot_opt_in_first_name"
+          form-id="filplus_application" />
+        <FieldContainer
+          :scaffold="formScaffold.hubspot_opt_in_last_name"
+          :force-disabled="optedIn"
+          field-key="hubspot_opt_in_last_name"
+          form-id="filplus_application" />
+      </div>
+
+      <FieldContainer
+        :scaffold="formScaffold.hubspot_opt_in_email"
+        :force-disabled="optedIn"
+        field-key="hubspot_opt_in_email"
+        form-id="filplus_application" />
+
+    </div>
 
   </div>
 </template>
 
 <script>
 // ===================================================================== Imports
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
+import AuthButton from '@/components/auth-button'
 import FieldContainer from '@/components/form/field-container'
 
 // ====================================================================== Export
@@ -40,6 +47,7 @@ export default {
   name: 'HubspotOptInFields',
 
   components: {
+    AuthButton,
     FieldContainer
   },
 
@@ -48,6 +56,9 @@ export default {
       siteContent: 'general/siteContent',
       account: 'auth/account'
     }),
+    optedIn () {
+      return this.account.hubspotOptIn
+    },
     content () {
       return this.siteContent.general.hubspot
     },
@@ -60,11 +71,25 @@ export default {
     description () {
       const optedIn = this.optedIn
       const description = this.content.description
+      if (!this.account) { return description.loggedOut }
       return optedIn ? description.optedIn : description.notOptedIn
-    },
-    optedIn () {
-      return this.account.hubspotOptIn
     }
+  },
+
+  watch: {
+    account (incoming) {
+      this.setHubspotOptInData(incoming)
+      const firstNameField = this.$field('hubspot_opt_in_first_name|filplus_application').get()
+      const lastNameField = this.$field('hubspot_opt_in_last_name|filplus_application').get()
+      if (firstNameField) { this.$field('hubspot_opt_in_first_name|filplus_application').updateValue(incoming.hubspotOptInFirstName || '') }
+      if (lastNameField) { this.$field('hubspot_opt_in_last_name|filplus_application').updateValue(incoming.hubspotOptInLastName || '') }
+    }
+  },
+
+  methods: {
+    ...mapActions({
+      setHubspotOptInData: 'account/setHubspotOptInData'
+    })
   }
 }
 </script>
@@ -76,14 +101,10 @@ export default {
   padding: 1.5rem 2rem;
   border-radius: 1rem;
   margin-bottom: 3.5rem;
+  &.logged-out,
   &.opted-in {
     :deep(.field-container) {
       opacity: 0.5;
-      &.checkbox {
-        .field-label {
-          display: none;
-        }
-      }
     }
   }
 }

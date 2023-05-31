@@ -78,8 +78,7 @@ export default {
         this.$toaster.add({
           type: 'toast',
           category: 'success',
-          message,
-          timeout: 9999999999
+          message
         })
       })
       this.socket.on('module|kyc-updated|payload', (account) => {
@@ -92,7 +91,7 @@ export default {
           type: 'toast',
           category: 'error',
           message: '❗️ Disconnected, trying to reconnect...',
-          timeout: 9999999999
+          timeout: Infinity
         })
       })
       this.$toaster.replace(this.networkErrorToastId, {
@@ -100,12 +99,9 @@ export default {
         type: 'toast',
         category: 'success',
         message: '...and we\'re back! 🚀',
-        timeout: 9999999999
+        timeout: 2000
       })
-      const timeout = setTimeout(() => {
-        this.$toaster.remove(this.networkErrorToastId)
-        clearTimeout(timeout)
-      }, 2000)
+      this.networkErrorToastId = false
     })
     // Check to see if saved form exists in localStorage
     if (this.$ls.get('form__filplus_application')) {

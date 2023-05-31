@@ -80,16 +80,30 @@ export default {
     }
   },
 
+  watch: {
+    timeout () {
+      this.initializeToastUnpop()
+    }
+  },
+
   mounted () {
-    const unpopTimeout = this.timeout - 250
-    const timeout = setTimeout(() => {
-      this.$toaster.remove(this.id)
-      clearTimeout(timeout)
-    }, this.timeout)
-    const unpop = setTimeout(() => {
-      this.unpopping = true
-      clearTimeout(unpop)
-    }, unpopTimeout)
+    this.initializeToastUnpop()
+  },
+
+  methods: {
+    initializeToastUnpop () {
+      const unpopTimeout = this.timeout - 250
+      if (this.timeout !== Infinity) {
+        const timeout = setTimeout(() => {
+          this.$toaster.remove(this.id)
+          clearTimeout(timeout)
+        }, this.timeout)
+        const unpop = setTimeout(() => {
+          this.unpopping = true
+          clearTimeout(unpop)
+        }, unpopTimeout)
+      }
+    }
   }
 }
 </script>
@@ -99,12 +113,22 @@ $toastSuccess: green;
 $toastCaution: darkorange;
 $toastError: red;
 
+@keyframes poppingToast {
+  from { top: -6rem; opacity: 0; }
+  to { top: 0; opacity: 1; }
+}
+
+@keyframes unpoppingToast {
+  from { top: 0; opacity: 1; }
+  to { top: -6rem; opacity: 0; }
+}
+
 // ///////////////////////////////////////////////////////////////////// General
 .toast {
-  position: relative;
-  animation: poppingToast 250ms ease-in-out forwards;
   @include shadow1;
+  position: relative;
   width: 30rem;
+  animation: poppingToast 250ms ease-in-out forwards;
   overflow: hidden;
   @include customMaxMQ (32rem) {
     width: 100%;
@@ -113,7 +137,7 @@ $toastError: red;
     margin-bottom: 1rem;
   }
   &.unpopping {
-    animation: unpoppingToast 250ms ease-in-out forwards;
+    animation: unpoppingToast 150ms ease-in-out forwards;
   }
 }
 
@@ -156,16 +180,4 @@ $toastError: red;
     margin-bottom: 0.5rem;
   }
 }
-
-// ////////////////////////////////////////////////////////////////// Animations
-@keyframes poppingToast {
-  from { top: -6rem; }
-  to { top: 0; }
-}
-
-@keyframes unpoppingToast {
-  from { top: 0; }
-  to { top: -6rem; }
-}
-
 </style>

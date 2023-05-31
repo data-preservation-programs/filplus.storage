@@ -53,7 +53,7 @@ try {
 // -----------------------------------------------------------------------------
 // const users = async () => {
 //   try {
-//     // const user = await MC.model.User.findOne({ githubUsername: 'timelytree' })
+//     const user = await MC.model.User.findOne({ githubUsername: 'timelytree' })
 //     // const users = await MC.model.User.findById('')
 //     // const users = await MC.model.User.find().sort({ createdAt: 1 })
 //     // console.log(users)
@@ -77,25 +77,6 @@ try {
 //   // try {
 //   //   const user = await MC.model.User.deleteOne({ githubUsername: 'timelytree' })
 //   //   console.log(user)
-//   // } catch (e) {
-//   //   console.log(e)
-//   // }
-//
-//   // try {
-//   //   const users = await MC.model.User.find()
-//   //   const len = users.length
-//   //   for (let i = 0; i < len; i++) {
-//   //     const user = users[i]
-//   //     // const beforeEmail = `${user.email}`
-//   //     // user.id = undefined
-//   //     // console.log(`${user.githubUsername}|${user.id}`)
-//   //     // console.log(user)
-//   //     // user.githubEmail = user.email === '' ? null : user.email
-//   //     // user.email = null
-//   //     // const saved = await user.save()
-//   //     // console.log(saved.id)
-//   //     // console.log(`Before: ${beforeEmail} | After: ${saved.githubEmail}`)
-//   //   }
 //   // } catch (e) {
 //   //   console.log(e)
 //   // }
