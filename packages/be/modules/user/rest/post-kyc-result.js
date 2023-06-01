@@ -7,7 +7,7 @@ const FindUser = require('@Module_User/logic/find-user')
 const UpdateUser = require('@Module_User/logic/update-user')
 
 const MC = require('@Root/config')
-const serverEnv = MC.serverEnv
+const serverFlag = MC.serverFlag
 
 // //////////////////////////////////////////////////////////////////// Endpoint
 // -----------------------------------------------------------------------------
@@ -20,13 +20,10 @@ MC.app.post('/post-kyc-result', async (req, res) => {
     }
     const env = kyc.data.environment
     if (!env || env === '') {
-      kyc.data.environment = serverEnv
+      kyc.data.environment = serverFlag
     }
     const user = await FindUser({ githubUsername })
-    console.log(`============= /post-kyc-result | ${githubUsername} | ${env}`)
-    console.log(kyc)
-    console.log(user)
-    if (serverEnv === 'stable') {
+    if (serverFlag === 'stable') {
       console.log(`============= /post-kyc-result | ${githubUsername} | ${env}`)
       console.log(kyc)
       console.log(user)
