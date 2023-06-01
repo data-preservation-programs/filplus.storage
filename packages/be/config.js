@@ -20,6 +20,11 @@ const backendPort = (function () {
   return env === 'stable' ? 12050 : 12060
 }())
 
+const corsAllowlist = [
+  'https://localhost:12010', // development fe
+  'https://localhost:12020' // stable fe
+]
+
 // ////////////////////////////////////////////////////////////////////// Export
 // -----------------------------------------------------------------------------
 module.exports = {
@@ -93,9 +98,11 @@ module.exports = {
   expressSession: false,
   // ====================================================================== CORS
   cors: {
-    origin: [
-      `${baseUrls.development}:${frontendPort}`
-    ],
+    origin: function (origin, next) {
+      const allowed = corsAllowlist.indexOf(origin) !== -1
+      if (allowed) { return next(null, true) }
+      next(null, false)
+    },
     methods: 'OPTIONS,GET,POST',
     allowedHeaders: 'Origin,Accept,Authorization,X-Requested-With,Content-Type,Cache-Control',
     credentials: true,
