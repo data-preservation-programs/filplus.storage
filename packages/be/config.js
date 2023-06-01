@@ -101,6 +101,7 @@ module.exports = {
     origin: function (origin, next) {
       const allowed = corsAllowlist.indexOf(origin) !== -1
       if (allowed) { return next(null, true) }
+      console.log(`CORS failed → ${origin}`)
       next(null, false)
     },
     methods: 'OPTIONS,GET,POST',
