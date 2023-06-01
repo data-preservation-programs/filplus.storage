@@ -21,10 +21,11 @@ const backendPort = (function () {
 }())
 
 const corsAllowlist = [
-  'https://localhost:12010', // development fe
-  'https://localhost:12020', // stable fe
-  'https://kyc.api.togggle.io', // production Togggle
-  'https://stg-kyc.api.togggle.io' // staging Togggle
+  'https://localhost:12010', // fe | development
+  'https://stable.filplus.storage', // fe | stable
+  'https://filplus.storage', // fe | production
+  'https://stg-kyc.api.togggle.io', // Togggle | staging
+  'https://kyc.api.togggle.io' // Togggle | production
 ]
 
 // ////////////////////////////////////////////////////////////////////// Export
