@@ -16,7 +16,7 @@ MC.app.post('/post-kyc-result', async (req, res) => {
     const data = req.body.data.custom
     if (serverFlag === 'stable') {
       console.log('========================================== /post-kyc-result')
-      console.log(data)
+      console.log(req.body)
     }
     const githubUsername = data.identifier
     if (!githubUsername || githubUsername === '') {

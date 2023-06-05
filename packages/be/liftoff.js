@@ -58,7 +58,7 @@ try {
 //     // const users = await MC.model.User.find().sort({ createdAt: 1 })
 //     // console.log(users)
 //     // console.log(users.length)
-//     // user.kyc = null
+//     user.kyc = null
 //     // user.hubspotOptIn = false
 //     // user.hubspotOptInContactId = undefined
 //     // user.hubspotOptInEmail = undefined
@@ -68,8 +68,8 @@ try {
 //     // user.hubspotOptInApplicationRegion = undefined
 //     // user.hubspotOptInApplicationDatacapRequested = undefined
 //     // user.hubspotOptInApplicationWalletAddress = undefined
-//     // const saved = await user.save()
-//     // console.log(saved)
+//     const saved = await user.save()
+//     console.log(saved)
 //   } catch (e) {
 //     console.log(e)
 //   }
