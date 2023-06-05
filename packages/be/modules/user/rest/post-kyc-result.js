@@ -13,11 +13,11 @@ const serverFlag = MC.serverFlag
 // -----------------------------------------------------------------------------
 MC.app.post('/post-kyc-result', async (req, res) => {
   try {
-    const data = req.body.data.custom
     if (serverFlag === 'stable') {
       console.log('========================================== /post-kyc-result')
       console.log(req.body)
     }
+    const data = req.body.data.custom
     const githubUsername = data.identifier
     if (!githubUsername || githubUsername === '') {
       return SendData(res, 422, '<identifier> param is missing')
