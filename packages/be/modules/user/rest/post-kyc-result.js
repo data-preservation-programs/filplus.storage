@@ -13,25 +13,24 @@ const serverFlag = MC.serverFlag
 // -----------------------------------------------------------------------------
 MC.app.post('/post-kyc-result', async (req, res) => {
   try {
-    const kyc = req.body
-    const githubUsername = kyc.data.identifier
+    const data = req.body.data.custom
+    if (serverFlag === 'stable') {
+      console.log('========================================== /post-kyc-result')
+      console.log(data)
+    }
+    const githubUsername = data.identifier
     if (!githubUsername || githubUsername === '') {
       return SendData(res, 422, '<identifier> param is missing')
     }
-    const env = kyc.data.environment
+    const env = data.environment
     if (!env || env === '') {
-      kyc.data.environment = serverFlag
+      data.environment = serverFlag
     }
     const user = await FindUser({ githubUsername })
-    if (serverFlag === 'stable') {
-      console.log(`============= /post-kyc-result | ${githubUsername} | ${env}`)
-      console.log(kyc)
-      console.log(user)
-    }
     if (!user) {
       return SendData(res, 403, 'Could not find user associated with token', { token: githubUsername })
     }
-    const saved = await UpdateUser({ _id: user._id, kyc })
+    const saved = await UpdateUser({ _id: user._id, kyc: req.body })
     MC.socket.io.to(`${saved._id}`).emit('module|kyc-updated|payload', saved)
     SendData(res, 200, 'KYC result recorded successfully', saved)
   } catch (e) {
