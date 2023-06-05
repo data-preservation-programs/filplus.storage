@@ -33,7 +33,7 @@ MC.app.post('/post-kyc-result', async (req, res) => {
     }
     const user = await FindUser({ githubUsername })
     if (!user) {
-      return SendData(res, 403, 'Could not find user associated with token', { token: githubUsername })
+      return SendData(res, 422, 'Could not find user associated with <identifier>', { identifier: githubUsername })
     }
     const saved = await UpdateUser({ _id: user._id, kyc: req.body })
     MC.socket.io.to(`${saved._id}`).emit('module|kyc-updated|payload', saved)
