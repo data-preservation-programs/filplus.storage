@@ -82,6 +82,7 @@ const getters = {
 // ///////////////////////////////////////////////////////////////////// Actions
 // -----------------------------------------------------------------------------
 const actions = {
+  // ///////////////////////////////////////////////////////// submitApplication
   async submitApplication ({ commit, dispatch }, payload) {
     const application = payload.application
     const bytes = payload.bytes

@@ -157,7 +157,7 @@ export default {
       const status = this.getStatus(application)
       return this.applicationSubtitle.replace('|issue_number|', issueNumber).replace('|status|', status).replace('|time_ago|', timeago)
     },
-    parseApplicationMarkdown (entry, applicationBody) {
+    parseApplicationMarkdown (applicationBody) {
       return applicationBody ? Kramed(applicationBody, { renderer: this.renderer }) : ''
     },
     updateSortSelect (value) {
