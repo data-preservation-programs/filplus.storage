@@ -77,7 +77,7 @@
         "tag": "Quality",
         "date": "2023-05",
         "events": [
-          { "tag": "in-progress", "text": "Notary due diligence tracking for accountability & efficiency" },
+          { "tag": "shipped", "text": "Notary due diligence tracking for accountability & efficiency" },
           { "tag": "in-progress", "text": "Deliver notary capability to remove DataCap from client addresses" },
           { "tag": "in-progress", "text": "KYC/KYB integrations in client onboarding LDN flow" }
         ]
@@ -86,23 +86,24 @@
         "tag": "Transparency",
         "date": "2023-05",
         "events": [
-          { "tag": "in-progress", "text": "Public dashboard on notary tooling reliability" },
-          { "tag": "in-progress", "text": "Public dashboard on client applications" },
-          { "tag": "upcoming", "text": "Notary leaderboard to include Notary due diligence actions" }
+          { "tag": "shipped", "text": "Public dashboard on notary tooling reliability" },
+          { "tag": "shipped", "text": "Public dashboard on client applications" },
+          { "tag": "in-progress", "text": "Notary leaderboard to include Notary due diligence actions" }
         ]
       },
       {
         "tag": "Enablement",
         "date": "2023-05",
         "events": [
-          { "tag": "upcoming", "text": "Improvements to increase the reliability of onboarding bots and apps for notaries & clients" }
+          { "tag": "in-progress", "text": "Improvements to increase the reliability of onboarding bots and apps for notaries & clients" },
+          { "tag": "shipped", "text": "Kick-off design discussion on potential trustless notaries"} 
         ]
       },
       {
         "tag": "Quality",
         "date": "2023-06",
         "events": [
-          { "tag": "in-progress", "text": "Bots testing retrievals on open data" },
+          { "tag": "shipped", "text": "Bots testing retrievals on open data" },
           { "tag": "upcoming", "text": "New automated abuse explorers to easily spot abuse" },
           { "tag": "upcoming", "text": "Automated dispute escalation of bad notary behavior based on the diligence tracker" }
         ]
@@ -111,8 +112,8 @@
         "tag": "Transparency",
         "date": "2023-06",
         "events": [
-          { "tag": "upcoming", "text": "Public retrieval dashboards" },
-          { "tag": "upcoming", "text": "Fil+ Day" }
+          { "tag": "in-progress", "text": "Public retrieval dashboards" },
+          { "tag": "in-progress", "text": "Fil+ Day" }
         ]
       },
       {
@@ -121,8 +122,7 @@
         "events": [
           { "tag": "upcoming", "text": "Improvements to E-Fil+ process (deeper KYB, higher standard, enable quicker subsequent allocations)" },
           { "tag": "in-progress", "text": "Changes to LDN processes to better map to observed client use-case types and needs" },
-          { "tag": "upcoming", "text": "Lock in design for a potential trustless notary" },
-          { "tag": "upcoming", "text": "Kick-off discussions on longer-term efforts around incentives" }
+          { "tag": "upcoming", "text": "Kick off discussions on longer-term efforts around incentives" }
         ]
       }
     ],
