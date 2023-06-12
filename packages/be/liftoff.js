@@ -56,9 +56,9 @@ try {
 //     const user = await MC.model.User.findOne({ githubUsername: 'timelytree' })
 //     // const users = await MC.model.User.findById('')
 //     // const users = await MC.model.User.find().sort({ createdAt: 1 })
-//     // console.log(users)
+//     // console.log(user.kyc.data)
 //     // console.log(users.length)
-//     user.kyc = null
+//     // user.kyc = null
 //     // user.hubspotOptIn = false
 //     // user.hubspotOptInContactId = undefined
 //     // user.hubspotOptInEmail = undefined
@@ -68,12 +68,11 @@ try {
 //     // user.hubspotOptInApplicationRegion = undefined
 //     // user.hubspotOptInApplicationDatacapRequested = undefined
 //     // user.hubspotOptInApplicationWalletAddress = undefined
-//     const saved = await user.save()
-//     console.log(saved)
+//     // const saved = await user.save()
+//     // console.log(saved)
 //   } catch (e) {
 //     console.log(e)
 //   }
-//
 //   // try {
 //   //   const user = await MC.model.User.deleteOne({ githubUsername: 'timelytree' })
 //   //   console.log(user)

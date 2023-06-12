@@ -39,7 +39,6 @@
           </ButtonX>
           <KycButton
             v-if="account"
-            :button-content="kycButtonContent"
             theme="bare"
             class="kyc-link" />
           <Logout v-slot="{ logout }">
@@ -97,9 +96,6 @@ export default {
     navigationContent () {
       return this.siteContent.general.navigation
     },
-    kycButtonContent () {
-      return this.navigationContent.kyc_button
-    },
     githubUsername () {
       return this.account.githubUsername
     },
@@ -108,14 +104,6 @@ export default {
         type: 'nuxt-link',
         href: `/account/${this.account.githubUsername}/applications`,
         label: 'Application History'
-      }
-    },
-    kycTogggleGetVerifiedButton () {
-      return {
-        type: 'a',
-        href: `${this.$config.togggleLink}?token=${this.githubUsername}`, // togggleLink can be found in nuxt.config.js
-        target: '_blank',
-        label: 'Get Verified'
       }
     }
   }

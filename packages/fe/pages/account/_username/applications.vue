@@ -20,7 +20,6 @@
                 {{ pageData.new_application_button_text }}
               </ButtonA>
               <KycButton
-                :button-content="kycButton"
                 tooltip-align="right"
                 theme="full"
                 class="kyc-button" />
@@ -162,9 +161,6 @@ export default {
     }),
     pageData () {
       return this.siteContent[this.tag].page_content
-    },
-    kycButton () {
-      return this.pageData.kyc_button
     },
     filters () {
       return this.pageData.filters

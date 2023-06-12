@@ -8,7 +8,7 @@
       :tooltip="headingTooltip"
       :subtext="hero.subtext"
       :hero-button="backButton"
-      :kyc="kyc" />
+      :kyc-heading="kycHeading" />
 
     <!-- ============================== [Application] Background Information -->
     <div id="application-top">
@@ -384,8 +384,8 @@ export default {
       const tooltip = this.hero.heading_tooltip
       return tooltip && tooltip !== '' ? tooltip : false
     },
-    kyc () {
-      return this.hero.kyc
+    kycHeading () {
+      return this.hero.kyc_heading
     },
     backButton () {
       return this.pageData.back_button

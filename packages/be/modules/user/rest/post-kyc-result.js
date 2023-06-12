@@ -13,10 +13,10 @@ const serverFlag = MC.serverFlag
 // -----------------------------------------------------------------------------
 MC.app.post('/post-kyc-result', async (req, res) => {
   try {
-    // if (serverFlag === 'stable') {
-    console.log('========================================== /post-kyc-result')
-    console.log(req.body)
-    // }
+    if (serverFlag === 'stable') {
+      console.log('========================================== /post-kyc-result')
+      console.log(req.body)
+    }
     const body = req.body
     let data = body.data
     if (!data || data === '') {

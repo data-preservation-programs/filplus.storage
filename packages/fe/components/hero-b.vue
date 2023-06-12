@@ -31,11 +31,10 @@
         <div class="col-4_sm-3_mi-2">
           <div class="panel-right">
 
-            <template v-if="kyc && account">
-              <div v-if="!account.kyc || account.kyc && account.kyc.event !== 'kyc-failure'" class="kyc">
-                <div class="kyc-heading" v-html="kyc.heading" />
+            <template v-if="account">
+              <div v-if="!account.kyc || account.kyc && account.kyc.event !== 'failure'" class="kyc">
+                <div class="kyc-heading" v-html="kycHeading" />
                 <KycButton
-                  :button-content="kyc.button"
                   tooltip-align="top"
                   theme="full"
                   class="kyc-button" />
@@ -97,8 +96,8 @@ export default {
       required: false,
       default: false
     },
-    kyc: {
-      type: [Object, Boolean],
+    kycHeading: {
+      type: [String, Boolean],
       required: false,
       default: false
     }

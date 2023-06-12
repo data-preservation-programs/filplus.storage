@@ -32,7 +32,6 @@
               </ButtonA>
 
               <KycButton
-                :button-content="kycButton"
                 tooltip-align="right"
                 theme="full"
                 class="kyc-button" />
@@ -140,9 +139,6 @@ export default {
     },
     newApplicationButtonText () {
       return this.pageData.new_application_button_text
-    },
-    kycButton () {
-      return this.pageData.kyc_button
     },
     applicationTitle () {
       return this.githubIssue.title

@@ -1,4 +1,3 @@
-
 <template>
   <Tooltip
     v-if="!hideButton"
@@ -67,10 +66,6 @@ export default {
       required: false,
       default: 'bare'
     },
-    buttonContent: {
-      type: Object,
-      required: true
-    },
     tooltipAlign: {
       type: String,
       required: false,
@@ -80,6 +75,7 @@ export default {
 
   computed: {
     ...mapGetters({
+      siteContent: 'general/siteContent',
       account: 'auth/account'
     }),
     status () { // 'unverified', 'verifying', 'failure', 'success'
@@ -98,8 +94,11 @@ export default {
       const status = this.status
       return status === 'success' || status === 'failure' ? 'div' : 'a'
     },
+    kycButtonContent () {
+      return this.siteContent.general.navigation.kyc_button
+    },
     kycButton () {
-      return this.buttonContent[this.status]
+      return this.kycButtonContent[this.status]
     },
     text () {
       return this.kycButton.text

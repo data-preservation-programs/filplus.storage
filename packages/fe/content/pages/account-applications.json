@@ -18,24 +18,6 @@
     "view_on_github_text": "view issue on Github",
     "loading_text": "Loading application list",
     "no_results_text": "No applications found",
-    "kyc_button": {
-      "unverified": {
-        "text": "Get verified (optional)",
-        "tooltip": "Optionally, you can get DataCap even faster by performing KYC verification through Togggle. KYC is not required. However, applicants that have passed KYC are more likely to be approved quickly. You’ll only need to perform KYC once. It will be applied to every application you make moving forward. |link|"
-      },
-      "verifying": {
-        "text": "Verifying...",
-        "tooltip": "It looks like your KYC verification is currently in progress. |link|"
-      },
-      "failure": {
-        "text": "Verification not available",
-        "tooltip": "You are not eligible for KYC verification at this time. If you feel that this is a mistake, please |link| to the Filecoin plus team."
-      },
-      "success": {
-        "text": "Verified User",
-        "tooltip": "Thanks for being a verified user of the Filecoin Plus program. Being verified means faster approvals and shorter time to DataCap."
-      }
-    },
     "filters": {
       "state": [{
         "label": "View only open applications",
