@@ -83,6 +83,11 @@ const UserSchema = new Schema({
     set: Encrypt,
     get: Decrypt,
     required: true
+  },
+  kyc: {
+    type: Schema.Types.Mixed,
+    required: false,
+    default: null
   }
 }, {
   timestamps: true,

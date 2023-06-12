@@ -1,16 +1,15 @@
 <template>
   <div id="hero" class="hero-b">
 
-    <!-- =========================================================== Content -->
     <div class="content">
       <div class="grid-center">
 
+        <!-- ======================================================= Content -->
         <div class="col-7_mi-9" data-push-left="off-1_mi-0">
           <div class="panel-left">
 
             <div v-if="label" class="label" v-html="label" />
 
-            <!-- the module style applied here isn't working with scss, only the topmost defined style -->
             <h1 class="heading h3" v-html="heading" />
 
             <div v-if="subtext" class="subtext" v-html="subtext" />
@@ -28,9 +27,22 @@
           </div>
         </div>
 
+        <!-- =============================================== Warp grid + KYC -->
         <div class="col-4_sm-3_mi-2">
           <div class="panel-right">
+
+            <template v-if="account">
+              <div v-if="!account.kyc || account.kyc && account.kyc.event !== 'failure'" class="kyc">
+                <div class="kyc-heading" v-html="kycHeading" />
+                <KycButton
+                  tooltip-align="top"
+                  theme="full"
+                  class="kyc-button" />
+              </div>
+            </template>
+
             <div class="warp-image-double" />
+
           </div>
         </div>
 
@@ -42,10 +54,12 @@
 
 <script>
 // ===================================================================== Imports
-import ButtonX from '@/components/buttons/button-x'
-import Chevron from '@/components/icons/chevron'
+import { mapGetters } from 'vuex'
 
-// import IconQuestionMark from '@/components/icons/question-mark'
+import ButtonX from '@/components/buttons/button-x'
+import KycButton from '@/components/kyc-button'
+
+import Chevron from '@/components/icons/chevron'
 
 // ====================================================================== Export
 export default {
@@ -53,8 +67,8 @@ export default {
 
   components: {
     ButtonX,
+    KycButton,
     Chevron
-    // IconQuestionMark
   },
 
   props: {
@@ -81,7 +95,18 @@ export default {
       type: [Object, Boolean],
       required: false,
       default: false
+    },
+    kycHeading: {
+      type: [String, Boolean],
+      required: false,
+      default: false
     }
+  },
+
+  computed: {
+    ...mapGetters({
+      account: 'auth/account'
+    })
   }
 }
 </script>
@@ -89,18 +114,28 @@ export default {
 <style lang="scss" scoped>
 // ///////////////////////////////////////////////////////////////////// General
 #hero {
+  display: grid;
   position: relative;
-  min-height: calc(40.625rem + #{$siteHeaderHeight});
-  margin-top: -$siteHeaderHeight;
-  padding-top: $siteHeaderHeight * 1.5;
-  padding-bottom: math.div($siteHeaderHeight, 2);
+  min-height: toRem(660);
   overflow: hidden;
   z-index: 25;
 }
 
 [class~=grid], [class*=grid-], [class*=grid_] {
   position: relative;
+  height: 100%;
   z-index: 20;
+}
+
+.content {
+  height: 100%;
+}
+
+.panel-left,
+.panel-right {
+  height: 100%;
+  padding-top: $siteHeaderHeight * 1.5;
+  padding-bottom: math.div($siteHeaderHeight, 2);
 }
 
 .panel-left {
@@ -108,9 +143,18 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  padding-top: 9.375rem;
 }
 
+.panel-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  position: relative;
+  padding-bottom: toRem(44); // 60px - 1rem from the column
+}
+
+// ////////////////////////////////////////////////////// [Panel] Left (content)
 .label {
   font-size: 1rem;
   font-weight: 500;
@@ -144,7 +188,7 @@ export default {
           left: calc(100% + 5px);
           transform: translate(0.5rem, -50%) rotate(-90deg);
           border-bottom-width: 0.5rem;
-          border-bottom-color: $dodgerBlue;
+          border-bottom-color: $blueRibbon;
         }
         &:after {
           top: 50%;
@@ -152,7 +196,7 @@ export default {
           transform: translate(0.5rem, -50%);
           z-index: 1;
           color: $titanWhite;
-          background-color: $dodgerBlue;
+          background-color: $blueRibbon;
           white-space: break-spaces;
           padding: 1rem;
           width: 9rem;
@@ -182,14 +226,30 @@ export default {
   }
 }
 
-// ////////////////////////////////////////////////////////////////// Warp Image
-.panel-right {
-  position: relative;
-  top: -2.6875rem;
-  height: 100%;
-  @include small {
-    top: -3.25rem;
-  }
+// ///////////////////////////////////////////// [Panel] Right (Warp grid + KYC)
+.kyc {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  bottom: 9%;
+  left: 23%;
+  width: 75%;
+  padding: toRem(33);
+  background-color: $aztec;
+  border: 3px solid $nandor;
+  border-radius: toRem(10);
+  z-index: 10;
+}
+
+.kyc-heading {
+  @include h5;
+  text-align: center;
+}
+
+.kyc-button {
+  margin-top: toRem(33);
 }
 
 .warp-image-double {

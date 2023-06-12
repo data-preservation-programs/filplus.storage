@@ -35,6 +35,7 @@ export default {
       focused: false,
       open: false,
       loaded: false,
+      observer: false,
       dropdownWidth: undefined,
       dropdownHeight: '100%',
       optionsHeight: '0px'
@@ -59,6 +60,21 @@ export default {
       this.dropdownHeight = `${this.$refs.windowWrapper.firstElementChild.clientHeight}px`
       this.loaded = true
     })
+    this.observer = new MutationObserver((mutations) => {
+      if (this.open) {
+        this.applyDimensions(true)
+      }
+    })
+    this.observer.observe(
+      this.$refs.optionsWrapper,
+      { childList: true, subtree: true }
+    )
+  },
+
+  beforeDestroy () {
+    if (this.observer) {
+      this.observer.disconnect()
+    }
   },
 
   methods: {

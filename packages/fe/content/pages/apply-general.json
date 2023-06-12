@@ -12,7 +12,8 @@
   "page_content": {
     "hero": {
       "label": "General Application",
-      "heading": "Send an application for DataCap to the notary you selected<br /><span class='highlight'>|notary|</span>"
+      "heading": "Send an application for DataCap to the notary you selected<br /><span class='highlight'>|notary|</span>",
+      "kyc_heading": "Make your DataCap application faster with KYC verification"
     },
     "back_button": {
       "type": "nuxt-link",

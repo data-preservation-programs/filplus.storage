@@ -20,7 +20,7 @@
           <div class="panel-left">
             <img :src="account.githubAvatarUrl" class="avatar" />
             <span class="username">
-              {{ account.githubUsername }}
+              {{ githubUsername }}
             </span>
           </div>
           <IconChevron />
@@ -34,16 +34,19 @@
             :to="applicationHistoryButton.href"
             :selected="$isRouteCurrent($route, applicationHistoryButton.href)"
             :tag="applicationHistoryButton.type"
-            :target="applicationHistoryButton.target"
             class="auth-link">
-            <div class="auth-link-text" v-html="applicationHistoryButton.label" />
+            <div class="link-text" v-html="applicationHistoryButton.label" />
           </ButtonX>
+          <KycButton
+            v-if="account"
+            theme="bare"
+            class="kyc-link" />
           <Logout v-slot="{ logout }">
             <ButtonX
               class="auth-link button-logout"
               loader="logout-button"
               @clicked="logout">
-              <div class="auth-link-text">
+              <div class="link-text">
                 Logout
               </div>
             </ButtonX>
@@ -65,6 +68,7 @@ import ButtonX from '@/components/buttons/button-x'
 import Login from '@/modules/auth/components/login'
 import Logout from '@/modules/auth/components/logout'
 import Dropdown from '@/components/dropdown'
+import KycButton from '@/components/kyc-button'
 
 import IconGithub from '@/components/icons/github'
 import IconChevron from '@/components/icons/chevron'
@@ -79,14 +83,22 @@ export default {
     ButtonB,
     ButtonX,
     Dropdown,
+    KycButton,
     IconGithub,
     IconChevron
   },
 
   computed: {
     ...mapGetters({
+      siteContent: 'general/siteContent',
       account: 'auth/account'
     }),
+    navigationContent () {
+      return this.siteContent.general.navigation
+    },
+    githubUsername () {
+      return this.account.githubUsername
+    },
     applicationHistoryButton () {
       return {
         type: 'nuxt-link',
@@ -221,16 +233,31 @@ export default {
 }
 
 .options {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
   padding: 0 toRem(12) 0.25rem toRem(12);
 }
 
-:deep(.auth-link.button-x) {
+:deep(.auth-link.button-x),
+:deep(.kyc-link.tooltip) {
   .inner-content {
     transition: 150ms ease-in;
   }
   &:hover {
     .inner-content {
       color: $greenYellow;
+    }
+  }
+}
+
+:deep(.kyc-link.tooltip) {
+  .kyc-button {
+    &.success {
+      cursor: no-drop;
+      .inner-content {
+        color: $greenYellow;
+      }
     }
   }
 }
@@ -259,8 +286,9 @@ export default {
   }
 }
 
-.auth-link-text {
+:deep(.link-text) {
   font-size: 1rem;
+  font-weight: 500;
   line-height: leading(35, 18);
 }
 </style>
