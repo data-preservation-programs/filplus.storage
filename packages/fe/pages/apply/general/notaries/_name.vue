@@ -5,7 +5,8 @@
     <HeroB
       :label="hero.label"
       :heading="heroHeading"
-      :hero-button="backButton" />
+      :hero-button="backButton"
+      :kyc-heading="kycHeading" />
 
     <!-- ======================================================= Application -->
     <div id="application">
@@ -202,6 +203,9 @@ export default {
     },
     heroHeading () {
       return this.hero.heading.replace('|notary|', this.$route.params.name)
+    },
+    kycHeading () {
+      return this.hero.kyc_heading
     },
     backButton () {
       return this.pageData.back_button

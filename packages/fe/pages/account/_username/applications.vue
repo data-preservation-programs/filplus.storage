@@ -11,13 +11,19 @@
 
             <h1 class="heading h3" v-html="pageHeading" />
 
-            <ButtonA
-              to="/apply"
-              tag="nuxt-link"
-              class="new-application-button"
-              theme="green">
-              {{ pageData.new_application_button_text }}
-            </ButtonA>
+            <div class="buttons">
+              <ButtonA
+                to="/apply"
+                tag="nuxt-link"
+                class="new-application-button"
+                theme="green">
+                {{ pageData.new_application_button_text }}
+              </ButtonA>
+              <KycButton
+                tooltip-align="right"
+                theme="full"
+                class="kyc-button" />
+            </div>
 
             <div :class="['toolbar top', { loading: refresh }]">
               <Spinner />
@@ -94,6 +100,7 @@ import { mapActions, mapGetters } from 'vuex'
 
 import AppAccordion from '@/components/app-accordion'
 import ButtonA from '@/components/buttons/button-a'
+import KycButton from '@/components/kyc-button'
 import Checkbox from '@/components/search/checkbox'
 import ViewToggler from '@/components/page-application-history/view-toggler'
 import Sort from '@/components/search/sort'
@@ -112,6 +119,7 @@ export default {
   components: {
     AppAccordion,
     ButtonA,
+    KycButton,
     Checkbox,
     ViewToggler,
     Sort,
@@ -253,8 +261,16 @@ export default {
   }
 }
 
-.new-application-button {
+.buttons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   margin-bottom: 4rem;
+  .button-a {
+    &:not(:last-child) {
+      margin-right: 1rem;
+    }
+  }
 }
 
 .toolbar {

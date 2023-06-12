@@ -21,7 +21,8 @@ MC.app = Express()
 // ///////////////////////////////////////////////////////////////////// Aliases
 ModuleAlias.addAliases({
   '@Root': MC.packageRoot,
-  '@Modules': `${MC.packageRoot}/modules`
+  '@Modules': `${MC.packageRoot}/modules`,
+  '@Logic': `${MC.packageRoot}/logic`
 })
 
 try {

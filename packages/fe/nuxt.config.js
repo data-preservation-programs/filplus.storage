@@ -8,6 +8,12 @@ const baseUrls = {
   production: 'https://filplus.storage'
 }
 
+const toggleUrls = {
+  development: 'https://stg-kyc.togggle.io/#/filecoin/kyc?environment=development',
+  stable: 'https://stg-kyc.togggle.io/#/filecoin/kyc?environment=stable',
+  production: 'https://kyc.togggle.io/#/filecoin/kyc'
+}
+
 const frontendPort = (function () {
   if (env === 'development') { return 12010 }
   return env === 'stable' ? 12020 : 12030
@@ -28,6 +34,7 @@ export default {
     frontendUrl: env === 'development' ? `${baseUrls[env]}:${frontendPort}` : baseUrls[env],
     backendUrl: env === 'development' ? `${baseUrls[env]}:${backendPort}` : `${baseUrls[env]}/api`,
     githubOAuthLink: `https://github.com/login/oauth/authorize?client_id=${process.env.GITHUB_OAUTH_CLIENT_ID}&scope=user:email,public_repo`,
+    togggleLink: toggleUrls[env],
     serverFlag: env,
     seo: {
       siteName: 'Fil+'

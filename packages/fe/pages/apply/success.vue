@@ -31,6 +31,11 @@
                 {{ newApplicationButtonText }}
               </ButtonA>
 
+              <KycButton
+                tooltip-align="right"
+                theme="full"
+                class="kyc-button" />
+
             </div>
 
             <!-- ================================================= Accordion -->
@@ -63,11 +68,12 @@
 // ===================================================================== Imports
 import { mapGetters, mapActions } from 'vuex'
 
-import GithubIcon from '@/components/icons/github'
-
 import ButtonA from '@/components/buttons/button-a'
+import KycButton from '@/components/kyc-button'
 import AppAccordion from '@/components/app-accordion'
 import Overlay from '@/components/overlay'
+
+import GithubIcon from '@/components/icons/github'
 
 import ApplySucessPageData from '@/content/pages/apply-success.json'
 
@@ -76,10 +82,11 @@ export default {
   name: 'ApplyPage',
 
   components: {
-    GithubIcon,
     ButtonA,
+    KycButton,
     AppAccordion,
-    Overlay
+    Overlay,
+    GithubIcon
   },
 
   data () {
