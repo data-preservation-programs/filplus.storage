@@ -31,15 +31,15 @@
         <div class="col-4_sm-3_mi-2">
           <div class="panel-right">
 
-            <template v-if="account">
+            <!-- <template v-if="account">
               <div v-if="!account.kyc || account.kyc && account.kyc.event !== 'failure'" class="kyc">
                 <div class="kyc-heading" v-html="kycHeading" />
-                <!-- <KycButton
+                <KycButton
                   tooltip-align="top"
                   theme="full"
-                  class="kyc-button" /> -->
+                  class="kyc-button" />
               </div>
-            </template>
+            </template> -->
 
             <div class="warp-image-double" />
 
