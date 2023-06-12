@@ -9,9 +9,9 @@ const baseUrls = {
 }
 
 const toggleUrls = {
-  development: 'https://kyc.togggle.io/#/filecoin/kyc?environment=development',
+  development: 'https://stg-kyc.togggle.io/#/filecoin/kyc?environment=development',
   stable: 'https://stg-kyc.togggle.io/#/filecoin/kyc?environment=stable',
-  production: ''
+  production: 'https://kyc.togggle.io/#/filecoin/kyc'
 }
 
 const frontendPort = (function () {
