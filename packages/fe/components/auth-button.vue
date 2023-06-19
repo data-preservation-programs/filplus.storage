@@ -37,10 +37,10 @@
             class="auth-link">
             <div class="link-text" v-html="applicationHistoryButton.label" />
           </ButtonX>
-          <!-- <KycButton
+          <KycButton
             v-if="account"
             theme="bare"
-            class="kyc-link" /> -->
+            class="kyc-link" />
           <Logout v-slot="{ logout }">
             <ButtonX
               class="auth-link button-logout"
@@ -68,7 +68,7 @@ import ButtonX from '@/components/buttons/button-x'
 import Login from '@/modules/auth/components/login'
 import Logout from '@/modules/auth/components/logout'
 import Dropdown from '@/components/dropdown'
-// import KycButton from '@/components/kyc-button'
+import KycButton from '@/components/kyc-button'
 
 import IconGithub from '@/components/icons/github'
 import IconChevron from '@/components/icons/chevron'
@@ -83,7 +83,7 @@ export default {
     ButtonB,
     ButtonX,
     Dropdown,
-    // KycButton,
+    KycButton,
     IconGithub,
     IconChevron
   },
