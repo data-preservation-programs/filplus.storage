@@ -463,6 +463,9 @@ span.error {
       width: calc(100% + 1rem);
     }
   }
+  &.shift {
+    display: inline-block;
+  }
   &.right {
     &:before {
       right: calc(-1.25rem - 2px);
@@ -475,6 +478,9 @@ span.error {
       @include mini {
         right: calc(-1rem - 1.5px);
       }
+    }
+    &.shift {
+      left: -1rem;
     }
   }
   &.left {
@@ -490,11 +496,32 @@ span.error {
         left: calc(-1rem - 1.5px);
       }
     }
+    &.shift {
+      right: -1rem;
+    }
   }
 }
 
 .warp-image-double {
   margin-top: -3px;
+}
+
+div.tooltip-content {
+  color: $titanWhite;
+  background-color: $blueRibbon;
+  white-space: break-spaces;
+  padding: 1rem;
+  font-size: toRem(18) !important;
+  line-height: leading(30, 18) !important;
+  border-radius: 1.5rem;
+  a {
+    display: inline-block;
+    color: $greenYellow;
+    font-weight: 700 !important;
+    &:hover {
+      color: $aztec;
+    }
+  }
 }
 
 .z-index-100 {

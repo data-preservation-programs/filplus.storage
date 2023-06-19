@@ -1,6 +1,9 @@
 ### Data Owner Name
 organization_name
 
+### What is your role related to the dataset
+your_role
+
 ### Data Owner Country/Region
 data_owner_region
 
@@ -16,6 +19,12 @@ organization_social_media_handle (organization_social_media_handle_type)
 ### Total amount of DataCap being requested
 total_datacap_size total_datacap_size_unit
 
+### Expected size of single dataset (one copy)
+total_size_of_single_dataset_one_copy total_size_of_single_dataset_one_copy_unit
+
+### Number of replicas to store
+number_of_replicas
+
 ### Weekly allocation of DataCap requested
 weekly_data_size weekly_data_size_unit
 
@@ -27,9 +36,6 @@ application_data_type
 
 ### Custom multisig
 custom_multisig
-
-### Identifier
-identifier
 
 ### Share a brief history of your project and organization
 about

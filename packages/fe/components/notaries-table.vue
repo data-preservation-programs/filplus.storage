@@ -139,6 +139,7 @@
 <script>
 // ===================================================================== Imports
 import { mapGetters } from 'vuex'
+import CloneDeep from 'lodash/cloneDeep'
 
 import FieldStandalone from '@/modules/form/components/field-standalone'
 import ButtonA from '@/components/buttons/button-a'
@@ -193,7 +194,7 @@ export default {
       return this.form.scaffold
     },
     notaryList () {
-      return this.staticFiles['notaries-list.json']
+      return CloneDeep(this.staticFiles['notaries-list.json'])
     },
     filteredNotaries () {
       const notaryList = this.notaryList
@@ -201,6 +202,8 @@ export default {
       const compiled = []
       for (let i = 0; i < len; i++) {
         const notary = notaryList[i]
+        notary.github_user = notary.github_user.filter(item => item !== '')
+        notary.email = notary.email.filter(item => item !== '')
         if ((notary.name !== '' || notary.organization !== '') && notary.status === 'Active' && notary.github_user.length > 0) {
           compiled.push(notary)
         }
@@ -216,6 +219,7 @@ export default {
       const id = name !== '' ? name : organization
       updateValue(id)
       this.$gtm.push({ event: 'selected_notary' })
+      this.$gtm.push({ event: 'redirect_ga' })
       this.$router.push(`/apply/general/notaries/${id}`)
     }
   }

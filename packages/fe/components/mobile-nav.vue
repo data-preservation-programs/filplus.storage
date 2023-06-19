@@ -11,16 +11,6 @@
           <div class="hamburger">
             <div class="hamburger-icon" />
           </div>
-          <!-- <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path
-              stroke="white"
-              stroke-width="2"
-              class="top-line" />
-            <path
-              stroke="white"
-              stroke-width="2"
-              class="bottom-line" />
-          </svg> -->
         </div>
       </Button>
     </div>
@@ -184,7 +174,7 @@ export default {
   justify-content: flex-end;
 }
 
-:deep(.button) {
+:deep(.site-mobile-nav-link) {
   position: relative;
   padding: 0.125rem 0.125rem 0.125rem 1.5rem;
   z-index: 10000;
@@ -205,6 +195,7 @@ export default {
 .nav-detail {
   position: relative;
   display: flex;
+  z-index: 10;
   &:before,
   &:after {
     content: '';
@@ -301,6 +292,7 @@ export default {
   justify-content: space-between;
   width: 100%;
   padding: 1.875rem 2rem;
+  z-index: 100000;
 }
 
 .auth-button {
@@ -329,5 +321,4 @@ export default {
   right: toRem(40);
   width: toRem(130);
 }
-
 </style>

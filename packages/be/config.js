@@ -20,6 +20,14 @@ const backendPort = (function () {
   return env === 'stable' ? 12050 : 12060
 }())
 
+const corsAllowlist = [
+  'https://localhost:12010', // fe | development
+  'https://stable.filplus.storage', // fe | stable
+  'https://filplus.storage', // fe | production
+  'https://stg-kyc.api.togggle.io', // Togggle | staging
+  'https://kyc.api.togggle.io' // Togggle | production
+]
+
 // ////////////////////////////////////////////////////////////////////// Export
 // -----------------------------------------------------------------------------
 module.exports = {
@@ -36,9 +44,14 @@ module.exports = {
   ),
   // ============================================================= Server Config
   port: backendPort,
+  baseUrls,
   frontendUrl: env === 'development' ? `${baseUrls[env]}:${frontendPort}` : baseUrls[env],
   backendUrl: env === 'development' ? `${baseUrls[env]}:${backendPort}` : `${baseUrls[env]}/api`,
   websocketUrl: env === 'development' ? `${baseUrls[env]}:${backendPort}` : baseUrls[env],
+  repos: {
+    ga: ['filecoin-project/filecoin-plus-client-onboarding', 'data-preservation-programs/filecoin-plus-client-onboarding'],
+    lda: ['filecoin-project/filecoin-plus-large-datasets', 'data-preservation-programs/filecoin-plus-large-datasets']
+  },
   // ==================================================================== Server
   server: false,
   serverFlag: env,
@@ -88,9 +101,13 @@ module.exports = {
   expressSession: false,
   // ====================================================================== CORS
   cors: {
-    origin: [
-      `${baseUrls.development}:${frontendPort}`
-    ],
+    origin: function (origin, next) {
+      if (!origin) { return next(null, false) }
+      const allowed = corsAllowlist.indexOf(origin) !== -1
+      if (allowed) { return next(null, true) }
+      console.log(`CORS failed → ${origin}`)
+      next(null, false)
+    },
     methods: 'OPTIONS,GET,POST',
     allowedHeaders: 'Origin,Accept,Authorization,X-Requested-With,Content-Type,Cache-Control',
     credentials: true,

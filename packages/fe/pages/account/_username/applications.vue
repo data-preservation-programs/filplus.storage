@@ -11,13 +11,19 @@
 
             <h1 class="heading h3" v-html="pageHeading" />
 
-            <ButtonA
-              to="/apply"
-              tag="nuxt-link"
-              class="new-application-button"
-              theme="green">
-              {{ pageData.new_application_button_text }}
-            </ButtonA>
+            <div class="buttons">
+              <ButtonA
+                to="/apply"
+                tag="nuxt-link"
+                class="new-application-button"
+                theme="green">
+                {{ pageData.new_application_button_text }}
+              </ButtonA>
+              <KycButton
+                tooltip-align="right"
+                theme="full"
+                class="kyc-button" />
+            </div>
 
             <div :class="['toolbar top', { loading: refresh }]">
               <Spinner />
@@ -26,7 +32,7 @@
                   class="filter-checkbox"
                   :options="filters.state"
                   @filterApplied="filterApplied" />
-                <Radio
+                <ViewToggler
                   class="filter-radio"
                   :options="filters.view_application_type" />
                 <Sort
@@ -94,8 +100,9 @@ import { mapActions, mapGetters } from 'vuex'
 
 import AppAccordion from '@/components/app-accordion'
 import ButtonA from '@/components/buttons/button-a'
+import KycButton from '@/components/kyc-button'
 import Checkbox from '@/components/search/checkbox'
-import Radio from '@/components/search/radio'
+import ViewToggler from '@/components/page-application-history/view-toggler'
 import Sort from '@/components/search/sort'
 import PaginationControls from '@/components/search/pagination-controls'
 import Limit from '@/components/search/limit'
@@ -112,8 +119,9 @@ export default {
   components: {
     AppAccordion,
     ButtonA,
+    KycButton,
     Checkbox,
-    Radio,
+    ViewToggler,
     Sort,
     PaginationControls,
     Limit,
@@ -122,9 +130,9 @@ export default {
     Spinner
   },
 
-  // meta: {
-  //   guarded: true
-  // },
+  meta: {
+    guarded: true
+  },
 
   data () {
     return {
@@ -133,9 +141,6 @@ export default {
   },
 
   async fetch ({ app, store, redirect, route }) {
-    const accountExists = await store.getters['auth/account']
-    if (!accountExists) { return redirect('/apply') }
-    // console.log('FETCH')
     await store.dispatch('general/getBaseData', { key: 'applications', data: ApplicationsPageData })
     await store.dispatch('account/setLoadingStatus', { type: 'loading', status: true })
   },
@@ -189,11 +194,15 @@ export default {
         }
       }).catch(() => {})
     }
+    this.getOpenApplicationCount('lda')
+    this.getOpenApplicationCount('ga')
     this.$nuxt.$on('filtersApplied', (payload) => {
-      const filters = payload.filters
-      const viewFilter = filters.find(filter => filter.id === 'view')
-      if (!this.refresh) {
-        this.filterApplied(viewFilter)
+      if (this.account) {
+        const filters = payload.filters
+        const viewFilter = filters.find(filter => filter.id === 'view')
+        if (!this.refresh) {
+          this.filterApplied(viewFilter)
+        }
       }
     })
   },
@@ -201,6 +210,7 @@ export default {
   methods: {
     ...mapActions({
       getApplicationList: 'account/getApplicationList',
+      getOpenApplicationCount: 'account/getOpenApplicationCount',
       setLoadingStatus: 'account/setLoadingStatus',
       setView: 'account/setView'
     }),
@@ -251,8 +261,16 @@ export default {
   }
 }
 
-.new-application-button {
+.buttons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   margin-bottom: 4rem;
+  .button-a {
+    &:not(:last-child) {
+      margin-right: 1rem;
+    }
+  }
 }
 
 .toolbar {
@@ -355,7 +373,7 @@ export default {
     border-radius: toRem(10);
     padding: 0 toRem(15);
     width: toRem(195);
-    height: unset;
+    height: toRem(34);
     .icon-chevron {
       color: $nandor;
     }

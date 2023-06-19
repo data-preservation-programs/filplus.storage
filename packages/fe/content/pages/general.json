@@ -13,15 +13,14 @@
     "home_link": "/apply",
     "header": [
       {
-        "type": "a",
-        "href": "https://notaries.datacapstats.io/",
-        "label": "Notaries",
-        "target": "_blank"
-      },
-      {
         "type": "nuxt-link",
         "href": "/about",
         "label": "About"
+      },
+      {
+        "type": "nuxt-link",
+        "href": "/#roadmap",
+        "label": "Roadmap"
       },
       {
         "type": "nuxt-link",
@@ -35,10 +34,28 @@
         "target": "_blank"
       }
     ],
+    "kyc_button": {
+      "unverified": {
+        "text": "Confirm Identity",
+        "tooltip": "Optionally, you can get DataCap even faster by performing KYC verification through Togggle. KYC is not required. However, applicants that have passed KYC are more likely to be approved quickly. You’ll only need to perform KYC once. It will be applied to every application you make moving forward. |link|"
+      },
+      "verifying": {
+        "text": "Verifying...",
+        "tooltip": "It looks like your KYC verification is currently in progress. |link|"
+      },
+      "failure": {
+        "text": "Verification not available",
+        "tooltip": "You are not eligible for KYC verification at this time. If you feel that this is a mistake, please |link| to the Filecoin plus team."
+      },
+      "success": {
+        "text": "Verified User",
+        "tooltip": "Thanks for being a verified user of the Filecoin Plus program. Being verified means faster approvals and shorter time to DataCap."
+      }
+    },
     "cta": {
-     "href": "/",
-     "label": "Apply Now"
-   },
+      "href": "/",
+      "label": "Apply Now"
+    },
     "footer": [
       {
         "type": "nuxt-link",
@@ -110,32 +127,28 @@
     }
   },
   "forms": {
-    "submit_threshold_bottom": 34359738368,
-    "submit_threshold_middle": 109951162777600,
-    "submit_threshold_top": 5629499534213120
+    "thresholds": {
+      "tib_1": 1099511627776,
+      "tib_100": 109951162777600,
+      "pib_5": 5629499534213120,
+      "pib_15": 16888498602639360
+    },
+    "tooltip_greater_than_15pib_text": "You can use this field to enter a custom value that's more than 15 PiB. Please account all the DataCap you will need for your project."
   },
   "hubspot": {
     "opted_in_heading": "Get Help Onboarding Your Data",
-    "opted_in_description": "You are already opted in. In order to opt out, please get in touch with the client success team member that you've been in touch with.",
+    "description": {
+      "loggedOut": "Log in and share your contact information information if you would like additional support with the onboarding process and/or share product feedback with the client growth team. <strong>All fields must be filled out</strong> to opt in.",
+      "notOptedIn": "Please share the following information if you would like additional support with the onboarding process and/or share product feedback with the client growth team. <strong>All 3 fields must be filled out</strong> to opt in.",
+      "optedIn": "In order to opt out, please get in touch with the client success team member that you've been in touch with."
+    },
     "opt_in_fields": {
-      "hubspot_opt_in": {
-        "type": "checkbox",
-        "modelKey": "hubspot_opt_in",
-        "label": "Help Onboarding?",
-        "description": "Would you like someone from our client success team to get in touch to help with onboarding your data?",
-        "isSingleSelection": true,
-        "options": [
-          { "label": "Yes, I'm okay with sharing my contact info with the client success team" }
-        ],
-        "defaultValue": ""
-      },
       "hubspot_opt_in_first_name": {
         "type": "input",
         "inputType": "text",
         "modelKey": "hubspot_opt_in_first_name",
         "label": "First Name",
         "placeholder": "First Name",
-        "required": true,
         "pre": "[^\\u0000-\\u00ff]",
         "autocomplete": "none",
         "chars": {
@@ -146,13 +159,7 @@
           "required": "This field is required",
           "chars": "Input must be between 2 and 35 characters"
         },
-        "defaultValue": "",
-        "conditions": [
-          {
-            "fieldKey": "hubspot_opt_in",
-            "value": 0
-          }
-        ]
+        "defaultValue": ""
       },
       "hubspot_opt_in_last_name": {
         "type": "input",
@@ -160,7 +167,6 @@
         "modelKey": "hubspot_opt_in_last_name",
         "label": "Last Name",
         "placeholder": "Last Name",
-        "required": true,
         "pre": "[^\\u0000-\\u00ff]",
         "autocomplete": "none",
         "chars": {
@@ -171,13 +177,7 @@
           "required": "This field is required",
           "chars": "Input must be between 2 and 35 characters"
         },
-        "defaultValue": "",
-        "conditions": [
-          {
-            "fieldKey": "hubspot_opt_in",
-            "value": 0
-          }
-        ]
+        "defaultValue": ""
       },
       "hubspot_opt_in_email": {
         "type": "input",
@@ -185,7 +185,6 @@
         "modelKey": "hubspot_opt_in_email",
         "label": "Email",
         "placeholder": "Email",
-        "required": true,
         "pattern": ".+@.+\\.[a-zA-Z]{1,10}",
         "pre": "[^\\u0000-\\u00ff]",
         "autocomplete": "none",
@@ -197,13 +196,7 @@
           "required": "This field is required",
           "pattern": "Please enter a valid email",
           "chars": "Input must be between 2 and 100 characters"
-        },
-        "conditions": [
-          {
-            "fieldKey": "hubspot_opt_in",
-            "value": 0
-          }
-        ]
+        }
       }
     }
   },

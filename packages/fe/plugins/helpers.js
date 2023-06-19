@@ -391,6 +391,7 @@ const ConnectWebsocket = config => (instance, next) => {
     })
   }
   return new Promise((resolve) => {
+    if (instance.socket) { return resolve() }
     instance.socket = instance.$nuxtSocket(config.socketOptions)
     disconnect(resolve)
     connect(resolve)
@@ -421,7 +422,7 @@ const FormatDatacapSize = (ctx, transformField, transformSourceField, args) => {
     const options = store.getters['general/siteContent'].apply.page_content.form.scaffold.total_datacap_size_unit.options
     const unitField = ctx.$field(`${args.unit_from_field}|filplus_application`).get()
     const valueField = ctx.$field(`${args.value_from_field}|filplus_application`).get()
-    if (!unitField || !valueField || unitField.value === -1) { return value }
+    if (!unitField || !valueField || unitField.value.length === 0) { return value }
     if (valueField) { value = valueField.value }
     const unit = options[unitField.value].label
     return ConvertSizeToBytes(value, unit)
@@ -433,7 +434,7 @@ const ReactDatasizeUnitToRange = (ctx, transformField, transformSourceField, arg
   const size = transformSourceField.value
   const options = ctx.store.getters['general/siteContent'].apply.page_content.form.scaffold.total_datacap_size_unit.options
   const unit = FormatBytes(size, 'array').unit
-  return options.findIndex(option => option.label === unit)
+  return [options.findIndex(option => option.label === unit)]
 }
 
 // //////////////////////////////////////////////////// ReactDatasizeRangeToUnit
@@ -443,32 +444,60 @@ const ReactDatasizeRangeToUnit = (ctx, transformField, transformSourceField, arg
   const store = ctx.store
   const options = store.getters['general/siteContent'].apply.page_content.form.scaffold.total_datacap_size_unit.options
   const inputField = ctx.$field(`${args.value_from_field}|filplus_application`).get()
-  if (unitValue === -1) { return originalValue }
+  if (unitValue.length === 0) { return originalValue }
   const unit = options[unitValue].label
   const size = inputField.value
   return ConvertSizeToBytes(size, unit)
 }
 
 // /////////////////////////////////////////////////////// HandleFormRedirection
-const HandleFormRedirection = (app, store, bytes, bottom, top) => {
-  if (bytes < bottom || bytes > top) {
-    this.$button('ga-submit-button').set({ loading: false })
-    this.$button('lda-submit-button').set({ loading: false })
-  }
-  if (bytes < bottom) {
+const HandleFormRedirection = (app, store, bytes, stage, thresholds) => {
+  const tib1 = thresholds.tib_1
+  const tib100 = thresholds.tib_100
+  // ---------------------------------------- redirect tiny applications offsite
+  if (bytes < tib1) {
     window.open(
       'https://verify.glif.io/',
       '_blank'
     )
-    this.$gtm.push({ event: 'redirect_glif' })
-  } else if (bytes > top) {
-    app.$toaster.add({
-      type: 'toast',
-      category: 'error',
-      message: 'Please select a value up to 5 PiB'
-    })
-    this.$gtm.push({ event: 'attempted_over_5PB' })
-  } else {
+    app.$gtm.push({ event: 'redirect_glif' })
+    return false
+  }
+  // --------------------------------------------- stage: 'apply' | range slider
+  if (stage === 'stage-apply') {
+    if (bytes >= tib1 && bytes < tib100) {
+      app.$gtm.push({ event: 'redirect_notary_selection' })
+      app.router.push('/apply/general/notaries')
+    } else if (bytes >= tib100) {
+      app.$gtm.push({ event: 'redirect_lda' })
+      app.router.push('/apply/large')
+    }
+    return true
+  // --------------------------------------------------------------- stage: 'ga'
+  } else if (stage === 'stage-ga') {
+    if (bytes >= tib100) {
+      app.$toaster.add({
+        type: 'toast',
+        category: 'error',
+        message: 'Please fill out the Large Dataset Application for your requested amount (>= 100 TiB)'
+      })
+      app.$gtm.push({ event: 'redirect_lda' })
+      app.router.push('/apply/large')
+      return false
+    }
+    return true
+  // -------------------------------------------------------------- stage: 'lda'
+  } else if (stage === 'stage-lda') {
+    if (bytes >= tib1 && bytes < tib100) {
+      app.$toaster.add({
+        type: 'toast',
+        category: 'error',
+        message: 'Please fill out the General Application for your requested amount (< 100 TiB)'
+      })
+      app.$gtm.push({ event: 'redirect_ga' })
+      app.router.push('/apply/general/notaries')
+      return false
+    }
     return true
   }
   return false

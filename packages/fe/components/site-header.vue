@@ -409,9 +409,19 @@ export default {
 }
 
 :deep(.auth-button) {
+  @include medium {
+    margin-right: 0.5rem;
+  }
+  .panel-left {
+    max-width: 100vw;
+  }
+  .username {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
   .button {
     @include large {
-      padding: 0.625rem 1rem;
+      padding: 0.625rem 0;
     }
   }
 }

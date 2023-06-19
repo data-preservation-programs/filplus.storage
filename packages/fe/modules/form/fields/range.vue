@@ -1,5 +1,5 @@
 <template>
-  <div :class="['range-container', state, { focused }]">
+  <div :class="['range-container', state]">
 
     <div class="range-track">
       <div
@@ -27,15 +27,16 @@
         :class="['range', state]"
         :disabled="disabled"
         type="range"
-        @focus="focused = true"
-        @blur="focused = false"
+        @focus="toggleFocused(true)"
+        @blur="toggleFocused(false)"
         @input="updateValue($event.target.value)" />
     </div>
 
     <slot
       name="tick-list"
       :get-position="getPosition"
-      :get-tick="getTick" />
+      :get-tick="getTick"
+      :update-value="updateValue" />
 
   </div>
 </template>
@@ -43,7 +44,7 @@
 <script>
 // ====================================================================== Export
 export default {
-  name: 'FieldRange',
+  name: 'FormFieldRange',
 
   props: {
     field: {
@@ -60,7 +61,6 @@ export default {
     const self = this
     return {
       position: self.field.min,
-      focused: false,
       thumbDimensions: {
         x: 0,
         y: 0
@@ -176,8 +176,12 @@ export default {
         }
       ]
     },
-    updateValue (value) {
-      this.$emit('updateValue', this.logarithmic ? this.transform(value) : value)
+    updateValue (incoming, withoutTransformation) {
+      const value = this.logarithmic && !withoutTransformation ? this.transform(incoming) : incoming
+      this.$emit('updateValue', value)
+    },
+    toggleFocused (focused) {
+      this.$emit('toggleFocused', focused)
     },
     getPosition (value) {
       if (!this.logarithmic) { return value }

@@ -43,6 +43,7 @@ const extractModel = async (scaffold, fields) => {
     for (let i = 0; i < len; i++) {
       const field = fields[i]
       const fieldScaffold = field.scaffold
+      const isSingleOption = fieldScaffold.isSingleOption
       const options = fieldScaffold.options
       const modelKey = fieldScaffold.modelKey
       const mirror = fieldScaffold.mirror
@@ -53,8 +54,21 @@ const extractModel = async (scaffold, fields) => {
           value = await compileArray(field, fields)
         } else if (type === 'select' || type === 'radio' || type === 'checkbox') {
           if (typeof value !== 'string' && fieldScaffold.output === 'option') {
-            const option = options[value]
-            if (option) {
+            const converted = []
+            let option
+            if (Array.isArray(value)) {
+              value.forEach((index) => {
+                const option = options[index]
+                if (option) {
+                  converted.push(option.label)
+                }
+              })
+            } else {
+              option = options[value]
+            }
+            if (converted.length > 0) {
+              value = converted.join(', ')
+            } else if (option) {
               value = option.label
             } else {
               value = fieldScaffold.baseValue

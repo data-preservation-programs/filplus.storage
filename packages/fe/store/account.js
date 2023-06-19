@@ -13,8 +13,13 @@ const state = () => ({
     limit: 10,
     totalPages: 1
   },
+  openCount: {
+    ldn: false, // cannot be 'lda'
+    ga: false
+  },
   application: {
     organization_name: null,
+    your_role: null,
     data_owner_region: null,
     data_owner_industry: null,
     organization_website: null,
@@ -22,11 +27,13 @@ const state = () => ({
     organization_social_media_handle_type: null,
     total_datacap_size: null,
     total_datacap_size_unit: null,
+    total_size_of_single_dataset_one_copy: null,
+    total_size_of_single_dataset_one_copy_unit: null,
+    number_of_replicas: null,
     weekly_data_size: null,
     weekly_data_size_unit: null,
     filecoin_address: null,
     custom_multisig: null,
-    identifier: null,
     about: null,
     source_of_data_select: null,
     ecosystem_associates_textarea: null,
@@ -49,7 +56,6 @@ const state = () => ({
     ga_region: null,
     public_availability_radio: null,
     public_availability_textarea: null,
-    hubspot_opt_in: null,
     hubspot_opt_in_email: null,
     hubspot_opt_in_first_name: null,
     hubspot_opt_in_last_name: null,
@@ -69,35 +75,67 @@ const getters = {
   loading: state => state.loading,
   refresh: state => state.refresh,
   metadata: state => state.metadata,
-  view: state => state.view
+  view: state => state.view,
+  openCount: state => state.openCount
 }
 
 // ///////////////////////////////////////////////////////////////////// Actions
 // -----------------------------------------------------------------------------
 const actions = {
+  // ///////////////////////////////////////////////////////// submitApplication
   async submitApplication ({ commit, dispatch }, payload) {
-    const tag = payload.type === 'GA' ? 'ga' : 'lda'
+    const application = payload.application
+    const bytes = payload.bytes
+    const thresholds = payload.thresholds
+    const tib1 = thresholds.tib_1
+    const tib100 = thresholds.tib_100
+    const pib5 = thresholds.pib_5
+    const pib15 = thresholds.pib_15
+    const requestedAmount = `${application.total_datacap_size} ${application.total_datacap_size_unit}`
+    let stage
+    let labels = ['source:filplus.storage']
+    const assignees = []
+    const comments = []
+    if (bytes >= tib1 && bytes < tib100) {
+      stage = 'stage-ga'
+      labels.push('state:Verifying')
+    } else if (bytes >= tib100 && bytes <= pib5) {
+      stage = 'stage-lda'
+    } else if (bytes > pib5 && bytes <= pib15) {
+      stage = 'stage-vlda'
+      labels.push('very large application')
+      comments.push(`This application requests a total of ${requestedAmount}, so it’s labeled \`very large application\``)
+    } else if (bytes > pib15) {
+      stage = 'stage-efilplus'
+      labels = labels.concat(['very large application', 'efil+'])
+      assignees.push('kevzak')
+      comments.push(`This application requests a total of ${requestedAmount}, so it’s labeled \`efil+\``)
+    }
     try {
-      const application = payload.application
-      this.$gtm.push({ event: `submission_${tag}` })
-      const response = await this.$axiosAuth.post('/submit-application', application, {
-        params: { type: tag }
+      this.$gtm.push({ event: `submission_${stage}` })
+      const response = await this.$axiosAuth.post('/submit-application', {
+        application,
+        labels,
+        assignees,
+        comments
+      }, {
+        params: { stage }
       })
       await dispatch('setGithubIssue', response.data.payload)
       await this.dispatch('auth/getAccount', this.getters['auth/account']._id)
-      this.$button(`${tag}-submit-button`).set({ loading: false })
+      this.$button('application-submit-button').set({ loading: false })
       this.$toaster.add({
         type: 'toast',
         category: 'success',
         message: 'Application submitted successfully'
       })
-      this.$gtm.push({ event: `success_${tag}` })
+      this.$gtm.push({ event: `success_${stage}` })
       this.$router.push('/apply/success')
     } catch (e) {
       console.log('================= [Store Action: account/submitApplication]')
       console.log(e)
       console.log(e.response)
-      this.$button(`${tag}-submit-button`).set({ loading: false })
+      this.$button('application-submit-button').set({ loading: false })
       this.$toaster.add({
         type: 'toast',
         category: 'error',
@@ -117,8 +155,7 @@ const actions = {
         { filterKey: 'limit' },
         { filterKey: 'sort' },
         { filterKey: 'state' },
-        { filterKey: 'view' },
-        { queryKey: 'user' }
+        { filterKey: 'view', default: getters.view }
       ])
       const response = await this.$axiosAuth.get('/get-application-list', { params })
       const payload = response.data.payload
@@ -132,6 +169,18 @@ const actions = {
       console.log(e)
       dispatch('setLoadingStatus', { type: 'loading', status: false })
       return false
+    }
+  },
+  // /////////////////////////////////////////////////// getOpenApplicationCount
+  async getOpenApplicationCount ({ commit, getters, dispatch }, view) {
+    try {
+      const response = await this.$axiosAuth.get('/get-open-application-count', {
+        params: { view }
+      })
+      commit('SET_OPEN_APPLICATION_COUNT', { view, count: response.data.payload })
+    } catch (e) {
+      console.log('=========== [Store Action: account/getOpenApplicationCount]')
+      console.log(e)
     }
   },
   // //////////////////////////////////////////////////////// setApplicationList
@@ -154,7 +203,6 @@ const actions = {
     if (!optedIn && account.githubEmail) {
       application.hubspot_opt_in_email = account.githubEmail
     } else if (optedIn) {
-      application.hubspot_opt_in = optedIn
       application.hubspot_opt_in_first_name = account.hubspotOptInFirstName
       application.hubspot_opt_in_last_name = account.hubspotOptInLastName
       application.hubspot_opt_in_email = account.hubspotOptInEmail
@@ -186,6 +234,9 @@ const mutations = {
   },
   SET_VIEW (state, view) {
     state.view = view
+  },
+  SET_OPEN_APPLICATION_COUNT (state, payload) {
+    state.openCount[payload.view === 'lda' ? 'ldn' : 'ga'] = payload.count
   }
 }
 
