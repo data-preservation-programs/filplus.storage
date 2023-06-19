@@ -31,10 +31,10 @@
                 {{ newApplicationButtonText }}
               </ButtonA>
 
-              <!-- <KycButton
+              <KycButton
                 tooltip-align="right"
                 theme="full"
-                class="kyc-button" /> -->
+                class="kyc-button" />
 
             </div>
 
@@ -69,7 +69,7 @@
 import { mapGetters, mapActions } from 'vuex'
 
 import ButtonA from '@/components/buttons/button-a'
-// import KycButton from '@/components/kyc-button'
+import KycButton from '@/components/kyc-button'
 import AppAccordion from '@/components/app-accordion'
 import Overlay from '@/components/overlay'
 
@@ -83,7 +83,7 @@ export default {
 
   components: {
     ButtonA,
-    // KycButton,
+    KycButton,
     AppAccordion,
     Overlay,
     GithubIcon
