@@ -19,10 +19,10 @@
                 theme="green">
                 {{ pageData.new_application_button_text }}
               </ButtonA>
-              <KycButton
+              <!-- <KycButton
                 tooltip-align="right"
                 theme="full"
-                class="kyc-button" />
+                class="kyc-button" /> -->
             </div>
 
             <div :class="['toolbar top', { loading: refresh }]">
@@ -100,7 +100,7 @@ import { mapActions, mapGetters } from 'vuex'
 
 import AppAccordion from '@/components/app-accordion'
 import ButtonA from '@/components/buttons/button-a'
-import KycButton from '@/components/kyc-button'
+// import KycButton from '@/components/kyc-button'
 import Checkbox from '@/components/search/checkbox'
 import ViewToggler from '@/components/page-application-history/view-toggler'
 import Sort from '@/components/search/sort'
@@ -119,7 +119,7 @@ export default {
   components: {
     AppAccordion,
     ButtonA,
-    KycButton,
+    // KycButton,
     Checkbox,
     ViewToggler,
     Sort,
