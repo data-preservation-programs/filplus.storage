@@ -58,7 +58,7 @@ export default {
   },
 
   async mounted () {
-    // Scroll to hash
+    // ---------------------------------------------------------- Scroll to hash
     this.$nextTick(() => {
       const hash = this.$route.hash.replace('#', '')
       if (hash) {
@@ -68,7 +68,7 @@ export default {
         }
       }
     })
-    // Initialize global connections
+    // --------------------------------- Initialize global websocket connections
     await this.$connectWebsocket(this, () => {
       if (this.account) {
         this.joinUserWebsocketRoom(this.account)
@@ -103,7 +103,7 @@ export default {
       })
       this.networkErrorToastId = false
     })
-    // Check to see if saved form exists in localStorage
+    // ----------------------- Check to see if saved form exists in localStorage
     if (this.$ls.get('form__filplus_application')) {
       this.setSavedFormExistsStatus(true)
     }

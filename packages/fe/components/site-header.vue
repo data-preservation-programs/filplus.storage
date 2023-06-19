@@ -111,7 +111,7 @@
 
 <script>
 // ===================================================================== Imports
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 import Logo from '@/components/logo'
 import ButtonA from '@/components/buttons/button-a'
@@ -205,9 +205,12 @@ export default {
     squiggleOffsetLeft () {
       this.pathKey++
     },
-    account () {
+    account (account) {
       this.$nextTick(() => {
         setTimeout(() => {
+          if (account) {
+            this.getNotificationList()
+          }
           resizeHandler(this)
         }, 100)
       })
@@ -238,6 +241,9 @@ export default {
   },
 
   methods: {
+    ...mapActions({
+      getNotificationList: 'notifications/getNotificationList'
+    }),
     mouseOverLink (index) {
       if (this.$refs.navItems) {
         const element = this.$refs.navItems[index].$el

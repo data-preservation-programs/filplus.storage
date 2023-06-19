@@ -81,6 +81,29 @@ try {
 //   // }
 // }; users()
 
+// /////////////////////////////////////////////////////// populateNotifications
+// const notifications = async () => {
+//   try {
+//     await MC.model.Notification.collection.drop()
+//     const author = '642ec896462dfdf618234a8c'
+//     const bucket = 'application'
+//     const notifications = [
+//       { author, bucket, message: 'Notification 1' },
+//       { author, bucket, message: 'Notification with some <strong>bolded</strong> html' },
+//       { author, bucket, message: 'Notification 3' },
+//       { author, bucket, message: 'Wow lorem this ipsum is dolor a really amet long notification, it lorem keeps ipsum on dolor going amet and lorem going' },
+//       { author, bucket, message: 'Notification with <a href="https://example.com">a link</a> in the html' }
+//     ]
+//     const len = notifications.length
+//     for (let i = 0; i < len; i++) {
+//       const created = await MC.model.Notification.create(notifications[i])
+//       console.log(created)
+//     }
+//   } catch (e) {
+//     console.log(e)
+//   }
+// }; notifications()
+
 // //////////////////////////////////////////////////////// lookupHubspotContact
 // const Axios = require('axios')
 // const lookupHubspotContact = async () => {
