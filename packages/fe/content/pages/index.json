@@ -96,7 +96,7 @@
         "date": "2023-05",
         "events": [
           { "tag": "in-progress", "text": "Improvements to increase the reliability of onboarding bots and apps for notaries & clients" },
-          { "tag": "shipped", "text": "Kick-off design discussion on potential trustless notaries"} 
+          { "tag": "shipped", "text": "Kick-off design discussion on potential trustless notaries" }
         ]
       },
       {
