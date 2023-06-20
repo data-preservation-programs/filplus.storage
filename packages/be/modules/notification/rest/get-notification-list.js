@@ -12,11 +12,6 @@ const MC = require('@Root/config')
 // --------------------------------------------------------------------- process
 const process = async (data) => {
   const response = data[0]
-  // .................................................................. populate
-  // await MC.model.User.populate(response.results, [{
-  //   path: 'claimant',
-  //   select: 'githubUsername githubAvatarUrl'
-  // }])
   // .................................................. metadata when no results
   if (!response.hasOwnProperty('metadata')) {
     response.metadata = {

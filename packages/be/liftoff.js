@@ -88,11 +88,16 @@ try {
 //     const author = '642ec896462dfdf618234a8c'
 //     const bucket = 'application'
 //     const notifications = [
-//       { author, bucket, message: 'Notification 1' },
+//       { author, bucket, message: 'Lorem ipsum dolor sit amet, consectetur' },
 //       { author, bucket, message: 'Notification with some <strong>bolded</strong> html' },
-//       { author, bucket, message: 'Notification 3' },
+//       { author, bucket, message: 'Dolor sit amet, consectetur adipiscing elit' },
 //       { author, bucket, message: 'Wow lorem this ipsum is dolor a really amet long notification, it lorem keeps ipsum on dolor going amet and lorem going' },
-//       { author, bucket, message: 'Notification with <a href="https://example.com">a link</a> in the html' }
+//       { author, bucket, message: 'Notification with <a href="https://example.com">a link</a> in the html' },
+//       { author, bucket, message: 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia' },
+//       { author, bucket, message: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem' },
+//       { author, bucket, message: 'Nemo enim ipsam voluptatem quia' },
+//       { author, bucket, message: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur' },
+//       { author, bucket, message: 'Quis autem vel eum iure reprehenderit' }
 //     ]
 //     const len = notifications.length
 //     for (let i = 0; i < len; i++) {

@@ -6,7 +6,6 @@ const ObjectId = require('mongoose').Types.ObjectId
 // -----------------------------------------------------------------------------
 module.exports = (page = 1, limit = 10, userId) => {
   const skip = (page - 1) * limit
-  console.log(page, limit, userId)
   return [
 
     { $match: { author: ObjectId(userId) } },
