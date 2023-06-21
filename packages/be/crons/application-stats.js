@@ -192,9 +192,27 @@ const ApplicationStats = async () => {
     const gaStats = await iterateApplications(gaApplications, 'ga')
     const ldaStats = await iterateApplications(ldaApplications, 'lda')
 
-    // if (data) {
-    //   Fs.writeFileSync(`${MC.cacheRoot}/application-stats.json`, JSON.stringify(data))
-    // }
+    const data = {
+      states: {
+        inReview: gaStats.states.inReview + ldaStats.states.inReview,
+        validated: gaStats.states.validated + ldaStats.states.validated,
+        completed: gaStats.states.completed + ldaStats.states.completed,
+        segmented: [ldaStats.states, gaStats.states]
+      },
+      types: {
+        lda: ldaStats.types.lda,
+        ga: gaStats.types.ga,
+        eFilPlus: ldaStats.types.eFilPlus,
+        filPlusStorage: {
+          open: gaStats.types.filPlusStorage.open + ldaStats.types.filPlusStorage.open,
+          closed: gaStats.types.filPlusStorage.closed + ldaStats.types.filPlusStorage.closed
+        }
+      }
+    }
+
+    if (data) {
+      Fs.writeFileSync(`${MC.cacheRoot}/application-stats.json`, JSON.stringify(data))
+    }
 
     const end = process.hrtime()[0]
     console.log(`🏁 Fetch network storage capacity complete | took ${SecondsToHms(end - start)}`)
