@@ -98,7 +98,7 @@ const iterateApplicationLabels = (application, applicationType) => {
     const validatedRegex = { ga: /(bot:)?\s?looking\s?good/gi, lda: /validated/ }
     const inReviewRegex = { ga: /(state)|(bot)?:\s?(further\s?info)?(review)?\s?needed/gi, lda: /error/ }
 
-    const hasLabel = labels.some((label, regex) => { return label.name.match(regex) })
+    const hasLabel = (labels, regex) => { return labels.some((label) => { return label.name.match(regex) }) }
 
     const completed = hasLabel(labels, completedRegex[applicationType])
     const validated = hasLabel(labels, validatedRegex[applicationType])
@@ -133,10 +133,10 @@ const iterateApplications = (applications, applicationType) => {
   console.log('🦊 iterating over Applications')
   try {
     const states = {
-      completed: 0,
-      validated: 0,
       inReview: 0,
-      noRelevantLabels: []
+      validated: 0,
+      completed: 0
+      // noRelevantLabels: []
     }
     const types = {
       lda: {

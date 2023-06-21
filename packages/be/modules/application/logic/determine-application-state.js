@@ -9,7 +9,7 @@ module.exports = async (labels, applicationType) => {
     const validatedRegex = { ga: /(bot:)?\s?looking\s?good/gi, lda: /validated/ }
     const inReviewRegex = { ga: /(state)|(bot)?:\s?(further\s?info)?(review)?\s?needed/gi, lda: /error/ }
 
-    const hasLabel = labels.some((label, regex) => { return label.match(regex) })
+    const hasLabel = (labels, regex) => { return labels.some((label) => { return label.match(regex) }) }
 
     const completed = hasLabel(labels, completedRegex[applicationType])
     const validated = hasLabel(labels, validatedRegex[applicationType])
