@@ -9,9 +9,7 @@ module.exports = async (labels, applicationType) => {
     const validatedRegex = { ga: /(bot:)?\s?looking\s?good/gi, lda: /validated/ }
     const inReviewRegex = { ga: /(state)|(bot)?:\s?(further\s?info)?(review)?\s?needed/gi, lda: /error/ }
 
-    // the labels data returned from github is an array of objects with the label's name in the name property
-    // during standup you said an array of strings? if it's an array of strings this should be label.match(regex)
-    const hasLabel = labels.some((label, regex) => { return label.name.match(regex) })
+    const hasLabel = labels.some((label, regex) => { return label.match(regex) })
 
     const completed = hasLabel(labels, completedRegex[applicationType])
     const validated = hasLabel(labels, validatedRegex[applicationType])
