@@ -62,7 +62,7 @@ const getTotalIssues = async (repo, dataProgramsToken) => {
 // ///////////////////////////////////////////////////////////// getApplications
 
 const getApplications = async (applicationType, n = 1, applications = [], totalIssues = 0) => {
-  console.log(`🦞 getting applications: request ${n}`)
+  console.log(`🦞 getting ${applicationType} applications: request ${n}`)
   try {
     const dataProgramsToken = process.env.GITHUB__PERSONAL_ACCESS_TOKEN__DATA_PROGRAMS
     const repo = MC.repos[applicationType][0]
@@ -130,7 +130,7 @@ const iterateApplicationLabels = (application, applicationType) => {
 
 // ///////////////////////////////////////////////////////// iterateApplications
 const iterateApplications = (applications, applicationType) => {
-  console.log('🦊 iterating over Applications')
+  console.log(`🦊 iterating over ${applicationType} applications`)
   try {
     const states = {
       inReview: 0,
