@@ -63,9 +63,7 @@ const getApplications = async (applicationType, n = 1, applications = []) => {
     }
     const response = await Axios.get(`https://api.github.com/repos/${repo}/issues`, options)
     const updatedApplications = [...applications, ...response.data]
-    console.log('updatedApplications.length ', updatedApplications.length)
     if (response.data.length === 100) {
-      console.log('response.data.length ', response.data.length)
       return getApplications(applicationType, n + 1, updatedApplications)
     }
     return updatedApplications
@@ -193,7 +191,7 @@ const ApplicationStats = async () => {
     console.log(`🏁 Fetch network storage capacity complete | took ${SecondsToHms(end - start)}`)
     process.exit(0)
   } catch (e) {
-    console.log('============================== [Cron: ApplicationStats]')
+    console.log('==================================== [Cron: ApplicationStats]')
     console.log(e)
     process.exit(0)
   }
