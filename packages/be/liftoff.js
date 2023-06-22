@@ -96,6 +96,7 @@ const notifications = async () => {
       .lean()
     console.log(notifications)
     // await MC.model.Notification.collection.drop()
+    // await MC.model.ApplicationChangedQueue.collection.drop()
     // const author = '642ec896462dfdf618234a8c'
     // const bucket = 'application'
     // const notifications = [

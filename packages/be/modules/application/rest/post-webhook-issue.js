@@ -3,12 +3,12 @@ console.log('💡 [endpoint] /post-webhook-issue')
 // ///////////////////////////////////////////////////////////////////// Imports
 // -----------------------------------------------------------------------------
 const { SendData } = require('@Module_Utilities')
-// const FindUser = require('@Module_User/logic/find-user')
-// const UpdateUser = require('@Module_User/logic/update-user')
 
 const MC = require('@Root/config')
-// const serverFlag = MC.serverFlag
 
+// /////////////////////////////////////////////////////////////////// Functions
+// -----------------------------------------------------------------------------
+// /////////////////////////////////////////////////////////////// processLabels
 const processLabels = (labels) => {
   if (labels.length === 0) { return [] }
   return labels
@@ -22,12 +22,14 @@ MC.app.post('/post-webhook-issue', async (req, res) => {
   try {
     const incoming = req.body
     const issue = incoming.issue
-    const labels = processLabels(issue.labels)
     const githubUsername = issue.user.login
     console.log(`=========================================== ${githubUsername}`)
     const created = await MC.model.ApplicationChangedQueue.create({
       githubUsername,
-      labels
+      issueId: issue.id,
+      issueNumber: issue.number,
+      issueTitle: issue.title,
+      labels: processLabels(issue.labels)
     })
     console.log(created)
     SendData(res, 200, 'Github issue webhook recorded successfully')

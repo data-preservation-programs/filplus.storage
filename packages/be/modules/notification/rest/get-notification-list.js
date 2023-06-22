@@ -28,7 +28,6 @@ MC.app.get('/get-notifications-list', async (req, res) => {
     const query = req.query
     const identifier = req.session.identifier
     if (!identifier) { throw ThrowError(200, 'You are not logged in') }
-    console.log(identifier)
     const page = await ParseNumber(query.page)
     const limit = 10
     const notifications = await process(

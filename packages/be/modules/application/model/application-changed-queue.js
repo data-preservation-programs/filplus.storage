@@ -12,6 +12,18 @@ const ApplicationChangedQueueSchema = new Schema({
     type: String,
     required: true
   },
+  issueId: {
+    type: String,
+    required: true
+  },
+  issueNumber: {
+    type: Number,
+    required: true
+  },
+  issueTitle: {
+    type: String,
+    required: true
+  },
   labels: [{
     type: String,
     required: true
