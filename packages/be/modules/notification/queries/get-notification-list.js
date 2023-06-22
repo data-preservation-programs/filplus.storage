@@ -8,7 +8,7 @@ module.exports = (page = 1, limit = 10, userId) => {
   const skip = (page - 1) * limit
   return [
 
-    { $match: { author: ObjectId(userId) } },
+    { $match: { ownerId: ObjectId(userId) } },
 
     { $sort: { createdAt: -1 } },
 

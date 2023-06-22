@@ -18,7 +18,11 @@
         :key="notification._id"
         class="notification">
 
-        <div class="message" v-html="notification.message" />
+        <div class="notification-code" style="font-size: 8px;">
+          {{ notification }}
+        </div>
+
+        <!-- <div class="message" v-html="notification.message" />
 
         <Timeago
           v-slot="{ convertedDate }"
@@ -26,7 +30,7 @@
           <div class="timeago">
             {{ convertedDate }}
           </div>
-        </Timeago>
+        </Timeago> -->
 
       </div>
     </div>
@@ -38,7 +42,7 @@
 // ===================================================================== Imports
 import { mapGetters } from 'vuex'
 
-import Timeago from '@/components/timeago'
+// import Timeago from '@/components/timeago'
 import IconBell from '@/components/icons/bell'
 
 // ====================================================================== Export
@@ -46,7 +50,7 @@ export default {
   name: 'NotificationPanel',
 
   components: {
-    Timeago,
+    // Timeago,
     IconBell
   },
 

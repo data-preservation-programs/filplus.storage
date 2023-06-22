@@ -1,4 +1,4 @@
-console.log('💿 [model] fp_notification')
+console.log('💿 [model] fp_application_changed_queue')
 
 // ///////////////////////////////////////////////////////////////////// Imports
 // -----------------------------------------------------------------------------
@@ -7,23 +7,15 @@ const Schema = Mongoose.Schema
 
 // ////////////////////////////////////////////////////////////////////// Schema
 // -----------------------------------------------------------------------------
-const NotificationSchema = new Schema({
-  ownerId: {
-    type: Schema.Types.ObjectId,
-    ref: 'fp_users',
-    required: true
-  },
-  bucket: {
+const ApplicationChangedQueueSchema = new Schema({
+  githubUsername: {
     type: String,
-    required: true,
-    enum: [
-      'application'
-    ]
-  },
-  custom: {
-    type: Schema.Types.Mixed,
     required: true
-  }
+  },
+  labels: [{
+    type: String,
+    required: true
+  }]
 }, {
   timestamps: true,
   minimize: false
@@ -31,4 +23,4 @@ const NotificationSchema = new Schema({
 
 // ////////////////////////////////////////////////////////////////////// Export
 // -----------------------------------------------------------------------------
-module.exports = Mongoose.model('fp_notification', NotificationSchema)
+module.exports = Mongoose.model('fp_application_changed_queue', ApplicationChangedQueueSchema)

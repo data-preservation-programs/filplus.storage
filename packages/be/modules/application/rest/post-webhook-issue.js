@@ -9,14 +9,28 @@ const { SendData } = require('@Module_Utilities')
 const MC = require('@Root/config')
 // const serverFlag = MC.serverFlag
 
+const processLabels = (labels) => {
+  if (labels.length === 0) { return [] }
+  return labels
+    .map(label => (label.name.toLowerCase()))
+    .sort()
+}
+
 // //////////////////////////////////////////////////////////////////// Endpoint
 // -----------------------------------------------------------------------------
 MC.app.post('/post-webhook-issue', async (req, res) => {
   try {
-    const issue = req.body.issue
-    const labels = issue.labels
-    console.log(labels)
-    SendData(res, 200, 'Github issue webhook recorded successfully', req.body)
+    const incoming = req.body
+    const issue = incoming.issue
+    const labels = processLabels(issue.labels)
+    const githubUsername = issue.user.login
+    console.log(`=========================================== ${githubUsername}`)
+    const created = await MC.model.ApplicationChangedQueue.create({
+      githubUsername,
+      labels
+    })
+    console.log(created)
+    SendData(res, 200, 'Github issue webhook recorded successfully')
   } catch (e) {
     console.log('============================= [Endpoint: /post-webhook-issue]')
     console.log(e)
