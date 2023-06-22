@@ -122,7 +122,7 @@ const iterateApplicationLabels = (application, applicationType) => {
     const eFilPlus = false
     return { applicationState, filPlusStorage, eFilPlus }
   } catch (e) {
-    console.log('================ [Function: iterateApplicationLabels]')
+    console.log('======================== [Function: iterateApplicationLabels]')
     console.log(e)
     throw e
   }
@@ -197,7 +197,10 @@ const ApplicationStats = async () => {
         inReview: gaStats.states.inReview + ldaStats.states.inReview,
         validated: gaStats.states.validated + ldaStats.states.validated,
         completed: gaStats.states.completed + ldaStats.states.completed,
-        segmented: [ldaStats.states, gaStats.states]
+        segmented: {
+          lda: ldaStats.states,
+          ga: gaStats.states
+        }
       },
       types: {
         lda: ldaStats.types.lda,
