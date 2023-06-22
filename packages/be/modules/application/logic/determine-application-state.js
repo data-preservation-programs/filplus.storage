@@ -1,5 +1,6 @@
 // ///////////////////////////////////////////////////////////////////// Imports
 // -----------------------------------------------------------------------------
+const HasLabel = require('@Module_Application/logic/has-label')
 
 // ////////////////////////////////////////////////////////////////////// Export
 // -----------------------------------------------------------------------------
@@ -9,11 +10,9 @@ module.exports = async (labels, applicationType) => {
     const validatedRegex = { ga: /(bot:)?\s?looking\s?good/gi, lda: /validated/ }
     const inReviewRegex = { ga: /(state)|(bot)?:\s?(further\s?info)?(review)?\s?needed/gi, lda: /error/ }
 
-    const hasLabel = (labels, regex) => { return labels.some((label) => { return label.match(regex) }) }
-
-    const completed = hasLabel(labels, completedRegex[applicationType])
-    const validated = hasLabel(labels, validatedRegex[applicationType])
-    const inReview = hasLabel(labels, inReviewRegex[applicationType])
+    const completed = HasLabel(labels, completedRegex[applicationType])
+    const validated = HasLabel(labels, validatedRegex[applicationType])
+    const inReview = HasLabel(labels, inReviewRegex[applicationType])
 
     return completed ? 'completed'
       : validated ? 'validated'
