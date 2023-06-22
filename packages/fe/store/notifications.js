@@ -36,7 +36,7 @@ const actions = {
         metadata: payload.metadata
       })
     } catch (e) {
-      console.log('=============== [Store Action: account/getNotificationList]')
+      console.log('========= [Store Action: notifications/getNotificationList]')
       console.log(e)
       // dispatch('setLoadingStatus', { type: 'loading', status: false })
       return false
@@ -45,6 +45,23 @@ const actions = {
   // /////////////////////////////////////////////////////// setNotificationList
   setNotificationList ({ commit }, notificationList) {
     commit('SET_NOTIFICATION_LIST', notificationList)
+  },
+  // /////////////////////////////////////////////////// markNotificationsAsRead
+  async markNotificationsAsRead ({ commit, getters, dispatch }, notificationIds) {
+    try {
+      const notificationList = getters.notificationList
+      const response = await this.$axiosAuth.post('/post-mark-notifications-read', notificationIds)
+      const notifications = response.data.payload
+      const len = notifications.length
+      for (let i = 0; i < len; i++) {
+        const notification = notifications[i]
+        const index = notificationList.findIndex(obj => obj._id === notification._id)
+        commit('UPDATE_NOTIFICATION', { index, notification })
+      }
+    } catch (e) {
+      console.log('===== [Store Action: notifications/markNotificationsAsRead]')
+      console.log(e)
+    }
   }
 }
 
@@ -58,7 +75,9 @@ const mutations = {
       state.metadata.totalPages = metadata.totalPages
       state.metadata.page = metadata.page
     }
-    console.log(state.notificationList)
+  },
+  UPDATE_NOTIFICATION (state, payload) {
+    state.notificationList.splice(payload.index, 1, payload.notification)
   }
 }
 

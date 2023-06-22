@@ -195,7 +195,7 @@ MC.app.on('mongoose-connected', async () => {
       const userIds = await performDatabaseOperations(notificationsToCreate, deleteFromQueueOperations)
       await refreshNotifications(socket, userIds)
     } catch (e) {
-      console.log('========================= [💣: ApplicationNotificationParser]')
+      console.log('======================= [💣: ApplicationNotificationParser]')
       console.log(e)
     }
     process.exit(0)

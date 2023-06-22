@@ -20,6 +20,11 @@ const NotificationSchema = new Schema({
       'application'
     ]
   },
+  read: {
+    type: Boolean,
+    required: true,
+    default: false
+  },
   custom: {
     type: Schema.Types.Mixed,
     required: true

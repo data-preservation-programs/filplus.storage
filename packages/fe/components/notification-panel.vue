@@ -16,7 +16,10 @@
       <div
         v-for="notification in notificationList"
         :key="notification._id"
-        class="notification">
+        class="notification"
+        @click="markNotificationsAsRead([notification._id])">
+
+        {{ notification.read ? 'READ' : 'NOT READ' }}
 
         <div class="notification-code" style="font-size: 8px;">
           {{ notification }}
@@ -40,7 +43,7 @@
 
 <script>
 // ===================================================================== Imports
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 // import Timeago from '@/components/timeago'
 import IconBell from '@/components/icons/bell'
@@ -67,6 +70,9 @@ export default {
   },
 
   methods: {
+    ...mapActions({
+      markNotificationsAsRead: 'notifications/markNotificationsAsRead'
+    }),
     togglePanel () {
       this.panelOpen = !this.panelOpen
     },
