@@ -46,7 +46,6 @@ const HasLabel = require('@Module_Application/logic/has-label')
 // /////////////////////////////////////////////////////////////////// Functions
 // -----------------------------------------------------------------------------
 // ///////////////////////////////////////////////////////////// getApplications
-
 const getApplications = async (applicationType, n = 1, applications = []) => {
   console.log(`🦞 getting ${applicationType} applications: request ${n}`)
   try {
@@ -76,7 +75,6 @@ const getApplications = async (applicationType, n = 1, applications = []) => {
 
 // //////////////////////////////////////////// iterateApplicationLabels
 const iterateApplicationLabels = (application, applicationType) => {
-  // console.log('🦊 > 🐡 determining application state')
   try {
     const labels = application.labels.map(label => (label.name.toLowerCase())).sort()
 
@@ -107,7 +105,6 @@ const iterateApplications = (applications, applicationType) => {
       inReview: 0,
       validated: 0,
       completed: 0
-      // noRelevantLabels: []
     }
     const types = {
       lda: {
@@ -126,13 +123,9 @@ const iterateApplications = (applications, applicationType) => {
         open: 0,
         closed: 0
       }
-
     }
     applications.forEach((application) => {
       const { applicationState, filPlusStorage, eFilPlus } = iterateApplicationLabels(application, applicationType)
-      // if (applicationState === 'noRelevantLabels') {
-      //   states.noRelevantLabels.push(application.number)
-      // }
       if (applicationState) {
         const issueState = application.state
         types[applicationType][issueState]++
