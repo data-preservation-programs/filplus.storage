@@ -43,30 +43,13 @@ const { SecondsToHms } = require('@Module_Utilities')
 
 // /////////////////////////////////////////////////////////////////// Functions
 // -----------------------------------------------------------------------------
-// ////////////////////////////////////////////////////////////// getTotalIssues
-const getTotalIssues = async (repo, dataProgramsToken) => {
-  // console.log('🦞 > 🦀 getting total issues')
-  try {
-    const options = {
-      headers: { Accept: 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28', Authorization: `Bearer ${dataProgramsToken}` }
-    }
-    const response = await Axios.get(`https://api.github.com/search/issues?q=repo:${repo}%20is:issue`, options)
-    return response.data.total_count
-  } catch (e) {
-    console.log('================================== [Function: getTotalIssues]')
-    console.log(e)
-    throw e
-  }
-}
-
 // ///////////////////////////////////////////////////////////// getApplications
 
-const getApplications = async (applicationType, n = 1, applications = [], totalIssues = 0) => {
+const getApplications = async (applicationType, n = 1, applications = []) => {
   console.log(`🦞 getting ${applicationType} applications: request ${n}`)
   try {
     const dataProgramsToken = process.env.GITHUB__PERSONAL_ACCESS_TOKEN__DATA_PROGRAMS
     const repo = MC.repos[applicationType][0]
-    if (totalIssues === 0) { totalIssues = await getTotalIssues(repo, dataProgramsToken) }
 
     const options = {
       headers: { Accept: 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28', Authorization: `Bearer ${dataProgramsToken}` },
@@ -78,8 +61,10 @@ const getApplications = async (applicationType, n = 1, applications = [], totalI
     }
     const response = await Axios.get(`https://api.github.com/repos/${repo}/issues`, options)
     const updatedApplications = [...applications, ...response.data]
-    if (updatedApplications.length < totalIssues) {
-      return getApplications(applicationType, n + 1, updatedApplications, totalIssues)
+    console.log('updatedApplications.length ', updatedApplications.length)
+    if (response.data.length === 100) {
+      console.log('response.data.length ', response.data.length)
+      return getApplications(applicationType, n + 1, updatedApplications)
     }
     return updatedApplications
   } catch (e) {
