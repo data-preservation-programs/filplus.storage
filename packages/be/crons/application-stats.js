@@ -147,13 +147,12 @@ const iterateApplications = (applications, applicationType) => {
       // if (applicationState === 'noRelevantLabels') {
       //   states.noRelevantLabels.push(application.number)
       // }
-      if (applicationState && applicationState !== 'noRelevantLabels') {
-        states[applicationState]++
+      if (applicationState) {
         const issueState = application.state
         types[applicationType][issueState]++
-
         if (filPlusStorage) { types.filPlusStorage[issueState]++ }
         if (eFilPlus) { types.eFilPlus[issueState]++ }
+        if (applicationState !== 'noRelevantLabels') { states[applicationState]++ }
       }
     })
     return { states, types }
