@@ -4,7 +4,7 @@ const HasLabel = require('@Module_Application/logic/has-label')
 
 // ////////////////////////////////////////////////////////////////////// Export
 // -----------------------------------------------------------------------------
-module.exports = async (labels, applicationType) => {
+module.exports = (labels, applicationType) => {
   try {
     const completedRegex = { ga: /(state:)?\s?granted/gi, lda: /total\s?datacap\s?reached/gi }
     const validatedRegex = { ga: /(bot:)?\s?looking\s?good/gi, lda: /validated/ }

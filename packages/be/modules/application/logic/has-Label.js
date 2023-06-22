@@ -3,7 +3,7 @@
 
 // ////////////////////////////////////////////////////////////////////// Export
 // -----------------------------------------------------------------------------
-module.exports = async (labels, regex) => {
+module.exports = (labels, regex) => {
   try {
     return labels.some((label) => { return label.match(regex) })
   } catch (e) {
