@@ -18,7 +18,7 @@ MC.app.post('/post-kyc-result', async (req, res) => {
     console.log(req.body)
     // }
     const body = req.body
-    let data = body.data
+    let data = body.data || body.error
     if (!data || data === '') {
       return SendData(res, 422, '<data> key is missing')
     }
