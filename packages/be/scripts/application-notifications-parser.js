@@ -8,7 +8,6 @@
 // -----------------------------------------------------------------------------
 const ModuleAlias = require('module-alias')
 const Path = require('path')
-const Axios = require('axios')
 const Fs = require('fs-extra')
 const Express = require('express')
 require('dotenv').config({ path: Path.resolve(__dirname, '../.env') })
@@ -46,7 +45,7 @@ require('@Module_User')
 require('@Module_Application')
 require('@Module_Notification')
 
-const { ThrowError } = require('@Module_Utilities')
+const { GenerateWebsocketClient } = require('@Module_Utilities')
 const FindUser = require('@Module_User/logic/find-user')
 
 // /////////////////////////////////////////////////////////////////// Functions
@@ -98,12 +97,13 @@ const convertQueueToNotifications = async (queue) => {
     const notificationsToCreate = {} // new notifications to be pushed, grouped by githubUsername
     for (let i = 0; i < lenI; i++) {
       const githubUsername = users[i]
-      notificationsToCreate[githubUsername] = []
+      notificationsToCreate[githubUsername] = { operations: [] }
       // Need to fetch the user in order to be able to grab their latest notification
       console.log('❓ username: ', githubUsername)
       const user = await FindUser({ githubUsername })
       const ownerId = user._id
-      if (!user) { return }
+      if (!user) { continue }
+      notificationsToCreate[githubUsername].userId = ownerId
       // Fetch latest notification and compare labels. If they're the same, do nothing.
       // This is to prevent a duplicate notification from being pushed
       const latestNotification = await MC.model.Notification
@@ -121,7 +121,7 @@ const convertQueueToNotifications = async (queue) => {
           console.log('❗️ SAME NOTIFICATION AS THE LAST ONE', potentialNotification)
           continue
         } else {
-          notificationsToCreate[githubUsername].push({
+          notificationsToCreate[githubUsername].operations.push({
             insertOne: {
               document: {
                 ownerId,
@@ -148,14 +148,18 @@ const performDatabaseOperations = async (notificationsToCreate, deleteFromQueueO
     const users = Object.keys(notificationsToCreate)
     const lenI = users.length
     let createdCount = 0
+    const userIds = []
     for (let i = 0; i < lenI; i++) {
       const githubUsername = users[i]
-      const operations = notificationsToCreate[githubUsername]
+      const userId = notificationsToCreate[githubUsername].userId
+      const operations = notificationsToCreate[githubUsername].operations
       const created = await MC.model.Notification.bulkWrite(operations)
       createdCount += created.nInserted
+      userIds.push(userId)
     }
     const deleted = await MC.model.ApplicationChangedQueue.bulkWrite(deleteFromQueueOperations)
     console.log(`New notifications: ${createdCount.toLocaleString()} | deleted: ${deleted.nRemoved}`)
+    return userIds
   } catch (e) {
     console.log('========================== [Logic: performDatabaseOperations]')
     console.log(e)
@@ -163,26 +167,37 @@ const performDatabaseOperations = async (notificationsToCreate, deleteFromQueueO
   }
 }
 
+const refreshNotifications = (socket, userIds) => {
+  userIds.forEach((userId) => {
+    console.log(userId)
+    socket.emit('script|refresh-notifications|initialize', `${userId}`)
+  })
+}
+
 // ////////////////////////////////////////////////////////////////// Initialize
 // -----------------------------------------------------------------------------
 MC.app.on('mongoose-connected', async () => {
   console.log('🤖 ApplicationNotificationParser bot engaged')
-  try {
-    const queue = await MC.model.ApplicationChangedQueue
-      .find()
-      .sort({ createdAt: 1 })
-      .select('-createdAt -updatedAt -__v')
-      .lean()
-    // console.log(queue)
-    const { uniqueQueue, deleteFromQueueOperations } = await getUniqueQueueEntries(queue)
-    console.log('❓ unique', uniqueQueue)
-    console.log('❓ delete', deleteFromQueueOperations)
-    // await convertQueueToNotifications(uniqueQueue)
-    const notificationsToCreate = await convertQueueToNotifications(uniqueQueue)
-    await performDatabaseOperations(notificationsToCreate, deleteFromQueueOperations)
-  } catch (e) {
-    console.log('========================= [💣: ApplicationNotificationParser]')
-    console.log(e)
-  }
-  process.exit(0)
+  await GenerateWebsocketClient(async (socket) => {
+    try {
+      const queue = await MC.model.ApplicationChangedQueue
+        .find()
+        .sort({ createdAt: 1 })
+        .select('-createdAt -updatedAt -__v')
+        .lean()
+      console.log(queue)
+      if (queue.length === 0) { process.exit(0) }
+      const { uniqueQueue, deleteFromQueueOperations } = await getUniqueQueueEntries(queue)
+      console.log('❓ unique', uniqueQueue)
+      console.log('❓ delete', deleteFromQueueOperations)
+      // await convertQueueToNotifications(uniqueQueue)
+      const notificationsToCreate = await convertQueueToNotifications(uniqueQueue)
+      const userIds = await performDatabaseOperations(notificationsToCreate, deleteFromQueueOperations)
+      await refreshNotifications(socket, userIds)
+    } catch (e) {
+      console.log('========================= [💣: ApplicationNotificationParser]')
+      console.log(e)
+    }
+    process.exit(0)
+  })
 })

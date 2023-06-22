@@ -86,6 +86,11 @@ export default {
           this.setAccount(account)
         }
       })
+      this.socket.on('script|refresh-notifications|event', () => {
+        if (this.account) {
+          this.getNotificationList()
+        }
+      })
       this.socket.on('disconnect', async () => {
         this.networkErrorToastId = await this.$toaster.add({
           type: 'toast',
@@ -112,7 +117,8 @@ export default {
   methods: {
     ...mapActions({
       setSavedFormExistsStatus: 'form/setSavedFormExistsStatus',
-      setAccount: 'auth/setAccount'
+      setAccount: 'auth/setAccount',
+      getNotificationList: 'notifications/getNotificationList'
     }),
     joinUserWebsocketRoom (account) { // every user joins their own room upon logging in
       this.socket.emit('join-room', account._id)
