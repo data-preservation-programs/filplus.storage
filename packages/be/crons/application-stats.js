@@ -40,6 +40,8 @@ try {
 
 // ///////////////////////////////////////////////////////////////////// Modules
 const { SecondsToHms } = require('@Module_Utilities')
+const DetermineApplicationState = require('@Module_Application/logic/determine-application-state')
+const HasLabel = require('@Module_Application/logic/has-label')
 
 // /////////////////////////////////////////////////////////////////// Functions
 // -----------------------------------------------------------------------------
@@ -78,30 +80,16 @@ const getApplications = async (applicationType, n = 1, applications = []) => {
 const iterateApplicationLabels = (application, applicationType) => {
   // console.log('🦊 > 🐡 determining application state')
   try {
-    const labels = application.labels
-    const completedRegex = { ga: /(state:)?\s?granted/gi, lda: /total\s?datacap\s?reached/gi }
-    const validatedRegex = { ga: /(bot:)?\s?looking\s?good/gi, lda: /validated/ }
-    const inReviewRegex = { ga: /(state)|(bot)?:\s?(further\s?info)?(review)?\s?needed/gi, lda: /error/ }
+    const labels = application.labels.map(label => (label.name.toLowerCase())).sort()
 
-    const hasLabel = (labels, regex) => { return labels.some((label) => { return label.name.match(regex) }) }
-
-    const completed = hasLabel(labels, completedRegex[applicationType])
-    const validated = hasLabel(labels, validatedRegex[applicationType])
-    const inReview = hasLabel(labels, inReviewRegex[applicationType])
-    const isPR = application.pull_request
-
-    const applicationState = isPR ? false
-      : completed ? 'completed'
-        : validated ? 'validated'
-          : inReview ? 'inReview'
-            : 'noRelevantLabels'
+    const applicationState = DetermineApplicationState(labels, applicationType)
 
     const filPlusStorageRegex = /(source:)?\s?filplus\.?storage/ig
-    const filPlusStorage = hasLabel(labels, filPlusStorageRegex)
+    const filPlusStorage = HasLabel(labels, filPlusStorageRegex)
 
     if (applicationType === 'lda') {
       const eFilPlusRegex = /e[-\s]?fil\s?(plus)?\+?/ig
-      const eFilPlus = hasLabel(labels, eFilPlusRegex)
+      const eFilPlus = HasLabel(labels, eFilPlusRegex)
       return { applicationState, filPlusStorage, eFilPlus }
     }
     const eFilPlus = false
