@@ -23,9 +23,9 @@
             <path d="M274 70V710C274 726.016 261.016 739 245 739H-8C-24.0163 739 -37 726.016 -37 710V70C-37 53.9838 -24.0163 41 -8 41H-6.875H0.1875C4.88297 41 9.2263 38.4065 11.4277 34.253C15.3746 26.8059 25.9855 26.643 30.1592 33.9653L30.431 34.4421C32.7421 38.4967 37.0504 41 41.7174 41H48.875H245C261.016 41 274 53.9837 274 70Z" fill="#101A17" stroke="white" stroke-width="2" />
           </g>
           <defs>
-          <clipPath id="clip0_3637_18381">
-            <rect width="42" height="42" fill="white" />
-          </clipPath>
+            <clipPath id="clip0_3637_18381">
+              <rect width="42" height="42" fill="white" />
+            </clipPath>
           </defs>
         </svg>
       </div>
@@ -50,7 +50,7 @@
 
           <div class="panel-right">
             <div class="notification-heading">
-              In Review
+              {{ stateMap[notification.custom.state] }}
             </div>
             <div class="message">
               Issue #{{ notification.custom.issueNumber }}: {{ notification.custom.issueTitle }}
@@ -90,7 +90,12 @@ export default {
 
   data () {
     return {
-      panelOpen: false
+      panelOpen: false,
+      stateMap: {
+        completed: 'Completed',
+        validated: 'validated',
+        inReview: 'In Review'
+      }
     }
   },
 
@@ -158,6 +163,8 @@ export default {
 
 // /////////////////////////////////////////////////////////////////////// Panel
 .notifications-panel {
+  display: flex;
+  flex-direction: column;
   position: absolute;
   top: 100%;
   left: 50%;
@@ -214,6 +221,7 @@ $squigglyWidth: 40;
 }
 
 .notifications-list {
+  flex: 1;
   overflow-y: scroll;
 }
 
