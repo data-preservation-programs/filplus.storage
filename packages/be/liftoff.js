@@ -55,6 +55,8 @@ try {
 //   try {
 //     const user = await MC.model.User.findOne({ githubUsername: 'timelytree' })
 //     console.log(user)
+//     // const users = await MC.model.User.find({ 'kyc.event': 'success' }).select('githubUsername githubToken kyc').lean()
+//     // console.log(users)
 //     // const users = await MC.model.User.findById('')
 //     // const users = await MC.model.User.find().sort({ createdAt: 1 })
 //     // console.log(user.kyc.data)
