@@ -60,7 +60,7 @@ try {
 //     // console.log(users.length)
 //     // user.kyc = null
 //     // user.kyc = {
-//     //   event: 'failure',
+//     //   event: 'success',
 //     //   error: {
 //     //     name: 'LifeProofValidationFailed',
 //     //     message: 'Failed to validate the life proof',
