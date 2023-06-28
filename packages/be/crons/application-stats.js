@@ -1,6 +1,6 @@
 /**
  *
- * ⏱️️ [Cron | every 1 hour] ApplicationStats
+ * ⏱️️ [Cron | every 15 minutes] ApplicationStats
  *
  */
 
