@@ -50,8 +50,7 @@ const getApplications = async (applicationType, n = 1, applications = []) => {
   console.log(`🦞 getting ${applicationType} applications: request ${n}`)
   try {
     const dataProgramsToken = process.env.GITHUB__PERSONAL_ACCESS_TOKEN__DATA_PROGRAMS
-    const repo = MC.repos[applicationType][0]
-
+    const repo = MC.repos[applicationType].production
     const options = {
       headers: { Accept: 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28', Authorization: `Bearer ${dataProgramsToken}` },
       params: {

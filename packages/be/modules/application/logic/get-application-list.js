@@ -9,7 +9,7 @@ const MC = require('@Root/config')
 // -----------------------------------------------------------------------------
 module.exports = async (view, user, page = 1, state = 'all', limit = 10, sort = 'created') => {
   try {
-    const repo = MC.serverFlag === 'production' ? MC.repos[view][0] : MC.repos[view][1]
+    const repo = MC.repos[view][MC.serverFlag]
     const options = {
       headers: { Accept: 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28', Authorization: `Bearer ${user.githubToken}` },
       params: {
