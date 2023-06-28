@@ -101,7 +101,7 @@ const iterateApplications = (applications, applicationType) => {
   console.log(`🦊 iterating over ${applicationType} applications`)
   try {
     const states = {
-      inReview: 0,
+      reviewing: 0,
       validated: 0,
       completed: 0
     }
@@ -156,7 +156,7 @@ const ApplicationStats = async () => {
 
     const data = {
       states: {
-        inReview: gaStats.states.inReview + ldaStats.states.inReview,
+        reviewing: gaStats.states.reviewing + ldaStats.states.reviewing,
         validated: gaStats.states.validated + ldaStats.states.validated,
         completed: gaStats.states.completed + ldaStats.states.completed,
         segmented: {
