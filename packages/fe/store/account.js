@@ -111,6 +111,10 @@ const actions = {
       assignees.push('kevzak')
       comments.push(`This application requests a total of ${requestedAmount}, so it’s labeled \`efil+\``)
     }
+    if (application.public_availability_radio === 'No') {
+      if (!labels.includes('efil+')) { labels.push('efil+') }
+      comments.push('This application is requesting DataCap for a **private** dataset, so it\'s labeled `efil+`')
+    }
     try {
       this.$gtm.push({ event: `submission_${stage}` })
       const response = await this.$axiosAuth.post('/submit-application', {

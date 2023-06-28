@@ -68,7 +68,9 @@ In order to use the site in local development mode, two files must be added to t
 
 ```zsh
 cd ~/.ssh
-brew install mkcert ## replace with another package manager for linux distro
+brew install mkcert # replace with another package manager for linux distro
+brew install nss # need to install certutil before running `mkcert -install` so the CA can be automatically installed in Firefox
+# at this point, open any https website in Firefox before running the below commands
 mkcert -install
 mkcert -key-file localhost_key.pem -cert-file localhost_cert.pem localhost 127.0.0.1
 cat localhost_cert.pem > localhost_fullchain.pem

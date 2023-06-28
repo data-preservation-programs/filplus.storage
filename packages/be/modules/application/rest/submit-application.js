@@ -8,11 +8,6 @@ const SubmitHubspotContact = require('@Module_Application/logic/submit-hubspot-c
 
 const MC = require('@Root/config')
 
-const repos = {
-  ga: ['filecoin-project/filecoin-plus-client-onboarding', 'data-preservation-programs/filecoin-plus-client-onboarding'],
-  lda: ['filecoin-project/filecoin-plus-large-datasets', 'data-preservation-programs/filecoin-plus-large-datasets']
-}
-
 // /////////////////////////////////////////////////////////////////// Functions
 // -----------------------------------------------------------------------------
 // ///////////////////////////////////////////////////////////// processTemplate
@@ -118,7 +113,7 @@ MC.app.post('/submit-application', async (req, res) => {
       })
     }
     // ------------------------------------------------------ submit application
-    const repo = MC.serverFlag === 'production' ? repos[type][0] : repos[type][1]
+    const repo = MC.repos[type][MC.serverFlag]
     const options = { headers: { Accept: 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28', Authorization: `Bearer ${user.githubToken}` } }
     const githubIssue = await submitApplication(type, stage, template, application, repo, options)
     // -------- data-programs machine user -> submit assignees, labels, comments

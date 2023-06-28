@@ -13,12 +13,10 @@ const serverFlag = MC.serverFlag
 // -----------------------------------------------------------------------------
 MC.app.post('/post-kyc-result', async (req, res) => {
   try {
-    // if (serverFlag === 'stable') {
-    console.log('========================================== /post-kyc-result')
-    console.log(req.body)
-    // }
-    const body = req.body
-    let data = body.data || body.error
+    const kyc = req.body
+    console.log('============================================ /post-kyc-result')
+    console.log(kyc)
+    let data = kyc.data || kyc.error
     if (!data || data === '') {
       return SendData(res, 422, '<data> key is missing')
     }
@@ -35,7 +33,9 @@ MC.app.post('/post-kyc-result', async (req, res) => {
     if (!user) {
       return SendData(res, 422, 'Could not find user associated with <identifier>', { identifier: githubUsername })
     }
-    const saved = await UpdateUser({ _id: user._id, kyc: req.body })
+    const kycHistory = user.kycHistory
+    kycHistory.push(kyc)
+    const saved = await UpdateUser({ _id: user._id, kyc, kycHistory })
     MC.socket.io.to(`${saved._id}`).emit('module|kyc-updated|payload', saved)
     SendData(res, 200, 'KYC result recorded successfully', saved)
   } catch (e) {
