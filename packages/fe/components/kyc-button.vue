@@ -110,15 +110,13 @@ export default {
       return `${this.$config.togggleLink}&identifier=${this.account.githubUsername}`
     },
     tooltip () {
-      const status = this.status
       let tooltip = this.kycButton.tooltip
       if (!tooltip) { return false }
-      switch (status) {
-        case 'unverified' : tooltip = tooltip.replace('|link|', `<a href="${this.togggleLink}" target="_blank">Start KYC</a>.`); break
-        case 'verifying' : tooltip = tooltip.replace('|link|', `<a href="${this.togggleLink}" target="_blank">Check Status</a>.`); break
-        // case 'failure' : tooltip = tooltip.replace('|link|', `<a href="${this.togggleLink}" target="_blank">reach out</a>`); break
-        case 'failure' : tooltip = tooltip.replace('|link|', `<a href="${this.togggleLink}" target="_blank">try again</a>`); break
-      }
+      tooltip = tooltip.replaceAll('|Start_kyc_link|', `<a href="${this.togggleLink}" target="_blank">Start KYC</a>`)
+      tooltip = tooltip.replaceAll('|start_kyc_link|', `<a href="${this.togggleLink}" target="_blank">start KYC</a>`)
+      tooltip = tooltip.replaceAll('|Check_status_link|', `<a href="${this.togggleLink}" target="_blank">Check status</a>`)
+      tooltip = tooltip.replaceAll('|reach_out_link|', `<a href="${this.togggleLink}" target="_blank">reach out</a>`)
+      tooltip = tooltip.replaceAll('|try_again_link|', `<a href="${this.togggleLink}" target="_blank">try again</a>`)
       return tooltip
     }
   }

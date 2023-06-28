@@ -51,46 +51,45 @@ try {
 
 // /////////////////////////////////////////////////////////////////////////////
 // -----------------------------------------------------------------------------
-const users = async () => {
-  try {
-    const user = await MC.model.User.findOne({ githubUsername: 'timelytree' })
-    // const users = await MC.model.User.findById('')
-    // const users = await MC.model.User.find().sort({ createdAt: 1 })
-    // console.log(user.kyc.data)
-    // console.log(users.length)
-    user.kyc = {
-      event: 'success',
-      error: {
-        name: 'LifeProofValidationFailed',
-        message: 'Failed to validate the life proof',
-        custom: {
-          email: 'info@dcent.nl',
-          environment: 'production',
-          identifier: 'cryptowhizzard'
-        }
-      }
-    }
-    // user.hubspotOptIn = false
-    // user.hubspotOptInContactId = undefined
-    // user.hubspotOptInEmail = undefined
-    // user.hubspotOptInFirstName = undefined
-    // user.hubspotOptInLastName = undefined
-    // user.hubspotOptInApplicationCompanyName = undefined
-    // user.hubspotOptInApplicationRegion = undefined
-    // user.hubspotOptInApplicationDatacapRequested = undefined
-    // user.hubspotOptInApplicationWalletAddress = undefined
-    const saved = await user.save()
-    console.log(saved)
-  } catch (e) {
-    console.log(e)
-  }
-  // try {
-  //   const user = await MC.model.User.deleteOne({ githubUsername: 'timelytree' })
-  //   console.log(user)
-  // } catch (e) {
-  //   console.log(e)
-  // }
-}; users()
+// const users = async () => {
+//   try {
+//     const user = await MC.model.User.findOne({ githubUsername: 'timelytree' })
+//     // const users = await MC.model.User.findById('')
+//     // const users = await MC.model.User.find().sort({ createdAt: 1 })
+//     // console.log(user.kyc.data)
+//     // console.log(users.length)
+//     // user.kyc = null
+//     // user.kyc = {
+//     //   event: 'failure',
+//     //   error: {
+//     //     name: 'LifeProofValidationFailed',
+//     //     message: 'Failed to validate the life proof',
+//     //     custom: {
+//     //       identifier: 'timelytree'
+//     //     }
+//     //   }
+//     // }
+//     // user.hubspotOptIn = false
+//     // user.hubspotOptInContactId = undefined
+//     // user.hubspotOptInEmail = undefined
+//     // user.hubspotOptInFirstName = undefined
+//     // user.hubspotOptInLastName = undefined
+//     // user.hubspotOptInApplicationCompanyName = undefined
+//     // user.hubspotOptInApplicationRegion = undefined
+//     // user.hubspotOptInApplicationDatacapRequested = undefined
+//     // user.hubspotOptInApplicationWalletAddress = undefined
+//     const saved = await user.save()
+//     console.log(saved)
+//   } catch (e) {
+//     console.log(e)
+//   }
+//   // try {
+//   //   const user = await MC.model.User.deleteOne({ githubUsername: 'timelytree' })
+//   //   console.log(user)
+//   // } catch (e) {
+//   //   console.log(e)
+//   // }
+// }; users()
 
 // //////////////////////////////////////////////////////// lookupHubspotContact
 // const Axios = require('axios')
