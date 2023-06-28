@@ -32,7 +32,8 @@
           <div class="panel-right">
 
             <template v-if="account">
-              <div v-if="!account.kyc || account.kyc && account.kyc.event !== 'failure'" class="kyc">
+              <!-- <div v-if="!account.kyc || account.kyc && account.kyc.event !== 'failure'" class="kyc"> -->
+              <div class="kyc">
                 <div class="kyc-heading" v-html="kycHeading" />
                 <KycButton
                   tooltip-align="top"

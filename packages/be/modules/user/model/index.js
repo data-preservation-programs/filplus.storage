@@ -88,7 +88,12 @@ const UserSchema = new Schema({
     type: Schema.Types.Mixed,
     required: false,
     default: null
-  }
+  },
+  kycHistory: [{
+    type: Schema.Types.Mixed,
+    required: false,
+    default: []
+  }]
 }, {
   timestamps: true,
   minimize: false,
