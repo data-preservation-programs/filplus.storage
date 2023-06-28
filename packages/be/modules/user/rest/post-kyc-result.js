@@ -14,11 +14,9 @@ const serverFlag = MC.serverFlag
 MC.app.post('/post-kyc-result', async (req, res) => {
   try {
     const kyc = req.body
-    if (serverFlag === 'stable') {
-      console.log('========================================== /post-kyc-result')
-      console.log(kyc)
-    }
-    let data = kyc.data
+    console.log('============================================ /post-kyc-result')
+    console.log(kyc)
+    let data = kyc.data || kyc.error
     if (!data || data === '') {
       return SendData(res, 422, '<data> key is missing')
     }
