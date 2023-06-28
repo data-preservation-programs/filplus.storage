@@ -43,9 +43,13 @@
         "text": "Verifying...",
         "tooltip": "It looks like your KYC verification is currently in progress. |link|"
       },
-      "failure": {
+      "failure_original_message": {
         "text": "Verification not available",
         "tooltip": "You are not eligible for KYC verification at this time. If you feel that this is a mistake, please |link| to the Filecoin plus team."
+      },
+      "failure": {
+        "text": "Confirm Identity",
+        "tooltip": "You attempted but failed KYC. Please |link| or reach out for more information. The most likely reasons for failing are due to poor lighting or bad/blurry photos."
       },
       "success": {
         "text": "Verified User",

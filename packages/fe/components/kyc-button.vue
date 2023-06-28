@@ -84,15 +84,18 @@ export default {
       return kyc.event
     },
     hideButton () {
-      return this.theme === 'bare' && this.status === 'failure'
+      // return this.theme === 'bare' && this.status === 'failure'
+      return false
     },
     showExternalLinkIcon () {
       const status = this.status
-      return status === 'unverified' || status === 'verifying'
+      // return status === 'unverified' || status === 'verifying'
+      return status === 'unverified' || status === 'verifying' || status === 'failure'
     },
     kycButtonType () {
       const status = this.status
-      return status === 'success' || status === 'failure' ? 'div' : 'a'
+      // return status === 'success' || status === 'failure' ? 'div' : 'a'
+      return status === 'success' ? 'div' : 'a'
     },
     kycButtonContent () {
       return this.siteContent.general.navigation.kyc_button
@@ -113,7 +116,8 @@ export default {
       switch (status) {
         case 'unverified' : tooltip = tooltip.replace('|link|', `<a href="${this.togggleLink}" target="_blank">Start KYC</a>.`); break
         case 'verifying' : tooltip = tooltip.replace('|link|', `<a href="${this.togggleLink}" target="_blank">Check Status</a>.`); break
-        case 'failure' : tooltip = tooltip.replace('|link|', `<a href="${this.togggleLink}" target="_blank">reach out</a>`); break
+        // case 'failure' : tooltip = tooltip.replace('|link|', `<a href="${this.togggleLink}" target="_blank">reach out</a>`); break
+        case 'failure' : tooltip = tooltip.replace('|link|', `<a href="${this.togggleLink}" target="_blank">try again</a>`); break
       }
       return tooltip
     }
@@ -183,8 +187,8 @@ export default {
   &.failure {
     padding: 3px toRem(17);
   }
-  &.success,
-  &.failure {
+  &.success/*,
+  &.failure*/ {
     cursor: no-drop;
     &:hover {
       transform: none;
@@ -193,11 +197,11 @@ export default {
   &.verifying {
     font-style: italic;
   }
-  &.failure {
-    background-color: $aztec;
-    border-color: $nandor;
-    color: $nandor;
-  }
+  // &.failure {
+  //   background-color: $aztec;
+  //   border-color: $nandor;
+  //   color: $nandor;
+  // }
   .link-text {
     font-weight: 500;
   }
