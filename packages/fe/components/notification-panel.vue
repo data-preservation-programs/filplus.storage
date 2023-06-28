@@ -94,7 +94,7 @@ export default {
       stateMap: {
         completed: 'Completed',
         validated: 'validated',
-        inReview: 'In Review'
+        reviewing: 'In Review'
       }
     }
   },
