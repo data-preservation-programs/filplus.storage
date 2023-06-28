@@ -272,6 +272,9 @@ export default {
       }
     }
   }
+  .tooltip-content-wrapper {
+    display: none;
+  }
 }
 
 :deep(.button-logout.button-x) {

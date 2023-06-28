@@ -31,15 +31,16 @@
         <div class="col-4_sm-3_mi-2">
           <div class="panel-right">
 
-            <!-- <template v-if="account">
-              <div v-if="!account.kyc || account.kyc && account.kyc.event !== 'failure'" class="kyc">
+            <template v-if="account">
+              <!-- <div v-if="!account.kyc || account.kyc && account.kyc.event !== 'failure'" class="kyc"> -->
+              <div class="kyc">
                 <div class="kyc-heading" v-html="kycHeading" />
                 <KycButton
                   tooltip-align="top"
                   theme="full"
                   class="kyc-button" />
               </div>
-            </template> -->
+            </template>
 
             <div class="warp-image-double" />
 
@@ -57,7 +58,7 @@
 import { mapGetters } from 'vuex'
 
 import ButtonX from '@/components/buttons/button-x'
-// import KycButton from '@/components/kyc-button'
+import KycButton from '@/components/kyc-button'
 
 import Chevron from '@/components/icons/chevron'
 
@@ -67,7 +68,7 @@ export default {
 
   components: {
     ButtonX,
-    // KycButton,
+    KycButton,
     Chevron
   },
 

@@ -55,13 +55,9 @@ try {
 //   try {
 //     const user = await MC.model.User.findOne({ githubUsername: 'timelytree' })
 //     console.log(user)
-//     // const users = await MC.model.User.find({ 'kyc.event': 'success' }).select('githubUsername githubToken kyc').lean()
-//     // console.log(users)
 //     // const users = await MC.model.User.findById('')
 //     // const users = await MC.model.User.find().sort({ createdAt: 1 })
-//     // console.log(user.kyc.data)
 //     // console.log(users.length)
-//     // user.kyc = null
 //     // user.hubspotOptIn = false
 //     // user.hubspotOptInContactId = undefined
 //     // user.hubspotOptInEmail = undefined
@@ -122,6 +118,39 @@ const notifications = async () => {
     console.log(e)
   }
 }; notifications()
+
+const kyc = async () => {
+  try {
+    // const users = await MC.model.User.find()
+    // const len = users.length
+    // for (let i = 0; i < len; i++) {
+    //   const user = users[i]
+    //   const kyc = user.kyc
+    //   if (kyc) {
+    //     user.kycHistory.push(kyc)
+    //     const saved = await user.save()
+    //     console.log(saved)
+    //   }
+    // }
+    // const user = await MC.model.User.findOne({ githubUsername: 'timelytree' })
+    // console.log(user)
+    // user.kyc = null
+    // user.kyc = {
+    //   event: 'success',
+    //   error: {
+    //     name: 'LifeProofValidationFailed',
+    //     message: 'Failed to validate the life proof',
+    //     custom: {
+    //       identifier: 'timelytree'
+    //     }
+    //   }
+    // }
+    // const saved = await user.save()
+    // console.log(saved)
+  } catch (e) {
+    console.log(e)
+  }
+}; kyc()
 
 // //////////////////////////////////////////////////////// lookupHubspotContact
 // const Axios = require('axios')

@@ -1,6 +1,6 @@
 /**
  *
- * ⏱️️ [Cron | every 1 hour] ApplicationStats
+ * ⏱️️ [Cron | every 15 minutes] ApplicationStats
  *
  */
 
@@ -50,8 +50,7 @@ const getApplications = async (applicationType, n = 1, applications = []) => {
   console.log(`🦞 getting ${applicationType} applications: request ${n}`)
   try {
     const dataProgramsToken = process.env.GITHUB__PERSONAL_ACCESS_TOKEN__DATA_PROGRAMS
-    const repo = MC.repos[applicationType][0]
-
+    const repo = MC.repos[applicationType].production
     const options = {
       headers: { Accept: 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28', Authorization: `Bearer ${dataProgramsToken}` },
       params: {
@@ -102,7 +101,7 @@ const iterateApplications = (applications, applicationType) => {
   console.log(`🦊 iterating over ${applicationType} applications`)
   try {
     const states = {
-      inReview: 0,
+      reviewing: 0,
       validated: 0,
       completed: 0
     }
@@ -157,7 +156,7 @@ const ApplicationStats = async () => {
 
     const data = {
       states: {
-        inReview: gaStats.states.inReview + ldaStats.states.inReview,
+        reviewing: gaStats.states.reviewing + ldaStats.states.reviewing,
         validated: gaStats.states.validated + ldaStats.states.validated,
         completed: gaStats.states.completed + ldaStats.states.completed,
         segmented: {
