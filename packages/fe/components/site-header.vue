@@ -1,112 +1,77 @@
 <template>
-  <header
-    id="site-header"
-    ref="header"
-    :class="{ mini }">
-
-    <div class="grid-noGutter">
+  <div id="site-header" :class="{ mini }">
+    
+    <div class="grid">
       <div class="col">
         <div class="inner-container">
 
-          <!-- ======================================================== Logo -->
-          <nuxt-link
-            to="/"
-            class="logo-link"
-            @click.native="closeNav">
+          <!-- ======================================================== logo -->
+          <nuxt-link to="/" class="logo-link">
             <Logo class="logo" />
           </nuxt-link>
 
-          <div
-            v-if="breakpoint !== 'medium'"
-            :class="['nav-wrapper', breakpoint]"
-            :style="{
-              width: `${navWidth}px`,
-              '--squiggle-container-length': `${squiggleContainerLength}px`,
-              '--right-squiggle-offset': `${navWidth - squiggleContainerLength}px`,
-            }">
+          <!-- ========================================================= nav -->
+          <nav id="site-nav">
 
-            <div class="nav-detail" />
-
-            <!-- ================================================ Squigglies -->
-            <div class="squiggle-container">
+            <!-- ===== [border] top -->
+            <div ref="siteNav" class="border-top">
               <div
-                :class="['svg-wrapper', 'animated', breakpoint]"
-                :style="{ transform: `translateX(${squiggleOffsetLeft - squiggleDefaultOffset}px)` }">
-                <svg
-                  class="squiggle"
-                  width="1860"
-                  height="40"
-                  viewBox="0 0 1858 40"
-                  xmlns="http://www.w3.org/2000/svg">
-                  <path
-                    :key="pathKey"
-                    :d="path"
-                    stroke="white"
-                    stroke-width="2" />
-                </svg>
-              </div>
-              <div
-                class="svg-wrapper static"
-                :style="{ '--bottom-squiggle-offset': `${bottomSquiggleOffset}px` }">
-                <svg
-                  class="squiggle"
-                  width="1860"
-                  height="40"
-                  viewBox="0 0 1858 40"
-                  xmlns="http://www.w3.org/2000/svg">
-                  <path
-                    :d="path"
-                    stroke="white"
-                    stroke-width="2" />
+                :style="{ transform: bloopTransform }"
+                :class="['bloop-slider', { 'can-animate': bloopCanNowAnimate }]">
+                <svg class="bloop" viewBox="0 0 119 23" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M118.5 1.41252H96.3169C95.9393 1.41252 95.5626 1.39096 95.1868 1.35434C93.2561 1.16622 86.7888 0.63052 82.5 1.41252C69.7448 3.73823 68.9632 21.6535 56 21.4125C43.3462 21.1773 42.9439 3.71967 30.5 1.41252C26.3958 0.651588 20.2124 1.16646 18.3203 1.35285C17.9385 1.39045 17.5577 1.41252 17.1741 1.41252H0.5" stroke="white" stroke-width="2" />
                 </svg>
               </div>
             </div>
 
-            <nav id="site-nav">
-              <!-- =============================================== Nav links -->
+            <!-- ===== [border] left -->
+            <div class="border-left" />
+
+            <!-- ===== [border] right -->
+            <div class="border-right" />
+
+            <!-- ===== nav links -->
+            <div
+              class="button-list"
+              @mouseleave="setBloopDefaultPosition">
               <div
-                ref="buttonList"
-                class="button-list"
-                @mouseleave.self="mouseLeaveNav">
+                v-for="(link, index) in links"
+                :key="index"
+                class="site-nav-link-wrapper"
+                @mouseenter="navLinkMouseEnter">
                 <ButtonX
-                  v-for="(link, index) in links"
-                  :key="index"
-                  ref="navItems"
                   :to="link.href"
                   :selected="$isRouteCurrent($route, link.href)"
                   :tag="link.type"
                   :target="link.target"
-                  class="site-nav-link"
-                  @mouseover.native="mouseOverLink(index)">
+                  class="site-nav-link">
                   <div class="text" v-html="link.label" />
                 </ButtonX>
-                <AuthButton />
-                <ButtonA
-                  v-if="cta"
-                  :to="cta.href"
-                  tag="button"
-                  class="site-nav-cta"
-                  @clicked="$highlightApplyForm">
-                  <div class="text" v-html="cta.label" />
-                </ButtonA>
               </div>
+            </div>
 
-            </nav>
+            <!-- ===== auth -->
+            <AuthPanel />
 
-          </div>
+            <!-- ===== marker used to align default bloop position -->
+            <div ref="marker" class="marker" />
 
-          <!-- ================================================== Mobile nav -->
-          <MobileNav
-            v-else
-            ref="mobileNav"
-            :links="links"
-            :cta="cta" />
+            <!-- ===== CTA -->
+            <ButtonA
+              :to="cta.href"
+              tag="button"
+              class="site-nav-cta"
+              @clicked="$highlightApplyForm">
+              <div class="text" v-html="cta.label" />
+            </ButtonA>
+
+          </nav>
 
         </div>
       </div>
     </div>
 
-  </header>
+  </div>
 </template>
 
 <script>
@@ -116,38 +81,8 @@ import { mapGetters, mapActions } from 'vuex'
 import Logo from '@/components/logo'
 import ButtonA from '@/components/buttons/button-a'
 import ButtonX from '@/components/buttons/button-x'
-import MobileNav from '@/components/mobile-nav'
-import AuthButton from '@/components/auth-button'
-
-// =================================================================== Functions
-const resizeHandler = (instance) => {
-  instance.squiggleOffsetLeft = 0
-  if (window.matchMedia('(max-width: 64rem)').matches) {
-    if (instance.breakpoint !== 'medium') {
-      instance.breakpoint = 'medium'
-    }
-  } else if (window.matchMedia('(max-width: 75rem)').matches) {
-    if (instance.breakpoint !== 'large') {
-      instance.breakpoint = 'large'
-    }
-  } else if (window.matchMedia('(max-width: 90rem)').matches) {
-    if (instance.breakpoint !== 'xlarge') {
-      instance.breakpoint = 'xlarge'
-    }
-  } else {
-    if (instance.breakpoint !== 'default') {
-      instance.breakpoint = 'default'
-    }
-  }
-  if (instance.$refs.buttonList) {
-    const children = instance.$refs.buttonList.children
-    const lastButton = children[children.length - 1]
-    const offset = lastButton.offsetLeft - instance.navWidth
-    const offXlarge = instance.breakpoint === 'xlarge' ? 28 : instance.breakpoint === 'large' ? 24 : 0
-    instance.bottomSquiggleOffset = offset - offXlarge
-    instance.squiggleContainerLength = lastButton.offsetLeft + lastButton.clientWidth
-  }
-}
+// import MobileNav from '@/components/mobile-nav'
+import AuthPanel from '@/components/auth-panel'
 
 // ====================================================================== Export
 export default {
@@ -157,22 +92,16 @@ export default {
     Logo,
     ButtonA,
     ButtonX,
-    MobileNav,
-    AuthButton
+    // MobileNav,
+    AuthPanel
   },
 
   data () {
     return {
       mini: false,
       scroll: false,
-      resize: false,
-      squiggleWidth: 80,
-      squiggleOffsetLeft: 0,
-      pathKey: 0,
-      path: 'M 0 2 H 892 C 893 2 893 2 893 2 C 895 2 901 1 906 2 C 918 4 918 22 931 22 C 944 22 945 4 958 2 C 962 1 968 2 970 2 C 971 2 971 2 971 2 H 1862',
-      breakpoint: 'default',
-      bottomSquiggleOffset: -182,
-      squiggleContainerLength: 0
+      bloopTransform: 'translateX(0%)',
+      bloopCanNowAnimate: false // set to true only after initial load
     }
   },
 
@@ -181,15 +110,6 @@ export default {
       siteContent: 'general/siteContent',
       account: 'auth/account'
     }),
-    navWidth () {
-      if (this.breakpoint !== 'default') {
-        return this.breakpoint === 'xlarge' ? 930 : 760
-      }
-      return 960
-    },
-    squiggleDefaultOffset () {
-      return this.breakpoint === 'large' ? 532 : 436
-    },
     navigationContent () {
       return this.siteContent.general.navigation
     },
@@ -202,23 +122,18 @@ export default {
   },
 
   watch: {
-    squiggleOffsetLeft () {
-      this.pathKey++
-    },
     account (account) {
       this.$nextTick(() => {
-        setTimeout(() => {
-          if (account) {
-            this.getNotificationList()
-          }
-          resizeHandler(this)
-        }, 100)
+        if (account) {
+          this.getNotificationList()
+        }
       })
     }
   },
 
   mounted () {
     this.$nextTick(() => {
+      // Set up scrollHandler to detect when to make the site nav mini
       const scrollHandler = () => {
         const y = window.pageYOffset || document.documentElement.scrollTop
         const mini = this.mini
@@ -230,9 +145,12 @@ export default {
       }; scrollHandler()
       this.scroll = this.$throttle(scrollHandler, 1)
       window.addEventListener('scroll', this.scroll)
-      resizeHandler(this)
-      this.resize = this.$throttle(() => { resizeHandler(this) }, 1)
-      window.addEventListener('resize', this.resize)
+      this.setBloopDefaultPosition()
+      // Set the initial position of the bloop
+      const timeout = setTimeout(() => {
+        this.bloopCanNowAnimate = true
+        clearTimeout(timeout)
+      }, 150)
     })
   },
 
@@ -244,24 +162,17 @@ export default {
     ...mapActions({
       getNotificationList: 'notifications/getNotificationList'
     }),
-    mouseOverLink (index) {
-      if (this.$refs.navItems) {
-        const element = this.$refs.navItems[index].$el
-        const elemCenter = element.offsetLeft + (element.clientWidth / 2)
-        // svgScalar is needed to account for the difference between the
-        // length of the flat portion of the svg and the nav length
-        const svgScalar = 892 - this.navWidth
-        this.squiggleOffsetLeft = elemCenter - this.navWidth + this.squiggleDefaultOffset - (this.squiggleWidth / 2) - svgScalar
-      }
+    setBloopDefaultPosition () {
+      const rectSiteNav = this.$refs.siteNav.getBoundingClientRect()
+      const marker = this.$refs.marker.getBoundingClientRect()
+      const offset = marker.left - rectSiteNav.left + (marker.width / 2)
+      this.bloopTransform = `translateX(calc(${offset / rectSiteNav.width * 100}% + 3px))`
     },
-    mouseLeaveNav () {
-      this.squiggleOffsetLeft = 0
-    },
-    closeNav () {
-      const mobileNav = this.$refs.mobileNav
-      if (mobileNav && mobileNav.modal) {
-        mobileNav.toggleModal()
-      }
+    navLinkMouseEnter (e) {
+      const rectSiteNav = this.$refs.siteNav.getBoundingClientRect()
+      const rectLink = e.target.getBoundingClientRect()
+      const offset = rectLink.left - rectSiteNav.left + (rectLink.width / 2)
+      this.bloopTransform = `translateX(calc(${offset / rectSiteNav.width * 100}% + 3px))`
     }
   }
 }
@@ -276,7 +187,7 @@ export default {
   width: 100%;
   height: $siteHeaderHeight;
   z-index: 1000;
-  transition: background-color 150ms ease-out, height 150ms ease-out;
+  transition: 150ms ease-out;
   &:before {
     content: '';
     position: absolute;
@@ -290,14 +201,18 @@ export default {
     transition: 150ms ease-out;
   }
   &.mini {
-    transition: background-color 150ms ease-in, height 150ms ease-in;
+    transition: 150ms ease-in;
     height: $siteHeaderHeightMini;
+    @include mini {
+      height: $siteHeaderHeight;
+    }
     &:before {
       transition: 150ms ease-in;
       height: 150%;
     }
-    @include mini {
-      height: $siteHeaderHeight;
+    #site-nav {
+      transition: 150ms ease-in;
+      height: 4rem;
     }
   }
 }
@@ -311,8 +226,9 @@ export default {
 .inner-container {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;;
+  justify-content: space-between;
   align-items: center;
+  position: relative;
   width: 100%;
   height: 100%;
   @include small {
@@ -321,87 +237,12 @@ export default {
   }
 }
 
-// ////////////////////////////////////////////////////////////////// Navigation
-.nav-wrapper {
-  --squiggle-container-length: 100%;
-  --right-squiggle-offset: 0px;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  height: toRem(82);
-  width: toRem(828);
-  &:before,
-  &:after {
-    content: '';
-    position: absolute;
-    left: calc(100% - toRem(30));
-    height: 2px;
-    width: calc((100vw - #{$containerWidth}) / 2 + toRem(30));
-    background-color: white;
-    @include customMinMQ(90rem) {
-      left: calc(100% - toRem(56));
-      width: calc((100vw - #{$containerWidth}) / 2 + toRem(56));
-    }
-    @include containerMaxMQ {
-      left: calc(100% - toRem(26));
-      width: calc((100vw - #{$containerWidth}) / 2 + toRem(26) + (100vw * 0.041665));
-    }
-  }
-  &:before {
-    top: 1px;
-  }
-  &:after {
-    bottom: 1px;
-  }
-  .squiggle-container {
-    width: var(--squiggle-container-length);
-    @include large {
-      width: calc(100% + 20rem);
-    }
-  }
-}
-
-#site-nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  position: relative;
-  padding-right: toRem(46);
-}
-
-.button-list {
-  position: relative;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding-left: 2rem;
-  @include large {
-    padding-left: 0.25rem;
-  }
-}
-
-.site-nav-link {
-  font-size: toRem(18);
-  &:not(:last-child) {
-    margin-right: 3.125rem;
-  }
-  @include large {
-    font-size: 1rem;
-    &:not(:last-child) {
-      margin-right: 2rem;
-    }
-    :deep(.button-content) {
-      font-size: 1rem;
-    }
-  }
-}
-
+// //////////////////////////////////////////////////////////////////////// Logo
 .logo-link {
-  position: relative;
-  z-index: 10000;
   display: block;
-  height: 71.4%;
+  position: relative;
+  height: calc(100% - 2rem);
+  z-index: 10000;
 }
 
 .logo {
@@ -414,111 +255,144 @@ export default {
   }
 }
 
-:deep(.auth-button) {
-  @include medium {
-    margin-right: 0.5rem;
-  }
-  .panel-left {
-    max-width: 100vw;
-  }
-  .username {
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .button {
-    @include large {
-      padding: 0.625rem 0;
+// ///////////////////////////////////////////////////////////////////////// Nav
+#site-nav {
+  display: flex;
+  align-items: center;
+  position: relative;
+  height: 5rem;
+  padding-left: 1rem;
+  border-bottom: 2px solid white;
+  transition: 150ms ease-out;
+  &:hover {
+    .border-left {
+      transition: 150ms ease-in;
+      transform: scaleX(1.5) translateX(-4px);
     }
   }
+}
+
+.button-list {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.button.site-nav-link {
+  display: block;
+  padding: 0 1rem;
+  .text {
+    font-size: toRem(18);
+    font-weight: 500;
+  }
+}
+
+.auth-panel {
+  margin-left: 2rem;
 }
 
 .button.site-nav-cta {
-  padding: 0.375rem 1.5rem;
-  margin-left: 3.125rem;
-  @include large {
-    padding: 0.25rem 1.25rem;
-    margin-left: 2rem;
-    :deep(.button-content) {
-      font-size: 0.9375rem;
-    }
+  height: toRem(35);
+  padding: 0 toRem(21);
+  .text {
+    font-size: toRem(14);
+    font-weight: 500;
   }
 }
 
-// /////////////////////////////////////////////////////////////// Nav Detailing
-$squiggleAnimationDuration: 500ms;
-
-@keyframes wave {
-  0%, 100%{
-    d:path('M 0 2 H 892 C 893 2 893 2 893 2 C 895 2 901 1 906 2 C 918 4 918 22 931 22 C 944 22 945 4 958 2 C 962 1 968 2 970 2 C 971 2 971 2 971 2 H 1862');
-  }
-  50%{
-    d:path('M 0 2 H 892 C 893 2 893 2 893 2 C 895 2 901 2 906 4 C 918 8 918 17 931 17 C 944 17 946 6 958 3 C 962 2 968 2 970 2 C 971 2 971 2 971 2 H 1862')
-  }
+// ///////////////////////////////////////////////////////////////////// Borders
+.border-top,
+.border-left,
+.border-right {
+  pointer-events: none;
 }
 
-.nav-detail {
+.border-top {
   position: absolute;
-  left: -1.25rem;
-  top: 1px;
-  width: 1rem;
-  height: calc(100% - 2px);
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+$bloopWidth: 118;
+
+.bloop-slider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  &.can-animate {
+    transition: 300ms ease-in-out;
+  }
+  &:before,
+  &:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    height: 2px;
+    background-color: white;
+  }
+  &:before {
+    right: calc(100% + #{toRem(math.div($bloopWidth, 2))} - 1px);
+    width: 100vw;
+  }
+  &:after {
+    left: calc(#{toRem(math.div($bloopWidth, 2))} - 1px);
+    width: 100vw;
+  }
+}
+
+.bloop {
+  position: absolute;
+  top: 0;
+  left: toRem(math.div(-$bloopWidth, 2));
+  width: toRem($bloopWidth);
+  transform: translateY(-0.4px);
+}
+
+.border-left,
+.border-right {
+  position: absolute;
+  top: 0;
+  height: calc(100% + 2px);
   border-top: 2px solid white;
   border-bottom: 2px solid white;
+}
+
+.border-left {
+  right: calc(100% + 0.5rem);
+  width: 1rem;
+  transition: 150ms ease-out;
   &:before,
   &:after {
     content: '';
     position: absolute;
     top: -2px;
     height: 100%;
-    border: inherit;
+    border-top: 2px solid white;
+    border-bottom: 2px solid white;
   }
   &:before {
+    right: calc(100% + 0.25rem); // offset 4px
     width: 0.5rem;
-    left: -0.75rem;
   }
   &:after {
+    right: calc(100% + 0.25rem + 0.5rem + 0.25rem); // offset 4px + width of :before + another offset of 4px
     width: 0.25rem;
-    left: -1.25rem;
   }
 }
 
-.squiggle-container {
-  position: absolute;
-  max-width: toRem(904);
+.border-right {
+  left: 100%;
+  width: calc((100vw - #{$containerWidth}) / 2 + 0.5rem);
+}
+
+.marker {
+  width: 1px;
   height: 100%;
-  left: 0;
-  top: 0;
-  overflow: hidden;
-  @include containerMaxMQ {
-    width: calc(100% + 100vw * 0.041665);
-  }
-}
-
-.squiggle {
-  position: absolute;
-  left: 0;
-  top: 0;
-  fill: none;
-  path {
-    d:path('M 0 2 H 892 C 893 2 893 2 893 2 C 895 2 901 1 906 2 C 918 4 918 22 931 22 C 944 22 945 4 958 2 C 962 1 968 2 970 2 C 971 2 971 2 971 2 H 1862');
-  }
-}
-
-.svg-wrapper {
-  &.animated {
-    transition: $squiggleAnimationDuration cubic-bezier(0.43, 0.14, 0.38, 1.29);
-    .squiggle {
-      path {
-        animation: wave $squiggleAnimationDuration 1;
-      }
-    }
-  }
-  &.static {
-    --bottom-squiggle-offset: -128px;
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    transform: scaleY(-1) translateX(var(--bottom-squiggle-offset));
-  }
+  margin: 0 toRem(math.div(54, 2));
 }
 </style>

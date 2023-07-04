@@ -1,74 +1,62 @@
 <template>
-  <div
-    id="notifications"
-    v-click-outside="closePanel">
+  <div id="notifications">
+    <DropdownPanel>
 
-    <!-- ===================================================== Toggle button -->
-    <button
-      :class="['notification-toggle-button', { 'panel-open': panelOpen }]"
-      @click="togglePanel">
-      <IconBell class="icon" />
-    </button>
+      <!-- =================================================== Toggle button -->
+      <template #toggle-button="{ togglePanel, panelOpen }">
+        <button
+          :class="['notification-toggle-button', { 'panel-open': panelOpen }]"
+          @click="togglePanel">
+          <IconBell class="icon bell" />
+          <IconCloseThick class="icon close" />
+        </button>
+      </template>
 
-    <!-- ============================================================= Panel -->
-    <div
-      :class="['notifications-panel', { open: panelOpen }]">
+      <!-- =========================================================== Panel -->
+      <template #dropdown-panel>
 
-      <div class="squiggly">
-        <svg
-          viewBox="0 0 42 42"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg">
-          <g clip-path="url(#clip0_3637_18381)">
-            <path d="M274 70V710C274 726.016 261.016 739 245 739H-8C-24.0163 739 -37 726.016 -37 710V70C-37 53.9838 -24.0163 41 -8 41H-6.875H0.1875C4.88297 41 9.2263 38.4065 11.4277 34.253C15.3746 26.8059 25.9855 26.643 30.1592 33.9653L30.431 34.4421C32.7421 38.4967 37.0504 41 41.7174 41H48.875H245C261.016 41 274 53.9837 274 70Z" fill="#101A17" stroke="white" stroke-width="2" />
-          </g>
-          <defs>
-            <clipPath id="clip0_3637_18381">
-              <rect width="42" height="42" fill="white" />
-            </clipPath>
-          </defs>
-        </svg>
-      </div>
+        <!-- Header -->
+        <header class="header">
+          Notifications (3 new)
+        </header>
 
-      <header class="header">
-        Notifications (3 new)
-      </header>
+        <!-- Notifications List -->
+        <div class="notifications-list">
+          <div
+            v-for="notification in notificationList"
+            :key="notification._id"
+            class="notification">
 
-      <div class="notifications-list">
-        <div
-          v-for="notification in notificationList"
-          :key="notification._id"
-          class="notification">
+            <component
+              :is="notification.read ? 'div' : 'button'"
+              :class="['read-status-button', { read: notification.read }]"
+              data-tooltip="Mark as read"
+              @click="markRead(notification)">
+              <span class="read-status-indicator" />
+            </component>
 
-          <component
-            :is="notification.read ? 'div' : 'button'"
-            :class="['read-status-button', { read: notification.read }]"
-            data-tooltip="Mark as read"
-            @click="markRead(notification)">
-            <span class="read-status-indicator" />
-          </component>
-
-          <div class="panel-right">
-            <div class="notification-heading">
-              {{ stateMap[notification.custom.state] }}
-            </div>
-            <div class="message">
-              Issue #{{ notification.custom.issueNumber }}: {{ notification.custom.issueTitle }}
-            </div>
-            <Timeago
-              v-slot="{ convertedDate }"
-              :date="new Date(notification.createdAt)">
-              <div class="timeago">
-                {{ convertedDate }}
+            <div class="panel-right">
+              <div class="notification-heading">
+                {{ stateMap[notification.custom.state] }}
               </div>
-            </Timeago>
+              <div class="message">
+                Issue #{{ notification.custom.issueNumber }}: {{ notification.custom.issueTitle }}
+              </div>
+              <Timeago
+                v-slot="{ convertedDate }"
+                :date="new Date(notification.createdAt)">
+                <div class="timeago">
+                  {{ convertedDate }}
+                </div>
+              </Timeago>
+            </div>
+
           </div>
-
         </div>
-      </div>
 
-    </div>
+      </template>
 
+    </DropdownPanel>
   </div>
 </template>
 
@@ -76,21 +64,25 @@
 // ===================================================================== Imports
 import { mapGetters, mapActions } from 'vuex'
 
+import DropdownPanel from '@/components/dropdown-panel'
 import Timeago from '@/components/timeago'
+
 import IconBell from '@/components/icons/bell'
+import IconCloseThick from '@/components/icons/close-thick'
 
 // ====================================================================== Export
 export default {
   name: 'NotificationPanel',
 
   components: {
+    DropdownPanel,
     Timeago,
-    IconBell
+    IconBell,
+    IconCloseThick
   },
 
   data () {
     return {
-      panelOpen: false,
       stateMap: {
         completed: 'Completed',
         validated: 'validated',
@@ -109,12 +101,6 @@ export default {
     ...mapActions({
       markNotificationsAsRead: 'notifications/markNotificationsAsRead'
     }),
-    togglePanel () {
-      this.panelOpen = !this.panelOpen
-    },
-    closePanel () {
-      this.panelOpen = false
-    },
     markRead (notification) {
       if (!notification.read) {
         this.markNotificationsAsRead([notification._id])
@@ -128,8 +114,6 @@ export default {
 // ///////////////////////////////////////////////////////////////////// General
 #notifications {
   position: relative;
-  width: toRem(44);
-  height: toRem(44);
   margin-left: 1rem;
   z-index: 1000;
 }
@@ -140,72 +124,68 @@ export default {
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  width: 100%;
-  height: 100%;
-  border: 2px solid $titanWhite;
+  width: toRem(35);
+  height: toRem(35);
+  border: 2px solid $greenYellow;
   border-radius: 50%;
+  overflow: hidden;
   transition: 150ms ease-out;
   &:hover,
   &.panel-open {
     transition: 150ms ease-in;
+    transform: scale(1.15);
     border-color: $greenYellow;
+  }
+  &:hover {
+    &.panel-open {
+      :deep(.icon) {
+        &.close {
+          transform: translateY(0) rotate(90deg);
+        }
+      }
+    }
+  }
+  &.panel-open {
+    :deep(.icon) {
+      transition: 150ms ease-in;
+      &.bell {
+        transform: translateY(-100%);
+        opacity: 0;
+      }
+      &.close {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
   }
 }
 
 :deep(.icon) {
   display: block;
-  width: 1.5rem;
-  height: 1.5rem;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  transition: 150ms ease-out;
+  &.bell {
+    width: toRem(15);
+  }
+  &.close {
+    width: toRem(12);
+    transform: translateY(100%);
+    opacity: 0;
+  }
   path {
-    fill: white;
+    fill: $greenYellow;
   }
 }
 
 // /////////////////////////////////////////////////////////////////////// Panel
-.notifications-panel {
-  display: flex;
-  flex-direction: column;
-  position: absolute;
-  top: 100%;
-  left: 50%;
+:deep(.panel) {
   width: 20rem;
-  max-height: 28rem;
-  border: 2px solid white;
-  background-color: $racingGreen;
   border-radius: toRem(30);
-  transform: translateY(2.5rem) translateX(-50%);
-  transition: 150ms ease-out;
-  &:not(.open) {
-    transition: 150ms ease-in;
-    transform: translateY(3.5rem) translateX(-50%);
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-  }
-}
-
-$squigglyWidth: 40;
-
-.squiggly {
-  position: absolute;
-  top: toRem(-$squigglyWidth);
-  left: 50%;
-  width: toRem($squigglyWidth);
-  height: toRem($squigglyWidth);
-  transform: translateX(-50%);
-  &:before {
-    content: '';
-    position: absolute;
-    top: 100%;
-    width: 100%;
-    height: 1px;
-    background-color: $racingGreen;
-  }
-  svg {
-    display: block;
-    width: 100%;
-    height: 100%;
-  }
 }
 
 .header,
@@ -222,6 +202,7 @@ $squigglyWidth: 40;
 
 .notifications-list {
   flex: 1;
+  max-height: 28rem;
   overflow-y: scroll;
 }
 
@@ -246,6 +227,14 @@ $squigglyWidth: 40;
       left: calc(100% - 3px);
     }
   }
+  &:not(.read) {
+    &:hover {
+      .read-status-indicator {
+        transition: 150ms ease-in;
+        transform: scale(1.3);
+      }
+    }
+  }
   &.read {
     &[data-tooltip] {
       &:before,
@@ -264,7 +253,7 @@ $squigglyWidth: 40;
   height: toRem(10);
   border-radius: 50%;
   background-color: $greenYellow;
-  transition: 150ms ease-in-out;
+  transition: 150ms ease-out;
 }
 
 .panel-right {
