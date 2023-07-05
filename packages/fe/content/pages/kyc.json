@@ -1,0 +1,17 @@
+{
+  "seo": {
+    "title": "KYC — Filecoin Plus",
+    "description": "What is the KYC process and how do we leverage it for a faster path to DataCap?"
+  },
+  "og": {
+    "site_name": "KYC — Filecoin Plus",
+    "url": "",
+    "type": "website",
+    "image": "/open-graph-image.png"
+  },
+  "page_content": {
+    "heading": "What is the<span class='bubble right'>KYC process?</span>",
+    "cta_button_text": "Start KYC",
+    "partner_text": "This KYC is powered by"
+  }
+}
