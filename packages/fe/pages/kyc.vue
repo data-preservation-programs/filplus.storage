@@ -161,13 +161,13 @@ export default {
 #section-content {
   position: relative;
   padding-bottom: 7.3125rem;
-  border-top: 3px solid transparent;
+  // border-top: 3px solid transparent;
   z-index: 10;
 }
 
-.section-top-border {
-  top: -3px;
-}
+// .section-top-border {
+//   top: -3px;
+// }
 
 .markdown {
   padding-top: 9rem;
@@ -216,7 +216,7 @@ export default {
 
 .warp-image-double {
   position: absolute;
-  top: 0;
+  top: 3px;
   left: 0;
   width: 69rem;
   height: 500rem;
