@@ -30,6 +30,8 @@
             theme="full"
             class="kyc-link" />
 
+          <AuthButton v-else />
+
           <div class="partner-text">
             {{ partnerText }}
             <LogoTogggle />
@@ -62,6 +64,7 @@ import Overlay from '@/components/overlay'
 import Squigglie from '@/components/squigglie'
 import KycButton from '@/components/kyc-button'
 import LogoTogggle from '@/components/logo-togggle'
+import AuthButton from '@/components/auth-button'
 
 import KycPageData from '@/content/pages/kyc.json'
 import KycContent from '@/content/markdown/kyc.md'
@@ -76,7 +79,8 @@ export default {
     Overlay,
     Squigglie,
     KycButton,
-    LogoTogggle
+    LogoTogggle,
+    AuthButton
   },
 
   data () {
@@ -176,9 +180,13 @@ export default {
   }
 }
 
+.kyc-link,
+.auth-button {
+  margin-top: 5rem;
+}
+
 :deep(.kyc-link) {
   display: inline-block;
-  margin-top: 5rem;
   .kyc-button {
     &.unverified {
       + .tooltip-content-wrapper {

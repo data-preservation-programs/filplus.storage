@@ -21,7 +21,6 @@
 
         <div class="link-text">
           {{ kycButton.text }}
-          <!-- {{ goToTogggle }}{{ onKycPage }} -->
         </div>
 
         <div v-if="showExternalLinkIcon" class="icon">
