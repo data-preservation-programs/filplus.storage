@@ -5,11 +5,19 @@
       <!-- =================================================== Toggle button -->
       <template #toggle-button="{ togglePanel, panelOpen }">
         <button
-          :class="['notification-toggle-button', { 'panel-open': panelOpen, 'loaded': notificationsLoaded }]"
+          :class="[
+            'notification-toggle-button', {
+              'panel-open': panelOpen,
+              'loaded': notificationsLoaded,
+              'new-notifications-exist': newNotificationsExist
+            }
+          ]"
           @click="toggleDropdownPanel(togglePanel)">
-          <Spinner />
-          <IconBell class="icon bell" />
-          <IconCloseThick class="icon close" />
+          <div class="notification-toggle-button-inner-container">
+            <Spinner />
+            <IconBell class="icon bell" />
+            <IconCloseThick class="icon close" />
+          </div>
         </button>
       </template>
 
@@ -105,6 +113,9 @@ export default {
     newNotificationsCount () {
       const count = this.newCount
       return count > 0 ? `(${count} new)` : ''
+    },
+    newNotificationsExist () {
+      return this.newCount > 0
     }
   },
 
@@ -151,14 +162,10 @@ export default {
 // ////////////////////////////////////////////////////////////////////// Button
 .notification-toggle-button {
   display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
   width: toRem(35);
   height: toRem(35);
   border: 2px solid $greenYellow;
   border-radius: 50%;
-  overflow: hidden;
   transition: 150ms ease-out;
   &:hover,
   &.panel-open {
@@ -219,6 +226,37 @@ export default {
       }
     }
   }
+  &.new-notifications-exist {
+    &:before,
+    &:after {
+      content: '';
+      position: absolute;
+      border-radius: 50%;
+    }
+    &:before {
+      top: toRem(-4);
+      right: toRem(-4);
+      width: toRem(18);
+      height: toRem(18);
+      background-color: $aztec;
+    }
+    &:after {
+      top: 0;
+      right: 0;
+      width: toRem(9);
+      height: toRem(9);
+      background-color: $redOrange;
+    }
+  }
+}
+
+.notification-toggle-button-inner-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
 }
 
 .spinner,

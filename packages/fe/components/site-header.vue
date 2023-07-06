@@ -122,9 +122,9 @@ export default {
   },
 
   watch: {
-    account (account) {
+    async account (account) {
       if (account) {
-        this.getNotificationList()
+        await this.getNotificationList()
         this.getNewNotificationCount()
       }
     }

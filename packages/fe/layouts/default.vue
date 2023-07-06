@@ -86,9 +86,9 @@ export default {
           this.setAccount(account)
         }
       })
-      this.socket.on('script|refresh-notifications|event', () => {
+      this.socket.on('script|refresh-notifications|event', async () => {
         if (this.account) {
-          this.getNotificationList()
+          await this.getNotificationList()
           this.getNewNotificationCount()
         }
       })
