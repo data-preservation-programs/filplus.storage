@@ -97,6 +97,11 @@
         "type": "nuxt-link",
         "href": "/faq",
         "label": "Frequently Asked Questions"
+      },
+      {
+        "type": "nuxt-link",
+        "href": "/kyc",
+        "label": "KYC"
       }
     ],
     "video_cta": {
