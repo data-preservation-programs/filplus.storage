@@ -1,11 +1,8 @@
-// ///////////////////////////////////////////////////////// Imports & Variables
-// -----------------------------------------------------------------------------
-// import CloneDeep from 'lodash/cloneDeep'
-
 // /////////////////////////////////////////////////////////////////////// State
 // ---------------------- https://vuex.vuejs.org/guide/modules.html#module-reuse
 const state = () => ({
   notificationList: null,
+  newCount: 0,
   loading: true,
   metadata: {
     page: 1,
@@ -18,6 +15,7 @@ const state = () => ({
 // -----------------------------------------------------------------------------
 const getters = {
   notificationList: state => state.notificationList,
+  newCount: state => state.newCount,
   loading: state => state.loading
 }
 
@@ -28,7 +26,7 @@ const actions = {
   async getNotificationList ({ commit, getters, dispatch }) {
     try {
       const params = getters.metadata
-      const response = await this.$axiosAuth.get('/get-notifications-list', { params })
+      const response = await this.$axiosAuth.get('/get-notification-list', { params })
       const payload = response.data.payload
       const notificationList = payload.results
       dispatch('setNotificationList', {
@@ -40,6 +38,16 @@ const actions = {
       console.log(e)
       // dispatch('setLoadingStatus', { type: 'loading', status: false })
       return false
+    }
+  },
+  // /////////////////////////////////////////////////// getNewNotificationCount
+  async getNewNotificationCount ({ commit }) {
+    try {
+      const response = await this.$axiosAuth.get('/get-new-notification-count')
+      commit('SET_NEW_NOTIFICATION_COUNT', response.data.payload)
+    } catch (e) {
+      console.log('===== [Store Action: notifications/getNewNotificationCount]')
+      console.log(e)
     }
   },
   // /////////////////////////////////////////////////////// setNotificationList
@@ -58,6 +66,7 @@ const actions = {
         const index = notificationList.findIndex(obj => obj._id === notification._id)
         commit('UPDATE_NOTIFICATION', { index, notification })
       }
+      dispatch('getNewNotificationCount')
     } catch (e) {
       console.log('===== [Store Action: notifications/markNotificationsAsRead]')
       console.log(e)
@@ -78,6 +87,9 @@ const mutations = {
   },
   UPDATE_NOTIFICATION (state, payload) {
     state.notificationList.splice(payload.index, 1, payload.notification)
+  },
+  SET_NEW_NOTIFICATION_COUNT (state, count) {
+    state.newCount = count
   }
 }
 

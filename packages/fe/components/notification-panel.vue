@@ -17,7 +17,7 @@
 
         <!-- Header -->
         <header class="header">
-          Notifications (3 new)
+          Notifications {{ newNotificationsCount }}
         </header>
 
         <!-- Notifications List -->
@@ -93,8 +93,13 @@ export default {
 
   computed: {
     ...mapGetters({
-      notificationList: 'notifications/notificationList'
-    })
+      notificationList: 'notifications/notificationList',
+      newCount: 'notifications/newCount'
+    }),
+    newNotificationsCount () {
+      const count = this.newCount
+      return count > 0 ? `(${count} new)` : ''
+    }
   },
 
   methods: {

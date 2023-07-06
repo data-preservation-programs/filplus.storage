@@ -25,16 +25,11 @@
 import { mapGetters } from 'vuex'
 
 import ButtonB from '@/components/buttons/button-b'
-// import ButtonX from '@/components/buttons/button-x'
 import Login from '@/modules/auth/components/login'
-// import Logout from '@/modules/auth/components/logout'
-// import Dropdown from '@/components/dropdown'
-// import KycButton from '@/components/kyc-button'
 import ProfilePanel from '@/components/profile-panel'
 import NotificationPanel from '@/components/notification-panel'
 
 import IconGithub from '@/components/icons/github'
-// import IconChevron from '@/components/icons/chevron'
 
 // ====================================================================== Export
 export default {
@@ -42,35 +37,16 @@ export default {
 
   components: {
     Login,
-    // Logout,
     ButtonB,
-    // ButtonX,
-    // Dropdown,
-    // KycButton,
     ProfilePanel,
     NotificationPanel,
     IconGithub
-    // IconChevron
   },
 
   computed: {
     ...mapGetters({
-      // siteContent: 'general/siteContent',
       account: 'auth/account'
     })
-    // navigationContent () {
-    //   return this.siteContent.general.navigation
-    // },
-    // githubUsername () {
-    //   return this.account.githubUsername
-    // },
-    // applicationHistoryButton () {
-    //   return {
-    //     type: 'nuxt-link',
-    //     href: `/account/${this.account.githubUsername}/applications`,
-    //     label: 'Application History'
-    //   }
-    // }
   }
 }
 </script>

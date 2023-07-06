@@ -89,6 +89,7 @@ export default {
       this.socket.on('script|refresh-notifications|event', () => {
         if (this.account) {
           this.getNotificationList()
+          this.getNewNotificationCount()
         }
       })
       this.socket.on('disconnect', async () => {
@@ -118,7 +119,8 @@ export default {
     ...mapActions({
       setSavedFormExistsStatus: 'form/setSavedFormExistsStatus',
       setAccount: 'auth/setAccount',
-      getNotificationList: 'notifications/getNotificationList'
+      getNotificationList: 'notifications/getNotificationList',
+      getNewNotificationCount: 'notifications/getNewNotificationCount'
     }),
     joinUserWebsocketRoom (account) { // every user joins their own room upon logging in
       this.socket.emit('join-room', account._id)

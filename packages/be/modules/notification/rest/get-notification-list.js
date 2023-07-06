@@ -23,7 +23,7 @@ const process = async (data) => {
 
 // //////////////////////////////////////////////////////////////////// Endpoint
 // -----------------------------------------------------------------------------
-MC.app.get('/get-notifications-list', async (req, res) => {
+MC.app.get('/get-notification-list', async (req, res) => {
   try {
     const query = req.query
     const identifier = req.session.identifier
@@ -38,7 +38,7 @@ MC.app.get('/get-notifications-list', async (req, res) => {
     SendData(res, 200, 'Notifications retrieved succesfully', notifications)
   } catch (e) {
     if (e.code !== 200) {
-      console.log('======================== [Endpoint: /get-notification-list]')
+      console.log('======================= [Endpoint: /get-notification-list]')
       console.log(e)
     }
     SendData(res, e.code || 422, e.message || 'Something went wrong, please try logging in again', { results: [], metadata: { totalPages: 1 } })

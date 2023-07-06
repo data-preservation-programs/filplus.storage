@@ -1,6 +1,6 @@
 <template>
   <div id="site-header" :class="{ mini }">
-    
+
     <div class="grid">
       <div class="col">
         <div class="inner-container">
@@ -123,11 +123,10 @@ export default {
 
   watch: {
     account (account) {
-      this.$nextTick(() => {
-        if (account) {
-          this.getNotificationList()
-        }
-      })
+      if (account) {
+        this.getNotificationList()
+        this.getNewNotificationCount()
+      }
     }
   },
 
@@ -160,7 +159,8 @@ export default {
 
   methods: {
     ...mapActions({
-      getNotificationList: 'notifications/getNotificationList'
+      getNotificationList: 'notifications/getNotificationList',
+      getNewNotificationCount: 'notifications/getNewNotificationCount'
     }),
     setBloopDefaultPosition () {
       const rectSiteNav = this.$refs.siteNav.getBoundingClientRect()
