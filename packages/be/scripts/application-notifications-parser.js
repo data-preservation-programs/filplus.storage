@@ -167,6 +167,7 @@ const performDatabaseOperations = async (notificationsToCreate, deleteFromQueueO
   }
 }
 
+// //////////////////////////////////////////////////////// refreshNotifications
 const refreshNotifications = (socket, userIds) => {
   userIds.forEach((userId) => {
     console.log(userId)
@@ -174,30 +175,40 @@ const refreshNotifications = (socket, userIds) => {
   })
 }
 
+// /////////////////////////////////////////////// ApplicationNotificationParser
+const ApplicationNotificationParser = async (socket) => {
+  console.log('run')
+  try {
+    const queue = await MC.model.ApplicationChangedQueue
+      .find()
+      .sort({ createdAt: 1 })
+      .select('-createdAt -updatedAt -__v')
+      .lean()
+    console.log(queue)
+    if (queue.length === 0) {
+      return setTimeout(() => {
+        ApplicationNotificationParser(socket)
+      }, 1000)
+    }
+    const { uniqueQueue, deleteFromQueueOperations } = await getUniqueQueueEntries(queue)
+    console.log('❓ unique', uniqueQueue)
+    console.log('❓ delete', deleteFromQueueOperations)
+    const notificationsToCreate = await convertQueueToNotifications(uniqueQueue)
+    const userIds = await performDatabaseOperations(notificationsToCreate, deleteFromQueueOperations)
+    await refreshNotifications(socket, userIds)
+    ApplicationNotificationParser(socket)
+  } catch (e) {
+    console.log('======================= [💣: ApplicationNotificationParser]')
+    console.log(e)
+    ApplicationNotificationParser(socket)
+  }
+}
+
 // ////////////////////////////////////////////////////////////////// Initialize
 // -----------------------------------------------------------------------------
 MC.app.on('mongoose-connected', async () => {
-  console.log('🤖 ApplicationNotificationParser bot engaged')
-  await GenerateWebsocketClient(async (socket) => {
-    try {
-      const queue = await MC.model.ApplicationChangedQueue
-        .find()
-        .sort({ createdAt: 1 })
-        .select('-createdAt -updatedAt -__v')
-        .lean()
-      console.log(queue)
-      if (queue.length === 0) { process.exit(0) }
-      const { uniqueQueue, deleteFromQueueOperations } = await getUniqueQueueEntries(queue)
-      console.log('❓ unique', uniqueQueue)
-      console.log('❓ delete', deleteFromQueueOperations)
-      // await convertQueueToNotifications(uniqueQueue)
-      const notificationsToCreate = await convertQueueToNotifications(uniqueQueue)
-      const userIds = await performDatabaseOperations(notificationsToCreate, deleteFromQueueOperations)
-      await refreshNotifications(socket, userIds)
-    } catch (e) {
-      console.log('======================= [💣: ApplicationNotificationParser]')
-      console.log(e)
-    }
-    process.exit(0)
+  await GenerateWebsocketClient((socket) => {
+    console.log('🤖 ApplicationNotificationParser bot engaged')
+    ApplicationNotificationParser(socket)
   })
 })

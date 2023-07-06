@@ -177,6 +177,20 @@ export default {
   }
   &:not(.loaded) {
     cursor: no-drop;
+    &.panel-open {
+      .spinner {
+        transition: 150ms ease-in;
+        top: 0;
+        opacity: 1;
+      }
+      :deep(.icon) {
+        transition: 150ms ease-in;
+        &.close {
+          transform: translateY(100%);
+          opacity: 0;
+        }
+      }
+    }
   }
   &.loaded {
     .spinner {
