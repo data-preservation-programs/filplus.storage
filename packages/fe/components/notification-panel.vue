@@ -126,7 +126,7 @@ export default {
           this.notificationsLoaded = true
           clearTimeout(this.timeout)
           this.timeout = null
-        }, 1000)
+        }, 500)
       } else if (loading) {
         this.notificationsLoaded = false
       }

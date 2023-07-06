@@ -10,7 +10,27 @@ module.exports = (page = 1, limit = 10, userId) => {
 
     { $match: { ownerId: ObjectId(userId) } },
 
-    { $sort: { createdAt: -1 } },
+    {
+      $addFields: {
+        sortRead: {
+          $cond: {
+            if: { $eq: ['$read', false] },
+            then: 1,
+            else: 0
+          }
+        }
+      }
+    },
+
+    { $sort: { sortRead: -1, createdAt: -1 } },
+
+    {
+      $project: {
+        read: 1,
+        custom: 1,
+        createdAt: 1
+      }
+    },
 
     {
       $facet: {
