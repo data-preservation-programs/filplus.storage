@@ -5,8 +5,9 @@
       <!-- =================================================== Toggle button -->
       <template #toggle-button="{ togglePanel, panelOpen }">
         <button
-          :class="['notification-toggle-button', { 'panel-open': panelOpen }]"
-          @click="togglePanel">
+          :class="['notification-toggle-button', { 'panel-open': panelOpen, 'loaded': notificationsLoaded }]"
+          @click="toggleDropdownPanel(togglePanel)">
+          <Spinner />
           <IconBell class="icon bell" />
           <IconCloseThick class="icon close" />
         </button>
@@ -66,6 +67,7 @@ import { mapGetters, mapActions } from 'vuex'
 
 import DropdownPanel from '@/components/dropdown-panel'
 import Timeago from '@/components/timeago'
+import Spinner from '@/components/spinners/material-circle'
 
 import IconBell from '@/components/icons/bell'
 import IconCloseThick from '@/components/icons/close-thick'
@@ -77,23 +79,27 @@ export default {
   components: {
     DropdownPanel,
     Timeago,
+    Spinner,
     IconBell,
     IconCloseThick
   },
 
   data () {
     return {
+      notificationsLoaded: false,
       stateMap: {
         completed: 'Completed',
         validated: 'validated',
         reviewing: 'In Review'
-      }
+      },
+      timeout: null
     }
   },
 
   computed: {
     ...mapGetters({
       notificationList: 'notifications/notificationList',
+      loading: 'notifications/loading',
       newCount: 'notifications/newCount'
     }),
     newNotificationsCount () {
@@ -102,10 +108,29 @@ export default {
     }
   },
 
+  watch: {
+    loading (loading) {
+      if (!loading && !this.timeout) {
+        this.timeout = setTimeout(() => {
+          this.notificationsLoaded = true
+          clearTimeout(this.timeout)
+          this.timeout = null
+        }, 1000)
+      } else if (loading) {
+        this.notificationsLoaded = false
+      }
+    }
+  },
+
   methods: {
     ...mapActions({
       markNotificationsAsRead: 'notifications/markNotificationsAsRead'
     }),
+    toggleDropdownPanel (togglePanel) {
+      if (this.notificationsLoaded) {
+        togglePanel()
+      }
+    },
     markRead (notification) {
       if (!notification.read) {
         this.markNotificationsAsRead([notification._id])
@@ -150,6 +175,23 @@ export default {
       }
     }
   }
+  &:not(.loaded) {
+    cursor: no-drop;
+  }
+  &.loaded {
+    .spinner {
+      transition: 150ms ease-in;
+      top: -100%;
+      opacity: 0;
+    }
+    :deep(.icon) {
+      transition: 150ms ease-in;
+      &.bell {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+  }
   &.panel-open {
     :deep(.icon) {
       transition: 150ms ease-in;
@@ -165,22 +207,35 @@ export default {
   }
 }
 
-:deep(.icon) {
-  display: block;
+.spinner,
+.icon {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
   margin: auto;
+}
+
+:deep(.spinner) {
+  width: 1rem;
+  height: 1rem;
+  circle {
+    stroke: white;
+  }
+}
+
+:deep(.icon) {
+  display: block;
   transition: 150ms ease-out;
+  opacity: 0;
   &.bell {
     width: toRem(15);
+    transform: translateY(100%);
   }
   &.close {
     width: toRem(12);
-    transform: translateY(100%);
-    opacity: 0;
+    transform: translateY(200%);
   }
   path {
     fill: $greenYellow;

@@ -25,6 +25,7 @@ const actions = {
   // /////////////////////////////////////////////////////// getNotificationList
   async getNotificationList ({ commit, getters, dispatch }) {
     try {
+      await dispatch('setLoadingStatus', { type: 'loading', status: true })
       const params = getters.metadata
       const response = await this.$axiosAuth.get('/get-notification-list', { params })
       const payload = response.data.payload
@@ -33,10 +34,11 @@ const actions = {
         notificationList: notificationList.length > 0 ? notificationList : null,
         metadata: payload.metadata
       })
+      dispatch('setLoadingStatus', { type: 'loading', status: false })
     } catch (e) {
       console.log('========= [Store Action: notifications/getNotificationList]')
       console.log(e)
-      // dispatch('setLoadingStatus', { type: 'loading', status: false })
+      dispatch('setLoadingStatus', { type: 'loading', status: false })
       return false
     }
   },
@@ -50,6 +52,10 @@ const actions = {
       console.log(e)
     }
   },
+  // ////////////////////////////////////////////////////////// setLoadingStatus
+  setLoadingStatus ({ commit }, payload) {
+    commit('SET_LOADING_STATUS', payload)
+  },
   // /////////////////////////////////////////////////////// setNotificationList
   setNotificationList ({ commit }, notificationList) {
     commit('SET_NOTIFICATION_LIST', notificationList)
@@ -57,6 +63,7 @@ const actions = {
   // /////////////////////////////////////////////////// markNotificationsAsRead
   async markNotificationsAsRead ({ commit, getters, dispatch }, notificationIds) {
     try {
+      await dispatch('setLoadingStatus', { type: 'loading', status: true })
       const notificationList = getters.notificationList
       const response = await this.$axiosAuth.post('/post-mark-notifications-read', notificationIds)
       const notifications = response.data.payload
@@ -66,10 +73,12 @@ const actions = {
         const index = notificationList.findIndex(obj => obj._id === notification._id)
         commit('UPDATE_NOTIFICATION', { index, notification })
       }
-      dispatch('getNewNotificationCount')
+      await dispatch('getNewNotificationCount')
+      dispatch('setLoadingStatus', { type: 'loading', status: false })
     } catch (e) {
       console.log('===== [Store Action: notifications/markNotificationsAsRead]')
       console.log(e)
+      dispatch('setLoadingStatus', { type: 'loading', status: false })
     }
   }
 }
@@ -90,6 +99,9 @@ const mutations = {
   },
   SET_NEW_NOTIFICATION_COUNT (state, count) {
     state.newCount = count
+  },
+  SET_LOADING_STATUS (state, payload) {
+    state[payload.type] = payload.status
   }
 }
 
