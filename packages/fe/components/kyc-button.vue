@@ -101,9 +101,9 @@ export default {
       return this.goToTogggle && (status === 'unverified' || status === 'verifying' || status === 'failure')
     },
     kycButtonType () {
-      if (this.onKycPage && !this.goToTogggle) { return 'button' }
-      if (!this.goToTogggle) { return 'nuxt-link' }
       const status = this.status
+      if (status === 'success' || (this.onKycPage && !this.goToTogggle)) { return 'div' }
+      if (!this.goToTogggle) { return 'nuxt-link' }
       // return status === 'success' || status === 'failure' ? 'div' : 'a'
       return status === 'success' ? 'div' : 'a'
     },

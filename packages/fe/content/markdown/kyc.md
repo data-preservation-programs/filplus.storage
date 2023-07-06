@@ -12,4 +12,4 @@ The following are additional considerations that pertain to KYC on filplus.stora
 - The KYC check process is completed by a third party company, Togggle
 - During the data collection phase, all personal information gathered is securely AES-GCM-256 encrypted using the individual user’s personal key
 - All data is confidential and inaccessible, even to Togggle
-- Additionally, an applicant's personal information will never appear on GitHub applications, only the 'kyc verified' label will show to signify a successful check was completed
+- Additionally, an applicant's personal information will never appear on GitHub applications, only the `kyc verified` label will show to signify a successful check was completed

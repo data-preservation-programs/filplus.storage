@@ -95,9 +95,7 @@ const kyc = async () => {
     // }
     const user = await MC.model.User.findOne({ githubUsername: 'timelytree' })
     console.log(user)
-    user.kyc = {
-      event: 'failure'
-    }
+    user.kyc = null
     // user.kyc = {
     //   event: 'success',
     //   error: {
