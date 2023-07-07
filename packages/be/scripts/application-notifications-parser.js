@@ -60,7 +60,7 @@ const getUniqueQueueEntries = async (queue) => {
       const entry = queue[i]
       const githubUsername = entry.githubUsername
       entry.labels = JSON.stringify(entry.labels)
-      // All entries processes in this run of ApplicationNotificationParser should be deleted at the end
+      // All entries processed in this run of ApplicationNotificationParser should be deleted at the end
       deleteFromQueueOperations.push({
         deleteOne: {
           filter: { _id: `${entry._id}` }

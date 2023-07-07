@@ -96,6 +96,7 @@ export default {
     return {
       notificationsLoaded: false,
       stateMap: {
+        new: 'New Application',
         completed: 'Completed',
         validated: 'validated',
         reviewing: 'In Review'
