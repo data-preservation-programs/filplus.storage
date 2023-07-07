@@ -282,7 +282,7 @@ export default {
   margin: auto;
 }
 
-:deep(.spinner) {
+:deep(svg.spinner) {
   width: 1rem;
   height: 1rem;
   circle {
