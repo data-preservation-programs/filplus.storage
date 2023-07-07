@@ -348,6 +348,7 @@ export default {
   width: 3rem;
   padding-top: 0.5rem;
   &[data-tooltip] {
+    z-index: 10;
     &:before {
       top: toRem(25);
     }
