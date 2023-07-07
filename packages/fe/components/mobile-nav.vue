@@ -295,7 +295,7 @@ export default {
   z-index: 100000;
 }
 
-.auth-button {
+.auth-panel {
   :deep(.button.login-button) {
     margin-right: 0;
   }
