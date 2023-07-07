@@ -24,6 +24,10 @@ const ApplicationChangedQueueSchema = new Schema({
     type: String,
     required: true
   },
+  issueUrl: {
+    type: String,
+    required: true
+  },
   state: {
     type: String,
     required: true

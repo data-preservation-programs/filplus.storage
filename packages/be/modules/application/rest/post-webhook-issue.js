@@ -32,6 +32,7 @@ MC.app.post('/post-webhook-issue', async (req, res) => {
         issueId: issue.id,
         issueNumber: issue.number,
         issueTitle: issue.title,
+        issueUrl: issue.html_url,
         state,
         labels
       })

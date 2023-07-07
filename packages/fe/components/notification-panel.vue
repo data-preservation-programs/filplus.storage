@@ -49,7 +49,11 @@
                 {{ stateMap[notification.custom.state] }}
               </div>
               <div class="message">
-                Issue #{{ notification.custom.issueNumber }}: {{ notification.custom.issueTitle }}
+                <a
+                  :href="notification.custom.issueUrl"
+                  class="issue-link"
+                  target="_blank">
+                  Issue #{{ notification.custom.issueNumber }}</a>:{{ notification.custom.issueTitle }}
               </div>
               <Timeago
                 v-slot="{ convertedDate }"
@@ -390,6 +394,15 @@ export default {
   margin-bottom: toRem(5);
   font-size: 1rem;
   line-height: leading(24, 16);
+}
+
+.issue-link {
+  font-size: inherit;
+  font-weight: 500;
+  color: $greenYellow;
+  &:hover {
+    text-decoration: underline;
+  }
 }
 
 .notification-heading {
