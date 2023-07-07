@@ -93,9 +93,11 @@ const kyc = async () => {
     //     console.log(saved)
     //   }
     // }
-    // const user = await MC.model.User.findOne({ githubUsername: 'timelytree' })
-    // console.log(user)
-    // user.kyc = null
+    const user = await MC.model.User.findOne({ githubUsername: 'timelytree' })
+    console.log(user)
+    user.kyc = {
+      event: 'failure'
+    }
     // user.kyc = {
     //   event: 'success',
     //   error: {
@@ -106,8 +108,8 @@ const kyc = async () => {
     //     }
     //   }
     // }
-    // const saved = await user.save()
-    // console.log(saved)
+    const saved = await user.save()
+    console.log(saved)
   } catch (e) {
     console.log(e)
   }
