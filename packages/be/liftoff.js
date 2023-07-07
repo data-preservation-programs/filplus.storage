@@ -102,7 +102,7 @@ try {
 //     //   .lean()
 //     // console.log(queued)
 //     // const notifications = await MC.model.Notification
-//     //   .find()
+//     //   .find({ ownerId: '642ec896462dfdf618234a8c' })
 //     //   .lean()
 //     // console.log(notifications)
 //     // await MC.model.Notification.collection.drop()

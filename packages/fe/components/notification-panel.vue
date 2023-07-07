@@ -98,7 +98,7 @@ export default {
       stateMap: {
         new: 'New Application',
         completed: 'Completed',
-        validated: 'validated',
+        validated: 'Validated',
         reviewing: 'In Review'
       },
       timeout: null

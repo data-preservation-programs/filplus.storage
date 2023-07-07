@@ -24,11 +24,10 @@ MC.app.post('/post-webhook-issue', async (req, res) => {
     const incoming = req.body
     const issue = incoming.issue
     const githubUsername = issue.user.login
-    console.log(`=========================================== ${githubUsername}`)
     const labels = processLabels(issue.labels)
-    const state = await DetermineApplicationState(labels)
+    const state = await DetermineApplicationState(labels, req.query.type)
     if (state !== 'noRelevantLabels') {
-      const created = await MC.model.ApplicationChangedQueue.create({
+      await MC.model.ApplicationChangedQueue.create({
         githubUsername,
         issueId: issue.id,
         issueNumber: issue.number,
@@ -36,9 +35,6 @@ MC.app.post('/post-webhook-issue', async (req, res) => {
         state,
         labels
       })
-      console.log(created)
-    } else {
-      console.log('Issue not part of pipeline')
     }
     SendData(res, 200, 'Github issue webhook recorded successfully')
   } catch (e) {

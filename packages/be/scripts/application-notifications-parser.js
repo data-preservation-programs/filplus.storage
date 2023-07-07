@@ -106,10 +106,12 @@ const convertQueueToNotifications = async (queue) => {
       notificationsToCreate[githubUsername].userId = ownerId
       // Fetch latest notification and compare labels. If they're the same, do nothing.
       // This is to prevent a duplicate notification from being pushed
-      const latestNotification = await MC.model.Notification
+      let latestNotification = await MC.model.Notification
         .find({ ownerId })
         .sort({ createdAt: -1 })
-        .lean()[0]
+        .limit(1)
+        .lean()
+      latestNotification = latestNotification[0]
       console.log('❓ latest', latestNotification)
       // Loop through all unique potential notifications and compile an operations list for bulkWrite
       const potentialNotifications = queue[githubUsername]
