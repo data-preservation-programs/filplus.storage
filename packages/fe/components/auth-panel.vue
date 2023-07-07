@@ -60,7 +60,7 @@ export default {
 }
 
 // ////////////////////////////////////////////////////////////// [Button] login
-.login-button {
+.button.login-button {
   display: inline-flex;
   flex-direction: row;
   align-items: center;
