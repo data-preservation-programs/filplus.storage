@@ -14,6 +14,15 @@ require('dotenv').config({ path: Path.resolve(__dirname, '../.env') })
 
 const MC = require('../config')
 
+/**
+ * This script runs depends on a websocket connection. Since this script runs
+ * indefinitely, whereas a websocket connection is re-established whenever the
+ * backend restarts, we don't want the script to restart as well. The timeout
+ * needs to be cleared whenever the websocket connection is re-established.
+ */
+
+let TIMEOUT
+
 // ////////////////////////////////////////////////////////////////// Initialize
 MC.app = Express()
 
@@ -190,9 +199,11 @@ const ApplicationNotificationParser = async (socket) => {
       .lean()
     console.log(queue)
     if (queue.length === 0) {
-      return setTimeout(() => {
+      TIMEOUT = setTimeout(() => {
         ApplicationNotificationParser(socket)
+        clearTimeout(TIMEOUT)
       }, 1000)
+      return
     }
     const { uniqueQueue, deleteFromQueueOperations } = await getUniqueQueueEntries(queue)
     console.log('❓ unique', uniqueQueue)
@@ -213,6 +224,7 @@ const ApplicationNotificationParser = async (socket) => {
 MC.app.on('mongoose-connected', async () => {
   await GenerateWebsocketClient((socket) => {
     console.log('🤖 ApplicationNotificationParser bot engaged')
+    clearTimeout(TIMEOUT)
     ApplicationNotificationParser(socket)
   })
 })
