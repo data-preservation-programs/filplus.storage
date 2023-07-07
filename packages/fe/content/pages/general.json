@@ -7,7 +7,7 @@
     "site_name": "Filecoin Plus",
     "url": "",
     "type": "website",
-    "image": "/open-graph-image.png"
+    "image": "/images/open-graph-image-minimal.png"
   },
   "navigation": {
     "home_link": "/apply",
