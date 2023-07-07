@@ -119,7 +119,9 @@ const convertQueueToNotifications = async (queue) => {
       for (let j = 0; j < lenJ; j++) {
         const potentialNotification = potentialNotifications[j]
         // Don't do anything if the latest notification's labels are identical to the first potential incoming notification
-        if (j === 0 && latestNotification && latestNotification.custom.labels === potentialNotification.labels) {
+        const notificationSameAsLastOne = latestNotification && latestNotification.custom.state === potentialNotification.state
+        console.log('⚡️', latestNotification && latestNotification.custom.state, potentialNotification.state)
+        if (j === 0 && notificationSameAsLastOne) {
           console.log('❗️ SAME NOTIFICATION AS THE LAST ONE', potentialNotification)
           continue
         } else {
@@ -160,7 +162,7 @@ const performDatabaseOperations = async (notificationsToCreate, deleteFromQueueO
       userIds.push(userId)
     }
     const deleted = await MC.model.ApplicationChangedQueue.bulkWrite(deleteFromQueueOperations)
-    console.log(`New notifications: ${createdCount.toLocaleString()} | deleted: ${deleted.nRemoved}`)
+    console.log(`New notifications: ${(createdCount || 0).toLocaleString()} | deleted: ${(deleted || 0).nRemoved.toLocaleString()}`)
     return userIds
   } catch (e) {
     console.log('========================== [Logic: performDatabaseOperations]')
