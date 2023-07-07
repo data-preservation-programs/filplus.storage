@@ -130,6 +130,7 @@ $squigglyWidth: 40;
   left: 50%;
   padding-top: $offset;
   transform: translateX(-50%);
+  filter: drop-shadow(0px 4px 55px #030604);
   transition: 150ms ease-out;
   &:not(.open) {
     transition: 150ms ease-in;
