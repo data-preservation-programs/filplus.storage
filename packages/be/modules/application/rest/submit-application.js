@@ -119,7 +119,7 @@ MC.app.post('/submit-application', async (req, res) => {
     const githubIssue = await submitApplication(type, stage, template, application, repo, options)
     // ------------------------------------------------------- push notification
     await PushNotification({
-      ownerId: '642ec896462dfdf618234a8c',
+      ownerId: identifier.userId,
       bucket: 'application',
       read: false,
       custom: {
