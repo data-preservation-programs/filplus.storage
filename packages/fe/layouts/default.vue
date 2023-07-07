@@ -86,12 +86,14 @@ export default {
           this.setAccount(account)
         }
       })
-      this.socket.on('script|refresh-notifications|event', async () => {
+      const refreshNotifications = async () => {
         if (this.account) {
           await this.getNotificationList()
           this.getNewNotificationCount()
         }
-      })
+      }
+      this.socket.on('script|refresh-notifications|event', refreshNotifications)
+      this.socket.on('push-notification|refresh-notifications|event', refreshNotifications)
       this.socket.on('disconnect', async () => {
         this.networkErrorToastId = await this.$toaster.add({
           type: 'toast',

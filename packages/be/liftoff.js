@@ -82,18 +82,29 @@ try {
 // }; users()
 
 // /////////////////////////////////////////////////////// populateNotifications
+// const PushNotification = require('@Module_Notification/logic/push-notification')
 // const notifications = async () => {
 //   try {
-//     const queued = await MC.model.ApplicationChangedQueue
-//       .find()
-//       .sort({ createdAt: -1 })
-//       .select('-_id -createdAt -updatedAt -__v')
-//       .lean()
-//     console.log(queued)
-//     const notifications = await MC.model.Notification
-//       .find()
-//       .lean()
-//     console.log(notifications)
+//     // await PushNotification({
+//     //   ownerId: '642ec896462dfdf618234a8c',
+//     //   bucket: 'application',
+//     //   read: false,
+//     //   custom: {
+//     //     state: 'asd',
+//     //     issueNumber: 123,
+//     //     issueTitle: 'Isueeeee'
+//     //   }
+//     // })
+//     // const queued = await MC.model.ApplicationChangedQueue
+//     //   .find()
+//     //   .sort({ createdAt: -1 })
+//     //   .select('-_id -createdAt -updatedAt -__v')
+//     //   .lean()
+//     // console.log(queued)
+//     // const notifications = await MC.model.Notification
+//     //   .find()
+//     //   .lean()
+//     // console.log(notifications)
 //     // await MC.model.Notification.collection.drop()
 //     // await MC.model.ApplicationChangedQueue.collection.drop()
 //     // const author = '642ec896462dfdf618234a8c'
