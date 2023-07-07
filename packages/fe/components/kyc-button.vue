@@ -130,7 +130,7 @@ export default {
       tooltip = tooltip.replaceAll('|Start_kyc_link|', `<a href="${this.togggleLink}" target="_blank">Start KYC</a>`)
       tooltip = tooltip.replaceAll('|start_kyc_link|', `<a href="${this.togggleLink}" target="_blank">start KYC</a>`)
       tooltip = tooltip.replaceAll('|Check_status_link|', `<a href="${this.togggleLink}" target="_blank">Check status</a>`)
-      tooltip = tooltip.replaceAll('|reach_out_link|', `<a href="${this.togggleLink}" target="_blank">reach out</a>`)
+      tooltip = tooltip.replaceAll('|reach_out_link|', '<a href="https://filecoinproject.slack.com/archives/C01DLAPKDGX" target="_blank">reach out</a>')
       tooltip = tooltip.replaceAll('|try_again_link|', `<a href="${this.togggleLink}" target="_blank">try again</a>`)
       return tooltip
     }
