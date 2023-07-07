@@ -91,14 +91,13 @@
             form-id="filplus_application" />
 
           <div class="buttons">
-            <div v-if="account">
-              <ButtonA
-                class="submit-button"
-                loader="application-submit-button"
-                @clicked="submitForm">
-                {{ submitButtonText }}
-              </ButtonA>
-            </div>
+            <ButtonA
+              v-if="account"
+              class="submit-button"
+              loader="application-submit-button"
+              @clicked="submitForm">
+              {{ submitButtonText }}
+            </ButtonA>
 
             <AuthPanel v-else />
 

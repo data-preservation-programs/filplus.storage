@@ -126,6 +126,23 @@ const notifications = async () => {
     //   const created = await MC.model.Notification.create(notifications[i])
     //   console.log(created)
     // }
+    // const user = await MC.model.User.findOne({ githubUsername: 'timelytree' })
+    // console.log(user)
+    // user.kyc = {
+    //   event: 'failure'
+    // }
+    // user.kyc = {
+    //   event: 'success',
+    //   error: {
+    //     name: 'LifeProofValidationFailed',
+    //     message: 'Failed to validate the life proof',
+    //     custom: {
+    //       identifier: 'timelytree'
+    //     }
+    //   }
+    // }
+    // const saved = await user.save()
+    // console.log(saved)
   } catch (e) {
     console.log(e)
   }
