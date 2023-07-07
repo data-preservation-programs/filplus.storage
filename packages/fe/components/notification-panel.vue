@@ -30,7 +30,7 @@
         </header>
 
         <!-- Notifications List -->
-        <div class="notifications-list">
+        <div v-if="notificationsFound" class="notifications-list">
           <div
             v-for="notification in notificationList"
             :key="notification._id"
@@ -61,6 +61,10 @@
             </div>
 
           </div>
+        </div>
+
+        <div v-else class="no-notifications-placeholder">
+          ☀️ you don't have any notifications
         </div>
 
       </template>
@@ -111,6 +115,10 @@ export default {
       loading: 'notifications/loading',
       newCount: 'notifications/newCount'
     }),
+    notificationsFound () {
+      const notificationList = this.notificationList
+      return notificationList && notificationList.length > 0
+    },
     newNotificationsCount () {
       const count = this.newCount
       return count > 0 ? `(${count} new)` : ''
@@ -239,7 +247,7 @@ export default {
       right: toRem(-4);
       width: toRem(18);
       height: toRem(18);
-      background-color: $aztec;
+      background-color: #040706;
     }
     &:after {
       top: 0;
@@ -307,6 +315,10 @@ export default {
   &:not(:last-child) {
     border-bottom: 2px solid $mineralGreen;
   }
+}
+
+.no-notifications-placeholder {
+  padding: 1rem;
 }
 
 .header {
