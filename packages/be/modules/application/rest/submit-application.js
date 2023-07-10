@@ -208,22 +208,6 @@ const addCommitToBranch = async (forkedRepoName, branch, commit, token) => {
   }
 }
 
-// /////////////////////////////////////////////////////// mergeCommitIntoBranch
-const mergeCommitIntoBranch = async (forkedRepoName, branchId, commit, token) => {
-  try {
-    const body = {
-      base: branchId,
-      head: commit.sha
-    }
-    const options = { headers: { Accept: 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28', Authorization: `Bearer ${token}` } }
-    const response = await Axios.post(`https://api.github.com/repos/${forkedRepoName}/merges`, body, options)
-    return response.data
-  } catch (e) {
-    console.log('=========================== [Function: mergeCommitIntoBranch]')
-    throw e
-  }
-}
-
 // //////////////////////////////////////////////////////////////////// createPR
 const createPR = async (forkedRepoName, branchId, githubUsername, token) => {
   try {
@@ -242,20 +226,6 @@ const createPR = async (forkedRepoName, branchId, githubUsername, token) => {
     throw e
   }
 }
-
-// /////////////////////////////////////////////////////////// submitApplication
-// const submitApplication = async (type, stage, template, application, repo, options) => {
-//   try {
-//     const orgName = application.organization_name
-//     const title = type === 'ga' ? `Client Allocation Request for: ${orgName}` : `[DataCap Application] ${orgName}`
-//     const body = { title, body: template }
-//     const response = await Axios.post(`https://api.github.com/repos/${repo}/issues`, body, options)
-//     return response.data
-//   } catch (e) {
-//     console.log('=============================== [Function: submitApplication]')
-//     throw e
-//   }
-// }
 
 // //////////////////////////////////////////////////////////// addIssueMetadata
 const addIssueMetadata = async (type, prNumber, body, repo) => {
@@ -360,11 +330,6 @@ MC.app.post('/submit-application', async (req, res) => {
      */
     console.log('⚡️ [commit → branch] add commit to `reference` branch')
     await addCommitToBranch(forkedRepoName, reference.branch, commit, githubToken)
-    /**
-     *
-     */
-    // console.log('⚡️ [commit → main] merge branch into main')
-    // await mergeCommitIntoBranch(forkedRepoName, reference.branchId, commit, githubToken)
     /**
      * Open a PR for the new branch
      */

@@ -13,14 +13,14 @@
             <div class="buttons">
 
               <ButtonA
-                v-if="githubIssueLink"
-                class="github-issue-link-button"
+                v-if="githubPullRequestLink"
+                class="github-pr-link-button"
                 theme="green-outline"
                 tag="a"
                 target="_blank"
-                :to="githubIssueLink">
+                :to="githubPullRequestLink">
                 <GithubIcon />
-                {{ githubIssueButtonText }}
+                {{ githubPullRequestText }}
               </ButtonA>
 
               <ButtonA
@@ -40,7 +40,7 @@
 
             <!-- ================================================= Accordion -->
             <AppAccordion
-              :entries="[githubIssue]"
+              :entries="[githubPullRequest]"
               :expand-application-text="expandApplicationText"
               :view-on-github-text="viewOnGithubText"
               :application-subtitle="applicationSubtitle" />
@@ -96,7 +96,7 @@ export default {
   },
 
   async fetch ({ store, redirect }) {
-    const application = await store.getters['account/githubIssue']
+    const application = await store.getters['account/githubPullRequest']
     if (!application) { return redirect('/apply') }
     await store.dispatch('general/getBaseData', { key: 'apply-success', data: ApplySucessPageData })
   },
@@ -108,7 +108,7 @@ export default {
   computed: {
     ...mapGetters({
       siteContent: 'general/siteContent',
-      githubIssue: 'account/githubIssue',
+      githubPullRequest: 'account/githubPullRequest',
       account: 'auth/account'
     }),
     generalPageData () {
@@ -121,27 +121,28 @@ export default {
       return this.pageData.heading.replace('|data|', this.datacapRequested[1])
     },
     datacapRequested () {
-      const applicationBody = this.githubIssue.body
-      const generalDatacapRegEx = /(?:DataCap Requested: )(\d+\.?\d{0,2} \w{3})/
-      const largeDatacapRegEx = /(?:### Total amount of DataCap being requested\n)(\d+\.?\d{0,2} \w{3})/
-      const generalDatacap = applicationBody.match(generalDatacapRegEx)
-      const largeDatacap = applicationBody.match(largeDatacapRegEx)
-      return generalDatacap || largeDatacap
+      return this.githubPullRequest
+      // const applicationBody = this.githubPullRequest.body
+      // const generalDatacapRegEx = /(?:DataCap Requested: )(\d+\.?\d{0,2} \w{3})/
+      // const largeDatacapRegEx = /(?:### Total amount of DataCap being requested\n)(\d+\.?\d{0,2} \w{3})/
+      // const generalDatacap = applicationBody.match(generalDatacapRegEx)
+      // const largeDatacap = applicationBody.match(largeDatacapRegEx)
+      // return generalDatacap || largeDatacap
     },
     subheading () {
       return this.pageData.subheading
     },
-    githubIssueLink () {
-      return this.githubIssue.html_url
+    githubPullRequestLink () {
+      return this.githubPullRequest.html_url
     },
-    githubIssueButtonText () {
-      return this.pageData.github_issue_button_text
+    githubPullRequestText () {
+      return this.pageData.github_pr_button_text
     },
     newApplicationButtonText () {
       return this.pageData.new_application_button_text
     },
     applicationTitle () {
-      return this.githubIssue.title
+      return this.githubPullRequest.title
     },
     applicationSubtitle () {
       return this.pageData.application_subtitle
@@ -155,12 +156,12 @@ export default {
   },
 
   beforeDestroy () {
-    this.setGithubIssue(false)
+    this.setGithubPullRequest(false)
   },
 
   methods: {
     ...mapActions({
-      setGithubIssue: 'account/setGithubIssue'
+      setGithubPullRequest: 'account/setGithubPullRequest'
     }),
     accordionToggleStateChanged (toggleState) {
       if (toggleState.open === toggleState.total) {
@@ -218,7 +219,7 @@ export default {
   }
 }
 
-.github-issue-link-button {
+.github-pr-link-button {
   :deep(svg) {
     width: 1rem;
     margin-right: 0.5rem;

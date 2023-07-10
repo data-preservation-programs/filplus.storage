@@ -19,7 +19,7 @@ const state = () => ({
   },
   application: {},
   applyFormHighlighted: false,
-  githubIssue: false,
+  githubPullRequest: false,
   view: 'lda' // 'ga' or 'lda'
 })
 
@@ -27,7 +27,7 @@ const state = () => ({
 // -----------------------------------------------------------------------------
 const getters = {
   application: state => state.application,
-  githubIssue: state => state.githubIssue,
+  githubPullRequest: state => state.githubPullRequest,
   applicationList: state => state.applicationList,
   loading: state => state.loading,
   refresh: state => state.refresh,
@@ -95,8 +95,8 @@ const actions = {
         params: { stage }
       })
       console.log(response.data.payload)
-      // await dispatch('setGithubIssue', response.data.payload)
-      // await this.dispatch('auth/getAccount', this.getters['auth/account']._id)
+      await dispatch('setGithubPullRequest', response.data.payload)
+      await this.dispatch('auth/getAccount', this.getters['auth/account']._id)
       this.$button('application-submit-button').set({ loading: false })
       this.$toaster.add({
         type: 'toast',
@@ -104,7 +104,7 @@ const actions = {
         message: 'Application submitted successfully'
       })
       this.$gtm.push({ event: `success_${stage}` })
-      // this.$router.push('/apply/success')
+      this.$router.push('/apply/success')
     } catch (e) {
       console.log('================= [Store Action: account/submitApplication]')
       console.log(e)
@@ -117,9 +117,9 @@ const actions = {
       })
     }
   },
-  // //////////////////////////////////////////////////////////// setGithubIssue
-  setGithubIssue ({ commit }, issue) {
-    commit('SET_GITHUB_ISSUE', issue)
+  // //////////////////////////////////////////////////////////// setGithubPullRequest
+  setGithubPullRequest ({ commit }, pr) {
+    commit('SET_GITHUB_PULL_REQUEST', pr)
   },
   // //////////////////////////////////////////////////////// getApplicationList
   async getApplicationList ({ commit, getters, dispatch }, metadata) {
@@ -195,8 +195,8 @@ const mutations = {
   SET_APPLICATION (state, application) {
     state.application = application
   },
-  SET_GITHUB_ISSUE (state, issue) {
-    state.githubIssue = issue
+  SET_GITHUB_PULL_REQUEST (state, pr) {
+    state.githubPullRequest = pr
   },
   SET_APPLICATION_LIST (state, payload) {
     state.applicationList = payload.applicationList
