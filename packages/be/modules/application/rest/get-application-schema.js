@@ -16,9 +16,17 @@ const processSchema = (file) => {
     const compiled = {}
     const len = sections.length
     for (let i = 0; i < len; i++) {
-      const sectionKey = sections[i]
-      Object.keys(application[sectionKey])
-        .forEach(key => compiled[key] = null)
+      const section = application[sections[i]]
+      Object.keys(section).forEach((sectionKey) => {
+        const value = section[sectionKey]
+        if (typeof value === 'object') {
+          Object.keys(value).forEach((valueKey) => {
+            compiled[`${sectionKey}||${valueKey}`] = null
+          })
+        } else {
+          compiled[sectionKey] = null
+        }
+      })
     }
     resolve(compiled)
   })
