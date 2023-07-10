@@ -96,6 +96,7 @@ export default {
 
   async fetch ({ app, store }) {
     await store.dispatch('general/getBaseData', { key: 'about', data: AboutPageData })
+    store.dispatch('account/getApplicationSchema')
   },
 
   head () {

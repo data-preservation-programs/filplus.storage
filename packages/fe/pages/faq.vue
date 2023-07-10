@@ -92,6 +92,7 @@ export default {
 
   async fetch ({ app, store }) {
     await store.dispatch('general/getBaseData', { key: 'faq', data: FaqPageData })
+    store.dispatch('account/getApplicationSchema')
   },
 
   head () {

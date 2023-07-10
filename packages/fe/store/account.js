@@ -52,6 +52,7 @@ const actions = {
   },
   // ///////////////////////////////////////////////////////// submitApplication
   async submitApplication ({ commit, dispatch }, payload) {
+    await console.log(payload.application)
     const application = payload.application
     const bytes = payload.bytes
     const thresholds = payload.thresholds
@@ -59,7 +60,7 @@ const actions = {
     const tib100 = thresholds.tib_100
     const pib5 = thresholds.pib_5
     const pib15 = thresholds.pib_15
-    const requestedAmount = `${application.total_datacap_size} ${application.total_datacap_size_unit}`
+    const requestedAmount = `${application['Total amount of DataCap being requested||amount']} ${application['Total amount of DataCap being requested||unit']}`
     let stage
     let labels = ['source:filplus.storage']
     const assignees = []
@@ -93,8 +94,9 @@ const actions = {
       }, {
         params: { stage }
       })
-      await dispatch('setGithubIssue', response.data.payload)
-      await this.dispatch('auth/getAccount', this.getters['auth/account']._id)
+      console.log(response.data.payload)
+      // await dispatch('setGithubIssue', response.data.payload)
+      // await this.dispatch('auth/getAccount', this.getters['auth/account']._id)
       this.$button('application-submit-button').set({ loading: false })
       this.$toaster.add({
         type: 'toast',
@@ -102,7 +104,7 @@ const actions = {
         message: 'Application submitted successfully'
       })
       this.$gtm.push({ event: `success_${stage}` })
-      this.$router.push('/apply/success')
+      // this.$router.push('/apply/success')
     } catch (e) {
       console.log('================= [Store Action: account/submitApplication]')
       console.log(e)

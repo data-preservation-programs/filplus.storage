@@ -167,6 +167,7 @@ export default {
     if (!notary) { return redirect('/apply/general/notaries') }
     const notaryFieldId = 'notary|filplus_application'
     const notaryField = app.$field(notaryFieldId).get()
+    await store.dispatch('account/getApplicationSchema')
     const application = await store.dispatch('account/setHubspotOptInData', store.getters['auth/account'])
     await app.$form('filplus_application').register(application)
     if (!notaryField) {

@@ -122,10 +122,10 @@
           },
           "defaultValue": ""
         },
-        "total_datacap_size_input": {
+        "Total amount of DataCap being requested||amount": {
           "type": "input",
           "inputType": "number",
-          "modelKey": "total_datacap_size",
+          "modelKey": "Total amount of DataCap being requested||amount",
           "label": "Total Datacap being requested",
           "placeholder": "1",
           "min": 1,
@@ -147,9 +147,9 @@
             "minmax": "Number must be between 1 and 5242880"
           }
         },
-        "total_datacap_size_unit": {
+        "Total amount of DataCap being requested||unit": {
           "type": "select",
-          "modelKey": "total_datacap_size_unit",
+          "modelKey": "Total amount of DataCap being requested||unit",
           "label": "Unit",
           "required": true,
           "output": "option",

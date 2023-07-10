@@ -55,7 +55,6 @@ export default {
 
   async created () {
     await this.$store.dispatch('general/getBaseData', 'general')
-    await this.$store.dispatch('account/getApplicationSchema')
   },
 
   async mounted () {

@@ -419,7 +419,7 @@ const FormatDatacapSize = (ctx, transformField, transformSourceField, args) => {
     if (valueField) { value = valueField.value }
     return parseFloat(FormatBytes(value, 'array').value)
   } else if (action === 'bytes') {
-    const options = store.getters['general/siteContent'].apply.page_content.form.scaffold.total_datacap_size_unit.options
+    const options = store.getters['general/siteContent'].apply.page_content.form.scaffold['Total amount of DataCap being requested||unit'].options
     const unitField = ctx.$field(`${args.unit_from_field}|filplus_application`).get()
     const valueField = ctx.$field(`${args.value_from_field}|filplus_application`).get()
     if (!unitField || !valueField || unitField.value.length === 0) { return value }
@@ -432,7 +432,7 @@ const FormatDatacapSize = (ctx, transformField, transformSourceField, args) => {
 // //////////////////////////////////////////////////// ReactDatasizeUnitToRange
 const ReactDatasizeUnitToRange = (ctx, transformField, transformSourceField, args) => {
   const size = transformSourceField.value
-  const options = ctx.store.getters['general/siteContent'].apply.page_content.form.scaffold.total_datacap_size_unit.options
+  const options = ctx.store.getters['general/siteContent'].apply.page_content.form.scaffold['Total amount of DataCap being requested||unit'].options
   const unit = FormatBytes(size, 'array').unit
   return [options.findIndex(option => option.label === unit)]
 }
@@ -442,7 +442,7 @@ const ReactDatasizeRangeToUnit = (ctx, transformField, transformSourceField, arg
   const originalValue = transformField.value
   const unitValue = transformSourceField.value
   const store = ctx.store
-  const options = store.getters['general/siteContent'].apply.page_content.form.scaffold.total_datacap_size_unit.options
+  const options = store.getters['general/siteContent'].apply.page_content.form.scaffold['Total amount of DataCap being requested||unit'].options
   const inputField = ctx.$field(`${args.value_from_field}|filplus_application`).get()
   if (unitValue.length === 0) { return originalValue }
   const unit = options[unitValue].label

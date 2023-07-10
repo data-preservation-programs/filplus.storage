@@ -11,6 +11,44 @@ const MC = require('@Root/config')
 
 // /////////////////////////////////////////////////////////////////// Functions
 // -----------------------------------------------------------------------------
+// //////////////////////////////////////////////////// applyApplicationToSchema
+const applyApplicationToSchema = async (application) => {
+  try {
+    const schema = await GetFileFromDisk(`${MC.cacheRoot}/application-schema.json`, true)
+    const applicationInfo = schema.applicationInfo
+    Object.keys(applicationInfo).forEach((sectionKey) => {
+      const section = applicationInfo[sectionKey]
+      Object.keys(section).forEach((schemaValueKey) => {
+        const schemaValue = section[schemaValueKey]
+        const applicationValue = application[schemaValueKey]
+        if (applicationValue === null) { return } // if value from form is null, don't populate schema
+        if (typeof schemaValue === 'object' && !Array.isArray(schemaValue)) {
+          Object.keys(schemaValue).forEach((schemaValueObjectKey) => {
+            schema.applicationInfo[sectionKey][schemaValueKey][schemaValueObjectKey] = application[`${schemaValueKey}||${schemaValueObjectKey}`]
+          })
+        } else {
+          schema.applicationInfo[sectionKey][schemaValueKey] = applicationValue
+        }
+      })
+    })
+    return schema
+  } catch (e) {
+    console.log('======================== [Function: applyApplicationToSchema]')
+    console.log(e)
+    throw e
+  }
+}
+
+// ///////////////////////////////////////////////// checkIfUserOptedInToHubspot
+const checkIfUserOptedInToHubspot = (application) => {
+  const firstName = application.hubspot_opt_in_first_name
+  const lastName = application.hubspot_opt_in_last_name
+  const email = application.hubspot_opt_in_email
+  if (!firstName || !lastName || !email) { return false }
+  if (firstName === '' || lastName === '' || email === '') { return false }
+  return true
+}
+
 // //////////////////////////////////////////////////////////////////// getForks
 const getForks = async (githubUsername, token, page = 1, forks = []) => {
   try {
@@ -187,41 +225,6 @@ const createPR = async (forkedRepoName, mainBranchSha, githubUsername, token) =>
   }
 }
 
-// ///////////////////////////////////////////////////////////// processTemplate
-const processTemplate = async (type, application) => {
-  try {
-    let template = await GetFileFromDisk(`${MC.staticRoot}/${type}-template.md`)
-    template = template.toString()
-    Object.keys(application).forEach((key) => {
-      const regexp = /(?<=\s|^)@(?=[\w]+)/g
-      let value = application[key] || 'n/a'
-      if (value) {
-        value = (`${value}` || '').replace(regexp, '[at]')
-      }
-      if (key === 'organization_website') {
-        template = template.replaceAll(key, value)
-      } else {
-        template = template.replace(key, value)
-      }
-    })
-    return template
-  } catch (e) {
-    console.log('================================= [Function: processTemplate]')
-    console.log(e)
-    throw e
-  }
-}
-
-// ///////////////////////////////////////////////// checkIfUserOptedInToHubspot
-const checkIfUserOptedInToHubspot = (application) => {
-  const firstName = application.hubspot_opt_in_first_name
-  const lastName = application.hubspot_opt_in_last_name
-  const email = application.hubspot_opt_in_email
-  if (!firstName || !lastName || !email) { return false }
-  if (firstName === '' || lastName === '' || email === '') { return false }
-  return true
-}
-
 // /////////////////////////////////////////////////////////// submitApplication
 const submitApplication = async (type, stage, template, application, repo, options) => {
   try {
@@ -267,94 +270,94 @@ MC.app.post('/submit-application', async (req, res) => {
     const user = await MC.model.User.findById(identifier.userId)
     const githubUsername = user.githubUsername
     const githubToken = user.githubToken
-    // // ---------------------------------------- populate markdown issue template
-    // const template = await processTemplate(type, application)
-    // // ------------------------------------------- submit/update Hubspot contact
-    // const userOptedIn = checkIfUserOptedInToHubspot(application)
-    // if ((!user.hubspotOptIn && userOptedIn) || user.hubspotOptInContactId) {
-    //   await SubmitHubspotContact(res, user, {
-    //     email: application.hubspot_opt_in_email,
-    //     firstname: application.hubspot_opt_in_first_name,
-    //     lastname: application.hubspot_opt_in_last_name,
-    //     company: application.organization_name,
-    //     fil__application_region: application.ga_region || application.data_owner_region,
-    //     fil__application_datacap_requested: `${application.total_datacap_size} ${application.total_datacap_size_unit}`,
-    //     filecoin_wallet_address: application.filecoin_address
-    //   })
-    // }
-    // -------------------------------------------------------- Create fork & PR
-    /**
-     * First, grab all the forks and check to see if the target fork already exists
-     */
-    console.log('💡 get forks')
-    const forks = await getForks(githubUsername, githubToken, [])
-    let fork = forks.find(fork => fork.name === 'filecoin-plus-large-datasets')
-    /**
-     * If the fork does NOT exist, create it.
-     */
-    if (!fork) {
-      fork = await forkRepo(user.githubToken)
+    // ---------------------------------------- populate markdown issue template
+    const template = await applyApplicationToSchema(application)
+    // ------------------------------------------- submit/update Hubspot contact
+    const userOptedIn = checkIfUserOptedInToHubspot(application)
+    if ((!user.hubspotOptIn && userOptedIn) || user.hubspotOptInContactId) {
+      await SubmitHubspotContact(res, user, {
+        email: application.hubspot_opt_in_email,
+        firstname: application.hubspot_opt_in_first_name,
+        lastname: application.hubspot_opt_in_last_name,
+        company: application.organization_name,
+        fil__application_region: application.ga_region || application.data_owner_region,
+        fil__application_datacap_requested: `${application.total_datacap_size} ${application.total_datacap_size_unit}`,
+        filecoin_wallet_address: application.filecoin_address
+      })
     }
-    const forkedRepoName = fork.full_name
-    console.log(fork)
-    /**
-     * Grab the sha hash of the `main` branch of the forked repo. Github creates
-     * forks asynchronously. The below runs a recursive API call loop and only
-     * continues when a `main` branch sha reference is detected
-     */
-    console.log('⚡️ [sha ref of main branch] get sha hash of MAIN branch of the forked repo')
-    const mainBranchSha = await getMainBranchSha(forkedRepoName, 0, githubToken)
-    console.log(mainBranchSha)
-    /**
-     * Branch off the `main` branch of the forked repo
-     */
-    console.log('⚡️ [branch] branch off MAIN branch')
-    const branch = await createReference(forkedRepoName, mainBranchSha, githubToken)
-    console.log(branch)
-    /**
-     * Create a blob of the JSON containing the incoming application
-     */
-    console.log('⚡️ [blob] create a BLOB of the application')
-    const blob = await createBlob(forkedRepoName, JSON.stringify(APPLICATION), githubToken)
-    console.log(blob)
-    /**
-     * Create a git tree that contains the blob
-     */
-    console.log('⚡️ [tree] create a git TREE containing the blob')
-    const tree = await createGitTree(forkedRepoName, blob, githubToken)
-    console.log(tree)
-    /**
-     * Create a commit using the tree
-     */
-    console.log('⚡️ [commit] create a COMMIT inside the tree containing the blob')
-    const commit = await createCommit(forkedRepoName, tree, githubToken)
-    console.log(commit)
-    /**
-     * Add the commit to the branch
-     */
+    // -------------------------------------------------------- Create fork & PR
+    // /**
+    //  * First, grab all the forks and check to see if the target fork already exists
+    //  */
+    // console.log('💡 get forks')
+    // const forks = await getForks(githubUsername, githubToken, [])
+    // let fork = forks.find(fork => fork.name === 'filecoin-plus-large-datasets')
+    // /**
+    //  * If the fork does NOT exist, create it.
+    //  */
+    // if (!fork) {
+    //   fork = await forkRepo(user.githubToken)
+    // }
+    // const forkedRepoName = fork.full_name
+    // console.log(fork)
+    // /**
+    //  * Grab the sha hash of the `main` branch of the forked repo. Github creates
+    //  * forks asynchronously. The below runs a recursive API call loop and only
+    //  * continues when a `main` branch sha reference is detected
+    //  */
+    // console.log('⚡️ [sha ref of main branch] get sha hash of MAIN branch of the forked repo')
+    // const mainBranchSha = await getMainBranchSha(forkedRepoName, 0, githubToken)
+    // console.log(mainBranchSha)
+    // /**
+    //  * Branch off the `main` branch of the forked repo
+    //  */
+    // console.log('⚡️ [branch] branch off MAIN branch')
+    // const branch = await createReference(forkedRepoName, mainBranchSha, githubToken)
+    // console.log(branch)
+    // /**
+    //  * Create a blob of the JSON containing the incoming application
+    //  */
+    // console.log('⚡️ [blob] create a BLOB of the application')
+    // const blob = await createBlob(forkedRepoName, JSON.stringify(APPLICATION), githubToken)
+    // console.log(blob)
+    // /**
+    //  * Create a git tree that contains the blob
+    //  */
+    // console.log('⚡️ [tree] create a git TREE containing the blob')
+    // const tree = await createGitTree(forkedRepoName, blob, githubToken)
+    // console.log(tree)
+    // /**
+    //  * Create a commit using the tree
+    //  */
+    // console.log('⚡️ [commit] create a COMMIT inside the tree containing the blob')
+    // const commit = await createCommit(forkedRepoName, tree, githubToken)
+    // console.log(commit)
+    // /**
+    //  * Add the commit to the branch
+    //  */
     // console.log('⚡️ [commit → branch] add commit to branch')
     // await addCommitToBranch(forkedRepoName, branch, commit, githubToken)
-    /**
-     *
-     */
+    // /**
+    //  *
+    //  */
     // console.log('⚡️ [commit → main] merge branch into main')
     // await mergeCommitIntoMain(forkedRepoName, commit, githubToken)
-    /**
-     * Open a PR for the new branch
-     */
+    // /**
+    //  * Open a PR for the new branch
+    //  */
     // console.log('⚡️ [PR] open a PR for the new branch')
     // const pr = await createPR(forkedRepoName, mainBranchSha, githubUsername, githubToken)
     // console.log(pr)
     // ----------------------------------------------------------------- logging
-    // if (MC.serverFlag !== 'production') {
-    //   console.log('===========================================================')
-    //   console.log(`type → ${type} | stage → ${stage}`)
-    //   console.log('labels →', labels)
-    //   console.log('assignees →', assignees)
-    //   console.log('comments →', comments)
-    //   console.log(application)
-    //   console.log(template)
-    // }
+    if (MC.serverFlag !== 'production') {
+      console.log('===========================================================')
+      console.log(`type → ${type} | stage → ${stage}`)
+      console.log('labels →', labels)
+      console.log('assignees →', assignees)
+      console.log('comments →', comments)
+      console.log(application)
+      console.log(schema)
+    }
     // ------------------------------------------------------ submit application
     const githubIssue = ''
     // const repo = MC.repos[type][MC.serverFlag]

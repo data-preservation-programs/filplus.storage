@@ -25,13 +25,13 @@
 
         <div :class="['row', { 'tooltip-visible': maxValueSelected }]" :data-tooltip="tooltipText">
           <FieldContainer
-            :scaffold="formScaffold.total_datacap_size_input"
-            field-key="total_datacap_size_input"
+            :scaffold="formScaffold['Total amount of DataCap being requested||amount']"
+            field-key="Total amount of DataCap being requested||amount"
             form-id="filplus_application"
             class="input-field" />
           <FieldContainer
-            :scaffold="formScaffold.total_datacap_size_unit"
-            field-key="total_datacap_size_unit"
+            :scaffold="formScaffold['Total amount of DataCap being requested||unit']"
+            field-key="Total amount of DataCap being requested||unit"
             form-id="filplus_application"
             class="select-field" />
         </div>

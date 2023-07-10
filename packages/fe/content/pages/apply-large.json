@@ -31,10 +31,10 @@
       "submit_button_text": "Send Request",
       "github_issue_link_text": "View Issue on Github",
       "scaffold": {
-        "organization_name": {
+        "Data Owner Name": {
           "type": "input",
           "inputType": "text",
-          "modelKey": "organization_name",
+          "modelKey": "Data Owner Name",
           "label": "Organization Name",
           "placeholder": "ABC Inc.",
           "tooltip": "Provide the name of your group or organization.",
@@ -51,9 +51,9 @@
           },
           "defaultValue": ""
         },
-        "your_role": {
+        "What is your role related to the dataset": {
           "type": "select",
-          "modelKey": "your_role",
+          "modelKey": "What is your role related to the dataset",
           "label": "What is your role related to the dataset?",
           "required": true,
           "output": "option",
@@ -70,10 +70,10 @@
           "defaultValue": "",
           "isSingleOption": true
         },
-        "data_owner_region": {
+        "Data Owner Country/Region": {
           "type": "select",
-          "modelKey": "data_owner_region",
-          "label": "Data owner country/region",
+          "modelKey": "Data Owner Country/Region",
+          "label": "Data Owner Country/Region",
           "placeholder": "Country/region",
           "required": true,
           "output": "option",
@@ -84,9 +84,9 @@
           "defaultValue": "",
           "isSingleOption": true
         },
-        "data_owner_industry": {
+        "Data Owner Industry": {
           "type": "select",
-          "modelKey": "data_owner_industry",
+          "modelKey": "Data Owner Industry",
           "label": "Data owner industry",
           "tooltip": "Select the most applicable industry for your organization from the provided list",
           "required": true,
@@ -115,10 +115,10 @@
           "defaultValue": "",
           "isSingleOption": true
         },
-        "organization_website": {
+        "Website": {
           "type": "input",
           "inputType": "text",
-          "modelKey": "organization_website",
+          "modelKey": "Website",
           "label": "Organization Website",
           "placeholder": "https://foo.com",
           "tooltip": "Provide the full URL of your group or organization's website",
@@ -136,10 +136,10 @@
           },
           "defaultValue": ""
         },
-        "organization_social_media_handle": {
+        "Social Media||handle": {
           "type": "input",
           "inputType": "text",
-          "modelKey": "organization_social_media_handle",
+          "modelKey": "Social Media||handle",
           "label": "Organization Social Media Handle",
           "placeholder": "@foo",
           "tooltip": "Provide the social media handle or full social media URL for your organization or group",
@@ -156,10 +156,10 @@
           },
           "defaultValue": ""
         },
-        "organization_social_media_handle_type": {
+        "Social Media||type": {
           "type": "input",
           "inputType": "text",
-          "modelKey": "organization_social_media_handle_type",
+          "modelKey": "Social Media||type",
           "label": "Social Media Type",
           "placeholder": "Twitter",
           "required": true,
@@ -175,10 +175,10 @@
           },
           "defaultValue": ""
         },
-        "total_datacap_size_input": {
+        "Total amount of DataCap being requested||amount": {
           "type": "input",
           "inputType": "number",
-          "modelKey": "total_datacap_size",
+          "modelKey": "Total amount of DataCap being requested||amount",
           "label": "Total Datacap being requested",
           "placeholder": "100",
           "min": 1,
@@ -200,9 +200,9 @@
             "minmax": "Number must be between 1 and 5242880"
           }
         },
-        "total_datacap_size_unit": {
+        "Total amount of DataCap being requested||unit": {
           "type": "select",
-          "modelKey": "total_datacap_size_unit",
+          "modelKey": "Total amount of DataCap being requested||unit",
           "label": "Unit",
           "required": true,
           "output": "option",
@@ -224,10 +224,10 @@
           "defaultValue": "TiB",
           "isSingleOption": true
         },
-        "total_size_of_single_dataset_one_copy": {
+        "Expected size of single dataset (one copy)||amount": {
           "type": "input",
           "inputType": "number",
-          "modelKey": "total_size_of_single_dataset_one_copy",
+          "modelKey": "Expected size of single dataset (one copy)||amount",
           "label": "Expected size of single dataset (one copy)",
           "placeholder": "100",
           "min": 1,
@@ -240,9 +240,9 @@
             "minmax": "Number must be between 1 and 5242880"
           }
         },
-        "total_size_of_single_dataset_one_copy_unit": {
+        "Expected size of single dataset (one copy)||unit": {
           "type": "select",
-          "modelKey": "total_size_of_single_dataset_one_copy_unit",
+          "modelKey": "Expected size of single dataset (one copy)||unit",
           "label": "Unit",
           "required": true,
           "output": "option",
@@ -257,9 +257,9 @@
           "defaultValue": "TiB",
           "isSingleOption": true
         },
-        "number_of_replicas": {
+        "Number of replicas to store": {
           "type": "select",
-          "modelKey": "number_of_replicas",
+          "modelKey": "Number of replicas to store",
           "label": "№ replicas",
           "tooltip": "How many replicas are you planning to store?",
           "required": true,
@@ -282,10 +282,10 @@
           "defaultValue": "1",
           "isSingleOption": true
         },
-        "weekly_data_size": {
+        "Weekly allocation of DataCap requested||amount": {
           "type": "input",
           "inputType": "number",
-          "modelKey": "weekly_data_size",
+          "modelKey": "Weekly allocation of DataCap requested||amount",
           "label": "Weekly allocation of DataCap",
           "placeholder": "1",
           "tooltip": "How much of the DataCap you're requesting will you need on a weekly basis? Must be at least 1 TiB.",
@@ -304,9 +304,9 @@
             "minmax": "Number must be 1 or more"
           }
         },
-        "weekly_data_size_unit": {
+        "Weekly allocation of DataCap requested||unit": {
           "type": "select",
-          "modelKey": "weekly_data_size_unit",
+          "modelKey": "Weekly allocation of DataCap requested||unit",
           "label": "Unit",
           "required": true,
           "output": "option",
@@ -320,10 +320,10 @@
           "defaultValue": "TiB",
           "isSingleOption": true
         },
-        "filecoin_address": {
+        "On-chain address for first allocation": {
           "type": "input",
           "inputType": "text",
-          "modelKey": "filecoin_address",
+          "modelKey": "On-chain address for first allocation",
           "label": "Filecoin Address",
           "placeholder": "f...",
           "tooltip": "Provide your Filecoin wallet address, which will usually begin with f1 or f3 for addresses on the mainnet",
@@ -340,9 +340,25 @@
           },
           "defaultValue": ""
         },
-        "application_data_type": {
+        "Custom multisig": {
+          "type": "checkbox",
+          "modelKey": "Custom multisig",
+          "label": "Use custom Multisig",
+          "description": "Check this box off if you have explicitly been asked to by the governance team",
+          "output": "option",
+          "validationMessage": {
+            "required": "This field is required"
+          },
+          "options": [
+            { "label": "Use Custom Multisig" }
+          ],
+          "defaultValue": "",
+          "baseValue": "No",
+          "isSingleOption": true
+        },
+        "Data Type of Application": {
           "type": "select",
-          "modelKey": "application_data_type",
+          "modelKey": "Data Type of Application",
           "label": "Data Type of Application",
           "required": true,
           "output": "option",
@@ -359,25 +375,9 @@
           "defaultValue": "",
           "isSingleOption": true
         },
-        "custom_multisig": {
-          "type": "checkbox",
-          "modelKey": "custom_multisig",
-          "label": "Use custom Multisig",
-          "description": "Check this box off if you have explicitly been asked to by the governance team",
-          "output": "option",
-          "validationMessage": {
-            "required": "This field is required"
-          },
-          "options": [
-            { "label": "Use Custom Multisig" }
-          ],
-          "defaultValue": "",
-          "baseValue": "No",
-          "isSingleOption": true
-        },
-        "about": {
+        "Share a brief history of your project and organization": {
           "type": "textarea",
-          "modelKey": "about",
+          "modelKey": "Share a brief history of your project and organization",
           "label": "About your project and organization",
           "placeholder": "Briefly share some information about your project including your organization's history",
           "required": true,
@@ -394,9 +394,9 @@
           },
           "defaultValue": ""
         },
-        "ecosystem_associates_radio": {
+        "Is this project associated with other projects/ecosystem stakeholders?": {
           "type": "radio",
-          "modelKey": "ecosystem_associates_radio",
+          "modelKey": "Is this project associated with other projects/ecosystem stakeholders?",
           "label": "Ecosystem associates",
           "description": "Is this project associated with ecosystem stakeholders or other relevant projects?",
           "required": true,
@@ -410,16 +410,16 @@
           ],
           "defaultValue": ""
         },
-        "ecosystem_associates_textarea": {
+        "If answered yes, what are the other projects/ecosystem stakeholders": {
           "type": "textarea",
-          "modelKey": "ecosystem_associates_textarea",
+          "modelKey": "If answered yes, what are the other projects/ecosystem stakeholders",
           "placeholder": "Please provide the other projects or ecosystem stakeholders",
           "pre": "[^\\u0000-\\u00ff]",
           "autocomplete": "none",
           "required": true,
           "conditions": [
             {
-              "fieldKey": "ecosystem_associates_radio",
+              "fieldKey": "Is this project associated with other projects/ecosystem stakeholders?",
               "value": 0
             }
           ],
@@ -434,9 +434,9 @@
           },
           "defaultValue": ""
         },
-        "nature_of_data": {
+        "Describe the data being stored onto Filecoin": {
           "type": "textarea",
-          "modelKey": "nature_of_data",
+          "modelKey": "Describe the data being stored onto Filecoin",
           "label": "Nature of the data",
           "placeholder": "Describe the data that will be stored on Filecoin",
           "tooltip": "",
@@ -453,9 +453,9 @@
           },
           "defaultValue": ""
         },
-        "source_of_data_select": {
+        "Where was the data currently stored in this dataset sourced from": {
           "type": "select",
-          "modelKey": "source_of_data_select",
+          "modelKey": "Where was the data currently stored in this dataset sourced from",
           "label": "Source of data",
           "description": "Where is the data in this dataset sourced from?",
           "required": true,
@@ -473,9 +473,9 @@
           "defaultValue": "",
           "isSingleOption": true
         },
-        "source_of_data_textarea": {
+        "If you answered 'Other' in the previous question, enter the details here": {
           "type": "textarea",
-          "modelKey": "source_of_data_textarea",
+          "modelKey": "If you answered 'Other' in the previous question, enter the details here",
           "placeholder": "Enter the details here",
           "tooltip": "",
           "pre": "[^\\u0000-\\u00ff]",
@@ -483,7 +483,7 @@
           "required": true,
           "conditions": [
             {
-              "fieldKey": "source_of_data_select",
+              "fieldKey": "Where was the data currently stored in this dataset sourced from",
               "value": 4
             }
           ],
@@ -497,9 +497,9 @@
           },
           "defaultValue": ""
         },
-        "data_preparation_plan_select": {
+        "How do you plan to prepare the dataset": {
           "type": "select",
-          "modelKey": "data_preparation_plan_select",
+          "modelKey": "How do you plan to prepare the dataset",
           "label": "Data preparation plan",
           "description": "How do you plan to prepare the dataset?",
           "required": true,
@@ -520,9 +520,9 @@
           "defaultValue": "",
           "isSingleOption": true
         },
-        "data_preparation_plan_textarea": {
+        "If you answered 'other/custom tool' in the previous question, enter the details here": {
           "type": "textarea",
-          "modelKey": "data_preparation_plan_textarea",
+          "modelKey": "If you answered 'other/custom tool' in the previous question, enter the details here",
           "placeholder": "Enter the details here",
           "tooltip": "",
           "pre": "[^\\u0000-\\u00ff]",
@@ -530,7 +530,7 @@
           "required": true,
           "conditions": [
             {
-              "fieldKey": "data_preparation_plan_select",
+              "fieldKey": "How do you plan to prepare the dataset",
               "value": 7
             }
           ],
@@ -545,9 +545,9 @@
           "defaultValue": "",
           "isSingleOption": true
         },
-        "data_sample": {
+        "Please share a sample of the data (a link to a file, an image, a table, etc., are good ways to do this.)": {
           "type": "textarea",
-          "modelKey": "data_sample",
+          "modelKey": "Please share a sample of the data (a link to a file, an image, a table, etc., are good ways to do this.)",
           "label": "Data sample",
           "placeholder": "Are you able to share a sample of the data?",
           "tooltip": "Provide any link(s) to files, images, tables, etc. that are available",
@@ -564,9 +564,9 @@
           },
           "defaultValue": ""
         },
-        "public_availability_radio": {
+        "Confirm that this is a public dataset that can be retrieved by anyone on the network (i.e., no specific permissions or access rights are required to view the data)": {
           "type": "radio",
-          "modelKey": "public_availability_radio",
+          "modelKey": "Confirm that this is a public dataset that can be retrieved by anyone on the network (i.e., no specific permissions or access rights are required to view the data)",
           "label": "Public availability",
           "description": "Is this a public dataset that can be retrieved by anyone on the network?  (i.e., are specific permissions or access rights required to view the data)",
           "required": true,
@@ -580,9 +580,9 @@
           ],
           "defaultValue": ""
         },
-        "public_availability_textarea": {
+        "If you chose not to confirm, what was the reason": {
           "type": "textarea",
-          "modelKey": "public_availability_textarea",
+          "modelKey": "If you chose not to confirm, what was the reason",
           "placeholder": "Please explain the reason",
           "pre": "[^\\u0000-\\u00ff]",
           "tooltip": "",
@@ -590,7 +590,7 @@
           "required": true,
           "conditions": [
             {
-              "fieldKey": "public_availability_radio",
+              "fieldKey": "Confirm that this is a public dataset that can be retrieved by anyone on the network (i.e., no specific permissions or access rights are required to view the data)",
               "value": 1
             }
           ],
@@ -604,9 +604,9 @@
           },
           "defaultValue": ""
         },
-        "frequency_of_retrieval": {
+        "What is the expected retrieval frequency for this data": {
           "type": "select",
-          "modelKey": "frequency_of_retrieval",
+          "modelKey": "What is the expected retrieval frequency for this data",
           "label": "Frequency of retrieval",
           "description": "What is the expected retrieval frequency of this data?",
           "required": true,
@@ -625,9 +625,9 @@
           "defaultValue": "",
           "isSingleOption": true
         },
-        "duration_of_storage": {
+        "For how long do you plan to keep this dataset stored on Filecoin": {
           "type": "select",
-          "modelKey": "duration_of_storage",
+          "modelKey": "For how long do you plan to keep this dataset stored on Filecoin",
           "label": "Duration of storage",
           "description": "How long do you plan to keep this dataset stored on Filecoin?",
           "required": true,
@@ -646,9 +646,9 @@
           "defaultValue": "",
           "isSingleOption": true
         },
-        "geographic_distribution": {
+        "In which geographies do you plan on making storage deals": {
           "type": "select",
-          "modelKey": "geographic_distribution",
+          "modelKey": "In which geographies do you plan on making storage deals",
           "label": "Geographic distribution",
           "description": "In which geographicial region do you plan on making storage deals?",
           "required": true,
@@ -668,9 +668,9 @@
           ],
           "defaultValue": ""
         },
-        "sending_data": {
+        "How will you be distributing your data to storage providers": {
           "type": "select",
-          "modelKey": "sending_data",
+          "modelKey": "How will you be distributing your data to storage providers",
           "label": "Sending data",
           "description": "How will you be distributing your data to storage providers?",
           "required": true,
@@ -691,9 +691,9 @@
           "defaultValue": "",
           "isSingleOption": true
         },
-        "storage_provider_selection_plan_select": {
+        "How do you plan to choose storage providers": {
           "type": "select",
-          "modelKey": "storage_provider_selection_plan_select",
+          "modelKey": "How do you plan to choose storage providers",
           "label": "Storage provider selection plan",
           "description": "How do you plan to choose a SP?",
           "required": true,
@@ -712,10 +712,10 @@
           "defaultValue": "",
           "isSingleOption": true
         },
-        "storage_provider_selection_plan_input": {
+        "If you answered 'Other' in the previous question, what is the tool or platform you plan to use": {
           "type": "input",
           "inputType": "text",
-          "modelKey": "storage_provider_selection_plan_input",
+          "modelKey": "If you answered 'Other' in the previous question, what is the tool or platform you plan to use",
           "description": "What is the tool or platform you plan to use?",
           "placeholder": "Provide a name for the tool you plan to use",
           "pre": "[^\\u0000-\\u00ff]",
@@ -723,7 +723,7 @@
           "required": true,
           "conditions": [
             {
-              "fieldKey": "storage_provider_selection_plan_select",
+              "fieldKey": "How do you plan to choose storage providers",
               "value": 5
             }
           ],
@@ -737,9 +737,9 @@
           },
           "defaultValue": ""
         },
-        "storage_provider_selection_plan_textarea": {
+        "If you already have a list of storage providers to work with, fill out their names and provider IDs below": {
           "type": "textarea",
-          "modelKey": "storage_provider_selection_plan_textarea",
+          "modelKey": "If you already have a list of storage providers to work with, fill out their names and provider IDs below",
           "placeholder": "If you already have a list of storage providers to work with, fill out their names and SP IDs below",
           "tooltip": "Storage provider IDs should begin with f0...",
           "pre": "[^\\u0000-\\u00ff]",
@@ -754,9 +754,9 @@
           },
           "defaultValue": ""
         },
-        "replication_plan_select": {
+        "How do you plan to make deals to your storage providers": {
           "type": "select",
-          "modelKey": "replication_plan_select",
+          "modelKey": "How do you plan to make deals to your storage providers",
           "label": "Replication plan",
           "placeholder": "Data onboarding tool",
           "description": "How will you be distributing deals across different storage providers?",
@@ -778,9 +778,9 @@
           "defaultValue": "",
           "isSingleOption": true
         },
-        "replication_plan_textarea": {
+        "If you answered 'Others/custom tool' in the previous question, enter the details here": {
           "type": "textarea",
-          "modelKey": "replication_plan_textarea",
+          "modelKey": "If you answered 'Others/custom tool' in the previous question, enter the details here",
           "placeholder": "Enter the details here",
           "tooltip": "",
           "pre": "[^\\u0000-\\u00ff]",
@@ -788,7 +788,7 @@
           "required": true,
           "conditions": [
             {
-              "fieldKey": "replication_plan_select",
+              "fieldKey": "How do you plan to make deals to your storage providers",
               "value": 7
             }
           ],
@@ -802,9 +802,9 @@
           },
           "defaultValue": ""
         },
-        "confirm_follow_fil_guideline": {
+        "Can you confirm that you will follow the Fil+ guideline (Data owner should engage at least 4 SPs and no single SP ID should receive >30% of a client's allocated DataCap)": {
           "type": "checkbox",
-          "modelKey": "confirm_follow_fil_guideline",
+          "modelKey": "Can you confirm that you will follow the Fil+ guideline (Data owner should engage at least 4 SPs and no single SP ID should receive >30% of a client's allocated DataCap)",
           "label": "Have you read and do you agree to the Fil+ guidelines?",
           "required": true,
           "output": "option",

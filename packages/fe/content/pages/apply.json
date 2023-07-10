@@ -25,20 +25,20 @@
           "modelKey": "total_datacap_size",
           "required": true,
           "mirror": {
-            "fieldKey": "total_datacap_size_input",
+            "fieldKey": "Total amount of DataCap being requested||amount",
             "primary": false,
             "func": "$formatDatacapSize",
             "args": {
               "action": "bytes",
-              "unit_from_field": "total_datacap_size_unit",
-              "value_from_field": "total_datacap_size_input"
+              "unit_from_field": "Total amount of DataCap being requested||unit",
+              "value_from_field": "Total amount of DataCap being requested||amount"
             }
           },
           "react": {
-            "fieldKey": "total_datacap_size_unit",
+            "fieldKey": "Total amount of DataCap being requested||unit",
             "func": "$reactDatasizeRangeToUnit",
             "args": {
-              "value_from_field": "total_datacap_size_input"
+              "value_from_field": "Total amount of DataCap being requested||amount"
             }
           },
           "autocomplete": "off",
@@ -61,10 +61,10 @@
           },
           "defaultValue": 1099511627776
         },
-        "total_datacap_size_input": {
+        "Total amount of DataCap being requested||amount": {
           "type": "input",
           "inputType": "number",
-          "modelKey": "total_datacap_size",
+          "modelKey": "Total amount of DataCap being requested||amount",
           "label": "Total Datacap being requested",
           "placeholder": "32",
           "min": 1,
@@ -87,9 +87,9 @@
           },
           "defaultValue": 1
         },
-        "total_datacap_size_unit": {
+        "Total amount of DataCap being requested||unit": {
           "type": "select",
-          "modelKey": "total_datacap_size_unit",
+          "modelKey": "Total amount of DataCap being requested||unit",
           "label": "Unit",
           "required": true,
           "output": "option",
