@@ -80,7 +80,7 @@ const actions = {
       assignees.push('kevzak')
       comments.push(`This application requests a total of ${requestedAmount}, so it’s labeled \`efil+\``)
     }
-    if (application.public_availability_radio === 'No') {
+    if (application['Confirm that this is a public dataset that can be retrieved by anyone on the network (i.e., no specific permissions or access rights are required to view the data)'] === 'No') {
       if (!labels.includes('efil+')) { labels.push('efil+') }
       comments.push('This application is requesting DataCap for a **private** dataset, so it\'s labeled `efil+`')
     }

@@ -409,9 +409,6 @@ export default {
     submitButtonText () {
       return this.form.submit_button_text
     },
-    githubIssueLinkText () {
-      return this.form.github_issue_link_text
-    },
     formsData () {
       return this.generalPageData.forms
     },

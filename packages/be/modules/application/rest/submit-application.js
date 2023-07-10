@@ -6,15 +6,15 @@ console.log('💡 [endpoint] /submit-application')
 const Axios = require('axios')
 const { SendData, GetFileFromDisk, Delay } = require('@Module_Utilities')
 const SubmitHubspotContact = require('@Module_Application/logic/submit-hubspot-contact')
+const UUID = require('uuid')
 
 const MC = require('@Root/config')
 
 // /////////////////////////////////////////////////////////////////// Functions
 // -----------------------------------------------------------------------------
 // //////////////////////////////////////////////////// applyApplicationToSchema
-const applyApplicationToSchema = async (application) => {
+const applyApplicationToSchema = async (schema, application) => {
   try {
-    const schema = await GetFileFromDisk(`${MC.cacheRoot}/application-schema.json`, true)
     const applicationInfo = schema.applicationInfo
     Object.keys(applicationInfo).forEach((sectionKey) => {
       const section = applicationInfo[sectionKey]
@@ -110,13 +110,17 @@ const getMainBranchSha = async (forkedRepoName, loopCount, token) => {
 // ///////////////////////////////////////////////////////////// createReference
 const createReference = async (forkedRepoName, mainBranchSha, token) => {
   try {
+    const branchId = UUID.v4()
     const body = {
-      ref: `refs/heads/${UUID.v4()}`,
+      ref: `refs/heads/${branchId}`,
       sha: mainBranchSha
     }
     const options = { headers: { Accept: 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28', Authorization: `Bearer ${token}` } }
     const response = await Axios.post(`https://api.github.com/repos/${forkedRepoName}/git/refs`, body, options)
-    return response.data
+    return {
+      branchId,
+      branch: response.data
+    }
   } catch (e) {
     console.log('================================= [Function: createReference]')
     throw e
@@ -138,8 +142,20 @@ const createBlob = async (forkedRepoName, application, token) => {
   }
 }
 
+// ////////////////////////////////////////////////////// getReferenceBranchTree
+const getReferenceBranchTree = async (forkedRepoName, branchId, token) => {
+  try {
+    const options = { headers: { Accept: 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28', Authorization: `Bearer ${token}` } }
+    const response = await Axios.get(`https://api.github.com/repos/${forkedRepoName}/git/trees/${branchId}`, options)
+    return response.data
+  } catch (e) {
+    console.log('========================== [Function: getReferenceBranchTree]')
+    throw e
+  }
+}
+
 // /////////////////////////////////////////////////////////////// createGitTree
-const createGitTree = async (forkedRepoName, blob, token) => {
+const createGitTree = async (forkedRepoName, blob, referenceTree, token) => {
   try {
     const body = {
       tree: [{
@@ -147,7 +163,8 @@ const createGitTree = async (forkedRepoName, blob, token) => {
         mode: '100644',
         type: 'blob',
         sha: blob.sha
-      }]
+      }],
+      base_tree: referenceTree.sha
     }
     const options = { headers: { Accept: 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28', Authorization: `Bearer ${token}` } }
     const response = await Axios.post(`https://api.github.com/repos/${forkedRepoName}/git/trees`, body, options)
@@ -159,11 +176,12 @@ const createGitTree = async (forkedRepoName, blob, token) => {
 }
 
 // //////////////////////////////////////////////////////////////// createCommit
-const createCommit = async (forkedRepoName, tree, token) => {
+const createCommit = async (forkedRepoName, tree, branch, token) => {
   try {
     const body = {
-      message: 'Groot likes to commit things',
-      tree: tree.sha
+      message: 'This is a commit message',
+      tree: tree.sha,
+      parents: [branch.object.sha]
     }
     const options = { headers: { Accept: 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28', Authorization: `Bearer ${token}` } }
     const response = await Axios.post(`https://api.github.com/repos/${forkedRepoName}/git/commits`, body, options)
@@ -190,29 +208,29 @@ const addCommitToBranch = async (forkedRepoName, branch, commit, token) => {
   }
 }
 
-// ///////////////////////////////////////////////////////// mergeCommitIntoMain
-const mergeCommitIntoMain = async (forkedRepoName, commit, token) => {
+// /////////////////////////////////////////////////////// mergeCommitIntoBranch
+const mergeCommitIntoBranch = async (forkedRepoName, branchId, commit, token) => {
   try {
     const body = {
-      base: 'main',
+      base: branchId,
       head: commit.sha
     }
     const options = { headers: { Accept: 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28', Authorization: `Bearer ${token}` } }
     const response = await Axios.post(`https://api.github.com/repos/${forkedRepoName}/merges`, body, options)
     return response.data
   } catch (e) {
-    console.log('============================= [Function: mergeCommitIntoMain]')
+    console.log('=========================== [Function: mergeCommitIntoBranch]')
     throw e
   }
 }
 
 // //////////////////////////////////////////////////////////////////// createPR
-const createPR = async (forkedRepoName, mainBranchSha, githubUsername, token) => {
+const createPR = async (forkedRepoName, branchId, githubUsername, token) => {
   try {
     const body = {
       title: `Brand new LDN application`,
-      head: `${githubUsername}:main`,
-      body: 'Groot likes well written PR body text',
+      head: `${githubUsername}:${branchId}`,
+      body: '🦄',
       base: 'main',
       maintainer_can_modify: true
     }
@@ -226,26 +244,27 @@ const createPR = async (forkedRepoName, mainBranchSha, githubUsername, token) =>
 }
 
 // /////////////////////////////////////////////////////////// submitApplication
-const submitApplication = async (type, stage, template, application, repo, options) => {
-  try {
-    const orgName = application.organization_name
-    const title = type === 'ga' ? `Client Allocation Request for: ${orgName}` : `[DataCap Application] ${orgName}`
-    const body = { title, body: template }
-    const response = await Axios.post(`https://api.github.com/repos/${repo}/issues`, body, options)
-    return response.data
-  } catch (e) {
-    console.log('=============================== [Function: submitApplication]')
-    throw e
-  }
-}
+// const submitApplication = async (type, stage, template, application, repo, options) => {
+//   try {
+//     const orgName = application.organization_name
+//     const title = type === 'ga' ? `Client Allocation Request for: ${orgName}` : `[DataCap Application] ${orgName}`
+//     const body = { title, body: template }
+//     const response = await Axios.post(`https://api.github.com/repos/${repo}/issues`, body, options)
+//     return response.data
+//   } catch (e) {
+//     console.log('=============================== [Function: submitApplication]')
+//     throw e
+//   }
+// }
 
 // //////////////////////////////////////////////////////////// addIssueMetadata
-const addIssueMetadata = async (type, issueNumber, body, repo, options) => {
+const addIssueMetadata = async (type, prNumber, body, repo) => {
   try {
     if (MC.serverFlag !== 'production') {
       console.log(body)
     }
-    const response = await Axios.post(`https://api.github.com/repos/${repo}/issues/${issueNumber}/${type}`, body, options)
+    const options = { headers: { Accept: 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28', Authorization: `Bearer ${process.env.GITHUB__PERSONAL_ACCESS_TOKEN__DATA_PROGRAMS}` } }
+    const response = await Axios.post(`https://api.github.com/repos/${repo}/issues/${prNumber}/${type}`, body, options)
     return response.data
   } catch (e) {
     console.log('================================ [Function: addIssueMetadata]')
@@ -271,7 +290,8 @@ MC.app.post('/submit-application', async (req, res) => {
     const githubUsername = user.githubUsername
     const githubToken = user.githubToken
     // ---------------------------------------- populate markdown issue template
-    const template = await applyApplicationToSchema(application)
+    let schema = await GetFileFromDisk(`${MC.cacheRoot}/application-schema.json`, true)
+    schema = await applyApplicationToSchema(schema, application)
     // ------------------------------------------- submit/update Hubspot contact
     const userOptedIn = checkIfUserOptedInToHubspot(application)
     if ((!user.hubspotOptIn && userOptedIn) || user.hubspotOptInContactId) {
@@ -286,68 +306,71 @@ MC.app.post('/submit-application', async (req, res) => {
       })
     }
     // -------------------------------------------------------- Create fork & PR
-    // /**
-    //  * First, grab all the forks and check to see if the target fork already exists
-    //  */
-    // console.log('💡 get forks')
-    // const forks = await getForks(githubUsername, githubToken, [])
-    // let fork = forks.find(fork => fork.name === 'filecoin-plus-large-datasets')
-    // /**
-    //  * If the fork does NOT exist, create it.
-    //  */
-    // if (!fork) {
-    //   fork = await forkRepo(user.githubToken)
-    // }
-    // const forkedRepoName = fork.full_name
-    // console.log(fork)
-    // /**
-    //  * Grab the sha hash of the `main` branch of the forked repo. Github creates
-    //  * forks asynchronously. The below runs a recursive API call loop and only
-    //  * continues when a `main` branch sha reference is detected
-    //  */
-    // console.log('⚡️ [sha ref of main branch] get sha hash of MAIN branch of the forked repo')
-    // const mainBranchSha = await getMainBranchSha(forkedRepoName, 0, githubToken)
-    // console.log(mainBranchSha)
-    // /**
-    //  * Branch off the `main` branch of the forked repo
-    //  */
-    // console.log('⚡️ [branch] branch off MAIN branch')
-    // const branch = await createReference(forkedRepoName, mainBranchSha, githubToken)
-    // console.log(branch)
-    // /**
-    //  * Create a blob of the JSON containing the incoming application
-    //  */
-    // console.log('⚡️ [blob] create a BLOB of the application')
-    // const blob = await createBlob(forkedRepoName, JSON.stringify(APPLICATION), githubToken)
-    // console.log(blob)
-    // /**
-    //  * Create a git tree that contains the blob
-    //  */
-    // console.log('⚡️ [tree] create a git TREE containing the blob')
-    // const tree = await createGitTree(forkedRepoName, blob, githubToken)
-    // console.log(tree)
-    // /**
-    //  * Create a commit using the tree
-    //  */
-    // console.log('⚡️ [commit] create a COMMIT inside the tree containing the blob')
-    // const commit = await createCommit(forkedRepoName, tree, githubToken)
-    // console.log(commit)
-    // /**
-    //  * Add the commit to the branch
-    //  */
-    // console.log('⚡️ [commit → branch] add commit to branch')
-    // await addCommitToBranch(forkedRepoName, branch, commit, githubToken)
-    // /**
-    //  *
-    //  */
+    /**
+     * First, grab all the forks and check to see if the target fork already exists
+     */
+    console.log('💡 get forks')
+    const forks = await getForks(githubUsername, githubToken, [])
+    let fork = forks.find(fork => fork.name === 'filecoin-plus-large-datasets')
+    /**
+     * If the fork does NOT exist, create it.
+     */
+    if (!fork) {
+      fork = await forkRepo(user.githubToken)
+    }
+    const forkedRepoName = fork.full_name
+    console.log(fork)
+    /**
+     * Grab the sha hash of the `main` branch of the forked repo. Github creates
+     * forks asynchronously. The below runs a recursive API call loop and only
+     * continues when a `main` branch sha reference is detected
+     */
+    console.log('⚡️ [sha ref of main branch] get sha hash of MAIN branch of the forked repo')
+    const mainBranchSha = await getMainBranchSha(forkedRepoName, 0, githubToken)
+    console.log(mainBranchSha)
+    /**
+     * Branch off the `main` branch of the forked repo
+     */
+    console.log('⚡️ [branch] branch off MAIN branch')
+    const reference = await createReference(forkedRepoName, mainBranchSha, githubToken)
+    console.log(reference.branch)
+    /**
+     * Create a blob of the JSON containing the incoming application
+     */
+    console.log('⚡️ [blob] create a BLOB of the application')
+    const blob = await createBlob(forkedRepoName, JSON.stringify(schema, null, 2), githubToken)
+    console.log(blob)
+    /**
+     * Create a git tree that contains the blob
+     */
+    console.log('⚡️ [tree] get the TREE of the `reference` branch')
+    const referenceTree = await getReferenceBranchTree(forkedRepoName, reference.branchId, githubToken)
+    console.log(referenceTree)
+    console.log('⚡️ [tree] create a git TREE containing the blob')
+    const tree = await createGitTree(forkedRepoName, blob, referenceTree, githubToken)
+    console.log(tree)
+    /**
+     * Create a commit using the tree
+     */
+    console.log('⚡️ [commit] create a COMMIT inside the tree containing the blob')
+    const commit = await createCommit(forkedRepoName, tree, reference.branch, githubToken)
+    console.log(commit)
+    /**
+     * Add the commit to the branch
+     */
+    console.log('⚡️ [commit → branch] add commit to `reference` branch')
+    await addCommitToBranch(forkedRepoName, reference.branch, commit, githubToken)
+    /**
+     *
+     */
     // console.log('⚡️ [commit → main] merge branch into main')
-    // await mergeCommitIntoMain(forkedRepoName, commit, githubToken)
-    // /**
-    //  * Open a PR for the new branch
-    //  */
-    // console.log('⚡️ [PR] open a PR for the new branch')
-    // const pr = await createPR(forkedRepoName, mainBranchSha, githubUsername, githubToken)
-    // console.log(pr)
+    // await mergeCommitIntoBranch(forkedRepoName, reference.branchId, commit, githubToken)
+    /**
+     * Open a PR for the new branch
+     */
+    console.log('⚡️ [PR] open a PR for the new branch')
+    const pr = await createPR(forkedRepoName, reference.branchId, githubUsername, githubToken)
+    console.log(pr)
     // ----------------------------------------------------------------- logging
     if (MC.serverFlag !== 'production') {
       console.log('===========================================================')
@@ -359,26 +382,22 @@ MC.app.post('/submit-application', async (req, res) => {
       console.log(schema)
     }
     // ------------------------------------------------------ submit application
-    const githubIssue = ''
-    // const repo = MC.repos[type][MC.serverFlag]
-    // const options = { headers: { Accept: 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28', Authorization: `Bearer ${user.githubToken}` } }
-    // const githubIssue = await submitApplication(type, stage, template, application, repo, options)
+    const repo = MC.repos[type][MC.serverFlag]
     // // -------- data-programs machine user -> submit assignees, labels, comments
-    // const issueNumber = githubIssue.number
-    // options.headers.Authorization = `Bearer ${process.env.GITHUB__PERSONAL_ACCESS_TOKEN__DATA_PROGRAMS}`
-    // if (labels.length > 0) {
-    //   await addIssueMetadata('labels', issueNumber, { labels }, repo, options)
-    // }
-    // if (assignees.length > 0) {
-    //   await addIssueMetadata('assignees', issueNumber, { assignees }, repo, options)
-    // }
-    // if (comments.length > 0) {
-    //   const len = comments.length
-    //   for (let i = 0; i < len; i++) {
-    //     await addIssueMetadata('comments', issueNumber, { body: comments[i] }, repo, options)
-    //   }
-    // }
-    SendData(res, 200, 'Application submitted succesfully', githubIssue)
+    const prNumber = pr.number
+    if (labels.length > 0) {
+      await addIssueMetadata('labels', prNumber, { labels }, repo)
+    }
+    if (assignees.length > 0) {
+      await addIssueMetadata('assignees', prNumber, { assignees }, repo)
+    }
+    if (comments.length > 0) {
+      const len = comments.length
+      for (let i = 0; i < len; i++) {
+        await addIssueMetadata('comments', prNumber, { body: comments[i] }, repo)
+      }
+    }
+    SendData(res, 200, 'Application submitted succesfully', pr)
   } catch (e) {
     console.log('============================= [Endpoint: /submit-application]')
     if (e.code !== 422) {
