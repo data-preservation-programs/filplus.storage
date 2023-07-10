@@ -48,6 +48,7 @@ module.exports = {
   frontendUrl: env === 'development' ? `${baseUrls[env]}:${frontendPort}` : baseUrls[env],
   backendUrl: env === 'development' ? `${baseUrls[env]}:${backendPort}` : `${baseUrls[env]}/api`,
   websocketUrl: env === 'development' ? `${baseUrls[env]}:${backendPort}` : baseUrls[env],
+  applicationShemaFilename: 'application-v1.json',
   repos: {
     ga: {
       production: 'filecoin-project/filecoin-plus-client-onboarding',

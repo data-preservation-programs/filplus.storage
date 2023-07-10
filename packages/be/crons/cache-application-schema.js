@@ -9,7 +9,6 @@
 const ModuleAlias = require('module-alias')
 const Path = require('path')
 const Fs = require('fs-extra')
-const Moment = require('moment-timezone')
 const Axios = require('axios')
 
 require('dotenv').config({ path: Path.resolve(__dirname, '../.env') })
@@ -48,8 +47,7 @@ const CacheApplicationSchema = async () => {
   console.log('🤖 Fetch application schema started')
   try {
     const start = process.hrtime()[0]
-    const date = Moment.tz('UTC').subtract(1, 'days').format('YYYY-MM-DD')
-    const response = await Axios.get('https://raw.githubusercontent.com/data-preservation-programs/filecoin-plus-large-datasets/main/schema/application-v1.json')
+    const response = await Axios.get(`https://raw.githubusercontent.com/data-preservation-programs/filecoin-plus-large-datasets/main/schema/${MC.applicationShemaFilename}`)
     const data = response.data
     if (data) {
       Fs.writeFileSync(`${MC.cacheRoot}/application-schema.json`, JSON.stringify(data, false, 2))
