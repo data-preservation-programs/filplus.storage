@@ -209,10 +209,10 @@ const addCommitToBranch = async (forkedRepoName, branch, commit, token) => {
 }
 
 // //////////////////////////////////////////////////////////////////// createPR
-const createPR = async (forkedRepoName, branchId, githubUsername, token) => {
+const createPR = async (forkedRepoName, branchId, githubUsername, application, token) => {
   try {
     const body = {
-      title: `Brand new LDN application`,
+      title: `[DataCap Application] ${application['Data Owner Name']}`,
       head: `${githubUsername}:${branchId}`,
       body: '🦄',
       base: 'main',
@@ -334,7 +334,7 @@ MC.app.post('/submit-application', async (req, res) => {
      * Open a PR for the new branch
      */
     console.log('⚡️ [PR] open a PR for the new branch')
-    const pr = await createPR(forkedRepoName, reference.branchId, githubUsername, githubToken)
+    const pr = await createPR(forkedRepoName, reference.branchId, githubUsername, application, githubToken)
     console.log(pr)
     // ----------------------------------------------------------------- logging
     if (MC.serverFlag !== 'production') {
