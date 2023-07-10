@@ -26,7 +26,14 @@
 
         <!-- Header -->
         <header class="header">
-          Notifications {{ newNotificationsCount }}
+          <div class="text">
+            Notifications {{ newNotificationsCount }}
+          </div>
+          <button
+            class="refresh-button"
+            @click="getNotificationList()">
+            <IconRefresh class="icon-refresh" />
+          </button>
         </header>
 
         <!-- Notifications List -->
@@ -87,6 +94,7 @@ import Spinner from '@/components/spinners/material-circle'
 
 import IconBell from '@/components/icons/bell'
 import IconCloseThick from '@/components/icons/close-thick'
+import IconRefresh from '@/components/icons/refresh'
 
 // ====================================================================== Export
 export default {
@@ -97,7 +105,8 @@ export default {
     Timeago,
     Spinner,
     IconBell,
-    IconCloseThick
+    IconCloseThick,
+    IconRefresh
   },
 
   data () {
@@ -148,6 +157,7 @@ export default {
 
   methods: {
     ...mapActions({
+      getNotificationList: 'notifications/getNotificationList',
       markNotificationsAsRead: 'notifications/markNotificationsAsRead'
     }),
     toggleDropdownPanel (togglePanel) {
@@ -327,6 +337,26 @@ export default {
 
 .header {
   @include h6;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.refresh-button {
+  // transition: 150ms ease-out;
+  &:hover {
+    // transition: 150ms ease-in;
+    transform: rotate(180deg) scale(1.15);
+    &:active {
+      transform: rotate(180deg) scale(0.8);
+    }
+  }
+}
+
+.icon-refresh {
+  display: block;
+  width: toRem(28);
 }
 
 .notifications-list {
