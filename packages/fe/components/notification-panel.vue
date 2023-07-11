@@ -261,7 +261,7 @@ export default {
 #notifications {
   position: relative;
   margin-left: 1rem;
-  z-index: 10000;
+  z-index: 500;
 }
 
 // ////////////////////////////////////////////////////////////////////// Button
