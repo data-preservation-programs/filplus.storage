@@ -193,6 +193,12 @@ export default {
             if (!this.scroll) {
               this.watchScroll()
             }
+            const notificationListPanel = this.$refs.notificationListPanel
+            if (notificationListPanel.scrollHeight <= notificationListPanel.clientHeight) {
+              this.displayGradient = false
+            } else if (!this.displayGradient) {
+              this.displayGradient = 'bottom'
+            }
             this.$scrollToY(0, 250, false, this.$refs.notificationListPanel)
           })
           clearTimeout(this.timeout)
@@ -217,6 +223,7 @@ export default {
           const height = e.target.clientHeight
           const atTopOfScroll = y === 0
           const atBottomOfScroll = e.target.scrollHeight - y - height === 0
+          // console.log(y, height, atTopOfScroll, atBottomOfScroll)
           if (atTopOfScroll) {
             this.displayGradient = 'bottom'
           } else if (atBottomOfScroll) {
@@ -227,7 +234,10 @@ export default {
         }
       }; scrollHandler()
       this.scroll = this.$throttle(scrollHandler, 1)
-      this.$refs.notificationListPanel.addEventListener('scroll', this.scroll)
+      const notificationListPanel = this.$refs.notificationListPanel
+      if (notificationListPanel) {
+        notificationListPanel.addEventListener('scroll', this.scroll)
+      }
     },
     toggleDropdownPanel (togglePanel) {
       if (this.notificationsLoaded) {
