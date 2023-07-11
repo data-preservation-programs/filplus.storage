@@ -99,7 +99,7 @@
               {{ submitButtonText }}
             </ButtonA>
 
-            <AuthButton v-else />
+            <AuthPanel v-else />
 
             <ButtonX
               :to="backButton.href"
@@ -131,7 +131,7 @@ import ButtonX from '@/components/buttons/button-x'
 import HubspotOptInFields from '@/components/hubspot-opt-in-fields'
 import Overlay from '@/components/overlay'
 import Squigglie from '@/components/squigglie'
-import AuthButton from '@/components/auth-button'
+import AuthPanel from '@/components/auth-panel'
 import Chevron from '@/components/icons/chevron'
 
 import ApplyGeneralPageData from '@/content/pages/apply-general.json'
@@ -149,7 +149,7 @@ export default {
     HubspotOptInFields,
     Overlay,
     Squigglie,
-    AuthButton,
+    AuthPanel,
     Chevron
   },
 

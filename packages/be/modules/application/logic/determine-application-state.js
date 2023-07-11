@@ -21,6 +21,6 @@ module.exports = (labels, applicationType) => {
   } catch (e) {
     console.log('========================== [Logic: DetermineApplicationState]')
     console.log(e)
-    throw e
+    return null
   }
 }

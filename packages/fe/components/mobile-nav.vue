@@ -30,7 +30,7 @@
 
             <div class="cta-button-list">
 
-              <AuthButton />
+              <AuthPanel />
 
               <ButtonA
                 v-if="cta"
@@ -73,7 +73,7 @@
 
 <script>
 // ====================================================================== Import
-import AuthButton from '@/components/auth-button'
+import AuthPanel from '@/components/auth-panel'
 import Button from '@/modules/button/components/button'
 import ButtonA from '@/components/buttons/button-a'
 import ButtonX from '@/components/buttons/button-x'
@@ -86,7 +86,7 @@ export default {
   name: 'MobileNav',
 
   components: {
-    AuthButton,
+    AuthPanel,
     Button,
     ButtonA,
     ButtonX,
@@ -295,7 +295,7 @@ export default {
   z-index: 100000;
 }
 
-.auth-button {
+.auth-panel {
   :deep(.button.login-button) {
     margin-right: 0;
   }

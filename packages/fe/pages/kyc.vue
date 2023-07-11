@@ -30,7 +30,7 @@
             theme="full"
             class="kyc-link" />
 
-          <AuthButton v-else />
+          <AuthPanel v-else />
 
           <div class="partner-text">
             {{ partnerText }}
@@ -64,7 +64,7 @@ import Overlay from '@/components/overlay'
 import Squigglie from '@/components/squigglie'
 import KycButton from '@/components/kyc-button'
 import LogoTogggle from '@/components/logo-togggle'
-import AuthButton from '@/components/auth-button'
+import AuthPanel from '@/components/auth-panel'
 
 import KycPageData from '@/content/pages/kyc.json'
 import KycContent from '@/content/markdown/kyc.md'
@@ -80,7 +80,7 @@ export default {
     Squigglie,
     KycButton,
     LogoTogggle,
-    AuthButton
+    AuthPanel
   },
 
   data () {
@@ -161,13 +161,8 @@ export default {
 #section-content {
   position: relative;
   padding-bottom: 7.3125rem;
-  // border-top: 3px solid transparent;
   z-index: 10;
 }
-
-// .section-top-border {
-//   top: -3px;
-// }
 
 .markdown {
   padding-top: 9rem;
@@ -181,7 +176,7 @@ export default {
 }
 
 .kyc-link,
-.auth-button {
+.auth-panel {
   margin-top: 5rem;
 }
 
