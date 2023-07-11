@@ -1,3 +1,7 @@
+// ///////////////////////////////////////////////////////// Imports & Variables
+// -----------------------------------------------------------------------------
+import CloneDeep from 'lodash/cloneDeep'
+
 // /////////////////////////////////////////////////////////////////////// State
 // ---------------------- https://vuex.vuejs.org/guide/modules.html#module-reuse
 const state = () => ({
@@ -80,6 +84,27 @@ const actions = {
       console.log(e)
       dispatch('setLoadingStatus', { type: 'loading', status: false })
     }
+  },
+  // //////////////////////////////////////////////// markAllNotificationsAsRead
+  async markAllNotificationsAsRead ({ commit, getters, dispatch }) {
+    try {
+      await dispatch('setLoadingStatus', { type: 'loading', status: true })
+      await this.$axiosAuth.post('/post-mark-all-notifications-read')
+      const notificationList = CloneDeep(getters.notificationList)
+      const len = notificationList.length
+      for (let i = 0; i < len; i++) {
+        const notification = notificationList[i]
+        notification.read = true
+        const index = notificationList.findIndex(obj => obj._id === notification._id)
+        commit('UPDATE_NOTIFICATION', { index, notification })
+      }
+      await dispatch('getNewNotificationCount')
+      dispatch('setLoadingStatus', { type: 'loading', status: false })
+    } catch (e) {
+      console.log('== [Store Action: notifications/markAllNotificationsAsRead]')
+      console.log(e)
+      dispatch('setLoadingStatus', { type: 'loading', status: false })
+    }
   }
 }
 
@@ -95,6 +120,7 @@ const mutations = {
     }
   },
   UPDATE_NOTIFICATION (state, payload) {
+    console.log(payload)
     state.notificationList.splice(payload.index, 1, payload.notification)
   },
   SET_NEW_NOTIFICATION_COUNT (state, count) {

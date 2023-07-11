@@ -78,6 +78,18 @@
           ☀️ you don't have any notifications
         </div>
 
+        <!-- Footer -->
+        <footer v-if="notificationsFound" class="footer">
+          <button
+            class="mark-all-as-read-button"
+            @click="markAllNotificationsAsRead">
+            Mark all as read
+          </button>
+          <div class="pagination">
+            PAGE
+          </div>
+        </footer>
+
       </template>
 
     </DropdownPanel>
@@ -158,7 +170,8 @@ export default {
   methods: {
     ...mapActions({
       getNotificationList: 'notifications/getNotificationList',
-      markNotificationsAsRead: 'notifications/markNotificationsAsRead'
+      markNotificationsAsRead: 'notifications/markNotificationsAsRead',
+      markAllNotificationsAsRead: 'notifications/markAllNotificationsAsRead'
     }),
     toggleDropdownPanel (togglePanel) {
       if (this.notificationsLoaded) {
@@ -179,7 +192,7 @@ export default {
 #notifications {
   position: relative;
   margin-left: 1rem;
-  z-index: 1000;
+  z-index: 10000;
 }
 
 // ////////////////////////////////////////////////////////////////////// Button
@@ -344,11 +357,10 @@ export default {
 }
 
 .refresh-button {
-  // transition: 150ms ease-out;
   &:hover {
-    // transition: 150ms ease-in;
     transform: rotate(180deg) scale(1.15);
     &:active {
+      transition: 50ms ease-in;
       transform: rotate(180deg) scale(0.8);
     }
   }
@@ -445,4 +457,54 @@ export default {
   line-height: leading(18, 14);
   color: $nandor;
 }
+
+.footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
+  padding-left: toRem(19);
+  border-top: 2px solid $greenYellow;
+}
+
+$offset: calc(#{toRem(19)} + #{toRem(math.div(10, 2))} + #{toRem(5)});
+
+.mark-all-as-read-button {
+  font-size: toRem(14);
+  line-height: leading(30, 14);
+  font-weight: 500;
+  transition: 150ms ease-out;
+  &:hover {
+    &:before {
+      transition: 150ms ease-in;
+      transform: scale(1.3);
+    }
+    &:after {
+      transition: 150ms ease-in;
+      width: calc(100% - #{$offset});
+    }
+  }
+  &:after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: $offset;
+    width: 0px;
+    height: 1px;
+    background-color: white;
+    transition: 150ms ease-out;
+  }
+  &:before {
+    content: '';
+    display: inline-block;
+    width: toRem(10);
+    height: toRem(10);
+    border-radius: 50%;
+    margin-right: toRem(11 + 5);
+    background-color: $mineralGreen;
+    transition: 150ms ease-out;
+  }
+}
+
+// pagination
 </style>

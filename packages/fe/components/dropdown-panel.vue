@@ -54,7 +54,7 @@ export default {
   data () {
     const self = this
     return {
-      panelOpen: false,
+      panelOpen: true,
       squigglyClipPathId: self.$uuid.v4()
     }
   },
