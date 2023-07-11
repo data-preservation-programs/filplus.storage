@@ -37,41 +37,45 @@
         </header>
 
         <!-- Notifications List -->
-        <div v-if="notificationsFound" class="notifications-list">
-          <div
-            v-for="notification in notificationList"
-            :key="notification._id"
-            class="notification">
+        <div v-if="notificationsFound" class="notifications-list-wrapper">
+          <div :class="['gradient top', { active: displayGradient === 'top' || displayGradient === true }]" />
+          <div ref="notificationListPanel" class="notifications-list">
+            <div
+              v-for="notification in notificationList"
+              :key="notification._id"
+              class="notification">
 
-            <component
-              :is="notification.read ? 'div' : 'button'"
-              :class="['read-status-button', { read: notification.read }]"
-              data-tooltip="Mark as read"
-              @click="markRead(notification)">
-              <span class="read-status-indicator" />
-            </component>
+              <component
+                :is="notification.read ? 'div' : 'button'"
+                :class="['read-status-button', { read: notification.read }]"
+                data-tooltip="Mark as read"
+                @click="markRead(notification)">
+                <span class="read-status-indicator" />
+              </component>
 
-            <div class="panel-right">
-              <div class="notification-heading">
-                {{ stateMap[notification.custom.state] }}
-              </div>
-              <div class="message">
-                <a
-                  :href="notification.custom.issueUrl"
-                  class="issue-link"
-                  target="_blank">
-                  Issue #{{ notification.custom.issueNumber }}</a>:{{ notification.custom.issueTitle }}
-              </div>
-              <Timeago
-                v-slot="{ convertedDate }"
-                :date="new Date(notification.createdAt)">
-                <div class="timeago">
-                  {{ convertedDate }}
+              <div class="panel-right">
+                <div class="notification-heading">
+                  {{ stateMap[notification.custom.state] }}
                 </div>
-              </Timeago>
-            </div>
+                <div class="message">
+                  <a
+                    :href="notification.custom.issueUrl"
+                    class="issue-link"
+                    target="_blank">
+                    Issue #{{ notification.custom.issueNumber }}</a>:{{ notification.custom.issueTitle }}
+                </div>
+                <Timeago
+                  v-slot="{ convertedDate }"
+                  :date="new Date(notification.createdAt)">
+                  <div class="timeago">
+                    {{ convertedDate }}
+                  </div>
+                </Timeago>
+              </div>
 
+            </div>
           </div>
+          <div :class="['gradient bottom', { active: displayGradient === 'bottom' || displayGradient === true }]" />
         </div>
 
         <div v-else class="no-notifications-placeholder">
@@ -148,7 +152,9 @@ export default {
         validated: 'Validated',
         reviewing: 'In Review'
       },
-      timeout: null
+      timeout: null,
+      scrull: null,
+      displayGradient: 'bottom'
     }
   },
 
@@ -183,6 +189,11 @@ export default {
       if (!loading && !this.timeout) {
         this.timeout = setTimeout(() => {
           this.notificationsLoaded = true
+          if (!this.scroll) {
+            this.$nextTick(() => {
+              this.watchScroll()
+            })
+          }
           clearTimeout(this.timeout)
           this.timeout = null
         }, 500)
@@ -198,6 +209,25 @@ export default {
       markNotificationsAsRead: 'notifications/markNotificationsAsRead',
       markAllNotificationsAsRead: 'notifications/markAllNotificationsAsRead'
     }),
+    watchScroll () {
+      const scrollHandler = (e) => {
+        if (e) {
+          const y = e.target.scrollTop
+          const height = e.target.clientHeight
+          const atTopOfScroll = y === 0
+          const atBottomOfScroll = e.target.scrollHeight - y - height === 0
+          if (atTopOfScroll) {
+            this.displayGradient = 'bottom'
+          } else if (atBottomOfScroll) {
+            this.displayGradient = 'top'
+          } else if (this.displayGradient !== true) {
+            this.displayGradient = true
+          }
+        }
+      }; scrollHandler()
+      this.scroll = this.$throttle(scrollHandler, 1)
+      this.$refs.notificationListPanel.addEventListener('scroll', this.scroll)
+    },
     toggleDropdownPanel (togglePanel) {
       if (this.notificationsLoaded) {
         togglePanel()
@@ -400,8 +430,35 @@ export default {
   width: toRem(28);
 }
 
-.notifications-list {
+.notifications-list-wrapper {
   flex: 1;
+  position: relative;
+}
+
+.gradient {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: toRem(120);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 100;
+  transition: 150ms ease-out;
+  &.top {
+    top: 0;
+    background: linear-gradient(to bottom, #0C1512 0%, rgba(12, 21, 18, 0) 76.04%);
+  }
+  &.bottom {
+    bottom: 0;
+    background: linear-gradient(to top, #0C1512 0%, rgba(12, 21, 18, 0) 76.04%);
+  }
+  &.active {
+    transition: 250ms ease-in;
+    opacity: 1;
+  }
+}
+
+.notifications-list {
   max-height: 28rem;
   overflow-y: scroll;
 }
