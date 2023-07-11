@@ -189,11 +189,12 @@ export default {
       if (!loading && !this.timeout) {
         this.timeout = setTimeout(() => {
           this.notificationsLoaded = true
-          if (!this.scroll) {
-            this.$nextTick(() => {
+          this.$nextTick(() => {
+            if (!this.scroll) {
               this.watchScroll()
-            })
-          }
+            }
+            this.$scrollToY(0, 250, false, this.$refs.notificationListPanel)
+          })
           clearTimeout(this.timeout)
           this.timeout = null
         }, 500)
