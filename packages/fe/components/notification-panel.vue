@@ -194,7 +194,7 @@ export default {
               this.watchScroll()
             }
             const notificationListPanel = this.$refs.notificationListPanel
-            if (notificationListPanel.scrollHeight <= notificationListPanel.clientHeight) {
+            if (notificationListPanel && notificationListPanel.scrollHeight <= notificationListPanel.clientHeight) {
               this.displayGradient = false
             } else if (!this.displayGradient) {
               this.displayGradient = 'bottom'
@@ -223,8 +223,6 @@ export default {
           const height = e.target.clientHeight
           const atTopOfScroll = y === 0
           const atBottomOfScroll = e.target.scrollHeight - y - height <= 0
-          // console.log(y, height, atTopOfScroll, atBottomOfScroll)
-          // console.log(y, height, e.target.scrollHeight, e.target.scrollHeight - y - height)
           if (atTopOfScroll) {
             this.displayGradient = 'bottom'
           } else if (atBottomOfScroll) {
