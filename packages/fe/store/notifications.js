@@ -1,3 +1,7 @@
+// ///////////////////////////////////////////////////////// Imports & Variables
+// -----------------------------------------------------------------------------
+import CloneDeep from 'lodash/cloneDeep'
+
 // /////////////////////////////////////////////////////////////////////// State
 // ---------------------- https://vuex.vuejs.org/guide/modules.html#module-reuse
 const state = () => ({
@@ -16,30 +20,43 @@ const state = () => ({
 const getters = {
   notificationList: state => state.notificationList,
   newCount: state => state.newCount,
-  loading: state => state.loading
+  loading: state => state.loading,
+  metadata: state => state.metadata
 }
 
 // ///////////////////////////////////////////////////////////////////// Actions
 // -----------------------------------------------------------------------------
 const actions = {
   // /////////////////////////////////////////////////////// getNotificationList
-  async getNotificationList ({ commit, getters, dispatch }) {
+  async getNotificationList ({ commit, getters, dispatch }, page) {
     try {
       await dispatch('setLoadingStatus', { type: 'loading', status: true })
+      if (page) {
+        await dispatch('setMetadata', { page })
+      }
       const params = getters.metadata
       const response = await this.$axiosAuth.get('/get-notification-list', { params })
       const payload = response.data.payload
       const notificationList = payload.results
-      dispatch('setNotificationList', {
-        notificationList: notificationList.length > 0 ? notificationList : null,
-        metadata: payload.metadata
-      })
+      dispatch('setNotificationList', notificationList.length > 0 ? notificationList : null)
+      dispatch('setMetadata', payload.metadata)
       dispatch('setLoadingStatus', { type: 'loading', status: false })
     } catch (e) {
       console.log('========= [Store Action: notifications/getNotificationList]')
       console.log(e)
       dispatch('setLoadingStatus', { type: 'loading', status: false })
       return false
+    }
+  },
+  // /////////////////////////////////////////////////////////////// setMetadata
+  setMetadata ({ commit, getters }, payload) {
+    try {
+      let metadata = CloneDeep(getters.metadata)
+      metadata = Object.assign(metadata, payload)
+      commit('SET_METADATA', metadata)
+    } catch (e) {
+      console.log('================= [Store Action: notifications/setMetadata]')
+      console.log(e)
     }
   },
   // /////////////////////////////////////////////////// getNewNotificationCount
@@ -80,19 +97,38 @@ const actions = {
       console.log(e)
       dispatch('setLoadingStatus', { type: 'loading', status: false })
     }
+  },
+  // //////////////////////////////////////////////// markAllNotificationsAsRead
+  async markAllNotificationsAsRead ({ commit, getters, dispatch }) {
+    try {
+      await dispatch('setLoadingStatus', { type: 'loading', status: true })
+      await this.$axiosAuth.post('/post-mark-all-notifications-read')
+      const notificationList = CloneDeep(getters.notificationList)
+      const len = notificationList.length
+      for (let i = 0; i < len; i++) {
+        const notification = notificationList[i]
+        notification.read = true
+        const index = notificationList.findIndex(obj => obj._id === notification._id)
+        commit('UPDATE_NOTIFICATION', { index, notification })
+      }
+      await dispatch('getNewNotificationCount')
+      dispatch('setLoadingStatus', { type: 'loading', status: false })
+    } catch (e) {
+      console.log('== [Store Action: notifications/markAllNotificationsAsRead]')
+      console.log(e)
+      dispatch('setLoadingStatus', { type: 'loading', status: false })
+    }
   }
 }
 
 // /////////////////////////////////////////////////////////////////// Mutations
 // -----------------------------------------------------------------------------
 const mutations = {
-  SET_NOTIFICATION_LIST (state, payload) {
-    state.notificationList = payload.notificationList
-    const metadata = payload.metadata
-    if (metadata) {
-      state.metadata.totalPages = metadata.totalPages
-      state.metadata.page = metadata.page
-    }
+  SET_NOTIFICATION_LIST (state, notificationList) {
+    state.notificationList = notificationList
+  },
+  SET_METADATA (state, metadata) {
+    state.metadata = metadata
   },
   UPDATE_NOTIFICATION (state, payload) {
     state.notificationList.splice(payload.index, 1, payload.notification)

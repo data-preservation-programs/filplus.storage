@@ -110,8 +110,8 @@ const convertQueueToNotifications = async (queue) => {
       // Need to fetch the user in order to be able to grab their latest notification
       console.log('❓ username: ', githubUsername)
       const user = await FindUser({ githubUsername })
-      const ownerId = user._id
       if (!user) { continue }
+      const ownerId = user._id
       notificationsToCreate[githubUsername].userId = ownerId
       // Fetch latest notification and compare labels. If they're the same, do nothing.
       // This is to prevent a duplicate notification from being pushed

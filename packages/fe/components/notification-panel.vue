@@ -37,46 +37,80 @@
         </header>
 
         <!-- Notifications List -->
-        <div v-if="notificationsFound" class="notifications-list">
-          <div
-            v-for="notification in notificationList"
-            :key="notification._id"
-            class="notification">
+        <div v-if="notificationsFound" class="notifications-list-wrapper">
+          <div :class="['gradient top', { active: displayGradient === 'top' || displayGradient === true }]" />
+          <div ref="notificationListPanel" class="notifications-list">
+            <div
+              v-for="notification in notificationList"
+              :key="notification._id"
+              class="notification">
 
-            <component
-              :is="notification.read ? 'div' : 'button'"
-              :class="['read-status-button', { read: notification.read }]"
-              data-tooltip="Mark as read"
-              @click="markRead(notification)">
-              <span class="read-status-indicator" />
-            </component>
+              <component
+                :is="notification.read ? 'div' : 'button'"
+                :class="['read-status-button', { read: notification.read }]"
+                data-tooltip="Mark as read"
+                @click="markRead(notification)">
+                <span class="read-status-indicator" />
+              </component>
 
-            <div class="panel-right">
-              <div class="notification-heading">
-                {{ stateMap[notification.custom.state] }}
-              </div>
-              <div class="message">
-                <a
-                  :href="notification.custom.issueUrl"
-                  class="issue-link"
-                  target="_blank">
-                  Issue #{{ notification.custom.issueNumber }}</a>:{{ notification.custom.issueTitle }}
-              </div>
-              <Timeago
-                v-slot="{ convertedDate }"
-                :date="new Date(notification.createdAt)">
-                <div class="timeago">
-                  {{ convertedDate }}
+              <div class="panel-right">
+                <div class="notification-heading">
+                  {{ stateMap[notification.custom.state] }}
                 </div>
-              </Timeago>
-            </div>
+                <div class="message">
+                  <a
+                    :href="notification.custom.issueUrl"
+                    class="issue-link"
+                    target="_blank">
+                    Issue #{{ notification.custom.issueNumber }}</a>:{{ notification.custom.issueTitle }}
+                </div>
+                <Timeago
+                  v-slot="{ convertedDate }"
+                  :date="new Date(notification.createdAt)">
+                  <div class="timeago">
+                    {{ convertedDate }}
+                  </div>
+                </Timeago>
+              </div>
 
+            </div>
           </div>
+          <div :class="['gradient bottom', { active: displayGradient === 'bottom' || displayGradient === true }]" />
         </div>
 
         <div v-else class="no-notifications-placeholder">
           ☀️ you don't have any notifications
         </div>
+
+        <!-- Footer -->
+        <footer v-if="notificationsFound" class="footer">
+          <button
+            class="mark-all-as-read-button"
+            @click="markAllNotificationsAsRead">
+            Mark all as read
+          </button>
+          <div class="pagination">
+            <button
+              :class="['prev', { disabled: prevPageDisabled }]"
+              :disabled="prevPageDisabled"
+              @click="iteratePage('prev', pageMetadata.page - 1)">
+              <svg width="4" height="7" viewBox="0 0 4 7" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3.822 3.206L1.596 6.426H0L1.89 3.206L0 0H1.596L3.822 3.206Z" fill="white" fill-opacity="0.9" />
+              </svg>
+            </button>
+            <div class="page">
+              {{ pageMetadata.page }}/{{ pageMetadata.totalPages }}
+            </div>
+            <button
+              :class="['next', { disabled: nextPageDisabled }]"
+              :disabled="nextPageDisabled"
+              @click="iteratePage('next', pageMetadata.page + 1)">
+              <svg width="4" height="7" viewBox="0 0 4 7" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3.822 3.206L1.596 6.426H0L1.89 3.206L0 0H1.596L3.822 3.206Z" fill="white" fill-opacity="0.9" />
+              </svg>
+            </button>
+          </div>
+        </footer>
 
       </template>
 
@@ -118,7 +152,9 @@ export default {
         validated: 'Validated',
         reviewing: 'In Review'
       },
-      timeout: null
+      timeout: null,
+      scrull: null,
+      displayGradient: 'bottom'
     }
   },
 
@@ -126,7 +162,8 @@ export default {
     ...mapGetters({
       notificationList: 'notifications/notificationList',
       loading: 'notifications/loading',
-      newCount: 'notifications/newCount'
+      newCount: 'notifications/newCount',
+      pageMetadata: 'notifications/metadata'
     }),
     notificationsFound () {
       const notificationList = this.notificationList
@@ -138,6 +175,12 @@ export default {
     },
     newNotificationsExist () {
       return this.newCount > 0
+    },
+    prevPageDisabled () {
+      return this.pageMetadata.page === 1
+    },
+    nextPageDisabled () {
+      return this.pageMetadata.page === this.pageMetadata.totalPages
     }
   },
 
@@ -146,6 +189,12 @@ export default {
       if (!loading && !this.timeout) {
         this.timeout = setTimeout(() => {
           this.notificationsLoaded = true
+          this.$nextTick(() => {
+            if (!this.scroll) {
+              this.watchScroll()
+            }
+            this.$scrollToY(0, 250, false, this.$refs.notificationListPanel)
+          })
           clearTimeout(this.timeout)
           this.timeout = null
         }, 500)
@@ -158,8 +207,28 @@ export default {
   methods: {
     ...mapActions({
       getNotificationList: 'notifications/getNotificationList',
-      markNotificationsAsRead: 'notifications/markNotificationsAsRead'
+      markNotificationsAsRead: 'notifications/markNotificationsAsRead',
+      markAllNotificationsAsRead: 'notifications/markAllNotificationsAsRead'
     }),
+    watchScroll () {
+      const scrollHandler = (e) => {
+        if (e) {
+          const y = e.target.scrollTop
+          const height = e.target.clientHeight
+          const atTopOfScroll = y === 0
+          const atBottomOfScroll = e.target.scrollHeight - y - height === 0
+          if (atTopOfScroll) {
+            this.displayGradient = 'bottom'
+          } else if (atBottomOfScroll) {
+            this.displayGradient = 'top'
+          } else if (this.displayGradient !== true) {
+            this.displayGradient = true
+          }
+        }
+      }; scrollHandler()
+      this.scroll = this.$throttle(scrollHandler, 1)
+      this.$refs.notificationListPanel.addEventListener('scroll', this.scroll)
+    },
     toggleDropdownPanel (togglePanel) {
       if (this.notificationsLoaded) {
         togglePanel()
@@ -169,6 +238,10 @@ export default {
       if (!notification.read) {
         this.markNotificationsAsRead([notification._id])
       }
+    },
+    iteratePage (action, page) {
+      if ((action === 'prev' && this.prevPageDisabled) || (action === 'next' && this.nextPageDisabled)) { return }
+      this.getNotificationList(page)
     }
   }
 }
@@ -179,7 +252,7 @@ export default {
 #notifications {
   position: relative;
   margin-left: 1rem;
-  z-index: 1000;
+  z-index: 10000;
 }
 
 // ////////////////////////////////////////////////////////////////////// Button
@@ -344,11 +417,10 @@ export default {
 }
 
 .refresh-button {
-  // transition: 150ms ease-out;
   &:hover {
-    // transition: 150ms ease-in;
     transform: rotate(180deg) scale(1.15);
     &:active {
+      transition: 50ms ease-in;
       transform: rotate(180deg) scale(0.8);
     }
   }
@@ -359,8 +431,35 @@ export default {
   width: toRem(28);
 }
 
-.notifications-list {
+.notifications-list-wrapper {
   flex: 1;
+  position: relative;
+}
+
+.gradient {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: toRem(120);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 100;
+  transition: 150ms ease-out;
+  &.top {
+    top: 0;
+    background: linear-gradient(to bottom, #0C1512 0%, rgba(12, 21, 18, 0) 76.04%);
+  }
+  &.bottom {
+    bottom: 0;
+    background: linear-gradient(to top, #0C1512 0%, rgba(12, 21, 18, 0) 76.04%);
+  }
+  &.active {
+    transition: 250ms ease-in;
+    opacity: 1;
+  }
+}
+
+.notifications-list {
   max-height: 28rem;
   overflow-y: scroll;
 }
@@ -444,5 +543,117 @@ export default {
   font-size: toRem(14);
   line-height: leading(18, 14);
   color: $nandor;
+}
+
+.footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
+  padding-left: toRem(19);
+  border-top: 2px solid $greenYellow;
+}
+
+.mark-all-as-read-button,
+.prev,
+.page,
+.next {
+  font-size: toRem(14);
+  line-height: leading(30, 14);
+  font-weight: 500;
+}
+
+$offset: calc(#{toRem(19)} + #{toRem(math.div(10, 2))} + #{toRem(5)});
+
+.mark-all-as-read-button {
+  transition: 150ms ease-out;
+  &:hover {
+    &:before {
+      transition: 150ms ease-in;
+      transform: scale(1.3);
+    }
+    &:after {
+      transition: 150ms ease-in;
+      width: calc(100% - #{$offset});
+    }
+  }
+  &:after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: $offset;
+    width: 0px;
+    height: 4px;
+    background-color: $greenYellow;
+    transform: translateY(-50%);
+    transition: 150ms ease-out;
+  }
+  &:before {
+    content: '';
+    display: inline-block;
+    width: toRem(10);
+    height: toRem(10);
+    border-radius: 50%;
+    margin-right: toRem(11 + 5);
+    background-color: $mineralGreen;
+    transition: 150ms ease-out;
+  }
+}
+
+.pagination {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.prev,
+.next {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 1.5rem;
+  height: 1.5rem;
+  &:not(.disabled):hover {
+    &:before {
+      transition: 150ms ease-in;
+      opacity: 1;
+    }
+    svg {
+      transition: 150ms ease-in;
+      transform: scale(1.2);
+    }
+  }
+  &.disabled {
+    cursor: no-drop;
+    opacity: 0.5;
+  }
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0.25rem;
+    left: 0.25rem;
+    width: calc(100% - 0.5rem);
+    height: calc(100% - 0.5rem);
+    background-color: rgba(246, 245, 255, 0.2);
+    border-radius: toRem(3);
+    opacity: 0;
+    transition: 150ms ease-out;
+  }
+  svg {
+    transition: 150ms ease-out;
+  }
+}
+
+.prev {
+  &:not(.disabled):hover {
+    svg {
+      transform: rotate(180deg) scale(1.2);
+    }
+  }
+  svg {
+    transform: rotate(180deg);
+  }
 }
 </style>
