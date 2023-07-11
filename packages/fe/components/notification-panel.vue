@@ -86,7 +86,25 @@
             Mark all as read
           </button>
           <div class="pagination">
-            PAGE
+            <button
+              :class="['prev', { disabled: prevPageDisabled }]"
+              :disabled="prevPageDisabled"
+              @click="iteratePage('prev', pageMetadata.page - 1)">
+              <svg width="4" height="7" viewBox="0 0 4 7" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3.822 3.206L1.596 6.426H0L1.89 3.206L0 0H1.596L3.822 3.206Z" fill="white" fill-opacity="0.9" />
+              </svg>
+            </button>
+            <div class="page">
+              {{ pageMetadata.page }}/{{ pageMetadata.totalPages }}
+            </div>
+            <button
+              :class="['next', { disabled: nextPageDisabled }]"
+              :disabled="nextPageDisabled"
+              @click="iteratePage('next', pageMetadata.page + 1)">
+              <svg width="4" height="7" viewBox="0 0 4 7" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3.822 3.206L1.596 6.426H0L1.89 3.206L0 0H1.596L3.822 3.206Z" fill="white" fill-opacity="0.9" />
+              </svg>
+            </button>
           </div>
         </footer>
 
@@ -138,7 +156,8 @@ export default {
     ...mapGetters({
       notificationList: 'notifications/notificationList',
       loading: 'notifications/loading',
-      newCount: 'notifications/newCount'
+      newCount: 'notifications/newCount',
+      pageMetadata: 'notifications/metadata'
     }),
     notificationsFound () {
       const notificationList = this.notificationList
@@ -150,6 +169,12 @@ export default {
     },
     newNotificationsExist () {
       return this.newCount > 0
+    },
+    prevPageDisabled () {
+      return this.pageMetadata.page === 1
+    },
+    nextPageDisabled () {
+      return this.pageMetadata.page === this.pageMetadata.totalPages
     }
   },
 
@@ -182,6 +207,10 @@ export default {
       if (!notification.read) {
         this.markNotificationsAsRead([notification._id])
       }
+    },
+    iteratePage (action, page) {
+      if ((action === 'prev' && this.prevPageDisabled) || (action === 'next' && this.nextPageDisabled)) { return }
+      this.getNotificationList(page)
     }
   }
 }
@@ -467,12 +496,18 @@ export default {
   border-top: 2px solid $greenYellow;
 }
 
-$offset: calc(#{toRem(19)} + #{toRem(math.div(10, 2))} + #{toRem(5)});
-
-.mark-all-as-read-button {
+.mark-all-as-read-button,
+.prev,
+.page,
+.next {
   font-size: toRem(14);
   line-height: leading(30, 14);
   font-weight: 500;
+}
+
+$offset: calc(#{toRem(19)} + #{toRem(math.div(10, 2))} + #{toRem(5)});
+
+.mark-all-as-read-button {
   transition: 150ms ease-out;
   &:hover {
     &:before {
@@ -490,8 +525,9 @@ $offset: calc(#{toRem(19)} + #{toRem(math.div(10, 2))} + #{toRem(5)});
     top: 50%;
     left: $offset;
     width: 0px;
-    height: 1px;
-    background-color: white;
+    height: 4px;
+    background-color: $greenYellow;
+    transform: translateY(-50%);
     transition: 150ms ease-out;
   }
   &:before {
@@ -506,5 +542,60 @@ $offset: calc(#{toRem(19)} + #{toRem(math.div(10, 2))} + #{toRem(5)});
   }
 }
 
-// pagination
+.pagination {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.prev,
+.next {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 1.5rem;
+  height: 1.5rem;
+  &:not(.disabled):hover {
+    &:before {
+      transition: 150ms ease-in;
+      opacity: 1;
+    }
+    svg {
+      transition: 150ms ease-in;
+      transform: scale(1.2);
+    }
+  }
+  &.disabled {
+    cursor: no-drop;
+    opacity: 0.5;
+  }
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0.25rem;
+    left: 0.25rem;
+    width: calc(100% - 0.5rem);
+    height: calc(100% - 0.5rem);
+    background-color: rgba(246, 245, 255, 0.2);
+    border-radius: toRem(3);
+    opacity: 0;
+    transition: 150ms ease-out;
+  }
+  svg {
+    transition: 150ms ease-out;
+  }
+}
+
+.prev {
+  &:not(.disabled):hover {
+    svg {
+      transform: rotate(180deg) scale(1.2);
+    }
+  }
+  svg {
+    transform: rotate(180deg);
+  }
+}
 </style>
