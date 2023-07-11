@@ -281,7 +281,8 @@ MC.app.post('/submit-application', async (req, res) => {
      */
     console.log('💡 get forks')
     const forks = await getForks(githubUsername, githubToken, [])
-    let fork = forks.find(fork => fork.name === 'filecoin-plus-large-datasets')
+    console.log(forks)
+    let fork = forks.find(fork => fork.name === 'filecoin-plus-large-datasets' && fork.owner.login === githubUsername)
     /**
      * If the fork does NOT exist, create it.
      */
