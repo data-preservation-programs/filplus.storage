@@ -5,6 +5,7 @@ console.log('💡 [endpoint] /submit-application')
 const Axios = require('axios')
 const { SendData, GetFileFromDisk } = require('@Module_Utilities')
 const SubmitHubspotContact = require('@Module_Application/logic/submit-hubspot-contact')
+const PushNotification = require('@Module_Notification/logic/push-notification')
 
 const MC = require('@Root/config')
 
@@ -116,6 +117,20 @@ MC.app.post('/submit-application', async (req, res) => {
     const repo = MC.repos[type][MC.serverFlag]
     const options = { headers: { Accept: 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28', Authorization: `Bearer ${user.githubToken}` } }
     const githubIssue = await submitApplication(type, stage, template, application, repo, options)
+    // ------------------------------------------------------- push notification
+    await PushNotification({
+      ownerId: identifier.userId,
+      bucket: 'application',
+      read: false,
+      custom: {
+        githubUsername: user.githubUsername,
+        issueId: githubIssue.id,
+        issueNumber: githubIssue.number,
+        issueTitle: githubIssue.title,
+        state: 'new',
+        labels: '[]'
+      }
+    })
     // -------- data-programs machine user -> submit assignees, labels, comments
     const issueNumber = githubIssue.number
     options.headers.Authorization = `Bearer ${process.env.GITHUB__PERSONAL_ACCESS_TOKEN__DATA_PROGRAMS}`

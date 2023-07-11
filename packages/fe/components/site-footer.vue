@@ -275,7 +275,7 @@ export default {
 
 :deep(.primary-link) {
   position: relative;
-  padding: toRem(38) toRem(40);
+  padding: toRem(24);
   width: 100%;
   border-bottom: 3px solid $nandor;
   font-weight: 500;

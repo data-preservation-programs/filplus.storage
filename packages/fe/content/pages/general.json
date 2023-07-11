@@ -7,7 +7,7 @@
     "site_name": "Filecoin Plus",
     "url": "",
     "type": "website",
-    "image": "/open-graph-image.png"
+    "image": "/images/open-graph-image-minimal.png"
   },
   "navigation": {
     "home_link": "/apply",
@@ -97,6 +97,11 @@
         "type": "nuxt-link",
         "href": "/faq",
         "label": "Frequently Asked Questions"
+      },
+      {
+        "type": "nuxt-link",
+        "href": "/kyc",
+        "label": "KYC"
       }
     ],
     "video_cta": {
@@ -142,7 +147,7 @@
   "hubspot": {
     "opted_in_heading": "Get Help Onboarding Your Data",
     "description": {
-      "loggedOut": "Log in and share your contact information information if you would like additional support with the onboarding process and/or share product feedback with the client growth team. <strong>All fields must be filled out</strong> to opt in.",
+      "loggedOut": "Log in and share your contact information if you would like additional support with the onboarding process and/or share product feedback with the client growth team. <strong>All fields must be filled out</strong> to opt in.",
       "notOptedIn": "Please share the following information if you would like additional support with the onboarding process and/or share product feedback with the client growth team. <strong>All 3 fields must be filled out</strong> to opt in.",
       "optedIn": "In order to opt out, please get in touch with the client success team member that you've been in touch with."
     },

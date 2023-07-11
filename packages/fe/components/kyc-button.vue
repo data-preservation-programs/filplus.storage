@@ -8,14 +8,14 @@
         :to="togggleLink"
         :class="['kyc-button', status, `theme__${theme}`]"
         :tag="kycButtonType"
-        target="_blank">
+        :target="kycButtonTarget">
 
         <div class="icon">
           <IconKycVerifying
             v-if="status === 'verifying'"
             class="icon-kyc-verifying" />
           <IconKycSuccess
-            v-if="status === 'success'"
+            v-else
             class="icon-kyc-success" />
         </div>
 
@@ -70,6 +70,11 @@ export default {
       type: String,
       required: false,
       default: 'center'
+    },
+    goToTogggle: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
 
@@ -78,6 +83,9 @@ export default {
       siteContent: 'general/siteContent',
       account: 'auth/account'
     }),
+    onKycPage () {
+      return this.$route.path.includes('kyc')
+    },
     status () { // 'unverified', 'verifying', 'failure', 'success'
       const kyc = this.account.kyc
       if (!kyc) { return 'unverified' }
@@ -90,12 +98,18 @@ export default {
     showExternalLinkIcon () {
       const status = this.status
       // return status === 'unverified' || status === 'verifying'
-      return status === 'unverified' || status === 'verifying' || status === 'failure'
+      return this.goToTogggle && (status === 'unverified' || status === 'verifying' || status === 'failure')
     },
     kycButtonType () {
       const status = this.status
+      if (status === 'success' || (this.onKycPage && !this.goToTogggle)) { return 'div' }
+      if (!this.goToTogggle) { return 'nuxt-link' }
       // return status === 'success' || status === 'failure' ? 'div' : 'a'
       return status === 'success' ? 'div' : 'a'
+    },
+    kycButtonTarget () {
+      if (this.onKycPage) { return '_blank' }
+      return undefined
     },
     kycButtonContent () {
       return this.siteContent.general.navigation.kyc_button
@@ -107,6 +121,7 @@ export default {
       return this.kycButton.text
     },
     togggleLink () {
+      if (!this.goToTogggle) { return '/kyc' }
       return `${this.$config.togggleLink}&identifier=${this.account.githubUsername}`
     },
     tooltip () {
@@ -115,7 +130,7 @@ export default {
       tooltip = tooltip.replaceAll('|Start_kyc_link|', `<a href="${this.togggleLink}" target="_blank">Start KYC</a>`)
       tooltip = tooltip.replaceAll('|start_kyc_link|', `<a href="${this.togggleLink}" target="_blank">start KYC</a>`)
       tooltip = tooltip.replaceAll('|Check_status_link|', `<a href="${this.togggleLink}" target="_blank">Check status</a>`)
-      tooltip = tooltip.replaceAll('|reach_out_link|', `<a href="${this.togggleLink}" target="_blank">reach out</a>`)
+      tooltip = tooltip.replaceAll('|reach_out_link|', '<a href="https://filecoinproject.slack.com/archives/C01DLAPKDGX" target="_blank">reach out</a>')
       tooltip = tooltip.replaceAll('|try_again_link|', `<a href="${this.togggleLink}" target="_blank">try again</a>`)
       return tooltip
     }
@@ -162,6 +177,11 @@ export default {
 
 // ////////////////////////////////////////////////////////////////////// Themes
 .theme__bare {
+  &:not(.success) {
+    .icon-kyc-success {
+      display: none;
+    }
+  }
   .icon-kyc-verifying,
   .icon-kyc-success {
     margin-right: toRem(5);
@@ -170,7 +190,6 @@ export default {
 
 .theme__full {
   padding: 3px toRem(22) 3px 3px;
-  padding-right: toRem(22);
   background-color: rgba(175, 142, 81, 0.6);
   border: 2px solid $laser;
   border-radius: 3rem;
@@ -183,7 +202,7 @@ export default {
   }
   &.unverified,
   &.failure {
-    padding: 3px toRem(17);
+    // padding: 3px toRem(17);
   }
   &.success/*,
   &.failure*/ {

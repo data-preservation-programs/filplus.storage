@@ -24,26 +24,19 @@
 
           <MarkdownParser :markdown="markdown" />
 
-          <Infographic />
+          <KycButton
+            v-if="account"
+            :go-to-togggle="true"
+            theme="full"
+            class="kyc-link" />
 
-          <div
-            v-if="ctaCard"
-            class="cta-card-wrapper"
-            @click="$highlightApplyForm">
-            <Card
-              icon="arrow"
-              :outline="true"
-              class="apply-cta-card">
-              <div class="title">
-                {{ ctaCard.title }}
-              </div>
+          <AuthPanel v-else />
 
-              <div
-                class="description"
-                v-html="ctaCard.description">
-              </div>
-            </Card>
+          <div class="partner-text">
+            {{ partnerText }}
+            <LogoTogggle />
           </div>
+
         </div>
 
         <div class="col-4_lg-3_sm-2_mi-1">
@@ -69,23 +62,25 @@ import HeroA from '@/components/hero-a'
 import MarkdownParser from '@/components/markdown-parser'
 import Overlay from '@/components/overlay'
 import Squigglie from '@/components/squigglie'
-import Card from '@/components/card'
-import Infographic from '@/components/infographic'
+import KycButton from '@/components/kyc-button'
+import LogoTogggle from '@/components/logo-togggle'
+import AuthPanel from '@/components/auth-panel'
 
-import AboutPageData from '@/content/pages/about.json'
-import AboutContent from '@/content/markdown/about.md'
+import KycPageData from '@/content/pages/kyc.json'
+import KycContent from '@/content/markdown/kyc.md'
 
 // ====================================================================== Export
 export default {
-  name: 'AboutPage',
+  name: 'KycPage',
 
   components: {
     HeroA,
     MarkdownParser,
     Overlay,
     Squigglie,
-    Card,
-    Infographic
+    KycButton,
+    LogoTogggle,
+    AuthPanel
   },
 
   data () {
@@ -95,7 +90,7 @@ export default {
   },
 
   async fetch ({ app, store }) {
-    await store.dispatch('general/getBaseData', { key: 'about', data: AboutPageData })
+    await store.dispatch('general/getBaseData', { key: 'about', data: KycPageData })
   },
 
   head () {
@@ -104,7 +99,8 @@ export default {
 
   computed: {
     ...mapGetters({
-      siteContent: 'general/siteContent'
+      siteContent: 'general/siteContent',
+      account: 'auth/account'
     }),
     pageData () {
       return this.siteContent[this.tag].page_content
@@ -112,11 +108,11 @@ export default {
     heading () {
       return this.pageData.heading
     },
-    ctaCard () {
-      return this.pageData.cta_card
+    partnerText () {
+      return this.pageData.partner_text
     },
     markdown () {
-      return AboutContent
+      return KycContent
     }
   }
 }
@@ -169,7 +165,7 @@ export default {
 }
 
 .markdown {
-  padding: 5rem 0 3rem;
+  padding-top: 9rem;
   padding-right: 5rem;
   @include small {
     padding-right: 3rem;
@@ -179,99 +175,34 @@ export default {
   }
 }
 
-.cta-card-wrapper {
-  cursor: pointer;
+.kyc-link,
+.auth-panel {
+  margin-top: 5rem;
 }
 
-.apply-cta-card.corner-position__top-right {
+:deep(.kyc-link) {
   display: inline-block;
-  width: 26.6875rem;
-  @include medium {
-    width: calc(100% - 5rem);
-  }
-  @include small {
-    width: calc(100% - 3rem);
-  }
-  @include mini {
-    width: 100%;
-  }
-  &:hover {
-    :deep(.icon.arrow) {
-      transform: rotate(45deg);
-    }
-  }
-  .title {
-    font-size: toRem(30);
-    line-height: leading(40, 30);
-    font-weight: 500;
-    margin-bottom: 1.5rem;
-    margin-right: 5rem;
-  }
-  .description {
-    margin-bottom: toRem(27);
-  }
-  :deep(.content) {
-    padding: toRem(37) 2rem 1.875rem toRem(43) !important;
-  }
-}
-
-.infographic-container {
-  margin: 0 5rem 3rem 0;
-  :deep(.infographic-wrapper) {
-    height: clamp(toRem(345), vw(500px), toRem(500));
-    &.with-fil-plus {
-      height: clamp(toRem(390), vw(600px), toRem(594));
-    }
-    .title {
-      font-size: toRem(23);
-    }
-  }
-
-  :deep(.infographic-toggle) {
-    width: toRem(70);
-    height: toRem(35);
-  }
-  :deep(.toggle-switch) {
-    width: toRem(23);
-    height: toRem(23);
-    transform: translateX(toRem(35));
-  }
-
-  @include small {
-    margin-right: 3rem;
-    :deep(.infographic-wrapper) {
-      height: auto;
-      &.with-fil-plus {
-        height: auto;
-      }
-    }
-  }
-  @include mini {
-    :deep(.infographic-wrapper) {
-      .title {
-        font-size: clamp(toRem(14), 16px + 1vw , toRem(17));
-      }
-      .infographic-toggle {
-        width: toRem(60);
-        height: toRem(30);
-      }
-      .toggle-switch {
-        width: toRem(20);
-        height: toRem(20);
-        margin: 0 toRem(2);
-        transform: translateX(toRem(30));
-      }
-    }
-  }
-  @include tiny {
-    margin-right: 0;
-    :deep(.infographic-wrapper) {
-      .title {
-        font-size: toRem(14);
+  .kyc-button {
+    &.unverified {
+      + .tooltip-content-wrapper {
+        display: none;
       }
     }
   }
 }
+
+.partner-text {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 2.5rem;
+  font-weight: 500;
+  color: $juniper;
+  svg {
+    margin-left: toRem(7);
+  }
+}
+
 // ////////////////////////////////////////////////////////////////// Warp Image
 .panel-right {
   position: relative;

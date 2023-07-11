@@ -1,4 +1,4 @@
-console.log('📦 [module] application')
+console.log('📦 [module] notifications')
 
 // ///////////////////////////////////////////////////////////////////// Imports
 // -----------------------------------------------------------------------------
@@ -13,4 +13,4 @@ RunStartupChecks(checks)
 
 // //////////////////////////////////////////////////////////////// Import Model
 // -----------------------------------------------------------------------------
-MC.model.ApplicationChangedQueue = require('@Module_Application/model/application-changed-queue')
+MC.model.Notification = require('@Module_Notification/model')
