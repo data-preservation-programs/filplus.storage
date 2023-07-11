@@ -214,7 +214,7 @@ const createPR = async (forkedRepoName, branchId, githubUsername, application, t
     const body = {
       title: `[DataCap Application] ${application['Data Owner Name']}`,
       head: `${githubUsername}:${branchId}`,
-      body: '🦄',
+      body: `🦄\n\n**Total Datacap Requested**: ${application['Total amount of DataCap being requested||amount']} ${application['Total amount of DataCap being requested||unit']}`,
       base: 'main',
       maintainer_can_modify: true
     }

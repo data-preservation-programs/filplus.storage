@@ -121,13 +121,17 @@ export default {
       return this.pageData.heading.replace('|data|', this.datacapRequested[1])
     },
     datacapRequested () {
-      return this.githubPullRequest
-      // const applicationBody = this.githubPullRequest.body
+      // return this.githubPullRequest
+      console.log(this.githubPullRequest)
+      const applicationBody = this.githubPullRequest.body
       // const generalDatacapRegEx = /(?:DataCap Requested: )(\d+\.?\d{0,2} \w{3})/
-      // const largeDatacapRegEx = /(?:### Total amount of DataCap being requested\n)(\d+\.?\d{0,2} \w{3})/
+      const largeDatacapRegEx = /(?:\*\*Total Datacap Requested\*\*:\s)(\d+\.?\d{0,2} \w{3})/
+      console.log(largeDatacapRegEx)
       // const generalDatacap = applicationBody.match(generalDatacapRegEx)
-      // const largeDatacap = applicationBody.match(largeDatacapRegEx)
+      const largeDatacap = applicationBody.match(largeDatacapRegEx)
+      console.log(largeDatacap)
       // return generalDatacap || largeDatacap
+      return largeDatacap
     },
     subheading () {
       return this.pageData.subheading
