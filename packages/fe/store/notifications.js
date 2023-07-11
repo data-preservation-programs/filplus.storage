@@ -31,7 +31,9 @@ const actions = {
   async getNotificationList ({ commit, getters, dispatch }, page) {
     try {
       await dispatch('setLoadingStatus', { type: 'loading', status: true })
-      await dispatch('setMetadata', { page })
+      if (page) {
+        await dispatch('setMetadata', { page })
+      }
       const params = getters.metadata
       const response = await this.$axiosAuth.get('/get-notification-list', { params })
       const payload = response.data.payload
@@ -129,7 +131,6 @@ const mutations = {
     state.metadata = metadata
   },
   UPDATE_NOTIFICATION (state, payload) {
-    console.log(payload)
     state.notificationList.splice(payload.index, 1, payload.notification)
   },
   SET_NEW_NOTIFICATION_COUNT (state, count) {
