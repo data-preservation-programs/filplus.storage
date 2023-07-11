@@ -1,7 +1,7 @@
 # Filecoin Plus
 ### [filplus.storage](https://filplus.storage)
 
-![FilPlus.Storage graph image](packages/fe/static/open-graph-image.png)
+![FilPlus.Storage graph image](packages/fe/static/images/open-graph-image-general.png)
 
 ***
 
