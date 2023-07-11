@@ -222,8 +222,9 @@ export default {
           const y = e.target.scrollTop
           const height = e.target.clientHeight
           const atTopOfScroll = y === 0
-          const atBottomOfScroll = e.target.scrollHeight - y - height === 0
+          const atBottomOfScroll = e.target.scrollHeight - y - height <= 0
           // console.log(y, height, atTopOfScroll, atBottomOfScroll)
+          // console.log(y, height, e.target.scrollHeight, e.target.scrollHeight - y - height)
           if (atTopOfScroll) {
             this.displayGradient = 'bottom'
           } else if (atBottomOfScroll) {
