@@ -50,6 +50,8 @@ export default {
       if (account) {
         await this.getNotificationList()
         this.getNewNotificationCount()
+      } else {
+        this.mobileDropdownOpen = false
       }
     }
   },
@@ -60,7 +62,6 @@ export default {
       getNewNotificationCount: 'notifications/getNewNotificationCount'
     }),
     dropdownPanelToggled (payload) {
-      console.log(payload.state)
       if (!this.timeout) {
         this.timeout = setTimeout(() => {
           this.mobileDropdownOpen = payload.state
