@@ -12,22 +12,6 @@ const ApplicationChangedQueueSchema = new Schema({
     type: String,
     required: true
   },
-  issueId: {
-    type: String,
-    required: true
-  },
-  issueNumber: {
-    type: Number,
-    required: true
-  },
-  issueTitle: {
-    type: String,
-    required: true
-  },
-  issueUrl: {
-    type: String,
-    required: true
-  },
   state: {
     type: String,
     required: true
@@ -35,7 +19,49 @@ const ApplicationChangedQueueSchema = new Schema({
   labels: [{
     type: String,
     required: true
-  }]
+  }],
+  // Issues
+  issueId: {
+    type: String,
+    required: false,
+    default: null
+  },
+  issueNumber: {
+    type: Number,
+    required: false,
+    default: null
+  },
+  issueTitle: {
+    type: String,
+    required: false,
+    default: null
+  },
+  issueUrl: {
+    type: String,
+    required: false,
+    default: null
+  },
+  // PRs
+  prId: {
+    type: String,
+    required: false,
+    default: null
+  },
+  prNumber: {
+    type: Number,
+    required: false,
+    default: null
+  },
+  prTitle: {
+    type: String,
+    required: false,
+    default: null
+  },
+  prUrl: {
+    type: String,
+    required: false,
+    default: null
+  }
 }, {
   timestamps: true,
   minimize: false

@@ -59,10 +59,10 @@
                 </div>
                 <div class="message">
                   <a
-                    :href="notification.custom.issueUrl"
+                    :href="notification.custom.issueUrl || notification.custom.prUrl"
                     class="issue-link"
                     target="_blank">
-                    Issue #{{ notification.custom.issueNumber }}</a>:{{ notification.custom.issueTitle }}
+                    {{ notification.custom.issueId ? 'Issue' : 'Pull Request' }} #{{ notification.custom.issueNumber || notification.custom.prNumber }}</a>:{{ notification.custom.issueTitle || notification.custom.prTitle }}
                 </div>
                 <Timeago
                   v-slot="{ convertedDate }"

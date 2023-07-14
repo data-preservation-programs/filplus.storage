@@ -349,19 +349,20 @@ MC.app.post('/submit-application', async (req, res) => {
       console.log(schema)
     }
     // ------------------------------------------------------- push notification
-    // await PushNotification({
-    //   ownerId: identifier.userId,
-    //   bucket: 'application',
-    //   read: false,
-    //   custom: {
-    //     githubUsername: user.githubUsername,
-    //     issueId: githubIssue.id,
-    //     issueNumber: githubIssue.number,
-    //     issueTitle: githubIssue.title,
-    //     state: 'new',
-    //     labels: '[]'
-    //   }
-    // })
+    await PushNotification({
+      ownerId: identifier.userId,
+      bucket: 'application',
+      read: false,
+      custom: {
+        githubUsername,
+        prId: pr.id,
+        prNumber: pr.number,
+        prTitle: pr.title,
+        prUrl: pr.html_url,
+        state: 'new',
+        labels: '[]'
+      }
+    })
     // -------- data-programs machine user -> submit assignees, labels, comments
     const repo = MC.repos[type][MC.serverFlag]
     const prNumber = pr.number
