@@ -135,7 +135,7 @@ export default {
 
 .hamburger {
   width: 1rem;
-  height: 0.5rem;
+  height: toRem(7);
   z-index: 20;
   transition: 150ms ease-out;
   &:before,
@@ -144,15 +144,16 @@ export default {
     position: absolute;
     left: 0;
     height: toRem(2);
-    width: 100%;
     background-color: $aztec;
     transition: 150ms ease-out;
   }
   &:before {
     top: 0;
+    width: toRem(12);
   }
   &:after {
     bottom: 0;
+    width: 100%;
   }
 }
 
