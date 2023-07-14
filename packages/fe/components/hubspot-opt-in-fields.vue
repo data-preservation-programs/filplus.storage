@@ -7,7 +7,7 @@
 
     <div class="message" v-html="description" />
 
-    <AuthPanel v-if="!account" />
+    <LoginButton v-if="!account" />
 
     <div v-else class="form">
 
@@ -39,7 +39,7 @@
 // ===================================================================== Imports
 import { mapGetters, mapActions } from 'vuex'
 
-import AuthPanel from '@/components/auth-panel'
+import LoginButton from '@/components/navigation/button-login'
 import FieldContainer from '@/components/form/field-container'
 
 // ====================================================================== Export
@@ -47,7 +47,7 @@ export default {
   name: 'HubspotOptInFields',
 
   components: {
-    AuthPanel,
+    LoginButton,
     FieldContainer
   },
 
