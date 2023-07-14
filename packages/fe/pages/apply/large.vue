@@ -289,7 +289,7 @@
               {{ submitButtonText }}
             </ButtonA>
 
-            <AuthPanel v-else />
+            <LoginButton />
 
             <ButtonX
               :to="backButton.href"
@@ -322,7 +322,7 @@ import ButtonX from '@/components/buttons/button-x'
 import HubspotOptInFields from '@/components/hubspot-opt-in-fields'
 import Overlay from '@/components/overlay'
 import Squigglie from '@/components/squigglie'
-import AuthPanel from '@/components/auth-panel'
+import LoginButton from '@/components/navigation/button-login'
 import Chevron from '@/components/icons/chevron'
 
 import ApplyLargePageData from '@/content/pages/apply-large.json'
@@ -339,7 +339,7 @@ export default {
     HubspotOptInFields,
     Overlay,
     Squigglie,
-    AuthPanel,
+    LoginButton,
     Chevron
   },
 

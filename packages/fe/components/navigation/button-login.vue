@@ -1,23 +1,15 @@
 <template>
-  <div class="auth-panel">
+  <Login v-if="!account" v-slot="{ loginWith }">
 
-    <!-- ====================================================== Login button -->
-    <Login v-if="!account" v-slot="{ loginWith }">
-      <ButtonB
-        class="login-button"
-        loader="login-button"
-        @clicked="loginWith('github')">
-        <IconGithub class="icon-github" />
-        <span>Login</span>
-      </ButtonB>
-    </Login>
+    <ButtonB
+      class="login-button"
+      loader="login-button"
+      @clicked="loginWith('github')">
+      <IconGithub class="icon-github" />
+      <span>Login</span>
+    </ButtonB>
 
-    <template v-else>
-      <ProfilePanel />
-      <NotificationPanel />
-    </template>
-
-  </div>
+  </Login>
 </template>
 
 <script>
@@ -26,20 +18,16 @@ import { mapGetters } from 'vuex'
 
 import ButtonB from '@/components/buttons/button-b'
 import Login from '@/modules/auth/components/login'
-import ProfilePanel from '@/components/profile-panel'
-import NotificationPanel from '@/components/notification-panel'
 
 import IconGithub from '@/components/icons/github'
 
 // ====================================================================== Export
 export default {
-  name: 'AuthPanel',
+  name: 'ButtonLogin',
 
   components: {
     Login,
     ButtonB,
-    ProfilePanel,
-    NotificationPanel,
     IconGithub
   },
 
@@ -53,13 +41,6 @@ export default {
 
 <style lang="scss" scoped>
 // ///////////////////////////////////////////////////////////////////// General
-.auth-panel {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-// ////////////////////////////////////////////////////////////// [Button] login
 .button.login-button {
   display: inline-flex;
   flex-direction: row;

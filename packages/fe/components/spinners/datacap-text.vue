@@ -61,6 +61,7 @@ export default {
 }
 
 .circle-text {
+  display: block;
   position: relative;
   width: 100%;
   animation: spinning 15s infinite linear reverse;
@@ -70,8 +71,9 @@ export default {
 }
 
 .arrow {
+  display: block;
   position: absolute;
-  top: calc(50% - 4px);
+  top: 50%;
   left: calc(50% + 1px);
   transform: translate(-50%, -50%);
   pointer-events: none;

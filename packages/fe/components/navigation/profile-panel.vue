@@ -1,13 +1,16 @@
 <template>
   <div id="profile">
-    <DropdownPanel toggle-on="hover">
-    
+    <DropdownPanel :toggle-on="toggleOn" @dropdownPanelToggled="dropdownPanelToggled">
+
       <!-- =================================================== Toggle button -->
       <template #toggle-button="{ togglePanel, panelOpen }">
         <button
           :class="['profile-toggle-button', { 'panel-open': panelOpen }]"
           @click="togglePanel">
-          <img :src="account.githubAvatarUrl" class="avatar" />
+          <div class="profile-toggle-button-inner-container">
+            <IconCloseThick class="icon close" />
+            <img :src="account.githubAvatarUrl" class="avatar in-toggle-button" />
+          </div>
         </button>
       </template>
 
@@ -16,7 +19,7 @@
 
         <!-- User Preview -->
         <div class="user-preview">
-          <img :src="account.githubAvatarUrl" class="avatar" />
+          <img :src="account.githubAvatarUrl" class="avatar in-user-preview" />
           <span class="username">
             {{ account.githubUsername }}
           </span>
@@ -64,6 +67,8 @@ import ButtonX from '@/components/buttons/button-x'
 import Logout from '@/modules/auth/components/logout'
 import KycButton from '@/components/kyc-button'
 
+import IconCloseThick from '@/components/icons/close-thick'
+
 // ====================================================================== Export
 export default {
   name: 'ProfilePanel',
@@ -72,7 +77,15 @@ export default {
     DropdownPanel,
     Logout,
     ButtonX,
-    KycButton
+    KycButton,
+    IconCloseThick
+  },
+
+  props: {
+    toggleOn: {
+      type: String,
+      required: true
+    }
   },
 
   computed: {
@@ -85,6 +98,12 @@ export default {
         href: `/account/${this.account.githubUsername}/applications`,
         label: 'Application History'
       }
+    }
+  },
+
+  methods: {
+    dropdownPanelToggled (state) {
+      this.$emit('dropdownPanelToggled', { panel: 'profile', state })
     }
   }
 }
@@ -109,16 +128,74 @@ export default {
   &.panel-open {
     transition: 150ms ease-in;
     transform: scale(1.15);
-    border-color: $greenYellow;
-    .avatar {
+    .avatar.in-toggle-button {
       transition: 150ms ease-in;
       transform: scale(1.15);
     }
   }
-  .avatar {
+  &:hover {
+    &.panel-open {
+      :deep(.icon.close) {
+        transform: translateY(0) rotate(90deg);
+      }
+    }
+  }
+  &.panel-open {
+    .avatar.in-toggle-button {
+      transition: 150ms ease-in;
+      opacity: 0;
+      transform: translateY(-100%) scale(0.5);
+    }
+    :deep(.icon.close) {
+      transition: 150ms ease-in;
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+}
+
+.profile-toggle-button-inner-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.avatar.in-toggle-button,
+.icon.close {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+}
+
+.avatar {
+  &.in-toggle-button {
     width: 100%;
     height: 100%;
     transition: 150ms ease-out;
+  }
+  &.in-user-preview {
+    width: toRem(28);
+    height: toRem(28);
+    margin-right: toRem(10);
+    border: 1px solid $greenYellow;
+    border-radius: 50%;
+  }
+}
+
+:deep(.icon.close) {
+  display: block;
+  width: toRem(12);
+  opacity: 0;
+  transform: translateY(100%);
+  transition: 150ms ease-out;
+  path {
+    fill: $greenYellow;
   }
 }
 
@@ -139,13 +216,6 @@ export default {
   flex-direction: row;
   align-items: center;
   padding-top: toRem(10);
-  .avatar {
-    width: toRem(28);
-    height: toRem(28);
-    margin-right: toRem(10);
-    border: 1px solid $greenYellow;
-    border-radius: 50%;
-  }
 }
 
 .username {

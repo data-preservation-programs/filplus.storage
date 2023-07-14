@@ -1,6 +1,6 @@
 <template>
   <div id="notifications">
-    <DropdownPanel>
+    <DropdownPanel @dropdownPanelToggled="dropdownPanelToggled">
 
       <!-- =================================================== Toggle button -->
       <template #toggle-button="{ togglePanel, panelOpen }">
@@ -251,6 +251,9 @@ export default {
     iteratePage (action, page) {
       if ((action === 'prev' && this.prevPageDisabled) || (action === 'next' && this.nextPageDisabled)) { return }
       this.getNotificationList(page)
+    },
+    dropdownPanelToggled (state) {
+      this.$emit('dropdownPanelToggled', { panel: 'notification', state })
     }
   }
 }
@@ -276,7 +279,6 @@ export default {
   &.panel-open {
     transition: 150ms ease-in;
     transform: scale(1.15);
-    border-color: $greenYellow;
   }
   &:hover {
     &.panel-open {
@@ -471,6 +473,9 @@ export default {
 .notifications-list {
   max-height: 28rem;
   overflow-y: scroll;
+  @include small {
+    max-height: 24rem;
+  }
 }
 
 .notification {
