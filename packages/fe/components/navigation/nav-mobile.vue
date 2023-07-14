@@ -95,7 +95,11 @@ export default {
   align-items: center;
 }
 
-#notifications {
+.login-button {
+  margin-right: 0.5rem;
+}
+
+div#notifications {
   margin: 0 0.5rem;
 }
 
