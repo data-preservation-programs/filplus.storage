@@ -113,6 +113,7 @@ const actions = {
     }
     if (application.public_availability_radio === 'No') {
       if (!labels.includes('efil+')) { labels.push('efil+') }
+      if (!assignees.includes('kevzak')) { assignees.push('kevzak') }
       comments.push('This application is requesting DataCap for a **private** dataset, so it\'s labeled `efil+`')
     }
     try {
