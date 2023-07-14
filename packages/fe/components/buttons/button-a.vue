@@ -79,7 +79,8 @@ export default {
 .button {
   display: inline-block;
   position: relative;
-  padding: toRem(14) 1.25rem;
+  height: toRem(35);
+  padding: 0 toRem(21);
   border-radius: 3rem;
   line-height: 1;
   white-space: nowrap;
@@ -120,6 +121,7 @@ export default {
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  font-size: toRem(14);
   font-weight: 500;
   line-height: 1;
   &.hide {

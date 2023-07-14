@@ -160,12 +160,7 @@ export default {
 #section-faq {
   position: relative;
   padding-bottom: 4.125rem;
-  border-top: 3px solid transparent;
   z-index: 25;
-}
-
-.faq-top-border {
-  top: -3px;
 }
 
 .faq-accordion {
@@ -230,7 +225,7 @@ export default {
 
 .warp-image-double {
   position: absolute;
-  top: 0;
+  top: 3px;
   left: 0;
   width: 69rem;
   height: 500rem;

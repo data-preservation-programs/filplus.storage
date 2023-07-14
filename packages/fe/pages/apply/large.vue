@@ -281,16 +281,15 @@
             form-id="filplus_application" />
 
           <div class="buttons">
-            <div v-if="account">
-              <ButtonA
-                class="submit-button"
-                loader="application-submit-button"
-                @clicked="submitForm">
-                {{ submitButtonText }}
-              </ButtonA>
-            </div>
+            <ButtonA
+              v-if="account"
+              class="submit-button"
+              loader="application-submit-button"
+              @clicked="submitForm">
+              {{ submitButtonText }}
+            </ButtonA>
 
-            <AuthButton v-else />
+            <LoginButton />
 
             <ButtonX
               :to="backButton.href"
@@ -323,7 +322,7 @@ import ButtonX from '@/components/buttons/button-x'
 import HubspotOptInFields from '@/components/hubspot-opt-in-fields'
 import Overlay from '@/components/overlay'
 import Squigglie from '@/components/squigglie'
-import AuthButton from '@/components/auth-button'
+import LoginButton from '@/components/navigation/button-login'
 import Chevron from '@/components/icons/chevron'
 
 import ApplyLargePageData from '@/content/pages/apply-large.json'
@@ -340,7 +339,7 @@ export default {
     HubspotOptInFields,
     Overlay,
     Squigglie,
-    AuthButton,
+    LoginButton,
     Chevron
   },
 

@@ -4,9 +4,10 @@ console.log('💡 [endpoint] /submit-application')
 // ///////////////////////////////////////////////////////////////////// Imports
 // -----------------------------------------------------------------------------
 const Axios = require('axios')
+const UUID = require('uuid')
 const { SendData, GetFileFromDisk, Delay } = require('@Module_Utilities')
 const SubmitHubspotContact = require('@Module_Application/logic/submit-hubspot-contact')
-const UUID = require('uuid')
+const PushNotification = require('@Module_Notification/logic/push-notification')
 
 const MC = require('@Root/config')
 
@@ -347,9 +348,22 @@ MC.app.post('/submit-application', async (req, res) => {
       console.log(application)
       console.log(schema)
     }
-    // ------------------------------------------------------ submit application
+    // ------------------------------------------------------- push notification
+    // await PushNotification({
+    //   ownerId: identifier.userId,
+    //   bucket: 'application',
+    //   read: false,
+    //   custom: {
+    //     githubUsername: user.githubUsername,
+    //     issueId: githubIssue.id,
+    //     issueNumber: githubIssue.number,
+    //     issueTitle: githubIssue.title,
+    //     state: 'new',
+    //     labels: '[]'
+    //   }
+    // })
+    // -------- data-programs machine user -> submit assignees, labels, comments
     const repo = MC.repos[type][MC.serverFlag]
-    // // -------- data-programs machine user -> submit assignees, labels, comments
     const prNumber = pr.number
     if (labels.length > 0) {
       await addIssueMetadata('labels', prNumber, { labels }, repo)

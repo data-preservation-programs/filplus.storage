@@ -58,7 +58,7 @@ export default {
   },
 
   async mounted () {
-    // Scroll to hash
+    // ---------------------------------------------------------- Scroll to hash
     this.$nextTick(() => {
       const hash = this.$route.hash.replace('#', '')
       if (hash) {
@@ -68,7 +68,7 @@ export default {
         }
       }
     })
-    // Initialize global connections
+    // --------------------------------- Initialize global websocket connections
     await this.$connectWebsocket(this, () => {
       if (this.account) {
         this.joinUserWebsocketRoom(this.account)
@@ -86,6 +86,14 @@ export default {
           this.setAccount(account)
         }
       })
+      const refreshNotifications = async () => {
+        if (this.account) {
+          await this.getNotificationList()
+          this.getNewNotificationCount()
+        }
+      }
+      this.socket.on('script|refresh-notifications|event', refreshNotifications)
+      this.socket.on('push-notification|refresh-notifications|event', refreshNotifications)
       this.socket.on('disconnect', async () => {
         this.networkErrorToastId = await this.$toaster.add({
           type: 'toast',
@@ -103,7 +111,7 @@ export default {
       })
       this.networkErrorToastId = false
     })
-    // Check to see if saved form exists in localStorage
+    // ----------------------- Check to see if saved form exists in localStorage
     if (this.$ls.get('form__filplus_application')) {
       this.setSavedFormExistsStatus(true)
     }
@@ -112,7 +120,9 @@ export default {
   methods: {
     ...mapActions({
       setSavedFormExistsStatus: 'form/setSavedFormExistsStatus',
-      setAccount: 'auth/setAccount'
+      setAccount: 'auth/setAccount',
+      getNotificationList: 'notifications/getNotificationList',
+      getNewNotificationCount: 'notifications/getNewNotificationCount'
     }),
     joinUserWebsocketRoom (account) { // every user joins their own room upon logging in
       this.socket.emit('join-room', account._id)

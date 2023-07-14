@@ -28,6 +28,10 @@ const corsAllowlist = [
   'https://kyc.api.togggle.io' // Togggle | production
 ]
 
+if (env === 'development') {
+  corsAllowlist.push(process.env.NGROK__URL) // for testing Github webhooks
+}
+
 // ////////////////////////////////////////////////////////////////////// Export
 // -----------------------------------------------------------------------------
 module.exports = {

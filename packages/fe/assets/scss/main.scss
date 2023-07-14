@@ -615,9 +615,9 @@ div.tooltip-content {
   pre,
   code {
     font-family: $fontSuisseIntlMono;
-    background-color: $aztec;
-    color: white;
-    padding: 0.3125rem 0.625rem;
+    background-color: white;
+    color: $aztec;
+    padding: toRem(4) toRem(6);
     border-radius: 0.25rem;
     font-size: 0.75rem;
   }
@@ -626,9 +626,10 @@ div.tooltip-content {
     background-color: transparent;
   }
   code {
+    position: relative;
+    top: -2px;
     word-break: break-all;
     white-space: break-spaces;
-    border-radius: 0;
     &::-moz-selection { background: $titanWhite; color: $aztec; }
     &::selection { background: $titanWhite; color: $aztec; }
   }
@@ -647,7 +648,8 @@ div.tooltip-content {
     li {
       list-style: none;
       padding-left: 1.75rem;
-      margin-bottom: 1rem;
+      margin-bottom: 0;
+      margin-left: 1rem;
       font-size: 1.125rem;
       font-weight: 400;
       line-height: leading(35, 18);
