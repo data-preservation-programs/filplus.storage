@@ -159,11 +159,6 @@ export default {
   height: toRem(17);
 }
 
-.icon-kyc-success {
-  width: toRem(15);
-  height: toRem(15);
-}
-
 .icon-link-external {
   width: toRem(13);
   height: toRem(13);
@@ -189,6 +184,7 @@ export default {
 }
 
 .theme__full {
+  height: toRem(40);
   padding: 3px toRem(22) 3px 3px;
   background-color: rgba(175, 142, 81, 0.6);
   border: 2px solid $laser;
@@ -220,7 +216,9 @@ export default {
   //   color: $nandor;
   // }
   .link-text {
+    font-size: toRem(14);
     font-weight: 500;
+    line-height: 1;
   }
   .icon-kyc-success,
   .icon-kyc-verifying {
@@ -237,8 +235,8 @@ export default {
     }
   }
   .icon-kyc-success {
-    width: 2.5rem;
-    height: 2.5rem;
+    width: toRem(30);
+    height: toRem(30);
   }
 }
 </style>

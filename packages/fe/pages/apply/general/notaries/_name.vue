@@ -321,7 +321,7 @@ export default {
   flex-direction: row;
   align-items: center;
   .button-x {
-    margin-left: 3.125rem;
+    margin-left: 2rem;
   }
 }
 

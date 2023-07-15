@@ -302,6 +302,7 @@ export default {
 }
 
 .button.site-nav-cta {
+  height: toRem(35);
   .text {
     font-size: toRem(14);
     font-weight: 500;
