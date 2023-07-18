@@ -6,7 +6,7 @@
       :heading="heading"
       heading-cols="col-12"
       content-direction="horizontal"
-      background-image="block-backsplash.jpg" />
+      background-image="column-backsplash.jpg" />
 
     <!-- =============================================================== FAQ -->
     <div id="section-content">
@@ -124,12 +124,8 @@ export default {
   overflow: hidden;
 }
 
-.overlay.type__noise {
-  z-index: 5;
-}
-
 // //////////////////////////////////////////////////////////////////////// Hero
-::v-deep #hero {
+:deep(#hero) {
   .heading {
     @include medium {
       flex-direction: column;
@@ -147,7 +143,7 @@ export default {
     }
   }
   .overlay.type__opaque {
-    background-color: rgba(15, 31, 26, 0.9);
+    background-color: rgba(15, 31, 26, 0.975);
   }
 }
 
