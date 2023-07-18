@@ -86,7 +86,7 @@ export default {
     onKycPage () {
       return this.$route.path.includes('kyc')
     },
-    status () { // 'unverified', 'verifying', 'failure', 'success'
+    status () { // 'unverified', 'verifying', 'failure', 'success', 'approve'
       const kyc = this.account.kyc
       if (!kyc) { return 'unverified' }
       return kyc.event
@@ -102,10 +102,9 @@ export default {
     },
     kycButtonType () {
       const status = this.status
-      if (status === 'success' || (this.onKycPage && !this.goToTogggle)) { return 'div' }
+      if (status === 'success' || status === 'approve' || (this.onKycPage && !this.goToTogggle)) { return 'div' }
       if (!this.goToTogggle) { return 'nuxt-link' }
-      // return status === 'success' || status === 'failure' ? 'div' : 'a'
-      return status === 'success' ? 'div' : 'a'
+      return 'a'
     },
     kycButtonTarget () {
       if (this.onKycPage) { return '_blank' }
@@ -115,7 +114,7 @@ export default {
       return this.siteContent.general.navigation.kyc_button
     },
     kycButton () {
-      return this.kycButtonContent[this.status]
+      return this.kycButtonContent[this.status] || this.kycButtonContent.default
     },
     text () {
       return this.kycButton.text
@@ -172,7 +171,7 @@ export default {
 
 // ////////////////////////////////////////////////////////////////////// Themes
 .theme__bare {
-  &:not(.success) {
+  &:not(.success):not(.approve) {
     .icon-kyc-success {
       display: none;
     }
@@ -193,14 +192,15 @@ export default {
   &:hover {
     transform: scale(1.05);
   }
-  &:not(.success) {
+  &:not(.success):not(.approve) {
     color: $greenYellow;
   }
   &.unverified,
   &.failure {
     // padding: 3px toRem(17);
   }
-  &.success/*,
+  &.success,
+  &.approve/*,
   &.failure*/ {
     cursor: no-drop;
     &:hover {
