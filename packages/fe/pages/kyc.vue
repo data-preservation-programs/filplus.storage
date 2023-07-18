@@ -143,7 +143,7 @@ export default {
     }
   }
   .overlay.type__opaque {
-    background-color: rgba(15, 31, 26, 0.975);
+    background-color: rgba(15, 31, 26, 0.95);
   }
 }
 
