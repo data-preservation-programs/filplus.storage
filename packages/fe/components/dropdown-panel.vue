@@ -59,6 +59,12 @@ export default {
     }
   },
 
+  watch: {
+    panelOpen (state) {
+      this.$emit('dropdownPanelToggled', state)
+    }
+  },
+
   methods: {
     togglePanel () {
       if (this.toggleOn === 'click') {

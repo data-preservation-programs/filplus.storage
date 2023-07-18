@@ -1,6 +1,6 @@
 <template>
   <div id="notifications">
-    <DropdownPanel>
+    <DropdownPanel @dropdownPanelToggled="dropdownPanelToggled">
 
       <!-- =================================================== Toggle button -->
       <template #toggle-button="{ togglePanel, panelOpen }">
@@ -86,8 +86,12 @@
         <footer v-if="notificationsFound" class="footer">
           <button
             class="mark-all-as-read-button"
+            :disabled="!newNotificationsExist"
+            data-tooltip="☀️ you're all caught up"
             @click="markAllNotificationsAsRead">
-            Mark all as read
+            <div class="mark-all-as-read-button-content">
+              Mark all as read
+            </div>
           </button>
           <div class="pagination">
             <button
@@ -251,6 +255,9 @@ export default {
     iteratePage (action, page) {
       if ((action === 'prev' && this.prevPageDisabled) || (action === 'next' && this.nextPageDisabled)) { return }
       this.getNotificationList(page)
+    },
+    dropdownPanelToggled (state) {
+      this.$emit('dropdownPanelToggled', { panel: 'notification', state })
     }
   }
 }
@@ -276,7 +283,6 @@ export default {
   &.panel-open {
     transition: 150ms ease-in;
     transform: scale(1.15);
-    border-color: $greenYellow;
   }
   &:hover {
     &.panel-open {
@@ -471,6 +477,9 @@ export default {
 .notifications-list {
   max-height: 28rem;
   overflow-y: scroll;
+  @include small {
+    max-height: 24rem;
+  }
 }
 
 .notification {
@@ -563,7 +572,7 @@ export default {
   border-top: 2px solid $greenYellow;
 }
 
-.mark-all-as-read-button,
+.mark-all-as-read-button-content,
 .prev,
 .page,
 .next {
@@ -575,17 +584,55 @@ export default {
 $offset: calc(#{toRem(19)} + #{toRem(math.div(10, 2))} + #{toRem(5)});
 
 .mark-all-as-read-button {
-  transition: 150ms ease-out;
-  &:hover {
+  &[data-tooltip] {
+    &:hover {
+      &:before {
+        transform: rotate(180deg) translate(50%, 0);
+      }
+      &:after {
+        transform: translate(-50%, 0);
+      }
+    }
+    &:before,
+    &:after {
+      top: auto;
+      z-index: 1000;
+    }
     &:before {
-      transition: 150ms ease-in;
-      transform: scale(1.3);
+      bottom: calc(100% + 2px);
+      transform: rotate(180deg) translate(50%, 1rem);
     }
     &:after {
-      transition: 150ms ease-in;
-      width: calc(100% - #{$offset});
+      bottom: calc(100% + 0.5rem);
+      transform: translate(-50%, -0.5rem);
     }
   }
+  &:not([disabled]) {
+    .mark-all-as-read-button-content {
+      transition: 150ms ease-in;
+      cursor: pointer;
+      opacity: 1;
+      &:hover {
+        &:before {
+          transition: 150ms ease-in;
+          transform: scale(1.3);
+        }
+        &:after {
+          transition: 150ms ease-in;
+          width: calc(100% - #{$offset});
+        }
+      }
+    }
+    [data-tooltip] {
+      display: none;
+    }
+  }
+}
+
+.mark-all-as-read-button-content {
+  transition: 150ms ease-out;
+  cursor: no-drop;
+  opacity: 0.5;
   &:after {
     content: '';
     position: absolute;

@@ -77,9 +77,12 @@ export default {
 <style lang="scss" scoped>
 // ///////////////////////////////////////////////////////////////////// General
 .button {
-  display: inline-block;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
   position: relative;
-  padding: toRem(14) 1.25rem;
+  height: toRem(40);
+  padding: 0 toRem(21);
   border-radius: 3rem;
   line-height: 1;
   white-space: nowrap;
@@ -87,6 +90,10 @@ export default {
   &:not([disabled]) {
     &:hover {
       transform: scale(1.05);
+      &:active {
+        transition: 100ms ease-in;
+        transform: scale(0.95);
+      }
     }
     &:focus-visible {
       @include focusBoxShadow;
@@ -120,6 +127,8 @@ export default {
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  height: 100%;
+  font-size: toRem(14);
   font-weight: 500;
   line-height: 1;
   &.hide {

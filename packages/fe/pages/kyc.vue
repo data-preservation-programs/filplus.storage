@@ -6,7 +6,7 @@
       :heading="heading"
       heading-cols="col-12"
       content-direction="horizontal"
-      background-image="block-backsplash.jpg" />
+      background-image="column-backsplash.jpg" />
 
     <!-- =============================================================== FAQ -->
     <div id="section-content">
@@ -30,7 +30,7 @@
             theme="full"
             class="kyc-link" />
 
-          <AuthPanel v-else />
+          <LoginButton />
 
           <div class="partner-text">
             {{ partnerText }}
@@ -64,7 +64,7 @@ import Overlay from '@/components/overlay'
 import Squigglie from '@/components/squigglie'
 import KycButton from '@/components/kyc-button'
 import LogoTogggle from '@/components/logo-togggle'
-import AuthPanel from '@/components/auth-panel'
+import LoginButton from '@/components/navigation/button-login'
 
 import KycPageData from '@/content/pages/kyc.json'
 import KycContent from '@/content/markdown/kyc.md'
@@ -80,7 +80,7 @@ export default {
     Squigglie,
     KycButton,
     LogoTogggle,
-    AuthPanel
+    LoginButton
   },
 
   data () {
@@ -124,12 +124,8 @@ export default {
   overflow: hidden;
 }
 
-.overlay.type__noise {
-  z-index: 5;
-}
-
 // //////////////////////////////////////////////////////////////////////// Hero
-::v-deep #hero {
+:deep(#hero) {
   .heading {
     @include medium {
       flex-direction: column;
@@ -147,7 +143,7 @@ export default {
     }
   }
   .overlay.type__opaque {
-    background-color: rgba(15, 31, 26, 0.9);
+    background-color: rgba(15, 31, 26, 0.95);
   }
 }
 
@@ -176,7 +172,7 @@ export default {
 }
 
 .kyc-link,
-.auth-panel {
+.login-button {
   margin-top: 5rem;
 }
 

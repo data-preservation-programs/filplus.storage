@@ -127,6 +127,7 @@ MC.app.post('/submit-application', async (req, res) => {
         issueId: githubIssue.id,
         issueNumber: githubIssue.number,
         issueTitle: githubIssue.title,
+        issueUrl: githubIssue.html_url,
         state: 'new',
         labels: '[]'
       }
