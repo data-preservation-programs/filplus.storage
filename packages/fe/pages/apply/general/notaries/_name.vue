@@ -32,15 +32,15 @@
           </div>
 
           <FieldContainer
-            :scaffold="formScaffold.organization_name"
-            field-key="organization_name"
+            :scaffold="formScaffold.data_owner_name"
+            field-key="data_owner_name"
             form-id="filplus_application" />
 
           <HubspotOptInFields />
 
           <FieldContainer
-            :scaffold="formScaffold.organization_website"
-            field-key="organization_website"
+            :scaffold="formScaffold.website"
+            field-key="website"
             form-id="filplus_application" />
 
           <FieldContainer
@@ -54,14 +54,14 @@
       <div class="grid z-index-50">
         <div class="col-6_md-6_ti-7 z-index-100" data-push-left="off-1_ti-0">
           <FieldContainer
-            :scaffold="formScaffold.organization_social_media_handle"
-            field-key="organization_social_media_handle"
+            :scaffold="formScaffold.social_media_handle"
+            field-key="social_media_handle"
             form-id="filplus_application" />
         </div>
         <div class="col-2_md-3_ti-4" data-push-left="off-1">
           <FieldContainer
-            :scaffold="formScaffold.organization_social_media_handle_type"
-            field-key="organization_social_media_handle_type"
+            :scaffold="formScaffold.social_media_handle_type"
+            field-key="social_media_handle_type"
             form-id="filplus_application" />
         </div>
       </div>

@@ -34,8 +34,8 @@
           </div>
 
           <FieldContainer
-            :scaffold="formScaffold.organization_name"
-            field-key="organization_name"
+            :scaffold="formScaffold.data_owner_name"
+            field-key="data_owner_name"
             form-id="filplus_application" />
 
           <HubspotOptInFields />
@@ -56,7 +56,7 @@
             form-id="filplus_application" />
 
           <FieldContainer
-            :scaffold="formScaffold.organization_website"
+            :scaffold="formScaffold.website"
             field-key="organization_website"
             form-id="filplus_application" />
 
@@ -66,14 +66,14 @@
       <div class="grid">
         <div class="col-6_md-6_ti-7" data-push-left="off-1_ti-0">
           <FieldContainer
-            :scaffold="formScaffold.organization_social_media_handle"
-            field-key="organization_social_media_handle"
+            :scaffold="formScaffold.social_media_handle"
+            field-key="social_media_handle"
             form-id="filplus_application" />
         </div>
         <div class="col-2_md-3_ti-4" data-push-left="off-1">
           <FieldContainer
-            :scaffold="formScaffold.organization_social_media_handle_type"
-            field-key="organization_social_media_handle_type"
+            :scaffold="formScaffold.social_media_handle_type"
+            field-key="social_media_handle_type"
             form-id="filplus_application" />
         </div>
       </div>
@@ -138,11 +138,6 @@
             form-id="filplus_application" />
 
           <FieldContainer
-            :scaffold="formScaffold.custom_multisig"
-            field-key="custom_multisig"
-            form-id="filplus_application" />
-
-          <FieldContainer
             :scaffold="formScaffold.application_data_type"
             field-key="application_data_type"
             form-id="filplus_application" />
@@ -170,8 +165,8 @@
           </div>
 
           <FieldContainer
-            :scaffold="formScaffold.about"
-            field-key="about"
+            :scaffold="formScaffold.project_details"
+            field-key="project_details"
             form-id="filplus_application" />
 
           <FieldContainer
@@ -200,13 +195,33 @@
             form-id="filplus_application" />
 
           <FieldContainer
-            :scaffold="formScaffold.data_preparation_plan_select"
-            field-key="data_preparation_plan_select"
+            :scaffold="formScaffold.data_preparer_radio"
+            field-key="data_preparer_radio"
             form-id="filplus_application" />
 
           <FieldContainer
-            :scaffold="formScaffold.data_preparation_plan_textarea"
-            field-key="data_preparation_plan_textarea"
+            :scaffold="formScaffold.data_preparer_location"
+            field-key="data_preparer_location"
+            form-id="filplus_application" />
+
+          <FieldContainer
+            :scaffold="formScaffold.data_preparer_preparation_plan"
+            field-key="data_preparer_preparation_plan"
+            form-id="filplus_application" />
+
+          <FieldContainer
+            :scaffold="formScaffold.general_preparation_plan"
+            field-key="general_preparation_plan"
+            form-id="filplus_application" />
+
+          <FieldContainer
+            :scaffold="formScaffold.data_stored_before_radio"
+            field-key="data_stored_before_radio"
+            form-id="filplus_application" />
+
+          <FieldContainer
+            :scaffold="formScaffold.dataset_stored_before_textarea"
+            field-key="dataset_stored_before_textarea"
             form-id="filplus_application" />
 
           <FieldContainer
@@ -246,8 +261,8 @@
             form-id="filplus_application" />
 
           <FieldContainer
-            :scaffold="formScaffold.sending_data"
-            field-key="sending_data"
+            :scaffold="formScaffold.data_distribution"
+            field-key="data_distribution"
             form-id="filplus_application" />
 
           <FieldContainer

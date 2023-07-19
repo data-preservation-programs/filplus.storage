@@ -1,3 +1,4 @@
+/* eslint-disable */
 console.log('💡 [endpoint] /submit-application')
 
 // ///////////////////////////////////////////////////////////////////// Imports
@@ -22,7 +23,7 @@ const processTemplate = async (type, application) => {
       if (value) {
         value = (`${value}` || '').replace(regexp, '[at]')
       }
-      if (key === 'organization_website') {
+      if (key === 'website') {
         template = template.replaceAll(key, value)
       } else {
         template = template.replace(key, value)
@@ -49,7 +50,7 @@ const checkIfUserOptedInToHubspot = (application) => {
 // /////////////////////////////////////////////////////////// submitApplication
 const submitApplication = async (type, stage, template, application, repo, options) => {
   try {
-    const orgName = application.organization_name
+    const orgName = application.data_owner_name
     const title = type === 'ga' ? `Client Allocation Request for: ${orgName}` : `[DataCap Application] ${orgName}`
     const body = { title, body: template }
     const response = await Axios.post(`https://api.github.com/repos/${repo}/issues`, body, options)
@@ -100,6 +101,8 @@ MC.app.post('/submit-application', async (req, res) => {
       console.log(application)
       console.log(template)
     }
+    SendData(res, 200, 'Application submitted succesfully', application)
+    return
     // ------------------------------------------- submit/update Hubspot contact
     const userOptedIn = checkIfUserOptedInToHubspot(application)
     if ((!user.hubspotOptIn && userOptedIn) || user.hubspotOptInContactId) {
@@ -107,7 +110,7 @@ MC.app.post('/submit-application', async (req, res) => {
         email: application.hubspot_opt_in_email,
         firstname: application.hubspot_opt_in_first_name,
         lastname: application.hubspot_opt_in_last_name,
-        company: application.organization_name,
+        company: application.data_owner_name,
         fil__application_region: application.ga_region || application.data_owner_region,
         fil__application_datacap_requested: `${application.total_datacap_size} ${application.total_datacap_size_unit}`,
         filecoin_wallet_address: application.filecoin_address
