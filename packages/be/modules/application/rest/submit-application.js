@@ -13,7 +13,7 @@ const MC = require('@Root/config')
 // /////////////////////////////////////////////////////////////////// Functions
 // -----------------------------------------------------------------------------
 // ///////////////////////////////////////////////////////////// processTemplate
-const processTemplate = async (type, application) => {
+const processTemplate = async (type, application, labels) => {
   try {
     let template = await GetFileFromDisk(`${MC.staticRoot}/${type}-template.md`)
     template = template.toString()
@@ -29,6 +29,8 @@ const processTemplate = async (type, application) => {
         template = template.replace(key, value)
       }
     })
+    template = template.replace('custom_multisig', labels.includes('efil+') ? '- [x] Use Custom Multisig' : '- [ ] Use Custom Multisig')
+    template = template.replace('identifier', labels.includes('efil+') ? 'efil' : '')
     return template
   } catch (e) {
     console.log('================================= [Function: processTemplate]')
@@ -91,7 +93,7 @@ MC.app.post('/submit-application', async (req, res) => {
     if (!identifier) { return SendData(res, 403, 'You are not logged in') }
     const user = await MC.model.User.findById(identifier.userId)
     // ---------------------------------------- populate markdown issue template
-    const template = await processTemplate(type, application)
+    const template = await processTemplate(type, application, labels)
     if (MC.serverFlag !== 'production') {
       console.log('===========================================================')
       console.log(`type → ${type} | stage → ${stage}`)
@@ -101,8 +103,6 @@ MC.app.post('/submit-application', async (req, res) => {
       console.log(application)
       console.log(template)
     }
-    SendData(res, 200, 'Application submitted succesfully', application)
-    return
     // ------------------------------------------- submit/update Hubspot contact
     const userOptedIn = checkIfUserOptedInToHubspot(application)
     if ((!user.hubspotOptIn && userOptedIn) || user.hubspotOptInContactId) {

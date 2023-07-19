@@ -64,8 +64,8 @@ const state = () => ({
     replication_plan_select: null,
     replication_plan_textarea: null,
     confirm_follow_fil_guideline: null,
-    custom_multisig: null,
-    identifier: null,
+    custom_multisig: null, // these are populated on the backend, not used in the form
+    identifier: null, // these are populated on the backend, not used in the form
     // Hubspot
     hubspot_opt_in_email: null,
     hubspot_opt_in_first_name: null,
@@ -136,7 +136,6 @@ const actions = {
       }, {
         params: { stage }
       })
-      console.log(response.data.payload)
       await dispatch('setGithubIssue', response.data.payload)
       await this.dispatch('auth/getAccount', this.getters['auth/account']._id)
       this.$button('application-submit-button').set({ loading: false })
@@ -146,7 +145,7 @@ const actions = {
         message: 'Application submitted successfully'
       })
       this.$gtm.push({ event: `success_${stage}` })
-      // this.$router.push('/apply/success')
+      this.$router.push('/apply/success')
     } catch (e) {
       console.log('================= [Store Action: account/submitApplication]')
       console.log(e)
