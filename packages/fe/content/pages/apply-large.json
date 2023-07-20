@@ -31,11 +31,11 @@
       "submit_button_text": "Send Request",
       "github_issue_link_text": "View Issue on Github",
       "scaffold": {
-        "organization_name": {
+        "data_owner_name": {
           "type": "input",
           "inputType": "text",
-          "modelKey": "organization_name",
-          "label": "Organization Name",
+          "modelKey": "data_owner_name",
+          "label": "Data Owner Name",
           "placeholder": "ABC Inc.",
           "tooltip": "Provide the name of your group or organization.",
           "required": true,
@@ -115,10 +115,10 @@
           "defaultValue": "",
           "isSingleOption": true
         },
-        "organization_website": {
+        "website": {
           "type": "input",
           "inputType": "text",
-          "modelKey": "organization_website",
+          "modelKey": "website",
           "label": "Organization Website",
           "placeholder": "https://foo.com",
           "tooltip": "Provide the full URL of your group or organization's website",
@@ -136,10 +136,10 @@
           },
           "defaultValue": ""
         },
-        "organization_social_media_handle": {
+        "social_media_handle": {
           "type": "input",
           "inputType": "text",
-          "modelKey": "organization_social_media_handle",
+          "modelKey": "social_media_handle",
           "label": "Organization Social Media Handle",
           "placeholder": "@foo",
           "tooltip": "Provide the social media handle or full social media URL for your organization or group",
@@ -156,10 +156,10 @@
           },
           "defaultValue": ""
         },
-        "organization_social_media_handle_type": {
+        "social_media_handle_type": {
           "type": "input",
           "inputType": "text",
-          "modelKey": "organization_social_media_handle_type",
+          "modelKey": "social_media_handle_type",
           "label": "Social Media Type",
           "placeholder": "Twitter",
           "required": true,
@@ -288,7 +288,7 @@
           "modelKey": "weekly_data_size",
           "label": "Weekly allocation of DataCap",
           "placeholder": "1",
-          "tooltip": "How much of the DataCap you're requesting will you need on a weekly basis? Must be at least 1 TiB.",
+          "tooltip": "How much of the DataCap you're requesting will you need on a weekly basis? This amount is usually between 1 TiB and 1000 TiB.",
           "min": 1,
           "required": true,
           "pre": "[^\\u0000-\\u00ff]",
@@ -325,8 +325,9 @@
           "inputType": "text",
           "modelKey": "filecoin_address",
           "label": "Filecoin Address",
+          "description": "Provide your Filecoin wallet address, which will usually begin with f1 or f3 for addresses on the mainnet",
           "placeholder": "f...",
-          "tooltip": "Provide your Filecoin wallet address, which will usually begin with f1 or f3 for addresses on the mainnet",
+          "tooltip": "Make sure the address exists on the chain",
           "required": true,
           "pre": "[^\\u0000-\\u00ff]",
           "autocomplete": "none",
@@ -359,25 +360,9 @@
           "defaultValue": "",
           "isSingleOption": true
         },
-        "custom_multisig": {
-          "type": "checkbox",
-          "modelKey": "custom_multisig",
-          "label": "Use custom Multisig",
-          "description": "Check this box off if you have explicitly been asked to by the governance team",
-          "output": "option",
-          "validationMessage": {
-            "required": "This field is required"
-          },
-          "options": [
-            { "label": "Use Custom Multisig" }
-          ],
-          "defaultValue": "",
-          "baseValue": "No",
-          "isSingleOption": true
-        },
-        "about": {
+        "project_details": {
           "type": "textarea",
-          "modelKey": "about",
+          "modelKey": "project_details",
           "label": "About your project and organization",
           "placeholder": "Briefly share some information about your project including your organization's history",
           "required": true,
@@ -438,7 +423,8 @@
           "type": "textarea",
           "modelKey": "nature_of_data",
           "label": "Nature of the data",
-          "placeholder": "Describe the data that will be stored on Filecoin",
+          "description": "Describe the data that will be stored on Filecoin",
+          "placeholder": "Nature of the data",
           "tooltip": "",
           "required": true,
           "pre": "[^\\u0000-\\u00ff]",
@@ -497,53 +483,141 @@
           },
           "defaultValue": ""
         },
-        "data_preparation_plan_select": {
-          "type": "select",
-          "modelKey": "data_preparation_plan_select",
-          "label": "Data preparation plan",
-          "description": "How do you plan to prepare the dataset?",
+        "data_preparer_radio": {
+          "type": "radio",
+          "modelKey": "data_preparer_radio",
+          "label": "Are you the data preparer?",
+          "description": "Are you or your organization in charge of preparing the dataset?",
           "required": true,
           "output": "option",
           "validationMessage": {
             "required": "This field is required"
           },
           "options": [
-            { "label": "None" },
-            { "label": "IPFS" },
-            { "label": "lotus" },
-            { "label": "venus" },
-            { "label": "singularity" },
-            { "label": "graphsplit" },
-            { "label": "I don't know yet" },
-            { "label": "others/custom tool" }
+            { "label": "Yes" },
+            { "label": "No" }
           ],
-          "defaultValue": "",
-          "isSingleOption": true
+          "defaultValue": ""
         },
-        "data_preparation_plan_textarea": {
-          "type": "textarea",
-          "modelKey": "data_preparation_plan_textarea",
-          "placeholder": "Enter the details here",
+        "data_preparer_location": {
+          "type": "input",
+          "inputType": "text",
+          "modelKey": "data_preparer_location",
+          "label": "What is your location (City and Country)",
+          "description": "",
+          "placeholder": "London, England",
           "tooltip": "",
+          "required": false,
           "pre": "[^\\u0000-\\u00ff]",
           "autocomplete": "none",
-          "required": true,
           "conditions": [
             {
-              "fieldKey": "data_preparation_plan_select",
-              "value": 7
+              "fieldKey": "data_preparer_radio",
+              "value": 0
             }
           ],
           "chars": {
             "min": 2,
-            "max": 1000
+            "max": 300
           },
           "validationMessage": {
             "required": "This field is required",
-            "chars": "Input must be between 2 and 35 characters"
+            "chars": "Input must be between 2 and 300 characters"
           },
-          "defaultValue": "",
-          "isSingleOption": true
+          "defaultValue": ""
+        },
+        "data_preparer_preparation_plan": {
+          "type": "textarea",
+          "modelKey": "data_preparer_preparation_plan",
+          "label": "How will the data be prepared?",
+          "description": "Please include tooling used and technical details",
+          "placeholder": "Enter the details here",
+          "tooltip": "",
+          "pre": "[^\\u0000-\\u00ff]",
+          "autocomplete": "none",
+          "required": false,
+          "conditions": [
+            {
+              "fieldKey": "data_preparer_radio",
+              "value": 0
+            }
+          ],
+          "chars": {
+            "min": 2,
+            "max": 5000
+          },
+          "validationMessage": {
+            "required": "This field is required",
+            "chars": "Input must be between 2 and 5000 characters"
+          },
+          "defaultValue": ""
+        },
+        "general_preparation_plan": {
+          "type": "textarea",
+          "modelKey": "general_preparation_plan",
+          "label": "Who will prepare the data?",
+          "description": "Provide name and business",
+          "placeholder": "Enter the details here",
+          "tooltip": "",
+          "pre": "[^\\u0000-\\u00ff]",
+          "autocomplete": "none",
+          "required": false,
+          "conditions": [
+            {
+              "fieldKey": "data_preparer_radio",
+              "value": 1
+            }
+          ],
+          "chars": {
+            "min": 2,
+            "max": 5000
+          },
+          "validationMessage": {
+            "required": "This field is required",
+            "chars": "Input must be between 2 and 5000 characters"
+          },
+          "defaultValue": ""
+        },
+        "data_stored_before_radio": {
+          "type": "radio",
+          "modelKey": "data_stored_before_radio",
+          "label": "Has this dataset been stored on the Filecoin network before?",
+          "description": "",
+          "required": true,
+          "output": "option",
+          "validationMessage": {
+            "required": "This field is required"
+          },
+          "options": [
+            { "label": "Yes" },
+            { "label": "No" }
+          ],
+          "defaultValue": ""
+        },
+        "dataset_stored_before_textarea": {
+          "type": "textarea",
+          "modelKey": "dataset_stored_before_textarea",
+          "description": "Please explain and make the case why you would like to store this dataset on the network again.",
+          "placeholder": "Enter the details here",
+          "tooltip": "Provide details on preparation and/or SP distribution",
+          "pre": "[^\\u0000-\\u00ff]",
+          "autocomplete": "none",
+          "required": false,
+          "conditions": [
+            {
+              "fieldKey": "data_stored_before_radio",
+              "value": 0
+            }
+          ],
+          "chars": {
+            "min": 2,
+            "max": 5000
+          },
+          "validationMessage": {
+            "required": "This field is required",
+            "chars": "Input must be between 2 and 5000 characters"
+          },
+          "defaultValue": ""
         },
         "data_sample": {
           "type": "textarea",
@@ -668,9 +742,9 @@
           ],
           "defaultValue": ""
         },
-        "sending_data": {
+        "data_distribution": {
           "type": "select",
-          "modelKey": "sending_data",
+          "modelKey": "data_distribution",
           "label": "Sending data",
           "description": "How will you be distributing your data to storage providers?",
           "required": true,

@@ -140,7 +140,7 @@ export default {
 <style lang="scss" scoped>
 // ///////////////////////////////////////////////////////////////////// General
 .kyc-button {
-  display: inline-block;
+  display: block;
 }
 
 :deep(.button-content) {
@@ -153,9 +153,10 @@ export default {
   display: flex;
 }
 
-.icon-kyc-verifying {
-  width: toRem(17);
-  height: toRem(17);
+.icon-kyc-verifying,
+.icon-kyc-success {
+  width: toRem(15);
+  height: toRem(15);
 }
 
 .icon-link-external {
