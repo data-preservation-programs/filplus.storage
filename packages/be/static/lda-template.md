@@ -58,7 +58,7 @@ source_of_data_select
 ### If you answered "Other" in the previous question, enter the details here
 source_of_data_textarea
 
-### If you are a data preparer. What is your location (City and Country)
+### If you are a data preparer, what is your location (City and Country)
 data_preparer_location
 
 ### If you are a data preparer, how will the data be prepared? Please include tooling used and technical details?

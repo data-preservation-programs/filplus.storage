@@ -1,3 +1,4 @@
+/* eslint-disable */
 console.log('💡 [endpoint] /submit-application')
 
 // ///////////////////////////////////////////////////////////////////// Imports
@@ -16,6 +17,8 @@ const processTemplate = async (type, application, labels) => {
   try {
     let template = await GetFileFromDisk(`${MC.staticRoot}/${type}-template.md`)
     template = template.toString()
+    template = template.replace('custom_multisig', labels.includes('efil+') ? '- [x] Use Custom Multisig' : '- [ ] Use Custom Multisig')
+    template = template.replace('identifier', labels.includes('efil+') ? 'efil' : '')
     Object.keys(application).forEach((key) => {
       const regexp = /(?<=\s|^)@(?=[\w]+)/g
       let value = application[key] || 'n/a'
@@ -28,8 +31,6 @@ const processTemplate = async (type, application, labels) => {
         template = template.replace(key, value)
       }
     })
-    template = template.replace('custom_multisig', labels.includes('efil+') ? '- [x] Use Custom Multisig' : '- [ ] Use Custom Multisig')
-    template = template.replace('identifier', labels.includes('efil+') ? 'efil' : '')
     return template
   } catch (e) {
     console.log('================================= [Function: processTemplate]')
