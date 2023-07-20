@@ -18,48 +18,58 @@ const state = () => ({
     ga: false
   },
   application: {
-    organization_name: null,
+    // LDA & GA
+    data_owner_name: null,
+    website: null,
+    social_media_handle: null,
+    social_media_handle_type: null,
+    total_datacap_size_input: null,
+    total_datacap_size_unit: null,
+    filecoin_address: null,
+    // GA
+    notary: null,
+    ga_region: null,
+    // LDA
     your_role: null,
     data_owner_region: null,
     data_owner_industry: null,
-    organization_website: null,
-    organization_social_media_handle: null,
-    organization_social_media_handle_type: null,
-    total_datacap_size: null,
-    total_datacap_size_unit: null,
     total_size_of_single_dataset_one_copy: null,
     total_size_of_single_dataset_one_copy_unit: null,
     number_of_replicas: null,
     weekly_data_size: null,
     weekly_data_size_unit: null,
-    filecoin_address: null,
-    custom_multisig: null,
-    about: null,
-    source_of_data_select: null,
+    application_data_type: null,
+    project_details: null,
+    ecosystem_associates_radio: null,
     ecosystem_associates_textarea: null,
     nature_of_data: null,
-    source_of_data_radio: null,
+    source_of_data_select: null,
     source_of_data_textarea: null,
-    data_preparation_plan_select: null,
-    data_preparation_plan_textarea: null,
+    data_preparer_radio: null,
+    data_preparer_location: null,
+    data_preparer_preparation_plan: null,
+    general_preparation_plan: null,
+    data_stored_before_radio: null,
+    dataset_stored_before_textarea: null,
     data_sample: null,
+    public_availability_radio: null,
+    public_availability_textarea: null,
     frequency_of_retrieval: null,
     duration_of_storage: null,
     geographic_distribution: null,
-    sending_data: null,
+    data_distribution: null,
     storage_provider_selection_plan_select: null,
     storage_provider_selection_plan_input: null,
     storage_provider_selection_plan_textarea: null,
     replication_plan_select: null,
     replication_plan_textarea: null,
-    notary: null,
-    ga_region: null,
-    public_availability_radio: null,
-    public_availability_textarea: null,
+    confirm_follow_fil_guideline: null,
+    custom_multisig: null, // these are populated on the backend, not used in the form
+    identifier: null, // these are populated on the backend, not used in the form
+    // Hubspot
     hubspot_opt_in_email: null,
     hubspot_opt_in_first_name: null,
-    hubspot_opt_in_last_name: null,
-    confirm_follow_fil_guideline: null
+    hubspot_opt_in_last_name: null
   },
   applyFormHighlighted: false,
   githubIssue: false,
@@ -113,6 +123,7 @@ const actions = {
     }
     if (application.public_availability_radio === 'No') {
       if (!labels.includes('efil+')) { labels.push('efil+') }
+      if (!assignees.includes('kevzak')) { assignees.push('kevzak') }
       comments.push('This application is requesting DataCap for a **private** dataset, so it\'s labeled `efil+`')
     }
     try {

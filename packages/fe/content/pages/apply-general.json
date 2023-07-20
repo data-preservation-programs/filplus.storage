@@ -28,10 +28,10 @@
       "submit_button_text": "Send Request",
       "github_issue_link_text": "View Issue on Github",
       "scaffold": {
-        "organization_name": {
+        "data_owner_name": {
           "type": "input",
           "inputType": "text",
-          "modelKey": "organization_name",
+          "modelKey": "data_owner_name",
           "label": "Organization Name",
           "placeholder": "ABC Inc.",
           "tooltip": "Provide the name of your group or organization.",
@@ -48,10 +48,10 @@
           },
           "defaultValue": ""
         },
-        "organization_website": {
+        "website": {
           "type": "input",
           "inputType": "text",
-          "modelKey": "organization_website",
+          "modelKey": "website",
           "label": "Organization Website",
           "placeholder": "https://foo.com",
           "tooltip": "Enter the full URL of your group or organization's website.",
@@ -83,10 +83,10 @@
           "defaultValue": "",
           "isSingleOption": true
         },
-        "organization_social_media_handle": {
+        "social_media_handle": {
           "type": "input",
           "inputType": "text",
-          "modelKey": "organization_social_media_handle",
+          "modelKey": "social_media_handle",
           "label": "Organization Social Media Handle",
           "placeholder": "@foo",
           "tooltip": "Provide the social media handle or full social media URL for your organization or group",
@@ -103,10 +103,10 @@
           },
           "defaultValue": ""
         },
-        "organization_social_media_handle_type": {
+        "social_media_handle_type": {
           "type": "input",
           "inputType": "text",
-          "modelKey": "organization_social_media_handle_type",
+          "modelKey": "social_media_handle_type",
           "label": "Social Media Type",
           "placeholder": "Twitter",
           "required": true,

@@ -51,7 +51,7 @@
             </div>
 
             <!-- ===== auth -->
-            <LoginButton />
+            <LoginButton class="login-button" />
             <template v-if="account">
               <ProfilePanel toggle-on="hover" />
               <NotificationPanel />
@@ -294,14 +294,16 @@ export default {
   }
 }
 
-.profile-panel {
-  margin-left: 2rem;
+.login-button,
+#profile {
+  margin-left: 1rem;
   @include medium {
     margin-left: 1rem;
   }
 }
 
 .button.site-nav-cta {
+  height: toRem(35);
   .text {
     font-size: toRem(14);
     font-weight: 500;

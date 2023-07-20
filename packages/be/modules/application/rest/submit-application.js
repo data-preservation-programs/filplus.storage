@@ -12,7 +12,7 @@ const MC = require('@Root/config')
 // /////////////////////////////////////////////////////////////////// Functions
 // -----------------------------------------------------------------------------
 // ///////////////////////////////////////////////////////////// processTemplate
-const processTemplate = async (type, application) => {
+const processTemplate = async (type, application, labels) => {
   try {
     let template = await GetFileFromDisk(`${MC.staticRoot}/${type}-template.md`)
     template = template.toString()
@@ -22,12 +22,14 @@ const processTemplate = async (type, application) => {
       if (value) {
         value = (`${value}` || '').replace(regexp, '[at]')
       }
-      if (key === 'organization_website') {
+      if (key === 'website') {
         template = template.replaceAll(key, value)
       } else {
         template = template.replace(key, value)
       }
     })
+    template = template.replace('custom_multisig', labels.includes('efil+') ? '- [x] Use Custom Multisig' : '- [ ] Use Custom Multisig')
+    template = template.replace('identifier', labels.includes('efil+') ? 'efil' : '')
     return template
   } catch (e) {
     console.log('================================= [Function: processTemplate]')
@@ -49,7 +51,7 @@ const checkIfUserOptedInToHubspot = (application) => {
 // /////////////////////////////////////////////////////////// submitApplication
 const submitApplication = async (type, stage, template, application, repo, options) => {
   try {
-    const orgName = application.organization_name
+    const orgName = application.data_owner_name
     const title = type === 'ga' ? `Client Allocation Request for: ${orgName}` : `[DataCap Application] ${orgName}`
     const body = { title, body: template }
     const response = await Axios.post(`https://api.github.com/repos/${repo}/issues`, body, options)
@@ -90,7 +92,7 @@ MC.app.post('/submit-application', async (req, res) => {
     if (!identifier) { return SendData(res, 403, 'You are not logged in') }
     const user = await MC.model.User.findById(identifier.userId)
     // ---------------------------------------- populate markdown issue template
-    const template = await processTemplate(type, application)
+    const template = await processTemplate(type, application, labels)
     if (MC.serverFlag !== 'production') {
       console.log('===========================================================')
       console.log(`type → ${type} | stage → ${stage}`)
@@ -107,7 +109,7 @@ MC.app.post('/submit-application', async (req, res) => {
         email: application.hubspot_opt_in_email,
         firstname: application.hubspot_opt_in_first_name,
         lastname: application.hubspot_opt_in_last_name,
-        company: application.organization_name,
+        company: application.data_owner_name,
         fil__application_region: application.ga_region || application.data_owner_region,
         fil__application_datacap_requested: `${application.total_datacap_size} ${application.total_datacap_size_unit}`,
         filecoin_wallet_address: application.filecoin_address
@@ -127,6 +129,7 @@ MC.app.post('/submit-application', async (req, res) => {
         issueId: githubIssue.id,
         issueNumber: githubIssue.number,
         issueTitle: githubIssue.title,
+        issueUrl: githubIssue.html_url,
         state: 'new',
         labels: '[]'
       }

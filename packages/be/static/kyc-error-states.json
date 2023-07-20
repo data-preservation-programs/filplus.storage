@@ -1,0 +1,32 @@
+{
+  "BrowserNotSupported": {
+    "labe": "BrowserNotSupported",
+    "description": "This error occurs when the user attempts to perform KYC using a browser that is not supported. To ensure a smooth and secure KYC process, it’s essential to use a supported browser.",
+    "retries": -1
+  },
+  "ProcessError": {
+    "labe": "ProcessError",
+    "description": "The ProcessError indicates a failure in processing the document, selfie, or video during the KYC process. It could be due to various reasons, such as technical issues or errors in the submitted data, preventing the user from proceeding further.",
+    "retries": -1
+  },
+  "DocumentValidationFailed": {
+    "labe": "DocumentValidationFailed",
+    "description": "During the document validation phase, several checks are performed to ensure the authenticity and integrity of the submitted document. These checks include verifying the format, validating the MRZ checksum, cross-referencing data consistency between the visual zone (VIZ) and MRZ, detecting colored photocopies, and identifying print attacks. If any of these checks fail or the overall score is below the threshold, the DocumentValidationFailed error is triggered.",
+    "retries": 1
+  },
+  "SelfieValidationFailed": {
+    "labe": "SelfieValidationFailed",
+    "description": "To enhance security and prevent identity fraud, the user’s selfie is compared with the photo extracted from the submitted document. The facial recognition algorithms evaluate the similarity and matching score between the two images. If the score falls below the predefined threshold, indicating a significant mismatch, the SelfieValidationFailed error is triggered.",
+    "retries": 1
+  },
+  "LifeProofFailed": {
+    "labe": "LifeProofFailed",
+    "description": "Liveness detection is a crucial step to ensure that the user is physically present during the KYC process. By analyzing facial movements and response patterns, the system determines the authenticity of the selfie and verifies that it’s not a pre-recorded or manipulated video. If the liveness detection score is below the set threshold, indicating a potential fraud attempt, the LifeProofFailed error is triggered.",
+    "retries": 1
+  },
+  "IntegrityFailed": {
+    "labe": "IntegrityFailed",
+    "description": "To ensure the integrity of the KYC process, measures like timestamping and image verification are employed. The integrity checks guarantee that the images captured by the SDK are transmitted to the backend application without any modifications or tampering. If any discrepancies or integrity violations are detected, the IntegrityFailed error is triggered.",
+    "retries": 1
+  }
+}
