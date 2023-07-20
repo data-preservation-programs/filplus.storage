@@ -18,7 +18,7 @@ const processTemplate = async (type, application, labels) => {
     let template = await GetFileFromDisk(`${MC.staticRoot}/${type}-template.md`)
     template = template.toString()
     template = template.replace('custom_multisig', labels.includes('efil+') ? '- [x] Use Custom Multisig' : '- [ ] Use Custom Multisig')
-    template = template.replace('identifier', labels.includes('efil+') ? 'efil' : '')
+    template = template.replace('identifier', labels.includes('efil+') ? 'efil' : 'n/a')
     Object.keys(application).forEach((key) => {
       const regexp = /(?<=\s|^)@(?=[\w]+)/g
       let value = application[key] || 'n/a'
