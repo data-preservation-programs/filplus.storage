@@ -596,6 +596,7 @@ $offset: calc(#{toRem(19)} + #{toRem(math.div(10, 2))} + #{toRem(5)});
     &:before,
     &:after {
       top: auto;
+      opacity: 0;
       z-index: 1000;
     }
     &:before {
@@ -605,6 +606,14 @@ $offset: calc(#{toRem(19)} + #{toRem(math.div(10, 2))} + #{toRem(5)});
     &:after {
       bottom: calc(100% + 0.5rem);
       transform: translate(-50%, -0.5rem);
+    }
+  }
+  &[disabled] {
+    &:hover {
+      &:before,
+      &:after {
+        opacity: 1;
+      }
     }
   }
   &:not([disabled]) {
@@ -622,9 +631,6 @@ $offset: calc(#{toRem(19)} + #{toRem(math.div(10, 2))} + #{toRem(5)});
           width: calc(100% - #{$offset});
         }
       }
-    }
-    [data-tooltip] {
-      display: none;
     }
   }
 }
