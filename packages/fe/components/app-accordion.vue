@@ -17,27 +17,40 @@
           :active="active">
 
           <AccordionHeader>
-            <div class="header-top-row">
-              <div class="header-title-wrapper">
-                <IconApplicationOpen
-                  v-if="entry.state === 'open' "
-                  class="application-icon" />
-                <IconApplicationRejected
-                  v-if="entry.state === 'closed' && entry.state_reason === 'not_planned' "
-                  class="application-icon" />
-                <IconApplicationAccepted
-                  v-if="entry.state === 'closed' && entry.state_reason === 'completed' "
-                  class="application-icon" />
-                <h2 class="header-title h5" v-html="entry.title" />
-              </div>
-              <p class="application-type p2" v-html="entry.type" />
+            <div class="state-icon-wrapper">
+              <IconApplicationOpen
+                v-if="entry.state === 'open'"
+                class="state-icon" />
+              <IconApplicationRejected
+                v-if="entry.state === 'closed' && entry.state_reason === 'not_planned'"
+                class="state-icon" />
+              <IconApplicationAccepted
+                v-if="entry.state === 'closed' && entry.state_reason === 'completed'"
+                class="state-icon" />
             </div>
-            <Timeago
-              v-slot="{ convertedDate }"
-              :date="getDate(entry)">
-              <h3 class="header-subtitle p1" v-html="generateSubtitle(entry, convertedDate)" />
-            </Timeago>
-            <span class="expand-application-text p2">
+            <div class="header-content">
+              <div class="panel-left">
+                <h2 class="header-title h5" v-html="entry.title" />
+                <Timeago
+                  v-slot="{ convertedDate }"
+                  :date="getDate(entry)">
+                  <h3 class="header-subtitle p1" v-html="generateSubtitle(entry, convertedDate)" />
+                </Timeago>
+              </div>
+              <div class="panel-right">
+                <div class="application-type p2" v-html="entry.type" />
+                <div :class="['application-progress', entry.application_state]">
+                  <span
+                    v-for="(value, key) in stateMap"
+                    :key="`application-progress-state-${key}`"
+                    :class="['step', key, { highlight: key === entry.application_state }]" />
+                </div>
+                <div class="application-state">
+                  {{ stateMap[entry.application_state] }}
+                </div>
+              </div>
+            </div>
+            <div class="expand-application-text p2">
               <IconChevron />
               <span v-html="expandApplicationText" />
               <ButtonX
@@ -47,7 +60,7 @@
                 theme="green">
                 <div class="text" v-html="viewOnGithubText" />
               </ButtonX>
-            </span>
+            </div>
           </AccordionHeader>
 
           <AccordionContent>
@@ -135,7 +148,13 @@ export default {
 
   data () {
     return {
-      renderer: false
+      renderer: false,
+      stateMap: {
+        noRelevantLabels: 'Not Started',
+        reviewing: 'In Review',
+        validated: 'Validated',
+        completed: 'Completed'
+      }
     }
   },
 
@@ -213,18 +232,31 @@ export default {
 }
 
 .accordion-header {
+  position: relative;
   cursor: pointer;
   padding: 1.25rem 0;
 }
 
-.header-top-row {
+.state-icon-wrapper {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: -3.875rem;
+  width: 3.875rem;
+  padding-top: toRem(26);
 }
 
-.header-title-wrapper {
+.state-icon {
+  width: toRem(18);
+  height: toRem(18);
+}
+
+.header-content {
   display: flex;
-  align-items: flex-start;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 .header-title {
@@ -232,16 +264,73 @@ export default {
   letter-spacing: 0;
 }
 
-.application-icon {
-  width: toRem(18);
-  height: toRem(18);
-  margin-top: toRem(6);
-  margin-right: 1.25rem;
-  margin-left: -2.5rem;
+.panel-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
 }
 
 .application-type {
   white-space: nowrap;
+}
+
+@mixin applicationProgressStepHighlighted {
+  background-color: $greenYellow;
+  color: $aztec;
+  border-color: $greenYellow;
+}
+
+.application-progress {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 0.5rem 0;
+  .step {
+    @include applicationProgressStepHighlighted;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    border: 1px solid;
+    transition: 150ms ease-in;
+    &:not(:first-child) {
+      margin-left: calc(#{toRem(19)} + #{toRem(3 * 2)});
+      &:before {
+        display: block;
+        content: '';
+        position: absolute;
+        top: toRem(5);
+        right: calc(100% + #{toRem(4)});
+        width: toRem(19);
+        height: toRem(3);
+        border-radius: toRem(3);
+        background-color: $nandor;
+      }
+    }
+    &.noRelevantLabels:after { content: '-'; }
+    &.reviewing:after { content: '1'; }
+    &.validated:after { content: '2'; }
+    &.completed:after { content: '3'; }
+    &:after {
+      font-size: toRem(9);
+      line-height: 1;
+    }
+    &.highlight ~ * {
+      background-color: $aztec;
+      border-color: $nandor;
+      color: white;
+    }
+  }
+}
+
+.application-state {
+  font-size: toRem(14);
+  line-height: 1;
+  color: $greenYellow;
 }
 
 .header-subtitle {
