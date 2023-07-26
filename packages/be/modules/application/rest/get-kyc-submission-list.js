@@ -10,7 +10,6 @@ const MC = require('@Root/config')
 // -----------------------------------------------------------------------------
 MC.app.get('/get-kyc-submission-list', async (req, res) => {
   try {
-    const params = req.query
     const token = req.query.token
     if (!token || token === '' || token !== process.env.GET_KYC_SUBMISSION_LIST_TOKEN) {
       throw ThrowError(401, 'Please provide the correct token in the params: ?token=<token>')
@@ -22,7 +21,7 @@ MC.app.get('/get-kyc-submission-list', async (req, res) => {
         'kyc.event': 1,
         'kyc.error': 1,
         'kyc.data.kyc.createdAt': 1,
-        'kyc.data.kyc.custom': 1
+        'kyc.data.custom': 1
       })
     SendData(res, 200, 'Open application count retrieved succesfully', list)
   } catch (e) {
