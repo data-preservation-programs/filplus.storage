@@ -99,7 +99,8 @@ const UserSchema = new Schema({
   minimize: false,
   toObject: { getters: true, setters: true },
   toJSON: { getters: true, setters: true },
-  runSettersOnQuery: true
+  runSettersOnQuery: true,
+  id: false
 })
 
 // ///////////////////////////////////////////////////////////////////// Plugins
