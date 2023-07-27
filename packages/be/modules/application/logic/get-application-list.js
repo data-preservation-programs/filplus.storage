@@ -2,6 +2,7 @@
 // -----------------------------------------------------------------------------
 const { ParseLinkHeader } = require('@Module_Utilities')
 const Axios = require('axios')
+const DetermineApplicationState = require('@Module_Application/logic/determine-application-state')
 
 const MC = require('@Root/config')
 
@@ -27,7 +28,8 @@ module.exports = async (view, user, page = 1, state = 'all', limit = 10, sort = 
       results: response.data.map((application) => {
         return {
           ...application,
-          type: view === 'ga' ? 'GA (General Application)' : 'LDN (Large Dataset Application)'
+          type: view === 'ga' ? 'GA (General Application)' : 'LDN (Large Dataset Application)',
+          application_state: DetermineApplicationState(application.labels.map(label => (label.name)), view)
         }
       })
     }
