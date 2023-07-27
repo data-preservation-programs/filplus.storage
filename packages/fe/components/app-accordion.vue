@@ -40,10 +40,13 @@
               <div class="panel-right">
                 <div class="application-type p2" v-html="entry.type" />
                 <div :class="['application-progress', entry.application_state]">
-                  <span
+                  <div
                     v-for="(value, key) in stateMap"
                     :key="`application-progress-state-${key}`"
-                    :class="['step', key, { highlight: key === entry.application_state }]" />
+                    :data-tooltip="value"
+                    :class="['step', key, { highlight: key === entry.application_state }]">
+                    <span class="circle" />
+                  </div>
                 </div>
                 <div class="application-state">
                   {{ stateMap[entry.application_state] }}
@@ -286,43 +289,62 @@ export default {
   align-items: center;
   margin: 0.5rem 0;
   .step {
-    @include applicationProgressStepHighlighted;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
     position: relative;
     width: 1rem;
     height: 1rem;
     border-radius: 50%;
-    border: 1px solid;
+    background-color: $aztec;
+    border: 1px solid $greenYellow;
+    cursor: help;
     transition: 150ms ease-in;
     &:not(:first-child) {
       margin-left: calc(#{toRem(19)} + #{toRem(3 * 2)});
-      &:before {
-        display: block;
-        content: '';
-        position: absolute;
-        top: toRem(5);
-        right: calc(100% + #{toRem(4)});
-        width: toRem(19);
-        height: toRem(3);
-        border-radius: toRem(3);
-        background-color: $nandor;
+      .circle {
+        &:before {
+          display: block;
+          content: '';
+          position: absolute;
+          top: toRem(5);
+          right: calc(100% + #{toRem(4)});
+          width: toRem(19);
+          height: toRem(3);
+          border-radius: toRem(3);
+          background-color: $nandor;
+        }
       }
     }
-    &.noRelevantLabels:after { content: '-'; }
-    &.reviewing:after { content: '1'; }
-    &.validated:after { content: '2'; }
-    &.completed:after { content: '3'; }
-    &:after {
-      font-size: toRem(9);
-      line-height: 1;
-    }
+    &.noRelevantLabels .circle:after { content: '-'; }
+    &.reviewing .circle:after { content: '1'; }
+    &.validated .circle:after { content: '2'; }
+    &.completed .circle:after { content: '3'; }
     &.highlight ~ * {
-      background-color: $aztec;
       border-color: $nandor;
       color: white;
+    }
+    &.highlight {
+      @include applicationProgressStepHighlighted;
+    }
+    &[data-tooltip] {
+      &:after {
+        color: white;
+        border-radius: toRem(6);
+      }
+    }
+    .circle {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      &:after {
+        font-size: toRem(9);
+        line-height: 1;
+      }
     }
   }
 }
