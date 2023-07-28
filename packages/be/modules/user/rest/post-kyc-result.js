@@ -15,7 +15,7 @@ const serverFlag = MC.serverFlag
 MC.app.post('/post-kyc-result', async (req, res) => {
   try {
     const kyc = req.body
-    kyc.webhookResponseTimestamp = Moment().tz('UTC')
+    kyc.webhookResponseTimestamp = Moment().tz('UTC').toISOString()
     console.log('============================================ /post-kyc-result')
     console.log(kyc)
     let data = kyc.data || kyc.error
