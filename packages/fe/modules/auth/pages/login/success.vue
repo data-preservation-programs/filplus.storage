@@ -31,9 +31,7 @@ export default {
       return this.$router.push('/')
     }
     const session = this.session
-    if (session) {
-      window.opener.postMessage({ session, toast: this.toast }, this.$config.frontendUrl)
-    }
+    window.opener.postMessage({ session, toast: this.toast }, this.$config.frontendUrl)
     window.close()
   },
 

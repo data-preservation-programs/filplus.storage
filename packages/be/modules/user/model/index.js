@@ -10,6 +10,11 @@ const { Encrypt, Decrypt } = require('@Logic/cipher')
 // ////////////////////////////////////////////////////////////////////// Schema
 // -----------------------------------------------------------------------------
 const UserSchema = new Schema({
+  isAdmin: {
+    type: Boolean,
+    required: false,
+    default: false
+  },
   githubUsername: {
     type: String,
     required: true,

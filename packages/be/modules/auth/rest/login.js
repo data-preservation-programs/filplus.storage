@@ -21,7 +21,14 @@ MC.app.get('/login', async (req, res) => {
     switch (strategy) {
       case 'github': session = await Github(req, tempToken); break
     }
-    SendData(res, 200, 'You are now logged in', session)
+    if (MC.modules.auth.adminOnlyAppWide && !req.session.identifier.isAdmin) {
+      req.session.destroy(() => {
+        res.clearCookie('connect.sid')
+        SendData(res, 403, 'You are not authorized')
+      })
+    } else {
+      SendData(res, 200, 'You are now logged in', session)
+    }
   } catch (e) {
     console.log('======================================= [Endpoint: /login]')
     console.log(e)

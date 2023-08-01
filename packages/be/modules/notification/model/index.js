@@ -17,7 +17,8 @@ const NotificationSchema = new Schema({
     type: String,
     required: true,
     enum: [
-      'application'
+      'application',
+      'kyc'
     ]
   },
   read: {
