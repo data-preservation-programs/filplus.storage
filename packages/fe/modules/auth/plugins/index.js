@@ -6,10 +6,10 @@
 
 // ///////////////////////////////////////////////////////// Imports & Variables
 // -----------------------------------------------------------------------------
+import NuxtMiddleware from '../middleware'
 import AuthStore from '@/modules/auth/store/auth'
 
 // This resolves to .nuxt/middleware.js
-import NuxtMiddleware from '../middleware'
 
 // /////////////////////////////////////////////////////////////////// Functions
 // -----------------------------------------------------------------------------
@@ -42,10 +42,17 @@ const listenToLogin = (app, store, $config) => {
       window.addEventListener('message', async (e) => {
         const data = e.data
         if ((e.origin !== $config.frontendUrl) || !data || e.source.name !== 'login-popup') { return }
-        if (typeof data === 'object' && data.session) {
-          await store.dispatch('auth/getAccount', data.session.userId)
+        if (typeof data === 'object' && data.hasOwnProperty('session')) {
           app.$button('login-button').set({ loading: false })
           app.$toaster.add(data.toast)
+          const session = data.session
+          if (session) {
+            await store.dispatch('auth/getAccount', session.userId)
+            const redirectTo = $config.redirectAfterLogin
+            if (redirectTo) {
+              app.router.push(redirectTo.path)
+            }
+          }
         }
       }, false)
     }

@@ -85,9 +85,9 @@ const updateExistingUser = async (githubProfile) => {
 }
 
 // /////////////////////////////////////////////////////////////// createSession
-const createSession = (req, userId) => {
+const createSession = (req, identifier) => {
   return new Promise((resolve) => {
-    req.session.identifier = userId
+    req.session.identifier = identifier
     resolve()
   })
 }
@@ -113,7 +113,7 @@ module.exports = async (req, tempToken) => {
       user = await updateExistingUser(githubProfile)
     }
     // Create session
-    const identifier = { userId: `${user._id}` }
+    const identifier = { userId: `${user._id}`, isAdmin: user.isAdmin }
     await createSession(req, identifier)
     return identifier
   } catch (e) {
