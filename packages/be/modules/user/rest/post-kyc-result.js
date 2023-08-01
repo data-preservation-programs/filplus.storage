@@ -6,6 +6,7 @@ const { SendData } = require('@Module_Utilities')
 const FindUser = require('@Module_User/logic/find-user')
 const UpdateUser = require('@Module_User/logic/update-user')
 const PushNotification = require('@Module_Notification/logic/push-notification')
+const Moment = require('moment-timezone')
 
 const MC = require('@Root/config')
 const serverFlag = MC.serverFlag
@@ -15,6 +16,7 @@ const serverFlag = MC.serverFlag
 MC.app.post('/post-kyc-result', async (req, res) => {
   try {
     const kyc = req.body
+    kyc.webhookResponseTimestamp = Moment().tz('UTC').toISOString()
     console.log('============================================ /post-kyc-result')
     console.log(kyc)
     // ------------------------------------------------------------ run checkers
