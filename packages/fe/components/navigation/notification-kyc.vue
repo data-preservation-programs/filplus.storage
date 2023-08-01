@@ -3,6 +3,12 @@
 
     <!-- Heading -->
     <div class="notification-heading">
+      <IconKycNotificationSuccess
+        v-if="notification.custom.event !== 'failure'"
+        class="icon-kyc-notification-success" />
+      <IconKycNotificationFailure
+        v-else
+        class="icon-kyc-notification-failure" />
       KYC {{ stateMap[notification.custom.event] }}
     </div>
 
@@ -53,6 +59,8 @@ import { mapGetters } from 'vuex'
 import Timeago from '@/components/timeago'
 import ButtonX from '@/components/buttons/button-x'
 
+import IconKycNotificationSuccess from '@/components/icons/kyc-notification-success'
+import IconKycNotificationFailure from '@/components/icons/kyc-notification-failure'
 import IconKycSuccess from '@/components/icons/kyc-success'
 import IconLinkExternal from '@/components/icons/link-external'
 
@@ -63,6 +71,8 @@ export default {
   components: {
     Timeago,
     ButtonX,
+    IconKycNotificationSuccess,
+    IconKycNotificationFailure,
     IconKycSuccess,
     IconLinkExternal
   },
@@ -107,6 +117,19 @@ export default {
 
 <style lang="scss" scoped>
 // ///////////////////////////////////////////////////////////////////// General
+.notification-heading {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.icon-kyc-notification-success,
+.icon-kyc-notification-failure {
+  width: toRem(18);
+  height: toRem(18);
+  margin-right: 0.5rem;
+}
+
 .notification-heading,
 .message {
   margin-bottom: toRem(5);
