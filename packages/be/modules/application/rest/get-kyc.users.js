@@ -1,9 +1,12 @@
+
 console.log('💡 [endpoint] /get-kyc-users')
 
 // ///////////////////////////////////////////////////////////////////// Imports
 // -----------------------------------------------------------------------------
 const { SendData } = require('@Module_Utilities')
 const FindKycUsers = require('@Module_User/logic/find-kyc-users')
+
+const Papa = require('papaparse')
 
 const MC = require('@Root/config')
 
@@ -38,8 +41,10 @@ const getKycUsers = async () => {
 // -----------------------------------------------------------------------------
 MC.app.get('/get-kyc-users', async (req, res) => {
   try {
-    const users = await getKycUsers()
+    const format = req.query.format
+    let users = await getKycUsers()
     if (users.length === 0) { return SendData(res, 403, 'Something went wrong. Try logging in again.') }
+    if (format === 'csv') { users = Papa.unparse(users) }
     SendData(res, 200, 'KYC users retrieved succesfully', users)
   } catch (e) {
     console.log('================================== [Endpoint: /get-kyc-users]')
