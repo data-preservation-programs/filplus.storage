@@ -14,10 +14,10 @@ module.exports = () => {
       $project: {
         _id: false,
         user: {
-          $ifNull: ['$kyc.data.custom.identifier', '$kyc.error.custom.identifier', 'Github username missing']
+          $ifNull: ['$kyc.data.custom.identifier', 'Github username missing']
         },
         submissionDate: {
-          $ifNull: ['$kyc.data.kyc.createdAt', '$kyc.error.kyc.createdAt', '$kyc.webhookResponseTimestamp', 'Timestamp missing']
+          $ifNull: ['$kyc.data.kyc.createdAt', 'Timestamp missing']
         }
       }
     }
