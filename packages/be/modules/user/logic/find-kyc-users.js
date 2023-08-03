@@ -17,7 +17,7 @@ module.exports = () => {
           $ifNull: ['$kyc.data.custom.identifier', 'Github username missing']
         },
         submissionDate: {
-          $ifNull: ['$kyc.data.kyc.createdAt', 'Timestamp missing']
+          $ifNull: ['$kyc.data.kyc.createdAt', '$kyc.webhookResponseTimestamp', 'Timestamp missing']
         }
       }
     }
