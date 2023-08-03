@@ -43,21 +43,23 @@ const actions = {
         }
       }
     } catch (e) {
-      return false
+      const data = e.response.data
+      return {
+        session: null,
+        toast: {
+          type: 'toast',
+          code: data.code,
+          category: 'success',
+          message: data.message
+        }
+      }
     }
   },
   // //////////////////////////////////////////////////////////////////// logout
   async logout ({ commit }, token) {
     try {
-      const response = await this.$axiosAuth.get('/logout')
+      await this.$axiosAuth.get('/logout')
       this.$button('logout-button').set({ loading: false })
-      const data = response.data
-      this.$toaster.add({
-        type: 'toast',
-        code: data.code,
-        category: 'success',
-        message: data.message
-      })
       const from = this.$router.history.current.path
       const redirectTo = Config.auth.redirectAfterLogout
       if (redirectTo.path && from !== redirectTo.path) { // if redirectAfterLogout exists and we're not on the same page we're redirecting to

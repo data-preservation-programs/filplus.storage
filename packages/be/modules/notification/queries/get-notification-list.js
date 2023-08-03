@@ -28,6 +28,7 @@ module.exports = (page = 1, limit = 10, userId) => {
       $project: {
         read: 1,
         custom: 1,
+        bucket: 1,
         createdAt: 1
       }
     },
