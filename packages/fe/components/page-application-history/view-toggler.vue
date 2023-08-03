@@ -11,7 +11,7 @@
       Show
     </div>
 
-    <FieldStandalone
+    <Field
       v-slot="{ updateValue, field }"
       field-key="view"
       :scaffold="{
@@ -47,7 +47,7 @@
 
       </Radio>
 
-    </FieldStandalone>
+    </Field>
 
   </Filterer>
 </template>
@@ -57,7 +57,7 @@
 import { mapGetters } from 'vuex'
 
 import Filterer from '@/modules/search/components/filterer'
-import FieldStandalone from '@/modules/form/components/field-standalone'
+import Field from '@/modules/form/components/field'
 import Radio from '@/modules/form/fields/radio'
 
 // ====================================================================== Export
@@ -66,7 +66,7 @@ export default {
 
   components: {
     Filterer,
-    FieldStandalone,
+    Field,
     Radio
   },
 

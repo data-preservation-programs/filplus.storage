@@ -27,13 +27,11 @@
       "select_button_text": "Request",
       "scaffold": {
         "notary": {
-          "fieldKey": "notary",
           "type": "input",
           "inputType": "text",
           "modelKey": "notary",
-          "pre": "[^\\u0000-\\u00ff]",
-          "autocomplete": "none",
-          "include_output": true
+          "formId": "filplus_application",
+          "hidden": true
         }
       }
     }

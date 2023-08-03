@@ -1,20 +1,20 @@
 <template>
-  <Input
+  <Textarea
     :field="field"
-    :disabled="disabled"
+    :force-disabled="forceDisabled"
     v-on="$listeners" />
 </template>
 
 <script>
 // ===================================================================== Imports
-import Input from '@/modules/form/fields/input'
+import Textarea from '@/modules/form/fields/textarea'
 
 // ====================================================================== Export
 export default {
-  name: 'FieldInput',
+  name: 'FieldTextarea',
 
   components: {
-    Input
+    Textarea
   },
 
   props: {
@@ -22,7 +22,7 @@ export default {
       type: Object,
       required: true
     },
-    disabled: {
+    forceDisabled: {
       type: Boolean,
       required: false,
       default: false
@@ -32,34 +32,33 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$height: 4rem;
-
 // ///////////////////////////////////////////////////////////////////// General
-.field-input {
-  height: $height;
+.field-textarea {
+  height: 10rem;
+  transition: 150ms ease-out;
   &.caution {
-    :deep(.input) {
+    :deep(.textarea) {
       border-color: $mandysPink;
     }
   }
   &.error {
-    :deep(.input) {
+    :deep(.textarea) {
       border-color: $flamingo;
     }
   }
   &.disabled {
     cursor: no-drop;
-    :deep(.input) {
-      border-bottom-color: rgba(246, 245, 255, 0.25);
+    :deep(.textarea) {
+      border-bottom-color: rgba(227, 211, 192, 0.25);
+      overflow-y: scroll;
     }
   }
 }
 
-:deep(.input) {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  border-bottom: 2px solid $titanWhite;
+:deep(.textarea) {
+  padding: 1.5rem;
+  border: 2px solid $nandor;
+  border-radius: 0.625rem;
   transition: 150ms ease-in-out;
   @include placeholder {
     color: rgba($aquaSqueeze, 0.7);
@@ -67,14 +66,9 @@ $height: 4rem;
     font-weight: 400;
     font-style: italic;
     opacity: 1;
-    transition: 150ms ease-out;
   }
   &:focus {
-    font-size: toRem(20);
-    @include placeholder {
-      transition: 150ms ease-in;
-      font-size: toRem(20);
-    }
+    border-color: $titanWhite;
   }
 }
 </style>

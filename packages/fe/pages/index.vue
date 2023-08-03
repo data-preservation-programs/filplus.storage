@@ -191,8 +191,7 @@ export default {
   async fetch ({ app, store }) {
     await store.dispatch('general/getBaseData', { key: 'index', data: IndexPageData })
     await store.dispatch('general/getBaseData', { key: 'apply', data: ApplyPageData })
-    const application = await store.dispatch('account/setHubspotOptInData', store.getters['auth/account'])
-    await app.$form('filplus_application').register(application)
+    await store.dispatch('account/setHubspotOptInData', store.getters['auth/account'])
   },
 
   head () {

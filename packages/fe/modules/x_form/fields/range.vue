@@ -16,10 +16,10 @@
       </div>
 
       <input
-        :id="modelKey"
+        :id="fieldKey"
         ref="input"
         :position="position"
-        :name="modelKey"
+        :name="fieldKey"
         :value="position"
         :min="min"
         :max="steps"
@@ -50,6 +50,10 @@ export default {
     field: {
       type: Object,
       required: true
+    },
+    fieldKey: {
+      type: String,
+      required: true
     }
   },
 
@@ -71,9 +75,6 @@ export default {
   computed: {
     scaffold () {
       return this.field.scaffold
-    },
-    modelKey () {
-      return this.scaffold.modelKey
     },
     disabled () {
       return this.scaffold.disabled

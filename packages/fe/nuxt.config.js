@@ -105,6 +105,7 @@ export default {
     // '~/modules/alert',
     '~/modules/auth',
     '~/modules/search',
+    // '~/modules/form',
     '~/modules/form',
     '~/modules/button',
     '~/modules/ls',

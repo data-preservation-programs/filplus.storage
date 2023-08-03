@@ -1,24 +1,19 @@
 <template>
-  <div :class="['field field-input', state, { empty, disabled }]">
+  <div :class="['field field-textarea', state, { empty, disabled }]">
 
-    <div v-if="disabled" class="input">
+    <div v-if="disabled" class="textarea">
       {{ value }}
     </div>
 
-    <div v-else class="input-container">
-      <input
-        :id="modelKey"
-        :type="inputType"
-        :name="modelKey"
-        :placeholder="placeholder"
+    <div class="textarea-container">
+      <textarea
         :value="value"
-        :min="min"
-        :max="max"
+        :placeholder="placeholder"
         :autocomplete="autocomplete"
-        class="input"
+        class="textarea"
         @focus="toggleFocused(true)"
         @blur="toggleFocused(false)"
-        @input="$emit('updateValue', $event.target.value)" />
+        @input="$emit('updateValue', $event.target.value)"></textarea>
     </div>
 
   </div>
@@ -37,14 +32,14 @@ const preValidate = (instance, value, pre) => {
 
 // ====================================================================== Export
 export default {
-  name: 'FormFieldInput',
+  name: 'FormFieldTextarea',
 
   props: {
     field: {
       type: Object,
       required: true
     },
-    disabled: {
+    forceDisabled: {
       type: Boolean,
       required: false,
       default: false
@@ -55,17 +50,14 @@ export default {
     scaffold () {
       return this.field.scaffold
     },
-    inputType () {
-      return this.scaffold.inputType || 'text'
-    },
-    modelKey () {
-      return this.field.modelKey
-    },
     placeholder () {
       return this.scaffold.placeholder || 'Enter a value...'
     },
     autocomplete () {
       return this.scaffold.autocomplete
+    },
+    disabled () {
+      return this.forceDisabled || this.scaffold.disabled
     },
     pre () {
       return this.scaffold.pre
@@ -73,18 +65,11 @@ export default {
     value () {
       return this.field.value
     },
-    min () {
-      return this.scaffold.min
-    },
-    max () {
-      return this.scaffold.max
-    },
-    empty () {
-      const value = this.value
-      return !value || value === ''
-    },
     state () {
       return this.field.state
+    },
+    empty () {
+      return this.value === ''
     }
   },
 
@@ -104,19 +89,9 @@ export default {
 
 <style lang="scss" scoped>
 // ///////////////////////////////////////////////////////////////////// General
-.input-container,
-.input {
+.textarea-container,
+.textarea {
   width: 100%;
   height: 100%;
-}
-
-.input {
-  appearance: none;
-  -moz-appearance: textfield;
-  &::-webkit-inner-spin-button,
-  &::-webkit-outer-spin-button {
-    margin: 0;
-    appearance: none;
-  }
 }
 </style>

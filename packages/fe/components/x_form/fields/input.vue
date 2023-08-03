@@ -1,7 +1,7 @@
 <template>
   <Input
     :field="field"
-    :disabled="disabled"
+    :force-disabled="forceDisabled"
     v-on="$listeners" />
 </template>
 
@@ -22,7 +22,7 @@ export default {
       type: Object,
       required: true
     },
-    disabled: {
+    forceDisabled: {
       type: Boolean,
       required: false,
       default: false

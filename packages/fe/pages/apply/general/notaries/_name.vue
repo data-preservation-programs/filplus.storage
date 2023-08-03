@@ -31,64 +31,41 @@
             </ButtonA>
           </div>
 
-          <FieldContainer
-            :scaffold="formScaffold.data_owner_name"
-            field-key="data_owner_name"
-            form-id="filplus_application" />
+          <Field :scaffold="notariesFormScaffold" />
+
+          <FieldContainer :scaffold="formScaffold.data_owner_name" />
 
           <HubspotOptInFields />
 
-          <FieldContainer
-            :scaffold="formScaffold.website"
-            field-key="website"
-            form-id="filplus_application" />
+          <FieldContainer :scaffold="formScaffold.website" />
 
-          <FieldContainer
-            :scaffold="formScaffold.ga_region"
-            field-key="ga_region"
-            form-id="filplus_application" />
+          <FieldContainer :scaffold="formScaffold.ga_region" />
 
         </div>
       </div>
 
       <div class="grid z-index-50">
         <div class="col-6_md-6_ti-7 z-index-100" data-push-left="off-1_ti-0">
-          <FieldContainer
-            :scaffold="formScaffold.social_media_handle"
-            field-key="social_media_handle"
-            form-id="filplus_application" />
+          <FieldContainer :scaffold="formScaffold.social_media_handle" />
         </div>
         <div class="col-2_md-3_ti-4" data-push-left="off-1">
-          <FieldContainer
-            :scaffold="formScaffold.social_media_handle_type"
-            field-key="social_media_handle_type"
-            form-id="filplus_application" />
+          <FieldContainer :scaffold="formScaffold.social_media_handle_type" />
         </div>
       </div>
 
       <div class="grid z-index-50">
         <div class="col-6_md-6_ti-7 z-index-100" data-push-left="off-1_ti-0">
-          <FieldContainer
-            ref="totalDatacapSizeInput"
-            :scaffold="formScaffold.total_datacap_size_input"
-            field-key="total_datacap_size_input"
-            form-id="filplus_application" />
+          <FieldContainer :scaffold="formScaffold.total_datacap_size_input" />
         </div>
         <div class="col-2_md-3_ti-4" data-push-left="off-1">
-          <FieldContainer
-            :scaffold="formScaffold.total_datacap_size_unit"
-            field-key="total_datacap_size_unit"
-            form-id="filplus_application" />
+          <FieldContainer :scaffold="formScaffold.total_datacap_size_unit" />
         </div>
       </div>
 
       <div class="grid">
         <div class="col-6_md-8_sm-10_ti-12" data-push-left="off-1_ti-0">
 
-          <FieldContainer
-            :scaffold="formScaffold.filecoin_address"
-            field-key="filecoin_address"
-            form-id="filplus_application" />
+          <FieldContainer :scaffold="formScaffold.filecoin_address" />
 
           <div class="buttons">
             <ButtonA
@@ -126,6 +103,7 @@ import { mapGetters, mapActions } from 'vuex'
 
 import HeroB from '@/components/hero-b'
 import FieldContainer from '@/components/form/field-container'
+import Field from '@/modules/form/components/field'
 import ButtonA from '@/components/buttons/button-a'
 import ButtonX from '@/components/buttons/button-x'
 import HubspotOptInFields from '@/components/hubspot-opt-in-fields'
@@ -144,6 +122,7 @@ export default {
   components: {
     HeroB,
     FieldContainer,
+    Field,
     ButtonA,
     ButtonX,
     HubspotOptInFields,
@@ -153,9 +132,23 @@ export default {
     Chevron
   },
 
+  asyncData ({ app, params }) {
+    const notaryField = app.$field.get('total_datacap_size_input')
+    return {
+      /**
+       * If navigating from anywhere but the notaries page, need to add a hidden
+       * 'notary' field and pre-populate it with the notary name from the URL.
+       */
+      notariesFormScaffold: Object.assign(NotariesPageData.page_content.form.scaffold.notary, {
+        defaultValue: notaryField ? notaryField.value : params.name
+      })
+    }
+  },
+
   data () {
     return {
-      tag: 'apply-general'
+      tag: 'apply-general',
+      notariesFormScaffold: {}
     }
   },
 
@@ -164,20 +157,7 @@ export default {
     const notariesList = await store.dispatch('general/getCachedFile', 'notaries-list.json')
     const notary = notariesList.find(notary => notary.name === name || notary.organization === name)
     if (!notary) { return redirect('/apply/general/notaries') }
-    const notaryFieldId = 'notary|filplus_application'
-    const notaryField = app.$field(notaryFieldId).get()
-    const application = await store.dispatch('account/setHubspotOptInData', store.getters['auth/account'])
-    await app.$form('filplus_application').register(application)
-    if (!notaryField) {
-      await app.$field(notaryFieldId).register(
-        'filplus_application',
-        false,
-        'notary',
-        NotariesPageData.page_content.form.scaffold.notary,
-        'nullState'
-      )
-      await app.$field(notaryFieldId).updateValue(name)
-    }
+    await store.dispatch('account/setHubspotOptInData', store.getters['auth/account'])
     await store.dispatch('general/getBaseData', { key: 'apply-general', data: ApplyGeneralPageData })
   },
 
@@ -189,6 +169,7 @@ export default {
     ...mapGetters({
       siteContent: 'general/siteContent',
       savedFormExists: 'form/savedFormExists',
+      application: 'account/application',
       account: 'auth/account'
     }),
     generalPageData () {
@@ -242,19 +223,19 @@ export default {
       restoreSavedForm: 'form/restoreSavedForm'
     }),
     async submitForm () {
-      const inputField = this.$field('total_datacap_size_input|filplus_application').get()
-      const unitField = this.$field('total_datacap_size_unit|filplus_application').get()
+      const pass = await this.$form.validate('filplus_application')
+      const inputField = this.$field.get('total_datacap_size_input')
+      const unitField = this.$field.get('total_datacap_size_unit')
       const bytes = this.$convertSizeToBytes(inputField.value, unitField.scaffold.options[unitField.value].label)
       const thresholds = this.formsThresholds
-      const pass = await this.$handleFormRedirection(bytes, 'stage-ga', thresholds)
+      await this.$handleFormRedirection(bytes, 'stage-ga', thresholds)
+      if (!pass) {
+        const firstInvalidField = document.querySelector('.error')
+        this.$scrollToElement(firstInvalidField, 250, -200)
+      }
       if (pass) {
-        const application = await this.$form('filplus_application').validate()
-        if (!application) {
-          const firstInvalidField = document.querySelector('.error')
-          this.$scrollToElement(firstInvalidField, 250, -200)
-        } else {
-          await this.submitApplication({ application, bytes, thresholds })
-        }
+        const application = await this.$form.applyFormToSchema('filplus_application', this.application)
+        await this.submitApplication({ application, bytes, thresholds })
       }
       this.$button('application-submit-button').set({ loading: false })
     }

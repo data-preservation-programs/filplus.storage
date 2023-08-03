@@ -19,20 +19,14 @@
 
         <FieldContainer
           :scaffold="formScaffold.total_datacap_size_range"
-          field-key="total_datacap_size_range"
-          form-id="filplus_application"
           :class="['range-field', { 'max-value-selected': maxValueSelected }]" />
 
         <div :class="['row', { 'tooltip-visible': maxValueSelected }]" :data-tooltip="tooltipText">
           <FieldContainer
             :scaffold="formScaffold.total_datacap_size_input"
-            field-key="total_datacap_size_input"
-            form-id="filplus_application"
             class="input-field" />
           <FieldContainer
             :scaffold="formScaffold.total_datacap_size_unit"
-            field-key="total_datacap_size_unit"
-            form-id="filplus_application"
             class="select-field" />
         </div>
 
@@ -60,23 +54,22 @@ export default {
 
   data () {
     return {
-      maxValueSelected: false
+      maxValueSelected: false,
+      formScaffold: {}
     }
   },
 
   computed: {
     ...mapGetters({
       siteContent: 'general/siteContent',
-      applyFormHighlighted: 'general/applyFormHighlighted'
+      applyFormHighlighted: 'general/applyFormHighlighted',
+      application: 'account/application'
     }),
     generalPageData () {
       return this.siteContent.general
     },
     form () {
       return this.siteContent.apply.page_content.form
-    },
-    formScaffold () {
-      return this.form.scaffold
     },
     formHeading () {
       return this.form.heading
@@ -100,7 +93,7 @@ export default {
       return this.formsData.tooltip_greater_than_15pib_text
     },
     rangeField () {
-      return this.$field('total_datacap_size_range|filplus_application').get()
+      return this.$field.get('total_datacap_size')
     }
   },
 
@@ -112,6 +105,10 @@ export default {
         this.maxValueSelected = false
       }
     }
+  },
+
+  created () {
+    this.formScaffold = this.$form.extractDefaultValuesFromSchema(this.application, this.form.scaffold)
   },
 
   mounted () {
@@ -126,7 +123,7 @@ export default {
     async submitForm (e) {
       e.preventDefault()
       await this.$handleFormRedirection(this.rangeField.value, 'stage-apply', this.formsThresholds)
-      await this.$form('filplus_application').validate()
+      // await this.$form('filplus_application').validate()
     }
   }
 }

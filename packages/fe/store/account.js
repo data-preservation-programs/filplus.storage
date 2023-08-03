@@ -18,11 +18,16 @@ const state = () => ({
     ga: false
   },
   application: {
+    // Hubspot
+    hubspot_opt_in_email: null,
+    hubspot_opt_in_first_name: null,
+    hubspot_opt_in_last_name: null,
     // LDA & GA
     data_owner_name: null,
     website: null,
     social_media_handle: null,
     social_media_handle_type: null,
+    total_datacap_size: null,
     total_datacap_size_input: null,
     total_datacap_size_unit: null,
     filecoin_address: null,
@@ -65,11 +70,7 @@ const state = () => ({
     replication_plan_textarea: null,
     confirm_follow_fil_guideline: null,
     custom_multisig: null, // these are populated on the backend, not used in the form
-    identifier: null, // these are populated on the backend, not used in the form
-    // Hubspot
-    hubspot_opt_in_email: null,
-    hubspot_opt_in_first_name: null,
-    hubspot_opt_in_last_name: null
+    identifier: null // these are populated on the backend, not used in the form
   },
   applyFormHighlighted: false,
   githubIssue: false,
@@ -101,7 +102,7 @@ const actions = {
     const tib100 = thresholds.tib_100
     const pib5 = thresholds.pib_5
     const pib15 = thresholds.pib_15
-    const requestedAmount = `${application.total_datacap_size} ${application.total_datacap_size_unit}`
+    const requestedAmount = `${application.total_datacap_size_input} ${application.total_datacap_size_unit}`
     let stage
     let labels = ['source:filplus.storage']
     const assignees = []

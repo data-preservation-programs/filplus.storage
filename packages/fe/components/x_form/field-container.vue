@@ -1,10 +1,11 @@
 <template>
-  <Field
-    v-slot="{ field, fieldId, required, disabled, validationMessage, updateValue }"
+  <FieldStandalone
+    v-slot="{ updateValue, field, type, validationMessage }"
     v-bind="$props"
-    :class="['field-container', { focused }]">
+    :class="['field-container', { disabled, focused }]"
+    v-on="$listeners">
 
-    <label v-if="scaffold.label" :for="fieldId" class="field-label">
+    <label v-if="scaffold.label" :for="fieldKey" class="field-label">
       <span class="text">
         {{ scaffold.label }}
         <sup v-if="required" class="required">*</sup>
@@ -21,7 +22,8 @@
     <component
       :is="type"
       :field="field"
-      :disabled="disabled"
+      :field-key="fieldKey"
+      :force-disabled="forceDisabled"
       @updateValue="updateValue"
       @toggleFocused="toggleFocused"
       v-on="$listeners" />
@@ -32,21 +34,21 @@
       {{ validationMessage }}
     </div>
 
-  </Field>
+  </FieldStandalone>
 </template>
 
 <script>
 // ===================================================================== Imports
-import Field from '@/modules/form/components/field'
+import FieldStandalone from '@/modules/form/components/field-standalone'
 import FieldInput from '@/components/form/fields/input'
 import FieldTextarea from '@/components/form/fields/textarea'
 import FieldRange from '@/components/form/fields/range'
 import FieldCheckbox from '@/components/form/fields/checkbox'
 import FieldRadio from '@/components/form/fields/radio'
 import FieldSelect from '@/components/form/fields/select'
-// import FieldWysiwyg from '@/components/form/fields/wysiwyg'
-// import FieldTypeahead from '@/components/form/fields/typeahead'
-// import FieldChiclet from '@/components/form/fields/chiclet'
+import FieldWysiwyg from '@/components/form/fields/wysiwyg'
+import FieldTypeahead from '@/components/form/fields/typeahead'
+import FieldChiclet from '@/components/form/fields/chiclet'
 
 import IconQuestionMark from '@/components/icons/question-mark'
 
@@ -55,16 +57,16 @@ export default {
   name: 'FieldContainer',
 
   components: {
-    Field,
+    FieldStandalone,
     FieldInput,
     FieldTextarea,
     FieldRange,
     FieldCheckbox,
     FieldRadio,
     FieldSelect,
-    // FieldWysiwyg,
-    // FieldTypeahead,
-    // FieldChiclet,
+    FieldWysiwyg,
+    FieldTypeahead,
+    FieldChiclet,
     IconQuestionMark
   },
 
@@ -73,20 +75,34 @@ export default {
       type: Object,
       required: true
     },
+    formId: {
+      type: [String, Boolean],
+      required: false,
+      default: false
+    },
+    fieldKey: {
+      type: String,
+      required: true
+    },
+    groupIndex: {
+      type: [Number, Boolean],
+      required: false,
+      default: false
+    },
+    validateOnEntry: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
     forceDisabled: {
       type: Boolean,
       required: false,
       default: false
     },
-    forceValidate: {
-      type: Boolean,
-      required: false,
-      default: true
-    },
     deregisterOnDestroy: {
       type: Boolean,
       required: false,
-      default: true
+      default: false
     },
     /**
      * On occasions where the final root element in field-conditional.vue render
@@ -108,25 +124,15 @@ export default {
   },
 
   computed: {
-    type () {
-      const type = this.scaffold.type
-      let component = false
-      switch (type) {
-        case 'input' : component = 'FieldInput'; break
-        case 'textarea' : component = 'FieldTextarea'; break
-        case 'range' : component = 'FieldRange'; break
-        case 'checkbox' : component = 'FieldCheckbox'; break
-        case 'radio' : component = 'FieldRadio'; break
-        case 'select' : component = 'FieldSelect'; break
-        case 'typeahead' : component = 'FieldTypeahead'; break
-        case 'chiclet' : component = 'FieldChiclet'; break
-        case 'wysiwyg' : component = 'FieldWysiwyg'; break
-      }
-      return component
-    },
     tooltip () {
       const tooltip = this.scaffold.tooltip
-      return tooltip && tooltip !== '' ? tooltip : null
+      return tooltip && tooltip !== '' ? tooltip : false
+    },
+    required () {
+      return this.scaffold.required
+    },
+    disabled () {
+      return this.forceDisabled || this.scaffold.disabled
     }
   },
 

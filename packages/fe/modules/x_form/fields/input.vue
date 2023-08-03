@@ -7,9 +7,9 @@
 
     <div v-else class="input-container">
       <input
-        :id="modelKey"
+        :id="fieldKey"
         :type="inputType"
-        :name="modelKey"
+        :name="fieldKey"
         :placeholder="placeholder"
         :value="value"
         :min="min"
@@ -44,7 +44,7 @@ export default {
       type: Object,
       required: true
     },
-    disabled: {
+    forceDisabled: {
       type: Boolean,
       required: false,
       default: false
@@ -58,14 +58,17 @@ export default {
     inputType () {
       return this.scaffold.inputType || 'text'
     },
-    modelKey () {
-      return this.field.modelKey
+    fieldKey () {
+      return this.field.fieldKey
     },
     placeholder () {
       return this.scaffold.placeholder || 'Enter a value...'
     },
     autocomplete () {
       return this.scaffold.autocomplete
+    },
+    disabled () {
+      return this.forceDisabled || this.scaffold.disabled
     },
     pre () {
       return this.scaffold.pre

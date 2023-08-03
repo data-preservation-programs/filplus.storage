@@ -4,6 +4,7 @@
     <Range
       ref="range"
       :field="field"
+      :field-key="fieldKey"
       v-on="$listeners">
 
       <template #thumb>
@@ -56,6 +57,10 @@ export default {
   props: {
     field: {
       type: Object,
+      required: true
+    },
+    fieldKey: {
+      type: String,
       required: true
     }
   },
