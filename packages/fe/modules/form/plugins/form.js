@@ -31,7 +31,6 @@ const Form = (app, store) => {
         if (field.validate && fieldFormId === formId) {
           const state = field.state
           const originalState = field.originalState
-          console.log(field.id, state, originalState)
           if (state === 'error' || originalState === 'error') {
             formValid = false
             store.dispatch('form/setField', Object.assign(CloneDeep(field), {

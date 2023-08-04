@@ -60,8 +60,10 @@ export default {
   },
 
   data () {
+    const self = this
     return {
-      displayField: false
+      displayField: false,
+      id: self.scaffold.modelKey || self.scaffold.id || self.$uuid.v4()
     }
   },
 
@@ -70,7 +72,7 @@ export default {
     if (!this.field) {
       const value = this.getDefaultValue()
       const field = {
-        id: scaffold.modelKey,
+        id: this.id,
         formId: scaffold.formId,
         modelKey: scaffold.modelKey,
         validate: this.forceValidate || true,
@@ -94,7 +96,7 @@ export default {
       fields: 'form/fields'
     }),
     field () {
-      return this.fields.find(field => field.id === this.scaffold.modelKey)
+      return this.fields.find(field => field.id === this.id)
     },
     fieldId () {
       return this.field.id
