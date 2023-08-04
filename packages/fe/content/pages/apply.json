@@ -41,14 +41,24 @@
             281474976710656,
             1125899906842624
           ],
-          "react": [{
-            "modelKey": "total_datacap_size_unit",
-            "func": "$convertDatacapValueToRangeBytes",
-            "args": {
-              "valueFromField": "total_datacap_size_input",
-              "unitFromField": "total_datacap_size_unit"
+          "react": [
+            {
+              "modelKey": "total_datacap_size_input",
+              "func": "$convertDatacapValueToRangeBytes",
+              "args": {
+                "valueFromField": "total_datacap_size_input",
+                "unitFromField": "total_datacap_size_unit"
+              }
+            },
+            {
+              "modelKey": "total_datacap_size_unit",
+              "func": "$convertDatacapValueToRangeBytes",
+              "args": {
+                "valueFromField": "total_datacap_size_input",
+                "unitFromField": "total_datacap_size_unit"
+              }
             }
-          }],
+          ],
           "validationMessage": {
             "required": "This field is required"
           }
