@@ -223,7 +223,7 @@ export default {
       await this.setField(field)
       this.$nuxt.$emit('fieldValueUpdated', this.field)
     },
-    initializeReactions (field) {
+    async initializeReactions (field) {
       const react = this.react
       if (!react) { return }
       const len = react.length
@@ -232,6 +232,9 @@ export default {
         if (reaction.modelKey === field.id) {
           const field = CloneDeep(this.field)
           field.value = this[reaction.func](...Object.values(reaction.args))
+          const check = await useValidateField(field)
+          field.state = check.state
+          field.validation = check.validation
           this.setField(field)
         }
       }
