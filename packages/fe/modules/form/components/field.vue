@@ -20,7 +20,7 @@
 import { mapGetters, mapActions } from 'vuex'
 import CloneDeep from 'lodash/cloneDeep'
 
-import useValidateField from '@/modules/form/composables/validate-field'
+import useValidateField from '@/modules/form/composables/use-validate-field'
 
 // ====================================================================== Export
 export default {
