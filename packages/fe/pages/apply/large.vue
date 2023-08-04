@@ -291,7 +291,7 @@ export default {
       const unitField = this.$field.get('total_datacap_size_unit')
       const bytes = this.$convertSizeToBytes(inputField.value, unitField.scaffold.options[unitField.value].label)
       const thresholds = this.formsThresholds
-      await this.$handleFormRedirection(bytes, 'stage-ga', thresholds)
+      await this.$handleFormRedirection(bytes, 'stage-lda', thresholds)
       if (!pass) {
         const firstInvalidField = document.querySelector('.error')
         this.$scrollToElement(firstInvalidField, 250, -200)
