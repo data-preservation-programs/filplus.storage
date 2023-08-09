@@ -88,6 +88,7 @@ export default {
     await store.dispatch('general/getBaseData', { key: 'apply', data: ApplyPageData })
     await store.dispatch('general/getBaseData', { key: 'faq', data: FaqPageData })
     await store.dispatch('account/setHubspotOptInData', store.getters['auth/account'])
+    await store.dispatch('form/registerModel', { id: 'filplus_application', data: store.getters['account/application'] })
   },
 
   head () {

@@ -18,9 +18,6 @@ const state = () => ({
     ga: false
   },
   application: {
-    multi: [
-      { firstName: 'Nauras', lastName: 'Jabari' }
-    ],
     // Hubspot
     hubspot_opt_in_email: null,
     hubspot_opt_in_first_name: null,

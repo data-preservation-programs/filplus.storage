@@ -214,6 +214,7 @@ export default {
     await store.dispatch('general/getBaseData', { key: 'apply-large', data: ApplyLargePageData })
     await store.dispatch('general/getNetworkStorageCapacity')
     await store.dispatch('account/setHubspotOptInData', store.getters['auth/account'])
+    await store.dispatch('form/registerModel', { id: 'filplus_application', data: store.getters['account/application'] })
   },
 
   head () {

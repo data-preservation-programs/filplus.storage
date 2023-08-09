@@ -10,16 +10,6 @@ import CloneDeep from 'lodash/cloneDeep'
 // -----------------------------------------------------------------------------
 const Form = (app, store) => {
   return {
-    // ========================================== extractDefaultValuesFromSchema
-    extractDefaultValuesFromSchema (schema, scaffold) {
-      Object.keys(scaffold).map((key) => {
-        const modelKey = scaffold[key].modelKey
-        if (schema[modelKey]) {
-          scaffold[key].defaultValue = schema[modelKey]
-        }
-      })
-      return scaffold
-    },
     // ================================================================ validate
     validate (formId) {
       const fields = store.getters['form/fields']

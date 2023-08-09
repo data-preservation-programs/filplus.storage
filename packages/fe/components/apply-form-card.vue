@@ -5,34 +5,32 @@
     corner-position="bottom-right"
     icon="arrow"
     @clicked="submitForm">
-    <template v-if="formScaffold">
 
-      <div class="form-heading">
-        {{ formHeading }}
-      </div>
+    <div class="form-heading">
+      {{ formHeading }}
+    </div>
 
-      <div class="form-subheading">
-        {{ formSubheading }}
-      </div>
+    <div class="form-subheading">
+      {{ formSubheading }}
+    </div>
 
-      <form class="form">
+    <form class="form">
 
+      <FieldContainer
+        :scaffold="formScaffold.total_datacap_size_range"
+        :class="['range-field', { 'max-value-selected': maxValueSelected }]" />
+
+      <div :class="['row', { 'tooltip-visible': maxValueSelected }]" :data-tooltip="tooltipText">
         <FieldContainer
-          :scaffold="formScaffold.total_datacap_size_range"
-          :class="['range-field', { 'max-value-selected': maxValueSelected }]" />
+          :scaffold="formScaffold.total_datacap_size_input"
+          class="input-field" />
+        <FieldContainer
+          :scaffold="formScaffold.total_datacap_size_unit"
+          class="select-field" />
+      </div>
 
-        <div :class="['row', { 'tooltip-visible': maxValueSelected }]" :data-tooltip="tooltipText">
-          <FieldContainer
-            :scaffold="formScaffold.total_datacap_size_input"
-            class="input-field" />
-          <FieldContainer
-            :scaffold="formScaffold.total_datacap_size_unit"
-            class="select-field" />
-        </div>
+    </form>
 
-      </form>
-
-    </template>
   </Card>
 </template>
 
@@ -54,8 +52,7 @@ export default {
 
   data () {
     return {
-      maxValueSelected: false,
-      formScaffold: {}
+      maxValueSelected: false
     }
   },
 
@@ -70,6 +67,9 @@ export default {
     },
     form () {
       return this.siteContent.apply.page_content.form
+    },
+    formScaffold () {
+      return this.form.scaffold
     },
     formHeading () {
       return this.form.heading
@@ -105,10 +105,6 @@ export default {
         this.maxValueSelected = false
       }
     }
-  },
-
-  created () {
-    this.formScaffold = this.$form.extractDefaultValuesFromSchema(this.application, this.form.scaffold)
   },
 
   mounted () {

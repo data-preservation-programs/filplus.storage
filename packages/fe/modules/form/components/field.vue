@@ -123,9 +123,6 @@ export default {
     chars () {
       return this.scaffold.chars
     },
-    // validate () {
-    //   return this.forceValidate || true
-    // },
     react () {
       return this.scaffold.react
     },
@@ -191,37 +188,36 @@ export default {
     },
     getDefaultValue () {
       const dualValueFields = ['select', 'radio', 'checkbox'] // fields that can contain both a String and a Number (index) as the value/defaultValue
-      const model = this.model.data
+      const model = this.model
       const modelKey = this.modelKey
       const type = this.type
       const scaffold = this.scaffold
       const defaultValue = scaffold.defaultValue
       const options = scaffold.options
-      let value = defaultValue
-      // First, get the defaultValue from the field scaffold, if one exists
+      let value = this.getNullStateValue() // get the base value
+      // If default value is set in the scaffold, get that
       if (scaffold.hasOwnProperty('defaultValue') && defaultValue !== '') {
-        // defaultValue can be an array of indexes, a single index Number, an array of labels or a single label String
-        if (dualValueFields.includes(type)) {
-          if (!Array.isArray(defaultValue)) { // if defaultValue is not an array, turn it into one
-            value = [defaultValue]
-          }
-          const compiled = []
-          value.forEach((entry) => { // convert labels to indexes so final output ex: [2, 3, 7]
-            const found = options.findIndex(option => option.label === entry)
-            if (found !== -1 && !compiled.includes(found)) {
-              compiled.push(found)
-            } else if (typeof entry === 'number' && options[entry] && !compiled.includes(entry)) {
-              compiled.push(entry)
-            }
-          })
-          value = compiled
+        value = defaultValue
+      }
+      // If default value is set in the model, get that
+      if (model && model.data.hasOwnProperty(modelKey) && model.data[modelKey] !== null) {
+        value = model.data[modelKey]
+      }
+      // defaultValue can be an array of indexes, a single index Number, an array of labels or a single label String
+      if (dualValueFields.includes(type)) {
+        if (!Array.isArray(value)) { // if defaultValue is not an array, turn it into one
+          value = [value]
         }
-      // Second, get the defaultValue from the model, if one exists
-      } else if (model.hasOwnProperty(modelKey) && model[modelKey] !== null) {
-        value = model[modelKey]
-      // Otherwise set a null state default value, except for array field values
-      } else if (!scaffold.hasOwnProperty('parentModelKey')) {
-        value = this.getNullStateValue()
+        const compiled = []
+        value.forEach((entry) => { // convert labels to indexes so final output ex: [2, 3, 7]
+          const found = options.findIndex(option => option.label === entry)
+          if (found !== -1 && !compiled.includes(found)) {
+            compiled.push(found)
+          } else if (typeof entry === 'number' && options[entry] && !compiled.includes(entry)) {
+            compiled.push(entry)
+          }
+        })
+        value = compiled
       }
       return value
     },
@@ -262,7 +258,9 @@ export default {
         const condition = conditions[i]
         const eq = `${condition.eq}`
         const neq = `${condition.neq}`
+        // console.log(condition.modelKey)
         const field = await this.$field.get(condition.modelKey)
+        // console.log(field)
         const type = field.scaffold.type
         let value = `${field.value}`
         if (dualValueFields.includes(type)) {
@@ -287,10 +285,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-// ///////////////////////////////////////////////////////////////////// General
-.field {
-
-}
-</style>
