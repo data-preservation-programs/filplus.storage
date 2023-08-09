@@ -13,6 +13,11 @@
     <!-- ============================== [Application] Background Information -->
     <div id="application-top">
 
+      {{ fieldStats }}
+
+      <FieldContainer :scaffold="formScaffold.public_availability_radio" />
+      <FieldContainer :scaffold="formScaffold.public_availability_textarea" />
+
       <Squigglie
         :percent-left="10"
         orientation="down"
@@ -121,8 +126,6 @@
           <FieldContainer :scaffold="formScaffold.data_stored_before_radio" />
           <FieldContainer :scaffold="formScaffold.dataset_stored_before_textarea" />
           <FieldContainer :scaffold="formScaffold.data_sample" />
-          <FieldContainer :scaffold="formScaffold.public_availability_radio" />
-          <FieldContainer :scaffold="formScaffold.public_availability_textarea" />
 
         </div>
       </div>
@@ -277,6 +280,9 @@ export default {
     },
     formsThresholds () {
       return this.formsData.thresholds
+    },
+    fieldStats () {
+      return this.$form.getFieldStats('filplus_application')
     }
   },
 

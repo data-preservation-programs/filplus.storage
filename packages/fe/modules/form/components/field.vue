@@ -62,7 +62,6 @@ export default {
   data () {
     const self = this
     return {
-      displayField: false,
       id: self.scaffold.modelKey || self.scaffold.id || self.$uuid.v4(),
       formId: self.scaffold.formId,
       modelKey: self.scaffold.modelKey
@@ -85,6 +84,9 @@ export default {
     },
     type () {
       return this.scaffold.type
+    },
+    displayField () {
+      return this.field.displayField
     },
     required () {
       return this.scaffold.required
@@ -117,7 +119,8 @@ export default {
     const scaffold = this.scaffold
     if (!this.field) {
       const value = this.getDefaultValue()
-      const field = { // `groupId` and `fieldKey` are reserved keys, used in `array.vue`
+      const conditions = scaffold.conditions
+      const field = { // `groupId` and `fieldKey` are reserved keys, set in `array.vue`
         id: this.id,
         formId: this.formId,
         modelKey: this.modelKey,
@@ -126,6 +129,8 @@ export default {
         originalState: null,
         validation: null,
         originalValidation: null,
+        displayField: !conditions || (conditions && conditions.length === 0),
+        mounted: true,
         value,
         originalValue: value,
         scaffold
@@ -134,10 +139,11 @@ export default {
       field.originalState = state
       field.originalValidation = state
       this.setField(field)
-    }
-    const conditions = this.conditions
-    if (!conditions || (conditions && conditions.length === 0)) {
-      this.displayField = true
+    } else {
+      this.setField(Object.assign(
+        CloneDeep(this.field),
+        { mounted: true }
+      ))
     }
   },
 
@@ -157,6 +163,10 @@ export default {
   },
 
   beforeDestroy () {
+    this.setField(Object.assign(
+      CloneDeep(this.field),
+      { mounted: false }
+    ))
     if (!module.hot) { // or try this https://github.com/vuejs/vue/issues/6518#issuecomment-855802062
       this.removeField(this.field.id)
     }
@@ -270,12 +280,10 @@ export default {
       displayField = displayField.every((val) => {
         return val === true
       })
-      if (displayField !== this.field.validate) {
-        this.setField(Object.assign(CloneDeep(this.field), {
-          validate: displayField
-        }))
-      }
-      this.displayField = displayField
+      this.setField(Object.assign(CloneDeep(this.field), {
+        validate: displayField,
+        displayField
+      }))
     }
   }
 }

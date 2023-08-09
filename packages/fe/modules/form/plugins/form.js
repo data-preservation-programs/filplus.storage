@@ -82,6 +82,27 @@ const Form = (app, store) => {
         schema[modelKey] = value
       }
       return schema
+    },
+    // =========================================================== getFieldStats
+    getFieldStats (formId) {
+      const fields = store.getters['form/fields']
+      const len = fields.length
+      const stats = {
+        total: 0,
+        valid: 0,
+        caution: 0,
+        error: 0
+      }
+      for (let i = 0; i < len; i++) {
+        const field = fields[i]
+        if (field.formId === formId && field.displayField && field.mounted) {
+          stats.total++
+          field.state === 'error' ? stats.error++
+            : field.state === 'caution' ? stats.caution++
+              : stats.valid++
+        }
+      }
+      return stats
     }
   }
 }
