@@ -28,6 +28,61 @@
       "submit_button_text": "Send Request",
       "github_issue_link_text": "View Issue on Github",
       "scaffold": {
+        "multi": {
+          "type": "array",
+          "modelKey": "multi",
+          "formId": "filplus_application",
+          "label": "Array Field",
+          "description": "This is a very fancy field description",
+          "required": true,
+          "pre": "[^\\u0000-\\u00ff]",
+          "autocomplete": "none",
+          "defaultValue": "",
+          "template": {
+            "firstName": "multi_first_name",
+            "lastName": "multi_last_name"
+          }
+        },
+        "multi_first_name": {
+          "type": "input",
+          "inputType": "text",
+          "parentModelKey": "multi",
+          "formId": "filplus_application",
+          "label": "First Name",
+          "placeholder": "Enter your first name here",
+          "required": true,
+          "pre": "[^\\u0000-\\u00ff]",
+          "autocomplete": "none",
+          "defaultValue": "",
+          "chars": {
+            "min": 2,
+            "max": 1000
+          },
+          "validationMessage": {
+            "required": "This field is required",
+            "chars": "Input must be between 2 and 35 characters"
+          }
+        },
+        "multi_last_name": {
+          "type": "input",
+          "inputType": "text",
+          "parentModelKey": "multi",
+          "formId": "filplus_application",
+          "label": "Last Name",
+          "placeholder": "Enter your last name here",
+          "required": true,
+          "pre": "[^\\u0000-\\u00ff]",
+          "autocomplete": "none",
+          "defaultValue": "",
+          "chars": {
+            "min": 2,
+            "max": 1000
+          },
+          "validationMessage": {
+            "required": "This field is required",
+            "chars": "Input must be between 2 and 35 characters"
+          }
+        },
         "data_owner_name": {
           "type": "input",
           "inputType": "text",

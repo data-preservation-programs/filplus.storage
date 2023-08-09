@@ -159,6 +159,7 @@ export default {
     if (!notary) { return redirect('/apply/general/notaries') }
     await store.dispatch('account/setHubspotOptInData', store.getters['auth/account'])
     await store.dispatch('general/getBaseData', { key: 'apply-general', data: ApplyGeneralPageData })
+    await store.dispatch('form/registerModel', { id: 'filplus_application', data: store.getters['account/application'] })
   },
 
   head () {

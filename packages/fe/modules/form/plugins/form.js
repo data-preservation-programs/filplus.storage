@@ -58,12 +58,7 @@ const Form = (app, store) => {
         const type = scaffold.type
         let value = field.value
         if (!field.hasOwnProperty('parentModelKey') && field.validate) {
-          if (type === 'array') {
-            /**
-             * @TODO wire up array field functionality
-             */
-            // value = await compileArray(field, fields)
-          } else if (dualValueFields.includes(type)) {
+          if (dualValueFields.includes(type)) {
             // If output is NOT the index, but the string value of the option associated with the selected index
             if (typeof value !== 'string' && scaffold.output === 'option') {
               const converted = []

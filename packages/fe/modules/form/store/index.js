@@ -2,6 +2,7 @@
 // ---------------------- https://vuex.vuejs.org/guide/modules.html#module-reuse
 const state = () => ({
   fields: [],
+  models: [],
   savedFormExists: false
 })
 
@@ -9,12 +10,18 @@ const state = () => ({
 // -----------------------------------------------------------------------------
 const getters = {
   fields: state => state.fields,
+  models: state => state.models,
   savedFormExists: state => state.savedFormExists
 }
 
 // ///////////////////////////////////////////////////////////////////// Actions
 // -----------------------------------------------------------------------------
 const actions = {
+  // ///////////////////////////////////////////////////////////// registerModel
+  async registerModel ({ commit, getters }, payload) {
+    const index = getters.models.findIndex(model => model.id === payload.id)
+    await commit('REGISTER_MODEL', { index, model: payload })
+  },
   // ////////////////////////////////////////////////////////////////// setField
   async setField ({ commit, getters }, payload) {
     const index = getters.fields.findIndex(field => field.id === payload.id)
@@ -47,6 +54,11 @@ const actions = {
 // /////////////////////////////////////////////////////////////////// Mutations
 // -----------------------------------------------------------------------------
 const mutations = {
+  REGISTER_MODEL (state, payload) {
+    const index = payload.index
+    const model = payload.model
+    index === -1 ? state.models.push(model) : state.models.splice(index, 1, model)
+  },
   SET_FIELD (state, payload) {
     const index = payload.index
     const field = payload.field

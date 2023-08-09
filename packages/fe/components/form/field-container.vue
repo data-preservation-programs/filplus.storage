@@ -20,11 +20,46 @@
 
     <component
       :is="type"
+      v-if="field.scaffold.type !== 'array'"
       :field="field"
+      :form-scaffold="formScaffold"
       :disabled="disabled"
       @updateValue="updateValue"
       @toggleFocused="toggleFocused"
       v-on="$listeners" />
+
+    <Array
+      v-else
+      v-slot="{ groups, addGroup, removeGroup }"
+      :field="field"
+      :form-scaffold="formScaffold"
+      :disabled="disabled">
+
+      <div
+        v-for="(group, groupIndex) in groups"
+        :key="group.id"
+        class="group">
+
+        <FieldContainer
+          v-for="(fieldScaffold, index) in group.scaffolds"
+          :key="`${group.id}|${index}`"
+          :scaffold="fieldScaffold" />
+
+        <ButtonX
+          class="trash-button"
+          @clicked="removeGroup(groupIndex)">
+          <IconTrash class="icon-trash" />
+        </ButtonX>
+
+      </div>
+
+      <ButtonA
+        class="add-group-button"
+        @clicked="addGroup()">
+        Add
+      </ButtonA>
+
+    </Array>
 
     <slot />
 
@@ -47,8 +82,13 @@ import FieldSelect from '@/components/form/fields/select'
 import FieldWysiwyg from '@/components/form/fields/wysiwyg'
 import FieldTypeahead from '@/components/form/fields/typeahead'
 import FieldChiclet from '@/components/form/fields/chiclet'
+import ButtonA from '@/components/buttons/button-a'
+import ButtonX from '@/components/buttons/button-x'
+
+import Array from '@/modules/form/components/array'
 
 import IconQuestionMark from '@/components/icons/question-mark'
+import IconTrash from '@/components/icons/trash'
 
 // ====================================================================== Export
 export default {
@@ -65,13 +105,25 @@ export default {
     FieldWysiwyg,
     FieldTypeahead,
     FieldChiclet,
-    IconQuestionMark
+    Array,
+    ButtonA,
+    ButtonX,
+    IconQuestionMark,
+    IconTrash
   },
 
   props: {
     scaffold: {
       type: Object,
       required: true
+    },
+    /**
+     * Used in the Array field
+     */
+    formScaffold: {
+      type: Object,
+      required: false,
+      default: () => {}
     },
     forceDisabled: {
       type: Boolean,
@@ -182,15 +234,41 @@ export default {
   }
 }
 
-::v-deep .field {
+:deep(.field) {
   position: relative;
   font-weight: 500;
 }
 
-::v-deep .description {
+:deep(.description) {
   margin-top: 0.5rem;
   line-height: leading(30, 18);
   margin-bottom: 2.25rem;
+}
+
+// ////////////////////////////////////////////////////////////////////// Arrays
+.array {
+  display: flex;
+  flex-direction: column;
+}
+
+.group {
+  display: flex;
+  flex-direction: row;
+  .field {
+    flex: 1;
+      margin-bottom: 2rem;
+    &:not(:last-child) {
+      margin-right: 2rem;
+    }
+  }
+}
+
+.add-group-button {
+  margin-left: auto;
+}
+
+.icon-trash {
+  width: 1.5rem;
 }
 
 // ///////////////////////////////////////////////////////////////////// Tooltip

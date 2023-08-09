@@ -24,7 +24,7 @@ import useValidateField from '@/modules/form/composables/use-validate-field'
 
 // ====================================================================== Export
 export default {
-  name: 'Field',
+  name: 'FormField',
 
   props: {
     scaffold: {
@@ -63,7 +63,9 @@ export default {
     const self = this
     return {
       displayField: false,
-      id: self.scaffold.modelKey || self.scaffold.id || self.$uuid.v4()
+      id: self.scaffold.modelKey || self.scaffold.id || self.$uuid.v4(),
+      formId: self.scaffold.formId,
+      modelKey: self.scaffold.modelKey
     }
   },
 
@@ -71,10 +73,10 @@ export default {
     const scaffold = this.scaffold
     if (!this.field) {
       const value = this.getDefaultValue()
-      const field = {
+      const field = { // `groupId` and `fieldKey` are reserved keys, used in `array.vue`
         id: this.id,
-        formId: scaffold.formId,
-        modelKey: scaffold.modelKey,
+        formId: this.formId,
+        modelKey: this.modelKey,
         validate: this.forceValidate || true,
         state: 'valid',
         originalState: null,
@@ -93,10 +95,14 @@ export default {
 
   computed: {
     ...mapGetters({
-      fields: 'form/fields'
+      fields: 'form/fields',
+      models: 'form/models'
     }),
     field () {
       return this.fields.find(field => field.id === this.id)
+    },
+    model () {
+      return this.models.find(model => model.id === this.formId)
     },
     fieldId () {
       return this.field.id
@@ -144,8 +150,10 @@ export default {
   mounted () {
     this.$nextTick(() => {
       this.$nuxt.$on('fieldValueUpdated', (field) => {
-        this.initializeReactions(field)
-        this.detectConditions()
+        if (field.id === this.fieldId) {
+          this.initializeReactions(field)
+          this.detectConditions()
+        }
       })
       this.$nuxt.$on('fieldUpdateValue', (payload) => {
         if (this.fieldId === payload.fieldId) {
@@ -183,12 +191,14 @@ export default {
     },
     getDefaultValue () {
       const dualValueFields = ['select', 'radio', 'checkbox'] // fields that can contain both a String and a Number (index) as the value/defaultValue
+      const model = this.model.data
+      const modelKey = this.modelKey
       const type = this.type
       const scaffold = this.scaffold
       const defaultValue = scaffold.defaultValue
       const options = scaffold.options
       let value = defaultValue
-      // If a default value is set in the field scaffold, grab that instead (both for regular getValue calls as well as if it's a reset)
+      // First, get the defaultValue from the field scaffold, if one exists
       if (scaffold.hasOwnProperty('defaultValue') && defaultValue !== '') {
         // defaultValue can be an array of indexes, a single index Number, an array of labels or a single label String
         if (dualValueFields.includes(type)) {
@@ -206,6 +216,9 @@ export default {
           })
           value = compiled
         }
+      // Second, get the defaultValue from the model, if one exists
+      } else if (model.hasOwnProperty(modelKey) && model[modelKey] !== null) {
+        value = model[modelKey]
       // Otherwise set a null state default value, except for array field values
       } else if (!scaffold.hasOwnProperty('parentModelKey')) {
         value = this.getNullStateValue()
