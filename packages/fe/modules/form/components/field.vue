@@ -69,30 +69,6 @@ export default {
     }
   },
 
-  async fetch () {
-    const scaffold = this.scaffold
-    if (!this.field) {
-      const value = this.getDefaultValue()
-      const field = { // `groupId` and `fieldKey` are reserved keys, used in `array.vue`
-        id: this.id,
-        formId: this.formId,
-        modelKey: this.modelKey,
-        validate: this.forceValidate || true,
-        state: 'valid',
-        originalState: null,
-        validation: null,
-        originalValidation: null,
-        value,
-        originalValue: value,
-        scaffold
-      }
-      const { state } = await useValidateField(field)
-      field.originalState = state
-      field.originalValidation = state
-      await this.setField(field)
-    }
-  },
-
   computed: {
     ...mapGetters({
       fields: 'form/fields',
@@ -138,6 +114,27 @@ export default {
   },
 
   created () {
+    const scaffold = this.scaffold
+    if (!this.field) {
+      const value = this.getDefaultValue()
+      const field = { // `groupId` and `fieldKey` are reserved keys, used in `array.vue`
+        id: this.id,
+        formId: this.formId,
+        modelKey: this.modelKey,
+        validate: this.forceValidate || true,
+        state: 'valid',
+        originalState: null,
+        validation: null,
+        originalValidation: null,
+        value,
+        originalValue: value,
+        scaffold
+      }
+      const { state } = useValidateField(field)
+      field.originalState = state
+      field.originalValidation = state
+      this.setField(field)
+    }
     const conditions = this.conditions
     if (!conditions || (conditions && conditions.length === 0)) {
       this.displayField = true
@@ -147,10 +144,8 @@ export default {
   mounted () {
     this.$nextTick(() => {
       this.$nuxt.$on('fieldValueUpdated', (field) => {
-        if (field.id === this.fieldId) {
-          this.initializeReactions(field)
-          this.detectConditions()
-        }
+        this.detectConditions()
+        this.initializeReactions(field)
       })
       this.$nuxt.$on('fieldUpdateValue', (payload) => {
         if (this.fieldId === payload.fieldId) {
@@ -258,18 +253,18 @@ export default {
         const condition = conditions[i]
         const eq = `${condition.eq}`
         const neq = `${condition.neq}`
-        // console.log(condition.modelKey)
         const field = await this.$field.get(condition.modelKey)
-        // console.log(field)
-        const type = field.scaffold.type
-        let value = `${field.value}`
-        if (dualValueFields.includes(type)) {
-          value = value[0]
-        }
-        if (eq) {
-          displayField.push(value === eq)
-        } else if (neq) {
-          displayField.push(value !== neq)
+        if (field) {
+          const type = field.scaffold.type
+          let value = `${field.value}`
+          if (dualValueFields.includes(type)) {
+            value = value[0]
+          }
+          if (eq) {
+            displayField.push(value === eq)
+          } else if (neq) {
+            displayField.push(value !== neq)
+          }
         }
       }
       displayField = displayField.every((val) => {

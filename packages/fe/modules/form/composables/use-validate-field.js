@@ -68,15 +68,15 @@ const checkMinMax = (field) => {
 
 // ////////////////////////////////////////////////////////////////////// Export
 // -----------------------------------------------------------------------------
-export default async (field) => {
+export default (field) => {
   const scaffold = field.scaffold
   const required = scaffold.required
   let check = { state: 'valid', validation: false } // validation === 'required', 'chars', 'pattern', 'minmax'
   if (field.validate && field.type !== 'array') {
-    if (required) { check = await checkRequired(field) }
-    if (check.state === 'valid' && scaffold.chars) { check = await checkChars(field) }
-    if (check.state === 'valid' && scaffold.pattern) { check = await checkPattern(field) }
-    if (check.state === 'valid' && (scaffold.min || scaffold.max)) { check = await checkMinMax(field) }
+    if (required) { check = checkRequired(field) }
+    if (check.state === 'valid' && scaffold.chars) { check = checkChars(field) }
+    if (check.state === 'valid' && scaffold.pattern) { check = checkPattern(field) }
+    if (check.state === 'valid' && (scaffold.min || scaffold.max)) { check = checkMinMax(field) }
     if (check.state === 'valid') {
       check.state = JSON.stringify(field.value) !== JSON.stringify(field.originalValue) ? 'caution' : 'valid'
     }
