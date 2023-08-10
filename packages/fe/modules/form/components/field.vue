@@ -235,7 +235,7 @@ export default {
       field.validation = check.validation
       field.originalValidation = check.originalValidation
       await this.setField(field)
-      this.$nuxt.$emit('fieldValueUpdated', this.field)
+      this.$nuxt.$emit('fieldValueUpdated', field)
     },
     async initializeReactions (field) {
       const react = this.react
@@ -249,7 +249,7 @@ export default {
           const check = await useValidateField(field)
           field.state = check.state
           field.validation = check.validation
-          this.setField(field)
+          await this.setField(field)
         }
       }
     },
@@ -280,10 +280,12 @@ export default {
       displayField = displayField.every((val) => {
         return val === true
       })
-      this.setField(Object.assign(CloneDeep(this.field), {
-        validate: displayField,
-        displayField
-      }))
+      if (this.displayField !== displayField) {
+        await this.setField(Object.assign(CloneDeep(this.field), {
+          validate: displayField,
+          displayField
+        }))
+      }
     }
   }
 }
