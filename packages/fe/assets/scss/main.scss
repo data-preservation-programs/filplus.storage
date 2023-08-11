@@ -511,8 +511,8 @@ div.tooltip-content {
   background-color: $blueRibbon;
   white-space: break-spaces;
   padding: 1rem;
-  font-size: toRem(18) !important;
-  line-height: leading(30, 18) !important;
+  font-size: toRem(16) !important;
+  line-height: leading(30, 16) !important;
   border-radius: 1.5rem;
   a {
     display: inline-block;
@@ -572,16 +572,16 @@ div.tooltip-content {
     line-height: leading(24, 20);
   }
   p {
-    font-size: 1.125rem;
+    font-size: toRem(16);
     font-weight: 400;
-    line-height: leading(35, 18);
+    line-height: leading(35, 16);
     &:not(:last-child) {
       margin-bottom: 2rem;
     }
   }
   a {
-    font-size: 1.125rem;
-    line-height: leading(35, 18);
+    font-size: toRem(16);
+    line-height: leading(35, 16);
     color: $greenYellow;
     font-weight: 500;
     border-bottom: 1px solid rgba($greenYellow, 0);
@@ -650,9 +650,9 @@ div.tooltip-content {
       padding-left: 1.75rem;
       margin-bottom: 0;
       margin-left: 1rem;
-      font-size: 1.125rem;
+      font-size: toRem(16);
       font-weight: 400;
-      line-height: leading(35, 18);
+      line-height: leading(35, 16);
       &:before {
         content: '';
         display: inline-block;
@@ -743,8 +743,8 @@ div.tooltip-content {
     }
   }
   a {
-    font-size: toRem(18);
-    line-height: leading(30, 18);
+    font-size: toRem(16);
+    line-height: leading(30, 16);
     color: $mandysPink;
     padding-bottom: .25rem;
     &:hover {

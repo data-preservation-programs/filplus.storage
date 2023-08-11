@@ -32,12 +32,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$height: 4rem;
+$height: 3.125rem;
 
 // ///////////////////////////////////////////////////////////////////// General
 .field-input {
   height: $height;
-  &.caution {
+  &.in-progress {
     :deep(.input) {
       border-color: $mandysPink;
     }
@@ -50,7 +50,7 @@ $height: 4rem;
   &.disabled {
     cursor: no-drop;
     :deep(.input) {
-      border-bottom-color: rgba(246, 245, 255, 0.25);
+      border-color: rgba(246, 245, 255, 0.25);
     }
   }
 }
@@ -59,22 +59,15 @@ $height: 4rem;
   display: flex;
   flex-direction: row;
   align-items: center;
-  border-bottom: 2px solid $titanWhite;
+  padding: 0 toRem(12);
+  border: 2px solid $mineralGreen;
+  border-radius: toRem(5);
   transition: 150ms ease-in-out;
   @include placeholder {
     color: rgba($aquaSqueeze, 0.7);
-    font-size: toRem(18);
-    font-weight: 400;
     font-style: italic;
     opacity: 1;
     transition: 150ms ease-out;
-  }
-  &:focus {
-    font-size: toRem(20);
-    @include placeholder {
-      transition: 150ms ease-in;
-      font-size: toRem(20);
-    }
   }
 }
 </style>

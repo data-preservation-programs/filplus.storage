@@ -7,7 +7,7 @@ const checkRequired = (field) => {
     const fieldType = scaffold.type
     const value = field.value
     const type = typeof value
-    let state = 'valid'
+    let state = 'not-started'
     if (type === 'string' || type === 'boolean') {
       if (value === '' || !value) { state = 'error' }
     } else if (Array.isArray(value)) {
@@ -32,7 +32,7 @@ const checkChars = (field) => {
     const min = chars.min
     const max = chars.max
     const len = scaffold.type === 'wysiwyg' ? value.replace(/(<([^>]+)>)/gi, '').length : (value || '').length
-    let state = 'valid'
+    let state = 'not-started'
     if (typeof value === 'string' && value.trim() !== '' && (len < min || len > max)) {
       state = 'error'
     }
@@ -46,7 +46,7 @@ const checkPattern = (field) => {
     const pattern = field.scaffold.pattern
     const value = field.value
     const regex = new RegExp(pattern)
-    let state = 'valid'
+    let state = 'not-started'
     if (value !== '' && !regex.test(value)) { state = 'error' }
     resolve({ state, validation: state === 'error' ? 'pattern' : false })
   })
@@ -57,7 +57,7 @@ const checkMinMax = (field) => {
   return new Promise((resolve) => {
     const scaffold = field.scaffold
     const value = field.value
-    let state = 'valid'
+    let state = 'not-started'
     if (scaffold.type !== 'input' && scaffold.inputType !== 'number') { resolve({ state, validation: false }) }
     if (value < scaffold.min || value > scaffold.max) {
       state = 'error'
@@ -71,14 +71,14 @@ const checkMinMax = (field) => {
 export default async (field) => {
   const scaffold = field.scaffold
   const required = scaffold.required
-  let check = { state: 'valid', validation: false } // validation === 'required', 'chars', 'pattern', 'minmax'
+  let check = { state: 'not-started', validation: false } // validation === 'required', 'chars', 'pattern', 'minmax'
   if (field.validate && field.type !== 'array') {
     if (required) { check = await checkRequired(field) }
-    if (check.state === 'valid' && scaffold.chars) { check = await checkChars(field) }
-    if (check.state === 'valid' && scaffold.pattern) { check = await checkPattern(field) }
-    if (check.state === 'valid' && (scaffold.min || scaffold.max)) { check = await checkMinMax(field) }
-    if (check.state === 'valid') {
-      check.state = JSON.stringify(field.value) !== JSON.stringify(field.originalValue) ? 'caution' : 'valid'
+    if (check.state === 'not-started' && scaffold.chars) { check = await checkChars(field) }
+    if (check.state === 'not-started' && scaffold.pattern) { check = await checkPattern(field) }
+    if (check.state === 'not-started' && (scaffold.min || scaffold.max)) { check = await checkMinMax(field) }
+    if (check.state === 'not-started') {
+      check.state = 'completed'
     }
   }
   return check

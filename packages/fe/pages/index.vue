@@ -426,7 +426,7 @@ section {
     padding: 2rem 0;
   }
   .entry {
-    font-size: 1.125rem;
+    font-size: toRem(18);
     line-height: leading(36, 18);
     letter-spacing: 0.02em;
     ::v-deep li {

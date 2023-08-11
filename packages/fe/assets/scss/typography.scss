@@ -51,8 +51,8 @@ $fontInconsolata: 'Inconsolata', sans-serif, monospace;
 }
 
 @mixin p1 {
-  font-size: toRem(18);
-  line-height: leading(35, 18);
+  font-size: toRem(16);
+  line-height: leading(30, 16);
   font-weight: 400;
 }
 

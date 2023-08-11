@@ -1,16 +1,21 @@
 <template>
   <Field
-    v-slot="{ field, fieldId, required, disabled, validationMessage, updateValue }"
+    v-slot="{ field, fieldId, state, required, disabled, validationMessage, updateValue, toggleState }"
     v-bind="$props"
     :class="['field-container', { focused }]">
 
-    <label v-if="scaffold.label" :for="fieldId" class="field-label">
-      <span class="text">
-        {{ scaffold.label }}
-        <sup v-if="required" class="required">*</sup>
-      </span>
+    <label v-if="scaffold.label" :for="fieldId" :class="['field-label', state]">
+      <div class="panel-left">
+        <IconFieldInProgress class="icon in-progress" />
+        <IconFieldComplete class="icon completed" />
+        <IconFieldError class="icon error" />
+        <span class="text">
+          {{ scaffold.label }}
+          <sup v-if="required" class="required">*</sup>
+        </span>
+      </div>
       <div v-if="tooltip" class="tooltip" :data-tooltip="tooltip">
-        <IconQuestionMark />
+        <IconQuestionMark class="icon question-mark" />
       </div>
     </label>
 
@@ -25,7 +30,7 @@
       :form-scaffold="formScaffold"
       :disabled="disabled"
       @updateValue="updateValue"
-      @toggleFocused="toggleFocused"
+      @toggleFocused="handleFocus($event, toggleState)"
       v-on="$listeners" />
 
     <Array
@@ -89,6 +94,9 @@ import Array from '@/modules/form/components/array'
 
 import IconQuestionMark from '@/components/icons/question-mark'
 import IconTrash from '@/components/icons/trash'
+import IconFieldInProgress from '@/components/icons/form/in-progress'
+import IconFieldComplete from '@/components/icons/form/complete'
+import IconFieldError from '@/components/icons/form/error'
 
 // ====================================================================== Export
 export default {
@@ -109,7 +117,10 @@ export default {
     ButtonA,
     ButtonX,
     IconQuestionMark,
-    IconTrash
+    IconTrash,
+    IconFieldInProgress,
+    IconFieldComplete,
+    IconFieldError
   },
 
   props: {
@@ -183,8 +194,9 @@ export default {
   },
 
   methods: {
-    toggleFocused (focused) {
+    handleFocus (focused, toggleState) {
       this.focused = focused
+      toggleState(focused)
     }
   }
 }
@@ -224,13 +236,7 @@ export default {
     }
   }
   &.focused {
-    .field-label {
-      .text {
-        transition: 150ms ease-in;
-        color: rgba($aquaSqueeze, 0.7);
-        transform: scale(0.9);
-      }
-    }
+
   }
 }
 
@@ -285,12 +291,12 @@ export default {
     }
     &:after {
       white-space: break-spaces;
-      padding: 2rem;
+      padding: toRem(15) toRem(20);
       top: 50%;
       left: calc(100% + 1rem);
       width: 26rem;
       font-size: 1rem;
-      line-height: leading(27, 16);
+      line-height: leading(24, 16);
       border-radius: 1rem;
       transform: translate(0.5rem, -50%);
       background-color: $blueRibbon;
@@ -308,20 +314,53 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: toRem(20);
-  font-weight: 500;
+  margin-bottom: toRem(18);
+  font-size: toRem(18);
+  line-height: 1;
   cursor: pointer;
   .text {
+    font-weight: 500;
     transform-origin: left;
     transition: 150ms ease-out;
   }
   .required {
-    color: $flamingo;
+    color: #FF0000;
+    font-size: toRem(20);
+    top: 0;
+  }
+  &.in-progress {
+    .icon.in-progress {
+      display: block;
+    }
+  }
+  &.completed {
+    .icon.completed {
+      display: block;
+    }
+  }
+  &.error {
+    .icon.error {
+      display: block;
+    }
+  }
+}
+
+.panel-left {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.icon {
+  display: none;
+  margin-right: toRem(11);
+  &.question-mark {
+    display: block;
   }
 }
 
 // ////////////////////////////////////////////////////////////////// Validation
-::v-deep .validation-message {
+:deep(.validation-message) {
   margin-top: 0.5rem;
   font-size: 0.75rem;
   font-weight: 500;

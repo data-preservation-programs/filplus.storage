@@ -125,28 +125,28 @@ $borderWidth: 2px;
 
 // ///////////////////////////////////////////////////////////////////// General
 .field-range {
-  &.caution,
-  &.error {
-    :deep(.range-track) {
-      &:before {
-        transition: 150ms ease-in;
-      }
-    }
-  }
-  &.caution {
-    :deep(.range-track) {
-      &:before {
-        background-color: $mandysPink;
-      }
-    }
-  }
-  &.error {
-    :deep(.range-track) {
-      &:before {
-        background-color: $flamingo;
-      }
-    }
-  }
+  // &.in-progress,
+  // &.error {
+  //   :deep(.range-track) {
+  //     &:before {
+  //       transition: 150ms ease-in;
+  //     }
+  //   }
+  // }
+  // &.in-progress {
+  //   :deep(.range-track) {
+  //     &:before {
+  //       background-color: $mandysPink;
+  //     }
+  //   }
+  // }
+  // &.error {
+  //   :deep(.range-track) {
+  //     &:before {
+  //       background-color: $flamingo;
+  //     }
+  //   }
+  // }
 }
 
 // /////////////////////////////////////////////////////////////////////// Track

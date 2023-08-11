@@ -59,19 +59,12 @@ $dimension: 1.625rem;
   display: flex;
   flex-direction: row;
   align-items: center;
-  &.caution {
+  &.in-progress {
     :deep(.radio) {
       &:checked {
         + .checker {
           border-color: $mandysPink;
         }
-      }
-    }
-  }
-  &.error {
-    :deep(.radio) {
-      + .checker {
-        border-color: $flamingo;
       }
     }
   }

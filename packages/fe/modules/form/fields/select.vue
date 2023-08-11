@@ -393,7 +393,7 @@ export default {
 .dropdown {
   display: none;
   position: absolute;
-  top: 100%;
+  top: calc(100% + 0.5rem);
   left: 0;
   width: 100%;
   max-height: 10rem;

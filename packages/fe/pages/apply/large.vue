@@ -275,9 +275,6 @@ export default {
     },
     formsThresholds () {
       return this.formsData.thresholds
-    },
-    fieldStats () {
-      return this.$form.getFieldStats('filplus_application')
     }
   },
 

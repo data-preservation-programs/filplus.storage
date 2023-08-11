@@ -36,7 +36,7 @@ export default {
 .field-textarea {
   height: 10rem;
   transition: 150ms ease-out;
-  &.caution {
+  &.in-progress {
     :deep(.textarea) {
       border-color: $mandysPink;
     }

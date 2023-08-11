@@ -86,6 +86,11 @@ $dimension: 1.625rem;
       cursor: no-drop;
     }
   }
+  &.in-progress {
+    .checkbox + .checker {
+      border-color: $mandysPink;
+    }
+  }
   &.error {
     .checkbox + .checker {
       border-color: $flamingo;

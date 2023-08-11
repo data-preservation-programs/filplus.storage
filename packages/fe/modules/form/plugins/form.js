@@ -88,20 +88,22 @@ const Form = (app, store) => {
       const fields = store.getters['form/fields']
       const len = fields.length
       const stats = {
-        grand: 0,
         total: 0,
-        valid: 0,
-        caution: 0,
+        mounted: 0,
+        'not-started': 0,
+        'in-progress': 0,
+        completed: 0,
         error: 0
       }
       for (let i = 0; i < len; i++) {
         const field = fields[i]
-        stats.grand++
+        stats.total++
         if (field.formId === formId && field.displayField && field.mounted) {
-          stats.total++
-          field.state === 'error' ? stats.error++
-            : field.state === 'caution' ? stats.caution++
-              : stats.valid++
+          stats.mounted++
+          field.state === 'not-started' ? stats['not-started']++
+            : field.state === 'in-progress' ? stats['in-progress']++
+              : field.state === 'completed' ? stats.completed++
+                : stats.error++
         }
       }
       return stats

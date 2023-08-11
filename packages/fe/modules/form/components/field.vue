@@ -7,10 +7,12 @@
     <slot
       :field="field"
       :field-id="fieldId"
+      :state="state"
       :required="required"
       :disabled="disabled"
       :validation-message="validationMessage"
-      :update-value="updateValue" />
+      :update-value="updateValue"
+      :toggle-state="toggleState" />
 
   </component>
 </template>
@@ -88,6 +90,9 @@ export default {
     displayField () {
       return this.field.displayField
     },
+    state () {
+      return this.field.state
+    },
     required () {
       return this.scaffold.required
     },
@@ -125,7 +130,7 @@ export default {
         formId: this.formId,
         modelKey: this.modelKey,
         validate: this.forceValidate || true,
-        state: 'valid',
+        state: 'not-started',
         originalState: null,
         validation: null,
         originalValidation: null,
@@ -177,6 +182,19 @@ export default {
       setField: 'form/setField',
       removeField: 'form/removeField'
     }),
+    async toggleState (focused) {
+      const field = CloneDeep(this.field)
+      if (focused) {
+        field.state = 'in-progress'
+      } else {
+        const check = await useValidateField(field)
+        field.state = check.state
+        field.originalState = check.state
+        field.validation = check.validation
+        field.originalValidation = check.originalValidation
+      }
+      await this.setField(field)
+    },
     getNullStateValue () {
       const type = this.type
       const scaffold = this.scaffold
@@ -229,11 +247,6 @@ export default {
     async updateValue (value) {
       const field = CloneDeep(this.field)
       field.value = value
-      const check = await useValidateField(field)
-      field.state = check.state
-      field.originalState = check.state
-      field.validation = check.validation
-      field.originalValidation = check.originalValidation
       await this.setField(field)
       this.$nuxt.$emit('fieldValueUpdated', field)
     },
