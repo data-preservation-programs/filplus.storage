@@ -138,7 +138,8 @@
           },
           "validationMessage": {
             "required": "This field is required",
-            "chars": "Input must be between 2 and 35 characters"
+            "chars": "Input must be between 2 and 35 characters",
+            "pattern": "Please enter a valid URL (ex: https://example.com)"
           }
         },
         "social_media_handle": {
