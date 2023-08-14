@@ -122,6 +122,7 @@ $height: 3.125rem;
 // ///////////////////////////////////////////////////////////////////// General
 div.field-select {
   height: $height;
+  padding: 0 toRem(12);
   border: 2px solid $mineralGreen;
   border-radius: toRem(5);
   transition: border-color 150ms ease-out;
