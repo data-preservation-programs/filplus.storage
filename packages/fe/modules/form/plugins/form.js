@@ -98,7 +98,7 @@ const Form = (app, store) => {
       for (let i = 0; i < len; i++) {
         const field = fields[i]
         stats.total++
-        if (field.formId === formId && field.displayField && field.mounted) {
+        if (field.formId === formId && field.displayField && field.mounted && field.scaffold.required) {
           stats.mounted++
           field.state === 'not-started' ? stats['not-started']++
             : field.state === 'in-progress' ? stats['in-progress']++

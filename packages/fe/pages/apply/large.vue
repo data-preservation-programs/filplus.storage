@@ -10,159 +10,164 @@
       :hero-button="backButton"
       :kyc-heading="kycHeading" />
 
-    <!-- ============================== [Application] Background Information -->
-    <div id="application-top">
+    <form id="form">
+      <!-- ==================================================== Form Toolbar -->
+      <FormToolbar />
 
-      <Squigglie
-        :percent-left="10"
-        orientation="down"
-        color="nandor"
-        :thick="true"
-        class="section-bg-top-border" />
+      <!-- ============================ [Application] Background Information -->
+      <div id="application-top">
 
-      <div class="grid">
-        <div class="col-6_md-8_sm-10_ti-12" data-push-left="off-1_ti-0">
+        <Squigglie
+          :percent-left="10"
+          orientation="down"
+          color="nandor"
+          :thick="true"
+          class="section-bg-top-border" />
 
-          <div class="form-heading-1">
-            {{ formHeading1 }}
-            <ButtonA
-              v-if="savedFormExists"
-              class="restore-saved-form-button"
-              @clicked="restoreSavedForm('filplus_application')">
-              {{ restoreSavedFormButtonText }}
-            </ButtonA>
-          </div>
+        <div class="grid">
+          <div class="col-6_md-8_sm-10_ti-12" data-push-left="off-1_ti-0">
 
-          <FieldContainer :scaffold="formScaffold.data_owner_name" />
-          <HubspotOptInFields />
-          <FieldContainer :scaffold="formScaffold.your_role" />
-          <FieldContainer :scaffold="formScaffold.data_owner_region" />
-          <FieldContainer :scaffold="formScaffold.data_owner_industry" />
-          <FieldContainer :scaffold="formScaffold.website" />
+            <div class="form-heading-1">
+              {{ formHeading1 }}
+              <ButtonA
+                v-if="savedFormExists"
+                class="restore-saved-form-button"
+                @clicked="restoreSavedForm('filplus_application')">
+                {{ restoreSavedFormButtonText }}
+              </ButtonA>
+            </div>
 
-        </div>
-      </div>
-
-      <div class="grid">
-        <div class="col-6_md-6_ti-7" data-push-left="off-1_ti-0">
-          <FieldContainer :scaffold="formScaffold.social_media_handle" />
-        </div>
-        <div class="col-2_md-3_ti-4" data-push-left="off-1">
-          <FieldContainer :scaffold="formScaffold.social_media_handle_type" />
-        </div>
-      </div>
-
-      <div class="grid">
-        <div class="col-6_md-6_ti-7" data-push-left="off-1_ti-0">
-          <FieldContainer :scaffold="formScaffold.total_datacap_size_input" />
-        </div>
-        <div class="col-2_md-3_ti-4" data-push-left="off-1">
-          <FieldContainer :scaffold="formScaffold.total_datacap_size_unit" />
-        </div>
-      </div>
-
-      <div class="grid">
-        <div class="col-6_md-6_ti-7" data-push-left="off-1_ti-0">
-          <FieldContainer :scaffold="formScaffold.total_size_of_single_dataset_one_copy" />
-        </div>
-        <div class="col-2_md-3_ti-4" data-push-left="off-1">
-          <FieldContainer :scaffold="formScaffold.total_size_of_single_dataset_one_copy_unit" />
-        </div>
-        <div class="col-6_md-6_ti-7" data-push-left="off-1_ti-0">
-          <FieldContainer :scaffold="formScaffold.number_of_replicas" />
-        </div>
-      </div>
-
-      <div class="grid">
-        <div class="col-6_md-6_ti-7" data-push-left="off-1_ti-0">
-          <FieldContainer :scaffold="formScaffold.weekly_data_size" />
-        </div>
-        <div class="col-2_md-3_ti-4" data-push-left="off-1">
-          <FieldContainer :scaffold="formScaffold.weekly_data_size_unit" />
-        </div>
-      </div>
-
-      <div class="grid">
-        <div class="col-6_md-8_sm-10_ti-12" data-push-left="off-1_ti-0">
-          <FieldContainer :scaffold="formScaffold.filecoin_address" />
-          <FieldContainer :scaffold="formScaffold.application_data_type" />
-        </div>
-      </div>
-
-    </div>
-
-    <!-- ================================================ [Application] Full -->
-    <div id="application-bottom">
-
-      <Squigglie
-        :percent-left="90"
-        :thick="true"
-        orientation="up"
-        color="nandor"
-        class="section-app-top-border" />
-
-      <div class="grid">
-        <div class="col-6_md-8_sm-10_ti-12" data-push-left="off-1_ti-0">
-
-          <div class="form-heading-2">
-            {{ formHeading2 }}
-          </div>
-
-          <FieldContainer :scaffold="formScaffold.project_details" />
-          <FieldContainer :scaffold="formScaffold.ecosystem_associates_radio" />
-          <FieldContainer :scaffold="formScaffold.ecosystem_associates_textarea" />
-          <FieldContainer :scaffold="formScaffold.nature_of_data" />
-          <FieldContainer :scaffold="formScaffold.source_of_data_select" />
-          <FieldContainer :scaffold="formScaffold.source_of_data_textarea" />
-          <FieldContainer :scaffold="formScaffold.data_preparer_radio" />
-          <FieldContainer :scaffold="formScaffold.data_preparer_location" />
-          <FieldContainer :scaffold="formScaffold.data_preparer_preparation_plan" />
-          <FieldContainer :scaffold="formScaffold.general_preparation_plan" />
-          <FieldContainer :scaffold="formScaffold.data_stored_before_radio" />
-          <FieldContainer :scaffold="formScaffold.dataset_stored_before_textarea" />
-          <FieldContainer :scaffold="formScaffold.data_sample" />
-
-        </div>
-      </div>
-
-      <div class="grid">
-        <div class="col-6_md-8_sm-10_ti-12" data-push-left="off-1_ti-0">
-
-          <FieldContainer :scaffold="formScaffold.frequency_of_retrieval" />
-          <FieldContainer :scaffold="formScaffold.duration_of_storage" />
-          <FieldContainer :scaffold="formScaffold.geographic_distribution" />
-          <FieldContainer :scaffold="formScaffold.data_distribution" />
-          <FieldContainer :scaffold="formScaffold.storage_provider_selection_plan_select" />
-          <FieldContainer :scaffold="formScaffold.storage_provider_selection_plan_input" />
-          <FieldContainer :scaffold="formScaffold.storage_provider_selection_plan_textarea" />
-          <FieldContainer :scaffold="formScaffold.replication_plan_select" />
-          <FieldContainer :scaffold="formScaffold.replication_plan_textarea" />
-          <FieldContainer :scaffold="formScaffold.confirm_follow_fil_guideline" />
-
-          <div class="buttons">
-            <ButtonA
-              v-if="account"
-              class="submit-button"
-              loader="application-submit-button"
-              @clicked="submitForm">
-              {{ submitButtonText }}
-            </ButtonA>
-
-            <LoginButton />
-
-            <ButtonX
-              :to="backButton.href"
-              :tag="backButton.type"
-              :theme="backButton.theme">
-              <Chevron />
-              <div class="text" v-html="backButton.label" />
-            </ButtonX>
+            <FieldContainer :scaffold="formScaffold.data_owner_name" />
+            <HubspotOptInFields />
+            <FieldContainer :scaffold="formScaffold.your_role" />
+            <FieldContainer :scaffold="formScaffold.data_owner_region" />
+            <FieldContainer :scaffold="formScaffold.data_owner_industry" />
+            <FieldContainer :scaffold="formScaffold.website" />
 
           </div>
         </div>
+
+        <div class="grid">
+          <div class="col-6_md-6_ti-7" data-push-left="off-1_ti-0">
+            <FieldContainer :scaffold="formScaffold.social_media_handle" />
+          </div>
+          <div class="col-2_md-3_ti-4" data-push-left="off-1">
+            <FieldContainer :scaffold="formScaffold.social_media_handle_type" />
+          </div>
+        </div>
+
+        <div class="grid">
+          <div class="col-6_md-6_ti-7" data-push-left="off-1_ti-0">
+            <FieldContainer :scaffold="formScaffold.total_datacap_size_input" />
+          </div>
+          <div class="col-2_md-3_ti-4" data-push-left="off-1">
+            <FieldContainer :scaffold="formScaffold.total_datacap_size_unit" />
+          </div>
+        </div>
+
+        <div class="grid">
+          <div class="col-6_md-6_ti-7" data-push-left="off-1_ti-0">
+            <FieldContainer :scaffold="formScaffold.total_size_of_single_dataset_one_copy" />
+          </div>
+          <div class="col-2_md-3_ti-4" data-push-left="off-1">
+            <FieldContainer :scaffold="formScaffold.total_size_of_single_dataset_one_copy_unit" />
+          </div>
+          <div class="col-6_md-6_ti-7" data-push-left="off-1_ti-0">
+            <FieldContainer :scaffold="formScaffold.number_of_replicas" />
+          </div>
+        </div>
+
+        <div class="grid">
+          <div class="col-6_md-6_ti-7" data-push-left="off-1_ti-0">
+            <FieldContainer :scaffold="formScaffold.weekly_data_size" />
+          </div>
+          <div class="col-2_md-3_ti-4" data-push-left="off-1">
+            <FieldContainer :scaffold="formScaffold.weekly_data_size_unit" />
+          </div>
+        </div>
+
+        <div class="grid">
+          <div class="col-6_md-8_sm-10_ti-12" data-push-left="off-1_ti-0">
+            <FieldContainer :scaffold="formScaffold.filecoin_address" />
+            <FieldContainer :scaffold="formScaffold.application_data_type" />
+          </div>
+        </div>
+
       </div>
 
-    </div>
+      <!-- ============================================== [Application] Full -->
+      <div id="application-bottom">
+
+        <Squigglie
+          :percent-left="90"
+          :thick="true"
+          orientation="up"
+          color="nandor"
+          class="section-app-top-border" />
+
+        <div class="grid">
+          <div class="col-6_md-8_sm-10_ti-12" data-push-left="off-1_ti-0">
+
+            <div class="form-heading-2">
+              {{ formHeading2 }}
+            </div>
+
+            <FieldContainer :scaffold="formScaffold.project_details" />
+            <FieldContainer :scaffold="formScaffold.ecosystem_associates_radio" />
+            <FieldContainer :scaffold="formScaffold.ecosystem_associates_textarea" />
+            <FieldContainer :scaffold="formScaffold.nature_of_data" />
+            <FieldContainer :scaffold="formScaffold.source_of_data_select" />
+            <FieldContainer :scaffold="formScaffold.source_of_data_textarea" />
+            <FieldContainer :scaffold="formScaffold.data_preparer_radio" />
+            <FieldContainer :scaffold="formScaffold.data_preparer_location" />
+            <FieldContainer :scaffold="formScaffold.data_preparer_preparation_plan" />
+            <FieldContainer :scaffold="formScaffold.general_preparation_plan" />
+            <FieldContainer :scaffold="formScaffold.data_stored_before_radio" />
+            <FieldContainer :scaffold="formScaffold.dataset_stored_before_textarea" />
+            <FieldContainer :scaffold="formScaffold.data_sample" />
+
+          </div>
+        </div>
+
+        <div class="grid">
+          <div class="col-6_md-8_sm-10_ti-12" data-push-left="off-1_ti-0">
+
+            <FieldContainer :scaffold="formScaffold.frequency_of_retrieval" />
+            <FieldContainer :scaffold="formScaffold.duration_of_storage" />
+            <FieldContainer :scaffold="formScaffold.geographic_distribution" />
+            <FieldContainer :scaffold="formScaffold.data_distribution" />
+            <FieldContainer :scaffold="formScaffold.storage_provider_selection_plan_select" />
+            <FieldContainer :scaffold="formScaffold.storage_provider_selection_plan_input" />
+            <FieldContainer :scaffold="formScaffold.storage_provider_selection_plan_textarea" />
+            <FieldContainer :scaffold="formScaffold.replication_plan_select" />
+            <FieldContainer :scaffold="formScaffold.replication_plan_textarea" />
+            <FieldContainer :scaffold="formScaffold.confirm_follow_fil_guideline" />
+
+            <div class="buttons">
+              <ButtonA
+                v-if="account"
+                class="submit-button"
+                loader="application-submit-button"
+                @clicked="submitForm">
+                {{ submitButtonText }}
+              </ButtonA>
+
+              <LoginButton />
+
+              <ButtonX
+                :to="backButton.href"
+                :tag="backButton.type"
+                :theme="backButton.theme">
+                <Chevron />
+                <div class="text" v-html="backButton.label" />
+              </ButtonX>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </form>
 
     <!-- ========================================================== Overlays -->
     <Overlay type="noise" />
@@ -175,6 +180,7 @@
 import { mapGetters, mapActions } from 'vuex'
 
 import HeroB from '@/components/hero-b'
+import FormToolbar from '@/components/form/form-toolbar'
 import FieldContainer from '@/components/form/field-container'
 import ButtonA from '@/components/buttons/button-a'
 import ButtonX from '@/components/buttons/button-x'
@@ -192,6 +198,7 @@ export default {
 
   components: {
     HeroB,
+    FormToolbar,
     FieldContainer,
     ButtonA,
     ButtonX,
@@ -286,20 +293,21 @@ export default {
     }),
     async submitForm () {
       const pass = await this.$form.validate('filplus_application')
-      const inputField = this.$field.get('total_datacap_size_input')
-      const unitField = this.$field.get('total_datacap_size_unit')
-      const bytes = this.$convertSizeToBytes(inputField.value, unitField.scaffold.options[unitField.value].label)
-      const thresholds = this.formsThresholds
-      await this.$handleFormRedirection(bytes, 'stage-lda', thresholds)
-      if (!pass) {
-        const firstInvalidField = document.querySelector('.error')
-        this.$scrollToElement(firstInvalidField, 250, -200)
-      }
-      if (pass) {
-        const application = await this.$form.applyFormToSchema('filplus_application', this.application)
-        await this.submitApplication({ application, bytes, thresholds })
-      }
-      this.$button('application-submit-button').set({ loading: false })
+      console.log(pass)
+      // const inputField = this.$field.get('total_datacap_size_input')
+      // const unitField = this.$field.get('total_datacap_size_unit')
+      // const bytes = this.$convertSizeToBytes(inputField.value, unitField.scaffold.options[unitField.value].label)
+      // const thresholds = this.formsThresholds
+      // await this.$handleFormRedirection(bytes, 'stage-lda', thresholds)
+      // if (!pass) {
+      //   const firstInvalidField = document.querySelector('.error')
+      //   this.$scrollToElement(firstInvalidField, 250, -200)
+      // }
+      // if (pass) {
+      //   const application = await this.$form.applyFormToSchema('filplus_application', this.application)
+      //   await this.submitApplication({ application, bytes, thresholds })
+      // }
+      // this.$button('application-submit-button').set({ loading: false })
     }
   }
 }
@@ -321,6 +329,10 @@ export default {
 
 .field-container {
   @include descendingZindex(100);
+}
+
+#form {
+  position: relative;
 }
 
 #application-top,
