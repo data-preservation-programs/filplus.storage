@@ -141,6 +141,9 @@ export default {
         scaffold
       }
       const { state } = useValidateField(field)
+      if (state === 'completed') {
+        field.state = state
+      }
       field.originalState = state
       field.originalValidation = state
       this.setField(field)
@@ -187,7 +190,7 @@ export default {
       if (focused) {
         field.state = 'in-progress'
       } else {
-        const check = await useValidateField(field)
+        const check = useValidateField(field)
         field.state = check.state
         field.originalState = check.state
         field.validation = check.validation
@@ -259,7 +262,7 @@ export default {
         if (reaction.modelKey === field.id) {
           const field = CloneDeep(this.field)
           field.value = this[reaction.func](...Object.values(reaction.args))
-          const check = await useValidateField(field)
+          const check = useValidateField(field)
           field.state = check.state
           field.validation = check.validation
           await this.setField(field)
