@@ -167,6 +167,7 @@ export default {
         }
       })
       this.detectConditions()
+      this.syncLocalStorageToValue()
     })
   },
 
@@ -195,6 +196,7 @@ export default {
         field.originalState = check.state
         field.validation = check.validation
         field.originalValidation = check.originalValidation
+        this.$field.saveFieldToLocalStorage(field)
       }
       await this.setField(field)
     },
@@ -301,6 +303,18 @@ export default {
           validate: displayField,
           displayField
         }))
+      }
+    },
+    syncLocalStorageToValue () {
+      const form = JSON.parse(this.$ls.get(`form__${this.formId}`))
+      if (form) {
+        const savedLsField = form[this.modelKey]
+        if (savedLsField) {
+          this.setField(Object.assign(
+            CloneDeep(this.field),
+            savedLsField
+          ))
+        }
       }
     }
   }

@@ -119,8 +119,7 @@ button.button, {
 }
 
 .button-content {
-   :deep(.text) {
-    font-size: toRem(20);
+  :deep(.text) {
     font-weight: 500;
   }
   transition: 150ms ease-out;
@@ -138,7 +137,8 @@ button.button, {
     align-items: center;
   }
   :deep(.text) {
-    @include h5;
+    line-height: leading(30, 16);
+    font-weight: 500;
   }
   :deep(.icon-chevron) {
     transform: rotate(90deg);

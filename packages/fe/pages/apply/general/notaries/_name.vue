@@ -8,86 +8,88 @@
       :hero-button="backButton"
       :kyc-heading="kycHeading" />
 
-    <!-- ======================================================= Application -->
-    <div id="application">
+    <div id="form">
 
-      <Squigglie
-        :percent-left="10"
-        orientation="down"
-        color="nandor"
-        :thick="true"
-        class="section-app-top-border" />
+      <!-- ===================================================== Application -->
+      <div id="application">
 
-      <div class="grid z-index-100">
-        <div class="col-6_md-8_sm-10_ti-12" data-push-left="off-1_ti-0">
+        <Squigglie
+          :percent-left="10"
+          orientation="down"
+          color="nandor"
+          :thick="true"
+          class="section-app-top-border" />
 
-          <div class="form-heading">
-            <span>{{ formHeading }}</span>
-            <ButtonA
-              v-if="savedFormExists"
-              class="restore-saved-form-button"
-              @clicked="restoreSavedForm('filplus_application')">
-              {{ restoreSavedFormButtonText }}
-            </ButtonA>
-          </div>
+        <div class="grid z-index-100">
+          <div class="col-6_md-8_sm-10_ti-12" data-push-left="off-1_ti-0">
 
-          <Field :scaffold="notariesFormScaffold" />
+            <div class="form-heading">
+              <span>{{ formHeading }}</span>
+            </div>
 
-          <FieldContainer :scaffold="formScaffold.data_owner_name" />
+            <Field :scaffold="notariesFormScaffold" />
 
-          <HubspotOptInFields />
+            <FieldContainer :scaffold="formScaffold.data_owner_name" />
 
-          <FieldContainer :scaffold="formScaffold.website" />
+            <HubspotOptInFields />
 
-          <FieldContainer :scaffold="formScaffold.ga_region" />
+            <FieldContainer :scaffold="formScaffold.website" />
 
-        </div>
-      </div>
+            <FieldContainer :scaffold="formScaffold.ga_region" />
 
-      <div class="grid z-index-50">
-        <div class="col-6_md-6_ti-7 z-index-100" data-push-left="off-1_ti-0">
-          <FieldContainer :scaffold="formScaffold.social_media_handle" />
-        </div>
-        <div class="col-2_md-3_ti-4" data-push-left="off-1">
-          <FieldContainer :scaffold="formScaffold.social_media_handle_type" />
-        </div>
-      </div>
-
-      <div class="grid z-index-50">
-        <div class="col-6_md-6_ti-7 z-index-100" data-push-left="off-1_ti-0">
-          <FieldContainer :scaffold="formScaffold.total_datacap_size_input" />
-        </div>
-        <div class="col-2_md-3_ti-4" data-push-left="off-1">
-          <FieldContainer :scaffold="formScaffold.total_datacap_size_unit" />
-        </div>
-      </div>
-
-      <div class="grid">
-        <div class="col-6_md-8_sm-10_ti-12" data-push-left="off-1_ti-0">
-
-          <FieldContainer :scaffold="formScaffold.filecoin_address" />
-
-          <div class="buttons">
-            <ButtonA
-              v-if="account"
-              class="submit-button"
-              loader="application-submit-button"
-              @clicked="submitForm">
-              {{ submitButtonText }}
-            </ButtonA>
-
-            <LoginButton />
-
-            <ButtonX
-              :to="backButton.href"
-              :tag="backButton.type"
-              :theme="backButton.theme">
-              <Chevron />
-              <div class="text" v-html="backButton.label" />
-            </ButtonX>
           </div>
         </div>
+
+        <div class="grid z-index-50">
+          <div class="col-6_md-6_ti-7 z-index-100" data-push-left="off-1_ti-0">
+            <FieldContainer :scaffold="formScaffold.social_media_handle" />
+          </div>
+          <div class="col-2_md-3_ti-4" data-push-left="off-1">
+            <FieldContainer :scaffold="formScaffold.social_media_handle_type" />
+          </div>
+        </div>
+
+        <div class="grid z-index-50">
+          <div class="col-6_md-6_ti-7 z-index-100" data-push-left="off-1_ti-0">
+            <FieldContainer :scaffold="formScaffold.total_datacap_size_input" />
+          </div>
+          <div class="col-2_md-3_ti-4" data-push-left="off-1">
+            <FieldContainer :scaffold="formScaffold.total_datacap_size_unit" />
+          </div>
+        </div>
+
+        <div class="grid">
+          <div class="col-6_md-8_sm-10_ti-12" data-push-left="off-1_ti-0">
+
+            <FieldContainer :scaffold="formScaffold.filecoin_address" />
+
+            <div class="buttons bottom">
+              <ButtonA
+                v-if="account"
+                class="submit-button"
+                loader="application-submit-button"
+                @clicked="submitForm">
+                {{ submitButtonText }}
+              </ButtonA>
+
+              <LoginButton />
+
+              <ButtonX
+                :to="backButton.href"
+                :tag="backButton.type"
+                :theme="backButton.theme">
+                <Chevron />
+                <div class="text" v-html="backButton.label" />
+              </ButtonX>
+            </div>
+          </div>
+        </div>
+
       </div>
+
+      <!-- ==================================================== Form Toolbar -->
+      <!-- Needs to be placed AFTER all the fields for its mounted hook to fire correctly -->
+      <FormToolbar form-id="filplus_application" />
 
     </div>
 
@@ -102,6 +104,7 @@
 import { mapGetters, mapActions } from 'vuex'
 
 import HeroB from '@/components/hero-b'
+import FormToolbar from '@/components/form/form-toolbar'
 import FieldContainer from '@/components/form/field-container'
 import Field from '@/modules/form/components/field'
 import ButtonA from '@/components/buttons/button-a'
@@ -121,6 +124,7 @@ export default {
 
   components: {
     HeroB,
+    FormToolbar,
     FieldContainer,
     Field,
     ButtonA,
@@ -169,7 +173,6 @@ export default {
   computed: {
     ...mapGetters({
       siteContent: 'general/siteContent',
-      savedFormExists: 'form/savedFormExists',
       application: 'account/application',
       account: 'auth/account'
     }),
@@ -200,9 +203,6 @@ export default {
     formScaffold () {
       return this.form.scaffold
     },
-    restoreSavedFormButtonText () {
-      return this.form.restore_saved_form_button_text
-    },
     submitButtonText () {
       return this.form.submit_button_text
     },
@@ -220,8 +220,7 @@ export default {
   methods: {
     ...mapActions({
       validateForm: 'form/validateForm',
-      submitApplication: 'account/submitApplication',
-      restoreSavedForm: 'form/restoreSavedForm'
+      submitApplication: 'account/submitApplication'
     }),
     async submitForm () {
       const pass = await this.$form.validate('filplus_application')
@@ -236,7 +235,8 @@ export default {
       }
       if (pass) {
         const application = await this.$form.applyFormToSchema('filplus_application', this.application)
-        await this.submitApplication({ application, bytes, thresholds })
+        console.log(application)
+        // await this.submitApplication({ application, bytes, thresholds })
       }
       this.$button('application-submit-button').set({ loading: false })
     }
@@ -255,6 +255,10 @@ export default {
     display: block;
     margin-top: 0.5rem;
   }
+}
+
+#form {
+  position: relative;
 }
 
 #application {
@@ -277,20 +281,6 @@ export default {
     * {
       display: block;
     }
-  }
-}
-
-.restore-saved-form-button {
-  position: absolute;
-  top: 50%;
-  left: calc(100% + 1rem);
-  transform: translateY(-50%);
-  @include small {
-    position: relative;
-    top: 0;
-    left: 0;
-    transform: none;
-    margin-top: 1.5rem;
   }
 }
 

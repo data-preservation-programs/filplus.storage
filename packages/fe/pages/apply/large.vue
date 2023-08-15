@@ -11,8 +11,6 @@
       :kyc-heading="kycHeading" />
 
     <form id="form">
-      <!-- ==================================================== Form Toolbar -->
-      <FormToolbar />
 
       <!-- ============================ [Application] Background Information -->
       <div id="application-top">
@@ -29,12 +27,6 @@
 
             <div class="form-heading-1">
               {{ formHeading1 }}
-              <ButtonA
-                v-if="savedFormExists"
-                class="restore-saved-form-button"
-                @clicked="restoreSavedForm('filplus_application')">
-                {{ restoreSavedFormButtonText }}
-              </ButtonA>
             </div>
 
             <FieldContainer :scaffold="formScaffold.data_owner_name" />
@@ -143,7 +135,7 @@
             <FieldContainer :scaffold="formScaffold.replication_plan_textarea" />
             <FieldContainer :scaffold="formScaffold.confirm_follow_fil_guideline" />
 
-            <div class="buttons">
+            <div class="buttons bottom">
               <ButtonA
                 v-if="account"
                 class="submit-button"
@@ -167,6 +159,11 @@
         </div>
 
       </div>
+
+      <!-- ==================================================== Form Toolbar -->
+      <!-- Needs to be placed AFTER all the fields for its mounted hook to fire correctly -->
+      <FormToolbar form-id="filplus_application" />
+
     </form>
 
     <!-- ========================================================== Overlays -->
@@ -230,7 +227,6 @@ export default {
     ...mapGetters({
       siteContent: 'general/siteContent',
       networkStorageCapacity: 'general/networkStorageCapacity',
-      savedFormExists: 'form/savedFormExists',
       application: 'account/application',
       account: 'auth/account'
     }),
@@ -268,9 +264,6 @@ export default {
     formScaffold () {
       return this.form.scaffold
     },
-    restoreSavedFormButtonText () {
-      return this.form.restore_saved_form_button_text
-    },
     submitButtonText () {
       return this.form.submit_button_text
     },
@@ -288,26 +281,26 @@ export default {
   methods: {
     ...mapActions({
       validateForm: 'form/validateForm',
-      submitApplication: 'account/submitApplication',
-      restoreSavedForm: 'form/restoreSavedForm'
+      submitApplication: 'account/submitApplication'
     }),
     async submitForm () {
       const pass = await this.$form.validate('filplus_application')
       console.log(pass)
-      // const inputField = this.$field.get('total_datacap_size_input')
-      // const unitField = this.$field.get('total_datacap_size_unit')
-      // const bytes = this.$convertSizeToBytes(inputField.value, unitField.scaffold.options[unitField.value].label)
-      // const thresholds = this.formsThresholds
-      // await this.$handleFormRedirection(bytes, 'stage-lda', thresholds)
-      // if (!pass) {
-      //   const firstInvalidField = document.querySelector('.error')
-      //   this.$scrollToElement(firstInvalidField, 250, -200)
-      // }
-      // if (pass) {
-      //   const application = await this.$form.applyFormToSchema('filplus_application', this.application)
-      //   await this.submitApplication({ application, bytes, thresholds })
-      // }
-      // this.$button('application-submit-button').set({ loading: false })
+      const inputField = this.$field.get('total_datacap_size_input')
+      const unitField = this.$field.get('total_datacap_size_unit')
+      const bytes = this.$convertSizeToBytes(inputField.value, unitField.scaffold.options[unitField.value].label)
+      const thresholds = this.formsThresholds
+      await this.$handleFormRedirection(bytes, 'stage-lda', thresholds)
+      if (!pass) {
+        const firstInvalidField = document.querySelector('.error')
+        this.$scrollToElement(firstInvalidField, 250, -200)
+      }
+      if (pass) {
+        const application = await this.$form.applyFormToSchema('filplus_application', this.application)
+        console.log(application)
+        // await this.submitApplication({ application, bytes, thresholds })
+      }
+      this.$button('application-submit-button').set({ loading: false })
     }
   }
 }
@@ -395,13 +388,6 @@ export default {
   @include headingHighlight;
   position: relative;
   margin-bottom: 3rem;
-}
-
-.restore-saved-form-button {
-  position: absolute;
-  top: 50%;
-  left: calc(100% + 1rem);
-  transform: translateY(-50%);
 }
 
 .field-container {

@@ -107,6 +107,12 @@ const Form = (app, store) => {
         }
       }
       return stats
+    },
+    // =========================================================== getSavedState
+    getSavedState (formId) {
+      const formSaveStates = store.getters['form/formSaveStates']
+      const form = formSaveStates.find(form => form.id === formId)
+      return form ? form.state : false
     }
   }
 }

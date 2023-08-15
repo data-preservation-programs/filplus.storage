@@ -235,9 +235,6 @@ export default {
       cursor: default;
     }
   }
-  &.focused {
-
-  }
 }
 
 :deep(.field) {
@@ -291,7 +288,7 @@ export default {
     }
     &:after {
       white-space: break-spaces;
-      padding: toRem(15) toRem(20);
+      padding: toRem(20) toRem(24);
       top: 50%;
       left: calc(100% + 1rem);
       width: 26rem;

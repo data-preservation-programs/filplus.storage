@@ -3,7 +3,7 @@
 const state = () => ({
   fields: [],
   models: [],
-  savedFormExists: false
+  formSaveStates: []
 })
 
 // ///////////////////////////////////////////////////////////////////// Getters
@@ -11,7 +11,7 @@ const state = () => ({
 const getters = {
   fields: state => state.fields,
   models: state => state.models,
-  savedFormExists: state => state.savedFormExists
+  formSaveStates: state => state.formSaveStates
 }
 
 // ///////////////////////////////////////////////////////////////////// Actions
@@ -32,23 +32,16 @@ const actions = {
     const index = getters.fields.findIndex(field => field.id === id)
     commit('REMOVE_FIELD', index)
   },
-  // ////////////////////////////////////////////////// setSavedFormExistsStatus
-  setSavedFormExistsStatus ({ commit }, status) {
-    commit('SET_SAVED_FORM_EXISTS_STATUS', status)
+  // ////////////////////////////////////////////////////////// setFormSaveState
+  setFormSaveState ({ commit, getters }, payload) {
+    const index = getters.formSaveStates.findIndex(form => form.id === payload.id)
+    commit('SET_FORM_SAVE_STATE', { index, form: payload })
+  },
+  // /////////////////////////////////////////////////////// removeFormSaveState
+  removeFormSaveState ({ commit, getters }, id) {
+    const index = getters.fields.findIndex(form => form.id === id)
+    commit('REMOVE_FORM_SAVE_STATE', index)
   }
-  // ////////////////////////////////////////////////////////// restoreSavedForm
-  // restoreSavedForm ({ commit, getters, dispatch }, formId) {
-  //   const id = `form__${formId}`
-  //   const fields = JSON.parse(this.$ls.get(id))
-  //   fields.forEach((field) => {
-  //     commit('SET_FIELD', {
-  //       index: getters.fields.findIndex(obj => obj.id === field.id),
-  //       field
-  //     })
-  //   })
-  //   this.$ls.remove(id)
-  //   dispatch('setSavedFormExistsStatus', false)
-  // }
 }
 
 // /////////////////////////////////////////////////////////////////// Mutations
@@ -66,10 +59,15 @@ const mutations = {
   },
   REMOVE_FIELD (state, index) {
     state.fields.splice(index, 1)
+  },
+  SET_FORM_SAVE_STATE (state, payload) {
+    const index = payload.index
+    const form = payload.form
+    index === -1 ? state.formSaveStates.push(form) : state.formSaveStates.splice(index, 1, form)
+  },
+  REMOVE_FORM_SAVE_STATE (state, index) {
+    state.formSaveStates.splice(index, 1)
   }
-  // SET_SAVED_FORM_EXISTS_STATUS (state, status) {
-  //   state.savedFormExists = status
-  // }
 }
 
 // ////////////////////////////////////////////////////////////////////// Export
