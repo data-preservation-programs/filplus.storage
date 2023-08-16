@@ -200,10 +200,10 @@
             "minmax": "Number must be between 1 and 5242880"
           },
           "react": [{
-            "modelKey": "total_datacap_size",
+            "modelKey": "total_datacap_size_range",
             "func": "$convertDatacapSizeBytesToHumanNumber",
             "args": {
-              "valueFromField": "total_datacap_size"
+              "valueFromField": "total_datacap_size_range"
             }
           }]
         },
@@ -225,10 +225,10 @@
             { "label": "PiB" }
           ],
           "react": [{
-            "modelKey": "total_datacap_size",
+            "modelKey": "total_datacap_size_range",
             "func": "$reactUnitToDatacapSizeBytes",
             "args": {
-              "valueFromField": "total_datacap_size",
+              "valueFromField": "total_datacap_size_range",
               "unitFromField": "total_datacap_size_unit"
             }
           }]
@@ -525,7 +525,7 @@
           "description": "",
           "placeholder": "London, England",
           "tooltip": "",
-          "required": false,
+          "required": true,
           "pre": "[^\\u0000-\\u00ff]",
           "autocomplete": "none",
           "conditions": [
@@ -554,7 +554,7 @@
           "tooltip": "",
           "pre": "[^\\u0000-\\u00ff]",
           "autocomplete": "none",
-          "required": false,
+          "required": true,
           "conditions": [
             {
               "modelKey": "data_preparer_radio",
@@ -581,7 +581,7 @@
           "tooltip": "",
           "pre": "[^\\u0000-\\u00ff]",
           "autocomplete": "none",
-          "required": false,
+          "required": true,
           "conditions": [
             {
               "modelKey": "data_preparer_radio",

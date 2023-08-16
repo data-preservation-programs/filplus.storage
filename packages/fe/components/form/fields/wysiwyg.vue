@@ -2,7 +2,7 @@
   <div :class="['field field-wysiwyg', state]">
 
     <Wysiwyg
-      :id="fieldKey"
+      :id="modelKey"
       :field="field"
       @updateContentValue="updateContentValue">
 
@@ -48,8 +48,8 @@ export default {
   },
 
   computed: {
-    fieldKey () {
-      return this.field.fieldKey
+    modelKey () {
+      return this.field.modelKey
     },
     state () {
       return this.field.state

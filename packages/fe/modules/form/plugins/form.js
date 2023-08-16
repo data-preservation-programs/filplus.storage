@@ -21,7 +21,8 @@ const Form = (app, store) => {
         if (field.validate && fieldFormId === formId) {
           const state = field.state
           const originalState = field.originalState
-          if (state === 'error' || originalState === 'error') {
+          if (field.mounted && (state === 'error' || originalState === 'error')) {
+            console.log(field.modelKey, field.mounted, state, originalState)
             formValid = false
             store.dispatch('form/setField', Object.assign(CloneDeep(field), {
               state: originalState,
@@ -33,7 +34,7 @@ const Form = (app, store) => {
       return formValid
     },
     // ===================================================================== get
-    applyFormToSchema (formId, incoming) {
+    applyFormToSchema (formId, incoming, clearLocalStorage) {
       const schema = CloneDeep(incoming)
       const fields = store.getters['form/fields']
       const len = fields.length
@@ -69,7 +70,7 @@ const Form = (app, store) => {
                 value = option.label
               } else {
                 value = scaffold.baseValue
-                if (!value) { throw new Error(`baseValue key missing from ${field.fieldKey} field scaffold`) }
+                if (!value) { throw new Error(`baseValue key missing from ${field.modelKey} field scaffold`) }
               }
             // If output is truthy
             } else if ((type === 'radio' || type === 'checkbox') && scaffold.isSingleSelection) {
@@ -80,6 +81,9 @@ const Form = (app, store) => {
           value = null
         }
         schema[modelKey] = value
+      }
+      if (clearLocalStorage) {
+        app.$ls.remove(`form__${formId}`)
       }
       return schema
     },

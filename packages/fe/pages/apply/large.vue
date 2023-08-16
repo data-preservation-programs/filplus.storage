@@ -10,7 +10,7 @@
       :hero-button="backButton"
       :kyc-heading="kycHeading" />
 
-    <form id="form">
+    <div id="form">
 
       <!-- ============================ [Application] Background Information -->
       <div id="application-top">
@@ -164,7 +164,7 @@
       <!-- Needs to be placed AFTER all the fields for its mounted hook to fire correctly -->
       <FormToolbar form-id="filplus_application" />
 
-    </form>
+    </div>
 
     <!-- ========================================================== Overlays -->
     <Overlay type="noise" />
@@ -285,20 +285,22 @@ export default {
     }),
     async submitForm () {
       const pass = await this.$form.validate('filplus_application')
-      console.log(pass)
+      if (!pass) {
+        const firstInvalidField = document.querySelector('.error')
+        this.$scrollToElement(firstInvalidField, 250, -200)
+        this.$button('application-submit-button').set({ loading: false })
+        return
+      }
       const inputField = this.$field.get('total_datacap_size_input')
       const unitField = this.$field.get('total_datacap_size_unit')
       const bytes = this.$convertSizeToBytes(inputField.value, unitField.scaffold.options[unitField.value].label)
       const thresholds = this.formsThresholds
-      await this.$handleFormRedirection(bytes, 'stage-lda', thresholds)
-      if (!pass) {
-        const firstInvalidField = document.querySelector('.error')
-        this.$scrollToElement(firstInvalidField, 250, -200)
-      }
-      if (pass) {
-        const application = await this.$form.applyFormToSchema('filplus_application', this.application)
+      const stay = await this.$handleFormRedirection(bytes, 'stage-lda', thresholds)
+      console.log(pass, stay)
+      if (pass && stay) {
+        const application = await this.$form.applyFormToSchema('filplus_application', this.application, true)
         console.log(application)
-        // await this.submitApplication({ application, bytes, thresholds })
+        await this.submitApplication({ application, bytes, thresholds })
       }
       this.$button('application-submit-button').set({ loading: false })
     }

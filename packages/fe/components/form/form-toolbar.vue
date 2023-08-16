@@ -16,14 +16,6 @@
       <div class="state">
         Question {{ formStats.completed }} / {{ formStats.mounted }}
       </div>
-      <!-- <div class="buttons">
-        <button class="nav-button prev">
-          Previous
-        </button>
-        <button class="nav-button next">
-          Next
-        </button>
-      </div> -->
     </div>
 
     <button
@@ -204,22 +196,6 @@ export default {
 .state {
   font-weight: 500;
   line-height: 1;
-}
-
-.buttons {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  margin-top: toRem(8);
-}
-
-.nav-button {
-  font-size: toRem(13);
-  line-height: 1;
-  color: rgba($titanWhite, 0.8);
-  &:hover {
-    text-decoration: underline;
-  }
 }
 
 // ////////////////////////////////////////////////////////////////// Save state

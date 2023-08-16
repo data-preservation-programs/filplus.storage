@@ -125,6 +125,7 @@ export default {
     if (!this.field) {
       const value = this.getDefaultValue()
       const conditions = scaffold.conditions
+      const displayField = !conditions || (conditions && conditions.length === 0)
       const field = { // `groupId` and `fieldKey` are reserved keys, set in `array.vue`
         id: this.id,
         formId: this.formId,
@@ -134,8 +135,8 @@ export default {
         originalState: null,
         validation: null,
         originalValidation: null,
-        displayField: !conditions || (conditions && conditions.length === 0),
-        mounted: true,
+        displayField,
+        mounted: displayField,
         value,
         originalValue: value,
         scaffold
@@ -147,16 +148,12 @@ export default {
       field.originalState = state
       field.originalValidation = state
       this.setField(field)
-    } else {
-      this.setField(Object.assign(
-        CloneDeep(this.field),
-        { mounted: true }
-      ))
     }
   },
 
   mounted () {
-    this.$nextTick(() => {
+    this.$nextTick(async () => {
+      await this.syncLocalStorageToValue()
       this.$nuxt.$on('fieldValueUpdated', (field) => {
         this.detectConditions()
         this.initializeReactions(field)
@@ -167,7 +164,6 @@ export default {
         }
       })
       this.detectConditions()
-      this.syncLocalStorageToValue()
     })
   },
 
@@ -176,9 +172,6 @@ export default {
       CloneDeep(this.field),
       { mounted: false }
     ))
-    if (!module.hot) { // or try this https://github.com/vuejs/vue/issues/6518#issuecomment-855802062
-      this.removeField(this.field.id)
-    }
   },
 
   methods: {
@@ -267,6 +260,7 @@ export default {
           const check = useValidateField(field)
           field.state = check.state
           field.validation = check.validation
+          this.$field.saveFieldToLocalStorage(field)
           await this.setField(field)
         }
       }
@@ -295,22 +289,23 @@ export default {
           }
         }
       }
-      displayField = displayField.every((val) => {
-        return val === true
-      })
+      displayField = displayField.every(val => val === true)
       if (this.displayField !== displayField) {
-        await this.setField(Object.assign(CloneDeep(this.field), {
+        const field = Object.assign(CloneDeep(this.field), {
           validate: displayField,
-          displayField
-        }))
+          displayField,
+          mounted: displayField
+        })
+        this.$field.saveFieldToLocalStorage(field)
+        await this.setField(field)
       }
     },
-    syncLocalStorageToValue () {
+    async syncLocalStorageToValue () {
       const form = JSON.parse(this.$ls.get(`form__${this.formId}`))
       if (form) {
         const savedLsField = form[this.modelKey]
         if (savedLsField) {
-          this.setField(Object.assign(
+          await this.setField(Object.assign(
             CloneDeep(this.field),
             savedLsField
           ))

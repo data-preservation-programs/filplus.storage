@@ -426,10 +426,12 @@ const HandleFormRedirection = (app, store, bytes, stage, thresholds) => {
   if (stage === 'stage-apply') {
     if (bytes >= tib1 && bytes < tib100) {
       app.$gtm.push({ event: 'redirect_notary_selection' })
-      return app.router.push('/apply/general/notaries')
+      app.router.push('/apply/general/notaries')
+      return false
     } else if (bytes >= tib100) {
       app.$gtm.push({ event: 'redirect_lda' })
-      return app.router.push('/apply/large')
+      app.router.push('/apply/large')
+      return false
     }
     return true
   // --------------------------------------------------------------- stage: 'ga'
@@ -441,7 +443,8 @@ const HandleFormRedirection = (app, store, bytes, stage, thresholds) => {
         message: 'Please fill out the Large Dataset Application for your requested amount (>= 100 TiB)'
       })
       app.$gtm.push({ event: 'redirect_lda' })
-      return app.router.push('/apply/large')
+      app.router.push('/apply/large')
+      return false
     }
     return true
   // -------------------------------------------------------------- stage: 'lda'
@@ -453,7 +456,8 @@ const HandleFormRedirection = (app, store, bytes, stage, thresholds) => {
         message: 'Please fill out the General Application for your requested amount (< 100 TiB)'
       })
       app.$gtm.push({ event: 'redirect_ga' })
-      return app.router.push('/apply/general/notaries')
+      app.router.push('/apply/general/notaries')
+      return false
     }
     return true
   }

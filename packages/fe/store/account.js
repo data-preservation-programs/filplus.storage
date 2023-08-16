@@ -27,7 +27,7 @@ const state = () => ({
     website: null,
     social_media_handle: null,
     social_media_handle_type: null,
-    total_datacap_size: null,
+    total_datacap_size_range: null,
     total_datacap_size_input: null,
     total_datacap_size_unit: null,
     filecoin_address: null,

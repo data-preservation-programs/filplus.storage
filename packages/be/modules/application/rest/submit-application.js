@@ -111,7 +111,7 @@ MC.app.post('/submit-application', async (req, res) => {
         lastname: application.hubspot_opt_in_last_name,
         company: application.data_owner_name,
         fil__application_region: application.ga_region || application.data_owner_region,
-        fil__application_datacap_requested: `${application.total_datacap_size} ${application.total_datacap_size_unit}`,
+        fil__application_datacap_requested: `${application.total_datacap_size_input} ${application.total_datacap_size_unit}`,
         filecoin_wallet_address: application.filecoin_address
       })
     }

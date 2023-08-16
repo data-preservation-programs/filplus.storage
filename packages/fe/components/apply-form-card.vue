@@ -93,7 +93,7 @@ export default {
       return this.formsData.tooltip_greater_than_15pib_text
     },
     rangeField () {
-      return this.$field.get('total_datacap_size')
+      return this.$field.get('total_datacap_size_range')
     }
   },
 
