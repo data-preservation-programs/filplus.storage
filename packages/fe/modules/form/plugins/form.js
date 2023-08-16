@@ -22,7 +22,6 @@ const Form = (app, store) => {
           const state = field.state
           const originalState = field.originalState
           if (field.mounted && (state === 'error' || originalState === 'error')) {
-            console.log(field.modelKey, field.mounted, state, originalState)
             formValid = false
             store.dispatch('form/setField', Object.assign(CloneDeep(field), {
               state: originalState,

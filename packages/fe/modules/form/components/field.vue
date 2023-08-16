@@ -155,7 +155,7 @@ export default {
     this.$nextTick(async () => {
       await this.syncLocalStorageToValue()
       this.$nuxt.$on('fieldValueUpdated', (field) => {
-        this.detectConditions()
+        this.detectConditions(field)
         this.initializeReactions(field)
       })
       this.$nuxt.$on('fieldUpdateValue', (payload) => {
@@ -248,13 +248,13 @@ export default {
       await this.setField(field)
       this.$nuxt.$emit('fieldValueUpdated', field)
     },
-    async initializeReactions (field) {
+    async initializeReactions (updatedField) {
       const react = this.react
       if (!react) { return }
       const len = react.length
       for (let i = 0; i < len; i++) {
         const reaction = react[i]
-        if (reaction.modelKey === field.id) {
+        if (reaction.modelKey === updatedField.id) {
           const field = CloneDeep(this.field)
           field.value = this[reaction.func](...Object.values(reaction.args))
           const check = useValidateField(field)
@@ -265,9 +265,9 @@ export default {
         }
       }
     },
-    async detectConditions () {
+    async detectConditions (updatedField) {
       const conditions = this.conditions
-      if (!conditions) { return }
+      if (!conditions || !updatedField || updatedField.id === this.field.id) { return }
       const dualValueFields = ['select', 'radio', 'checkbox']
       const len = conditions.length
       let displayField = [true]
