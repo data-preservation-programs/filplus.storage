@@ -82,6 +82,7 @@ const actions = {
     }
     if (application['Confirm that this is a public dataset that can be retrieved by anyone on the network (i.e., no specific permissions or access rights are required to view the data)'] === 'No') {
       if (!labels.includes('efil+')) { labels.push('efil+') }
+      if (!assignees.includes('kevzak')) { assignees.push('kevzak') }
       comments.push('This application is requesting DataCap for a **private** dataset, so it\'s labeled `efil+`')
     }
     try {

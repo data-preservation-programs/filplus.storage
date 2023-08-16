@@ -9,7 +9,7 @@
 
     <LoginButton v-if="!account" />
 
-    <div v-else class="form">
+    <div :class="['form', { hidden: !account }]">
 
       <div class="row">
         <FieldContainer
@@ -78,11 +78,15 @@ export default {
 
   watch: {
     account (incoming) {
-      this.setHubspotOptInData(incoming)
-      const firstNameField = this.$field('hubspot_opt_in_first_name|filplus_application').get()
-      const lastNameField = this.$field('hubspot_opt_in_last_name|filplus_application').get()
-      if (firstNameField) { this.$field('hubspot_opt_in_first_name|filplus_application').updateValue(incoming.hubspotOptInFirstName || '') }
-      if (lastNameField) { this.$field('hubspot_opt_in_last_name|filplus_application').updateValue(incoming.hubspotOptInLastName || '') }
+      this.$nextTick(() => {
+        if (incoming) {
+          this.setHubspotOptInData(incoming)
+          const email = !incoming.hubspotOptIn && incoming.githubEmail ? incoming.githubEmail : incoming.hubspotOptInEmail
+          this.$field('hubspot_opt_in_first_name|filplus_application').updateValue(incoming.hubspotOptInFirstName || '')
+          this.$field('hubspot_opt_in_last_name|filplus_application').updateValue(incoming.hubspotOptInLastName || '')
+          this.$field('hubspot_opt_in_email|filplus_application').updateValue(email || '')
+        }
+      })
     }
   },
 
@@ -128,6 +132,12 @@ export default {
 .message {
   margin-top: 0.5rem;
   margin-bottom: 2rem;
+}
+
+.form {
+  &.hidden {
+    display: none;
+  }
 }
 
 .field-container {

@@ -138,16 +138,9 @@ export default {
   // ---------------------------------------------------------------------------
   auth: {
     redirectUnauthenticated: '/apply',
-    redirectAfterLogin: {
-      unregistered: {
-        path: '/apply',
-        key: 'githubUsername'
-      },
-      registered: {
-        path: '/apply',
-        key: 'githubUsername'
-      }
-    },
+    // redirectAfterLogin: {
+    //   path: '/'
+    // },
     redirectAfterLogout: {
       path: '/apply',
       match: [

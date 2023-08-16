@@ -229,6 +229,7 @@ export default {
       return this.pageData.section_subfooter_slider.heading
     }
   }
+
 }
 </script>
 

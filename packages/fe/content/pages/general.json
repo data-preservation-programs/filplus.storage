@@ -35,6 +35,10 @@
       }
     ],
     "kyc_button": {
+      "default": {
+        "text": "Confirm Identity",
+        "tooltip": "Optionally, you can get DataCap even faster by performing KYC verification through Togggle. KYC is not required. However, applicants that have passed KYC are more likely to be approved quickly. You’ll only need to perform KYC once. It will be applied to every application you make moving forward. |Start_kyc_link|."
+      },
       "unverified": {
         "text": "Confirm Identity",
         "tooltip": "Optionally, you can get DataCap even faster by performing KYC verification through Togggle. KYC is not required. However, applicants that have passed KYC are more likely to be approved quickly. You’ll only need to perform KYC once. It will be applied to every application you make moving forward. |Start_kyc_link|."
@@ -52,6 +56,10 @@
         "tooltip": "You attempted but failed KYC. Please |try_again_link| or |reach_out_link| for more information. The most likely reasons for failing are due to poor lighting or bad/blurry photos."
       },
       "success": {
+        "text": "Verified User",
+        "tooltip": "Thanks for being a verified user of the Filecoin Plus program. Being verified means faster approvals and shorter time to DataCap."
+      },
+      "approve": {
         "text": "Verified User",
         "tooltip": "Thanks for being a verified user of the Filecoin Plus program. Being verified means faster approvals and shorter time to DataCap."
       }
@@ -116,7 +124,7 @@
         {
           "type": "a",
           "icon": "github",
-          "url": "https://github.com/filecoin-project/filecoin-plus-client-onboarding",
+          "url": "https://github.com/filecoin-project/filecoin-plus-large-datasets",
           "target": "_blank"
         },
         {

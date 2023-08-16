@@ -53,25 +53,15 @@
                 <span class="read-status-indicator" />
               </component>
 
-              <div class="panel-right">
-                <div class="notification-heading">
-                  {{ stateMap[notification.custom.state] }}
-                </div>
-                <div class="message">
-                  <a
-                    :href="notification.custom.issueUrl || notification.custom.prUrl"
-                    class="issue-link"
-                    target="_blank">
-                    {{ notification.custom.issueId ? 'Issue' : 'Pull Request' }} #{{ notification.custom.issueNumber || notification.custom.prNumber }}</a>:{{ notification.custom.issueTitle || notification.custom.prTitle }}
-                </div>
-                <Timeago
-                  v-slot="{ convertedDate }"
-                  :date="new Date(notification.createdAt)">
-                  <div class="timeago">
-                    {{ convertedDate }}
-                  </div>
-                </Timeago>
-              </div>
+              <NotificationApplication
+                v-if="notification.bucket === 'application'"
+                :notification="notification"
+                class="panel-right" />
+
+              <NotificationKyc
+                v-else-if="notification.bucket === 'kyc'"
+                :notification="notification"
+                class="panel-right" />
 
             </div>
           </div>
@@ -86,8 +76,12 @@
         <footer v-if="notificationsFound" class="footer">
           <button
             class="mark-all-as-read-button"
+            :disabled="!newNotificationsExist"
+            data-tooltip="☀️ you're all caught up"
             @click="markAllNotificationsAsRead">
-            Mark all as read
+            <div class="mark-all-as-read-button-content">
+              Mark all as read
+            </div>
           </button>
           <div class="pagination">
             <button
@@ -123,7 +117,8 @@
 import { mapGetters, mapActions } from 'vuex'
 
 import DropdownPanel from '@/components/dropdown-panel'
-import Timeago from '@/components/timeago'
+import NotificationApplication from '@/components/navigation/notification-application'
+import NotificationKyc from '@/components/navigation/notification-kyc'
 import Spinner from '@/components/spinners/material-circle'
 
 import IconBell from '@/components/icons/bell'
@@ -136,7 +131,8 @@ export default {
 
   components: {
     DropdownPanel,
-    Timeago,
+    NotificationApplication,
+    NotificationKyc,
     Spinner,
     IconBell,
     IconCloseThick,
@@ -146,12 +142,6 @@ export default {
   data () {
     return {
       notificationsLoaded: false,
-      stateMap: {
-        new: 'New Application',
-        completed: 'Completed',
-        validated: 'Validated',
-        reviewing: 'In Review'
-      },
       timeout: null,
       scrull: null,
       displayGradient: 'bottom'
@@ -533,32 +523,6 @@ export default {
   flex: 1;
 }
 
-.notification-heading,
-.message {
-  margin-bottom: toRem(5);
-  font-size: 1rem;
-  line-height: leading(24, 16);
-}
-
-.issue-link {
-  font-size: inherit;
-  font-weight: 500;
-  color: $greenYellow;
-  &:hover {
-    text-decoration: underline;
-  }
-}
-
-.notification-heading {
-  font-weight: 600;
-}
-
-.timeago {
-  font-size: toRem(14);
-  line-height: leading(18, 14);
-  color: $nandor;
-}
-
 .footer {
   display: flex;
   flex-direction: row;
@@ -568,7 +532,7 @@ export default {
   border-top: 2px solid $greenYellow;
 }
 
-.mark-all-as-read-button,
+.mark-all-as-read-button-content,
 .prev,
 .page,
 .next {
@@ -580,17 +544,55 @@ export default {
 $offset: calc(#{toRem(19)} + #{toRem(math.div(10, 2))} + #{toRem(5)});
 
 .mark-all-as-read-button {
-  transition: 150ms ease-out;
-  &:hover {
+  &[data-tooltip] {
+    &:hover {
+      &:before {
+        transform: rotate(180deg) translate(50%, 0);
+      }
+      &:after {
+        transform: translate(-50%, 0);
+      }
+    }
+    &:before,
+    &:after {
+      top: auto;
+      z-index: 1000;
+    }
     &:before {
-      transition: 150ms ease-in;
-      transform: scale(1.3);
+      bottom: calc(100% + 2px);
+      transform: rotate(180deg) translate(50%, 1rem);
     }
     &:after {
-      transition: 150ms ease-in;
-      width: calc(100% - #{$offset});
+      bottom: calc(100% + 0.5rem);
+      transform: translate(-50%, -0.5rem);
     }
   }
+  &:not([disabled]) {
+    .mark-all-as-read-button-content {
+      transition: 150ms ease-in;
+      cursor: pointer;
+      opacity: 1;
+      &:hover {
+        &:before {
+          transition: 150ms ease-in;
+          transform: scale(1.3);
+        }
+        &:after {
+          transition: 150ms ease-in;
+          width: calc(100% - #{$offset});
+        }
+      }
+    }
+    [data-tooltip] {
+      display: none;
+    }
+  }
+}
+
+.mark-all-as-read-button-content {
+  transition: 150ms ease-out;
+  cursor: no-drop;
+  opacity: 0.5;
   &:after {
     content: '';
     position: absolute;

@@ -1,5 +1,5 @@
 ### Data Owner Name
-organization_name
+data_owner_name
 
 ### What is your role related to the dataset
 your_role
@@ -11,10 +11,10 @@ data_owner_region
 data_owner_industry
 
 ### Website
-[organization_website](organization_website)
+[website](website)
 
 ### Social Media
-organization_social_media_handle (organization_social_media_handle_type)
+social_media_handle (social_media_handle_type)
 
 ### Total amount of DataCap being requested
 total_datacap_size total_datacap_size_unit
@@ -37,8 +37,11 @@ application_data_type
 ### Custom multisig
 custom_multisig
 
+### Identifier
+identifier
+
 ### Share a brief history of your project and organization
-about
+project_details
 
 ### Is this project associated with other projects/ecosystem stakeholders?
 ecosystem_associates_radio
@@ -55,11 +58,17 @@ source_of_data_select
 ### If you answered "Other" in the previous question, enter the details here
 source_of_data_textarea
 
-### How do you plan to prepare the dataset
-data_preparation_plan_select
+### If you are a data preparer, what is your location (City and Country)
+data_preparer_location
 
-### If you answered "other/custom tool" in the previous question, enter the details here
-data_preparation_plan_textarea
+### If you are a data preparer, how will the data be prepared? Please include tooling used and technical details?
+data_preparer_preparation_plan
+
+### If you are not preparing the data, who will prepare the data?  (Provide name and business)
+general_preparation_plan
+
+### Has this dataset been stored on the Filecoin network before? If so, please explain and make the case why you would like to store this dataset again to the network. Provide details on preparation and/or SP distribution.
+dataset_stored_before_textarea
 
 ### Please share a sample of the data
 data_sample
@@ -80,7 +89,7 @@ duration_of_storage
 geographic_distribution
 
 ### How will you be distributing your data to storage providers
-sending_data
+data_distribution
 
 ### How do you plan to choose SP
 storage_provider_selection_plan_select
