@@ -286,7 +286,7 @@ export default {
     async submitForm () {
       const pass = await this.$form.validate('filplus_application')
       if (!pass) {
-        const firstInvalidField = document.querySelector('.error')
+        const firstInvalidField = document.querySelector('.field-label.error')
         this.$scrollToElement(firstInvalidField, 250, -200)
         this.$button('application-submit-button').set({ loading: false })
         return
