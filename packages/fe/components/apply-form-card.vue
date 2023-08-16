@@ -219,7 +219,7 @@ export default {
   }
 }
 
-.input-field {
+:deep(div.input-field) {
   position: relative;
   width: 6.25rem;
   margin-right: 1.125rem;
@@ -232,9 +232,24 @@ export default {
     height: 2px;
     background-color: $titanWhite;
   }
+  .input {
+    padding: 0;
+    border: 0;
+    border-bottom: 2px solid white;
+    border-radius: 0;
+  }
 }
 
-.select-field {
+:deep(div.select-field) {
   width: 3.75rem;
+  .field-select {
+    padding: 0;
+    border: 0;
+    border-bottom: 2px solid white;
+    border-radius: 0;
+  }
+  .selection-window {
+    padding: 0;
+  }
 }
 </style>

@@ -190,11 +190,6 @@ $cardRadius: 1.875rem;
       padding: 0.75rem 1.5rem;
     }
   }
-  .select-container {
-    .dropdown {
-      background-color: rgba(15, 31, 26, 0.85);
-    }
-  }
 }
 
 // ///////////////////////////////////////////////////////////////////////// FAQ
