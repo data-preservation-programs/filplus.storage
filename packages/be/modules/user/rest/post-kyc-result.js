@@ -17,8 +17,6 @@ MC.app.post('/post-kyc-result', async (req, res) => {
   try {
     const kyc = req.body
     kyc.webhookResponseTimestamp = Moment().tz('UTC').toISOString()
-    console.log('============================================ /post-kyc-result')
-    console.log(kyc)
     // ------------------------------------------------------------ run checkers
     let data = kyc.data || kyc.error
     if (!data || data === '') {
@@ -37,6 +35,16 @@ MC.app.post('/post-kyc-result', async (req, res) => {
     if (!user) {
       return SendData(res, 422, 'Could not find user associated with <identifier>', { identifier: githubUsername })
     }
+    // ----------------------------------------------- parse returned kyc object
+    if (kyc.event === 'success' || kyc.event === 'approve') {
+      kyc.data.custom.createdAt = kyc.data.kyc.createdAt
+      delete kyc.data.kyc
+    } else if (kyc.event === 'failure') {
+      kyc.error.custom.createdAt = kyc.error.kyc.createdAt
+      delete kyc.error.kyc
+    }
+    console.log('============================================ /post-kyc-result')
+    console.log(kyc)
     // -------------------------------------------------------- populate history
     const kycHistory = user.kycHistory
     kycHistory.push(kyc)
@@ -55,10 +63,11 @@ MC.app.post('/post-kyc-result', async (req, res) => {
     }
     if (kyc.event === 'success' || kyc.event === 'approve') {
       notification.custom.success = {
-        createdAt: kyc.data.kyc.createdAt
+        createdAt: kyc.data.custom.createdAt
       }
     } else if (kyc.event === 'failure') {
       notification.custom.failure = {
+        createdAt: kyc.error.custom.createdAt,
         name: kyc.error.name,
         message: kyc.error.message
       }
