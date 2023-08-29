@@ -143,7 +143,7 @@ export default {
           this.updateValue(payload.value)
         }
       })
-      this.detectConditions(this.field)
+      this.detectConditions(this.field, 'mounted')
       this.debounceSaveFieldToLsUponValueUpdate = Debounce(() => {
         this.$field.saveFieldToLocalStorage(this.field)
       }, 500)
@@ -285,9 +285,23 @@ export default {
         }
       }
     },
-    async detectConditions (updatedField) {
+    valueIsNullState (field) {
+      const scaffold = field.scaffold
+      const type = scaffold.type
+      const value = field.value
+      let state = false
+      switch (type) {
+        case 'checkbox' : state = value === -1; break
+        case 'radio' : state = value === -1; break
+        case 'select' : state = value.length === 0; break
+        case 'range' : state = value === scaffold.min; break
+        default : state = value === ''; break
+      }
+      return state
+    },
+    async detectConditions (updatedField, loadState) {
       const conditions = this.conditions
-      if (!conditions || updatedField.id === this.field.id) { return }
+      if (!conditions && (updatedField.id === this.field.id || loadState !== 'mounted')) { return }
       const dualValueFields = ['select', 'radio', 'checkbox']
       const len = conditions.length
       let displayField = [true]
@@ -300,9 +314,12 @@ export default {
           const type = field.scaffold.type
           let value = `${field.value}`
           if (dualValueFields.includes(type)) {
-            value = value[0]
+            value = `${value[0]}`
           }
-          if (eq !== 'undefined') {
+          const valueIsNullState = this.valueIsNullState(field)
+          if (valueIsNullState) {
+            displayField.push(false)
+          } else if (eq !== 'undefined') {
             displayField.push(value === eq)
           } else if (neq !== 'undefined') {
             displayField.push(value !== neq)
@@ -318,7 +335,9 @@ export default {
           mounted: displayField
         }
         await this.setField(updated)
-        this.$field.saveFieldToLocalStorage(this.field)
+        if (loadState !== 'mounted') {
+          this.$field.saveFieldToLocalStorage(this.field)
+        }
       }
     },
     getLocalStorageValue () {
