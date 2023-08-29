@@ -95,13 +95,19 @@ export default {
     }
   },
 
+  watch: {
+    formStats (stats) {
+      if (stats.completed === stats.count) {
+        this.setFormSaveState({ id: this.formId, state: 'completed' })
+      }
+    }
+  },
+
   mounted () {
     this.$nextTick(() => {
       const form = this.$ls.get(`form__${this.formId}`)
       if (form) {
-        const formStats = this.$form.getFieldStats(this.formId)
-        const state = formStats.completed === formStats.mounted ? 'completed' : 'restored'
-        this.setFormSaveState({ id: this.formId, state })
+        this.setFormSaveState({ id: this.formId, state: 'restored' })
       }
     })
   },

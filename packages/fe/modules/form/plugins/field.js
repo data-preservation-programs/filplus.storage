@@ -25,7 +25,7 @@ const Field = (app, store) => {
       app.$ls.set(`form__${formId}`, JSON.stringify(form))
       await app.$delay(1000)
       const formStats = app.$form.getFieldStats(formId)
-      const state = formStats.completed === formStats.mounted ? 'completed' : 'saved'
+      const state = formStats.completed === formStats.count ? 'completed' : 'saved'
       store.dispatch('form/setFormSaveState', { id: formId, state })
     }
   }
