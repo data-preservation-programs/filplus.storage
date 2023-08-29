@@ -14,7 +14,7 @@
 
     <div :class="['toolbar', { 'saved-state-drawer-open': formSavedState }]">
       <div class="state">
-        Question {{ formStats.completed }} / {{ formStats.mounted }}
+        Question {{ formStats.completed }} / {{ formStats.count }}
       </div>
     </div>
 
@@ -84,14 +84,14 @@ export default {
     percentCompletion () {
       const formStats = this.formStats
       if (formStats.mounted === 0) { return 0 }
-      return Math.ceil((formStats.completed / formStats.mounted) * 360)
+      return Math.ceil((formStats.completed / formStats.count) * 360)
     },
     formSavedState () {
       return this.$form.getSavedState(this.formId)
     },
     formCompleted () {
       const formStats = this.formStats
-      return formStats.completed === formStats.mounted
+      return formStats.completed === formStats.count
     }
   },
 

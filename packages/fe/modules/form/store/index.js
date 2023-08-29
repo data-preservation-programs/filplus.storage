@@ -64,10 +64,6 @@ const mutations = {
     const index = payload.index
     const field = payload.field
     index === -1 ? state.fields.push(field) : state.fields.splice(index, 1, field)
-    const found = state.fields.find(field => field.id === 'data_preparer_location')
-    if (found) {
-      console.log('🔎', found.modelKey, found.value)
-    }
   },
   REMOVE_FIELD (state, index) {
     state.fields.splice(index, 1)
