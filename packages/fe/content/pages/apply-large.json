@@ -499,23 +499,6 @@
           },
           "defaultValue": ""
         },
-        "data_preparer_radio": {
-          "type": "radio",
-          "modelKey": "data_preparer_radio",
-          "formId": "filplus_application",
-          "label": "Are you the data preparer?",
-          "description": "Are you or your organization in charge of preparing the dataset?",
-          "required": true,
-          "output": "option",
-          "validationMessage": {
-            "required": "This field is required"
-          },
-          "options": [
-            { "label": "Yes" },
-            { "label": "No" }
-          ],
-          "defaultValue": ""
-        },
         "data_preparer_location": {
           "type": "input",
           "inputType": "text",
@@ -530,8 +513,8 @@
           "autocomplete": "none",
           "conditions": [
             {
-              "modelKey": "data_preparer_radio",
-              "eq": 0
+              "modelKey": "your_role",
+              "eq": 1
             }
           ],
           "chars": {
@@ -557,8 +540,8 @@
           "required": true,
           "conditions": [
             {
-              "modelKey": "data_preparer_radio",
-              "eq": 0
+              "modelKey": "your_role",
+              "eq": 1
             }
           ],
           "chars": {
@@ -584,8 +567,8 @@
           "required": true,
           "conditions": [
             {
-              "modelKey": "data_preparer_radio",
-              "eq": 1
+              "modelKey": "your_role",
+              "neq": 1
             }
           ],
           "chars": {

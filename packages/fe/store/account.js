@@ -50,7 +50,6 @@ const state = () => ({
     nature_of_data: null,
     source_of_data_select: null,
     source_of_data_textarea: null,
-    data_preparer_radio: null,
     data_preparer_location: null,
     data_preparer_preparation_plan: null,
     general_preparation_plan: null,

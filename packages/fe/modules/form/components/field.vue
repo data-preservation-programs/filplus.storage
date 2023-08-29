@@ -302,9 +302,9 @@ export default {
           if (dualValueFields.includes(type)) {
             value = value[0]
           }
-          if (eq) {
+          if (eq !== 'undefined') {
             displayField.push(value === eq)
-          } else if (neq) {
+          } else if (neq !== 'undefined') {
             displayField.push(value !== neq)
           }
         }

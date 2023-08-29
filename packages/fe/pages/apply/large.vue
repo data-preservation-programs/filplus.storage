@@ -110,7 +110,6 @@
             <FieldContainer :scaffold="formScaffold.nature_of_data" />
             <FieldContainer :scaffold="formScaffold.source_of_data_select" />
             <FieldContainer :scaffold="formScaffold.source_of_data_textarea" />
-            <FieldContainer :scaffold="formScaffold.data_preparer_radio" />
             <FieldContainer :scaffold="formScaffold.data_preparer_location" />
             <FieldContainer :scaffold="formScaffold.data_preparer_preparation_plan" />
             <FieldContainer :scaffold="formScaffold.general_preparation_plan" />
