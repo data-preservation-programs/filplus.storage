@@ -12,22 +12,19 @@ const Form = (app, store) => {
   return {
     // ================================================================ validate
     validate (formId) {
-      const fields = store.getters['form/fields']
+      const fields = store.getters['form/fields'].filter(field => field.formId === formId)
       const len = fields.length
       let formValid = true
       for (let i = 0; i < len; i++) {
         const field = fields[i]
-        const fieldFormId = field.formId
-        if (field.validate && fieldFormId === formId) {
-          const state = field.state
-          const originalState = field.originalState
-          if (field.mounted && (state === 'error' || originalState === 'error')) {
-            formValid = false
-            store.dispatch('form/setField', Object.assign(CloneDeep(field), {
-              state: originalState,
-              validation: field.originalValidation
-            }))
-          }
+        if (field.validate && field.mounted && (field.state === 'error' || field.originalState === 'error')) {
+          formValid = false
+          store.dispatch('form/setField', Object.assign({
+            id: field.id,
+            state: 'error',
+            originalState: 'error',
+            validation: field.originalValidation
+          }))
         }
       }
       return formValid

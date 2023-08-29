@@ -1,3 +1,7 @@
+// ///////////////////////////////////////////////////////// Imports & Variables
+// -----------------------------------------------------------------------------
+import CloneDeep from 'lodash/cloneDeep'
+
 // /////////////////////////////////////////////////////////////////////// State
 // ---------------------- https://vuex.vuejs.org/guide/modules.html#module-reuse
 const state = () => ({
@@ -23,9 +27,13 @@ const actions = {
     await commit('REGISTER_MODEL', { index, model: payload })
   },
   // ////////////////////////////////////////////////////////////////// setField
-  async setField ({ commit, getters }, payload) {
-    const index = getters.fields.findIndex(field => field.id === payload.id)
-    await commit('SET_FIELD', { index, field: payload })
+  async setField ({ commit, getters }, incoming) {
+    const field = CloneDeep(getters.fields.find(field => field.id === incoming.id))
+    if (field) {
+      Object.assign(field, incoming)
+    }
+    const index = getters.fields.findIndex(field => field.id === incoming.id)
+    await commit('SET_FIELD', { index, field: field || incoming })
   },
   // /////////////////////////////////////////////////////////////// removeField
   removeField ({ commit, getters }, id) {
@@ -56,6 +64,10 @@ const mutations = {
     const index = payload.index
     const field = payload.field
     index === -1 ? state.fields.push(field) : state.fields.splice(index, 1, field)
+    const found = state.fields.find(field => field.id === 'data_preparer_location')
+    if (found) {
+      console.log('🔎', found.modelKey, found.value)
+    }
   },
   REMOVE_FIELD (state, index) {
     state.fields.splice(index, 1)

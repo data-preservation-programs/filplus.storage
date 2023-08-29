@@ -2,7 +2,7 @@
   <component
     :is="rootHtmlTag"
     v-if="displayField && field"
-    :class="['field', { disabled }]">
+    :class="['field', state, { disabled }]">
 
     <slot
       :field="field"
@@ -20,7 +20,6 @@
 <script>
 // ===================================================================== Imports
 import { mapGetters, mapActions } from 'vuex'
-import CloneDeep from 'lodash/cloneDeep'
 
 import useValidateField from '@/modules/form/composables/use-validate-field'
 
@@ -121,8 +120,47 @@ export default {
   },
 
   created () {
-    const scaffold = this.scaffold
     if (!this.field) {
+      this.setField(this.compileField())
+    }
+  },
+
+  mounted () {
+    this.$nextTick(async () => {
+      const field = await this.getLocalStorageValue() || {
+        id: this.id,
+        mounted: this.displayField
+      }
+      await this.setField(field)
+      this.$nuxt.$on('fieldValueUpdated', (field) => {
+        this.detectConditions(field)
+        this.initializeReactions(field)
+      })
+      this.$nuxt.$on('fieldUpdateValue', (payload) => {
+        if (this.fieldId === payload.fieldId) {
+          this.updateValue(payload.value)
+        }
+      })
+      this.detectConditions(this.field)
+    })
+  },
+
+  beforeDestroy () {
+    if (this.field) {
+      this.setField({
+        id: this.id,
+        mounted: false
+      })
+    }
+  },
+
+  methods: {
+    ...mapActions({
+      setField: 'form/setField',
+      removeField: 'form/removeField'
+    }),
+    compileField () {
+      const scaffold = this.scaffold
       const value = this.getDefaultValue()
       const conditions = scaffold.conditions
       const displayField = !conditions || (conditions && conditions.length === 0)
@@ -147,51 +185,23 @@ export default {
       }
       field.originalState = state
       field.originalValidation = state
-      this.setField(field)
-    }
-  },
-
-  mounted () {
-    this.$nextTick(async () => {
-      await this.syncLocalStorageToValue()
-      this.$nuxt.$on('fieldValueUpdated', (field) => {
-        this.detectConditions(field)
-        this.initializeReactions(field)
-      })
-      this.$nuxt.$on('fieldUpdateValue', (payload) => {
-        if (this.fieldId === payload.fieldId) {
-          this.updateValue(payload.value)
-        }
-      })
-      this.detectConditions()
-    })
-  },
-
-  beforeDestroy () {
-    this.setField(Object.assign(
-      CloneDeep(this.field),
-      { mounted: false }
-    ))
-  },
-
-  methods: {
-    ...mapActions({
-      setField: 'form/setField',
-      removeField: 'form/removeField'
-    }),
+      return field
+    },
     async toggleState (focused) {
-      const field = CloneDeep(this.field)
+      const update = { id: this.id }
       if (focused) {
-        field.state = 'in-progress'
+        update.state = 'in-progress'
       } else {
-        const check = useValidateField(field)
-        field.state = check.state
-        field.originalState = check.state
-        field.validation = check.validation
-        field.originalValidation = check.originalValidation
-        this.$field.saveFieldToLocalStorage(field)
+        const check = useValidateField(this.field)
+        update.state = check.state
+        update.originalState = check.state
+        update.validation = check.validation
+        update.originalValidation = check.originalValidation
       }
-      await this.setField(field)
+      await this.setField(update)
+      if (!focused) {
+        this.$field.saveFieldToLocalStorage(this.field)
+      }
     },
     getNullStateValue () {
       const type = this.type
@@ -243,10 +253,13 @@ export default {
       return value
     },
     async updateValue (value) {
-      const field = CloneDeep(this.field)
-      field.value = value
-      await this.setField(field)
-      this.$nuxt.$emit('fieldValueUpdated', field)
+      const updated = {
+        id: this.id,
+        value
+      }
+      await this.setField(updated)
+      this.$field.saveFieldToLocalStorage(this.field)
+      this.$nuxt.$emit('fieldValueUpdated', updated)
     },
     async initializeReactions (updatedField) {
       const react = this.react
@@ -255,19 +268,21 @@ export default {
       for (let i = 0; i < len; i++) {
         const reaction = react[i]
         if (reaction.modelKey === updatedField.id) {
-          const field = CloneDeep(this.field)
-          field.value = this[reaction.func](...Object.values(reaction.args))
-          const check = useValidateField(field)
-          field.state = check.state
-          field.validation = check.validation
-          this.$field.saveFieldToLocalStorage(field)
-          await this.setField(field)
+          const updated = {
+            id: this.id,
+            value: this[reaction.func](...Object.values(reaction.args))
+          }
+          const check = useValidateField(this.field)
+          updated.state = check.state
+          updated.validation = check.validation
+          await this.setField(updated)
+          this.$field.saveFieldToLocalStorage(this.field)
         }
       }
     },
     async detectConditions (updatedField) {
       const conditions = this.conditions
-      if (!conditions || !updatedField || updatedField.id === this.field.id) { return }
+      if (!conditions || updatedField.id === this.field.id) { return }
       const dualValueFields = ['select', 'radio', 'checkbox']
       const len = conditions.length
       let displayField = [true]
@@ -291,26 +306,27 @@ export default {
       }
       displayField = displayField.every(val => val === true)
       if (this.displayField !== displayField) {
-        const field = Object.assign(CloneDeep(this.field), {
+        const updated = {
+          id: this.id,
           validate: displayField,
           displayField,
           mounted: displayField
-        })
-        this.$field.saveFieldToLocalStorage(field)
-        await this.setField(field)
+        }
+        await this.setField(updated)
+        this.$field.saveFieldToLocalStorage(this.field)
       }
     },
-    async syncLocalStorageToValue () {
+    getLocalStorageValue () {
       const form = JSON.parse(this.$ls.get(`form__${this.formId}`))
-      if (form) {
-        const savedLsField = form[this.modelKey]
-        if (savedLsField) {
-          await this.setField(Object.assign(
-            CloneDeep(this.field),
-            savedLsField
-          ))
-        }
-      }
+      if (!form) { return undefined }
+      const field = form[this.modelKey]
+      if (!field) { return undefined }
+      const check = useValidateField(field)
+      field.state = check.state
+      field.originalState = check.state
+      field.validation = check.validation
+      field.originalValidation = check.originalValidation
+      return field
     }
   }
 }

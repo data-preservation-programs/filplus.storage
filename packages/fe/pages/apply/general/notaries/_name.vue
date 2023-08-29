@@ -225,7 +225,7 @@ export default {
     async submitForm () {
       const pass = await this.$form.validate('filplus_application')
       if (!pass) {
-        const firstInvalidField = document.querySelector('.field-label.error')
+        const firstInvalidField = document.querySelector('.field.error')
         this.$scrollToElement(firstInvalidField, 250, -200)
         this.$button('application-submit-button').set({ loading: false })
         return
@@ -235,10 +235,8 @@ export default {
       const bytes = this.$convertSizeToBytes(inputField.value, unitField.scaffold.options[unitField.value].label)
       const thresholds = this.formsThresholds
       const stay = await this.$handleFormRedirection(bytes, 'stage-ga', thresholds)
-      console.log(pass, stay)
       if (pass && stay) {
         const application = await this.$form.applyFormToSchema('filplus_application', this.application, true)
-        console.log(application)
         await this.submitApplication({ application, bytes, thresholds })
       }
       this.$button('application-submit-button').set({ loading: false })

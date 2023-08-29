@@ -117,6 +117,8 @@
             <FieldContainer :scaffold="formScaffold.data_stored_before_radio" />
             <FieldContainer :scaffold="formScaffold.dataset_stored_before_textarea" />
             <FieldContainer :scaffold="formScaffold.data_sample" />
+            <FieldContainer :scaffold="formScaffold.public_availability_radio" />
+            <FieldContainer :scaffold="formScaffold.public_availability_textarea" />
 
           </div>
         </div>
@@ -296,10 +298,8 @@ export default {
       const bytes = this.$convertSizeToBytes(inputField.value, unitField.scaffold.options[unitField.value].label)
       const thresholds = this.formsThresholds
       const stay = await this.$handleFormRedirection(bytes, 'stage-lda', thresholds)
-      console.log(pass, stay)
       if (pass && stay) {
         const application = await this.$form.applyFormToSchema('filplus_application', this.application, true)
-        console.log(application)
         await this.submitApplication({ application, bytes, thresholds })
       }
       this.$button('application-submit-button').set({ loading: false })
