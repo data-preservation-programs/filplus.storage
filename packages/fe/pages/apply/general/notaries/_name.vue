@@ -102,6 +102,7 @@
 <script>
 // ===================================================================== Imports
 import { mapGetters, mapActions } from 'vuex'
+import CloneDeep from 'lodash/cloneDeep'
 
 import HeroB from '@/components/hero-b'
 import FormToolbar from '@/components/form/form-toolbar'
@@ -143,7 +144,7 @@ export default {
        * If navigating from anywhere but the notaries page, need to add a hidden
        * 'notary' field and pre-populate it with the notary name from the URL.
        */
-      notariesFormScaffold: Object.assign(NotariesPageData.page_content.form.scaffold.notary, {
+      notariesFormScaffold: Object.assign(CloneDeep(NotariesPageData.page_content.form.scaffold.notary), {
         defaultValue: notaryField ? notaryField.value : params.name
       })
     }
