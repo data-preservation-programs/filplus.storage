@@ -63,7 +63,7 @@ const ParseURL = (url) => {
   return urlBreakdown
 }
 
-// //////////////////////////////////////////////////////// Throttle From Lodash
+// /////////////////////////////////////////////////////////// [lodash] Throttle
 const Throttle = (func, wait, options) => {
   let context
   let args

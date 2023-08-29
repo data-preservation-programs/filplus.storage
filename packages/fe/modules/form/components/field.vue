@@ -20,6 +20,7 @@
 <script>
 // ===================================================================== Imports
 import { mapGetters, mapActions } from 'vuex'
+import Debounce from 'lodash/debounce'
 
 import useValidateField from '@/modules/form/composables/use-validate-field'
 
@@ -65,7 +66,8 @@ export default {
     return {
       id: self.scaffold.modelKey || self.scaffold.id || self.$uuid.v4(),
       formId: self.scaffold.formId,
-      modelKey: self.scaffold.modelKey
+      modelKey: self.scaffold.modelKey,
+      debounceSaveFieldToLsUponValueUpdate: null
     }
   },
 
@@ -142,6 +144,9 @@ export default {
         }
       })
       this.detectConditions(this.field)
+      this.debounceSaveFieldToLsUponValueUpdate = Debounce(() => {
+        this.$field.saveFieldToLocalStorage(this.field)
+      }, 500)
     })
   },
 
@@ -258,7 +263,7 @@ export default {
         value
       }
       await this.setField(updated)
-      this.$field.saveFieldToLocalStorage(this.field)
+      this.debounceSaveFieldToLsUponValueUpdate()
       this.$nuxt.$emit('fieldValueUpdated', updated)
     },
     async initializeReactions (updatedField) {
