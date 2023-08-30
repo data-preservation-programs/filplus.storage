@@ -253,6 +253,9 @@ export default {
   }
   &.completed {
     cursor: pointer;
+    &:hover {
+      background-color: $mineralGreen;
+    }
     .track {
       transform: translateX(calc(#{toRem(-18 * 3)} - 1.25rem));
     }
