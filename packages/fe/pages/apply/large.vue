@@ -31,22 +31,22 @@
 
             <FieldContainer :scaffold="formScaffold.data_owner_name" />
             <HubspotOptInFields />
-            <FieldContainer :scaffold="formScaffold.your_role" />
+            <!-- <FieldContainer :scaffold="formScaffold.your_role" /> -->
             <FieldContainer :scaffold="formScaffold.data_owner_region" />
-            <FieldContainer :scaffold="formScaffold.data_owner_industry" />
-            <FieldContainer :scaffold="formScaffold.website" />
+            <!-- <FieldContainer :scaffold="formScaffold.data_owner_industry" />
+            <FieldContainer :scaffold="formScaffold.website" /> -->
 
           </div>
         </div>
 
-        <div class="grid">
+        <!-- <div class="grid">
           <div class="col-6_md-6_ti-7" data-push-left="off-1_ti-0">
             <FieldContainer :scaffold="formScaffold.social_media_handle" />
           </div>
           <div class="col-2_md-3_ti-4" data-push-left="off-1">
             <FieldContainer :scaffold="formScaffold.social_media_handle_type" />
           </div>
-        </div>
+        </div> -->
 
         <div class="grid">
           <div class="col-6_md-6_ti-7" data-push-left="off-1_ti-0">
@@ -57,7 +57,7 @@
           </div>
         </div>
 
-        <div class="grid">
+        <!-- <div class="grid">
           <div class="col-6_md-6_ti-7" data-push-left="off-1_ti-0">
             <FieldContainer :scaffold="formScaffold.total_size_of_single_dataset_one_copy" />
           </div>
@@ -83,7 +83,7 @@
             <FieldContainer :scaffold="formScaffold.filecoin_address" />
             <FieldContainer :scaffold="formScaffold.application_data_type" />
           </div>
-        </div>
+        </div> -->
 
       </div>
 
@@ -104,7 +104,7 @@
               {{ formHeading2 }}
             </div>
 
-            <FieldContainer :scaffold="formScaffold.project_details" />
+            <!-- <FieldContainer :scaffold="formScaffold.project_details" />
             <FieldContainer :scaffold="formScaffold.ecosystem_associates_radio" />
             <FieldContainer :scaffold="formScaffold.ecosystem_associates_textarea" />
             <FieldContainer :scaffold="formScaffold.nature_of_data" />
@@ -117,7 +117,7 @@
             <FieldContainer :scaffold="formScaffold.dataset_stored_before_textarea" />
             <FieldContainer :scaffold="formScaffold.data_sample" />
             <FieldContainer :scaffold="formScaffold.public_availability_radio" />
-            <FieldContainer :scaffold="formScaffold.public_availability_textarea" />
+            <FieldContainer :scaffold="formScaffold.public_availability_textarea" /> -->
 
           </div>
         </div>
@@ -125,7 +125,7 @@
         <div class="grid">
           <div class="col-6_md-8_sm-10_ti-12" data-push-left="off-1_ti-0">
 
-            <FieldContainer :scaffold="formScaffold.frequency_of_retrieval" />
+            <!-- <FieldContainer :scaffold="formScaffold.frequency_of_retrieval" />
             <FieldContainer :scaffold="formScaffold.duration_of_storage" />
             <FieldContainer :scaffold="formScaffold.geographic_distribution" />
             <FieldContainer :scaffold="formScaffold.data_distribution" />
@@ -134,7 +134,7 @@
             <FieldContainer :scaffold="formScaffold.storage_provider_selection_plan_textarea" />
             <FieldContainer :scaffold="formScaffold.replication_plan_select" />
             <FieldContainer :scaffold="formScaffold.replication_plan_textarea" />
-            <FieldContainer :scaffold="formScaffold.confirm_follow_fil_guideline" />
+            <FieldContainer :scaffold="formScaffold.confirm_follow_fil_guideline" /> -->
 
             <div class="buttons bottom">
               <ButtonA
@@ -300,9 +300,10 @@ export default {
       const stay = await this.$handleFormRedirection(bytes, 'stage-lda', thresholds)
       if (pass && stay) {
         const application = await this.$form.applyFormToSchema(formId, this.application)
-        this.$form.clearLocalStorage(formId)
-        await this.submitApplication({ application, bytes, thresholds })
-        this.$form.reset(formId)
+        console.log(application)
+        // this.$form.clearLocalStorage(formId)
+        // await this.submitApplication({ application, bytes, thresholds })
+        // this.$form.reset(formId)
       }
       this.$button('application-submit-button').set({ loading: false })
     }

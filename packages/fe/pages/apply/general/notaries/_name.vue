@@ -29,25 +29,25 @@
 
             <Field :scaffold="notariesFormScaffold" />
 
-            <FieldContainer :scaffold="formScaffold.data_owner_name" />
+            <!-- <FieldContainer :scaffold="formScaffold.data_owner_name" /> -->
 
             <HubspotOptInFields />
 
-            <FieldContainer :scaffold="formScaffold.website" />
+            <!-- <FieldContainer :scaffold="formScaffold.website" /> -->
 
             <FieldContainer :scaffold="formScaffold.ga_region" />
 
           </div>
         </div>
 
-        <div class="grid z-index-50">
+        <!-- <div class="grid z-index-50">
           <div class="col-6_md-6_ti-7 z-index-100" data-push-left="off-1_ti-0">
             <FieldContainer :scaffold="formScaffold.social_media_handle" />
           </div>
           <div class="col-2_md-3_ti-4" data-push-left="off-1">
             <FieldContainer :scaffold="formScaffold.social_media_handle_type" />
           </div>
-        </div>
+        </div> -->
 
         <div class="grid z-index-50">
           <div class="col-6_md-6_ti-7 z-index-100" data-push-left="off-1_ti-0">
@@ -61,7 +61,7 @@
         <div class="grid">
           <div class="col-6_md-8_sm-10_ti-12" data-push-left="off-1_ti-0">
 
-            <FieldContainer :scaffold="formScaffold.filecoin_address" />
+            <!-- <FieldContainer :scaffold="formScaffold.filecoin_address" /> -->
 
             <div class="buttons bottom">
               <ButtonA
@@ -245,9 +245,10 @@ export default {
       const stay = await this.$handleFormRedirection(bytes, 'stage-ga', thresholds)
       if (pass && stay) {
         const application = await this.$form.applyFormToSchema(formId, this.application)
-        this.$form.clearLocalStorage(formId)
-        await this.submitApplication({ application, bytes, thresholds })
-        this.$form.reset(formId)
+        console.log(application)
+        // this.$form.clearLocalStorage(formId)
+        // await this.submitApplication({ application, bytes, thresholds })
+        // this.$form.reset(formId)
       }
       this.$button('application-submit-button').set({ loading: false })
     }
