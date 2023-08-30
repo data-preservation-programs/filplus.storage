@@ -218,6 +218,12 @@ export default {
     }
   },
 
+  mounted () {
+    this.$field.saveFieldToLocalStorage(
+      this.$field.get('notary')
+    )
+  },
+
   methods: {
     ...mapActions({
       validateForm: 'form/validateForm',
