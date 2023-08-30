@@ -6,7 +6,7 @@
 
 import CloneDeep from 'lodash/cloneDeep'
 
-// /////////////////////////////////////////////////////////////////// Functions
+// ///////////////////////////////////////////////////////////////////////// API
 // -----------------------------------------------------------------------------
 const Form = (app, store) => {
   return {
@@ -28,6 +28,14 @@ const Form = (app, store) => {
         }
       }
       return formValid
+    },
+    // =================================================================== reset
+    reset (formId) {
+      const fields = store.getters['form/fields'].filter(field => field.formId === formId)
+      const len = fields.length
+      for (let i = 0; i < len; i++) {
+        app.$field.reset(fields[i].id)
+      }
     },
     // ===================================================================== get
     applyFormToSchema (formId, incoming) {

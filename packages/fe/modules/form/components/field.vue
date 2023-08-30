@@ -6,7 +6,7 @@
 
     <slot
       :field="field"
-      :field-id="fieldId"
+      :field-id="id"
       :state="state"
       :required="required"
       :disabled="disabled"
@@ -73,20 +73,10 @@ export default {
 
   computed: {
     ...mapGetters({
-      fields: 'form/fields',
-      models: 'form/models'
+      fields: 'form/fields'
     }),
     field () {
       return this.fields.find(field => field.id === this.id)
-    },
-    model () {
-      return this.models.find(model => model.id === this.formId)
-    },
-    fieldId () {
-      return this.field.id
-    },
-    type () {
-      return this.scaffold.type
     },
     displayField () {
       return this.field.displayField
@@ -123,7 +113,14 @@ export default {
 
   created () {
     if (!this.field) {
-      this.setField(this.compileField())
+      this.setField(
+        this.$field.register(
+          this.id,
+          this.formId,
+          this.scaffold,
+          this.forceValidate
+        )
+      )
     }
   },
 
@@ -139,7 +136,7 @@ export default {
         this.initializeReactions(field)
       })
       this.$nuxt.$on('fieldUpdateValue', (payload) => {
-        if (this.fieldId === payload.fieldId) {
+        if (this.id === payload.fieldId) {
           this.updateValue(payload.value)
         }
       })
@@ -164,34 +161,6 @@ export default {
       setField: 'form/setField',
       removeField: 'form/removeField'
     }),
-    compileField () {
-      const scaffold = this.scaffold
-      const value = this.getDefaultValue()
-      const conditions = scaffold.conditions
-      const displayField = !conditions || (conditions && conditions.length === 0)
-      const field = { // `groupId` and `fieldKey` are reserved keys, set in `array.vue`
-        id: this.id,
-        formId: this.formId,
-        modelKey: this.modelKey,
-        validate: this.forceValidate || true,
-        state: 'not-started',
-        originalState: null,
-        validation: null,
-        originalValidation: null,
-        displayField,
-        mounted: displayField,
-        value,
-        originalValue: value,
-        scaffold
-      }
-      const { state } = useValidateField(field)
-      if (state === 'completed') {
-        field.state = state
-      }
-      field.originalState = state
-      field.originalValidation = state
-      return field
-    },
     async toggleState (focused) {
       const update = { id: this.id }
       if (focused) {
@@ -207,55 +176,6 @@ export default {
       if (!focused) {
         this.$field.saveFieldToLocalStorage(this.field)
       }
-    },
-    getNullStateValue () {
-      const type = this.type
-      const scaffold = this.scaffold
-      let value
-      switch (type) {
-        case 'checkbox' : value = -1; break
-        case 'radio' : value = -1; break
-        case 'select' : value = []; break
-        case 'range' : value = scaffold.min; break
-        case 'array' : value = []; break
-        default : value = ''; break
-      }
-      return value
-    },
-    getDefaultValue () {
-      const dualValueFields = ['select', 'radio', 'checkbox'] // fields that can contain both a String and a Number (index) as the value/defaultValue
-      const model = this.model
-      const modelKey = this.modelKey
-      const type = this.type
-      const scaffold = this.scaffold
-      const defaultValue = scaffold.defaultValue
-      const options = scaffold.options
-      let value = this.getNullStateValue() // get the base value
-      // If default value is set in the scaffold, get that
-      if (scaffold.hasOwnProperty('defaultValue') && defaultValue !== '') {
-        value = defaultValue
-      }
-      // If default value is set in the model, get that
-      if (model && model.data.hasOwnProperty(modelKey) && model.data[modelKey] !== null) {
-        value = model.data[modelKey]
-      }
-      // defaultValue can be an array of indexes, a single index Number, an array of labels or a single label String
-      if (dualValueFields.includes(type)) {
-        if (!Array.isArray(value)) { // if defaultValue is not an array, turn it into one
-          value = [value]
-        }
-        const compiled = []
-        value.forEach((entry) => { // convert labels to indexes so final output ex: [2, 3, 7]
-          const found = options.findIndex(option => option.label === entry)
-          if (found !== -1 && !compiled.includes(found)) {
-            compiled.push(found)
-          } else if (typeof entry === 'number' && options[entry] && !compiled.includes(entry)) {
-            compiled.push(entry)
-          }
-        })
-        value = compiled
-      }
-      return value
     },
     async updateValue (value) {
       const updated = {
