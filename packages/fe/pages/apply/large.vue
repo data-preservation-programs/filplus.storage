@@ -285,7 +285,8 @@ export default {
       submitApplication: 'account/submitApplication'
     }),
     async submitForm () {
-      const pass = await this.$form.validate('filplus_application')
+      const formId = 'filplus_application'
+      const pass = await this.$form.validate(formId)
       if (!pass) {
         const firstInvalidField = document.querySelector('.field-label.error')
         this.$scrollToElement(firstInvalidField, 250, -200)
@@ -298,7 +299,8 @@ export default {
       const thresholds = this.formsThresholds
       const stay = await this.$handleFormRedirection(bytes, 'stage-lda', thresholds)
       if (pass && stay) {
-        const application = await this.$form.applyFormToSchema('filplus_application', this.application, true)
+        const application = await this.$form.applyFormToSchema(formId, this.application)
+        this.$form.clearLocalStorage(formId)
         await this.submitApplication({ application, bytes, thresholds })
       }
       this.$button('application-submit-button').set({ loading: false })

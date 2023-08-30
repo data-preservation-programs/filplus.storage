@@ -30,7 +30,7 @@ const Form = (app, store) => {
       return formValid
     },
     // ===================================================================== get
-    applyFormToSchema (formId, incoming, clearLocalStorage) {
+    applyFormToSchema (formId, incoming) {
       const schema = CloneDeep(incoming)
       const fields = store.getters['form/fields']
       const len = fields.length
@@ -78,10 +78,11 @@ const Form = (app, store) => {
         }
         schema[modelKey] = value
       }
-      if (clearLocalStorage) {
-        app.$ls.remove(`form__${formId}`)
-      }
       return schema
+    },
+    // ======================================================= clearLocalStorage
+    clearLocalStorage (formId) {
+      app.$ls.remove(`form__${formId}`)
     },
     // =========================================================== getFieldStats
     getFieldStats (formId) {
