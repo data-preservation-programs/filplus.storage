@@ -81,6 +81,9 @@ const Form = (app, store) => {
               value = value === -1 ? false : true
             }
           }
+          if (app.$field.valueIsNullState(field)) {
+            value = null
+          }
         } else if (!field.validate) {
           value = null
         }

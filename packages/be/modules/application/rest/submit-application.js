@@ -1,4 +1,3 @@
-/*eslint-disable*/
 console.log('💡 [endpoint] /submit-application')
 
 // ///////////////////////////////////////////////////////////////////// Imports
@@ -116,7 +115,6 @@ MC.app.post('/submit-application', async (req, res) => {
         filecoin_wallet_address: application.filecoin_address
       })
     }
-    return SendData(res, 200, 'Application submitted succesfully', '')
     // ------------------------------------------------------ submit application
     const repo = MC.repos[type][MC.serverFlag]
     const options = { headers: { Accept: 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28', Authorization: `Bearer ${user.githubToken}` } }

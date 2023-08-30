@@ -51,7 +51,6 @@ module.exports = async (res, user, payload) => {
   try {
     let hubspotOptInContactId = user.hubspotOptInContactId
     let message, userToUpdate
-    console.log(payload)
     if (!hubspotOptInContactId) { // if no id, then submit a new contact
       const submission = await submitContact(payload)
       hubspotOptInContactId = submission.id

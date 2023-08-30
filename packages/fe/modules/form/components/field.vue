@@ -205,20 +205,6 @@ export default {
         }
       }
     },
-    valueIsNullState (field) {
-      const scaffold = field.scaffold
-      const type = scaffold.type
-      const value = field.value
-      let state = false
-      switch (type) {
-        case 'checkbox' : state = value === -1; break
-        case 'radio' : state = value === -1; break
-        case 'select' : state = value.length === 0; break
-        case 'range' : state = value === scaffold.min; break
-        default : state = value === ''; break
-      }
-      return state
-    },
     async detectConditions (updatedField, loadState) {
       const conditions = this.conditions
       if (!conditions && (updatedField.id === this.field.id || loadState !== 'mounted')) { return }
@@ -236,7 +222,7 @@ export default {
           if (dualValueFields.includes(type)) {
             value = `${value[0]}`
           }
-          const valueIsNullState = this.valueIsNullState(field)
+          const valueIsNullState = this.$field.valueIsNullState(field)
           if (valueIsNullState) {
             displayField.push(false)
           } else if (eq !== 'undefined') {
