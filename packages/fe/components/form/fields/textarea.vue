@@ -62,7 +62,7 @@ export default {
   transition: 150ms ease-in-out;
   @include placeholder {
     color: rgba($aquaSqueeze, 0.7);
-    font-size: toRem(18);
+    font-size: toRem(16);
     font-weight: 400;
     font-style: italic;
     opacity: 1;
