@@ -411,12 +411,10 @@ const ConvertSizeToBytes = (size, unit) => {
 
 // /////////////////////////////////////////////////////// HandleFormRedirection
 const HandleFormRedirection = (app, store, bytes, stage, thresholds) => {
-  console.log('HIT')
   const tib1 = thresholds.tib_1
   const tib100 = thresholds.tib_100
   // ---------------------------------------- redirect tiny applications offsite
   if (bytes < tib1) {
-    console.log('A')
     window.open(
       'https://verify.glif.io/',
       '_blank'
@@ -426,23 +424,18 @@ const HandleFormRedirection = (app, store, bytes, stage, thresholds) => {
   }
   // --------------------------------------------- stage: 'apply' | range slider
   if (stage === 'stage-apply') {
-    console.log('B')
     if (bytes >= tib1 && bytes < tib100) {
       app.$gtm.push({ event: 'redirect_notary_selection' })
       app.router.push('/apply/general/notaries')
-      console.log('B.1')
       return false
     } else if (bytes >= tib100) {
       app.$gtm.push({ event: 'redirect_lda' })
       app.router.push('/apply/large')
-      console.log('B.2')
       return false
     }
-    console.log('B.stay')
     return true
   // --------------------------------------------------------------- stage: 'ga'
   } else if (stage === 'stage-ga') {
-    console.log('C')
     if (bytes >= tib100) {
       app.$toaster.add({
         type: 'toast',
@@ -451,14 +444,11 @@ const HandleFormRedirection = (app, store, bytes, stage, thresholds) => {
       })
       app.$gtm.push({ event: 'redirect_lda' })
       app.router.push('/apply/large')
-      console.log('C.1')
       return false
     }
-    console.log('C.stay')
     return true
   // -------------------------------------------------------------- stage: 'lda'
   } else if (stage === 'stage-lda') {
-    console.log('D')
     if (bytes >= tib1 && bytes < tib100) {
       app.$toaster.add({
         type: 'toast',
@@ -467,13 +457,10 @@ const HandleFormRedirection = (app, store, bytes, stage, thresholds) => {
       })
       app.$gtm.push({ event: 'redirect_ga' })
       app.router.push('/apply/general/notaries')
-      console.log('D.1')
       return false
     }
-    console.log('D.stay')
     return true
   }
-  console.log('STAY')
   return false
 }
 
