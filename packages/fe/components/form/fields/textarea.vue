@@ -36,7 +36,7 @@ export default {
 .field-textarea {
   height: 10rem;
   transition: 150ms ease-out;
-  &.caution {
+  &.in-progress {
     :deep(.textarea) {
       border-color: $mandysPink;
     }
@@ -62,7 +62,7 @@ export default {
   transition: 150ms ease-in-out;
   @include placeholder {
     color: rgba($aquaSqueeze, 0.7);
-    font-size: toRem(18);
+    font-size: toRem(16);
     font-weight: 400;
     font-style: italic;
     opacity: 1;

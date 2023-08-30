@@ -111,10 +111,6 @@ export default {
       })
       this.networkErrorToastId = false
     })
-    // ----------------------- Check to see if saved form exists in localStorage
-    if (this.$ls.get('form__filplus_application')) {
-      this.setSavedFormExistsStatus(true)
-    }
   },
 
   methods: {

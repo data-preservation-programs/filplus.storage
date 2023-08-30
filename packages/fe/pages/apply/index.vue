@@ -87,8 +87,8 @@ export default {
   async fetch ({ app, store }) {
     await store.dispatch('general/getBaseData', { key: 'apply', data: ApplyPageData })
     await store.dispatch('general/getBaseData', { key: 'faq', data: FaqPageData })
-    const application = await store.dispatch('account/setHubspotOptInData', store.getters['auth/account'])
-    await app.$form('filplus_application').register(application)
+    await store.dispatch('account/setHubspotOptInData', store.getters['auth/account'])
+    await store.dispatch('form/registerModel', { id: 'filplus_application', data: store.getters['account/application'] })
   },
 
   head () {
@@ -188,11 +188,6 @@ $cardRadius: 1.875rem;
     }
     @include mini {
       padding: 0.75rem 1.5rem;
-    }
-  }
-  .select-container {
-    .dropdown {
-      background-color: rgba(15, 31, 26, 0.85);
     }
   }
 }

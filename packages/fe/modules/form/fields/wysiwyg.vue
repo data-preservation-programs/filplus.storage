@@ -354,10 +354,13 @@ export default {
     },
     headingSelectField () {
       return {
-        id: `wysiwyg_heading_select|${this.field.id}`,
+        id: 'wysiwygHeadingSelectField',
+        /**
+         * @TODO `headingSelectValue` must be an array, not just a flat number
+         */
+        value: this.headingSelectValue,
         scaffold: {
           type: 'select',
-          modelKey: 'wysiwyg_heading_select',
           label: '',
           required: true,
           output: 'option',
@@ -375,8 +378,7 @@ export default {
             { label: 'H3' }
           ],
           defaultValue: 0
-        },
-        value: this.headingSelectValue
+        }
       }
     },
     placeholder () {
