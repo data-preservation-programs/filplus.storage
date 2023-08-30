@@ -58,16 +58,16 @@ $height: 4rem;
       }
     }
   }
-  &.caution {
-    :deep(.input) {
-      border-color: $mandysPink;
-    }
-  }
-  &.error {
-    :deep(.input) {
-      border-color: $flamingo;
-    }
-  }
+  // &.caution {
+  //   :deep(.input) {
+  //     border-color: $mandysPink;
+  //   }
+  // }
+  // &.error {
+  //   :deep(.input) {
+  //     border-color: $flamingo;
+  //   }
+  // }
   &.disabled {
     cursor: no-drop;
     :deep(.input) {

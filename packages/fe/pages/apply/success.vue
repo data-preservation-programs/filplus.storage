@@ -239,6 +239,10 @@ export default {
   }
 }
 
+:deep(.close-accordion-button) {
+  display: none;
+}
+
 // ////////////////////////////////////////////////////////////////// Warp Image
 .panel-right {
   position: relative;

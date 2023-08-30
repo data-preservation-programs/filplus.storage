@@ -68,7 +68,7 @@ $height: 2.5rem;
 // ///////////////////////////////////////////////////////////////////// General
 .field-chiclet {
   height: $height;
-  &.caution {
+  &.in-progress {
     :deep(.input) {
       border-color: $mandysPink;
     }

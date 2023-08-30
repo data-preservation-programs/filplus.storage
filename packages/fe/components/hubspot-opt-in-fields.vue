@@ -14,21 +14,15 @@
       <div class="row">
         <FieldContainer
           :scaffold="formScaffold.hubspot_opt_in_first_name"
-          :force-disabled="optedIn"
-          field-key="hubspot_opt_in_first_name"
-          form-id="filplus_application" />
+          :force-disabled="optedIn" />
         <FieldContainer
           :scaffold="formScaffold.hubspot_opt_in_last_name"
-          :force-disabled="optedIn"
-          field-key="hubspot_opt_in_last_name"
-          form-id="filplus_application" />
+          :force-disabled="optedIn" />
       </div>
 
       <FieldContainer
         :scaffold="formScaffold.hubspot_opt_in_email"
-        :force-disabled="optedIn"
-        field-key="hubspot_opt_in_email"
-        form-id="filplus_application" />
+        :force-disabled="optedIn" />
 
     </div>
 
@@ -78,13 +72,10 @@ export default {
 
   watch: {
     account (incoming) {
-      this.$nextTick(() => {
+      this.$nextTick(async () => {
         if (incoming) {
-          this.setHubspotOptInData(incoming)
-          const email = !incoming.hubspotOptIn && incoming.githubEmail ? incoming.githubEmail : incoming.hubspotOptInEmail
-          this.$field('hubspot_opt_in_first_name|filplus_application').updateValue(incoming.hubspotOptInFirstName || '')
-          this.$field('hubspot_opt_in_last_name|filplus_application').updateValue(incoming.hubspotOptInLastName || '')
-          this.$field('hubspot_opt_in_email|filplus_application').updateValue(email || '')
+          await this.setHubspotOptInData(incoming)
+          this.setFieldValues(incoming)
         }
       })
     }
@@ -93,7 +84,13 @@ export default {
   methods: {
     ...mapActions({
       setHubspotOptInData: 'account/setHubspotOptInData'
-    })
+    }),
+    setFieldValues (account) {
+      const email = !account.hubspotOptIn && account.githubEmail ? account.githubEmail : account.hubspotOptInEmail
+      this.$nuxt.$emit('fieldUpdateValue', { fieldId: 'hubspot_opt_in_first_name', value: account.hubspotOptInFirstName || '' })
+      this.$nuxt.$emit('fieldUpdateValue', { fieldId: 'hubspot_opt_in_last_name', value: account.hubspotOptInLastName || '' })
+      this.$nuxt.$emit('fieldUpdateValue', { fieldId: 'hubspot_opt_in_email', value: email || '' })
+    }
   }
 }
 </script>

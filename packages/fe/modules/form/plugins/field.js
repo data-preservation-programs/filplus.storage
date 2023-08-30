@@ -1,327 +1,148 @@
 /*
  *
- * 🔌 [plugin | form] field
+ * 🔌 [plugin | field] form
  *
  */
 
 // ///////////////////////////////////////////////////////////////////// Imports
 // -----------------------------------------------------------------------------
-import CloneDeep from 'lodash/cloneDeep'
-import { uuid as Uuid } from 'vue-uuid'
+import useValidateField from '@/modules/form/composables/use-validate-field'
 
 // /////////////////////////////////////////////////////////////////// Functions
 // -----------------------------------------------------------------------------
-// ====================================================== getArrayFormFieldValue
-const getArrayFormFieldValue = async (form, scaffold, groupIndex) => {
-  const entry = form.scaffold[scaffold.parentModelKey][groupIndex]
-  if (!entry) { return await getNullStateValue(scaffold.type) }
-  return entry[scaffold.modelKey]
-}
-
 // =========================================================== getNullStateValue
-const getNullStateValue = (type) => {
-  return new Promise((resolve) => {
-    let value
-    switch (type) {
-      case 'checkbox' : value = -1; break
-      case 'radio' : value = -1; break
-      case 'select' : value = []; break
-      case 'range' : value = scaffold.min; break
-      case 'array' : value = []; break
-      default : value = ''; break
-    }
-    resolve(value)
-  })
-}
-
-// ==================================================================== getValue
-const getValue = async (app, scaffold, form, formId, resetTo, groupIndex) => {
-  const dualValueFields = ['select', 'radio', 'checkbox'] // fields that can contain both a String and a Number (index) as the value/defaultValue
+const getNullStateValue = (scaffold) => {
   const type = scaffold.type
-  const defaultValue = scaffold.defaultValue
-  const options = scaffold.options
-  const isSingleSelection = scaffold.isSingleSelection
-  let value = form ? form.scaffold[scaffold.modelKey] : undefined // First grab the value found in the form
-  if (type === 'array') {
-    value.map(entry => (Object.assign(entry, { groupId: Uuid.v4() })))
-  }
-  if (!scaffold.hasOwnProperty('parentModelKey') && value !== undefined && value !== null && value !== '' && formId) {
-    if (isSingleSelection) { return value === true ? 0 : -1 } // convert truthy value to index
-    return value
-  }
-  // If this is just a reset to the nullState, then grab and return the null state
-  if (resetTo && resetTo !== '' && resetTo === 'nullState') {
-    return await getNullStateValue(type)
-  }
-  // If the field is part of an array, grab the internal array form field value
-  if (scaffold.hasOwnProperty('parentModelKey')) {
-    value = await getArrayFormFieldValue(form, scaffold, groupIndex)
-  }
-  // If a default value is set in the field scaffold, grab that instead (both for regular getValue calls as well as if it's a reset)
-  if (scaffold.hasOwnProperty('defaultValue') && defaultValue !== '') {
-    value = defaultValue
-    // defaultValue can be an array of indexes, a single index Number, an array of labels or a single label String
-    if (dualValueFields.includes(type)) {
-      if (!Array.isArray(defaultValue)) { // if defaultValue is not an array, turn it into one
-        value = [defaultValue]
-      }
-      const compiled = []
-      value.forEach((entry) => { // convert labels to indexes so final output ex: [2, 3, 7]
-        const found = options.findIndex(option => option.label === entry)
-        if (found !== -1 && !compiled.includes(found)) {
-          compiled.push(found)
-        } else if (typeof entry === 'number' && options[entry] && !compiled.includes(entry)) {
-          compiled.push(entry)
-        }
-      })
-      value = compiled
-    }
-  // Otherwise set a null state default value, except for array field values
-  } else if (!scaffold.hasOwnProperty('parentModelKey')) {
-    value = await getNullStateValue(type)
+  let value
+  switch (type) {
+    case 'checkbox' : value = -1; break
+    case 'radio' : value = -1; break
+    case 'select' : value = []; break
+    case 'range' : value = scaffold.min; break
+    case 'array' : value = []; break
+    default : value = ''; break
   }
   return value
 }
 
-// =============================================================== checkRequired
-const checkRequired = (fieldType, value) => {
-  return new Promise((resolve) => {
-    const type = typeof value
-    let state = 'valid'
-    if (type === 'string' || type === 'boolean') {
-      if (value === '' || !value) { state = 'error' }
-    } else if (Array.isArray(value)) {
-      if (value.length === 0) { state = 'error' }
-    } else if (type === 'object' && !Array.isArray(value)) {
-      if (Object.keys(value).length === 0) { state = 'error' }
-    } else if (type === 'number') {
-      if ((fieldType === 'select' || fieldType === 'checkbox' || fieldType === 'radio') && value === -1) {
-        state = 'error'
-      }
+// ============================================================= getDefaultValue
+const getDefaultValue = (scaffold, model) => {
+  const dualValueFields = ['select', 'radio', 'checkbox'] // fields that can contain both a String and a Number (index) as the value/defaultValue
+  const modelKey = scaffold.modelKey
+  const type = scaffold.type
+  const defaultValue = scaffold.defaultValue
+  const options = scaffold.options
+  let value = getNullStateValue(scaffold) // get the base value
+  // If default value is set in the scaffold, get that
+  if (scaffold.hasOwnProperty('defaultValue') && defaultValue !== '') {
+    value = defaultValue
+  }
+  // If default value is set in the model, get that
+  if (model && model.data && model.data.hasOwnProperty(modelKey) && model.data[modelKey] !== null) {
+    value = model.data[modelKey]
+  }
+  // defaultValue can be an array of indexes, a single index Number, an array of labels or a single label String
+  if (dualValueFields.includes(type)) {
+    if (!Array.isArray(value)) { // if defaultValue is not an array, turn it into one
+      value = [value]
     }
-    resolve({ state, validation: state === 'error' ? 'required' : false })
-  })
-}
-
-// ================================================================== checkChars
-const checkChars = (fieldType, value, chars) => {
-  return new Promise((resolve) => {
-    const min = chars.min
-    const max = chars.max
-    const len = fieldType === 'wysiwyg' ? value.replace(/(<([^>]+)>)/gi, '').length : (value || '').length
-    let state = 'valid'
-    if (typeof value === 'string' && value.trim() !== '' && (len < min || len > max)) {
-      state = 'error'
-    }
-    resolve({ state, validation: state === 'error' ? 'chars' : false })
-  })
-}
-
-// ================================================================ checkPattern
-const checkPattern = (value, pattern) => {
-  return new Promise((resolve) => {
-    const regex = new RegExp(pattern)
-    let state = 'valid'
-    if (value !== '' && !regex.test(value)) { state = 'error' }
-    resolve({ state, validation: state === 'error' ? 'pattern' : false })
-  })
-}
-
-// ================================================================= checkMinMax
-const checkMinMax = (fieldType, inputType, value, min, max) => {
-  return new Promise((resolve) => {
-    let state = 'valid'
-    if (fieldType !== 'input' && inputType !== 'number') { resolve({ state, validation: false }) }
-    if (value < min || value > max) {
-      state = 'error'
-    }
-    resolve({ state, validation: state === 'error' ? 'minmax' : false })
-  })
-}
-
-// //////////////////////////////////////////////////////// applyTransformations
-const applyTransformations = async (app, store, transformSourceField) => {
-  try {
     const compiled = []
-    const fields = store.getters['form/fields']
-    const transformed = fields.filter((field) => {
-      const scaffold = field.scaffold
-      return (scaffold.mirror || scaffold.react) &&
-             field.formId === transformSourceField.formId &&
-             field.formKey === transformSourceField.formKey &&
-             field.id !== transformSourceField.id
+    value.forEach((entry) => { // convert labels to indexes so final output ex: [2, 3, 7]
+      const found = options.findIndex(option => option.label === entry)
+      if (found !== -1 && !compiled.includes(found)) {
+        compiled.push(found)
+      } else if (typeof entry === 'number' && options[entry] && !compiled.includes(entry)) {
+        compiled.push(entry)
+      }
     })
-    const len = transformed.length
-    if (len > 0) {
-      for (let i = 0; i < len; i++) {
-        const field = CloneDeep(transformed[i])
-        const scaffold = field.scaffold
-        const mirror = scaffold.mirror
-        const react = scaffold.react
-        let value
-        if (mirror && mirror.fieldKey === transformSourceField.fieldKey) {
-          value = applyTransformation(app, field, transformSourceField, scaffold.mirror)
-          await app.$field(field.id).update({
-            value,
-            state: JSON.stringify(value) !== JSON.stringify(field.originalValue) ? 'caution' : 'valid',
-            validation: transformSourceField.validation
-          })
-        }
-        if (react && react.fieldKey === transformSourceField.fieldKey) {
-          value = applyTransformation(app, field, transformSourceField, scaffold.react)
-          await app.$field(field.id).update({
-            value,
-            state: JSON.stringify(value) !== JSON.stringify(field.originalValue) ? 'caution' : 'valid',
-            validation: transformSourceField.validation
-          })
-        }
-      }
-    }
-  } catch (e) {
-    console.log('============================ [Function: applyTransformations]')
-    throw e
+    value = compiled
   }
+  return value
 }
 
-// ///////////////////////////////////////////////////////// applyTransformation
-const applyTransformation = (app, transformField, transformSourceField, transform) => {
-  return transform ? app[transform.func](app, transformField, transformSourceField, transform.args) : transformSourceField.value
-}
-
-// //////////////////////////////////////////////// updateLocalStorageSavedField
-const updateLocalStorageSavedField = (ctx, store, formId) => {
-  if (process.client && formId) {
-    const allFields = store.getters['form/fields']
-    const savedFormExists = store.getters['form/savedFormExists']
-    ctx.$ls.set(`form__${formId}`, JSON.stringify(allFields))
-    if (savedFormExists) {
-      store.dispatch('form/setSavedFormExistsStatus', false)
-    }
-  }
-}
-
-// /////////////////////////////////////////////////////////////////////// Field
+// ///////////////////////////////////////////////////////////////////////// API
 // -----------------------------------------------------------------------------
-const Field = (app, store, id) => {
-  let field = store.getters['form/fields'].find(field => field.id === id)
-  let formId, form, value, scaffold, type, inputType, required, pattern, chars, min, max, mirror, react, conditions
-  if (field) {
-    formId = field.formId
-    value = field.value
-    scaffold = field.scaffold
-    type = scaffold.type
-    inputType = scaffold.inputType
-    required = scaffold.required
-    pattern = scaffold.pattern
-    chars = scaffold.chars
-    min = scaffold.min
-    max = scaffold.max
-    mirror = scaffold.mirror
-    react = scaffold.react
-    conditions = scaffold.conditions
-  }
-  if (formId) {
-    form = store.$form(formId).get()
-  }
+const Field = (app, store) => {
   return {
-
     // ================================================================ register
-    async register (formId, groupIndex, fieldKey, scaffold) {
-      if (!field) {
-        const form = await app.$form(formId).get()
-        const value = await getValue(app, scaffold, form, formId, false, groupIndex)
-        await store.dispatch('form/setField', {
-          id,
-          fieldKey,
-          formId,
-          ...(typeof groupIndex === 'number' && { groupIndex }),
-          value,
-          includeInFormSubmission: true, // used to keep "validate" disabled in field-standalone component
-          originalValue: value,
-          state: 'valid',
-          validate: true,
-          validation: false,
-          resetTo: scaffold.resetTo,
-          scaffold
-        })
-      }
-    },
-
-    // ============================================================== deregister
-    async deregister () {
-      if (field) {
-        await store.dispatch('form/removeField', id)
-      }
-    },
-
-    // ===================================================================== get
-    get () {
-      return field
-    },
-
-    // ================================================================== update
-    async update (values) {
-      await store.dispatch('form/setField', Object.assign(CloneDeep(field), values))
-    },
-
-    // ================================================================== update
-    async updateValue (value) {
-      field = CloneDeep(field)
-      let parsed = value
-      if ((type === 'input' && inputType === 'number') || type === 'range') {
-        parsed = value !== '' ? parseFloat(value) : null
-      }
-      field.value = parsed
-      field.state = JSON.stringify(field.value) !== JSON.stringify(field.originalValue) ? 'caution' : 'valid'
-      field.validation = false
-      await store.dispatch('form/setField', field)
-      await applyTransformations(app, store, field)
-      if (formId) {
-        app.$form(formId).updateState()
-      }
-      updateLocalStorageSavedField(app, store, field.formId)
-    },
-
-    // ================================================================ validate
-    async validate () {
-      field = CloneDeep(field)
-      let state = 'valid'
-      let check = { state: 'valid', validation: false }
-      if (field.validate && type !== 'array') {
-        if (required) { check = await checkRequired(type, value) }
-        if (check.state === 'valid' && chars) { check = await checkChars(type, value, chars) }
-        if (check.state === 'valid' && pattern) { check = await checkPattern(value, pattern) }
-        if (check.state === 'valid' && (min || max)) { check = await checkMinMax(type, inputType, value, min, max) }
-        if (check.state !== 'valid') {
-          state = 'error'
-          field.state = check.state
-          field.validation = check.validation
-        }
-      }
-      await store.dispatch('form/setField', field)
-      if (formId) {
-        app.$form(formId).updateState()
-      }
-      return { field, check }
-    },
-
-    // =================================================================== reset
-    async reset (resetTo) {
-      const value = await getValue(app, scaffold, form, formId, resetTo)
-      this.update({
+    register (id, formId, scaffold, validate) {
+      const model = store.getters['form/models'].find(model => model.id === formId)
+      const value = getDefaultValue(scaffold, model)
+      const conditions = scaffold.conditions
+      const displayField = !conditions || (conditions && conditions.length === 0)
+      const field = { // `groupId` and `fieldKey` are reserved keys, set in `array.vue`
+        id,
+        formId,
+        modelKey: scaffold.modelKey,
+        validate: validate || true,
+        state: 'not-started',
+        originalState: null,
+        validation: null,
+        originalValidation: null,
+        displayField,
+        mounted: displayField,
         value,
         originalValue: value,
-        state: 'valid',
-        validate: true,
-        validation: false
-      })
+        scaffold
+      }
+      const { state } = useValidateField(field)
+      if (state === 'completed') {
+        field.state = state
+      }
+      field.originalState = state
+      field.originalValidation = state
+      return field
+    },
+    // ===================================================================== get
+    get (fieldId) {
+      return store.getters['form/fields'].find(field => field.id === fieldId)
+    },
+    // =================================================================== reset
+    reset (id) {
+      const field = store.getters['form/fields'].find(field => field.id === id)
+      if (field) {
+        store.dispatch(
+          'form/setField',
+          this.register(field.id, field.formId, field.scaffold, field.validate)
+        )
+      }
+    },
+    // ======================================================== valueIsNullState
+    valueIsNullState (field) {
+      const scaffold = field.scaffold
+      const type = scaffold.type
+      const value = field.value
+      let state = false
+      switch (type) {
+        case 'checkbox' : state = value === -1; break
+        case 'radio' : state = value === -1; break
+        case 'select' : state = value.length === 0; break
+        case 'range' : state = value === scaffold.min; break
+        default : state = value === ''; break
+      }
+      return state
+    },
+    // ================================================= saveFieldToLocalStorage
+    async saveFieldToLocalStorage (field) {
+      const formId = field.formId
+      const modelKey = field.modelKey
+      const value = field.value
+      store.dispatch('form/setFormSaveState', { id: formId, state: 'saving' })
+      const form = JSON.parse(app.$ls.get(`form__${formId}`)) || { [modelKey]: field }
+      if (form) {
+        form[modelKey] = field
+      }
+      app.$ls.set(`form__${formId}`, JSON.stringify(form))
+      await app.$delay(1000)
+      const formStats = app.$form.getFieldStats(formId)
+      const state = formStats.completed === formStats.count ? 'completed' : 'saved'
+      store.dispatch('form/setFormSaveState', { id: formId, state })
     }
-
   }
 }
 
 // ////////////////////////////////////////////////////////////////////// Export
 // -----------------------------------------------------------------------------
-export default function ({ app, store, route }, inject) {
-  inject('field', (id) => Field(app, store, id))
+export default function ({ app, store }, inject) {
+  inject('field', Field(app, store))
 }

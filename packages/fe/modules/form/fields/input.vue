@@ -7,17 +7,17 @@
 
     <div v-else class="input-container">
       <input
-        :id="fieldKey"
+        :id="modelKey"
         :type="inputType"
-        :name="fieldKey"
+        :name="modelKey"
         :placeholder="placeholder"
         :value="value"
         :min="min"
         :max="max"
         :autocomplete="autocomplete"
         class="input"
-        @focus="toggleFocused(true)"
-        @blur="toggleFocused(false)"
+        @focus="$emit('toggleFocused', true)"
+        @blur="$emit('toggleFocused', false)"
         @input="$emit('updateValue', $event.target.value)" />
     </div>
 
@@ -44,7 +44,7 @@ export default {
       type: Object,
       required: true
     },
-    forceDisabled: {
+    disabled: {
       type: Boolean,
       required: false,
       default: false
@@ -58,17 +58,14 @@ export default {
     inputType () {
       return this.scaffold.inputType || 'text'
     },
-    fieldKey () {
-      return this.field.fieldKey
+    modelKey () {
+      return this.field.modelKey
     },
     placeholder () {
       return this.scaffold.placeholder || 'Enter a value...'
     },
     autocomplete () {
       return this.scaffold.autocomplete
-    },
-    disabled () {
-      return this.forceDisabled || this.scaffold.disabled
     },
     pre () {
       return this.scaffold.pre
@@ -94,12 +91,6 @@ export default {
   watch: {
     value (value) {
       preValidate(this, value, this.pre)
-    }
-  },
-
-  methods: {
-    toggleFocused (focused) {
-      this.$emit('toggleFocused', focused)
     }
   }
 }

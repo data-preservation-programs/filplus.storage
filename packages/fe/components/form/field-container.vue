@@ -1,17 +1,21 @@
 <template>
-  <FieldStandalone
-    v-slot="{ updateValue, field, type, validationMessage }"
+  <Field
+    v-slot="{ field, fieldId, state, required, disabled, validationMessage, updateValue, toggleState }"
     v-bind="$props"
-    :class="['field-container', { disabled, focused }]"
-    v-on="$listeners">
+    :class="['field-container', { focused }]">
 
-    <label v-if="scaffold.label" :for="fieldKey" class="field-label">
-      <span class="text">
-        {{ scaffold.label }}
-        <sup v-if="required" class="required">*</sup>
-      </span>
+    <label v-if="scaffold.label" :for="fieldId" :class="['field-label', state]">
+      <div class="panel-left">
+        <IconFieldInProgress class="icon in-progress" />
+        <IconFieldComplete class="icon completed" />
+        <IconFieldError class="icon error" />
+        <span class="text">
+          {{ scaffold.label }}
+          <sup v-if="required" class="required">*</sup>
+        </span>
+      </div>
       <div v-if="tooltip" class="tooltip" :data-tooltip="tooltip">
-        <IconQuestionMark />
+        <IconQuestionMark class="icon question-mark" />
       </div>
     </label>
 
@@ -21,12 +25,46 @@
 
     <component
       :is="type"
+      v-if="field.scaffold.type !== 'array'"
       :field="field"
-      :field-key="fieldKey"
-      :force-disabled="forceDisabled"
+      :form-scaffold="formScaffold"
+      :disabled="disabled"
       @updateValue="updateValue"
-      @toggleFocused="toggleFocused"
+      @toggleFocused="handleFocus($event, toggleState)"
       v-on="$listeners" />
+
+    <Array
+      v-else
+      v-slot="{ groups, addGroup, removeGroup }"
+      :field="field"
+      :form-scaffold="formScaffold"
+      :disabled="disabled">
+
+      <div
+        v-for="(group, groupIndex) in groups"
+        :key="group.id"
+        class="group">
+
+        <FieldContainer
+          v-for="(fieldScaffold, index) in group.scaffolds"
+          :key="`${group.id}|${index}`"
+          :scaffold="fieldScaffold" />
+
+        <ButtonX
+          class="trash-button"
+          @clicked="removeGroup(groupIndex)">
+          <IconTrash class="icon-trash" />
+        </ButtonX>
+
+      </div>
+
+      <ButtonA
+        class="add-group-button"
+        @clicked="addGroup()">
+        Add
+      </ButtonA>
+
+    </Array>
 
     <slot />
 
@@ -34,12 +72,12 @@
       {{ validationMessage }}
     </div>
 
-  </FieldStandalone>
+  </Field>
 </template>
 
 <script>
 // ===================================================================== Imports
-import FieldStandalone from '@/modules/form/components/field-standalone'
+import Field from '@/modules/form/components/field'
 import FieldInput from '@/components/form/fields/input'
 import FieldTextarea from '@/components/form/fields/textarea'
 import FieldRange from '@/components/form/fields/range'
@@ -49,15 +87,23 @@ import FieldSelect from '@/components/form/fields/select'
 import FieldWysiwyg from '@/components/form/fields/wysiwyg'
 import FieldTypeahead from '@/components/form/fields/typeahead'
 import FieldChiclet from '@/components/form/fields/chiclet'
+import ButtonA from '@/components/buttons/button-a'
+import ButtonX from '@/components/buttons/button-x'
+
+import Array from '@/modules/form/components/array'
 
 import IconQuestionMark from '@/components/icons/question-mark'
+import IconTrash from '@/components/icons/trash'
+import IconFieldInProgress from '@/components/icons/form/in-progress'
+import IconFieldComplete from '@/components/icons/form/complete'
+import IconFieldError from '@/components/icons/form/error'
 
 // ====================================================================== Export
 export default {
   name: 'FieldContainer',
 
   components: {
-    FieldStandalone,
+    Field,
     FieldInput,
     FieldTextarea,
     FieldRange,
@@ -67,7 +113,14 @@ export default {
     FieldWysiwyg,
     FieldTypeahead,
     FieldChiclet,
-    IconQuestionMark
+    Array,
+    ButtonA,
+    ButtonX,
+    IconQuestionMark,
+    IconTrash,
+    IconFieldInProgress,
+    IconFieldComplete,
+    IconFieldError
   },
 
   props: {
@@ -75,34 +128,28 @@ export default {
       type: Object,
       required: true
     },
-    formId: {
-      type: [String, Boolean],
+    /**
+     * Used in the Array field
+     */
+    formScaffold: {
+      type: Object,
       required: false,
-      default: false
-    },
-    fieldKey: {
-      type: String,
-      required: true
-    },
-    groupIndex: {
-      type: [Number, Boolean],
-      required: false,
-      default: false
-    },
-    validateOnEntry: {
-      type: Boolean,
-      required: false,
-      default: false
+      default: () => {}
     },
     forceDisabled: {
       type: Boolean,
       required: false,
       default: false
     },
+    forceValidate: {
+      type: Boolean,
+      required: false,
+      default: true
+    },
     deregisterOnDestroy: {
       type: Boolean,
       required: false,
-      default: false
+      default: true
     },
     /**
      * On occasions where the final root element in field-conditional.vue render
@@ -124,21 +171,32 @@ export default {
   },
 
   computed: {
+    type () {
+      const type = this.scaffold.type
+      let component = false
+      switch (type) {
+        case 'input' : component = 'FieldInput'; break
+        case 'textarea' : component = 'FieldTextarea'; break
+        case 'range' : component = 'FieldRange'; break
+        case 'checkbox' : component = 'FieldCheckbox'; break
+        case 'radio' : component = 'FieldRadio'; break
+        case 'select' : component = 'FieldSelect'; break
+        case 'typeahead' : component = 'FieldTypeahead'; break
+        case 'chiclet' : component = 'FieldChiclet'; break
+        case 'wysiwyg' : component = 'FieldWysiwyg'; break
+      }
+      return component
+    },
     tooltip () {
       const tooltip = this.scaffold.tooltip
-      return tooltip && tooltip !== '' ? tooltip : false
-    },
-    required () {
-      return this.scaffold.required
-    },
-    disabled () {
-      return this.forceDisabled || this.scaffold.disabled
+      return tooltip && tooltip !== '' ? tooltip : null
     }
   },
 
   methods: {
-    toggleFocused (focused) {
+    handleFocus (focused, toggleState) {
       this.focused = focused
+      toggleState(focused)
     }
   }
 }
@@ -177,26 +235,43 @@ export default {
       cursor: default;
     }
   }
-  &.focused {
-    .field-label {
-      .text {
-        transition: 150ms ease-in;
-        color: rgba($aquaSqueeze, 0.7);
-        transform: scale(0.9);
-      }
-    }
-  }
 }
 
-::v-deep .field {
+:deep(.field) {
   position: relative;
   font-weight: 500;
 }
 
-::v-deep .description {
+:deep(.description) {
   margin-top: 0.5rem;
   line-height: leading(30, 18);
   margin-bottom: 2.25rem;
+}
+
+// ////////////////////////////////////////////////////////////////////// Arrays
+.array {
+  display: flex;
+  flex-direction: column;
+}
+
+.group {
+  display: flex;
+  flex-direction: row;
+  .field {
+    flex: 1;
+      margin-bottom: 2rem;
+    &:not(:last-child) {
+      margin-right: 2rem;
+    }
+  }
+}
+
+.add-group-button {
+  margin-left: auto;
+}
+
+.icon-trash {
+  width: 1.5rem;
 }
 
 // ///////////////////////////////////////////////////////////////////// Tooltip
@@ -213,12 +288,12 @@ export default {
     }
     &:after {
       white-space: break-spaces;
-      padding: 2rem;
+      padding: toRem(20) toRem(24);
       top: 50%;
       left: calc(100% + 1rem);
       width: 26rem;
       font-size: 1rem;
-      line-height: leading(27, 16);
+      line-height: leading(24, 16);
       border-radius: 1rem;
       transform: translate(0.5rem, -50%);
       background-color: $blueRibbon;
@@ -236,20 +311,53 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: toRem(20);
-  font-weight: 500;
+  margin-bottom: toRem(18);
+  font-size: toRem(18);
+  line-height: 1;
   cursor: pointer;
   .text {
+    font-weight: 500;
     transform-origin: left;
     transition: 150ms ease-out;
   }
   .required {
-    color: $flamingo;
+    color: #FF0000;
+    font-size: toRem(20);
+    top: 0;
+  }
+  &.in-progress {
+    .icon.in-progress {
+      display: block;
+    }
+  }
+  &.completed {
+    .icon.completed {
+      display: block;
+    }
+  }
+  &.error {
+    .icon.error {
+      display: block;
+    }
+  }
+}
+
+.panel-left {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.icon {
+  display: none;
+  margin-right: toRem(11);
+  &.question-mark {
+    display: block;
   }
 }
 
 // ////////////////////////////////////////////////////////////////// Validation
-::v-deep .validation-message {
+:deep(.validation-message) {
   margin-top: 0.5rem;
   font-size: 0.75rem;
   font-weight: 500;

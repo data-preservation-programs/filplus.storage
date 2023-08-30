@@ -191,8 +191,8 @@ export default {
   async fetch ({ app, store }) {
     await store.dispatch('general/getBaseData', { key: 'index', data: IndexPageData })
     await store.dispatch('general/getBaseData', { key: 'apply', data: ApplyPageData })
-    const application = await store.dispatch('account/setHubspotOptInData', store.getters['auth/account'])
-    await app.$form('filplus_application').register(application)
+    await store.dispatch('account/setHubspotOptInData', store.getters['auth/account'])
+    await store.dispatch('form/registerModel', { id: 'filplus_application', data: store.getters['account/application'] })
   },
 
   head () {
@@ -427,7 +427,7 @@ section {
     padding: 2rem 0;
   }
   .entry {
-    font-size: 1.125rem;
+    font-size: toRem(18);
     line-height: leading(36, 18);
     letter-spacing: 0.02em;
     ::v-deep li {
