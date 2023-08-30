@@ -51,6 +51,7 @@ const Form = (app, store) => {
         const options = scaffold.options
         const mirror = scaffold.mirror
         const type = scaffold.type
+        const baseValue = scaffold.baseValue
         let value = field.value
         if (!field.hasOwnProperty('parentModelKey') && field.validate) {
           if (dualValueFields.includes(type)) {
@@ -72,9 +73,8 @@ const Form = (app, store) => {
                 value = converted.join(', ')
               } else if (option) {
                 value = option.label
-              } else {
+              } else if (baseValue) {
                 value = scaffold.baseValue
-                if (!value) { throw new Error(`baseValue key missing from ${field.modelKey} field scaffold`) }
               }
             // If output is truthy
             } else if ((type === 'radio' || type === 'checkbox') && scaffold.isSingleSelection) {
