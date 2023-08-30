@@ -31,7 +31,8 @@
           "inputType": "text",
           "modelKey": "notary",
           "formId": "filplus_application",
-          "hidden": true
+          "hidden": true,
+          "excludeFromStats": true
         }
       }
     }
