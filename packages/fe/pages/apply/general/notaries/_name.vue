@@ -247,7 +247,7 @@ export default {
         const application = await this.$form.applyFormToSchema(formId, this.application)
         console.log(application)
         // this.$form.clearLocalStorage(formId)
-        // await this.submitApplication({ application, bytes, thresholds })
+        await this.submitApplication({ application, bytes, thresholds })
         // this.$form.reset(formId)
       }
       this.$button('application-submit-button').set({ loading: false })
