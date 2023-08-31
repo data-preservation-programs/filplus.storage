@@ -8,109 +8,88 @@
       :hero-button="backButton"
       :kyc-heading="kycHeading" />
 
-    <!-- ======================================================= Application -->
-    <div id="application">
+    <div id="form">
 
-      <Squigglie
-        :percent-left="10"
-        orientation="down"
-        color="nandor"
-        :thick="true"
-        class="section-app-top-border" />
+      <!-- ===================================================== Application -->
+      <div id="application">
 
-      <div class="grid z-index-100">
-        <div class="col-6_md-8_sm-10_ti-12" data-push-left="off-1_ti-0">
+        <Squigglie
+          :percent-left="10"
+          orientation="down"
+          color="nandor"
+          :thick="true"
+          class="section-app-top-border" />
 
-          <div class="form-heading">
-            <span>{{ formHeading }}</span>
-            <ButtonA
-              v-if="savedFormExists"
-              class="restore-saved-form-button"
-              @clicked="restoreSavedForm('filplus_application')">
-              {{ restoreSavedFormButtonText }}
-            </ButtonA>
-          </div>
+        <div class="grid z-index-100">
+          <div class="col-6_md-8_sm-10_ti-12" data-push-left="off-1_ti-0">
 
-          <FieldContainer
-            :scaffold="formScaffold.data_owner_name"
-            field-key="data_owner_name"
-            form-id="filplus_application" />
+            <div class="form-heading">
+              <span>{{ formHeading }}</span>
+            </div>
 
-          <HubspotOptInFields />
+            <Field :scaffold="notariesFormScaffold" />
 
-          <FieldContainer
-            :scaffold="formScaffold.website"
-            field-key="website"
-            form-id="filplus_application" />
+            <FieldContainer :scaffold="formScaffold.data_owner_name" />
 
-          <FieldContainer
-            :scaffold="formScaffold.ga_region"
-            field-key="ga_region"
-            form-id="filplus_application" />
+            <HubspotOptInFields />
 
-        </div>
-      </div>
+            <FieldContainer :scaffold="formScaffold.website" />
 
-      <div class="grid z-index-50">
-        <div class="col-6_md-6_ti-7 z-index-100" data-push-left="off-1_ti-0">
-          <FieldContainer
-            :scaffold="formScaffold.social_media_handle"
-            field-key="social_media_handle"
-            form-id="filplus_application" />
-        </div>
-        <div class="col-2_md-3_ti-4" data-push-left="off-1">
-          <FieldContainer
-            :scaffold="formScaffold.social_media_handle_type"
-            field-key="social_media_handle_type"
-            form-id="filplus_application" />
-        </div>
-      </div>
+            <FieldContainer :scaffold="formScaffold.ga_region" />
 
-      <div class="grid z-index-50">
-        <div class="col-6_md-6_ti-7 z-index-100" data-push-left="off-1_ti-0">
-          <FieldContainer
-            ref="totalDatacapSizeInput"
-            :scaffold="formScaffold.total_datacap_size_input"
-            field-key="total_datacap_size_input"
-            form-id="filplus_application" />
-        </div>
-        <div class="col-2_md-3_ti-4" data-push-left="off-1">
-          <FieldContainer
-            :scaffold="formScaffold.total_datacap_size_unit"
-            field-key="total_datacap_size_unit"
-            form-id="filplus_application" />
-        </div>
-      </div>
-
-      <div class="grid">
-        <div class="col-6_md-8_sm-10_ti-12" data-push-left="off-1_ti-0">
-
-          <FieldContainer
-            :scaffold="formScaffold.filecoin_address"
-            field-key="filecoin_address"
-            form-id="filplus_application" />
-
-          <div class="buttons">
-            <ButtonA
-              v-if="account"
-              class="submit-button"
-              loader="application-submit-button"
-              @clicked="submitForm">
-              {{ submitButtonText }}
-            </ButtonA>
-
-            <LoginButton />
-
-            <ButtonX
-              :to="backButton.href"
-              :tag="backButton.type"
-              :theme="backButton.theme">
-              <Chevron />
-              <div class="text" v-html="backButton.label" />
-            </ButtonX>
           </div>
         </div>
+
+        <div class="grid z-index-50">
+          <div class="col-6_md-6_ti-7 z-index-100" data-push-left="off-1_ti-0">
+            <FieldContainer :scaffold="formScaffold.social_media_handle" />
+          </div>
+          <div class="col-2_md-3_ti-4" data-push-left="off-1">
+            <FieldContainer :scaffold="formScaffold.social_media_handle_type" />
+          </div>
+        </div>
+
+        <div class="grid z-index-50">
+          <div class="col-6_md-6_ti-7 z-index-100" data-push-left="off-1_ti-0">
+            <FieldContainer :scaffold="formScaffold.total_datacap_size_input" />
+          </div>
+          <div class="col-2_md-3_ti-4" data-push-left="off-1">
+            <FieldContainer :scaffold="formScaffold.total_datacap_size_unit" />
+          </div>
+        </div>
+
+        <div class="grid">
+          <div class="col-6_md-8_sm-10_ti-12" data-push-left="off-1_ti-0">
+
+            <FieldContainer :scaffold="formScaffold.filecoin_address" />
+
+            <div class="buttons bottom">
+              <ButtonA
+                v-if="account"
+                class="submit-button"
+                loader="application-submit-button"
+                @clicked="submitForm">
+                {{ submitButtonText }}
+              </ButtonA>
+
+              <LoginButton />
+
+              <ButtonX
+                :to="backButton.href"
+                :tag="backButton.type"
+                :theme="backButton.theme">
+                <Chevron />
+                <div class="text" v-html="backButton.label" />
+              </ButtonX>
+            </div>
+          </div>
+        </div>
+
       </div>
+
+      <!-- ==================================================== Form Toolbar -->
+      <!-- Needs to be placed AFTER all the fields for its mounted hook to fire correctly -->
+      <FormToolbar form-id="filplus_application" />
 
     </div>
 
@@ -123,9 +102,12 @@
 <script>
 // ===================================================================== Imports
 import { mapGetters, mapActions } from 'vuex'
+import CloneDeep from 'lodash/cloneDeep'
 
 import HeroB from '@/components/hero-b'
+import FormToolbar from '@/components/form/form-toolbar'
 import FieldContainer from '@/components/form/field-container'
+import Field from '@/modules/form/components/field'
 import ButtonA from '@/components/buttons/button-a'
 import ButtonX from '@/components/buttons/button-x'
 import HubspotOptInFields from '@/components/hubspot-opt-in-fields'
@@ -143,7 +125,9 @@ export default {
 
   components: {
     HeroB,
+    FormToolbar,
     FieldContainer,
+    Field,
     ButtonA,
     ButtonX,
     HubspotOptInFields,
@@ -153,9 +137,23 @@ export default {
     Chevron
   },
 
+  asyncData ({ app, params }) {
+    const notaryField = app.$field.get('total_datacap_size_input')
+    return {
+      /**
+       * If navigating from anywhere but the notaries page, need to add a hidden
+       * 'notary' field and pre-populate it with the notary name from the URL.
+       */
+      notariesFormScaffold: Object.assign(CloneDeep(NotariesPageData.page_content.form.scaffold.notary), {
+        defaultValue: notaryField ? notaryField.value : params.name
+      })
+    }
+  },
+
   data () {
     return {
-      tag: 'apply-general'
+      tag: 'apply-general',
+      notariesFormScaffold: {}
     }
   },
 
@@ -164,21 +162,9 @@ export default {
     const notariesList = await store.dispatch('general/getCachedFile', 'notaries-list.json')
     const notary = notariesList.find(notary => notary.name === name || notary.organization === name)
     if (!notary) { return redirect('/apply/general/notaries') }
-    const notaryFieldId = 'notary|filplus_application'
-    const notaryField = app.$field(notaryFieldId).get()
-    const application = await store.dispatch('account/setHubspotOptInData', store.getters['auth/account'])
-    await app.$form('filplus_application').register(application)
-    if (!notaryField) {
-      await app.$field(notaryFieldId).register(
-        'filplus_application',
-        false,
-        'notary',
-        NotariesPageData.page_content.form.scaffold.notary,
-        'nullState'
-      )
-      await app.$field(notaryFieldId).updateValue(name)
-    }
+    await store.dispatch('account/setHubspotOptInData', store.getters['auth/account'])
     await store.dispatch('general/getBaseData', { key: 'apply-general', data: ApplyGeneralPageData })
+    await store.dispatch('form/registerModel', { id: 'filplus_application', data: store.getters['account/application'] })
   },
 
   head () {
@@ -188,7 +174,7 @@ export default {
   computed: {
     ...mapGetters({
       siteContent: 'general/siteContent',
-      savedFormExists: 'form/savedFormExists',
+      application: 'account/application',
       account: 'auth/account'
     }),
     generalPageData () {
@@ -218,9 +204,6 @@ export default {
     formScaffold () {
       return this.form.scaffold
     },
-    restoreSavedFormButtonText () {
-      return this.form.restore_saved_form_button_text
-    },
     submitButtonText () {
       return this.form.submit_button_text
     },
@@ -235,26 +218,36 @@ export default {
     }
   },
 
+  mounted () {
+    this.$field.saveFieldToLocalStorage(
+      this.$field.get('notary')
+    )
+  },
+
   methods: {
     ...mapActions({
       validateForm: 'form/validateForm',
-      submitApplication: 'account/submitApplication',
-      restoreSavedForm: 'form/restoreSavedForm'
+      submitApplication: 'account/submitApplication'
     }),
     async submitForm () {
-      const inputField = this.$field('total_datacap_size_input|filplus_application').get()
-      const unitField = this.$field('total_datacap_size_unit|filplus_application').get()
+      const formId = 'filplus_application'
+      const pass = await this.$form.validate(formId)
+      if (!pass) {
+        const firstInvalidField = document.querySelector('.field.error')
+        this.$scrollToElement(firstInvalidField, 250, -200)
+        this.$button('application-submit-button').set({ loading: false })
+        return
+      }
+      const inputField = this.$field.get('total_datacap_size_input')
+      const unitField = this.$field.get('total_datacap_size_unit')
       const bytes = this.$convertSizeToBytes(inputField.value, unitField.scaffold.options[unitField.value].label)
       const thresholds = this.formsThresholds
-      const pass = await this.$handleFormRedirection(bytes, 'stage-ga', thresholds)
-      if (pass) {
-        const application = await this.$form('filplus_application').validate()
-        if (!application) {
-          const firstInvalidField = document.querySelector('.error')
-          this.$scrollToElement(firstInvalidField, 250, -200)
-        } else {
-          await this.submitApplication({ application, bytes, thresholds })
-        }
+      const stay = await this.$handleFormRedirection(bytes, 'stage-ga', thresholds)
+      if (pass && stay) {
+        const application = await this.$form.applyFormToSchema(formId, this.application)
+        this.$form.clearLocalStorage(formId)
+        await this.submitApplication({ application, bytes, thresholds })
+        this.$form.reset(formId)
       }
       this.$button('application-submit-button').set({ loading: false })
     }
@@ -273,6 +266,10 @@ export default {
     display: block;
     margin-top: 0.5rem;
   }
+}
+
+#form {
+  position: relative;
 }
 
 #application {
@@ -295,20 +292,6 @@ export default {
     * {
       display: block;
     }
-  }
-}
-
-.restore-saved-form-button {
-  position: absolute;
-  top: 50%;
-  left: calc(100% + 1rem);
-  transform: translateY(-50%);
-  @include small {
-    position: relative;
-    top: 0;
-    left: 0;
-    transform: none;
-    margin-top: 1.5rem;
   }
 }
 

@@ -117,12 +117,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$height: 4rem;
+$height: 3.125rem;
 
 // ///////////////////////////////////////////////////////////////////// General
 div.field-select {
   height: $height;
-  border-bottom: 2px solid $titanWhite;
+  padding: 0 toRem(12);
+  border: 2px solid $mineralGreen;
+  border-radius: toRem(5);
   transition: border-color 150ms ease-out;
   &:hover {
     .icon-container {
@@ -140,7 +142,7 @@ div.field-select {
       scale: 1 1;
     }
   }
-  &.caution {
+  &.in-progress {
     transition: border-color 150ms ease-in;
     border-color: $mandysPink;
   }
@@ -164,8 +166,10 @@ div.field-select {
   scale: 1 0;
   transition: scale 150ms ease-out;
   max-height: $height * 5.5;
+  width: calc(100% + 4px);
+  left: -2px;
   background-color: $aztec;
-  border: 2px solid $titanWhite;
+  border: 2px solid $mineralGreen;
   border-radius: 0.3125rem;
 }
 
@@ -176,6 +180,7 @@ div.field-select {
   align-items: center;
   width: 100%;
   height: 100%;
+  padding: 0 toRem(12);
   transition: 150ms ease-out;
   .text {
     flex: 1;

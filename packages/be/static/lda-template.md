@@ -17,7 +17,7 @@ data_owner_industry
 social_media_handle (social_media_handle_type)
 
 ### Total amount of DataCap being requested
-total_datacap_size total_datacap_size_unit
+total_datacap_size_input total_datacap_size_unit
 
 ### Expected size of single dataset (one copy)
 total_size_of_single_dataset_one_copy total_size_of_single_dataset_one_copy_unit
