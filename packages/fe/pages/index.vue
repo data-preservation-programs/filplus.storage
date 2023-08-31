@@ -227,11 +227,6 @@ export default {
     subfooterCtaHeading () {
       return this.pageData.section_subfooter_slider.heading
     }
-  },
-
-  async mounted () {
-    const response = await this.$axiosAuth.get('/get-kyc-users')
-    console.log('data ', response.data.payload)
   }
 
 }

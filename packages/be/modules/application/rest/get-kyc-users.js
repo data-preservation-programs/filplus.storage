@@ -25,7 +25,6 @@ const getKycUsers = async () => {
     const data = await MC.model.User.aggregate(
       FindKycUsers()
     )
-    console.log('DATA ', data)
     return data.map(user => {
       return {
         ...user,
