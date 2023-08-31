@@ -14,6 +14,7 @@ const MC = require('@Root/config')
 // -----------------------------------------------------------------------------
 // ------------------------------------------------------------------ formatDate
 const formatDate = (dateString) => {
+  if (dateString === 'Timestamp missing') { return dateString }
   const date = new Date(dateString)
   return date.toLocaleDateString('en-CA')
 }
@@ -24,12 +25,17 @@ const getKycUsers = async () => {
     const data = await MC.model.User.aggregate(
       FindKycUsers()
     )
+    console.log('DATA ', data)
     return data.map(user => {
       return {
         ...user,
         submissionDate: formatDate(user.submissionDate)
       }
-    }).sort(({ submissionDate: a }, { submissionDate: b }) => a < b ? 1 : a > b ? -1 : 0)
+    }).sort(({ submissionDate: a }, { submissionDate: b }) => {
+      if (a === 'Timestamp missing' && b === 'Timestamp missing') { return 0 }
+      if (b === 'Timestamp missing') { return -1 }
+      return a < b ? 1 : a > b ? -1 : 0
+    })
   } catch (e) {
     console.log('===================================== [Function: getKycUsers]')
     console.log(e)
