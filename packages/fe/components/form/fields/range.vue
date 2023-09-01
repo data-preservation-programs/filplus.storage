@@ -4,7 +4,6 @@
     <Range
       ref="range"
       :field="field"
-      :field-key="fieldKey"
       v-on="$listeners">
 
       <template #thumb>
@@ -57,10 +56,6 @@ export default {
   props: {
     field: {
       type: Object,
-      required: true
-    },
-    fieldKey: {
-      type: String,
       required: true
     }
   },
@@ -130,28 +125,28 @@ $borderWidth: 2px;
 
 // ///////////////////////////////////////////////////////////////////// General
 .field-range {
-  &.caution,
-  &.error {
-    :deep(.range-track) {
-      &:before {
-        transition: 150ms ease-in;
-      }
-    }
-  }
-  &.caution {
-    :deep(.range-track) {
-      &:before {
-        background-color: $mandysPink;
-      }
-    }
-  }
-  &.error {
-    :deep(.range-track) {
-      &:before {
-        background-color: $flamingo;
-      }
-    }
-  }
+  // &.in-progress,
+  // &.error {
+  //   :deep(.range-track) {
+  //     &:before {
+  //       transition: 150ms ease-in;
+  //     }
+  //   }
+  // }
+  // &.in-progress {
+  //   :deep(.range-track) {
+  //     &:before {
+  //       background-color: $mandysPink;
+  //     }
+  //   }
+  // }
+  // &.error {
+  //   :deep(.range-track) {
+  //     &:before {
+  //       background-color: $flamingo;
+  //     }
+  //   }
+  // }
 }
 
 // /////////////////////////////////////////////////////////////////////// Track

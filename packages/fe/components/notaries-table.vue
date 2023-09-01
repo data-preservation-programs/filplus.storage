@@ -16,12 +16,9 @@
         </tr>
       </thead>
       <!-- ============================================================ Body -->
-      <FieldStandalone
+      <Field
         v-slot="{ updateValue }"
         :scaffold="formScaffold.notary"
-        :validate-across-routes="true"
-        field-key="notary"
-        form-id="filplus_application"
         root-html-tag="tbody"
         class="table-body">
         <tr
@@ -126,7 +123,7 @@
           </td>
 
         </tr>
-      </FieldStandalone>
+      </Field>
     </table>
 
     <div v-if="!filteredNotaries" class="no-results-placeholder">
@@ -141,7 +138,7 @@
 import { mapGetters } from 'vuex'
 import CloneDeep from 'lodash/cloneDeep'
 
-import FieldStandalone from '@/modules/form/components/field-standalone'
+import Field from '@/modules/form/components/field'
 import ButtonA from '@/components/buttons/button-a'
 import ButtonX from '@/components/buttons/button-x'
 
@@ -154,7 +151,7 @@ export default {
   name: 'NotariesTable',
 
   components: {
-    FieldStandalone,
+    Field,
     ButtonA,
     ButtonX,
     SlackIcon,

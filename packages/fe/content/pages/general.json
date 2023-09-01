@@ -164,10 +164,13 @@
         "type": "input",
         "inputType": "text",
         "modelKey": "hubspot_opt_in_first_name",
+        "formId": "filplus_application",
         "label": "First Name",
         "placeholder": "First Name",
         "pre": "[^\\u0000-\\u00ff]",
         "autocomplete": "none",
+        "defaultValue": "",
+        "excludeFromStats": true,
         "chars": {
           "min": 2,
           "max": 1000
@@ -175,17 +178,19 @@
         "validationMessage": {
           "required": "This field is required",
           "chars": "Input must be between 2 and 35 characters"
-        },
-        "defaultValue": ""
+        }
       },
       "hubspot_opt_in_last_name": {
         "type": "input",
         "inputType": "text",
         "modelKey": "hubspot_opt_in_last_name",
+        "formId": "filplus_application",
         "label": "Last Name",
         "placeholder": "Last Name",
         "pre": "[^\\u0000-\\u00ff]",
         "autocomplete": "none",
+        "defaultValue": "",
+        "excludeFromStats": true,
         "chars": {
           "min": 2,
           "max": 1000
@@ -193,18 +198,19 @@
         "validationMessage": {
           "required": "This field is required",
           "chars": "Input must be between 2 and 35 characters"
-        },
-        "defaultValue": ""
+        }
       },
       "hubspot_opt_in_email": {
         "type": "input",
         "inputType": "email",
         "modelKey": "hubspot_opt_in_email",
+        "formId": "filplus_application",
         "label": "Email",
         "placeholder": "Email",
         "pattern": ".+@.+\\.[a-zA-Z]{1,10}",
         "pre": "[^\\u0000-\\u00ff]",
         "autocomplete": "none",
+        "excludeFromStats": true,
         "chars": {
           "min": 2,
           "max": 100

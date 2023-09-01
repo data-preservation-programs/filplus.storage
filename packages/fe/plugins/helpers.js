@@ -63,7 +63,7 @@ const ParseURL = (url) => {
   return urlBreakdown
 }
 
-// //////////////////////////////////////////////////////// Throttle From Lodash
+// /////////////////////////////////////////////////////////// [lodash] Throttle
 const Throttle = (func, wait, options) => {
   let context
   let args
@@ -409,47 +409,6 @@ const ConvertSizeToBytes = (size, unit) => {
   }
 }
 
-// /////////////////////////////////////////////////////////// FormatDatacapSize
-const FormatDatacapSize = (ctx, transformField, transformSourceField, args) => {
-  let value = transformSourceField.value
-  const store = ctx.store
-  const action = args.action
-  if (action === 'human') {
-    const valueField = store.getters['form/fields'].find(obj => obj.fieldKey === args.value_from_field)
-    if (valueField) { value = valueField.value }
-    return parseFloat(FormatBytes(value, 'array').value)
-  } else if (action === 'bytes') {
-    const options = store.getters['general/siteContent'].apply.page_content.form.scaffold.total_datacap_size_unit.options
-    const unitField = ctx.$field(`${args.unit_from_field}|filplus_application`).get()
-    const valueField = ctx.$field(`${args.value_from_field}|filplus_application`).get()
-    if (!unitField || !valueField || unitField.value.length === 0) { return value }
-    if (valueField) { value = valueField.value }
-    const unit = options[unitField.value].label
-    return ConvertSizeToBytes(value, unit)
-  }
-}
-
-// //////////////////////////////////////////////////// ReactDatasizeUnitToRange
-const ReactDatasizeUnitToRange = (ctx, transformField, transformSourceField, args) => {
-  const size = transformSourceField.value
-  const options = ctx.store.getters['general/siteContent'].apply.page_content.form.scaffold.total_datacap_size_unit.options
-  const unit = FormatBytes(size, 'array').unit
-  return [options.findIndex(option => option.label === unit)]
-}
-
-// //////////////////////////////////////////////////// ReactDatasizeRangeToUnit
-const ReactDatasizeRangeToUnit = (ctx, transformField, transformSourceField, args) => {
-  const originalValue = transformField.value
-  const unitValue = transformSourceField.value
-  const store = ctx.store
-  const options = store.getters['general/siteContent'].apply.page_content.form.scaffold.total_datacap_size_unit.options
-  const inputField = ctx.$field(`${args.value_from_field}|filplus_application`).get()
-  if (unitValue.length === 0) { return originalValue }
-  const unit = options[unitValue].label
-  const size = inputField.value
-  return ConvertSizeToBytes(size, unit)
-}
-
 // /////////////////////////////////////////////////////// HandleFormRedirection
 const HandleFormRedirection = (app, store, bytes, stage, thresholds) => {
   const tib1 = thresholds.tib_1
@@ -461,16 +420,18 @@ const HandleFormRedirection = (app, store, bytes, stage, thresholds) => {
       '_blank'
     )
     app.$gtm.push({ event: 'redirect_glif' })
-    return false
+    return true
   }
   // --------------------------------------------- stage: 'apply' | range slider
   if (stage === 'stage-apply') {
     if (bytes >= tib1 && bytes < tib100) {
       app.$gtm.push({ event: 'redirect_notary_selection' })
       app.router.push('/apply/general/notaries')
+      return false
     } else if (bytes >= tib100) {
       app.$gtm.push({ event: 'redirect_lda' })
       app.router.push('/apply/large')
+      return false
     }
     return true
   // --------------------------------------------------------------- stage: 'ga'
@@ -508,7 +469,7 @@ let highlightApplyFormTimeout1
 let highlightApplyFormTimeout2
 
 const HighlightApplyForm = (app, store) => {
-  const route = app.router.history.current
+  let route = app.router.history.current
   const router = app.router
   if (route.name !== 'apply') {
     router.push({
@@ -525,14 +486,17 @@ const HighlightApplyForm = (app, store) => {
     clearTimeout(highlightApplyFormTimeout1)
   }, 250)
   highlightApplyFormTimeout2 = setTimeout(() => {
+    route = app.router.history.current
     store.dispatch('general/setApplyFormHighlightedStatus', false)
-    const query = Object.assign({}, route.query)
-    if (query.highlight_form) {
-      delete query.highlight_form
-      router.replace({ query })
+    if (route.name === 'apply') {
+      const query = Object.assign({}, route.query)
+      if (query.highlight_form) {
+        delete query.highlight_form
+        router.replace({ query })
+      }
     }
     clearTimeout(highlightApplyFormTimeout2)
-    highlightApplyFormTimeout2 = false
+    highlightApplyFormTimeout2 = null
   }, 2250)
 }
 
@@ -549,6 +513,31 @@ const ParseNumber = (number, returnOriginal = false) => {
     if (!isNaN(parsed)) { resolve(parsed) }
     resolve(returnOriginal ? number : undefined)
   })
+}
+
+// //////////////////////////////////////// ConvertDatacapSizeBytesToHumanNumber
+const ConvertDatacapSizeBytesToHumanNumber = (app, valueFromField) => {
+  const valueField = app.$field.get(valueFromField)
+  return parseFloat(FormatBytes(valueField.value, 'array').value)
+}
+
+// ///////////////////////////////////////////////// ReactUnitToDatacapSizeBytes
+const ReactUnitToDatacapSizeBytes = (app, valueFromField, unitFromField) => {
+  const valueField = app.$field.get(valueFromField)
+  const unitField = app.$field.get(unitFromField)
+  const options = unitField.scaffold.options
+  const unit = FormatBytes(valueField.value, 'array').unit
+  return [options.findIndex(option => option.label === unit)]
+}
+
+// ///////////////////////////////////////////// ConvertDatacapValueToRangeBytes
+const ConvertDatacapValueToRangeBytes = (app, valueFromField, unitFromField) => {
+  const valueField = app.$field.get(valueFromField)
+  const unitField = app.$field.get(unitFromField)
+  const options = unitField.scaffold.options
+  const size = valueField.value
+  const unit = options[unitField.value].label
+  return ConvertSizeToBytes(size, unit)
 }
 
 // ////////////////////////////////////////////////////////////////////// Export
@@ -580,11 +569,11 @@ export default ({ $config, app, store }, inject) => {
   inject('awaitServerReconnect', AwaitServerReconnect($config, app))
   inject('connectWebsocket', ConnectWebsocket($config))
   inject('convertSizeToBytes', ConvertSizeToBytes)
-  inject('formatDatacapSize', FormatDatacapSize)
-  inject('reactDatasizeUnitToRange', ReactDatasizeUnitToRange)
-  inject('reactDatasizeRangeToUnit', ReactDatasizeRangeToUnit)
   inject('handleFormRedirection', (bytes, bottom, top) => HandleFormRedirection(app, store, bytes, bottom, top))
   inject('highlightApplyForm', () => HighlightApplyForm(app, store))
   inject('isRouteCurrent', IsRouteCurrent)
   inject('parseNumber', ParseNumber)
+  inject('convertDatacapSizeBytesToHumanNumber', valueFromField => ConvertDatacapSizeBytesToHumanNumber(app, valueFromField))
+  inject('reactUnitToDatacapSizeBytes', (valueFromField, unitFromField) => ReactUnitToDatacapSizeBytes(app, valueFromField, unitFromField))
+  inject('convertDatacapValueToRangeBytes', (valueFromField, unitFromField) => ConvertDatacapValueToRangeBytes(app, valueFromField, unitFromField))
 }

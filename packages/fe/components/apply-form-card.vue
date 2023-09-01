@@ -5,40 +5,32 @@
     corner-position="bottom-right"
     icon="arrow"
     @clicked="submitForm">
-    <template v-if="formScaffold">
 
-      <div class="form-heading">
-        {{ formHeading }}
-      </div>
+    <div class="form-heading">
+      {{ formHeading }}
+    </div>
 
-      <div class="form-subheading">
-        {{ formSubheading }}
-      </div>
+    <div class="form-subheading">
+      {{ formSubheading }}
+    </div>
 
-      <form class="form">
+    <form class="form">
 
+      <FieldContainer
+        :scaffold="formScaffold.total_datacap_size_range"
+        :class="['range-field', { 'max-value-selected': maxValueSelected }]" />
+
+      <div :class="['row', { 'tooltip-visible': maxValueSelected }]" :data-tooltip="tooltipText">
         <FieldContainer
-          :scaffold="formScaffold.total_datacap_size_range"
-          field-key="total_datacap_size_range"
-          form-id="filplus_application"
-          :class="['range-field', { 'max-value-selected': maxValueSelected }]" />
+          :scaffold="formScaffold.total_datacap_size_input"
+          class="input-field" />
+        <FieldContainer
+          :scaffold="formScaffold.total_datacap_size_unit"
+          class="select-field" />
+      </div>
 
-        <div :class="['row', { 'tooltip-visible': maxValueSelected }]" :data-tooltip="tooltipText">
-          <FieldContainer
-            :scaffold="formScaffold.total_datacap_size_input"
-            field-key="total_datacap_size_input"
-            form-id="filplus_application"
-            class="input-field" />
-          <FieldContainer
-            :scaffold="formScaffold.total_datacap_size_unit"
-            field-key="total_datacap_size_unit"
-            form-id="filplus_application"
-            class="select-field" />
-        </div>
+    </form>
 
-      </form>
-
-    </template>
   </Card>
 </template>
 
@@ -67,7 +59,8 @@ export default {
   computed: {
     ...mapGetters({
       siteContent: 'general/siteContent',
-      applyFormHighlighted: 'general/applyFormHighlighted'
+      applyFormHighlighted: 'general/applyFormHighlighted',
+      application: 'account/application'
     }),
     generalPageData () {
       return this.siteContent.general
@@ -100,7 +93,7 @@ export default {
       return this.formsData.tooltip_greater_than_15pib_text
     },
     rangeField () {
-      return this.$field('total_datacap_size_range|filplus_application').get()
+      return this.$field.get('total_datacap_size_range')
     }
   },
 
@@ -126,7 +119,6 @@ export default {
     async submitForm (e) {
       e.preventDefault()
       await this.$handleFormRedirection(this.rangeField.value, 'stage-apply', this.formsThresholds)
-      await this.$form('filplus_application').validate()
     }
   }
 }
@@ -227,7 +219,7 @@ export default {
   }
 }
 
-.input-field {
+:deep(div.input-field) {
   position: relative;
   width: 6.25rem;
   margin-right: 1.125rem;
@@ -240,9 +232,24 @@ export default {
     height: 2px;
     background-color: $titanWhite;
   }
+  .input {
+    padding: 0;
+    border: 0;
+    border-bottom: 2px solid white;
+    border-radius: 0;
+  }
 }
 
-.select-field {
+:deep(div.select-field) {
   width: 3.75rem;
+  .field-select {
+    padding: 0;
+    border: 0;
+    border-bottom: 2px solid white;
+    border-radius: 0;
+  }
+  .selection-window {
+    padding: 0;
+  }
 }
 </style>

@@ -1,71 +1,64 @@
+// ///////////////////////////////////////////////////////// Imports & Variables
+// -----------------------------------------------------------------------------
+import CloneDeep from 'lodash/cloneDeep'
+
 // /////////////////////////////////////////////////////////////////////// State
 // ---------------------- https://vuex.vuejs.org/guide/modules.html#module-reuse
 const state = () => ({
   fields: [],
-  forms: [],
-  savedFormExists: false
+  models: [],
+  formSaveStates: []
 })
 
 // ///////////////////////////////////////////////////////////////////// Getters
 // -----------------------------------------------------------------------------
 const getters = {
   fields: state => state.fields,
-  forms: state => state.forms,
-  savedFormExists: state => state.savedFormExists
+  models: state => state.models,
+  formSaveStates: state => state.formSaveStates
 }
 
 // ///////////////////////////////////////////////////////////////////// Actions
 // -----------------------------------------------------------------------------
 const actions = {
-  // /////////////////////////////////////////////////////////////////// setForm
-  setForm ({ commit, getters }, payload) {
-    const index = getters.forms.findIndex(form => form.id === payload.id)
-    commit('SET_FORM', { index, form: payload })
-  },
-  // /////////////////////////////////////////////////////////////////// setForm
-  removeForm ({ commit, getters }, id) {
-    const index = getters.forms.findIndex(form => form.id === id)
-    commit('REMOVE_FORM', index)
+  // ///////////////////////////////////////////////////////////// registerModel
+  async registerModel ({ commit, getters }, payload) {
+    const index = getters.models.findIndex(model => model.id === payload.id)
+    await commit('REGISTER_MODEL', { index, model: payload })
   },
   // ////////////////////////////////////////////////////////////////// setField
-  async setField ({ commit, getters }, payload) {
-    const index = getters.fields.findIndex(field => field.id === payload.id)
-    await commit('SET_FIELD', { index, field: payload })
+  async setField ({ commit, getters }, incoming) {
+    const field = CloneDeep(getters.fields.find(field => field.id === incoming.id))
+    if (field) {
+      Object.assign(field, incoming)
+    }
+    const index = getters.fields.findIndex(field => field.id === incoming.id)
+    await commit('SET_FIELD', { index, field: field || incoming })
   },
   // /////////////////////////////////////////////////////////////// removeField
   removeField ({ commit, getters }, id) {
     const index = getters.fields.findIndex(field => field.id === id)
     commit('REMOVE_FIELD', index)
   },
-  // ////////////////////////////////////////////////// setSavedFormExistsStatus
-  setSavedFormExistsStatus ({ commit }, status) {
-    commit('SET_SAVED_FORM_EXISTS_STATUS', status)
+  // ////////////////////////////////////////////////////////// setFormSaveState
+  setFormSaveState ({ commit, getters }, payload) {
+    const index = getters.formSaveStates.findIndex(form => form.id === payload.id)
+    commit('SET_FORM_SAVE_STATE', { index, form: payload })
   },
-  // ////////////////////////////////////////////////////////// restoreSavedForm
-  restoreSavedForm ({ commit, getters, dispatch }, formId) {
-    const id = `form__${formId}`
-    const fields = JSON.parse(this.$ls.get(id))
-    fields.forEach((field) => {
-      commit('SET_FIELD', {
-        index: getters.fields.findIndex(obj => obj.id === field.id),
-        field
-      })
-    })
-    this.$ls.remove(id)
-    dispatch('setSavedFormExistsStatus', false)
+  // /////////////////////////////////////////////////////// removeFormSaveState
+  removeFormSaveState ({ commit, getters }, id) {
+    const index = getters.fields.findIndex(form => form.id === id)
+    commit('REMOVE_FORM_SAVE_STATE', index)
   }
 }
 
 // /////////////////////////////////////////////////////////////////// Mutations
 // -----------------------------------------------------------------------------
 const mutations = {
-  SET_FORM (state, payload) {
+  REGISTER_MODEL (state, payload) {
     const index = payload.index
-    const form = payload.form
-    index === -1 ? state.forms.push(form) : state.forms.splice(index, 1, form)
-  },
-  REMOVE_FORM (state, index) {
-    state.forms.splice(index, 1)
+    const model = payload.model
+    index === -1 ? state.models.push(model) : state.models.splice(index, 1, model)
   },
   SET_FIELD (state, payload) {
     const index = payload.index
@@ -75,8 +68,13 @@ const mutations = {
   REMOVE_FIELD (state, index) {
     state.fields.splice(index, 1)
   },
-  SET_SAVED_FORM_EXISTS_STATUS (state, status) {
-    state.savedFormExists = status
+  SET_FORM_SAVE_STATE (state, payload) {
+    const index = payload.index
+    const form = payload.form
+    index === -1 ? state.formSaveStates.push(form) : state.formSaveStates.splice(index, 1, form)
+  },
+  REMOVE_FORM_SAVE_STATE (state, index) {
+    state.formSaveStates.splice(index, 1)
   }
 }
 

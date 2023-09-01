@@ -22,28 +22,13 @@
       "scaffold": {
         "total_datacap_size_range": {
           "type": "range",
-          "modelKey": "total_datacap_size",
+          "modelKey": "total_datacap_size_range",
+          "formId": "filplus_application",
           "required": true,
-          "mirror": {
-            "fieldKey": "total_datacap_size_input",
-            "primary": false,
-            "func": "$formatDatacapSize",
-            "args": {
-              "action": "bytes",
-              "unit_from_field": "total_datacap_size_unit",
-              "value_from_field": "total_datacap_size_input"
-            }
-          },
-          "react": {
-            "fieldKey": "total_datacap_size_unit",
-            "func": "$reactDatasizeRangeToUnit",
-            "args": {
-              "value_from_field": "total_datacap_size_input"
-            }
-          },
           "autocomplete": "off",
           "min": 1099511627776,
           "max": 16888498602639360,
+          "defaultValue": 1099511627776,
           "intervals": [
             1099511627776,
             68719476736,
@@ -56,50 +41,62 @@
             281474976710656,
             1125899906842624
           ],
+          "react": [
+            {
+              "modelKey": "total_datacap_size_input",
+              "func": "$convertDatacapValueToRangeBytes",
+              "args": {
+                "valueFromField": "total_datacap_size_input",
+                "unitFromField": "total_datacap_size_unit"
+              }
+            },
+            {
+              "modelKey": "total_datacap_size_unit",
+              "func": "$convertDatacapValueToRangeBytes",
+              "args": {
+                "valueFromField": "total_datacap_size_input",
+                "unitFromField": "total_datacap_size_unit"
+              }
+            }
+          ],
           "validationMessage": {
             "required": "This field is required"
-          },
-          "defaultValue": 1099511627776
+          }
         },
         "total_datacap_size_input": {
           "type": "input",
           "inputType": "number",
-          "modelKey": "total_datacap_size",
+          "modelKey": "total_datacap_size_input",
+          "formId": "filplus_application",
           "label": "Total Datacap being requested",
           "placeholder": "32",
           "min": 1,
           "max": 5242880,
           "required": true,
+          "defaultValue": 1,
           "pre": "[^\\u0000-\\u00ff]",
-          "mirror": {
-            "fieldKey": "total_datacap_size_range",
-            "primary": true,
-            "func": "$formatDatacapSize",
-            "args": {
-              "value_from_field": "total_datacap_size_range",
-              "action": "human"
-            }
-          },
           "autocomplete": "off",
           "validationMessage": {
             "required": "This field is required",
             "minmax": "Number must be between 1 and 5242880"
           },
-          "defaultValue": 1
+          "react": [{
+            "modelKey": "total_datacap_size_range",
+            "func": "$convertDatacapSizeBytesToHumanNumber",
+            "args": {
+              "valueFromField": "total_datacap_size_range"
+            }
+          }]
         },
         "total_datacap_size_unit": {
           "type": "select",
           "modelKey": "total_datacap_size_unit",
+          "formId": "filplus_application",
           "label": "Unit",
           "required": true,
           "output": "option",
-          "react": {
-            "fieldKey": "total_datacap_size_range",
-            "func": "$reactDatasizeUnitToRange",
-            "args": {
-              "value_from_field": "total_datacap_size_range"
-            }
-          },
+          "defaultValue": "TiB",
+          "isSingleOption": true,
           "validationMessage": {
             "required": "This field is required"
           },
@@ -108,8 +105,14 @@
             { "label": "TiB" },
             { "label": "PiB" }
           ],
-          "defaultValue": "TiB",
-          "isSingleOption": true
+          "react": [{
+            "modelKey": "total_datacap_size_range",
+            "func": "$reactUnitToDatacapSizeBytes",
+            "args": {
+              "valueFromField": "total_datacap_size_range",
+              "unitFromField": "total_datacap_size_unit"
+            }
+          }]
         }
       }
     },

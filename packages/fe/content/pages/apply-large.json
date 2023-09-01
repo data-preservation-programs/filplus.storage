@@ -27,7 +27,6 @@
     "form": {
       "heading_1": "Background Information",
       "heading_2": "Application",
-      "restore_saved_form_button_text": "Restore Saved Form",
       "submit_button_text": "Send Request",
       "github_issue_link_text": "View Issue on Github",
       "scaffold": {
@@ -35,12 +34,14 @@
           "type": "input",
           "inputType": "text",
           "modelKey": "data_owner_name",
+          "formId": "filplus_application",
           "label": "Data Owner Name",
           "placeholder": "ABC Inc.",
           "tooltip": "Provide the name of your group or organization.",
           "required": true,
           "pre": "[^\\u0000-\\u00ff]",
           "autocomplete": "none",
+          "defaultValue": "",
           "chars": {
             "min": 2,
             "max": 1000
@@ -48,12 +49,12 @@
           "validationMessage": {
             "required": "This field is required",
             "chars": "Input must be between 2 and 35 characters"
-          },
-          "defaultValue": ""
+          }
         },
         "your_role": {
           "type": "select",
           "modelKey": "your_role",
+          "formId": "filplus_application",
           "label": "What is your role related to the dataset?",
           "required": true,
           "output": "option",
@@ -73,6 +74,7 @@
         "data_owner_region": {
           "type": "select",
           "modelKey": "data_owner_region",
+          "formId": "filplus_application",
           "label": "Data owner country/region",
           "placeholder": "Country/region",
           "required": true,
@@ -87,6 +89,7 @@
         "data_owner_industry": {
           "type": "select",
           "modelKey": "data_owner_industry",
+          "formId": "filplus_application",
           "label": "Data owner industry",
           "tooltip": "Select the most applicable industry for your organization from the provided list",
           "required": true,
@@ -119,33 +122,37 @@
           "type": "input",
           "inputType": "text",
           "modelKey": "website",
+          "formId": "filplus_application",
           "label": "Organization Website",
-          "placeholder": "https://foo.com",
+          "placeholder": "https://example.com",
           "tooltip": "Provide the full URL of your group or organization's website",
           "required": true,
           "pre": "[^\\u0000-\\u00ff]",
           "pattern": "https?:\/\/",
           "autocomplete": "none",
+          "defaultValue": "",
           "chars": {
             "min": 2,
             "max": 1000
           },
           "validationMessage": {
             "required": "This field is required",
-            "chars": "Input must be between 2 and 35 characters"
-          },
-          "defaultValue": ""
+            "chars": "Input must be between 2 and 35 characters",
+            "pattern": "Please enter a valid URL (ex: https://example.com)"
+          }
         },
         "social_media_handle": {
           "type": "input",
           "inputType": "text",
           "modelKey": "social_media_handle",
+          "formId": "filplus_application",
           "label": "Organization Social Media Handle",
           "placeholder": "@foo",
           "tooltip": "Provide the social media handle or full social media URL for your organization or group",
           "required": true,
           "pre": "[^\\u0000-\\u00ff]",
           "autocomplete": "none",
+          "defaultValue": "",
           "chars": {
             "min": 2,
             "max": 1000
@@ -153,18 +160,19 @@
           "validationMessage": {
             "required": "This field is required",
             "chars": "Input must be between 2 and 35 characters"
-          },
-          "defaultValue": ""
+          }
         },
         "social_media_handle_type": {
           "type": "input",
           "inputType": "text",
           "modelKey": "social_media_handle_type",
+          "formId": "filplus_application",
           "label": "Social Media Type",
           "placeholder": "Twitter",
           "required": true,
           "pre": "[^\\u0000-\\u00ff]",
           "autocomplete": "none",
+          "defaultValue": "",
           "chars": {
             "min": 2,
             "max": 100
@@ -172,47 +180,42 @@
           "validationMessage": {
             "required": "This field is required",
             "chars": "Input must be between 2 and 35 characters"
-          },
-          "defaultValue": ""
+          }
         },
         "total_datacap_size_input": {
           "type": "input",
           "inputType": "number",
-          "modelKey": "total_datacap_size",
+          "modelKey": "total_datacap_size_input",
+          "formId": "filplus_application",
           "label": "Total Datacap being requested",
-          "placeholder": "100",
+          "placeholder": "32",
           "min": 1,
           "max": 5242880,
           "required": true,
+          "defaultValue": 1,
           "pre": "[^\\u0000-\\u00ff]",
-          "mirror": {
-            "fieldKey": "total_datacap_size_range",
-            "primary": true,
-            "func": "$formatDatacapSize",
-            "args": {
-              "value_from_field": "total_datacap_size_range",
-              "action": "human"
-            }
-          },
           "autocomplete": "off",
           "validationMessage": {
             "required": "This field is required",
             "minmax": "Number must be between 1 and 5242880"
-          }
+          },
+          "react": [{
+            "modelKey": "total_datacap_size_range",
+            "func": "$convertDatacapSizeBytesToHumanNumber",
+            "args": {
+              "valueFromField": "total_datacap_size_range"
+            }
+          }]
         },
         "total_datacap_size_unit": {
           "type": "select",
           "modelKey": "total_datacap_size_unit",
+          "formId": "filplus_application",
           "label": "Unit",
           "required": true,
           "output": "option",
-          "react": {
-            "fieldKey": "total_datacap_size_range",
-            "func": "$reactDatasizeUnitToRange",
-            "args": {
-              "value_from_field": "total_datacap_size_range"
-            }
-          },
+          "defaultValue": "TiB",
+          "isSingleOption": true,
           "validationMessage": {
             "required": "This field is required"
           },
@@ -221,13 +224,20 @@
             { "label": "TiB" },
             { "label": "PiB" }
           ],
-          "defaultValue": "TiB",
-          "isSingleOption": true
+          "react": [{
+            "modelKey": "total_datacap_size_range",
+            "func": "$reactUnitToDatacapSizeBytes",
+            "args": {
+              "valueFromField": "total_datacap_size_range",
+              "unitFromField": "total_datacap_size_unit"
+            }
+          }]
         },
         "total_size_of_single_dataset_one_copy": {
           "type": "input",
           "inputType": "number",
           "modelKey": "total_size_of_single_dataset_one_copy",
+          "formId": "filplus_application",
           "label": "Expected size of single dataset (one copy)",
           "placeholder": "100",
           "min": 1,
@@ -243,6 +253,7 @@
         "total_size_of_single_dataset_one_copy_unit": {
           "type": "select",
           "modelKey": "total_size_of_single_dataset_one_copy_unit",
+          "formId": "filplus_application",
           "label": "Unit",
           "required": true,
           "output": "option",
@@ -260,6 +271,7 @@
         "number_of_replicas": {
           "type": "select",
           "modelKey": "number_of_replicas",
+          "formId": "filplus_application",
           "label": "№ replicas",
           "tooltip": "How many replicas are you planning to store?",
           "required": true,
@@ -286,18 +298,13 @@
           "type": "input",
           "inputType": "number",
           "modelKey": "weekly_data_size",
+          "formId": "filplus_application",
           "label": "Weekly allocation of DataCap",
           "placeholder": "1",
           "tooltip": "How much of the DataCap you're requesting will you need on a weekly basis? This amount is usually between 1 TiB and 1000 TiB.",
           "min": 1,
           "required": true,
           "pre": "[^\\u0000-\\u00ff]",
-          "transform": {
-            "func": "$formatDatacapSize",
-            "args": {
-              "action": "human"
-            }
-          },
           "autocomplete": "none",
           "validationMessage": {
             "required": "This field is required",
@@ -307,6 +314,7 @@
         "weekly_data_size_unit": {
           "type": "select",
           "modelKey": "weekly_data_size_unit",
+          "formId": "filplus_application",
           "label": "Unit",
           "required": true,
           "output": "option",
@@ -324,6 +332,7 @@
           "type": "input",
           "inputType": "text",
           "modelKey": "filecoin_address",
+          "formId": "filplus_application",
           "label": "Filecoin Address",
           "description": "Provide your Filecoin wallet address, which will usually begin with f1 or f3 for addresses on the mainnet",
           "placeholder": "f...",
@@ -344,6 +353,7 @@
         "application_data_type": {
           "type": "select",
           "modelKey": "application_data_type",
+          "formId": "filplus_application",
           "label": "Data Type of Application",
           "required": true,
           "output": "option",
@@ -363,6 +373,7 @@
         "project_details": {
           "type": "textarea",
           "modelKey": "project_details",
+          "formId": "filplus_application",
           "label": "About your project and organization",
           "placeholder": "Briefly share some information about your project including your organization's history",
           "required": true,
@@ -382,6 +393,7 @@
         "ecosystem_associates_radio": {
           "type": "radio",
           "modelKey": "ecosystem_associates_radio",
+          "formId": "filplus_application",
           "label": "Ecosystem associates",
           "description": "Is this project associated with ecosystem stakeholders or other relevant projects?",
           "required": true,
@@ -398,14 +410,15 @@
         "ecosystem_associates_textarea": {
           "type": "textarea",
           "modelKey": "ecosystem_associates_textarea",
+          "formId": "filplus_application",
           "placeholder": "Please provide the other projects or ecosystem stakeholders",
           "pre": "[^\\u0000-\\u00ff]",
           "autocomplete": "none",
           "required": true,
           "conditions": [
             {
-              "fieldKey": "ecosystem_associates_radio",
-              "value": 0
+              "modelKey": "ecosystem_associates_radio",
+              "eq": 0
             }
           ],
           "tooltip": "",
@@ -422,6 +435,7 @@
         "nature_of_data": {
           "type": "textarea",
           "modelKey": "nature_of_data",
+          "formId": "filplus_application",
           "label": "Nature of the data",
           "description": "Describe the data that will be stored on Filecoin",
           "placeholder": "Nature of the data",
@@ -442,6 +456,7 @@
         "source_of_data_select": {
           "type": "select",
           "modelKey": "source_of_data_select",
+          "formId": "filplus_application",
           "label": "Source of data",
           "description": "Where is the data in this dataset sourced from?",
           "required": true,
@@ -462,6 +477,7 @@
         "source_of_data_textarea": {
           "type": "textarea",
           "modelKey": "source_of_data_textarea",
+          "formId": "filplus_application",
           "placeholder": "Enter the details here",
           "tooltip": "",
           "pre": "[^\\u0000-\\u00ff]",
@@ -469,8 +485,8 @@
           "required": true,
           "conditions": [
             {
-              "fieldKey": "source_of_data_select",
-              "value": 4
+              "modelKey": "source_of_data_select",
+              "eq": 4
             }
           ],
           "chars": {
@@ -483,37 +499,22 @@
           },
           "defaultValue": ""
         },
-        "data_preparer_radio": {
-          "type": "radio",
-          "modelKey": "data_preparer_radio",
-          "label": "Are you the data preparer?",
-          "description": "Are you or your organization in charge of preparing the dataset?",
-          "required": true,
-          "output": "option",
-          "validationMessage": {
-            "required": "This field is required"
-          },
-          "options": [
-            { "label": "Yes" },
-            { "label": "No" }
-          ],
-          "defaultValue": ""
-        },
         "data_preparer_location": {
           "type": "input",
           "inputType": "text",
           "modelKey": "data_preparer_location",
+          "formId": "filplus_application",
           "label": "What is your location (City and Country)",
           "description": "",
           "placeholder": "London, England",
           "tooltip": "",
-          "required": false,
+          "required": true,
           "pre": "[^\\u0000-\\u00ff]",
           "autocomplete": "none",
           "conditions": [
             {
-              "fieldKey": "data_preparer_radio",
-              "value": 0
+              "modelKey": "your_role",
+              "eq": 1
             }
           ],
           "chars": {
@@ -529,17 +530,18 @@
         "data_preparer_preparation_plan": {
           "type": "textarea",
           "modelKey": "data_preparer_preparation_plan",
+          "formId": "filplus_application",
           "label": "How will the data be prepared?",
           "description": "Please include tooling used and technical details",
           "placeholder": "Enter the details here",
           "tooltip": "",
           "pre": "[^\\u0000-\\u00ff]",
           "autocomplete": "none",
-          "required": false,
+          "required": true,
           "conditions": [
             {
-              "fieldKey": "data_preparer_radio",
-              "value": 0
+              "modelKey": "your_role",
+              "eq": 1
             }
           ],
           "chars": {
@@ -555,17 +557,18 @@
         "general_preparation_plan": {
           "type": "textarea",
           "modelKey": "general_preparation_plan",
+          "formId": "filplus_application",
           "label": "Who will prepare the data?",
           "description": "Provide name and business",
           "placeholder": "Enter the details here",
           "tooltip": "",
           "pre": "[^\\u0000-\\u00ff]",
           "autocomplete": "none",
-          "required": false,
+          "required": true,
           "conditions": [
             {
-              "fieldKey": "data_preparer_radio",
-              "value": 1
+              "modelKey": "your_role",
+              "neq": 1
             }
           ],
           "chars": {
@@ -581,6 +584,7 @@
         "data_stored_before_radio": {
           "type": "radio",
           "modelKey": "data_stored_before_radio",
+          "formId": "filplus_application",
           "label": "Has this dataset been stored on the Filecoin network before?",
           "description": "",
           "required": true,
@@ -597,6 +601,7 @@
         "dataset_stored_before_textarea": {
           "type": "textarea",
           "modelKey": "dataset_stored_before_textarea",
+          "formId": "filplus_application",
           "description": "Please explain and make the case why you would like to store this dataset on the network again.",
           "placeholder": "Enter the details here",
           "tooltip": "Provide details on preparation and/or SP distribution",
@@ -605,8 +610,8 @@
           "required": false,
           "conditions": [
             {
-              "fieldKey": "data_stored_before_radio",
-              "value": 0
+              "modelKey": "data_stored_before_radio",
+              "eq": 0
             }
           ],
           "chars": {
@@ -622,6 +627,7 @@
         "data_sample": {
           "type": "textarea",
           "modelKey": "data_sample",
+          "formId": "filplus_application",
           "label": "Data sample",
           "placeholder": "Are you able to share a sample of the data?",
           "tooltip": "Provide any link(s) to files, images, tables, etc. that are available",
@@ -641,6 +647,7 @@
         "public_availability_radio": {
           "type": "radio",
           "modelKey": "public_availability_radio",
+          "formId": "filplus_application",
           "label": "Public availability",
           "description": "Is this a public dataset that can be retrieved by anyone on the network?  (i.e., are specific permissions or access rights required to view the data)",
           "required": true,
@@ -657,6 +664,7 @@
         "public_availability_textarea": {
           "type": "textarea",
           "modelKey": "public_availability_textarea",
+          "formId": "filplus_application",
           "placeholder": "Please explain the reason",
           "pre": "[^\\u0000-\\u00ff]",
           "tooltip": "",
@@ -664,8 +672,8 @@
           "required": true,
           "conditions": [
             {
-              "fieldKey": "public_availability_radio",
-              "value": 1
+              "modelKey": "public_availability_radio",
+              "eq": 1
             }
           ],
           "chars": {
@@ -681,6 +689,7 @@
         "frequency_of_retrieval": {
           "type": "select",
           "modelKey": "frequency_of_retrieval",
+          "formId": "filplus_application",
           "label": "Frequency of retrieval",
           "description": "What is the expected retrieval frequency of this data?",
           "required": true,
@@ -702,6 +711,7 @@
         "duration_of_storage": {
           "type": "select",
           "modelKey": "duration_of_storage",
+          "formId": "filplus_application",
           "label": "Duration of storage",
           "description": "How long do you plan to keep this dataset stored on Filecoin?",
           "required": true,
@@ -723,6 +733,7 @@
         "geographic_distribution": {
           "type": "select",
           "modelKey": "geographic_distribution",
+          "formId": "filplus_application",
           "label": "Geographic distribution",
           "description": "In which geographicial region do you plan on making storage deals?",
           "required": true,
@@ -745,6 +756,7 @@
         "data_distribution": {
           "type": "select",
           "modelKey": "data_distribution",
+          "formId": "filplus_application",
           "label": "Sending data",
           "description": "How will you be distributing your data to storage providers?",
           "required": true,
@@ -768,6 +780,7 @@
         "storage_provider_selection_plan_select": {
           "type": "select",
           "modelKey": "storage_provider_selection_plan_select",
+          "formId": "filplus_application",
           "label": "Storage provider selection plan",
           "description": "How do you plan to choose a SP?",
           "required": true,
@@ -790,6 +803,7 @@
           "type": "input",
           "inputType": "text",
           "modelKey": "storage_provider_selection_plan_input",
+          "formId": "filplus_application",
           "description": "What is the tool or platform you plan to use?",
           "placeholder": "Provide a name for the tool you plan to use",
           "pre": "[^\\u0000-\\u00ff]",
@@ -797,8 +811,8 @@
           "required": true,
           "conditions": [
             {
-              "fieldKey": "storage_provider_selection_plan_select",
-              "value": 5
+              "modelKey": "storage_provider_selection_plan_select",
+              "eq": 5
             }
           ],
           "chars": {
@@ -814,6 +828,7 @@
         "storage_provider_selection_plan_textarea": {
           "type": "textarea",
           "modelKey": "storage_provider_selection_plan_textarea",
+          "formId": "filplus_application",
           "placeholder": "If you already have a list of storage providers to work with, fill out their names and SP IDs below",
           "tooltip": "Storage provider IDs should begin with f0...",
           "pre": "[^\\u0000-\\u00ff]",
@@ -831,6 +846,7 @@
         "replication_plan_select": {
           "type": "select",
           "modelKey": "replication_plan_select",
+          "formId": "filplus_application",
           "label": "Replication plan",
           "placeholder": "Data onboarding tool",
           "description": "How will you be distributing deals across different storage providers?",
@@ -855,6 +871,7 @@
         "replication_plan_textarea": {
           "type": "textarea",
           "modelKey": "replication_plan_textarea",
+          "formId": "filplus_application",
           "placeholder": "Enter the details here",
           "tooltip": "",
           "pre": "[^\\u0000-\\u00ff]",
@@ -862,8 +879,8 @@
           "required": true,
           "conditions": [
             {
-              "fieldKey": "replication_plan_select",
-              "value": 7
+              "modelKey": "replication_plan_select",
+              "eq": 7
             }
           ],
           "chars": {
@@ -879,6 +896,7 @@
         "confirm_follow_fil_guideline": {
           "type": "checkbox",
           "modelKey": "confirm_follow_fil_guideline",
+          "formId": "filplus_application",
           "label": "Have you read and do you agree to the Fil+ guidelines?",
           "required": true,
           "output": "option",
