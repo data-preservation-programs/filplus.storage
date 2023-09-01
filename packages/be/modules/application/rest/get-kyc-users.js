@@ -31,8 +31,8 @@ const getKycUsers = async () => {
         submissionDate: formatDate(user.submissionDate)
       }
     }).sort(({ submissionDate: a }, { submissionDate: b }) => {
-      if (a === 'Timestamp missing' && b === 'Timestamp missing') { return 0 }
-      if (b === 'Timestamp missing') { return -1 }
+      if (a === 'Timestamp missing' && b !== 'Timestamp missing') { return 1 }
+      if (b === 'Timestamp missing' && a !== 'Timestamp missing') { return -1 }
       return a < b ? 1 : a > b ? -1 : 0
     })
   } catch (e) {
