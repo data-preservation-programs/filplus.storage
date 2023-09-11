@@ -14,6 +14,7 @@ const MC = require('@Root/config')
 // -----------------------------------------------------------------------------
 // ------------------------------------------------------------------ formatDate
 const formatDate = (dateString) => {
+  if (dateString === 'Timestamp missing') { return dateString }
   const date = new Date(dateString)
   return date.toLocaleDateString('en-CA')
 }
@@ -29,6 +30,10 @@ const getKycUsers = async () => {
         ...user,
         submissionDate: formatDate(user.submissionDate)
       }
+    }).sort(({ submissionDate: a }, { submissionDate: b }) => {
+      if (a === 'Timestamp missing' && b !== 'Timestamp missing') { return 1 }
+      if (b === 'Timestamp missing' && a !== 'Timestamp missing') { return -1 }
+      return a < b ? 1 : a > b ? -1 : 0
     })
   } catch (e) {
     console.log('===================================== [Function: getKycUsers]')
