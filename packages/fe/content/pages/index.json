@@ -51,28 +51,28 @@
         "tag": "Quality",
         "section": "Q3 2023",
         "events": [
-          { "tag": "shipped", "text": "Update <a href='https://quality.datacapstats.io/' target='_blank'>quality dashboard</a> with new graphs and metrics (CID checker bot/deal distribution and retrieval bot)" },
-          { "tag": "shipped", "text": "Design and ideate <a href='https://github.com/filecoin-project/notary-governance/discussions/888' target='_blank'>trustless notary</a>" }
+          { "tag": "shipped", "text": "Update <a href='https://quality.datacapstats.io/' target='_blank'>quality dashboard</a> with new graphs and metrics (CID Checker Bot/Deal distribution and Retrieval bot)" },
+          { "tag": "shipped", "text": "<a href='https://github.com/filecoin-project/notary-governance/discussions/888' target='_blank'>Trustless Notary</a> design and ideation" }
         ]
       },
       {
         "tag": "Transparency",
         "section": "Q3 2023",
         "events": [
-          { "tag": "shipped", "text": "Retrieval bot (improved HTTP and bitswap based retrieval testing)" },
+          { "tag": "shipped", "text": "Retrieval bot (improved HTTP and Bitswap based retrieval testing) " },
           { "tag": "shipped", "text": "Update <a href='https://clients.datacapstats.io/' target='_blank'>client dashboard</a>" },
           { "tag": "shipped", "text": "Improvements for T&T WG for dispute resolution and proposed experiments" },
-          { "tag": "shipped", "text": "<a href='https://filplus.starboard.ventures' target='_blank'>Verified storage analytics dashboard</a>" }
+          { "tag": "shipped", "text": "<a href='https://filplus.starboard.ventures' target='_blank'>Verified Storage Analytics dashboard</a>" }
         ]
       },
       {
         "tag": "Enablement",
         "section": "Q3 2023",
         "events": [
-          { "tag": "shipped", "text": "KYC integration (<a href='https://togggle.io/' target='_blank'>togggle.io</a>)" },
+          { "tag": "shipped", "text": "KYC integration (Togggle.io)" },
           { "tag": "shipped", "text": "Launch DataCap removal tooling" },
-          { "tag": "shipped", "text": "filplus.storage tooling and design enhancements" },
-          { "tag": "shipped", "text": "Audit of notary engagement and SLA participation" },
+          { "tag": "shipped", "text": "Filplus.storage tooling and design enhancements" },
+          { "tag": "shipped", "text": "Audit of Notary engagement and SLA participation" },
           { "tag": "shipped", "text": "Development of new Fil+ backend to reduce friction in LDN process" }
         ]
       },
@@ -80,21 +80,21 @@
         "tag": "Quality",
         "section": "Q4 2023",
         "events": [
-          { "tag": "upcoming", "text": "Ship v2 of the compliance dashboard (previously quality dashboard)" },
+          { "tag": "upcoming", "text": "Ship V2 of the compliance dashboard (previously quality dashboard)" },
           { "tag": "in-progress", "text": "Develop and deploy at least 3 metrics to measure compliance for DC usage" },
-          { "tag": "upcoming", "text": "Trustless notary pilot" }
+          { "tag": "upcoming", "text": "Trustless Notary pilot" }
         ]
       },
       {
         "tag": "Transparency",
         "section": "Q4 2023",
         "events": [
-          { "tag": "shipped", "text": "Fil dev summit - Singapore (governance and community track)" },
-          { "tag": "upcoming", "text": "Fil dev summit - Iceland (governance and community track)" },
-          { "tag": "upcoming", "text": "FiL Istanbul (Fil+ day)" },
-          { "tag": "in-progress", "text": "Ship PoC tooling for client risk/reputation" },
+          { "tag": "shipped", "text": "FIL Dev Summit - Singapore (Governance and Community track)" },
+          { "tag": "upcoming", "text": "FIL Dev Summit - Iceland (Governance and Community track)" },
+          { "tag": "upcoming", "text": "FIL Istanbul (Fil+ Day)" },
+          { "tag": "in-progress", "text": "Ship POC tooling for client risk/reputation" },
           { "tag": "shipped", "text": "Released Fil+ compliance <a href='https://filecoin.io/blog/posts/filecoins-growth-trajectory-the-role-of-fil-and-compliance/' target='_blank'>blog</a>" },
-          { "tag": "in-progress", "text": "Open sourcing and documenting Fil+ tooling & datacapstats dashboards" },
+          { "tag": "in-progress", "text": "Open sourcing and documenting Fil+ tooling & Datacapstats dashboards" },
           { "tag": "upcoming", "text": "New Notary election cycle proposals to community, including new terminology & types" }
         ]
       },
