@@ -49,80 +49,65 @@
     "roadmap": [
       {
         "tag": "Quality",
-        "date": "2023-04",
+        "section": "Q3 2023",
         "events": [
-          { "tag": "in-progress", "text": "Public potential data abuse dashboard / tracking % of quality onboarded data" },
-          { "tag": "shipped", "text": "Public dispute tracker" },
-          { "tag": "shipped", "text": "Dispute Resolution Framework v2" }
+          { "tag": "in-progress", "text": "Update <a href='https://quality.datacapstats.io/' target='_blank'>quality dashboard</a> with new graphs and metrics (CID Checker Bot/Deal distribution and Retrieval bot)" },
+          { "tag": "in-progress", "text": "<a href='https://github.com/filecoin-project/notary-governance/discussions/888' target='_blank'>Trustless Notary</a> Design and ideation" }
         ]
       },
       {
         "tag": "Transparency",
-        "date": "2023-04",
+        "section": "Q3 2023",
         "events": [
-          { "tag": "shipped", "text": "Public roadmap shared, key deliverables shared on landing page" },
-          { "tag": "shipped", "text": "Updated DataCap tracking on <a href='https://datacapstats.io/' target='_blank'>datacapstats.io</a>, client explorer" },
-          { "tag": "shipped", "text": "Medium publication for Fil+ with internal team process for frequent updates" }
+          { "tag": "in-progress", "text": "Retrieval bot (improved HTTP and Bitswap based retrieval testing)" },
+          { "tag": "in-progress", "text": "Update <a href='' target='_blank'>client dashboard</a>" },
+          { "tag": "in-progress", "text": "Improvements for T&T WG for dispute resolution and proposed experiments" },
+          { "tag": "in-progress", "text": "<a href='https://filplus.starboard.ventures' target='_blank'>Verified Storage Analytics dashboard</a>" }
         ]
       },
       {
         "tag": "Enablement",
-        "date": "2023-04",
+        "section": "Q3 2023",
         "events": [
-          { "tag": "shipped", "text": "<a href='/'>filplus.storage</a> v2 - client application tracking, improved UX, metrics" },
-          { "tag": "shipped", "text": "Proposal to remove LDN application max" }
+          { "tag": "completed", "text": "KYC integration (<a href='https://togggle.io/' target='_blank'>Togggle.io</a>)" },
+          { "tag": "in-progress", "text": "Launch DataCap removal tooling" },
+          { "tag": "in-progress", "text": "filplus.storage tooling and design enhancements" },
+          { "tag": "in-progress", "text": "Audit of Notary engagement and SLA participation" },
+          { "tag": "in-progress", "text": "Development of new Fil+ backend to reduce friction in LDN process" }
         ]
       },
       {
         "tag": "Quality",
-        "date": "2023-05",
+        "section": "Q4 2023",
         "events": [
-          { "tag": "shipped", "text": "Notary due diligence tracking for accountability & efficiency" },
-          { "tag": "in-progress", "text": "Deliver notary capability to remove DataCap from client addresses" },
-          { "tag": "in-progress", "text": "KYC/KYB integrations in client onboarding LDN flow" }
+          { "tag": "in-progress", "text": "Ship V2 of the compliance dashboard (previously quality dashboard)" },
+          { "tag": "in-progress", "text": "Develop and deploy at least 3 metrics to measure compliance for DC usage" },
+          { "tag": "in-progress", "text": "Trustless Notary pilot" }
         ]
       },
       {
         "tag": "Transparency",
-        "date": "2023-05",
+        "section": "Q4 2023",
         "events": [
-          { "tag": "shipped", "text": "Public dashboard on notary tooling reliability" },
-          { "tag": "shipped", "text": "Public dashboard on client applications" },
-          { "tag": "in-progress", "text": "Notary leaderboard to include Notary due diligence actions" }
+          { "tag": "in-progress", "text": "Fil Dev Summit - Singapore (Governance and Community track)" },
+          { "tag": "in-progress", "text": "Fil Dev Summit - Iceland (Governance and Community track)" },
+          { "tag": "in-progress", "text": "FIL Istanbul (Fil+ Day)" },
+          { "tag": "in-progress", "text": "Ship POC tooling for client risk/reputation" },
+          { "tag": "in-progress", "text": "Released Fil+ compliance <a href='https://filecoin.io/blog/posts/filecoins-growth-trajectory-the-role-of-fil-and-compliance/' target='_blank'>blog</a>" },
+          { "tag": "in-progress", "text": "Open sourcing and documenting Fil+ tooling & Datacapstats dashboards" },
+          { "tag": "in-progress", "text": "New Notary Election Cycle proposals to community, including new terminology & types" }
         ]
       },
       {
         "tag": "Enablement",
-        "date": "2023-05",
+        "section": "Q4 2023",
         "events": [
-          { "tag": "in-progress", "text": "Improvements to increase the reliability of onboarding bots and apps for notaries & clients" },
-          { "tag": "shipped", "text": "Kick-off design discussion on potential trustless notaries" }
-        ]
-      },
-      {
-        "tag": "Quality",
-        "date": "2023-06",
-        "events": [
-          { "tag": "shipped", "text": "Bots testing retrievals on open data" },
-          { "tag": "upcoming", "text": "New automated abuse explorers to easily spot abuse" },
-          { "tag": "upcoming", "text": "Automated dispute escalation of bad notary behavior based on the diligence tracker" }
-        ]
-      },
-      {
-        "tag": "Transparency",
-        "date": "2023-06",
-        "events": [
-          { "tag": "in-progress", "text": "Public retrieval dashboards" },
-          { "tag": "in-progress", "text": "Fil+ Day" }
-        ]
-      },
-      {
-        "tag": "Enablement",
-        "date": "2023-06",
-        "events": [
-          { "tag": "upcoming", "text": "Improvements to E-Fil+ process (deeper KYB, higher standard, enable quicker subsequent allocations)" },
-          { "tag": "in-progress", "text": "Changes to LDN processes to better map to observed client use-case types and needs" },
-          { "tag": "upcoming", "text": "Kick off discussions on longer-term efforts around incentives" }
+          { "tag": "in-progress", "text": "Expanding overall program and introducing allocators" },
+          { "tag": "in-progress", "text": "Launch <a href='https://github.com/filecoin-project/notary-governance/issues/976' target='_blank'>Aggregation and Compliance (AC)</a> bot to enforce Fil+ client standards" },
+          { "tag": "in-progress", "text": "Launch DataCap removal bot" },
+          { "tag": "in-progress", "text": "Update Fil+ registry app with new interface" },
+          { "tag": "in-progress", "text": "Migrate LDN applications towards JSON files" },
+          { "tag": "in-progress", "text": "Launch new Fil+ backend to reduce friction in LDN process" }
         ]
       }
     ],
@@ -132,20 +117,14 @@
       "upcoming": "Upcoming"
     },
     "roadmap_quarter_map": {
-      "2023-04": {
-        "text": "<strong>April 2023 Focus</strong> - Visibility, Transparency, Alignment",
+      "Q3 2023": {
+        "text": "<strong>Q3 2023 Focus</strong> - Tooling Enhancements and Community Alignment",
         "link": "https://filplus.storage",
         "tag": "div",
         "target": "_blank"
       },
-      "2023-05": {
-        "text": "<strong>May 2023 Focus</strong> - Process and tool evolution",
-        "link": "https://filplus.storage",
-        "tag": "div",
-        "target": "_blank"
-      },
-      "2023-06": {
-        "text": "<strong>June 2023 Focus</strong> - Minimizing abuse",
+      "Q4 2023": {
+        "text": "<strong>Q4 2023 Focus</strong> - Automation and Evolution of Fil+ System Design",
         "link": "https://filplus.storage",
         "tag": "div",
         "target": "_blank"

@@ -24,16 +24,16 @@
     <section class="roadmap">
 
       <div
-        v-for="(month, key) in compiledRoadmap"
+        v-for="(quarter, key) in compiledRoadmap"
         :key="key"
-        class="month">
+        class="quarter">
         <div class="grid">
 
-          <!-- ....................................................... month -->
+          <!-- ..................................................... quarter -->
           <div class="col-2">
             <div class="timeline">
-              <div class="month-tag tag">
-                {{ month.date }}
+              <div class="quarter-tag tag">
+                {{ quarter.section }}
               </div>
             </div>
           </div>
@@ -54,11 +54,11 @@
             </ButtonX>
 
             <div class="card">
-              <template v-for="entry in month.entries">
+              <template v-for="entry in quarter.entries">
 
                 <!-- Tag -->
                 <div
-                  :key="`entry-${entry.tag}-${entry.date.original}-tag`"
+                  :key="`entry-${entry.tag}-${quarter.section}-tag`"
                   class="card-tag tag">
                   {{ entry.tag }}
                 </div>
@@ -66,7 +66,7 @@
                 <!-- Events -->
                 <div
                   v-for="(event, index) in entry.events"
-                  :key="`event-${entry.tag}-${entry.date.original}__${index}`"
+                  :key="`event-${entry.tag}-${quarter.section}__${index}`"
                   class="event">
                   <component
                     :is="getIconComponent(event.tag)"
@@ -187,26 +187,17 @@ export default {
       })
     },
     compileRoadmap (roadmap) {
-      const lenI = roadmap.length
-      const compiled = {}
-      for (let i = 0; i < lenI; i++) {
-        const entry = roadmap[i]
-        const date = entry.date
-        const parsedDate = this.$moment(date)
-        entry.date = {
-          original: date,
-          quarter: `Q${parsedDate.format('Q YYYY')}`
-        }
-        if (!compiled.hasOwnProperty(date)) {
-          compiled[date] = {
-            date: parsedDate.format('MMM YYYY'),
+      this.compiledRoadmap = roadmap.reduce((acc, entry) => {
+        if (!acc.hasOwnProperty(entry.section)) {
+          acc[entry.section] = {
+            section: entry.section,
             entries: [entry]
           }
         } else {
-          compiled[date].entries.push(entry)
+          acc[entry.section].entries.push(entry)
         }
-      }
-      this.compiledRoadmap = compiled
+        return acc
+      }, {})
     },
     getIconComponent (tag) {
       let component = false
@@ -256,7 +247,7 @@ export default {
   padding-top: 5rem;
 }
 
-.month {
+.quarter {
   &:first-child {
     .timeline {
       &:before,
@@ -272,7 +263,7 @@ export default {
     .quarter-heading-link {
       margin-top: 2rem;
     }
-    .month-tag {
+    .quarter-tag {
       margin-top: 75%;
       @include mini {
         margin-top: 8.375rem;
@@ -328,7 +319,7 @@ export default {
   }
 }
 
-.month-tag {
+.quarter-tag {
   position: sticky;
   top: 9.5rem;
   margin-top: 59%;
