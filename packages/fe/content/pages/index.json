@@ -60,7 +60,7 @@
         "section": "Q3 2023",
         "events": [
           { "tag": "shipped", "text": "Retrieval bot (improved HTTP and bitswap based retrieval testing)" },
-          { "tag": "shipped", "text": "Update <a href='' target='_blank'>client dashboard</a>" },
+          { "tag": "shipped", "text": "Update <a href='https://clients.datacapstats.io/' target='_blank'>client dashboard</a>" },
           { "tag": "shipped", "text": "Improvements for T&T WG for dispute resolution and proposed experiments" },
           { "tag": "shipped", "text": "<a href='https://filplus.starboard.ventures' target='_blank'>Verified storage analytics dashboard</a>" }
         ]
@@ -95,7 +95,7 @@
           { "tag": "in-progress", "text": "Ship PoC tooling for client risk/reputation" },
           { "tag": "shipped", "text": "Released Fil+ compliance <a href='https://filecoin.io/blog/posts/filecoins-growth-trajectory-the-role-of-fil-and-compliance/' target='_blank'>blog</a>" },
           { "tag": "in-progress", "text": "Open sourcing and documenting Fil+ tooling & datacapstats dashboards" },
-          { "tag": "upcoming", "text": "New Notary Election Cycle proposals to community, including new terminology & types" }
+          { "tag": "upcoming", "text": "New Notary election cycle proposals to community, including new terminology & types" }
         ]
       },
       {
@@ -103,8 +103,8 @@
         "section": "Q4 2023",
         "events": [
           { "tag": "upcoming", "text": "Expanding overall program and introducing allocators" },
-          { "tag": "in-progress", "text": "Launch <a href='https://github.com/filecoin-project/notary-governance/issues/976' target='_blank'>aggregation and compliance (AC)</a> bot to enforce Fil+ client standards" },
-          { "tag": "in-progress", "text": "Launch datacap removal bot" },
+          { "tag": "in-progress", "text": "Launch <a href='https://github.com/filecoin-project/notary-governance/issues/976' target='_blank'>Aggregation and Compliance (AC)</a> bot to enforce Fil+ client standards" },
+          { "tag": "in-progress", "text": "Launch DataCap removal bot" },
           { "tag": "in-progress", "text": "Update Fil+ registry app with new interface" },
           { "tag": "in-progress", "text": "Migrate LDN applications towards JSON files" },
           { "tag": "in-progress", "text": "Launch new Fil+ backend to reduce friction in LDN process" }
