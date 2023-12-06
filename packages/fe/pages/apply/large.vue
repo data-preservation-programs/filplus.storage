@@ -29,6 +29,8 @@
               {{ formHeading1 }}
             </div>
 
+            <FieldContainer :scaffold="formScaffold.datacap_applicant" />
+            <FieldContainer :scaffold="formScaffold.project_id" />
             <FieldContainer :scaffold="formScaffold.data_owner_name" />
             <HubspotOptInFields />
             <FieldContainer :scaffold="formScaffold.your_role" />
@@ -188,7 +190,7 @@ import Squigglie from '@/components/squigglie'
 import LoginButton from '@/components/navigation/button-login'
 import Chevron from '@/components/icons/chevron'
 
-import ApplyLargePageData from '@/content/pages/apply-large.json'
+import ApplyFalconPageData from '@/content/pages/apply-falcon.json'
 
 // ====================================================================== Export
 export default {
@@ -214,7 +216,7 @@ export default {
   },
 
   async fetch ({ app, store }) {
-    await store.dispatch('general/getBaseData', { key: 'apply-large', data: ApplyLargePageData })
+    await store.dispatch('general/getBaseData', { key: 'apply-large', data: ApplyFalconPageData })
     await store.dispatch('general/getNetworkStorageCapacity')
     await store.dispatch('account/setHubspotOptInData', store.getters['auth/account'])
     await store.dispatch('form/registerModel', { id: 'filplus_application', data: store.getters['account/application'] })

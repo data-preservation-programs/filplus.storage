@@ -62,6 +62,11 @@ module.exports = {
       production: 'filecoin-project/filecoin-plus-large-datasets',
       stable: 'data-preservation-programs/filecoin-plus-large-datasets',
       development: 'data-preservation-programs/filecoin-plus-large-datasets'
+    },
+    falcon: {
+      production: 'filecoin-project/filecoin-plus-falcon',
+      stable: 'filecoin-project/filplus-tooling-backend-test',
+      development: 'filecoin-project/filplus-tooling-backend-test'
     }
   },
   // ==================================================================== Server

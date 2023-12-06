@@ -23,6 +23,8 @@ const state = () => ({
     hubspot_opt_in_first_name: null,
     hubspot_opt_in_last_name: null,
     // LDA & GA
+    datacap_applicant: null,
+    project_id: null,
     data_owner_name: null,
     website: null,
     social_media_handle: null,

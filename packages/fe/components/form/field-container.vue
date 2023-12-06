@@ -19,9 +19,7 @@
       </div>
     </label>
 
-    <div v-if="scaffold.description" class="description">
-      {{ scaffold.description }}
-    </div>
+    <div v-if="scaffold.description" class="description" v-html="scaffold.description" />
 
     <component
       :is="type"
