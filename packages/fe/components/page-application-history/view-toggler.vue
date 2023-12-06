@@ -18,6 +18,7 @@
         type: 'radio',
         required: false,
         label: 'Show',
+        id: 'view-toggler',
         options,
         defaultValue: originalSelected,
         updateGroupId: 'view',
