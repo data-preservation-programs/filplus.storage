@@ -26,6 +26,7 @@ const state = () => ({
     datacap_applicant: null,
     project_id: null,
     data_owner_name: null,
+    project_name: null,
     website: null,
     social_media_handle: null,
     social_media_handle_type: null,
@@ -138,7 +139,11 @@ const actions = {
       }, {
         params: { stage }
       })
-      await dispatch('setGithubIssue', response.data.payload)
+      // console.log(response.data.payload)
+      await dispatch('setGithubIssue', {
+        application,
+        payload: response.data.payload
+      })
       await this.dispatch('auth/getAccount', this.getters['auth/account']._id)
       this.$button('application-submit-button').set({ loading: false })
       this.$toaster.add({

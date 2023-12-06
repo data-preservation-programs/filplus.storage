@@ -89,6 +89,25 @@
             "chars": "Input must be between 2 and 1000 characters"
           }
         },
+        "project_name": {
+          "type": "input",
+          "inputType": "text",
+          "modelKey": "project_name",
+          "formId": "filplus_application",
+          "label": "Project Name",
+          "placeholder": "Big data storage project",
+          "pre": "[^\\u0000-\\u00ff]",
+          "autocomplete": "none",
+          "defaultValue": "",
+          "chars": {
+            "min": 2,
+            "max": 1000
+          },
+          "validationMessage": {
+            "required": "This field is required",
+            "chars": "Input must be between 2 and 1000 characters"
+          }
+        },
         "data_owner_region": {
           "type": "select",
           "modelKey": "data_owner_region",
@@ -927,7 +946,8 @@
           "type": "checkbox",
           "modelKey": "confirm_follow_fil_guideline",
           "formId": "filplus_application",
-          "label": "Have you read and do you agree to the Fil+ guidelines?<br /><br />Data owner should engage at least 4 SPs and no single SP ID should receive >30% of a client's allocated DataCap",
+          "label": "Have you read and do you agree to the Fil+ guidelines?",
+          "description": "Data owner should engage at least 4 SPs and no single SP ID should receive >30% of a client's allocated DataCap",
           "required": true,
           "output": "option",
           "validationMessage": {

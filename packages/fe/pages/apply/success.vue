@@ -40,7 +40,7 @@
 
             <!-- ================================================= Accordion -->
             <AppAccordion
-              :entries="[githubIssue]"
+              :entries="[githubIssue.payload]"
               :expand-application-text="expandApplicationText"
               :view-on-github-text="viewOnGithubText"
               :application-subtitle="applicationSubtitle" />
@@ -118,21 +118,16 @@ export default {
       return this.siteContent[this.tag].page_content
     },
     pageHeading () {
-      return this.pageData.heading.replace('|data|', this.datacapRequested[1])
-    },
-    datacapRequested () {
-      const applicationBody = this.githubIssue.body
-      const generalDatacapRegEx = /(?:DataCap Requested: )(\d+\.?\d{0,2} \w{3})/
-      const largeDatacapRegEx = /(?:### Total amount of DataCap being requested\n)(\d+\.?\d{0,2} \w{3})/
-      const generalDatacap = applicationBody.match(generalDatacapRegEx)
-      const largeDatacap = applicationBody.match(largeDatacapRegEx)
-      return generalDatacap || largeDatacap
+      return this.pageData.heading.replace(
+        '|data|',
+        `${this.githubIssue.application.total_datacap_size_input} ${this.githubIssue.application.total_datacap_size_unit}`
+      )
     },
     subheading () {
       return this.pageData.subheading
     },
     githubIssueLink () {
-      return this.githubIssue.html_url
+      return this.githubIssue.payload.html_url
     },
     githubIssueButtonText () {
       return this.pageData.github_issue_button_text
@@ -141,7 +136,7 @@ export default {
       return this.pageData.new_application_button_text
     },
     applicationTitle () {
-      return this.githubIssue.title
+      return this.githubIssue.payload.title
     },
     applicationSubtitle () {
       return this.pageData.application_subtitle

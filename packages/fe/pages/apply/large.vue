@@ -32,6 +32,7 @@
             <FieldContainer :scaffold="formScaffold.datacap_applicant" />
             <FieldContainer :scaffold="formScaffold.project_id" />
             <FieldContainer :scaffold="formScaffold.data_owner_name" />
+            <FieldContainer :scaffold="formScaffold.project_name" />
             <HubspotOptInFields />
             <FieldContainer :scaffold="formScaffold.your_role" />
             <FieldContainer :scaffold="formScaffold.data_owner_region" />
