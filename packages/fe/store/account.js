@@ -14,7 +14,7 @@ const state = () => ({
     totalPages: 1
   },
   openCount: {
-    lda: false, // cannot be 'lda'
+    lda: false,
     ga: false,
     falcon: false
   },
@@ -180,6 +180,7 @@ const actions = {
         { filterKey: 'state' },
         { filterKey: 'view', default: getters.view }
       ])
+      params.view = getters.view
       const response = await this.$axiosAuth.get('/get-application-list', { params })
       const payload = response.data.payload
       const applicationList = payload.results
@@ -200,7 +201,6 @@ const actions = {
       const response = await this.$axiosAuth.get('/get-open-application-count', {
         params: { view }
       })
-      console.log({ view, count: response.data.payload })
       commit('SET_OPEN_APPLICATION_COUNT', { view, count: response.data.payload })
     } catch (e) {
       console.log('=========== [Store Action: account/getOpenApplicationCount]')
