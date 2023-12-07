@@ -196,6 +196,7 @@ export default {
     }
     this.getOpenApplicationCount('lda')
     this.getOpenApplicationCount('ga')
+    this.getOpenApplicationCount('falcon')
     this.$nuxt.$on('filtersApplied', (payload) => {
       if (this.account) {
         const filters = payload.filters

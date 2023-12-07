@@ -14,8 +14,9 @@ const state = () => ({
     totalPages: 1
   },
   openCount: {
-    ldn: false, // cannot be 'lda'
-    ga: false
+    lda: false, // cannot be 'lda'
+    ga: false,
+    falcon: false
   },
   application: {
     // Hubspot
@@ -76,7 +77,7 @@ const state = () => ({
   },
   applyFormHighlighted: false,
   githubIssue: false,
-  view: 'lda' // 'ga' or 'lda'
+  view: 'falcon' // 'ga', 'lda' or 'falcon'
 })
 
 // ///////////////////////////////////////////////////////////////////// Getters
@@ -199,6 +200,7 @@ const actions = {
       const response = await this.$axiosAuth.get('/get-open-application-count', {
         params: { view }
       })
+      console.log({ view, count: response.data.payload })
       commit('SET_OPEN_APPLICATION_COUNT', { view, count: response.data.payload })
     } catch (e) {
       console.log('=========== [Store Action: account/getOpenApplicationCount]')
@@ -258,7 +260,7 @@ const mutations = {
     state.view = view
   },
   SET_OPEN_APPLICATION_COUNT (state, payload) {
-    state.openCount[payload.view === 'lda' ? 'ldn' : 'ga'] = payload.count
+    state.openCount[payload.view] = payload.count
   }
 }
 

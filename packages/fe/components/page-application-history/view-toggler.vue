@@ -93,7 +93,13 @@ export default {
       await this.$applyMultipleFiltersToQuery({ filters: ['page', 'view'] })
     },
     showIdentifier (label) {
-      if (this.openCount[label.toLowerCase()]) { return true }
+      const show = this.openCount[
+        label
+          .replace(' (legacy)', '')
+          .toLowerCase()
+          .replace('ldn', 'lda')
+      ]
+      if (show) { return true }
       return false
     }
   }
