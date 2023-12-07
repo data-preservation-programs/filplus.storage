@@ -29,7 +29,7 @@ module.exports = async (view, user, page = 1, state = 'all', limit = 10, sort = 
         return {
           ...application,
           type: view === 'ga' ? 'GA (General Application)' : 'LDN (Large Dataset Application)',
-          application_state: DetermineApplicationState(application.labels.map(label => (label.name)), view)
+          application_state: DetermineApplicationState(application.labels.map(label => (label.name.toLowerCase())), view)
         }
       })
     }

@@ -184,6 +184,7 @@ const actions = {
       const response = await this.$axiosAuth.get('/get-application-list', { params })
       const payload = response.data.payload
       const applicationList = payload.results
+      console.log(applicationList)
       dispatch('setApplicationList', {
         applicationList: applicationList.length > 0 ? applicationList : false,
         metadata: payload.metadata

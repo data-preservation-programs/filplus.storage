@@ -10,6 +10,7 @@
       field-key="state"
       :scaffold="{
         type: 'checkbox',
+        id: 'view-only-open-applications',
         required: false,
         options: options,
         defaultValue: originalSelected,
