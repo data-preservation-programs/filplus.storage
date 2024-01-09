@@ -171,7 +171,7 @@ export default {
 }
 
 :deep(.faq-accordion) {
-  padding-right: 5rem;
+  padding-right: 4rem;
   @include small {
     padding-right: 3rem;
   }

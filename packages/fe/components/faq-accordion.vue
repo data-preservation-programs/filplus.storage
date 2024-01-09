@@ -29,7 +29,7 @@
           :key="index"
           :active="active">
 
-          <AccordionHeader>
+          <AccordionHeader :tabindex="0">
             <div class="question">
               <span class="text" v-html="entry.question" />
               <IconChevron />
@@ -132,7 +132,7 @@ $padding: 2.25rem;
   position: absolute;
   bottom: 0;
   left: 0;
-  width: 100%;
+  width: calc(100% - 1rem);
   height: 2px;
   background-color: $titanWhite;
 }
@@ -145,6 +145,7 @@ $padding: 2.25rem;
 }
 
 .expand-all-button {
+  margin-right: 1rem;
   margin-bottom: 1.5rem;
   :deep(.button-content) {
     display: flex;
@@ -158,12 +159,21 @@ $padding: 2.25rem;
       display: block;
     }
   }
-  &:hover {
+  &:hover,
+  &:focus-visible {
     transform: scale(1.05);
+  }
+  &:focus-visible {
+    @include focusOutlineWithOffset(4px);
+    border-radius: toRem(5);
   }
   :deep(.text) {
     font-size: toRem(18);
   }
+}
+
+.faq-top-border {
+  width: calc(100% - 1rem);
 }
 
 .accordion-wrapper {
@@ -171,6 +181,7 @@ $padding: 2.25rem;
 }
 
 .accordion-section {
+  padding-right: 1rem;
   &:first-child {
     &:before {
       bottom: auto;
@@ -182,11 +193,15 @@ $padding: 2.25rem;
       transition: 150ms ease-out;
       transform: rotate(-180deg);
     }
-    &:hover {
+    &:hover,
+    .accordion-header:focus-visible {
       .icon-chevron {
         transition: 150ms ease-out;
         transform: rotate(-180deg) scale(1.15);
       }
+    }
+    .accordion-content {
+      visibility: visible;
     }
   }
   &:last-child {
@@ -201,15 +216,22 @@ $padding: 2.25rem;
 .accordion-header {
   padding: $padding 0;
   cursor: pointer;
-  &:hover {
-      .text {
-        transition: 150ms ease-out;
-        transform: scale(1.05) translateX(2%);
-      }
-      .icon-chevron {
-        transition: 150ms ease-out;
-        transform: scale(1.15);
-      }
+  &:hover,
+  &:focus-visible {
+    .text {
+      transition: 150ms ease-out;
+      transform: scale(1.05) translateX(2%);
+    }
+    .icon-chevron {
+      transition: 150ms ease-out;
+      transform: scale(1.15);
+    }
+  }
+  &:focus {
+    .icon-chevron {
+      @include focusOutlineWithOffset(6px);
+      border-radius: toRem(3);
+    }
   }
 }
 
@@ -240,6 +262,7 @@ $padding: 2.25rem;
 }
 
 .accordion-content {
+  visibility: hidden;
   &:before {
     @include border;
   }
