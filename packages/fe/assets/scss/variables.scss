@@ -68,11 +68,11 @@ $breakpoint_UltraLarge: 140.625rem; // 2250px
   box-shadow: 0.125rem 0px 0.3125rem 0.25rem rgb(black, 0.4);
 }
 
-@mixin focusBoxOutline {
+@mixin focusOutline {
   outline: 3px solid rgba($greenYellow, 0.5);
 }
 
-@mixin focusBoxOutlineWithOffset {
+@mixin focusOutlineWithOffset {
   outline: 3px solid rgba($greenYellow, 0.5);
   outline-offset: 4px;
 }

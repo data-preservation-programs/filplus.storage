@@ -81,7 +81,7 @@ export default {
       }
     }
     &:focus-visible {
-      @include focusBoxOutline;
+      @include focusOutline;
     }
   }
   &[disabled] {

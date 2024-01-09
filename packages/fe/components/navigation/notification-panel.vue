@@ -432,7 +432,7 @@ export default {
     }
   }
   &:focus-visible {
-    @include focusBoxOutlineWithOffset;
+    @include focusOutlineWithOffset;
     border-radius: 50%;
   }
 }

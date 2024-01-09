@@ -235,7 +235,7 @@ export default {
   z-index: 10000;
   &:focus-visible {
     .logo {
-      @include focusBoxOutlineWithOffset;
+      @include focusOutlineWithOffset;
       border-radius: toRem(5);
     }
   }
