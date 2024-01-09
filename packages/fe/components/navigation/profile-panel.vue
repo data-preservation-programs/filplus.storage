@@ -125,6 +125,7 @@ export default {
   overflow: hidden;
   transition: 150ms ease-out;
   &:hover,
+  &:focus-visible,
   &.panel-open {
     transition: 150ms ease-in;
     transform: scale(1.15);
@@ -133,7 +134,11 @@ export default {
       transform: scale(1.15);
     }
   }
-  &:hover {
+  &:focus-visible {
+    @include focusBoxShadow;
+  }
+  &:hover,
+  &:focus-visible {
     &.panel-open {
       :deep(.icon.close) {
         transform: translateY(0) rotate(90deg);
@@ -208,7 +213,9 @@ export default {
 .user-preview,
 .auth-link.button,
 .kyc-link {
-  padding: toRem(2) 1rem;
+  padding: toRem(2) 0.5rem;
+  margin: 0 0.5rem;
+  border-radius: toRem(8);
 }
 
 .user-preview {
@@ -260,7 +267,7 @@ export default {
 }
 
 :deep(.button-logout.button-x) {
-  padding-bottom: toRem(10);
+  margin-bottom: toRem(8);
   .inner-content {
     display: flex;
     flex-direction: row;

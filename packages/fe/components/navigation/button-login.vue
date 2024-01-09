@@ -48,7 +48,8 @@ export default {
   height: toRem(35);
   padding: 0 1rem;
   &:not([disabled]) {
-    &:hover {
+    &:hover,
+    &:focus-visible {
       color: $aztec;
       transform: scale(1.05);
       :deep(path) {
@@ -60,6 +61,9 @@ export default {
           background-color: $aztec;
         }
       }
+    }
+    &:focus-visible {
+      @include focusBoxShadow;
     }
   }
   :deep(.triple-dot-loader) {

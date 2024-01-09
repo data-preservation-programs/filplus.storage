@@ -81,7 +81,7 @@ export default {
       }
     }
     &:focus-visible {
-      @include focusBoxShadow;
+      @include focusBoxOutline;
     }
   }
   &[disabled] {
@@ -92,7 +92,7 @@ export default {
 }
 
 a.button,
-button.button, {
+button.button {
   cursor: pointer;
   &[disabled] {
     cursor: no-drop;
