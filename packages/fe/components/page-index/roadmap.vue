@@ -460,9 +460,13 @@ export default {
   margin-bottom: toRem(5);
 }
 
+.links {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: flex-end;
+}
 .footer-link {
   @include linkUnderline;
-  text-align: right;
   :deep(.button-content) {
     @include h6;
   }

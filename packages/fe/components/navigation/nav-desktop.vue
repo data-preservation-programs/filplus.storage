@@ -233,6 +233,12 @@ export default {
   position: relative;
   height: calc(100% - 2rem);
   z-index: 10000;
+  &:focus-visible {
+    .logo {
+      @include focusOutlineWithOffset;
+      border-radius: toRem(5);
+    }
+  }
   @include medium {
     height: calc(100% - 4rem);
   }
@@ -282,6 +288,7 @@ export default {
 .button.site-nav-link {
   display: block;
   padding: 0 1rem;
+  border-radius: toRem(48);
   @include medium {
     padding: 0 0.5rem;
   }

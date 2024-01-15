@@ -1,6 +1,10 @@
 <template>
   <div :class="['card', `corner-position__${cornerPosition}`, { outline }, variant]">
 
+    <div class="content">
+      <slot />
+    </div>
+
     <div class="panel">
       <svg
         class="corner"
@@ -26,10 +30,6 @@
         <ChevronLong v-if="icon === 'chevron-long'" />
       </div>
     </ButtonX>
-
-    <div class="content">
-      <slot />
-    </div>
 
   </div>
 </template>
@@ -178,7 +178,8 @@ $cardRadiusTiny: 0.9375rem;
 .button {
   position: absolute;
   z-index: 20;
-  &:hover {
+  &:hover,
+  &:focus-visible {
     .icon-text {
       transition: 150ms ease-in;
       transform: scale(1.05);
@@ -187,6 +188,10 @@ $cardRadiusTiny: 0.9375rem;
       transition: 150ms ease-in;
       transform: rotate(45deg);
     }
+  }
+  &:focus-visible {
+    @include focusOutlineWithOffset;
+    border-radius: toRem(5);
   }
   :deep(.button-content) {
     display: flex;

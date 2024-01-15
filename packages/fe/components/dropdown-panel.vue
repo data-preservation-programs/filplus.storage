@@ -87,7 +87,8 @@ $squigglyWidth: 40;
 // ///////////////////////////////////////////////////////////////////// General
 .dropdown-panel {
   &.toggle-on-hover {
-    &:hover {
+    &:hover,
+    &:focus-within {
       .panel-container {
         transition: 150ms ease-in;
         transform: translate(-50%, 0);

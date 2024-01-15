@@ -166,18 +166,32 @@ $borderWidth: 2px;
     background-color: $titanWhite;
     transition: all 150ms ease;
   }
-  &:hover {
+  &:hover,
+  &:focus-within {
     .thumb {
-      &:before,
       &:after {
         height: 0.75rem;
+      }
+    }
+  }
+  #total_datacap_size_range {
+    &:focus-visible {
+      + .thumb-container {
+        .thumb {
+          &:before {
+            height: calc(100% + 1rem);
+            @include focusBoxShadow;
+          }
+          &::after {
+            height: 1rem;
+          }
+        }
       }
     }
   }
   &:active {
     .thumb {
       background-color: $mandysPink;
-      &::before,
       &::after {
         background-color: $mandysPink;
         height: 1rem;
@@ -198,25 +212,27 @@ $borderWidth: 2px;
   width: $thumbWidth;
   height: $trackHeight;
   background-color: $titanWhite;
+  z-index: 5;
   transition: all 150ms linear;
-  &:before,
+
   &:after {
     content: '';
     position: absolute;
     bottom: 100%;
     height: 0.5rem;
-    width: 50%;
+    left: 0;
+    width: 100%;
     pointer-events: inherit;
     background-color: inherit;
     transition: all 150ms linear;
   }
   &:before {
     content: '';
-    right: 50%;
-  }
-  &:after {
-    content: '';
-    left: 50%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: calc(100% + 0.5rem);
+    width: 100%;
   }
 }
 
@@ -258,13 +274,18 @@ $borderWidth: 2px;
   top: 0;
   margin-top: 0.375rem;
   transition: 150ms ease-out;
-  &:hover {
+  &:hover,
+  &:focus-visible {
     transition: 150ms ease-in;
     transform: scale(1.1);
     &:before {
       transition: 150ms ease-in;
       opacity: 1;
     }
+  }
+  &:focus-visible {
+    @include focusOutlineWithOffset;
+    border-radius: toRem(3);
   }
   &:before {
     content: '';
@@ -289,14 +310,12 @@ $borderWidth: 2px;
     &:hover {
       transform: translateX(calc(-100% + toRem(9))) scale(1.1); // remove width of '+' icon
     }
-    &:before {
-      width: calc(100% + toRem(3 * 2) - toRem(9)); // remove width of '+' icon
-    }
     .button-content {
       &:after {
         content: '+';
-        position: relative;
+        position: absolute;
         top: toRem(-1);
+        right: toRem(-9);
         font-size: 90%;
         font-weight: 500;
         transform: scale(0.5);

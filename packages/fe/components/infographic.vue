@@ -720,6 +720,9 @@ export default {
       transform: translateX(0);
     }
   }
+  &:focus-visible {
+    @include focusBoxShadow;
+  }
   @include mini {
     width: toRem(60);
     height: toRem(30);

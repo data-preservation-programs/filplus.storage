@@ -1,5 +1,5 @@
 <template>
-  <div class="datacap-spinner" @click="$emit('clicked')">
+  <div class="datacap-spinner" @click="$emit('clicked')" @keyup.enter="$emit('clicked')">
     <svg
       class="circle-text"
       viewBox="0 0 130 130"
@@ -58,6 +58,14 @@ export default {
   position: absolute;
   width: toRem(130);
   cursor: pointer;
+  &:hover,
+  &:focus {
+    animation-play-state: paused;
+  }
+  &:focus {
+    @include focusOutlineWithOffset(12px);
+    border-radius: 50%;
+  }
 }
 
 .circle-text {
@@ -65,9 +73,6 @@ export default {
   position: relative;
   width: 100%;
   animation: spinning 15s infinite linear reverse;
-  &:hover {
-    animation-play-state: paused;
-  }
 }
 
 .arrow {

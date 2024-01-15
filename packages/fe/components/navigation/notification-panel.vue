@@ -266,11 +266,16 @@ export default {
   border-radius: 50%;
   transition: 150ms ease-out;
   &:hover,
+  &:focus-visible,
   &.panel-open {
     transition: 150ms ease-in;
     transform: scale(1.15);
   }
-  &:hover {
+  &:focus-visible {
+    @include focusBoxShadow;
+  }
+  &:hover,
+  &:focus-within {
     &.panel-open {
       :deep(.icon) {
         &.close {
@@ -418,12 +423,17 @@ export default {
 }
 
 .refresh-button {
-  &:hover {
+  &:hover,
+  &:focus-visible {
     transform: rotate(180deg) scale(1.15);
     &:active {
       transition: 50ms ease-in;
       transform: rotate(180deg) scale(0.8);
     }
+  }
+  &:focus-visible {
+    @include focusOutlineWithOffset;
+    border-radius: 50%;
   }
 }
 

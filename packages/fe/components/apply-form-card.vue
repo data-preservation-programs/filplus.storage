@@ -237,6 +237,10 @@ export default {
     border: 0;
     border-bottom: 2px solid white;
     border-radius: 0;
+    &:focus-visible {
+      @include focusOutlineWithOffset;
+      border-radius: toRem(5);
+    }
   }
 }
 
@@ -251,5 +255,19 @@ export default {
   .selection-window {
     padding: 0;
   }
+  &:focus-within {
+    .field-select {
+      border-color: $mandysPink;
+    }
+  }
+  select.select {
+  &.native {
+    &:focus-visible {
+      @include focusOutlineWithOffset;
+      border-radius: toRem(5);
+      box-shadow: none;
+    }
+  }
+}
 }
 </style>

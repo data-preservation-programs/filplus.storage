@@ -14,7 +14,7 @@
         <div class="col-3_md-5_mi-12">
           <div class="logo-cta">
             <Logo class="site-logo" />
-            <DatacapTextSpinner @clicked="$highlightApplyForm" />
+            <DatacapTextSpinner :tabindex="0" @clicked="$highlightApplyForm" />
           </div>
         </div>
 
@@ -36,6 +36,7 @@
         <div class="col-5_md-12_mi-12">
           <div class="video-cta-wrapper">
             <ButtonX
+              :tabindex="-1"
               :tag="videoCta.type"
               :to="videoCta.url"
               :target="videoCta.target"
@@ -287,10 +288,14 @@ export default {
   &:last-child {
     border-bottom: none;
   }
-  &:hover {
+  &:hover,
+  &:focus-visible {
     .button-content {
       transform: scale(1.05);
     }
+  }
+  &:focus-visible {
+    border-radius: toRem(5);
   }
   @include medium {
     width: calc(100% + 100vw * 0.041665);
@@ -373,6 +378,16 @@ export default {
   display: block;
   width: 100%;
   height: 100%;
+  :deep(.button-x) {
+    &:focus-visible {
+      outline: none;
+      .chevron-long {
+        @include focusBoxShadow;
+        transition: 150ms ease-in;
+        transform: translateX(1rem);
+      }
+    }
+  }
   .site-logo {
     width: 13%;
     top: 1.75rem;
@@ -464,9 +479,14 @@ export default {
 
 .link-data-programs-logo {
   transition: 150ms ease-out;
-  &:hover {
+  &:hover,
+  &:focus-visible {
     transition: 150ms ease-in;
     transform: scale(1.05);
+  }
+  &:focus-visible {
+    @include focusOutlineWithOffset;
+    border-radius: toRem(5);
   }
 }
 
@@ -474,9 +494,14 @@ export default {
   padding: 0;
   border-bottom: none;
   transition: 150ms ease-out;
-  &:hover {
+  &:hover,
+  &:focus-visible {
     transition: 150ms ease-in;
     transform: scale(1.2);
+  }
+  &:focus-visible {
+    @include focusOutlineWithOffset;
+    border-radius: toRem(5);
   }
   &:not(:last-child) {
     margin-right: 1.5625rem;

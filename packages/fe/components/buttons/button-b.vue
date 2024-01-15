@@ -130,7 +130,8 @@ export default {
   color: $greenYellow;
   border-color: $greenYellow;
   &:not([disabled]) {
-    &:hover {
+    &:hover,
+    &:focus-visible {
       background-color: $greenYellow;
     }
   }

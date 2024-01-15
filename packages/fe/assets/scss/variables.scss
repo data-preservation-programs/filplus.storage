@@ -68,16 +68,25 @@ $breakpoint_UltraLarge: 140.625rem; // 2250px
   box-shadow: 0.125rem 0px 0.3125rem 0.25rem rgb(black, 0.4);
 }
 
+@mixin focusOutline {
+  outline: 3px solid rgba($greenYellow, 0.5);
+}
+
+@mixin focusOutlineWithOffset($offset: 4px) {
+  outline: 3px solid rgba($greenYellow, 0.5);
+  outline-offset: $offset;
+}
+
 @mixin focusBoxShadow {
-  box-shadow: 0 0 0 5px rgba(0, 123, 255, 0.5);
+  box-shadow: 0 0 0 5px rgba($greenYellow, 0.5);
 }
 
 @mixin focusBoxShadowSmall {
-  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.5);
+  box-shadow: 0 0 0 3px rgba($greenYellow, 0.5);
 }
 
 @mixin focusBoxShadowLink {
-  box-shadow: 0 0 0 5px rgba(0, 123, 255, 0.5);
+  box-shadow: 0 0 0 5px rgba($greenYellow, 0.5);
   border-radius: 0.125rem;
 }
 

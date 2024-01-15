@@ -2,19 +2,6 @@
   <div :class="['range-container', state]">
 
     <div class="range-track">
-      <div
-        ref="thumb"
-        class="thumb-container"
-        :style="thumbPosition">
-        <slot name="thumb" />
-      </div>
-
-      <div
-        :style="progressBarWidth"
-        class="progress-bar-container">
-        <slot name="progress-bar" :tick="tick" />
-      </div>
-
       <input
         :id="modelKey"
         ref="input"
@@ -30,6 +17,20 @@
         @focus="toggleFocused(true)"
         @blur="toggleFocused(false)"
         @input="updateValue($event.target.value)" />
+
+      <div
+        ref="thumb"
+        class="thumb-container"
+        :style="thumbPosition">
+        <slot name="thumb" />
+      </div>
+
+      <div
+        :style="progressBarWidth"
+        class="progress-bar-container">
+        <slot name="progress-bar" :tick="tick" />
+      </div>
+
     </div>
 
     <slot
