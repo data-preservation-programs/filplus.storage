@@ -190,12 +190,14 @@ button {
 
 @mixin linkUnderline {
   color: $greenYellow;
-  &:hover,
-  &:focus-visible {
+  &:hover{
     &:after {
       transition: 150ms ease-in;
       width: 100%;
     }
+  }
+  &:focus-visible {
+    @include focusOutlineWithOffset(2px);
   }
   &:after {
     content: '';

@@ -470,10 +470,5 @@ export default {
   :deep(.button-content) {
     @include h6;
   }
-  &:not([disabled]) {
-    &:focus-visible {
-      outline: 0px none transparent;
-    }
-  }
 }
 </style>
