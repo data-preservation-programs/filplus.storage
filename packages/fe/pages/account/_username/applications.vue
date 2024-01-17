@@ -32,12 +32,12 @@
                   class="filter-checkbox"
                   :options="filters.state"
                   @filterApplied="filterApplied" />
-                <ViewToggler
-                  class="filter-radio"
-                  :options="filters.view_application_type" />
                 <Sort
                   class="filter-sort"
                   :options="filters.sort" />
+                <ViewToggler
+                  class="filter-radio"
+                  :options="filters.view_application_type" />
               </div>
             </div>
 
@@ -196,6 +196,7 @@ export default {
     }
     this.getOpenApplicationCount('lda')
     this.getOpenApplicationCount('ga')
+    this.getOpenApplicationCount('falcon')
     this.$nuxt.$on('filtersApplied', (payload) => {
       if (this.account) {
         const filters = payload.filters
@@ -296,6 +297,7 @@ export default {
     width: 100%;
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     justify-content: space-between;
     transition: 100ms ease-out;
   }
@@ -346,6 +348,7 @@ export default {
 }
 
 .filter-radio {
+  margin-top: 1rem;
   :deep(.field-label) {
     margin-right: toRem(18);
   }
@@ -383,6 +386,10 @@ export default {
 .filter-sort {
   :deep(.field-label) {
     margin-right: toRem(18);
+    margin-bottom: 0;
+    .icon {
+      display: none !important;
+    }
   }
   :deep(.selection-window) {
     padding: toRem(2) toRem(15);

@@ -14,8 +14,9 @@ const state = () => ({
     totalPages: 1
   },
   openCount: {
-    ldn: false, // cannot be 'lda'
-    ga: false
+    lda: false,
+    ga: false,
+    falcon: false
   },
   application: {
     // Hubspot
@@ -23,7 +24,10 @@ const state = () => ({
     hubspot_opt_in_first_name: null,
     hubspot_opt_in_last_name: null,
     // LDA & GA
+    datacap_applicant: null,
+    project_id: null,
     data_owner_name: null,
+    project_name: null,
     website: null,
     social_media_handle: null,
     social_media_handle_type: null,
@@ -73,7 +77,7 @@ const state = () => ({
   },
   applyFormHighlighted: false,
   githubIssue: false,
-  view: 'lda' // 'ga' or 'lda'
+  view: 'falcon' // 'ga', 'lda' or 'falcon'
 })
 
 // ///////////////////////////////////////////////////////////////////// Getters
@@ -136,7 +140,11 @@ const actions = {
       }, {
         params: { stage }
       })
-      await dispatch('setGithubIssue', response.data.payload)
+      // console.log(response.data.payload)
+      await dispatch('setGithubIssue', {
+        application,
+        payload: response.data.payload
+      })
       await this.dispatch('auth/getAccount', this.getters['auth/account']._id)
       this.$button('application-submit-button').set({ loading: false })
       this.$toaster.add({
@@ -172,9 +180,11 @@ const actions = {
         { filterKey: 'state' },
         { filterKey: 'view', default: getters.view }
       ])
+      params.view = getters.view
       const response = await this.$axiosAuth.get('/get-application-list', { params })
       const payload = response.data.payload
       const applicationList = payload.results
+      console.log(applicationList)
       dispatch('setApplicationList', {
         applicationList: applicationList.length > 0 ? applicationList : false,
         metadata: payload.metadata
@@ -251,7 +261,7 @@ const mutations = {
     state.view = view
   },
   SET_OPEN_APPLICATION_COUNT (state, payload) {
-    state.openCount[payload.view === 'lda' ? 'ldn' : 'ga'] = payload.count
+    state.openCount[payload.view] = payload.count
   }
 }
 

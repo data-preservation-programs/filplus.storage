@@ -52,7 +52,8 @@ const checkIfUserOptedInToHubspot = (application) => {
 const submitApplication = async (type, stage, template, application, repo, options) => {
   try {
     const orgName = application.data_owner_name
-    const title = type === 'ga' ? `Client Allocation Request for: ${orgName}` : `[DataCap Application] ${orgName}`
+    const projectName = application.project_name
+    const title = type === 'ga' ? `Client Allocation Request for: ${orgName}` : `[DataCap Application] ${orgName}${projectName ? ` - ${projectName}` : ''}`
     const body = { title, body: template }
     const response = await Axios.post(`https://api.github.com/repos/${repo}/issues`, body, options)
     return response.data
@@ -87,7 +88,7 @@ MC.app.post('/submit-application', async (req, res) => {
   const stage = req.query.stage
   try {
     if (!stage || stage === '') { return SendData(res, 403, 'Something went wrong. Try again.') }
-    const type = stage === 'stage-ga' ? 'ga' : 'lda'
+    const type = stage === 'stage-ga' ? 'ga' : 'falcon'
     const identifier = req.session.identifier
     if (!identifier) { return SendData(res, 403, 'You are not logged in') }
     const user = await MC.model.User.findById(identifier.userId)
